@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6",
+      "scripthost",
+      "es2015",
+      "es2016",
+      "es2017",
+      "es2021.string",
+      "esnext.intl"
+    ],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "sourceMap": true,
+    "target": "es6",
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,"noEmit": true,
+    "paths": {
+      ":/*": ["./src/*"]
+    },
+    "typeRoots": ["./dist/index.d.ts"],
+  
+    
+    /* Linting */
+    
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "cunningham.ts"],
+  "exclude": ["node_modules", "dist"],
+} 
