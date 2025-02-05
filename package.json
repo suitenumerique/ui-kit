@@ -1,0 +1,89 @@
+{
+  "name": "@lasuite/ui-kit",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./style": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "build-theme": "cunningham -g css -o src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@openfun/cunningham-react": "2.9.4",
+    "@types/node": "22.10.7",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+    
+    
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "3.2.4",
+    "@eslint/js": "9.17.0",
+    "@storybook/addon-essentials": "8.5.2",
+    "@storybook/addon-interactions": "8.5.2",
+    "@storybook/addon-onboarding": "8.5.2",
+    "@storybook/blocks": "8.5.2",
+    "@storybook/react": "8.5.2",
+    "@storybook/react-vite": "8.5.2",
+    "@storybook/test": "8.5.2",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "@vitejs/plugin-react": "4.3.4",
+    "vite-tsconfig-paths": "5.1.4",
+    "vite-plugin-dts": "4.5.0",
+    "eslint": "9.17.0",
+    "eslint-plugin-react-hooks": "5.0.0",
+    "eslint-plugin-react-refresh": "0.4.16",
+    "eslint-plugin-storybook": "0.11.2",
+    "globals": "15.14.0",
+    "storybook": "8.5.2",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "8.18.2",
+    "vite": "6.0.5",
+
+    "@babel/core": "7.26.0",
+    "@babel/plugin-proposal-decorators": "7.25.9",
+    "@babel/plugin-proposal-export-default-from": "7.25.9",
+    "@babel/preset-typescript": "7.26.0",
+    
+    "@vitest/coverage-c8": "0.33.0",
+    "@vitest/ui": "2.1.8",
+    "babel-loader": "9.2.1",
+    "css-loader": "7.1.2",
+    "glob": "11.0.0",
+    "jsdom": "25.0.1",
+    "react-hook-form": "7.54.2",
+    "remark-gfm": "4.0.0",
+    "sass": "1.83.1",
+    "sass-loader": "16.0.4",
+    
+    "style-loader": "4.0.0",
+
+    "vitest": "2.1.8",
+    "vitest-fetch-mock": "0.4.3",
+    "yup": "1.6.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}

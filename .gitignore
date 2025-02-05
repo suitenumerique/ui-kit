@@ -1,0 +1,58 @@
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.DS_Store
+.next/
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+env.d/development/*
+!env.d/development/*.dist
+env.d/terraform
+
+# npm
+node_modules
+
+
+# Logs
+*.log
+
+
+
+# Test & lint
+.coverage
+.pylint.d
+.pytest_cache
+db.sqlite3
+.mypy_cache
+
+# Site media
+/data/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+.devcontainer   
