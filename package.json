@@ -1,10 +1,10 @@
 {
   "name": "@lasuite/ui-kit",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -12,14 +12,14 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./style": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && cp cunningham.ts dist/cunningham.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build-theme": "cunningham -g css -o src",
@@ -31,8 +31,6 @@
     "@types/node": "22.10.7",
     "react": "18.3.1",
     "react-dom": "18.3.1"
-    
-    
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.4",
@@ -58,12 +56,10 @@
     "typescript": "~5.6.2",
     "typescript-eslint": "8.18.2",
     "vite": "6.0.5",
-
     "@babel/core": "7.26.0",
     "@babel/plugin-proposal-decorators": "7.25.9",
     "@babel/plugin-proposal-export-default-from": "7.25.9",
     "@babel/preset-typescript": "7.26.0",
-    
     "@vitest/coverage-c8": "0.33.0",
     "@vitest/ui": "2.1.8",
     "babel-loader": "9.2.1",
@@ -74,9 +70,7 @@
     "remark-gfm": "4.0.0",
     "sass": "1.83.1",
     "sass-loader": "16.0.4",
-    
     "style-loader": "4.0.0",
-
     "vitest": "2.1.8",
     "vitest-fetch-mock": "0.4.3",
     "yup": "1.6.1"
