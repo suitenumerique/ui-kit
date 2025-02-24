@@ -2,3 +2,23 @@
   background-color: var(--c--theme--colors--primary-050);
   padding: var(--c--theme--spacings--xl);
 }
+
+.section-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.pro-connect-button {
+  background-image: url("/proconnect-content.svg");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  width: 214px;
+  height: 56px;
+  border: "none";
+  cursor: pointer;
+  &:disabled {
+    background-image: url("/proconnect-content-disabled.svg");
+  }
+}

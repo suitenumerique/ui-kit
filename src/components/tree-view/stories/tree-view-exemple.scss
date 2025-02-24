@@ -1,0 +1,47 @@
+.tree-view-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--c--theme--colors--greyscale-100);
+    border-radius: 50%;
+  }
+
+  .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    line-clamp: 1;
+    width: 100%;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.c__tree-view--node {
+  .actions {
+    &:not(.show-actions) {
+      opacity: 0;
+    }
+
+    &.show-actions {
+      opacity: 1;
+    }
+  }
+  &:hover {
+    .actions {
+      opacity: 1;
+    }
+  }
+}

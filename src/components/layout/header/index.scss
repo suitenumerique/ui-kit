@@ -1,0 +1,46 @@
+@use "../../../styles/_variables";
+
+.c__header {
+  display: flex;
+  background-color: var(--c--theme--colors--greyscale-000);
+  border-bottom: 1px solid var(--c--theme--colors--greyscale-200);
+  justify-content: space-between;
+  align-items: center;
+  height: variables.$header-height;
+  min-height: variables.$header-height;
+  max-height: variables.$header-height;
+  padding: 0 1.125rem;
+
+  @media screen and (max-width: 1024px) {
+    padding: 0 1rem;
+  }
+
+  &__toggle-menu {
+    display: none;
+
+    @media screen and (max-width: 1024px) {
+      display: block;
+    }
+
+    &__icon {
+      color: var(--c--theme--colors--primary-800);
+    }
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    &__language-picker {
+      @media screen and (max-width: 1024px) {
+        display: none;
+      }
+    }
+  }
+}

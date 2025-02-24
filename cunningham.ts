@@ -367,35 +367,69 @@ const config = {
               color: 'var(--c--theme--colors--primary-text)',
               'color-hover': '#1212ff',
               'color-active': '#2323ff',
+              'disabled': 'var(--c--theme--colors--greyscale-100)',
             },
             color: '#fff',
             'color-hover': '#fff',
             'color-active': '#fff',
+            'color-focus-visible': '#fff',
+            'disabled': 'var(--c--theme--colors--greyscale-500)',
           },
           'primary-text': {
             background: {
-              'color-hover': 'var(--c--theme--colors--primary-100)',
+              'color-hover': 'var(--c--theme--colors--greyscale-100)',
               'color-active': 'var(--c--theme--colors--primary-100)',
+              'color-focus-visible': '#fff',
+              'disabled': 'var(--c--theme--colors--greyscale-000)',
             },
-            'color-hover': 'var(--c--theme--colors--primary-text)',
+            color: 'var(--c--theme--colors--primary-800)',
+            'color-hover': 'var(--c--theme--colors--primary-800)',
+            'disabled': 'var(--c--theme--colors--greyscale-400)',
           },
           secondary: {
             background: {
               'color-hover': '#F6F6F6',
               'color-active': '#EDEDED',
+              'disabled': 'var(--c--theme--colors--greyscale-000)',
+              'focus-visible': 'var(--c--theme--colors--greyscale-000)',
             },
             border: {
               color: 'var(--c--theme--colors--greyscale-300)',
               'color-hover': 'var(--c--theme--colors--greyscale-300)',
+              'disabled': 'var(--c--theme--colors--greyscale-300)',
             },
-            color: 'var(--c--theme--colors--primary-text)',
+            color: 'var(--c--theme--colors--primary-800)',
+            'disabled': 'var(--c--theme--colors--greyscale-400)',
+            
           },
+          tertiary: {
+            background: {
+              color: 'var(--c--theme--colors--primary-100)',
+              'color-focus-visible': 'var(--c--theme--colors--primary-100)',
+              'color-hover': 'var(--c--theme--colors--primary-300)',
+              'color-active': 'var(--c--theme--colors--primary-300)',
+              'disabled': 'var(--c--theme--colors--primary-050)',
+            },
+            color: 'var(--c--theme--colors--primary-800)',
+            'disabled': 'var(--c--theme--colors--primary-300)',
+          },
+      
           'tertiary-text': {
             background: {
               'color-hover': 'var(--c--theme--colors--greyscale-100)',
             },
             'color-hover': 'var(--c--theme--colors--primary-text)',
             color: 'var(--c--theme--colors--primary-600)',
+          },
+          danger: {
+            'color-hover': 'white',
+            background: {
+              color: 'var(--c--theme--colors--danger-600)',
+              'color-hover': '#FF2725',
+              'color-focus-visible': 'var(--c--theme--colors--danger-600)',
+              'color-disabled': 'var(--c--theme--colors--greyscale-100)',
+            },
+            'color-disabled': 'var(--c--theme--colors--greyscale-400)',
           },
         },
         datagrid: {

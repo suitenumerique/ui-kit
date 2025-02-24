@@ -1,4 +1,6 @@
+import "./index.scss";
 import "./library.scss";
+
 
 export * from "./components/button/Button";
 

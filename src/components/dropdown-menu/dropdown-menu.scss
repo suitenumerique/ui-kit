@@ -1,0 +1,76 @@
+.dropdown-menu-trigger {
+  width: fit-content;
+}
+.react-aria-Menu {
+  background-color: var(--c--theme--colors--greyscale-000);
+  z-index: 1000;
+  max-height: inherit;
+  box-sizing: border-box;
+  overflow: auto;
+  min-width: 150px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: var(--c--theme--spacings--3xs, 4px);
+  background-color: (--c--theme--colors--greyscale-000);
+  border: 1px solid var(--c--theme--colors--greyscale-200);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 145, 0.1);
+
+  .react-aria-Separator {
+    height: 1px;
+    background: var(--c--theme--colors--greyscale-200, #e0e0e0);
+  }
+}
+
+.react-aria-MenuItem {
+  display: flex;
+  gap: var(--c--theme--spacings--base, 16px);
+  padding: 8px 16px;
+  border-bottom: 1px solid transparent;
+  padding-right: 24px;
+  outline: none;
+  cursor: default;
+  line-height: 19px;
+  color: var(--text-color);
+  font-size: var(--c--theme--font--sizes--sm, 0.875rem);
+  font-weight: 500;
+  color: var(--c--theme--colors--greyscale-1000, #161616);
+  align-items: center;
+  forced-color-adjust: none;
+
+  &:hover {
+    background: var(--c--theme--colors--greyscale-100);
+  }
+
+  &[data-focused] {
+    background: var(--c--theme--colors--greyscale-100);
+    color: black;
+  }
+
+  &[data-disabled] {
+    color: var(--c--theme--colors--greyscale-400, #808080);
+    cursor: not-allowed;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .material-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+  }
+
+  .checked {
+    margin-left: var(--c--theme--spacings--md, 1.5rem);
+  }
+}
+
+.dropdown-menu-separator {
+  background-color: var(--c--theme--colors--greyscale-200);
+  height: 1px;
+  width: 100%;
+}
