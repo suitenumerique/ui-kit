@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from "@storybook/react/*";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import { Header } from "./header/Header";
 import svg from "./header/logo-exemple.svg";
 import { MainLayout } from "./MainLayout";
+import { useResponsive } from ":/hooks/useResponsive";
 
 const meta: Meta = {
   title: "Components/Layout",
@@ -38,7 +40,9 @@ export const LeftPanelOnly: StoryObj = {
   render: () => {
     return (
       <div className="left-panel-story">
-        <LeftPanel />
+        <LeftPanel>
+          <div className="p-s">LeftPanel</div>
+        </LeftPanel>
       </div>
     );
   },
@@ -53,11 +57,17 @@ export const FullLayout: StoryObj = {
       default: "Gray",
     },
   },
-  render: () => (
-    <MainLayout
-      enableResize
-      icon={<img src={svg} alt="logo" />}
-      leftPanelContent={<div>LeftPanel</div>}
-    />
-  ),
+  render: () => {
+    const { isDesktop } = useResponsive();
+    return (
+      <MainLayout
+        enableResize
+        leftPanelContent={<div className="p-s">LeftPanel</div>}
+        icon={<img src={svg} alt="logo" />}
+        rightHeaderContent={
+          !isDesktop && <div style={{ width: "40px", height: "40px" }} />
+        }
+      />
+    );
+  },
 };

@@ -1,5 +1,6 @@
 import { DropdownMenuOption } from ":/components/dropdown-menu/types";
 import { LanguagePicker } from ":/components/language/language-picker";
+import { useResponsive } from ":/hooks/useResponsive";
 import { Button, useCunningham } from "@openfun/cunningham-react";
 
 export type HeaderProps = {
@@ -18,6 +19,7 @@ export const Header = ({
   isPanelOpen,
 }: HeaderProps) => {
   const { t } = useCunningham();
+  const { isDesktop } = useResponsive();
   return (
     <div className="c__header">
       <div className="c__header__toggle-menu">

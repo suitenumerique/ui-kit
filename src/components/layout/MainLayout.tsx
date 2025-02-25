@@ -8,6 +8,9 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 export type MainLayoutProps = {
   icon?: React.ReactNode;
   leftPanelContent?: React.ReactNode;
+  rightHeaderContent?: React.ReactNode;
+  onTogglePanel?: () => void;
+  isLeftPanelOpen?: boolean;
   enableResize?: boolean;
 };
 
@@ -15,6 +18,7 @@ export const MainLayout = ({
   icon,
   children,
   leftPanelContent,
+  rightHeaderContent,
   enableResize = false,
 }: PropsWithChildren<MainLayoutProps>) => {
   const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false);
@@ -25,6 +29,17 @@ export const MainLayout = ({
   const [maxPanelSize, setMaxPanelSize] = useState(
     calculateDefaultSize(450, isDesktop)
   );
+
+  const onTogglePanel = () => {
+    setIsLeftPanelOpen(!isLeftPanelOpen);
+    onTogglePanel?.();
+  };
+
+  useEffect(() => {
+    if (isLeftPanelOpen) {
+      setIsLeftPanelOpen(true);
+    }
+  }, [isLeftPanelOpen]);
 
   useEffect(() => {
     const updatePanelSize = () => {
@@ -53,8 +68,9 @@ export const MainLayout = ({
     <div className="c__main-layout">
       <div className="c__main-layout__header">
         <Header
-          onTogglePanel={() => setIsLeftPanelOpen(!isLeftPanelOpen)}
+          onTogglePanel={onTogglePanel}
           isPanelOpen={isLeftPanelOpen}
+          rightIcon={rightHeaderContent}
           leftIcon={icon}
           languages={[
             { label: "Français", isChecked: true },

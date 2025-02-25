@@ -9,4 +9,7 @@
 @use "./components/layout/left-panel";
 @use "./components/language/language-picker";
 @use "./components/layout";
+@use "./components/quick-search";
+@use "./components/quick-search/quick-search-global-style";
+@use "./components/separator";
 @import url("./assets/fonts/Marianne/Marianne-font.css");
