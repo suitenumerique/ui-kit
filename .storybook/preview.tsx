@@ -1,5 +1,5 @@
-import { CunninghamProvider } from "@openfun/cunningham-react";
 import "../src/index.scss";
+import { CunninghamProvider } from "../src/components/Provider/Provider";
 import type { Preview } from "@storybook/react";
 import React from "react";
 

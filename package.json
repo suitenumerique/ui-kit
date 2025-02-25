@@ -19,12 +19,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && cp cunningham.ts dist/cunningham.ts",
+    "build": "yarn run import-locales && tsc && vite build && cp cunningham.ts dist/cunningham.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build-theme": "cunningham -g css -o src",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "import-locales": "cp -R node_modules/@openfun/cunningham-react/dist/locales/ src/locales/originals/"
   },
   "dependencies": {
     "@openfun/cunningham-react": "2.9.4",
