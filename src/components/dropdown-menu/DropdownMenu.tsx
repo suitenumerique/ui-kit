@@ -35,7 +35,7 @@ export const DropdownMenu = ({
       <Popover
         triggerRef={triggerRef}
         style={{
-          marginTop: "10px",
+          marginTop: "0px",
         }}
         isOpen={isOpen}
         onOpenChange={onOpenChangeHandler}
@@ -47,7 +47,10 @@ export const DropdownMenu = ({
                 <MenuItem
                   aria-label={option.label}
                   key={option.label}
-                  onAction={option.callback}
+                  onAction={() => {
+                    option.callback?.();
+                    onOpenChangeHandler(false);
+                  }}
                   isDisabled={option.isDisabled}
                 >
                   {option.icon && (

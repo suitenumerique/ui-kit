@@ -1,0 +1,81 @@
+.c__tabs {
+  display: flex;
+
+  &__full-width {
+    .react-aria-Tabs {
+      width: 100%;
+    }
+
+    .react-aria-Tab {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .react-aria-Tabs {
+    display: flex;
+
+    &[data-orientation="horizontal"] {
+      flex-direction: column;
+    }
+  }
+
+  .react-aria-TabList {
+    display: flex;
+    width: 100%;
+  }
+
+  .react-aria-Tab {
+    padding: 10px;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    color: var(--c--theme--colors--greyscale-500);
+    transition: color 200ms;
+    --border-color: transparent;
+    forced-color-adjust: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--c--theme--colors--greyscale-200);
+
+    &[data-hovered] {
+      background-color: var(--c--theme--colors--greyscale-050);
+      color: var(--text-color-hover);
+    }
+
+    &[data-selected] {
+      font-weight: 500;
+      // font-size: var(--c--theme--font--sizes--md);
+      color: var(--c--theme--colors--primary-800);
+      border-bottom: 2px solid var(--c--theme--colors--primary-800);
+    }
+
+    &[data-disabled] {
+      color: var(--text-color-disabled);
+      &[data-selected] {
+        --border-color: var(--text-color-disabled);
+      }
+    }
+
+    &[data-focus-visible]:after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 4px;
+      border: 2px solid var(--focus-ring-color);
+    }
+  }
+
+  .react-aria-TabPanel {
+    margin-top: 4px;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+
+    &[data-focus-visible] {
+      outline: 2px solid var(--focus-ring-color);
+    }
+  }
+}

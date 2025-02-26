@@ -134,7 +134,7 @@ const config = {
         'forms-field': {
           color: 'var(--c--theme--colors--primary-500)',
           'value-color': 'var(--c--theme--colors--primary-500)',
-          width: 'auto',
+          width: '100%',
         },
         'forms-input': {
           'value-color': 'var(--c--theme--colors--primary-500)',
@@ -448,11 +448,35 @@ const config = {
           },
         },
         'forms-checkbox': {
-          'border-radius': '0',
+          'border-radius': '4px',
+          'border-color': 'var(--c--theme--colors--primary-800)',
+          'background-color--hover': 'var(--c--theme--colors--greyscale-100)',
+          
+          border: {
+            'color-disabled': 'var(--c--theme--colors--greyscale-200)',
+            'color': 'var(--c--theme--colors--primary-800)',
+          },
+          background: {
+            'disabled': 'var(--c--theme--colors--greyscale-200)',
+            'enable': 'var(--c--theme--colors--primary-800)',
+          },
+          'check': {
+            'disabled': 'var(--c--theme--colors--greyscale-300)',
+            'enable': 'var(--c--theme--colors--greyscale-000)',
+          },
+          // 'background-color': 'var(--c--theme--colors--primary-800)',
           color: 'var(--c--theme--colors--primary-text)',
+          label: {
+            color: 'var(--c--theme--colors--greyscale-1000)',
+            size: 'var(--c--theme--font--sizes--sm)',
+            weight: '500',
+            'color-disabled': 'var(--c--theme--colors--greyscale-300)',
+          },
           text: {
-            color: 'var(--c--theme--colors--greyscale-text)',
-            size: 'var(--c--theme--font--sizes--t)',
+            color: 'var(--c--theme--colors--greyscale-600)',
+            size: 'var(--c--theme--font--sizes--s)',
+            weight: '400',
+            'color-disabled': 'var(--c--theme--colors--greyscale-300)',
           },
         },
         'forms-datepicker': {
@@ -480,7 +504,10 @@ const config = {
           },
         },
         'forms-radio': {
-          'accent-color': 'var(--c--theme--colors--primary-600)',
+          'border-color': 'var(--c--theme--colors--primary-800)',
+          'background-color': 'var(--c--theme--colors--greyscale-000)',
+          'accent-color': 'var(--c--theme--colors--primary-800)',
+          'accent-color-disabled': 'var(--c--theme--colors--greyscale-300)',
         },
         'forms-select': {
           'item-font-size': '14px',
@@ -492,9 +519,14 @@ const config = {
           'box-shadow-color': 'var(--c--theme--colors--primary-text)',
         },
         'forms-switch': {
-          'handle-border-radius': '2px',
-          'rail-border-radius': '4px',
-          'accent-color': 'var(--c--theme--colors--primary-text)',
+          'border': {
+            'color-disabled': 'var(--c--theme--colors--greyscale-300)',
+            'color': 'var(--c--theme--colors--primary-800)',
+          },
+          'handle-background-color': 'white',
+          'handle-background-color--disabled': 'var(--c--theme--colors--greyscale-000)',
+          'rail-background-color--disabled': 'var(--c--theme--colors--greyscale-000)',
+          'accent-color': 'var(--c--theme--colors--primary-800)',
         },
         'forms-textarea': {
           'border-radius': '0',

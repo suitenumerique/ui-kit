@@ -12,4 +12,7 @@
 @use "./components/quick-search";
 @use "./components/quick-search/quick-search-global-style";
 @use "./components/separator";
+@use "./components/form/switch";
+@use "./components/form/label";
+@use "./components/tabs";
 @import url("./assets/fonts/Marianne/Marianne-font.css");

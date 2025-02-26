@@ -1,0 +1,81 @@
+.c__checkbox {
+  .c__checkbox__label {
+    font-weight: var(--c--components--forms-checkbox--label--weight);
+    font-size: var(--c--components--forms-checkbox--label--size);
+    color: var(--c--components--forms-checkbox--label--color);
+  }
+
+  .c__field__text {
+    font-weight: var(--c--components--forms-checkbox--text--weight);
+    font-size: var(--c--components--forms-checkbox--text--size);
+    color: var(--c--components--forms-checkbox--text--color);
+  }
+  .c__field__footer {
+    padding: 0.25rem 0 0 2rem !important;
+  }
+}
+
+.c__checkbox:hover,
+.c__checkbox:focus-within {
+  background-color: var(
+    --c--components--forms-checkbox--background-color--hover
+  );
+}
+
+.c__checkbox:has(input:not(:disabled)) {
+  svg {
+    color: var(--c--components--forms-checkbox--check--enable);
+  }
+}
+
+.c__checkbox:has(input:checked):not(:has(input:disabled)),
+.c__checkbox:has(input:indeterminate):not(:has(input:disabled)) {
+  &:not(.c__radio) {
+    input {
+      background-color: var(--c--theme--colors--primary-800);
+    }
+  }
+}
+
+.c__checkbox:has(input:disabled) {
+  .c__checkbox__label {
+    color: var(--c--components--forms-checkbox--label--color-disabled);
+  }
+
+  .c__field__text {
+    color: var(--c--components--forms-checkbox--text--color-disabled);
+  }
+  input {
+    border-color: var(--c--components--forms-checkbox--border--color-disabled);
+  }
+
+  &.c__radio {
+    &:has(input:checked),
+    &:has(input:indeterminate) {
+      input {
+        &:before {
+          box-shadow: inset 1em 1em
+            var(--c--components--forms-radio--accent-color-disabled);
+        }
+      }
+    }
+  }
+
+  &:not(.c__radio) {
+    &:has(input:checked),
+    &:has(input:indeterminate) {
+      svg {
+        color: var(--c--components--forms-checkbox--check--disabled);
+      }
+
+      input {
+        background-color: var(
+          --c--components--forms-checkbox--background--disabled
+        );
+        border-color: var(
+          --c--components--forms-checkbox--border--color-disabled
+        );
+      }
+    }
+  }
+}

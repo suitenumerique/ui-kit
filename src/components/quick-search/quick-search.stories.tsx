@@ -11,17 +11,19 @@ import { QuickSearchData } from "./types";
 const meta = {
   title: "Components/QuickSearch",
   component: QuickSearch,
-  tags: ["autodocs"],
+
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
 } satisfies Meta<typeof QuickSearch>;
 
-export default meta;
-type Story = StoryObj<typeof meta>;
-const initialGroup: QuickSearchData<{
+type Data = {
   id: string;
   name: string;
   description: string;
-}> = {
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+const initialGroup: QuickSearchData<Data> = {
   groupName: "Group 1",
   showWhenEmpty: false,
   elements: [
@@ -45,11 +47,7 @@ const initialGroup: QuickSearchData<{
 export const Small: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState<{
-      id: string;
-      name: string;
-      description: string;
-    } | null>(null);
+    const [selected, setSelected] = useState<Data | null>(null);
 
     const [group, setGroup] = useState(initialGroup);
     const onFilter = (filter: string) => {
@@ -72,6 +70,7 @@ export const Small: Story = {
             <span>Selected: {selected.name}</span>
           </div>
         )}
+
         <Modal
           isOpen={open}
           onClose={() => setOpen(false)}
