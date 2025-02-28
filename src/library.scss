@@ -10,6 +10,8 @@
 @use "./components/layout/left-panel";
 @use "./components/language";
 @use "./components/layout";
+@use "./components/quick-search";
+@use "./components/quick-search/quick-search-global-style";
 @use "./components/separator";
 @use "./components/form/label";
 @use "./components/form/switch";
