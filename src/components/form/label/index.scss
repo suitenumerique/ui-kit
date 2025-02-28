@@ -1,0 +1,33 @@
+.c__with-label {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--c--theme--spacings--xs);
+  padding: var(--c--theme--spacings--3xs);
+
+  &.left {
+    flex-direction: row-reverse;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--c--theme--colors--greyscale-100);
+  }
+
+  &__label-container {
+    display: flex;
+    flex-direction: column;
+
+    &__label {
+      font-size: var(--c--theme--font--sizes--sm);
+      font-weight: var(--c--theme--font--weights--medium);
+      color: var(--c--theme--colors--greyscale-1000);
+    }
+
+    &__description {
+      font-weight: 400;
+      font-size: var(--c--theme--font--sizes--s);
+      color: var(--c--theme--colors--greyscale-600);
+    }
+  }
+}

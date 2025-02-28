@@ -1,0 +1,71 @@
+.c__switch {
+  .c__switch__rail__wrapper {
+    transform: scale(0.85);
+  }
+
+  &:not(.c__switch--left) {
+    .c__field__footer {
+      padding: 0rem 0 0 3.5rem !important;
+    }
+  }
+
+  &.c__switch--left {
+    .c__checkbox__container {
+      width: 100%;
+    }
+    .c__field__footer {
+      width: calc(100% - 45px);
+      padding: 0 !important;
+    }
+  }
+}
+
+.c__switch__rail__wrapper:has(input:checked) {
+  &:has(input:not(:disabled)) {
+    .c__switch__rail {
+      border: 1px solid var(--c--components--forms-switch--border--color);
+      &:before {
+        display: inline;
+        top: 2px;
+        border: 1px solid var(--c--components--forms-switch--border--color);
+      }
+    }
+  }
+
+  &:has(input:disabled) {
+    .c__switch__rail {
+      background-color: var(--c--theme--colors--greyscale-200);
+    }
+  }
+}
+
+.c__switch__rail__wrapper:has(input:not(:checked)) {
+  &:has(input:not(:disabled)) {
+    .c__switch__rail {
+      background-color: var(
+        --c--components--forms-switch--rail-background-color--disabled
+      );
+      border: 1px solid var(--c--components--forms-switch--border--color);
+      &:before {
+        top: 2px;
+        border: 1px solid var(--c--components--forms-switch--border--color);
+      }
+    }
+  }
+
+  &:has(input:disabled) {
+    .c__switch__rail {
+      border: 1px solid
+        var(--c--components--forms-switch--border--color-disabled);
+      &:before {
+        top: 2px;
+        border: 1px solid
+          var(--c--components--forms-switch--border--color-disabled);
+      }
+    }
+  }
+}
+
+.c__switch.c__checkbox--disabled .c__switch__rail {
+  cursor: not-allowed;
+}
