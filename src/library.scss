@@ -4,6 +4,7 @@
 @use "cunningham-tokens";
 @use "cunningham-custom-style";
 @use "./components/button";
+@use "./components/tree-view";
 @use "./components/dropdown-menu";
 @use "./components/loader";
 @use "./components/layout/header";
@@ -14,6 +15,7 @@
 @use "./components/quick-search/quick-search-global-style";
 @use "./components/separator";
 @use "./components/form/label";
+@use "./components/tabs";
 @use "./components/form/switch";
 @use "./components/form/checkbox";
 @use "./components/form/radio";

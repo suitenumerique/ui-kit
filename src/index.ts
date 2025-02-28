@@ -10,5 +10,8 @@ export * from "./components/loader";
 export * from "./components/form";
 export * from "./components/quick-search";
 export * from "./components/separator";
+export * from "./components/tabs";
+export * from "./components/tree-view";
+
 
 export { default as cunninghamConfig } from "../cunningham";
