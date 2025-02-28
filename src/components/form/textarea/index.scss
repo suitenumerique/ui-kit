@@ -1,0 +1,11 @@
+.c__textarea__wrapper:not(.c__textarea__wrapper--disabled):hover {
+  box-shadow: var(--c--components--forms-textarea--box-shadow--color--hover) 0 0
+    0 1px;
+  border-color: var(--c--components--forms-textarea--box-shadow--color--hover);
+}
+
+.c__textarea__wrapper:not(.c__textarea__wrapper--disabled):focus-within {
+  box-shadow: var(--c--components--forms-textarea--box-shadow--color--focus) 0 0
+    0 1px;
+  border-color: var(--c--components--forms-textarea--box-shadow--color--focus);
+}
