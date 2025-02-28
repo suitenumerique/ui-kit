@@ -18,12 +18,12 @@ export default defineConfig({
     rollupOptions: {
       external: ["react", "react-dom"],
       output: {
+      
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },
       },
-      copyPublicDir: false,
     },
     sourcemap: true,
     emptyOutDir: true,
