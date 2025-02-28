@@ -28,14 +28,12 @@
       ":/*": ["./src/*"]
     },
     "typeRoots": ["./dist/index.d.ts"],
-  
-    
-    /* Linting */
+
     
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "cunningham.ts"],
+  "include": ["src", "cunningham.ts", "common.d.ts"],
   "exclude": ["node_modules", "dist"],
 } 

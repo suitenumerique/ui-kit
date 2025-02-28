@@ -1,0 +1,10 @@
+@use "./components/tree-view/stories/tree-view-exemple";
+
+.left-panel-story {
+  height: 100dvh;
+  width: 300px;
+
+  @media screen and (max-width: 1024px) {
+    width: 100dvw;
+  }
+}
