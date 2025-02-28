@@ -1,0 +1,10 @@
+.c__horizontal-separator {
+  height: 1px;
+  width: 100%;
+
+  background-color: var(--c--theme--colors--greyscale-100);
+
+  &.with-padding {
+    margin: var(--c--theme--spacings--sm, 0.75rem) 0;
+  }
+}
