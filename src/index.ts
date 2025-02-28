@@ -8,6 +8,7 @@ export * from "./components/language";
 export * from "./components/layout";
 export * from "./components/loader";
 export * from "./components/form";
+export * from "./components/quick-search";
 export * from "./components/separator";
 
 export { default as cunninghamConfig } from "../cunningham";
