@@ -6,7 +6,10 @@
 @use "./components/button";
 @use "./components/dropdown-menu";
 @use "./components/loader";
+@use "./components/layout/header";
+@use "./components/layout/left-panel";
 @use "./components/language";
+@use "./components/layout";
 @use "./components/separator";
 @use "./components/form/label";
 @use "./components/form/switch";
