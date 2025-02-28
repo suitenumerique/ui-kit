@@ -5,3 +5,7 @@
 @use "cunningham-custom-style";
 @use "./components/button";
 @use "./components/dropdown-menu";
+@use "./components/form/label";
+@use "./components/form/switch";
+@use "./components/form/checkbox";
+@use "./components/form/radio";
