@@ -1,6 +1,6 @@
 @use "@openfun/cunningham-react/fonts";
 @use "@openfun/cunningham-react/icons";
 @use "@openfun/cunningham-react/style";
+@use "cunningham-tokens";
 @use "cunningham-custom-style";
-@use "./components/button/button";
-@import url("./assets/fonts/Marianne/Marianne-font.css");
+@use "./components/button";
