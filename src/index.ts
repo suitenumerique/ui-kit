@@ -12,6 +12,6 @@ export * from "./components/quick-search";
 export * from "./components/separator";
 export * from "./components/tabs";
 export * from "./components/tree-view";
-
+export * from "./components/form/label/label";
 
 export { default as cunninghamConfig } from "../cunningham";
