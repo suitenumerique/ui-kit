@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { PropsWithChildren } from "react";
+import { Label } from "./label";
 
 export type WithLabelProps = {
   label: string;
@@ -15,15 +16,7 @@ export const WithLabel = ({
 }: PropsWithChildren<WithLabelProps>) => {
   return (
     <div className={clsx("c__with-label", { [labelSide]: true })}>
-      <div className={"c__with-label__label-container"}>
-        <span className="c__with-label__label-container__label">{label}</span>
-        {text && (
-          <span className="c__with-label__label-container__description">
-            {text}
-          </span>
-        )}
-      </div>
-
+      <Label children={label} text={text} />
       {children}
     </div>
   );
