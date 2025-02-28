@@ -1,0 +1,25 @@
+.c__left-panel {
+  display: flex;
+  overflow-y: auto;
+  height: calc(100dvh - 52px);
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  background-color: var(--c--theme--colors--greyscale-000);
+}
+
+.c__left-panel__mobile {
+  z-index: 999;
+  width: 100dvw;
+  height: calc(100dvh - 52px);
+  border-right: 1px solid var(--c--theme--colors--greyscale-200);
+  position: fixed;
+  background-color: var(--c--theme--colors--greyscale-000);
+  transition: transform 0.15s ease-in-out;
+  transform: translateX(-100dvw);
+
+  &.open {
+    transform: translateX(0);
+  }
+}
