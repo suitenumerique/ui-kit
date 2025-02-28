@@ -97,6 +97,8 @@ const config = {
         breakpoints: {
           xxs: '320px',
           xs: '480px',
+          mobile: 768,
+          tablet: 1024,      
         },
         logo: {
           src: '',
