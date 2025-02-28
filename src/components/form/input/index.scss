@@ -1,0 +1,18 @@
+.c__input__wrapper:not(.c__input__wrapper--disabled):hover {
+  box-shadow: var(--c--components--forms-input--box-shadow--color--hover) 0 0 0
+    1px;
+  border-color: var(--c--components--forms-input--box-shadow--color--hover);
+}
+
+.c__input__wrapper:not(.c__input__wrapper--disabled):focus-within {
+  box-shadow: var(--c--components--forms-input--box-shadow--color--focus) 0 0 0
+    1px;
+  border-color: var(--c--components--forms-input--box-shadow--color--focus);
+}
+
+.c__input__wrapper--disabled {
+  .c__input__icon-left,
+  .c__input__icon-right {
+    color: var(--c--components--forms-labelledbox--label-color--big--disabled);
+  }
+}
