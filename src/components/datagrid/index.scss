@@ -1,0 +1,28 @@
+.c__datagrid__table__container {
+  overflow: auto;
+}
+
+.c__datagrid__table__container > table th {
+  height: 24px;
+}
+
+.c__datagrid__table__container > table td {
+  height: 40px;
+}
+
+.c__datagrid__table__container > table th .c__datagrid__header {
+  color: var(--c--components--datagrid--header--color);
+  font-weight: var(--c--components--datagrid--header--weight);
+  font-size: var(--c--components--datagrid--header--size);
+  text-transform: none;
+}
+
+.c__datagrid__table__container > table tbody tr {
+  border: none;
+}
+
+.c__datagrid__table__container > table tbody tr:hover {
+  background-color: var(
+    --c--components--datagrid--body--background-color-hover
+  );
+}
