@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vite",
     "build": "yarn run import-locales && tsc && vite build && cp cunningham.ts dist/cunningham.ts",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build-theme": "cunningham -g css -o src",
     "storybook": "storybook dev -p 6006",
