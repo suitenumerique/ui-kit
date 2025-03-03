@@ -3,6 +3,12 @@ import config from "../../cunningham";
 
 export const useResponsive = () => {
   const [width, setWidth] = useState(window.innerWidth);
+  const mobile = parseInt(
+    config.themes.default.theme.breakpoints.mobile.replace("px", "")
+  );
+  const tablet = parseInt(
+    config.themes.default.theme.breakpoints.tablet.replace("px", "")
+  );
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
@@ -16,9 +22,9 @@ export const useResponsive = () => {
     };
   }, []);
 
-  const isMobile = width <= config.themes.default.theme.breakpoints.mobile;
-  const isTablet = width <= config.themes.default.theme.breakpoints.tablet;
-  const isDesktop = width > config.themes.default.theme.breakpoints.tablet;
+  const isMobile = width <= mobile;
+  const isTablet = width <= tablet;
+  const isDesktop = width > tablet;
 
   return { isMobile, isTablet, isDesktop };
 };

@@ -15,11 +15,12 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
   width: 214px;
-  height: 56px;
+  height: 56px !important;
   border: "none";
   cursor: pointer;
   &:disabled {
-    background-image: url("/proconnect-content-disabled.svg");
+    background-color: var(--c--theme--colors--greyscale-100) !important;
+    background-image: url("/proconnect-content-disabled.svg") !important;
   }
 }
 .c__button {
