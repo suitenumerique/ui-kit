@@ -12,7 +12,7 @@ export type MainLayoutProps = {
   rightHeaderContent?: React.ReactNode;
   languages?: DropdownMenuOption[];
   onTogglePanel?: () => void;
-  isLeftPanelOpen?: boolean;
+
   enableResize?: boolean;
 };
 
@@ -35,14 +35,7 @@ export const MainLayout = ({
 
   const onTogglePanel = () => {
     setIsLeftPanelOpen(!isLeftPanelOpen);
-    onTogglePanel?.();
   };
-
-  useEffect(() => {
-    if (isLeftPanelOpen) {
-      setIsLeftPanelOpen(true);
-    }
-  }, [isLeftPanelOpen]);
 
   useEffect(() => {
     const updatePanelSize = () => {
