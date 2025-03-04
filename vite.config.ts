@@ -9,16 +9,15 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        index: './src/index.ts'
+        index: "./src/index.ts",
       },
       name: "@lasuite/ui-kit",
-      formats: ['es', 'cjs'],
-      cssFileName: 'style'
+      formats: ["es", "cjs"],
+      cssFileName: "style",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "@openfun/cunningham-react"],
       output: {
-      
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
@@ -38,8 +37,7 @@ export default defineConfig({
       {
         find: "src",
         replacement: resolve(__dirname, "./src"),
-      }
+      },
     ],
   },
-  
 });
