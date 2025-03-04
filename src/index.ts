@@ -13,5 +13,6 @@ export * from "./components/separator";
 export * from "./components/tabs";
 export * from "./components/tree-view";
 export * from "./components/form/label/label";
+export * from "./hooks/useResponsive";
 
 export { default as cunninghamConfig } from "../cunningham";
