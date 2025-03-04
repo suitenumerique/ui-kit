@@ -61,11 +61,7 @@ export const DropdownMenu = ({
                   }}
                   isDisabled={option.isDisabled}
                 >
-                  {option.icon && (
-                    <span className="material-icons" aria-label={option.label}>
-                      {option.icon}
-                    </span>
-                  )}
+                  {option.icon}
                   <div
                     className="c__dropdown-menu-item__label"
                     aria-label={option.label}

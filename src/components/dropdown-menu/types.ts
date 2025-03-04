@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 export type DropdownMenuOption = {
   label: string;
-  icon?: string;
+  icon?: ReactNode;
   callback?: () => void | Promise<unknown>;
   isDisabled?: boolean;
   showSeparator?: boolean;
@@ -9,5 +11,3 @@ export type DropdownMenuOption = {
   testId?: string;
   value?: string;
 };
-
-

@@ -22,44 +22,48 @@ export const Default: Story = {
   args: {
     options: [
       {
-        icon: "info",
+        icon: <span className="material-icons">info</span>,
         label: "Informations",
         value: "info",
       },
-      { icon: "group", label: "Partager", value: "share" },
       {
-        icon: "download",
+        icon: <span className="material-icons">group</span>,
+        label: "Partager",
+        callback: () => alert("Partager"),
+      },
+      {
+        icon: <span className="material-icons">download</span>,
         label: "Télécharger",
         value: "download",
 
         showSeparator: true,
       },
       {
-        icon: "edit",
+        icon: <span className="material-icons">edit</span>,
         label: "Renommer",
         value: "rename",
 
         showSeparator: true,
       },
       {
-        icon: "arrow_forward",
+        icon: <span className="material-icons">arrow_forward</span>,
         label: "Déplacer",
         value: "move",
       },
       {
-        icon: "arrow_back",
+        icon: <span className="material-icons">arrow_back</span>,
         label: "Dupliquer",
         value: "duplicate",
       },
       {
-        icon: "add",
+        icon: <span className="material-icons">add</span>,
         isDisabled: true,
         label: "Crééer un raccourci",
         value: "create-shortcut",
         showSeparator: true,
       },
       {
-        icon: "delete",
+        icon: <span className="material-icons">delete</span>,
         label: "Supprimer",
         value: "delete",
         showSeparator: true,
