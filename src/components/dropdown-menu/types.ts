@@ -7,6 +7,7 @@ export type DropdownMenuOption = {
   isHidden?: boolean;
   isChecked?: boolean;
   testId?: string;
+  value?: string;
 };
 
 

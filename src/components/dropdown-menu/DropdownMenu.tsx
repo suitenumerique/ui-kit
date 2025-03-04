@@ -5,6 +5,8 @@ import { Fragment, PropsWithChildren, useRef } from "react";
 export type DropdownMenuProps = {
   options: DropdownMenuOption[];
   onOpenChange?: (isOpen: boolean) => void;
+  selectedValues?: string[];
+  onSelectValue?: (value: string) => void;
   isOpen?: boolean;
 };
 
@@ -13,6 +15,8 @@ export const DropdownMenu = ({
   isOpen = false,
   onOpenChange,
   children,
+  selectedValues = [],
+  onSelectValue,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
@@ -49,6 +53,9 @@ export const DropdownMenu = ({
                   aria-label={option.label}
                   key={option.label}
                   onAction={() => {
+                    if (option.value) {
+                      onSelectValue?.(option.value);
+                    }
                     option.callback?.();
                     onOpenChangeHandler(false);
                   }}
@@ -59,8 +66,15 @@ export const DropdownMenu = ({
                       {option.icon}
                     </span>
                   )}
-                  <div aria-label={option.label}>{option.label}</div>
-                  {option.isChecked && (
+                  <div
+                    className="c__dropdown-menu-item__label"
+                    aria-label={option.label}
+                  >
+                    {option.label}
+                  </div>
+                  {(option.isChecked ||
+                    (option.value &&
+                      selectedValues.includes(option.value))) && (
                     <span className="material-icons checked">check</span>
                   )}
                 </MenuItem>
