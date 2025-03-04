@@ -37,6 +37,10 @@
   align-items: center;
   forced-color-adjust: none;
 
+  &__label {
+    flex: 1;
+  }
+
   &:hover {
     background: var(--c--theme--colors--greyscale-100);
   }
