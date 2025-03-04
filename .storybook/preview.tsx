@@ -1,4 +1,3 @@
-
 import { CunninghamProvider } from "../src/components/Provider/Provider";
 import "./../src/index.scss";
 import "./../src/style-stories.scss";
@@ -8,7 +7,7 @@ import React from "react";
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <CunninghamProvider theme="dsfr">
+      <CunninghamProvider>
         <div>
           <Story />
         </div>
