@@ -4,6 +4,7 @@ const config = {
       theme: {
         colors: {
           "primary-text": "#000091",
+          "primary-050": "#F5F5FE",
           "primary-100": "#ECECFE",
           "primary-150": "#F4F4FD",
           "primary-200": "#E3E3FD",
