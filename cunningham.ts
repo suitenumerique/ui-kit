@@ -154,6 +154,7 @@ const config = {
           "medium-height": "40px",
           "medium-text-height": "40px",
           "border-radius": "4px",
+          "small-height": "26px",
           primary: {
             "background--color": "var(--c--theme--colors--primary-text)",
             "background--color-hover": "#1212ff",
