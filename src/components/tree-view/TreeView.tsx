@@ -1,48 +1,27 @@
 import { NodeApi, NodeRendererProps, Tree } from "react-arborist";
 import { TreeViewSeparator } from "./TreeViewSeparator";
+import useResizeObserver from "use-resize-observer";
+
 import {
-  BaseTreeViewData,
-  TreeViewDataType,
+  TreeDataItem,
   TreeViewMoveModeEnum,
   TreeViewMoveResult,
+  TreeViewNodeTypeEnum,
 } from "./types";
-
-export const treeDemoData = [
-  { id: "1", name: "Unread" },
-  { id: "2", name: "Threads" },
-  { id: "2.1", name: "load children", childrenCount: 1, children: [] },
-  {
-    id: "3",
-    name: "Chat Rooms",
-    children: [
-      { id: "c1", name: "General" },
-      { id: "c2", name: "Random" },
-      { id: "c3", name: "Open Source Projects" },
-    ],
-  },
-  {
-    id: "4",
-    name: "Direct Messages",
-    children: [
-      { id: "d1", name: "Alice" },
-      { id: "d2", name: "Bob" },
-      { id: "d3", name: "Charlie" },
-    ],
-  },
-];
+import { isNode, isSeparator, isTitle } from "./utils";
 
 export type TreeViewProps<T> = {
-  treeData: TreeViewDataType<T>[];
-  width?: number | string;
+  treeData: TreeDataItem<T>[];
   selectedNodeId?: string;
   rootNodeId: string;
-  renderNode: (
-    props: NodeRendererProps<TreeViewDataType<T>>
-  ) => React.ReactNode;
-  afterMove?: (
-    result: TreeViewMoveResult,
-    newTreeData: TreeViewDataType<T>[]
-  ) => void;
+  canDrop?: (args: {
+    parentNode: NodeApi<TreeDataItem<T>> | null;
+    dragNodes: NodeApi<TreeDataItem<T>>[];
+    index: number;
+  }) => boolean;
+  canDrag?: (node: TreeDataItem<T>) => boolean;
+  handleMove?: (result: TreeViewMoveResult) => void;
+  renderNode: (props: NodeRendererProps<TreeDataItem<T>>) => React.ReactNode;
 };
 
 export const TreeView = <T,>({
@@ -51,209 +30,234 @@ export const TreeView = <T,>({
   selectedNodeId,
   rootNodeId,
   renderNode,
-  afterMove,
+  handleMove,
+  canDrop,
+  canDrag,
 }: TreeViewProps<T>) => {
+  const { ref, width, height } = useResizeObserver();
+
   const getMovePosition = (args: {
     dragIds: string[];
-    dragNodes: NodeApi<BaseTreeViewData<T>>[];
+    dragNodes: NodeApi<TreeDataItem<T>>[];
     parentId: string | null;
-    parentNode: NodeApi<BaseTreeViewData<T>> | null;
+    parentNode: NodeApi<TreeDataItem<T>> | null;
     index: number;
   }): TreeViewMoveResult | null => {
-    const newData = JSON.parse(
-      JSON.stringify(treeData)
-    ) as TreeViewDataType<T>[];
-
-    const sourceNodeId = args.dragNodes[0].data.id;
+    const newData = JSON.parse(JSON.stringify(treeData)) as TreeDataItem<T>[];
+    const children = args.parentId
+      ? args.parentNode?.data.children ?? []
+      : newData;
+    const sourceNodeId = args.dragNodes[0].data.value.id;
     const sourceNode = args.dragNodes[0].data;
-    const oldParentId = sourceNode.parentId ?? rootNodeId;
-    const newIndex = args.index;
-    const targetNodeId = args.parentId ?? rootNodeId;
+    const parentNode = args.parentNode?.data;
 
-    const children = args.parentId ? args.parentNode?.children ?? [] : newData;
-
-    let result: TreeViewMoveResult | null = null;
-
-    if (newIndex === 0) {
-      result = {
-        targetNodeId: targetNodeId ?? rootNodeId,
-        mode: TreeViewMoveModeEnum.FIRST_CHILD,
-        sourceNodeId,
-        oldParentId,
-      };
-    }
-    if (newIndex === children.length) {
-      result = {
-        targetNodeId: targetNodeId ?? rootNodeId,
-        mode: TreeViewMoveModeEnum.LAST_CHILD,
-        sourceNodeId,
-        oldParentId,
-      };
+    if (parentNode?.value.type === TreeViewNodeTypeEnum.TITLE) {
+      return null;
     }
 
-    const siblingIndex = newIndex - 1;
+    if (parentNode?.value.type === TreeViewNodeTypeEnum.SEPARATOR) {
+      return null;
+    }
+
+    const oldParentId = sourceNode.parentKey ?? rootNodeId;
+    const defaultTargetNodeId = args.parentId ?? rootNodeId;
+    let newIndex = args.index + 0;
+    let mode: TreeViewMoveModeEnum | null = null;
+    let targetModeId: string | null = defaultTargetNodeId;
+    const currentIndex =
+      parentNode?.children?.findIndex((child) => {
+        return child.value.id === sourceNodeId;
+      }) ?? 0;
+
+    if (oldParentId === defaultTargetNodeId) {
+      if (currentIndex === newIndex) {
+        return null;
+      }
+
+      newIndex = newIndex < currentIndex ? newIndex : newIndex - 1;
+    }
+
+    const siblingIndex = args.index - 1;
     const sibling = children[siblingIndex];
 
-    if (sibling) {
-      result = {
-        targetNodeId: sibling.id,
-        mode: TreeViewMoveModeEnum.RIGHT,
-        sourceNodeId,
-        oldParentId,
-      };
-    }
-
-    const nextSiblingIndex = newIndex + 1;
+    const nextSiblingIndex = args.index;
     const nextSibling = children[nextSiblingIndex];
-    if (nextSibling) {
-      result = {
-        targetNodeId: nextSibling.id,
-        mode: TreeViewMoveModeEnum.LEFT,
-        sourceNodeId,
+
+    if (args.index === 0) {
+      // First child
+      targetModeId = rootNodeId;
+      mode = TreeViewMoveModeEnum.FIRST_CHILD;
+    } else if (!parentNode && args.index === 1 && !isNode(sibling.value)) {
+      // First child of root node and the first node is a separator or a title
+      targetModeId = rootNodeId;
+      newIndex = 1;
+      mode = TreeViewMoveModeEnum.FIRST_CHILD;
+    } else if (args.index === children.length) {
+      // Last child
+      targetModeId = targetModeId ?? rootNodeId;
+      mode = TreeViewMoveModeEnum.LAST_CHILD;
+    } else if (sibling && isNode(sibling.value)) {
+      // If the sibling is a node, move to the right
+      targetModeId = sibling.value.id;
+      mode = TreeViewMoveModeEnum.RIGHT;
+    } else if (nextSibling && isNode(nextSibling.value)) {
+      // If the next sibling is a node, move to the left
+      mode = TreeViewMoveModeEnum.LEFT;
+      targetModeId = nextSibling.value.id;
+    }
+
+    if (mode && targetModeId) {
+      return {
+        targetModeId: targetModeId,
+        mode,
         oldParentId,
+        index: newIndex,
+        newParentId: args.parentId,
+        sourceId: sourceNodeId,
       };
     }
 
-    return result;
+    return null;
   };
 
   const onMove = (args: {
     dragIds: string[];
-    dragNodes: NodeApi<BaseTreeViewData<T>>[];
+    dragNodes: NodeApi<TreeDataItem<T>>[];
     parentId: string | null;
-    parentNode: NodeApi<BaseTreeViewData<T>> | null;
+    parentNode: NodeApi<TreeDataItem<T>> | null;
     index: number;
   }) => {
-    // Création d'une copie profonde pour éviter les mutations directes
-    const newData = JSON.parse(
-      JSON.stringify(treeData)
-    ) as TreeViewDataType<T>[];
-    const draggedId = args.dragIds[0];
-
-    // Fonction helper pour trouver et supprimer un nœud dans l'arbre
-    const findAndRemoveNode = (
-      items: TreeViewDataType<T>[],
-      parentId?: string
-    ): {
-      currentIndex: number;
-      newIndex: number;
-      parentId?: string;
-      draggedNode: TreeViewDataType<T>;
-    } | null => {
-      items.forEach((item, index) => {
-        if (item.id === draggedId) {
-          return {
-            currentIndex: index,
-          };
-        }
-      });
-
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].id === draggedId) {
-          const currentIndex = i;
-          let newIndex = args.index;
-          if (currentIndex < newIndex) {
-            newIndex -= 1;
-          }
-          return {
-            currentIndex: i,
-            parentId,
-            newIndex,
-            draggedNode: items.splice(i, 1)[0],
-          };
-        }
-        if (items[i].children?.length) {
-          const found = findAndRemoveNode(
-            items[i]?.children ?? [],
-            items[i].id
-          );
-          if (found) {
-            return found;
-          }
-        }
-      }
-      return null;
-    };
-
-    // Trouver et supprimer le nœud déplacé
-    const r = findAndRemoveNode(newData);
-    const draggedNode = r?.draggedNode;
-    const currentIndex = r?.currentIndex ?? -1;
-    const newIndex = r?.newIndex ?? -1;
-    if (!draggedNode || currentIndex < 0 || newIndex < 0) {
-      return;
-    }
-
-    // Cas 1: Déplacement à la racine
-    if (!args.parentNode) {
-      draggedNode.parentId = rootNodeId;
-      newData.splice(newIndex, 0, draggedNode);
-    }
-    // Cas 2: Déplacement dans un dossier
-    else {
-      const targetParent = args.parentNode.data;
-      draggedNode.parentId = targetParent.id;
-      const findParentAndInsert = (items: TreeViewDataType<T>[]) => {
-        for (const item of items) {
-          if (item.id === targetParent.id) {
-            item.children = item.children || [];
-            item.children.splice(
-              r.parentId === targetParent.id ? r.newIndex : args.index,
-              0,
-              draggedNode
-            );
-
-            return true;
-          }
-          if (item.children?.length) {
-            if (findParentAndInsert(item.children)) {
-              return true;
-            }
-          }
-        }
-        return false;
-      };
-
-      findParentAndInsert(newData);
-    }
-
     const moveResult = getMovePosition(args);
     if (moveResult) {
-      afterMove?.(moveResult, newData);
+      handleMove?.(moveResult);
     }
   };
 
   return (
-    <Tree
-      data={treeData}
-      openByDefault={false}
-      disableEdit={true}
-      onMove={onMove}
-      rowHeight={35}
-      disableDrop={({ parentNode }) => {
-        if (parentNode.data.id === "__REACT_ARBORIST_INTERNAL_ROOT__") {
+    <div ref={ref} className="c__tree-view--container">
+      <Tree
+        data={treeData}
+        openByDefault={false}
+        disableEdit={true}
+        className="c__tree-view"
+        idAccessor="key"
+        onMove={onMove}
+        rowHeight={35}
+        disableDrag={(node) => {
+          if (canDrag) {
+            return !canDrag(node);
+          }
           return false;
-        }
-        const isOpen = parentNode?.isOpen;
-        let hasChildrenLoaded =
-          parentNode.data.childrenCount &&
-          parentNode.data.childrenCount > 0 &&
-          parentNode?.data.children &&
-          parentNode.data.children.length > 0;
-        hasChildrenLoaded = hasChildrenLoaded ?? true;
+        }}
+        disableDrop={({ parentNode, dragNodes, index }) => {
+          if (canDrop) {
+            const canDropResult = canDrop({ parentNode, dragNodes, index });
+            if (!canDropResult) {
+              parentNode.data.value.canDrop = false;
+              return true;
+            }
+          }
+          if (parentNode.data.value?.type === TreeViewNodeTypeEnum.TITLE) {
+            return true;
+          }
+          if (parentNode.data.value?.type === TreeViewNodeTypeEnum.SEPARATOR) {
+            return true;
+          }
 
-        if (isOpen && hasChildrenLoaded) {
+          // If
+          if (parentNode.id === "__REACT_ARBORIST_INTERNAL_ROOT__") {
+            const nodeBefore = treeData[index - 1];
+            const nodeAfter = treeData[index];
+            const nodeNextAfter = treeData[index + 1];
+
+            const nodeBeforeIsSeparator = isSeparator(nodeBefore?.value);
+            const nodeAfterIsSeparator = isSeparator(nodeAfter?.value);
+            const nodeBeforeIsTitle = isTitle(nodeBefore?.value);
+            const nodeAfterIsTitle = isTitle(nodeAfter?.value);
+            const nodeNextIsNode = isNode(nodeNextAfter?.value);
+            if (index === 0 && (nodeAfterIsSeparator || nodeAfterIsTitle)) {
+              return true;
+            }
+
+            if (nodeBeforeIsSeparator && nodeAfterIsTitle && nodeNextIsNode) {
+              return true;
+            }
+            if (nodeBeforeIsTitle && nodeAfterIsSeparator && nodeNextIsNode) {
+              return true;
+            }
+
+            return false;
+          }
+          const isOpen = parentNode?.isOpen;
+          const hasChildren =
+            (parentNode?.data.value.childrenCount &&
+              parentNode.data.value.childrenCount > 0) ||
+            (parentNode?.data.children && parentNode.data.children.length > 0);
+
+          if (!hasChildren) {
+            parentNode.data.value.canDrop = true;
+            return false;
+          }
+
+          let hasChildrenLoaded =
+            parentNode.data.value.childrenCount &&
+            parentNode.data.value.childrenCount > 0 &&
+            parentNode?.data.children &&
+            parentNode.data.children.length > 0;
+          hasChildrenLoaded = hasChildrenLoaded ?? true;
+
+          if (!isOpen && !hasChildrenLoaded && hasChildren) {
+            parentNode.data.value.canDrop = true;
+            return true;
+          }
+
+          parentNode.data.value.canDrop = true;
           return false;
-        }
+        }}
+        paddingBottom={30}
+        width={width}
+        height={height}
+        overscanCount={20}
+        selection={selectedNodeId}
+        renderCursor={TreeViewSeparator}
+        renderRow={(props) => {
+          const isTitle =
+            props.node.data.value.type === TreeViewNodeTypeEnum.TITLE;
+          const isSeparator =
+            props.node.data.value.type === TreeViewNodeTypeEnum.SEPARATOR;
 
-        return true;
-      }}
-      padding={25}
-      overscanCount={20}
-      selection={selectedNodeId}
-      renderCursor={TreeViewSeparator}
-    >
-      {(props) => renderNode(props)}
-    </Tree>
+          const { style } = props.attrs;
+          const newStyle = { ...style };
+          if (isTitle || isSeparator) {
+            return (
+              <div
+                {...props.attrs}
+                style={newStyle}
+                ref={props.innerRef}
+                onFocus={(e) => e.stopPropagation()}
+                onClick={props.node.handleClick}
+              >
+                {props.children}
+              </div>
+            );
+          }
+
+          return (
+            <div
+              {...props.attrs}
+              style={newStyle}
+              ref={props.innerRef}
+              onFocus={(e) => e.stopPropagation()}
+              onClick={props.node.handleClick}
+            >
+              <div style={{ padding: "0 12px" }}>{props.children}</div>
+            </div>
+          );
+        }}
+        rowClassName="c__tree-view--row"
+      >
+        {(props) => renderNode(props)}
+      </Tree>
+    </div>
   );
 };

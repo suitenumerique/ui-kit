@@ -1,0 +1,187 @@
+import { Canvas, Meta, Story, Source, ArgTypes, Markdown } from '@storybook/blocks';
+import * as Stories from './tree.stories';
+import { TreeView } from '../TreeView';
+import { TreeViewItem } from '../TreeViewItem';
+
+<Meta of={Stories}/>
+
+# Tree View
+
+Tree view is a component that allows you to display a tree structure.
+
+## Table of Contents
+ 
+- [Introduction](#introduction)
+  - [TreeView component](#TreeView)
+  - [TreeViewItem component](#TreeViewItem)
+- [Types](#types)
+  - [Node](#node)
+  - [TreeDataItem](#treedataitem)
+- [API Reference](#api-reference)
+  - [useTree hook](#usetree-hook)
+
+## Introduction
+
+A tree view is a hierarchical visualization structure that allows for organizing
+and displaying complex data in a clear and intuitive manner. It facilitates navigation
+through different levels of information by presenting parent-child relationships
+between elements, enabling users to quickly understand data organization and
+efficiently access the information they're looking for.
+
+{/* <Canvas of={Stories.Exemple} sourceState="none"/> */}
+
+
+## Usage exemple
+
+The tree is easy to use. You just need to pass the data to display and a render function for each node.
+To facilitate usage, you can use the `useTree` (detailed below) hook which helps manage the tree data.
+In this hook, you will find all the necessary functions to manage the tree. It is also possible to provide
+a data refresh function, for example, to fetch a new version of the data via a request.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+import { CunninghamProvider, TreeView } from "@lasuite/ui-kit";
+
+const App = () => {
+    const tree = useTree(initialItems, refreshCallback, loadChildrenCallback)
+    return (
+        <CunninghamProvider>
+            <TreeView
+                treeData={tree.nodes}
+                handleMove={tree.handleMove}
+                renderNode={({ props }) => (
+                    <TreeViewItem {...props} loadChildren={tree.loadChildren}>
+                        {props.node.name}
+                    </TreeViewItem>
+                )}
+            />
+        </CunninghamProvider>
+    );
+};
+  `}
+/>
+
+
+
+
+
+## TreeView
+
+<Source
+  language='ts'
+  dark
+  format={false}
+  code={`import { TreeView } from "@lasuite/ui-kit";`}
+/>
+
+This component is a wrapper around the `react-arborist` library. We add some props to facilitate usage and somes defaults components.
+
+### Props
+
+
+<ArgTypes of={TreeView} />
+
+
+
+
+
+## TreeViewItem
+
+<Source
+  language='ts'
+  dark
+  format={false}
+  code={`import { TreeViewItem } from "@lasuite/ui-kit";`}
+/>
+
+We have created a `TreeViewItem` component which is a basic component for the tree.
+This component is used to render tree nodes (except for nodes of type `title` and `separator`).
+It is very simple and only displays the node name while catching click events to open or close a node.
+You should therefore use it as a parent to render your nodes.
+
+A `loadChildren` prop is available to allow dynamically loading children.
+
+
+### Props
+<ArgTypes of={TreeViewItem} />
+
+
+## Types 
+
+### Node 
+
+A tree node can be an element of type `node`, `separator`,
+or `title`. It is planned to add a custom node type to support
+any type of node. Here is a table explaining the different types of nodes.
+
+
+```tsx
+export enum TreeViewNodeTypeEnum {
+  NODE = 'node',
+  SEPARATOR = 'separator',
+  TITLE = 'title',
+}
+```
+
+
+<Markdown>
+{`
+| Type        	| Description                 	|
+|---------------	|-----------------------------	|
+| NODE   | A node that can contain child nodes and is rendered via the renderNode function 	|
+| SEPARATOR 	| A node that separates nodes, it cannot be moved or dropped. Not customizable at the moment 	|
+| TITLE 	| A node that is a title, it cannot be moved or dropped. Not customizable at the moment 	|
+`}
+</Markdown>
+
+### TreeDataItem
+
+The data passed to the tree must be of type `TreeDataItem<T>`. The subtle detail is that the type `T` is optional depending on the node type.
+Indeed, nodes of type `title` or `separator` do not need data.
+
+
+<Source
+  language='ts'
+  dark
+  format={false}
+  code={`export type BaseTreeViewData<T> = {
+    id: string;
+    childrenCount?: number; // only used for nodes and internal use
+    hasLoadedChildren?: boolean; // only used for nodes and internal use
+    subItems?: BaseTreeViewData<T>[]; // only used for nodes and internal use
+    canDrop?: boolean; // only used for nodes and internal use
+} & (
+  | ({ type: TreeViewNodeTypeEnum.TITLE; title: string } )
+  | ({ type: TreeViewNodeTypeEnum.SEPARATOR } )
+  | ({ type?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR> } & T)
+);
+  
+type TreeViewDataType<T> = BaseTreeViewData<T>;
+
+type TreeDataItem<T> = {
+  /** A unique key for the tree node. */
+  key: string;
+  /** The key of the parent node. */
+  parentKey?: string | null;
+  /** The value object for the tree node. */
+  value: TreeViewDataType<T>;
+  /** Children of the tree node. */
+  children: TreeDataItem<T>[] | null;
+};
+`}
+/>
+
+
+## API Reference
+
+### useTree hook
+
+The `useTree` hook is a hook that helps manage the tree data.
+
+- **`initialItems`** (`TreeDataItem<T>[]`) : The initial items to display in the tree.
+- **`refreshCallback`** (`() => void`) : The callback to refresh the tree.
+- **`loadChildrenCallback`** (`(node: TreeDataItem<T>) => Promise<TreeDataItem<T>[]>`) : The callback to load the children of a node.
+

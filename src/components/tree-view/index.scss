@@ -1,3 +1,7 @@
+.c__tree-view--container {
+  height: 100%;
+}
+
 .c__tree-view__cursor {
   position: absolute;
   width: 100%;
@@ -5,11 +9,30 @@
   border-top: 2px solid var(--c--theme--colors--primary-500);
 }
 
+.c__tree-view--row:has(.c__tree-view--node__separator),
+.c__tree-view--row:has(.c__tree-view--node__title) {
+  display: flex;
+  align-items: center;
+}
+
+.c__tree-view--node__separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1px;
+  width: 100%;
+  background-color: var(--c--theme--colors--greyscale-100);
+}
+
+.c__tree-view--node__title {
+  font-size: var(--c--theme--font--sizes--sm);
+  font-weight: bold;
+  width: 100%;
+  padding: 0 var(--c--theme--spacings--sm);
+  color: var(--c--theme--colors--greyscale-1000);
+}
+
 .c__tree-view--node {
-  // width: 100%;
-  // background-color: red;
-  // opacity: 0.5;
-  // height: 30px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -30,9 +53,12 @@
     font-weight: 700;
   }
 
-  &.willReceiveDrop {
-    background-color: var(--c--theme--colors--primary-100);
-    border: 1.5px solid var(--c--theme--colors--primary-500);
+  &.canDrop {
+    &.willReceiveDrop,
+    &.externalDrop {
+      background-color: var(--c--theme--colors--primary-100);
+      border: 1.5px solid var(--c--theme--colors--primary-500);
+    }
   }
 
   .c__tree-view--node__leaf {

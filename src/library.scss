@@ -3,7 +3,6 @@
 @use "@openfun/cunningham-react/style";
 @use "cunningham-custom-style";
 @use "./components/button";
-@use "./components/tree-view";
 @use "./components/dropdown-menu";
 @use "./components/loader";
 @use "./components/layout/header";
@@ -23,4 +22,5 @@
 @use "./components/form/select";
 @use "./components/form/textarea";
 @use "./components/datagrid";
+@use "./components/tree-view";
 @use "./assets/fonts/Marianne/Marianne-font.css";

@@ -1,36 +1,39 @@
-import { useState } from "react";
-import { TreeViewDataType } from "./types";
+import {useState} from "react";
+import {TreeDataItem, TreeViewDataType, TreeViewMoveResult} from "./types";
+import {useTreeData} from "react-stately";
 
-export const useTree = <T,>(
-  tree: TreeViewDataType<T>[],
-  refreshCallback?: (id: string) => Promise<Partial<TreeViewDataType<T>>>
+export const useTree = <T extends object>(
+  initialItems: TreeViewDataType<T>[],
+  refreshCallback?: (id: string) => Promise<Partial<TreeViewDataType<T>>>,
+  loadChildrenCallback?: (id: string) => Promise<TreeViewDataType<T>[]>
 ) => {
-  const [treeData, setTreeData] = useState<TreeViewDataType<T>[]>(tree);
+  const {
+    remove,
+    update,
+    insert,
+    insertBefore,
+    insertAfter,
+    append,
+    prepend,
+    getItem,
+    move,
+    items: treeData,
+  } = useTreeData({
+    initialItems: initialItems,
+    getKey: (item) => {
+      return item.id;
+    },
+    getChildren: (item) => item.subItems || [],
+  });
+
   const [selectedNode, setSelectedNode] = useState<TreeViewDataType<T>>();
 
   // Ajouter un enfant à un nœud spécifique
-  const addChild = (parentId: string, newNode: TreeViewDataType<T>) => {
-    const updateTree = (
-      nodes: TreeViewDataType<T>[]
-    ): TreeViewDataType<T>[] => {
-      return nodes.map((node) => {
-        if (node.id === parentId) {
-          return {
-            ...node,
-            children: [...(node.children || []), newNode],
-          };
-        }
-        if (node.children) {
-          return {
-            ...node,
-            children: updateTree(node.children),
-          };
-        }
-        return node;
-      });
-    };
-
-    setTreeData(updateTree(treeData));
+  const addChild = (parentId: string | null, newNode: TreeViewDataType<T>) => {
+    append(parentId, newNode);
+    if (parentId) {
+      addToSubItems(parentId, newNode);
+    }
   };
 
   // Mettre à jour un nœud
@@ -38,46 +41,35 @@ export const useTree = <T,>(
     nodeId: string,
     updatedData: Partial<TreeViewDataType<T>>
   ) => {
-    const updateTree = (
-      nodes: TreeViewDataType<T>[]
-    ): TreeViewDataType<T>[] => {
-      return nodes.map((node) => {
-        if (node.id === nodeId) {
-          return {
-            ...node,
-            ...updatedData,
-          };
-        }
-        if (node.children) {
-          return {
-            ...node,
-            children: updateTree(node.children),
-          };
-        }
-        return node;
-      });
-    };
+    const item = getItem(nodeId);
+    if (!item) {
+      console.error("No item found");
+      return;
+    }
 
-    setTreeData(updateTree(treeData));
+    let newSubItems = item.children?.map((child) => child.value) ?? [];
+    if (updatedData.subItems) {
+      newSubItems = [...newSubItems, ...updatedData.subItems];
+    }
+
+    const updatedItem: TreeViewDataType<T> = {
+      ...item.value,
+      ...updatedData,
+      subItems: newSubItems,
+      childrenCount: newSubItems.length,
+    } as TreeViewDataType<T>;
+
+    update(nodeId, updatedItem);
   };
 
   // Supprimer un nœud
   const deleteNode = (nodeId: string) => {
-    const deleteFromTree = (
-      nodes: TreeViewDataType<T>[]
-    ): TreeViewDataType<T>[] => {
-      return nodes.filter((node) => {
-        if (node.id === nodeId) {
-          return false;
-        }
-        if (node.children) {
-          node.children = deleteFromTree(node.children);
-        }
-        return true;
-      });
-    };
-
-    setTreeData(deleteFromTree(treeData));
+    const toDelete = getItem(nodeId);
+    const oldParentId = toDelete?.parentKey as string;
+    if (oldParentId && toDelete) {
+      removeFromSubItems(oldParentId, toDelete.value.id);
+    }
+    remove(nodeId);
   };
 
   const refreshNode = async (nodeId: string) => {
@@ -94,55 +86,106 @@ export const useTree = <T,>(
   };
 
   const addRootNode = (newNode: TreeViewDataType<T>) => {
-    setTreeData([...treeData, newNode]);
+    insert(null, treeData.length, newNode);
   };
 
   // Définir ou fusionner les enfants d'un nœud
   const setChildren = (
     parentId: string,
-    newChildren: TreeViewDataType<T>[],
-    mergeStrategy: "replace" | "merge" = "merge"
+    newChildren: TreeViewDataType<T>[]
   ) => {
-    const updateTree = (
-      nodes: TreeViewDataType<T>[]
-    ): TreeViewDataType<T>[] => {
-      return nodes.map((node) => {
-        if (node.id === parentId) {
-          const existingChildren = node.children || [];
-          const updatedChildren =
-            mergeStrategy === "merge"
-              ? [
-                  ...existingChildren.filter(
-                    (existing) =>
-                      !newChildren.some(
-                        (newChild) => newChild.id === existing.id
-                      )
-                  ),
-                  ...newChildren,
-                ]
-              : newChildren;
+    const item = getItem(parentId);
+    if (!item) {
+      console.error("No item found");
+      return;
+    }
 
-          return {
-            ...node,
-            children: updatedChildren,
-          };
-        }
-        if (node.children) {
-          return {
-            ...node,
-            children: updateTree(node.children),
-          };
-        }
-        return node;
-      });
-    };
+    const updatedItem = {
+      ...item.value,
+      subItems: newChildren,
+      childrenCount: newChildren.length,
+    } as TreeViewDataType<T>;
 
-    setTreeData(updateTree(treeData));
+    update(parentId, updatedItem);
+  };
+
+  const insertBeforeNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
+    insertBefore(nodeId, newNode);
+  };
+
+  const insertAfterNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
+    insertAfter(nodeId, newNode);
+  };
+
+  const prependToNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
+    prepend(nodeId, newNode);
+  };
+
+  const removeFromSubItems = (parentId: string, subItemId: string) => {
+    const item = getItem(parentId);
+    if (!item) {
+      return;
+    }
+    const subItems = item.value.subItems ?? [];
+    const newSubItems = subItems.filter((subItem) => subItem.id !== subItemId);
+    item.value.subItems = newSubItems;
+    item.value.childrenCount = newSubItems.length;
+  };
+
+  const addToSubItems = (parentId: string, subItem: TreeViewDataType<T>) => {
+    const item = getItem(parentId);
+    if (!item) {
+      return;
+    }
+    const subItems = item.value.subItems ?? [];
+    const newSubItems = [...subItems, subItem];
+    item.value.subItems = newSubItems;
+    item.value.childrenCount = newSubItems.length;
+  };
+
+  const moveNode = (
+    nodeId: string,
+    newParentId: string | null,
+    newIndex: number,
+    oldParentId?: string | null
+  ) => {
+    const toMove = getItem(nodeId)?.value;
+    move(nodeId, newParentId, newIndex);
+
+    if (newParentId && toMove) {
+      addToSubItems(newParentId, toMove);
+    }
+
+    if (oldParentId) {
+      removeFromSubItems(oldParentId, nodeId);
+    }
+  };
+
+  const handleMove = (result: TreeViewMoveResult) => {
+    moveNode(
+      result.sourceId,
+      result.newParentId,
+      result.index,
+      result.oldParentId
+    );
+  };
+
+  const handleLoadChildren = async (nodeId: string) => {
+    if (!loadChildrenCallback) {
+      return [];
+    }
+    const children = await loadChildrenCallback(nodeId);
+
+    updateNode(nodeId, {
+      subItems: children,
+      hasLoadedChildren: true,
+      childrenCount: children.length,
+    });
+    return children;
   };
 
   return {
-    treeData,
-    setTreeData,
+    nodes: treeData as TreeDataItem<TreeViewDataType<T>>[],
     addChild,
     updateNode,
     deleteNode,
@@ -151,5 +194,12 @@ export const useTree = <T,>(
     setSelectedNode,
     refreshNode,
     setChildren,
+    insertBeforeNode,
+    insertAfterNode,
+    handleMove,
+    prependToNode,
+    moveNode,
+    move,
+    handleLoadChildren,
   };
 };
