@@ -79,3 +79,91 @@ export const ProConnectDisabled: Story = {
     return <ProConnectButton disabled />;
   },
 };
+
+export const AllWithIcons: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <Button
+          color="primary"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Primary
+        </Button>
+        <Button
+          color="primary-text"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Primary text
+        </Button>
+        <Button
+          color="secondary"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Secondary
+        </Button>
+        <Button
+          color="tertiary"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Tertiary
+        </Button>
+        <Button
+          color="danger"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Danger
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const AllWithIconsSmall: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <Button
+          color="primary"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Primary
+        </Button>
+        <Button
+          color="primary-text"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Primary text
+        </Button>
+        <Button
+          color="secondary"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Secondary
+        </Button>
+        <Button
+          color="tertiary"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Tertiary
+        </Button>
+        <Button
+          color="danger"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Danger
+        </Button>
+      </div>
+    );
+  },
+};
