@@ -10,7 +10,7 @@ type DroppableProps<T> = {
 };
 
 export const Droppable = <T,>(props: DroppableProps<T>) => {
-  const { isOver, setNodeRef, active } = useDroppable({
+  const { isOver, setNodeRef } = useDroppable({
     id: props.id,
     data: props.data,
   });

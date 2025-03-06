@@ -45,3 +45,34 @@
     }
   }
 }
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.drag-overlay-item {
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+  background-color: red;
+  max-width: 300px;
+  height: 30px;
+}
+
+.folder {
+  display: flex;
+  user-select: none;
+  align-items: center;
+  opacity: 1;
+  background-color: transparent;
+  padding: 10px;
+
+  &.isSelected {
+    background-color: red;
+  }
+
+  &.isOver {
+    background-color: blue;
+  }
+}
