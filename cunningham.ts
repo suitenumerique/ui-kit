@@ -151,6 +151,9 @@ const config = {
         },
       },
       components: {
+        modal: {
+          "width-small": "342px",
+        },
         button: {
           "medium-height": "40px",
           "medium-text-height": "40px",
