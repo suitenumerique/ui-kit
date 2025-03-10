@@ -1,7 +1,10 @@
 {
-  "name": "@lasuite/ui-kit",
+  "name": "@gouvfr-lasuite/ui-kit",
   "private": false,
-  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
