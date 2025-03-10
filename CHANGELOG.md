@@ -1,5 +1,12 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.0.2
+
+### Patch Changes
+
+- Update react to 19.0.0
+- Update cunningham to 3.0.0
+
 ## 0.0.1
 
 ### Major Changes
