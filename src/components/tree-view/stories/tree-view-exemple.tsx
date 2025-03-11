@@ -17,7 +17,7 @@ import { Draggable } from ":/components/dnd/Draggable";
 import { Droppable } from ":/components/dnd/Droppable";
 import { NodeApi } from "react-arborist";
 import { useListData } from "react-stately";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MainLayout } from ":/components/layout";
 
 import svg from "./logo-exemple.svg";
@@ -83,8 +83,12 @@ export const TreeViewExemple = ({
 
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
+  const data = useMemo(() => {
+    return JSON.parse(JSON.stringify(treeData)) as TreeViewExempleData[];
+  }, [treeData]);
+
   const treeAria = useTree(
-    treeData,
+    data,
     async (id) => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -186,6 +190,7 @@ export const TreeViewExemple = ({
             </div>
           </div>
         )}
+        <button onClick={() => treeAria.resetTree(data)}>Reset</button>
       </MainLayout>
     </DndContext>
   );

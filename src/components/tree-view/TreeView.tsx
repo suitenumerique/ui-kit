@@ -10,8 +10,13 @@ import {
 } from "./types";
 import { isNode, isSeparator, isTitle } from "./utils";
 
+export type OpenMap = {
+  [id: string]: boolean;
+};
+
 export type TreeViewProps<T> = {
   treeData: TreeDataItem<T>[];
+  initialOpenState?: OpenMap;
   selectedNodeId?: string;
   rootNodeId: string;
   canDrop?: (args: {
@@ -26,7 +31,7 @@ export type TreeViewProps<T> = {
 
 export const TreeView = <T,>({
   treeData,
-
+  initialOpenState,
   selectedNodeId,
   rootNodeId,
   renderNode,
@@ -216,6 +221,7 @@ export const TreeView = <T,>({
         }}
         paddingBottom={30}
         width={width}
+        initialOpenState={initialOpenState}
         height={height}
         overscanCount={20}
         selection={selectedNodeId}

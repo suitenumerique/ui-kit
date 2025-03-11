@@ -1,6 +1,6 @@
-import {useState} from "react";
-import {TreeDataItem, TreeViewDataType, TreeViewMoveResult} from "./types";
-import {useTreeData} from "react-stately";
+import { useState } from "react";
+import { TreeDataItem, TreeViewDataType, TreeViewMoveResult } from "./types";
+import { useTreeData } from "react-stately";
 
 export const useTree = <T extends object>(
   initialItems: TreeViewDataType<T>[],
@@ -19,7 +19,9 @@ export const useTree = <T extends object>(
     move,
     items: treeData,
   } = useTreeData({
-    initialItems: initialItems,
+    initialItems: JSON.parse(
+      JSON.stringify(initialItems)
+    ) as TreeViewDataType<T>[],
     getKey: (item) => {
       return item.id;
     },
@@ -27,6 +29,20 @@ export const useTree = <T extends object>(
   });
 
   const [selectedNode, setSelectedNode] = useState<TreeViewDataType<T>>();
+
+  const resetTree = (newItems: TreeViewDataType<T>[] = []) => {
+    const allNodes = treeData.map((node) => {
+      return node.key;
+    });
+
+    remove(...allNodes);
+    const data = JSON.parse(JSON.stringify(newItems));
+    if (data.length > 0) {
+      insert(null, 0, ...data);
+    }
+
+    setSelectedNode(undefined);
+  };
 
   // Ajouter un enfant à un nœud spécifique
   const addChild = (parentId: string | null, newNode: TreeViewDataType<T>) => {
@@ -117,6 +133,10 @@ export const useTree = <T extends object>(
     insertAfter(nodeId, newNode);
   };
 
+  const appendToNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
+    append(nodeId, newNode);
+  };
+
   const prependToNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
     prepend(nodeId, newNode);
   };
@@ -199,7 +219,9 @@ export const useTree = <T extends object>(
     handleMove,
     prependToNode,
     moveNode,
+    appendToNode,
     move,
+    resetTree,
     handleLoadChildren,
   };
 };
