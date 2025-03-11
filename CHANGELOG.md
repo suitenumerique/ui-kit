@@ -1,5 +1,13 @@
 # @gouvfr-lasuite/ui-kit
 
+
+## 0.1.0
+
+### Minor Changes
+
+- Add resetTree method to useTree hook
+- Add default opened node to TreeView
+
 ## 0.0.2
 
 ### Patch Changes
