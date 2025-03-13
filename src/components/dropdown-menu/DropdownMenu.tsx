@@ -1,6 +1,6 @@
 import { Menu, MenuItem, Popover, Separator } from "react-aria-components";
 import { DropdownMenuOption } from "./types";
-import { Fragment, PropsWithChildren, useRef } from "react";
+import { Fragment, PropsWithChildren, useId, useRef } from "react";
 
 export type DropdownMenuProps = {
   options: DropdownMenuOption[];
@@ -18,6 +18,7 @@ export const DropdownMenu = ({
   selectedValues = [],
   onSelectValue,
 }: PropsWithChildren<DropdownMenuProps>) => {
+  const id = useId();
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
   };
@@ -28,6 +29,7 @@ export const DropdownMenu = ({
       <div
         className="c__dropdown-menu-trigger"
         ref={triggerRef}
+        id={id}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -44,7 +46,7 @@ export const DropdownMenu = ({
         isOpen={isOpen}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className="c__dropdown-menu">
+        <Menu className="c__dropdown-menu" aria-labelledby={id}>
           {options.map((option) => {
             return (
               <Fragment key={option.label}>
