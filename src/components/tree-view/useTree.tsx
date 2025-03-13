@@ -25,10 +25,10 @@ export const useTree = <T extends object>(
     getKey: (item) => {
       return item.id;
     },
-    getChildren: (item) => item.subItems || [],
+    getChildren: (item) => item.children || [],
   });
 
-  const [selectedNode, setSelectedNode] = useState<TreeViewDataType<T>>();
+  const [selectedNode, setSelectedNode] = useState<T>();
 
   const resetTree = (newItems: TreeViewDataType<T>[] = []) => {
     const allNodes = treeData.map((node) => {
@@ -36,7 +36,7 @@ export const useTree = <T extends object>(
     });
 
     remove(...allNodes);
-    const data = JSON.parse(JSON.stringify(newItems));
+    const data = JSON.parse(JSON.stringify(newItems)) as TreeViewDataType<T>[];
     if (data.length > 0) {
       insert(null, 0, ...data);
     }
@@ -44,11 +44,15 @@ export const useTree = <T extends object>(
     setSelectedNode(undefined);
   };
 
-  // Ajouter un enfant à un nœud spécifique
   const addChild = (parentId: string | null, newNode: TreeViewDataType<T>) => {
-    append(parentId, newNode);
     if (parentId) {
-      addToSubItems(parentId, newNode);
+      const parent = getItem(parentId);
+      if (parent) {
+        insert(parentId, parent.children?.length ?? 0, newNode);
+        addToSubItems(parentId, newNode);
+      }
+    } else {
+      insert(null, treeData.length, newNode);
     }
   };
 
@@ -63,22 +67,25 @@ export const useTree = <T extends object>(
       return;
     }
 
-    let newSubItems = item.children?.map((child) => child.value) ?? [];
-    if (updatedData.subItems) {
-      newSubItems = [...newSubItems, ...updatedData.subItems];
+    let newSubItems: TreeViewDataType<T>[] | null = item.value.children ?? null;
+
+    if (item.children && item.children.length > 0) {
+      newSubItems = item.children?.map((child) => child.value) ?? null;
     }
 
+    if (updatedData.children) {
+      newSubItems = [...(newSubItems ?? []), ...updatedData.children];
+    }
     const updatedItem: TreeViewDataType<T> = {
       ...item.value,
       ...updatedData,
-      subItems: newSubItems,
-      childrenCount: newSubItems.length,
+      children: newSubItems,
+      childrenCount: newSubItems?.length ?? item.value.childrenCount,
     } as TreeViewDataType<T>;
 
     update(nodeId, updatedItem);
   };
 
-  // Supprimer un nœud
   const deleteNode = (nodeId: string) => {
     const toDelete = getItem(nodeId);
     const oldParentId = toDelete?.parentKey as string;
@@ -105,7 +112,6 @@ export const useTree = <T extends object>(
     insert(null, treeData.length, newNode);
   };
 
-  // Définir ou fusionner les enfants d'un nœud
   const setChildren = (
     parentId: string,
     newChildren: TreeViewDataType<T>[]
@@ -118,7 +124,7 @@ export const useTree = <T extends object>(
 
     const updatedItem = {
       ...item.value,
-      subItems: newChildren,
+      children: newChildren,
       childrenCount: newChildren.length,
     } as TreeViewDataType<T>;
 
@@ -146,9 +152,9 @@ export const useTree = <T extends object>(
     if (!item) {
       return;
     }
-    const subItems = item.value.subItems ?? [];
+    const subItems = item.value.children ?? [];
     const newSubItems = subItems.filter((subItem) => subItem.id !== subItemId);
-    item.value.subItems = newSubItems;
+    item.value.children = newSubItems;
     item.value.childrenCount = newSubItems.length;
   };
 
@@ -157,10 +163,18 @@ export const useTree = <T extends object>(
     if (!item) {
       return;
     }
-    const subItems = item.value.subItems ?? [];
+    const subItems = item.value.children ?? [];
     const newSubItems = [...subItems, subItem];
-    item.value.subItems = newSubItems;
+    item.value.children = newSubItems;
     item.value.childrenCount = newSubItems.length;
+  };
+
+  const selectNodeById = (nodeId: string) => {
+    const item = getItem(nodeId);
+    if (!item) {
+      return;
+    }
+    setSelectedNode(item.value as T);
   };
 
   const moveNode = (
@@ -197,7 +211,7 @@ export const useTree = <T extends object>(
     const children = await loadChildrenCallback(nodeId);
 
     updateNode(nodeId, {
-      subItems: children,
+      children: children,
       hasLoadedChildren: true,
       childrenCount: children.length,
     });
@@ -223,5 +237,6 @@ export const useTree = <T extends object>(
     move,
     resetTree,
     handleLoadChildren,
+    selectNodeById,
   };
 };
