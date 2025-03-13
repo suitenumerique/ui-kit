@@ -107,7 +107,7 @@ export const TreeViewExemple = ({
               name: "children",
               childrenCount: 0,
               type: TreeViewNodeTypeEnum.NODE,
-              subItems: [],
+              children: [],
             },
           ]);
         }, 1000);
@@ -155,6 +155,7 @@ export const TreeViewExemple = ({
             <TreeView
               treeData={treeAria.nodes}
               rootNodeId="ROOT_NODE_ID"
+              selectedNodeId={"1"}
               handleMove={treeAria.handleMove}
               renderNode={({ ...props }) => (
                 <TreeViewItemExemple

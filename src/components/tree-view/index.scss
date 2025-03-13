@@ -43,13 +43,12 @@
   padding: var(--c--theme--spacings--4xs) 0;
   gap: var(--c--theme--spacings--3xs);
 
-  &:not(.willReceiveDrop, .selected):hover {
+  &:not(.willReceiveDrop, .isSelected):hover {
     background-color: var(--c--theme--colors--greyscale-100);
   }
 
-  &.selected {
+  &.isSelected {
     background-color: var(--c--theme--colors--greyscale-100);
-
     font-weight: 700;
   }
 

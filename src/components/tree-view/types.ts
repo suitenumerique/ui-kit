@@ -2,7 +2,7 @@ export type BaseTreeViewData<T> = {
     id: string;
     childrenCount?: number;
     hasLoadedChildren?: boolean;
-    subItems?: BaseTreeViewData<T>[];
+    children?: BaseTreeViewData<T>[];
     canDrop?: boolean;
 } & (
   | ({ type: TreeViewNodeTypeEnum.TITLE; title: string } )
