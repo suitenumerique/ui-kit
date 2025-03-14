@@ -1,6 +1,14 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.1
+
+### Patch Changes 
+
+- Improve accessibility for DropdownMenu
+- Fixed addChild method for useTree hook
+- Fixed onMove method for TreeView
+
 ## 0.1.0
 
 ### Minor Changes
