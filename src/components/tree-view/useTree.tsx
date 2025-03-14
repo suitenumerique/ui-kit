@@ -69,10 +69,6 @@ export const useTree = <T extends object>(
 
     let newSubItems: TreeViewDataType<T>[] | null = item.value.children ?? null;
 
-    if (item.children && item.children.length > 0) {
-      newSubItems = item.children?.map((child) => child.value) ?? null;
-    }
-
     if (updatedData.children) {
       newSubItems = [...(newSubItems ?? []), ...updatedData.children];
     }
