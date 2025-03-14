@@ -91,7 +91,7 @@ export const TreeView = <T,>({
 
     if (args.index === 0) {
       // First child
-      targetModeId = rootNodeId;
+      targetModeId = args.parentId ?? rootNodeId;
       mode = TreeViewMoveModeEnum.FIRST_CHILD;
     } else if (!parentNode && args.index === 1 && !isNode(sibling.value)) {
       // First child of root node and the first node is a separator or a title
