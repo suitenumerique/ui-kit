@@ -49,6 +49,7 @@ export const TreeView = <T,>({
     index: number;
   }): TreeViewMoveResult | null => {
     const newData = JSON.parse(JSON.stringify(treeData)) as TreeDataItem<T>[];
+    const source = args.dragNodes[0];
     const children = args.parentId
       ? args.parentNode?.data.children ?? []
       : newData;
@@ -70,8 +71,8 @@ export const TreeView = <T,>({
     let mode: TreeViewMoveModeEnum | null = null;
     let targetModeId: string | null = defaultTargetNodeId;
     const currentIndex =
-      parentNode?.children?.findIndex((child) => {
-        return child.value.id === sourceNodeId;
+      source.parent?.children?.findIndex((child) => {
+        return child.data.value.id === sourceNodeId;
       }) ?? 0;
 
     if (oldParentId === defaultTargetNodeId) {
