@@ -1,6 +1,12 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.2
+
+### Patch Changes 
+
+- Updated logic of the TreeView component's onMove method
+
 ## 0.1.1
 
 ### Patch Changes 
