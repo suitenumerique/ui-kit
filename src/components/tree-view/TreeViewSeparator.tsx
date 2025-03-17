@@ -5,7 +5,7 @@ export const TreeViewSeparator = ({ top, left }: CursorProps) => {
     <div
       className="c__tree-view__cursor"
       style={{
-        top,
+        top: top - 2,
         left: left + 10,
       }}
     ></div>

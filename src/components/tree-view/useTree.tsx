@@ -80,6 +80,9 @@ export const useTree = <T extends object>(
     } as TreeViewDataType<T>;
 
     update(nodeId, updatedItem);
+    if (item.parentKey) {
+      updateSubItems(item.parentKey as string, nodeId, updatedData);
+    }
   };
 
   const deleteNode = (nodeId: string) => {
@@ -89,6 +92,31 @@ export const useTree = <T extends object>(
       removeFromSubItems(oldParentId, toDelete.value.id);
     }
     remove(nodeId);
+  };
+
+  const updateSubItems = (
+    parentId: string,
+    subItemId: string,
+    updatedData: Partial<TreeViewDataType<T>>
+  ) => {
+    const item = getItem(parentId);
+    if (!item) {
+      return;
+    }
+    const subItems = item.value.children ?? [];
+    const subItemIndex = subItems.findIndex(
+      (subItem) => subItem.id === subItemId
+    );
+    if (subItemIndex === -1) {
+      return;
+    }
+
+    const updatedSubItem = {
+      ...subItems[subItemIndex],
+      ...updatedData,
+    } as TreeViewDataType<T>;
+
+    subItems[subItemIndex] = updatedSubItem;
   };
 
   const refreshNode = async (nodeId: string) => {
