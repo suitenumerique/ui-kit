@@ -1,6 +1,13 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.3
+
+### Patch Changes 
+
+- Adjusted the position of the separator in the TreeView component
+- Added logic to update child elements when a parent element is updated in the useTree hook
+
 ## 0.1.2
 
 ### Patch Changes 
