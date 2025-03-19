@@ -73,6 +73,7 @@ const config = {
           "warning-800": "#3e241e",
           "warning-900": "#361e19",
           "danger-text": "#FFF",
+          "danger-050": "#FFF4F4",
           "danger-100": "#FFE9E9",
           "danger-200": "#FFDDDD",
           "danger-300": "#FFBDBD",
