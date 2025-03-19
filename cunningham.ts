@@ -155,6 +155,10 @@ const config = {
         modal: {
           "width-small": "342px",
         },
+        tooltip: {
+          padding: "4px 8px",
+          "background-color": "var(--c--theme--colors--greyscale-1000)",
+        },
         button: {
           "medium-height": "40px",
           "medium-text-height": "40px",
