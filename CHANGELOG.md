@@ -1,6 +1,14 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.2.0
+
+### Major Changes
+
+- Add RightPannel component
+- Add TreeProvider and useTreeContext
+
+
 ## 0.1.3
 
 ### Patch Changes 
