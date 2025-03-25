@@ -5,9 +5,9 @@ export type BaseTreeViewData<T> = {
     children?: BaseTreeViewData<T>[];
     canDrop?: boolean;
 } & (
-  | ({ type: TreeViewNodeTypeEnum.TITLE; title: string } )
-  | ({ type: TreeViewNodeTypeEnum.SEPARATOR } )
-  | ({ type?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR> } & T)
+  | ({ nodeType: TreeViewNodeTypeEnum.TITLE; headerTitle: string } )
+  | ({ nodeType: TreeViewNodeTypeEnum.SEPARATOR } )
+  | ({ nodeType?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR> } & T)
 );
   
 export type TreeViewDataType<T> = BaseTreeViewData<T>;

@@ -9,18 +9,13 @@ import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { Button } from "@openfun/cunningham-react";
+import { useTreeContext } from "../providers/TreeContext";
 
-type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {
-  loadChildren: (node: TreeViewExempleData) => Promise<TreeViewExempleData[]>;
-  deleteNode: (id: string) => void;
-};
+type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
 
-export const TreeViewItemExemple = ({
-  loadChildren,
-  deleteNode,
-  ...props
-}: TreeViewItemExempleProps) => {
+export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
+  const context = useTreeContext<TreeViewExempleData>();
 
   const options = [
     {
@@ -66,18 +61,21 @@ export const TreeViewItemExemple = ({
     {
       icon: <span className="material-icons">delete</span>,
       label: "Supprimer",
-      callback: () => deleteNode(props.node.id),
+      callback: () => context?.treeData.deleteNode(props.node.id),
       showSeparator: true,
     },
   ];
 
   return (
-    <TreeViewItem {...props} loadChildren={(node) => loadChildren(node)}>
-      {props.node.data.value.type === TreeViewNodeTypeEnum.TITLE ||
-      props.node.data.value.type === TreeViewNodeTypeEnum.SEPARATOR ? null : (
+    <TreeViewItem {...props}>
+      {props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE ||
+      props.node.data.value.nodeType ===
+        TreeViewNodeTypeEnum.SEPARATOR ? null : (
         <div className={"tree-view-item"}>
           <div className={`container`}>
-            <span className="name">{props.node.data.value.name}</span>
+            <span className="name">
+              {props.node.data.value.name} -- {props.node.data.value.id}
+            </span>
             <div className={`actions ${isOpen ? "show-actions" : ""}`}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <DropdownMenu
