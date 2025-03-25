@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TreeDataItem, TreeViewDataType, TreeViewMoveResult } from "./types";
-import { useTreeData } from "react-stately";
+import { Key, useTreeData } from "react-stately";
 
-export const useTree = <T extends object>(
+export const useTree = <T,>(
   initialItems: TreeViewDataType<T>[],
   refreshCallback?: (id: string) => Promise<Partial<TreeViewDataType<T>>>,
   loadChildrenCallback?: (id: string) => Promise<TreeViewDataType<T>[]>
@@ -155,6 +155,24 @@ export const useTree = <T extends object>(
     update(parentId, updatedItem);
   };
 
+  const getParentId = (nodeId: string): Key | null => {
+    return getItem(nodeId)?.parentKey ?? null;
+  };
+
+  const getParent = (nodeId: string): TreeViewDataType<T> | null => {
+    const parentId = getParentId(nodeId);
+    if (!parentId) {
+      return null;
+    }
+
+    const parent = getItem(parentId);
+    if (!parent) {
+      return null;
+    }
+
+    return parent.value;
+  };
+
   const insertBeforeNode = (nodeId: string, newNode: TreeViewDataType<T>) => {
     insertBefore(nodeId, newNode);
   };
@@ -262,5 +280,7 @@ export const useTree = <T extends object>(
     resetTree,
     handleLoadChildren,
     selectNodeById,
+    getParent,
+    getParentId,
   };
 };

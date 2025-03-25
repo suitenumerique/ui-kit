@@ -9,13 +9,13 @@ import {
   TreeViewNodeTypeEnum,
 } from "./types";
 import { isNode, isSeparator, isTitle } from "./utils";
+import { useTreeContext } from "./providers/TreeContext";
 
 export type OpenMap = {
   [id: string]: boolean;
 };
 
 export type TreeViewProps<T> = {
-  treeData: TreeDataItem<T>[];
   initialOpenState?: OpenMap;
   selectedNodeId?: string;
   rootNodeId: string;
@@ -25,21 +25,22 @@ export type TreeViewProps<T> = {
     index: number;
   }) => boolean;
   canDrag?: (node: TreeDataItem<T>) => boolean;
-  handleMove?: (result: TreeViewMoveResult) => void;
+  afterMove?: (result: TreeViewMoveResult) => void;
   renderNode: (props: NodeRendererProps<TreeDataItem<T>>) => React.ReactNode;
 };
 
 export const TreeView = <T,>({
-  treeData,
   initialOpenState,
   selectedNodeId,
   rootNodeId,
   renderNode,
-  handleMove,
   canDrop,
   canDrag,
+  afterMove,
 }: TreeViewProps<T>) => {
   const { ref, width, height } = useResizeObserver();
+  const context = useTreeContext<T>();
+  const treeData = context?.treeData.nodes ?? [];
 
   const getMovePosition = (args: {
     dragIds: string[];
@@ -57,11 +58,11 @@ export const TreeView = <T,>({
     const sourceNode = args.dragNodes[0].data;
     const parentNode = args.parentNode?.data;
 
-    if (parentNode?.value.type === TreeViewNodeTypeEnum.TITLE) {
+    if (parentNode?.value.nodeType === TreeViewNodeTypeEnum.TITLE) {
       return null;
     }
 
-    if (parentNode?.value.type === TreeViewNodeTypeEnum.SEPARATOR) {
+    if (parentNode?.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR) {
       return null;
     }
 
@@ -135,14 +136,20 @@ export const TreeView = <T,>({
   }) => {
     const moveResult = getMovePosition(args);
     if (moveResult) {
-      handleMove?.(moveResult);
+      context?.treeData.handleMove(moveResult);
+      afterMove?.(moveResult);
     }
   };
+
+  if (!context) {
+    return;
+  }
 
   return (
     <div ref={ref} className="c__tree-view--container">
       <Tree
         data={treeData}
+        ref={context.treeApiRef}
         openByDefault={false}
         disableEdit={true}
         className="c__tree-view"
@@ -159,18 +166,23 @@ export const TreeView = <T,>({
           if (canDrop) {
             const canDropResult = canDrop({ parentNode, dragNodes, index });
             if (!canDropResult) {
-              parentNode.data.value.canDrop = false;
+              // Is the root node set by react arborist
+              if (parentNode.id !== "__REACT_ARBORIST_INTERNAL_ROOT__") {
+                parentNode.data.value.canDrop = false;
+              }
               return true;
             }
           }
-          if (parentNode.data.value?.type === TreeViewNodeTypeEnum.TITLE) {
+          if (parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.TITLE) {
             return true;
           }
-          if (parentNode.data.value?.type === TreeViewNodeTypeEnum.SEPARATOR) {
+          if (
+            parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.SEPARATOR
+          ) {
             return true;
           }
 
-          // If
+          // Is the root node set by react arborist
           if (parentNode.id === "__REACT_ARBORIST_INTERNAL_ROOT__") {
             const nodeBefore = treeData[index - 1];
             const nodeAfter = treeData[index];
@@ -221,6 +233,7 @@ export const TreeView = <T,>({
           return false;
         }}
         paddingBottom={30}
+        paddingTop={2}
         width={width}
         initialOpenState={initialOpenState}
         height={height}
@@ -229,9 +242,9 @@ export const TreeView = <T,>({
         renderCursor={TreeViewSeparator}
         renderRow={(props) => {
           const isTitle =
-            props.node.data.value.type === TreeViewNodeTypeEnum.TITLE;
+            props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
           const isSeparator =
-            props.node.data.value.type === TreeViewNodeTypeEnum.SEPARATOR;
+            props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
 
           const { style } = props.attrs;
           const newStyle = { ...style };

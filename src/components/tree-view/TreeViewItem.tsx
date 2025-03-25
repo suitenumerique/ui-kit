@@ -1,5 +1,5 @@
 import { NodeRendererProps } from "react-arborist";
-import {TreeDataItem, TreeViewDataType, TreeViewNodeTypeEnum} from "./types";
+import { TreeDataItem, TreeViewNodeTypeEnum } from "./types";
 import {
   PropsWithChildren,
   useCallback,
@@ -10,11 +10,11 @@ import {
 import clsx from "clsx";
 import { Spinner } from "../loader/Spinner";
 import { Droppable } from "../dnd/Droppable";
+import { useTreeContext } from "./providers/TreeContext";
 
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   onClick?: () => void;
   forceLoading?: boolean;
-  loadChildren?: (node: TreeViewDataType<T>) => Promise<TreeViewDataType<T>[]>;
 };
 
 export const TreeViewItem = <T,>({
@@ -23,9 +23,9 @@ export const TreeViewItem = <T,>({
   node,
   dragHandle,
   style,
-  loadChildren,
   forceLoading,
 }: PropsWithChildren<TreeViewNodeProps<T>>) => {
+  const context = useTreeContext<T>();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [externalOver, setExternalOver] = useState(false);
@@ -50,10 +50,10 @@ export const TreeViewItem = <T,>({
     }
 
     setIsLoading(true);
-    await loadChildren?.(node.data.value);
+    await context?.treeData.handleLoadChildren(node.data.value.id);
     setIsLoading(false);
     node.open();
-  }, [hasLoadedChildren, loadChildren, node, isLeaf]);
+  }, [isLeaf, hasLoadedChildren, node, context?.treeData]);
 
   const handleOver = useCallback(
     (isOver: boolean) => {
@@ -74,13 +74,15 @@ export const TreeViewItem = <T,>({
     handleOver(isOver);
   }, [isOver, handleOver]);
 
-  if (node.data.value.type === TreeViewNodeTypeEnum.SEPARATOR) {
+  if (node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR) {
     return <div className="c__tree-view--node__separator" />;
   }
 
-  if (node.data.value.type === TreeViewNodeTypeEnum.TITLE) {
+  if (node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE) {
     return (
-      <div className="c__tree-view--node__title">{node.data.value.title}</div>
+      <div className="c__tree-view--node__title">
+        {node.data.value.headerTitle}
+      </div>
     );
   }
 

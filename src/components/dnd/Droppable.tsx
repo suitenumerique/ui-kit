@@ -19,5 +19,9 @@ export const Droppable = <T,>(props: DroppableProps<T>) => {
     props.onOver?.(isOver, props.data);
   }, [isOver, props.data, props.onOver]);
 
-  return <div ref={setNodeRef}>{props.children}</div>;
+  return (
+    <div className="c__dnd--droppable" ref={setNodeRef}>
+      {props.children}
+    </div>
+  );
 };

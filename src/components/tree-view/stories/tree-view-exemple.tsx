@@ -23,8 +23,8 @@ import { MainLayout } from ":/components/layout";
 import svg from "./logo-exemple.svg";
 import { TreeViewItemExemple } from "./tree-view-item-exemple";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
-import { useTree } from "../useTree";
 import clsx from "clsx";
+import { useTreeContext } from "../providers/TreeContext";
 
 export type ExempleData = {
   name: string;
@@ -61,6 +61,7 @@ export const TreeViewExemple = ({
   treeData,
   withRightPanel = false,
 }: TreeViewExempleProps) => {
+  const treeContext = useTreeContext<TreeViewExempleData>();
   const [draggingData, setDraggingData] = useState<TreeViewExempleData | null>(
     null
   );
@@ -87,34 +88,6 @@ export const TreeViewExemple = ({
     return JSON.parse(JSON.stringify(treeData)) as TreeViewExempleData[];
   }, [treeData]);
 
-  const treeAria = useTree(
-    data,
-    async (id) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            name: "New " + id,
-          });
-        }, 1000);
-      });
-    },
-    () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve([
-            {
-              id: "2.2.2",
-              name: "children",
-              childrenCount: 0,
-              type: TreeViewNodeTypeEnum.NODE,
-              children: [],
-            },
-          ]);
-        }, 1000);
-      });
-    }
-  );
-
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -127,7 +100,7 @@ export const TreeViewExemple = ({
       const nodeApi = over.data.current
         ?.nodeApi as NodeApi<TreeViewExempleData>;
 
-      treeAria.addChild(overId, data);
+      treeContext?.treeData.addChild(overId, data);
       listData.remove(active.id);
       if (nodeApi) {
         nodeApi.open();
@@ -153,17 +126,11 @@ export const TreeViewExemple = ({
         leftPanelContent={
           <div style={{ paddingTop: 10, height: "100%" }}>
             <TreeView
-              treeData={treeAria.nodes}
               rootNodeId="ROOT_NODE_ID"
               selectedNodeId={"1"}
-              handleMove={treeAria.handleMove}
-              renderNode={({ ...props }) => (
-                <TreeViewItemExemple
-                  loadChildren={(node) => treeAria.handleLoadChildren(node.id)}
-                  deleteNode={treeAria.deleteNode}
-                  {...props}
-                />
-              )}
+              renderNode={({ ...props }) => {
+                return <TreeViewItemExemple {...props} />;
+              }}
             />
           </div>
         }
@@ -182,8 +149,8 @@ export const TreeViewExemple = ({
 
               <DragOverlay>
                 <div className="drag-overlay-item">
-                  {draggingData?.type === undefined ||
-                  draggingData?.type === TreeViewNodeTypeEnum.NODE
+                  {draggingData?.nodeType === undefined ||
+                  draggingData?.nodeType === TreeViewNodeTypeEnum.NODE
                     ? draggingData?.name
                     : ""}
                 </div>
@@ -191,7 +158,9 @@ export const TreeViewExemple = ({
             </div>
           </div>
         )}
-        <button onClick={() => treeAria.resetTree(data)}>Reset</button>
+        <button onClick={() => treeContext?.treeData.resetTree(data)}>
+          Reset
+        </button>
       </MainLayout>
     </DndContext>
   );
@@ -204,7 +173,7 @@ const Folder = ({ folder }: FolderProps) => {
   const [isOver, setIsOver] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
-  if (folder.type && folder.type !== TreeViewNodeTypeEnum.NODE) {
+  if (folder.nodeType && folder.nodeType !== TreeViewNodeTypeEnum.NODE) {
     return null;
   }
 

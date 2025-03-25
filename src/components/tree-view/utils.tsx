@@ -4,14 +4,14 @@ export const isSeparator = <T,>(node?: TreeViewDataType<T>): boolean => {
   if (!node) {
     return false;
   }
-  return node.type === TreeViewNodeTypeEnum.SEPARATOR;
+  return node.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
 };
 
 export const isTitle = <T,>(node?: TreeViewDataType<T>): boolean => {
   if (!node) {
     return false;
   }
-  return node.type === TreeViewNodeTypeEnum.TITLE;
+  return node.nodeType === TreeViewNodeTypeEnum.TITLE;
 };
 
 export const isNode = <T,>(node?: TreeViewDataType<T>): boolean => {
