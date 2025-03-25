@@ -12,6 +12,7 @@
 .c__left-panel__mobile {
   z-index: 999;
   width: 100dvw;
+
   height: calc(100dvh - 52px);
   overflow-y: auto;
   border-right: 1px solid var(--c--theme--colors--greyscale-200);

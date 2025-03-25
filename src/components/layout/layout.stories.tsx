@@ -5,6 +5,7 @@ import { Header } from "./header/Header";
 import svg from "./header/logo-exemple.svg";
 import { MainLayout } from "./MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
+import { useState } from "react";
 
 const meta: Meta = {
   title: "Components/Layout",
@@ -59,9 +60,34 @@ export const FullLayout: StoryObj = {
   },
   render: () => {
     const { isDesktop } = useResponsive();
+    const [rightPanelIsOpen, setRightPanelIsOpen] = useState(false);
     return (
       <MainLayout
         enableResize
+        rightPanelIsOpen={rightPanelIsOpen}
+        onToggleRightPanel={() => setRightPanelIsOpen(!rightPanelIsOpen)}
+        rightPanelContent={
+          <div>
+            <div
+              style={{
+                height: "2000px",
+                backgroundColor: "var(--c--theme--colors--greyscale-000)",
+              }}
+            >
+              {!isDesktop && (
+                <div>
+                  <button
+                    onClick={() => setRightPanelIsOpen(!rightPanelIsOpen)}
+                    className="btn btn-primary"
+                  >
+                    close
+                  </button>
+                </div>
+              )}
+              RightPanel
+            </div>
+          </div>
+        }
         leftPanelContent={
           <div style={{ padding: "1rem" }} className="p-s">
             <div
@@ -86,10 +112,23 @@ export const FullLayout: StoryObj = {
         <div
           style={{
             height: "2000px",
-            backgroundColor: "var(--c--theme--colors--greyscale-100)",
+            padding: "1rem",
           }}
         >
-          <div className="p-s">Content</div>
+          <button
+            onClick={() => setRightPanelIsOpen(!rightPanelIsOpen)}
+            className="btn btn-primary"
+          >
+            Toggle Right Panel
+          </button>
+          <div
+            style={{
+              backgroundColor: "var(--c--theme--colors--greyscale-100)",
+            }}
+            className="p-s"
+          >
+            Content
+          </div>
         </div>
       </MainLayout>
     );

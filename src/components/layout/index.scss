@@ -28,9 +28,14 @@
       width: 100dvw;
     }
   }
-  &__children {
-    overflow-y: auto;
-    height: calc(100dvh - variables.$header-height);
-    width: 100%;
+  &__center {
+    display: flex;
+
+    &__children {
+      height: calc(100dvh - variables.$header-height);
+      width: 100%;
+      flex: 1;
+      overflow-y: auto;
+    }
   }
 }
