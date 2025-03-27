@@ -1,13 +1,18 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.5
+
+### Minor Changes
+
+- (tree-view) Add getNode to the useTree hook
+
 ## 0.1.4
 
 ### Minor Changes
 
 - Add RightPannel component
 - Add TreeProvider and useTreeContext
-
 
 ## 0.1.3
 
