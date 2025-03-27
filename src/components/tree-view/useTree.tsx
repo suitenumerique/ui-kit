@@ -56,6 +56,10 @@ export const useTree = <T,>(
     }
   };
 
+  const getNode = (nodeId: string) => {
+    return getItem(nodeId)?.value;
+  };
+
   // Mettre à jour un nœud
   const updateNode = (
     nodeId: string,
@@ -281,6 +285,7 @@ export const useTree = <T,>(
     handleLoadChildren,
     selectNodeById,
     getParent,
+    getNode,
     getParentId,
   };
 };
