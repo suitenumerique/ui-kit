@@ -44,15 +44,47 @@ export const useTree = <T,>(
     setSelectedNode(undefined);
   };
 
-  const addChild = (parentId: string | null, newNode: TreeViewDataType<T>) => {
+  const addToSubItems = (
+    parentId: string,
+    subItem: TreeViewDataType<T>,
+    index?: number
+  ) => {
+    const item = getItem(parentId);
+    if (!item) {
+      return;
+    }
+    const subItems = item.value.children ?? [];
+    const newSubItems = [...subItems];
+    if (index) {
+      newSubItems.splice(index, 0, subItem);
+    } else {
+      newSubItems.push(subItem);
+    }
+    item.value.children = newSubItems;
+    item.value.childrenCount = newSubItems.length;
+  };
+
+  const selectNodeById = (nodeId: string) => {
+    const item = getItem(nodeId);
+    if (!item) {
+      return;
+    }
+    setSelectedNode(item.value as T);
+  };
+
+  const addChild = (
+    parentId: string | null,
+    newNode: TreeViewDataType<T>,
+    index?: number
+  ) => {
     if (parentId) {
       const parent = getItem(parentId);
       if (parent) {
-        insert(parentId, parent.children?.length ?? 0, newNode);
-        addToSubItems(parentId, newNode);
+        insert(parentId, index ?? parent.children?.length ?? 0, newNode);
+        addToSubItems(parentId, newNode, index);
       }
     } else {
-      insert(null, treeData.length, newNode);
+      insert(null, index ?? treeData.length, newNode);
     }
   };
 
@@ -98,6 +130,7 @@ export const useTree = <T,>(
     remove(nodeId);
   };
 
+  //  It's just a helper to remove a value inside the value children array. Because the react-stately library doesn't provide a way to do it.
   const updateSubItems = (
     parentId: string,
     subItemId: string,
@@ -136,8 +169,8 @@ export const useTree = <T,>(
     }
   };
 
-  const addRootNode = (newNode: TreeViewDataType<T>) => {
-    insert(null, treeData.length, newNode);
+  const addRootNode = (newNode: TreeViewDataType<T>, index?: number) => {
+    insert(null, index ?? treeData.length, newNode);
   };
 
   const setChildren = (
@@ -154,9 +187,38 @@ export const useTree = <T,>(
       ...item.value,
       children: newChildren,
       childrenCount: newChildren.length,
+      hasLoadedChildren: newChildren.length > 0,
     } as TreeViewDataType<T>;
 
     update(parentId, updatedItem);
+
+    if (item.parentKey) {
+      updateSubItems(item.parentKey as string, parentId, updatedItem);
+    }
+  };
+
+  const getAncestors = (nodeId: string): TreeViewDataType<T>[] => {
+    const ancestors: TreeViewDataType<T>[] = [];
+
+    const node = getItem(nodeId);
+    if (!node) {
+      return [];
+    }
+
+    ancestors.push(node.value);
+    const findAncestors = (id: Key): void => {
+      const parentId = getParentId(id as string);
+      if (!parentId) return;
+
+      const parent = getItem(parentId);
+      if (!parent) return;
+
+      ancestors.push(parent.value);
+      findAncestors(parentId);
+    };
+
+    findAncestors(nodeId);
+    return ancestors.reverse();
   };
 
   const getParentId = (nodeId: string): Key | null => {
@@ -193,6 +255,7 @@ export const useTree = <T,>(
     prepend(nodeId, newNode);
   };
 
+  //  It's just a helper to remove a value inside the value children array. Because the react-stately library doesn't provide a way to do it.
   const removeFromSubItems = (parentId: string, subItemId: string) => {
     const item = getItem(parentId);
     if (!item) {
@@ -202,25 +265,6 @@ export const useTree = <T,>(
     const newSubItems = subItems.filter((subItem) => subItem.id !== subItemId);
     item.value.children = newSubItems;
     item.value.childrenCount = newSubItems.length;
-  };
-
-  const addToSubItems = (parentId: string, subItem: TreeViewDataType<T>) => {
-    const item = getItem(parentId);
-    if (!item) {
-      return;
-    }
-    const subItems = item.value.children ?? [];
-    const newSubItems = [...subItems, subItem];
-    item.value.children = newSubItems;
-    item.value.childrenCount = newSubItems.length;
-  };
-
-  const selectNodeById = (nodeId: string) => {
-    const item = getItem(nodeId);
-    if (!item) {
-      return;
-    }
-    setSelectedNode(item.value as T);
   };
 
   const moveNode = (
@@ -287,5 +331,6 @@ export const useTree = <T,>(
     getParent,
     getNode,
     getParentId,
+    getAncestors,
   };
 };
