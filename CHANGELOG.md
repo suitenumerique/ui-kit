@@ -1,6 +1,12 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.6
+
+### Minor Changes
+
+- (tree-view) add getAncestors to the useTree hook
+
 ## 0.1.5
 
 ### Minor Changes
