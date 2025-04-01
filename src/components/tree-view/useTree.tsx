@@ -104,15 +104,22 @@ export const useTree = <T,>(
     }
 
     let newSubItems: TreeViewDataType<T>[] | null = item.value.children ?? null;
+    const childrenCount =
+      updatedData.childrenCount ?? item.value.childrenCount ?? 0;
+
+    if (newSubItems?.length === 0 && childrenCount > 0) {
+      newSubItems = null;
+    }
 
     if (updatedData.children) {
       newSubItems = [...(newSubItems ?? []), ...updatedData.children];
     }
+
     const updatedItem: TreeViewDataType<T> = {
       ...item.value,
       ...updatedData,
       children: newSubItems,
-      childrenCount: newSubItems?.length ?? item.value.childrenCount,
+      childrenCount: newSubItems?.length ?? childrenCount,
     } as TreeViewDataType<T>;
 
     update(nodeId, updatedItem);
