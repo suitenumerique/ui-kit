@@ -1,6 +1,12 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.7
+
+### Minor Changes
+
+- (tree-view) fix updateNode method
+
 ## 0.1.6
 
 ### Minor Changes
