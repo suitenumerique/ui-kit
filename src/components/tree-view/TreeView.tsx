@@ -1,4 +1,9 @@
-import { NodeApi, NodeRendererProps, Tree } from "react-arborist";
+import {
+  NodeApi,
+  NodeRendererProps,
+  RowRendererProps,
+  Tree,
+} from "react-arborist";
 import { TreeViewSeparator } from "./TreeViewSeparator";
 import useResizeObserver from "use-resize-observer";
 
@@ -173,6 +178,17 @@ export const TreeView = <T,>({
               return true;
             }
           }
+
+          const draggedNode = dragNodes[0];
+
+          if (
+            draggedNode &&
+            draggedNode.isDragging &&
+            draggedNode.willReceiveDrop
+          ) {
+            return true;
+          }
+
           if (parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.TITLE) {
             return true;
           }
@@ -240,44 +256,49 @@ export const TreeView = <T,>({
         overscanCount={20}
         selection={selectedNodeId}
         renderCursor={TreeViewSeparator}
-        renderRow={(props) => {
-          const isTitle =
-            props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
-          const isSeparator =
-            props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
-
-          const { style } = props.attrs;
-          const newStyle = { ...style };
-          if (isTitle || isSeparator) {
-            return (
-              <div
-                {...props.attrs}
-                style={newStyle}
-                ref={props.innerRef}
-                onFocus={(e) => e.stopPropagation()}
-                onClick={props.node.handleClick}
-              >
-                {props.children}
-              </div>
-            );
-          }
-
-          return (
-            <div
-              {...props.attrs}
-              style={newStyle}
-              ref={props.innerRef}
-              onFocus={(e) => e.stopPropagation()}
-              onClick={props.node.handleClick}
-            >
-              <div style={{ padding: "0 12px" }}>{props.children}</div>
-            </div>
-          );
-        }}
+        renderRow={Row}
         rowClassName="c__tree-view--row"
       >
-        {(props) => renderNode(props)}
+        {renderNode}
       </Tree>
+    </div>
+  );
+};
+
+type RowProps<T> = RowRendererProps<TreeDataItem<T>>;
+
+const Row = <T,>({ children, ...props }: RowProps<T>) => {
+  const isTitle = props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
+  const isSeparator =
+    props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
+
+  const { style } = props.attrs;
+  const newStyle = { ...style };
+  if (isTitle || isSeparator) {
+    return (
+      <div
+        {...props.attrs}
+        key={props.node.id}
+        style={newStyle}
+        ref={props.innerRef}
+        onFocus={(e) => e.stopPropagation()}
+        onClick={props.node.handleClick}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      {...props.attrs}
+      style={newStyle}
+      key={props.node.id}
+      ref={props.innerRef}
+      onFocus={(e) => e.stopPropagation()}
+      onClick={props.node.handleClick}
+    >
+      <div style={{ padding: "0 12px" }}>{children}</div>
     </div>
   );
 };
