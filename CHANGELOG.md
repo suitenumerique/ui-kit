@@ -1,6 +1,13 @@
 # @gouvfr-lasuite/ui-kit
 
 
+## 0.1.8
+
+### Minor Changes
+
+- (tree-view) fixed the incessant row re-rendering
+
+
 ## 0.1.7
 
 ### Minor Changes
