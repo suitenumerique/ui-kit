@@ -7,6 +7,7 @@ export const TreeViewSeparator = ({ top, left }: CursorProps) => {
       style={{
         top: top - 2,
         left: left + 10,
+        width: `calc(100% - ${24 + left}px)`,
       }}
     ></div>
   );

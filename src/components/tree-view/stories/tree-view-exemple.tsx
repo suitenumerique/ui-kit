@@ -3,6 +3,7 @@ import {
   TreeViewDataType,
   TreeViewNodeTypeEnum,
 } from ":/components/tree-view";
+
 import {
   DndContext,
   DragEndEvent,
@@ -62,9 +63,11 @@ export const TreeViewExemple = ({
   withRightPanel = false,
 }: TreeViewExempleProps) => {
   const treeContext = useTreeContext<TreeViewExempleData>();
+
   const [draggingData, setDraggingData] = useState<TreeViewExempleData | null>(
     null
   );
+
   const listData = useListData({
     initialItems: containers,
   });
@@ -128,9 +131,7 @@ export const TreeViewExemple = ({
             <TreeView
               rootNodeId="ROOT_NODE_ID"
               selectedNodeId={"1"}
-              renderNode={({ ...props }) => {
-                return <TreeViewItemExemple {...props} />;
-              }}
+              renderNode={TreeViewItemExemple}
             />
           </div>
         }
