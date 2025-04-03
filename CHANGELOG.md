@@ -1,5 +1,10 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.1.9
+
+### Minor Changes
+
+- (tree-view) fix event propagation
 
 ## 0.1.8
 
