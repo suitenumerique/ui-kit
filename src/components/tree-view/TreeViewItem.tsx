@@ -93,7 +93,18 @@ export const TreeViewItem = <T,>({
       onOver={setExternalOver}
     >
       <div
-        onClick={onClick}
+        onClick={(e) => {
+          // We stop all propagation if it's not a tree view item
+          const target = e.target as HTMLElement;
+          const isItem = target.closest(".c__tree-view--node");
+          if (!isItem) {
+            e.stopPropagation();
+          }
+          onClick?.();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+        }}
         ref={dragHandle}
         style={style}
         className={clsx("c__tree-view--node", {
