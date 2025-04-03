@@ -8,7 +8,13 @@ import { TreeViewExempleData } from "./tree-view-exemple";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
-import { Button } from "@openfun/cunningham-react";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalSize,
+  useModal,
+} from "@openfun/cunningham-react";
 import { useTreeContext } from "../providers/TreeContext";
 
 type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
@@ -16,6 +22,7 @@ type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
 export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
   const context = useTreeContext<TreeViewExempleData>();
+  const modal = useModal();
 
   const options = [
     {
@@ -37,7 +44,7 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
     {
       icon: <span className="material-icons">edit</span>,
       label: "Renommer",
-      callback: () => alert("Renommer"),
+      callback: modal.open,
       isChecked: true,
       showSeparator: true,
     },
@@ -67,31 +74,41 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   ];
 
   return (
-    <TreeViewItem {...props}>
-      {props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE ||
-      props.node.data.value.nodeType ===
-        TreeViewNodeTypeEnum.SEPARATOR ? null : (
-        <div className={"tree-view-item"}>
-          <div className={`container`}>
-            <span className="name">
-              {props.node.data.value.name} -- {props.node.data.value.id}
-            </span>
-            <div className={`actions ${isOpen ? "show-actions" : ""}`}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <DropdownMenu
-                  onOpenChange={setIsOpen}
-                  isOpen={isOpen}
-                  options={options}
-                >
-                  <Button size="small" onClick={() => setIsOpen(!isOpen)}>
-                    Open
-                  </Button>
-                </DropdownMenu>
+    <>
+      <TreeViewItem {...props}>
+        {props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE ||
+        props.node.data.value.nodeType ===
+          TreeViewNodeTypeEnum.SEPARATOR ? null : (
+          <div className={"tree-view-item"}>
+            <div className={`container`}>
+              <span className="name">
+                {props.node.data.value.name} -- {props.node.data.value.id}
+              </span>
+              <div className={`actions ${isOpen ? "show-actions" : ""}`}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <DropdownMenu
+                    onOpenChange={setIsOpen}
+                    isOpen={isOpen}
+                    options={options}
+                  >
+                    <Button size="small" onClick={() => setIsOpen(!isOpen)}>
+                      Open
+                    </Button>
+                  </DropdownMenu>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </TreeViewItem>
+        )}
+        {modal.isOpen && (
+          <Modal {...modal} size={ModalSize.SMALL}>
+            <div>
+              <h1>Edit modal</h1>
+              <Input />
+            </div>
+          </Modal>
+        )}
+      </TreeViewItem>
+    </>
   );
 };
