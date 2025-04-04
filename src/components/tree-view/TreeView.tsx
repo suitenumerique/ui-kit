@@ -300,7 +300,10 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       onFocus={(e) => e.stopPropagation()}
       onClick={props.node.handleClick}
     >
-      <div style={{ padding: "0 12px" }}>{children}</div>
+      {/*  The bottom padding is to make the drop more precise when dropping below the last child */}
+      <div style={{ padding: "0 12px", paddingBottom: "100px" }}>
+        {children}
+      </div>
     </div>
   );
 };
