@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.1.10
+
+### Minor Changes
+
+- (tree-view) update node values when the tree has changed
+
 ## 0.1.9
 
 ### Minor Changes
