@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Meta, StoryObj } from "@storybook/react/*";
+import { Meta, StoryObj } from "@storybook/react";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import { Header } from "./header/Header";
 import svg from "./header/logo-exemple.svg";
