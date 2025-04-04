@@ -21,11 +21,13 @@ export type MainLayoutProps = {
   onToggleRightPanel?: () => void;
   enableResize?: boolean;
   rightPanelIsOpen?: boolean;
+  hideLeftPanelOnDesktop?: boolean;
 };
 
 export const MainLayout = ({
   icon,
   children,
+  hideLeftPanelOnDesktop = false,
   leftPanelContent,
   rightPanelContent,
   rightHeaderContent,
@@ -73,6 +75,14 @@ export const MainLayout = ({
     };
   }, [isDesktop, enableResize]);
 
+  // We need to have two different states for the left panel, we want to always keep the
+  // left panel mounted on mobile in order to show the animation when it opens or closes, instead
+  // of abruptly disappearing when closing the panel.
+  // On desktop, we want to hide the left panel when the prop is set to true, so we need to
+  // completely unmount it as it will never be visible.
+  const mountLeftPanel = isDesktop ? !hideLeftPanelOnDesktop : true;
+  const showLeftPanel = isDesktop ? !hideLeftPanelOnDesktop : isLeftPanelOpen;
+
   return (
     <div className="c__main-layout">
       <div className="c__main-layout__header">
@@ -86,24 +96,26 @@ export const MainLayout = ({
       </div>
       <div className="c__main-layout__content">
         <PanelGroup autoSaveId={"persistance"} direction="horizontal">
-          <Panel
-            ref={ref}
-            order={0}
-            defaultSize={minPanelSize}
-            minSize={minPanelSize}
-            maxSize={maxPanelSize}
-          >
-            <LeftPanel isOpen={isDesktop ? true : isLeftPanelOpen}>
-              {leftPanelContent}
-            </LeftPanel>
-          </Panel>
-          {isDesktop && (
-            <PanelResizeHandle
-              className="bg-greyscale-200"
-              style={{
-                width: "1px",
-              }}
-            />
+          {mountLeftPanel && (
+            <>
+              <Panel
+                ref={ref}
+                order={0}
+                defaultSize={minPanelSize}
+                minSize={minPanelSize}
+                maxSize={maxPanelSize}
+              >
+                <LeftPanel isOpen={showLeftPanel}>{leftPanelContent}</LeftPanel>
+              </Panel>
+              {isDesktop && (
+                <PanelResizeHandle
+                  className="bg-greyscale-200"
+                  style={{
+                    width: "1px",
+                  }}
+                />
+              )}
+            </>
           )}
           <Panel order={1}>
             <div className="c__main-layout__content__center">
