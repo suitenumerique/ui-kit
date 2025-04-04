@@ -7,7 +7,7 @@ import React from "react";
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <CunninghamProvider>
+      <CunninghamProvider currentLocale="fr-FR">
         <div>
           <Story />
         </div>

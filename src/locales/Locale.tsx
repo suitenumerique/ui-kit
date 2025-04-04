@@ -6,7 +6,7 @@ import { deepMerge } from "../utils/objects";
 
 export function getLocales() {
   return {
-    enUS: deepMerge(originalEnUS, enUS),
-    frFR: deepMerge(originalFrFR, frFR),
+    "en-US": deepMerge(originalEnUS, enUS),
+    "fr-FR": deepMerge(originalFrFR, frFR),
   };
 }
