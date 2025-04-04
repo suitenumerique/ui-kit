@@ -5,6 +5,7 @@ export * from "./locales/Locale";
 export * from "./components/button";
 export * from "./components/dropdown-menu";
 export * from "./components/footer/Footer";
+export * from "./components/la-gaufre/LaGaufre";
 export * from "./components/language";
 export * from "./components/layout";
 export * from "./components/loader";
