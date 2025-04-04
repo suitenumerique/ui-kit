@@ -3,7 +3,7 @@ import { Checkbox, Radio, RadioGroup, Switch } from "@openfun/cunningham-react";
 import { Button, Select, TextArea } from "@openfun/cunningham-react";
 
 import { Input } from "@openfun/cunningham-react";
-import { Meta } from "@storybook/react/*";
+import { Meta } from "@storybook/react";
 import { Label } from "./label/label";
 
 export default {
