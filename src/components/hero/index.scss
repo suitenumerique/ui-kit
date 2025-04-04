@@ -1,0 +1,94 @@
+@use "sass:map";
+@use "@openfun/cunningham-react/style" as *;
+@use "../../cunningham-tokens-sass" as *;
+
+$md: map.get($themes, "default", "theme", "breakpoints", "md");
+$sm: map.get($themes, "default", "theme", "breakpoints", "sm");
+
+.c__home-gutter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1120px;
+  padding: 0 3rem;
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+
+  @media (max-width: $sm) {
+    padding: 1rem;
+  }
+}
+
+.c__hero {
+  display: flex;
+  max-width: 78rem;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &__display {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: row;
+    gap: 1rem;
+    overflow: auto;
+
+    @media (max-width: $md) {
+      flex-direction: column;
+    }
+
+    &__captions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+      flex-direction: column;
+      flex-grow: 1;
+      max-width: 400px;
+
+      @media (max-width: $md) {
+        max-width: 100%;
+      }
+
+      h2 {
+        font-size: 2.3rem;
+        font-weight: bold;
+        color: var(--c--themes--colorc--greyscale-800);
+        text-align: center;
+        margin: 0;
+        line-height: 45px;
+      }
+
+      span {
+        font-size: 1.125rem;
+        color: var(--c--themes--colorc--greyscale-700);
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    }
+
+    > img {
+      width: auto;
+      max-width: 100%;
+      height: fit-content;
+      overflow: auto;
+      max-height: 100%;
+      width: 50%;
+      flex-grow: 1;
+
+      @media (max-width: $md) {
+        display: none;
+      }
+    }
+  }
+}
