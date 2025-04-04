@@ -53,6 +53,20 @@ export const complexTreeData: TreeViewExempleData[] = [
         { id: "d3", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
       ],
     },
+    {
+      id: "5",
+      name: "Node 5",
+      nodeType: TreeViewNodeTypeEnum.NODE,
+      childrenCount: 0,
+      children: [],
+    },
+    {
+      id: "6",
+      name: "Node 6",
+      nodeType: TreeViewNodeTypeEnum.NODE,
+      childrenCount: 0,
+      children: [],
+    },
   ];
 
 
@@ -124,4 +138,5 @@ export const complexTreeData: TreeViewExempleData[] = [
       childrenCount: 0,
       children: [],
     },
+    
   ];
