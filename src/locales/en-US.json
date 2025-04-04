@@ -1,1 +1,13 @@
-{}
+{
+  "components": {
+    "footer": {
+      "links": {
+        "legal": "Legal mentions",
+        "personal_data": "Personal data and cookies",
+        "accessibility": "Accessibility"
+      },
+      "mention": "Unless otherwise stated, all content on this site is under the",
+      "license": "etalab-2.0 license"
+    }
+  }
+}
