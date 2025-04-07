@@ -1,65 +1,78 @@
 # @gouvfr-lasuite/ui-kit
 
-## 0.1.10
+## 0.2.0
 
 ### Minor Changes
+
+- add Hero component
+- add Footer component
+- add La Gaufre component
+- add hideLeftPanelOnDesktop on MainLayout
+
+### Patch changes
+
+- remove unused tokens
+- fix locales format, frFR to fr-FR
+
+## 0.1.10
+
+### Patch Changes
 
 - (tree-view) update node values when the tree has changed
 
 ## 0.1.9
 
-### Minor Changes
+### Patch Changes
 
 - (tree-view) fix event propagation
 
 ## 0.1.8
 
-### Minor Changes
+### Patch Changes
 
 - (tree-view) fixed the incessant row re-rendering
 
-
 ## 0.1.7
 
-### Minor Changes
+### Patch Changes
 
 - (tree-view) fix updateNode method
 
 ## 0.1.6
 
-### Minor Changes
+### Patch Changes
 
 - (tree-view) add getAncestors to the useTree hook
 
 ## 0.1.5
 
-### Minor Changes
+### Patch Changes
 
 - (tree-view) Add getNode to the useTree hook
 
 ## 0.1.4
 
-### Minor Changes
+### Patch Changes
 
 - Add RightPannel component
 - Add TreeProvider and useTreeContext
 
 ## 0.1.3
 
-### Patch Changes 
+### Patch Changes
 
 - Adjusted the position of the separator in the TreeView component
 - Added logic to update child elements when a parent element is updated in the useTree hook
 
 ## 0.1.2
 
-### Patch Changes 
+### Patch Changes
 
 - Updated logic of the TreeView component's onMove method
 
 ## 0.1.1
 
-### Patch Changes 
+### Patch Changes
 
 - Improve accessibility for DropdownMenu
 - Fixed addChild method for useTree hook
