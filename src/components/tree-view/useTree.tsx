@@ -240,26 +240,56 @@ export const useTree = <T,>(
     return children;
   };
 
+  /**
+   * This effect is used to replace the children references in the tree data with the children references in the tree data items
+   * Because the useTreeData hook doesn't do it automatically. and we add childrenCount logic to avoid loading the children again.
+   */
   useEffect(() => {
-    // Replace child.value.children with child.children in the tree data
     const replaceChildrenReferences = (
       items: TreeDataItem<TreeViewDataType<T>>[]
     ) => {
       items.forEach((item) => {
         if (item.children && item.children.length > 0) {
-          // Update the children reference in the value object
-          if (item.value.children) {
-            item.value.children = item.children.map((child) => child.value);
-            item.value.childrenCount = item.children.length;
+          /**
+           * The tree might have already been loaded without going through loadChildren. (if we loaded the entire tree or part of the tree for example)
+           * In this case, hasLoadedChildren is not set but the children are loaded.
+           */
+          const hasLoadedChildren =
+            item.value.hasLoadedChildren ||
+            item.children?.length > 0 ||
+            (item.value.children && item.value.children.length > 0);
+
+          item.value.children = item.children.map((child) => child.value);
+
+          const childrenCount = hasLoadedChildren
+            ? item.children.length
+            : item.value.childrenCount ?? 0;
+
+          item.value.childrenCount = childrenCount;
+
+          // If the children have been loaded but the hasLoadedChildren is not set, set it to true.
+          if (hasLoadedChildren && !item.value.hasLoadedChildren) {
+            item.value.hasLoadedChildren = true;
           }
-          // Recursively process children
+
           replaceChildrenReferences(item.children);
+        } else {
+          // Same as above
+          const hasLoadedChildren =
+            item.value.hasLoadedChildren ||
+            (item.value.children && item.value.children.length > 0);
+
+          const childrenCount = hasLoadedChildren
+            ? 0
+            : item.value.childrenCount;
+
+          item.value.children = [];
+          item.value.childrenCount = childrenCount;
         }
       });
     };
 
     replaceChildrenReferences(treeData as TreeDataItem<TreeViewDataType<T>>[]);
-    console.log("treeData", treeData);
   }, [treeData]);
 
   return {
