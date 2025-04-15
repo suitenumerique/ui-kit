@@ -6,6 +6,7 @@ import { QuickSearchGroup } from "./QuickSearchGroup";
 import { Button, Modal, ModalSize } from "@openfun/cunningham-react";
 import { useState } from "react";
 import { QuickSearchData } from "./types";
+import { QuickSearchItemTemplate } from "./QuickSearchItemTemplate";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -77,24 +78,21 @@ export const Small: Story = {
           size={ModalSize.LARGE}
         >
           <QuickSearch placeholder="Search" loading={false} onFilter={onFilter}>
-            <QuickSearchGroup
-              group={group}
-              onSelect={(element) => {
-                setSelected(element);
-                setOpen(false);
-              }}
-              renderElement={(element) => (
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "10px",
-                    flexDirection: "column",
-                  }}
-                >
-                  <span>{element.name}</span>
-                </div>
-              )}
-            />
+            <div style={{ padding: "0 10px 10px 10px" }}>
+              <QuickSearchGroup
+                group={group}
+                onSelect={(element) => {
+                  setSelected(element);
+                  setOpen(false);
+                }}
+                renderElement={(element) => (
+                  <QuickSearchItemTemplate
+                    left={<span>{element.name}</span>}
+                    right={<span className="material-icons">add</span>}
+                  />
+                )}
+              />
+            </div>
           </QuickSearch>
         </Modal>
       </div>

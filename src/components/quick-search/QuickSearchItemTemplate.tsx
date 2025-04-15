@@ -9,7 +9,7 @@ export type QuickSearchItemTemplateProps = {
 };
 
 export const QuickSearchItemTemplate = ({
-  alwaysShowRight,
+  alwaysShowRight = false,
   left,
   right,
 }: QuickSearchItemTemplateProps) => {
@@ -21,7 +21,8 @@ export const QuickSearchItemTemplate = ({
       {isDesktop && right && (
         <div
           className={clsx("c__quick-search-item-template__right", {
-            "show-right-on-focus": alwaysShowRight,
+            "always-show-right": alwaysShowRight,
+            "show-right-on-focus": !alwaysShowRight,
           })}
         >
           {right}

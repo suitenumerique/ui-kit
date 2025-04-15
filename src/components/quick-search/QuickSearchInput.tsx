@@ -37,7 +37,7 @@ export const QuickSearchInput = ({
         {!loading && <span className="material-icons">search</span>}
         {loading && (
           <div>
-            <Spinner size="sm" />
+            <Spinner size="md" />
           </div>
         )}
         <Command.Input
@@ -52,7 +52,7 @@ export const QuickSearchInput = ({
           onValueChange={onFilter}
         />
       </div>
-      {separator && <HorizontalSeparator withPadding={false} />}
+      {separator && <HorizontalSeparator withPadding={true} />}
     </>
   );
 };
