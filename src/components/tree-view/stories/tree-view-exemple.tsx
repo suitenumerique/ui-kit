@@ -113,57 +113,59 @@ export const TreeViewExemple = ({
   };
 
   return (
-    <DndContext
-      onDragStart={(event) => {
-        setDraggingData(event.active.data.current as TreeViewExempleData);
-      }}
-      sensors={sensors}
-      modifiers={[snapCenterToCursor]}
-      onDragEnd={onDragEnd}
-      accessibility={{
-        container: document.getElementById("root") ?? document.body,
-      }}
-    >
-      <MainLayout
-        enableResize
-        leftPanelContent={
-          <div style={{ paddingTop: 10, height: "100%" }}>
-            <TreeView
-              rootNodeId="ROOT_NODE_ID"
-              selectedNodeId={"1"}
-              renderNode={TreeViewItemExemple}
-            />
-          </div>
-        }
-        icon={<img src={svg} alt="logo" />}
-        languages={[
-          { label: "Français", isChecked: true },
-          { label: "Anglais" },
-        ]}
+    <>
+      <DndContext
+        onDragStart={(event) => {
+          setDraggingData(event.active.data.current as TreeViewExempleData);
+        }}
+        sensors={sensors}
+        modifiers={[snapCenterToCursor]}
+        onDragEnd={onDragEnd}
+        accessibility={{
+          container: document.getElementById("root") ?? document.body,
+        }}
       >
-        {withRightPanel && (
-          <div className="right-panel">
-            <div>
-              {listData.items.map((folder) => (
-                <Folder key={folder.id} folder={folder} />
-              ))}
-
-              <DragOverlay>
-                <div className="drag-overlay-item">
-                  {draggingData?.nodeType === undefined ||
-                  draggingData?.nodeType === TreeViewNodeTypeEnum.NODE
-                    ? draggingData?.name
-                    : ""}
-                </div>
-              </DragOverlay>
+        <MainLayout
+          enableResize
+          leftPanelContent={
+            <div style={{ paddingTop: 10, height: "100%" }}>
+              <TreeView
+                rootNodeId="ROOT_NODE_ID"
+                selectedNodeId={"1"}
+                renderNode={TreeViewItemExemple}
+              />
             </div>
-          </div>
-        )}
-        <button onClick={() => treeContext?.treeData.resetTree(data)}>
-          Reset
-        </button>
-      </MainLayout>
-    </DndContext>
+          }
+          icon={<img src={svg} alt="logo" />}
+          languages={[
+            { label: "Français", isChecked: true },
+            { label: "Anglais" },
+          ]}
+        >
+          {withRightPanel && (
+            <div className="right-panel">
+              <div>
+                {listData.items.map((folder) => (
+                  <Folder key={folder.id} folder={folder} />
+                ))}
+
+                <DragOverlay>
+                  <div className="drag-overlay-item">
+                    {draggingData?.nodeType === undefined ||
+                    draggingData?.nodeType === TreeViewNodeTypeEnum.NODE
+                      ? draggingData?.name
+                      : ""}
+                  </div>
+                </DragOverlay>
+              </div>
+            </div>
+          )}
+          <button onClick={() => treeContext?.treeData.resetTree(data)}>
+            Reset
+          </button>
+        </MainLayout>
+      </DndContext>
+    </>
   );
 };
 

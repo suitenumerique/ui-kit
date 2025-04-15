@@ -15,6 +15,7 @@ import {
 } from "./types";
 import { isNode, isSeparator, isTitle } from "./utils";
 import { useTreeContext } from "./providers/TreeContext";
+import { useCallback } from "react";
 
 export type OpenMap = {
   [id: string]: boolean;
@@ -30,6 +31,7 @@ export type TreeViewProps<T> = {
     index: number;
   }) => boolean;
   canDrag?: (node: TreeDataItem<T>) => boolean;
+  beforeMove?: (result: TreeViewMoveResult, moveCallback: () => void) => void;
   afterMove?: (result: TreeViewMoveResult) => void;
   renderNode: (props: NodeRendererProps<TreeDataItem<T>>) => React.ReactNode;
 };
@@ -42,6 +44,7 @@ export const TreeView = <T,>({
   canDrop,
   canDrag,
   afterMove,
+  beforeMove,
 }: TreeViewProps<T>) => {
   const { ref, width, height } = useResizeObserver();
   const context = useTreeContext<T>();
@@ -141,10 +144,27 @@ export const TreeView = <T,>({
   }) => {
     const moveResult = getMovePosition(args);
     if (moveResult) {
-      context?.treeData.handleMove(moveResult);
-      afterMove?.(moveResult);
+      if (beforeMove) {
+        beforeMove(moveResult, () => {
+          context?.treeData.handleMove(moveResult);
+          afterMove?.(moveResult);
+        });
+      } else {
+        context?.treeData.handleMove(moveResult);
+        afterMove?.(moveResult);
+      }
     }
   };
+
+  const disableDrag = useCallback(
+    (node: TreeDataItem<T>) => {
+      if (canDrag) {
+        return !canDrag(node);
+      }
+      return false;
+    },
+    [canDrag]
+  );
 
   if (!context) {
     return;
@@ -163,12 +183,7 @@ export const TreeView = <T,>({
         idAccessor="key"
         onMove={onMove}
         rowHeight={35}
-        disableDrag={(node) => {
-          if (canDrag) {
-            return !canDrag(node);
-          }
-          return false;
-        }}
+        disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
             const canDropResult = canDrop({ parentNode, dragNodes, index });
