@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   gap: var(--c--theme--spacings--2xs);
-  padding: var(--c--theme--spacings--base);
+  padding: var(--c--theme--spacings--xs) var(--c--theme--spacings--base);
+  margin-top: var(--c--theme--spacings--xs);
 }
 
 .c__quick-search-item-template {
@@ -23,6 +24,14 @@
   &__right {
     display: flex;
     align-items: center;
-    width: 100%;
+    justify-content: flex-end;
+  }
+
+  &__right:not(.always-show-right) {
+    opacity: 0;
+  }
+
+  &__right.always-show-right {
+    opacity: 1 !important;
   }
 }
