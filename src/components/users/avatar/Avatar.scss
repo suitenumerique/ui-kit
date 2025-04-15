@@ -1,0 +1,88 @@
+.c__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  &__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: normal;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+
+    text-transform: uppercase;
+  }
+
+  &.xsmall {
+    width: 16px;
+    height: 16px;
+    font-size: 7px;
+  }
+
+  &.small {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  &.medium {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  &.large {
+    width: 64px;
+    height: 64px;
+    font-size: 26px;
+  }
+
+  &.purple {
+    background-color: var(--c--theme--colors--purple-500);
+  }
+
+  &.blue {
+    background-color: var(--c--theme--colors--blue-500);
+  }
+
+  &.green {
+    background-color: var(--c--theme--colors--green-500);
+  }
+
+  &.yellow {
+    background-color: var(--c--theme--colors--yellow-500);
+  }
+
+  &.orange {
+    background-color: var(--c--theme--colors--orange-500);
+  }
+
+  &.red {
+    background-color: var(--c--theme--colors--red-500);
+  }
+
+  &.brown {
+    background-color: var(--c--theme--colors--brown-500);
+  }
+
+  &.cyan {
+    background-color: var(--c--theme--colors--cyan-500);
+  }
+
+  &.gold {
+    background-color: var(--c--theme--colors--gold-500);
+  }
+
+  &.olive {
+    background-color: var(--c--theme--colors--olive-500);
+  }
+
+  &.rose {
+    background-color: #e18b76;
+  }
+}
