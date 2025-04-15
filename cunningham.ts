@@ -83,6 +83,17 @@ const config = {
           "danger-700": "#642626",
           "danger-800": "#412121",
           "danger-900": "#391C1C",
+          "blue-500": "#417DC4",
+          "brown-500": "#BD987A",
+          "cyan-500": "#009099",
+          "gold-500": "#C3992A",
+          "green-500": "#00A95F",
+          "olive-500": "#68A532",
+          "orange-500": "#E4794A",
+          "purple-500": "#A558A0",
+          "red-500": "#E1000F",
+          "yellow-500": "#B7A73F",
+          "rose-500": "#E18B76",
         },
         font: {
           sizes: {
