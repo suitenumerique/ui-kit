@@ -28,4 +28,10 @@
 @use "./components/datagrid";
 @use "./components/tree-view";
 @use "./components/tooltip";
+@use "./components/share/InvitationUserSelectorList";
+@use "./components/share/access/AccessRoleDropdown";
+@use "./components/users/avatar/avatar";
+@use "./components/users/rows/UserRow";
+@use "./components/share/modal/items/ShareModalItems";
+@use "./components/share/modal/ShareModal";
 @use "./assets/fonts/Marianne/Marianne-font.css";

@@ -1,5 +1,34 @@
 {
   "components": {
+    "share": {
+      "copyLink": "Copy link",
+      "ok": "Ok",
+      "shareButton": "Share",
+      "modalTitle": "Share folder",
+      "access": {
+        "delete": "Remove access"
+      },
+      "invitations": {
+        "title": "Pending invitations"
+      },
+      "members": {
+        "title": "Members",
+        "title_plural": "Shared between {count} people",
+        "title_singular": "Shared between {count} person",
+        "load_more": "Show more "
+      },
+      "search": {
+        "placeholder": "Search user",
+        "group_name": "Search user result"
+      },
+      "user": {
+        "no_result": "No result",
+        "placeholder": "Search user"
+      },
+      "item": {
+        "add": "Add"
+      }
+    },
     "footer": {
       "links": {
         "legal": "Legal mentions",

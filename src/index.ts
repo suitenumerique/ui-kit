@@ -17,5 +17,6 @@ export * from "./components/tabs";
 export * from "./components/tree-view";
 export * from "./components/form/label/label";
 export * from "./hooks/useResponsive";
-
+export * from "./components/share";
+export * from "./components/users";
 export { default as cunninghamConfig } from "../cunningham";
