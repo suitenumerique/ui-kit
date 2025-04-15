@@ -15,6 +15,7 @@ import { TreeViewNodeTypeEnum } from "../types";
 const meta: Meta<typeof TreeView> = {
   title: "Components/TreeView [WIP]",
   component: TreeView,
+  tags: ["autodocs"],
 };
 export default meta;
 type Story = StoryObj<typeof meta>;
