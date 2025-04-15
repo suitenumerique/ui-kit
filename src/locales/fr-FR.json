@@ -1,5 +1,33 @@
 {
   "components": {
+    "share": {
+      "copyLink": "Copier le lien",
+      "ok": "Ok",
+      "modalTitle": "Partage",
+      "shareButton": "Partager",
+      "access": {
+        "delete": "Retirer l'accès"
+      },
+      "invitations": {
+        "title": "Invitations en attente"
+      },
+      "members": {
+        "title_plural": "Partagé entre {count} personnes",
+        "title_singular": "Partagé entre {count} personne",
+        "load_more": "Afficher plus"
+      },
+      "item": {
+        "add": "Ajouter"
+      },
+      "search": {
+        "placeholder": "Rechercher un utilisateur",
+        "group_name": "Résultat de la recherche d'utilisateur"
+      },
+      "user": {
+        "no_result": "Aucun résultat",
+        "placeholder": "Rechercher un utilisateur"
+      }
+    },
     "footer": {
       "links": {
         "legal": "Mentions Légales",

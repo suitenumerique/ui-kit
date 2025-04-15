@@ -1,0 +1,23 @@
+.c__share-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-radius: 10px;
+
+  &__right {
+    display: flex;
+    align-items: center;
+    color: var(--c--theme--colors--primary-800);
+    .material-icons {
+      font-size: 24px;
+      color: var(--c--theme--colors--greyscale-600);
+    }
+  }
+}
+
+.c__search-user-item-right {
+  display: flex;
+  align-items: center;
+  color: var(--c--theme--colors--primary-800);
+}

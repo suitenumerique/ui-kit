@@ -6,6 +6,7 @@
   &__name {
     font-size: 14px;
     font-weight: 500;
+    line-height: 18px;
     color: var(--c--theme--colors--greyscale-1000);
   }
 
@@ -16,7 +17,8 @@
 
   &__email {
     color: var(--c--theme--colors--greyscale-600);
-    font-size: var(--c--theme--font-sizes--xs);
+    font-size: 12px;
+    line-height: 16px;
 
     &.has-only-email {
       font-weight: 500;

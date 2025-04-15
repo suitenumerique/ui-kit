@@ -9,6 +9,7 @@ export type DropdownMenuProps = {
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
   topMessage?: string;
+  shouldCloseOnInteractOutside?: (element: Element) => boolean;
 };
 
 export const DropdownMenu = ({
@@ -19,6 +20,7 @@ export const DropdownMenu = ({
   selectedValues = [],
   onSelectValue,
   topMessage,
+  shouldCloseOnInteractOutside,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
   const onOpenChangeHandler = (isOpen: boolean) => {
@@ -46,6 +48,7 @@ export const DropdownMenu = ({
           marginTop: "0px",
         }}
         isOpen={isOpen}
+        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
         <Menu className="c__dropdown-menu" aria-labelledby={id}>
