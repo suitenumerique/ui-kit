@@ -8,6 +8,7 @@ export type DropdownMenuProps = {
   selectedValues?: string[];
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
+  topMessage?: string;
 };
 
 export const DropdownMenu = ({
@@ -17,6 +18,7 @@ export const DropdownMenu = ({
   children,
   selectedValues = [],
   onSelectValue,
+  topMessage,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
   const onOpenChangeHandler = (isOpen: boolean) => {
@@ -47,7 +49,15 @@ export const DropdownMenu = ({
         onOpenChange={onOpenChangeHandler}
       >
         <Menu className="c__dropdown-menu" aria-labelledby={id}>
+          {topMessage && (
+            <MenuItem className="c__dropdown-menu-item-top-message">
+              {topMessage}
+            </MenuItem>
+          )}
           {options.map((option) => {
+            if (option.isHidden) {
+              return null;
+            }
             return (
               <Fragment key={option.label}>
                 <MenuItem
