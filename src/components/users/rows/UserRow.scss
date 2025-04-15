@@ -1,0 +1,27 @@
+.c__user-row {
+  display: flex;
+  align-items: center;
+  gap: var(--c--theme--spacings--xs);
+
+  &__name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--c--theme--colors--greyscale-1000);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__email {
+    color: var(--c--theme--colors--greyscale-600);
+    font-size: var(--c--theme--font-sizes--xs);
+
+    &.has-only-email {
+      font-weight: 500;
+      font-size: var(--c--theme--font-sizes--sm);
+      color: var(--c--theme--colors--greyscale-1000);
+    }
+  }
+}
