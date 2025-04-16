@@ -128,7 +128,7 @@ export const TreeViewExemple = ({
         <MainLayout
           enableResize
           leftPanelContent={
-            <div style={{ paddingTop: 10, height: "100%" }}>
+            <div>
               <TreeView
                 rootNodeId="ROOT_NODE_ID"
                 selectedNodeId={"1"}
