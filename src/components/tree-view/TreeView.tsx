@@ -15,7 +15,7 @@ import {
 } from "./types";
 import { isNode, isSeparator, isTitle } from "./utils";
 import { useTreeContext } from "./providers/TreeContext";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type OpenMap = {
   [id: string]: boolean;
@@ -24,6 +24,7 @@ export type OpenMap = {
 export type TreeViewProps<T> = {
   initialOpenState?: OpenMap;
   selectedNodeId?: string;
+
   rootNodeId: string;
   canDrop?: (args: {
     parentNode: NodeApi<TreeDataItem<T>> | null;
@@ -46,9 +47,34 @@ export const TreeView = <T,>({
   afterMove,
   beforeMove,
 }: TreeViewProps<T>) => {
-  const { ref, width, height } = useResizeObserver();
+  const [height, setHeight] = useState<number>(400);
+  const { ref, width } = useResizeObserver();
   const context = useTreeContext<T>();
   const treeData = context?.treeData.nodes ?? [];
+
+  useEffect(() => {
+    const treeViewElement = document.querySelector(".c__tree-view");
+    const firstChild = treeViewElement?.firstElementChild;
+    let observer: ResizeObserver | null = null;
+    if (treeViewElement && firstChild) {
+      /**
+       * This observer is used to get the height of the first child of the tree view
+       * React arborist set the height of the content in the first child of the tree view
+       * We take this height to define the height of the tree view via its height prop because otherwise it defaults to 500px.
+       * This results in a container larger than necessary which causes positioning problems for the following elements.
+       */
+      observer = new ResizeObserver(() => {
+        if (firstChild && firstChild instanceof HTMLElement) {
+          const firstChildHeight = firstChild.style.height;
+          // Add 20px to account for the last row padding bottom and top tree padding
+          setHeight(parseInt(firstChildHeight, 10) + 20);
+        }
+      });
+
+      observer.observe(firstChild);
+    }
+    return () => observer?.disconnect();
+  }, []);
 
   const getMovePosition = (args: {
     dragIds: string[];
@@ -171,7 +197,11 @@ export const TreeView = <T,>({
   }
 
   return (
-    <div ref={ref} className="c__tree-view--container">
+    <div
+      ref={ref}
+      style={{ height: height }}
+      className="c__tree-view--container"
+    >
       <Tree
         data={treeData}
         ref={context.treeApiRef}
@@ -182,6 +212,10 @@ export const TreeView = <T,>({
         className="c__tree-view"
         idAccessor="key"
         onMove={onMove}
+        height={height}
+        width={width}
+        paddingTop={10}
+        paddingBottom={10}
         rowHeight={35}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
@@ -265,11 +299,7 @@ export const TreeView = <T,>({
           parentNode.data.value.canDrop = true;
           return false;
         }}
-        paddingBottom={30}
-        paddingTop={2}
-        width={width}
         initialOpenState={initialOpenState}
-        height={height}
         overscanCount={20}
         selection={selectedNodeId}
         renderCursor={TreeViewSeparator}
@@ -291,6 +321,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
 
   const { style } = props.attrs;
   const newStyle = { ...style };
+
   if (isTitle || isSeparator) {
     return (
       <div
@@ -315,10 +346,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       onFocus={(e) => e.stopPropagation()}
       onClick={props.node.handleClick}
     >
-      {/*  The bottom padding is to make the drop more precise when dropping below the last child */}
-      <div style={{ padding: "0 12px", paddingBottom: "100px" }}>
-        {children}
-      </div>
+      <div className="c__tree-view--row-content">{children}</div>
     </div>
   );
 };

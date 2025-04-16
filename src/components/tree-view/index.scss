@@ -1,5 +1,17 @@
-.c__tree-view--container {
-  height: 100%;
+.c__tree-view--row-content {
+  padding: 0 12px;
+}
+
+.c__tree-view {
+  /* Ensure proper spacing and alignment */
+  & > div {
+    /* Target the last direct child with the row class and aria-level of 1 */
+    & > .c__tree-view--row:last-child {
+      .c__tree-view--row-content {
+        padding-bottom: 10px;
+      }
+    }
+  }
 }
 
 .c__tree-view__cursor {

@@ -51,6 +51,14 @@ export const complexTreeData: TreeViewExempleData[] = [
         { id: "d1", name: "Alice", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
         { id: "d2", name: "Bob", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
         { id: "d3", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d4", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d5", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d6", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d7", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d8", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d9", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        { id: "d10", name: "Charlie", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+        
       ],
     },
     {
