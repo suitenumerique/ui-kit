@@ -1,5 +1,5 @@
 import { DropdownMenuOption } from ":/components/dropdown-menu";
-import { InvitationUserSelectorList } from "../InvitationUserSelectorList";
+import { InvitationUserSelectorList } from "../users-invitation/InvitationUserSelectorList";
 import {
   useState,
   useRef,
