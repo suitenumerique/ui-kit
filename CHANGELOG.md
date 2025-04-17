@@ -1,5 +1,19 @@
 # @gouvfr-lasuite/ui-kit
 
+
+## 0.3.0
+
+### Minor Changes
+
+- add ShareModal component and utils components
+- add topMessage for DropdownMenu
+- add Avatar component
+- add UserRow commponent
+
+### Patch changes
+
+- fix useTree hook 
+
 ## 0.2.0
 
 ### Minor Changes
