@@ -308,6 +308,36 @@ const config = {
           "value-color": "ref(theme.colors.greyscale-950)",
           "font-size": "14px",
         },
+        "badge": {
+          "font-size": "ref(--c--theme--font--sizes--xs)",
+          "border-radius": "4px",
+          "padding-inline": "ref(--c--theme--spacings--xs)",
+          "padding-block": "ref(--c--theme--spacings--2xs)",
+          "accent": {
+            "background-color": "ref(--c--theme--colors--primary-100)",
+            "color": "ref(--c--theme--colors--primary-600)",
+          },
+          "neutral": {
+            "background-color": "ref(--c--theme--colors--greyscale-100)",
+            "color": "ref(--c--theme--colors--greyscale-600)",
+          },
+          "danger": {
+            "background-color": "ref(--c--theme--colors--danger-100)",
+            "color": "ref(--c--theme--colors--danger-600)",
+          },
+          "success": {
+            "background-color": "ref(--c--theme--colors--success-100)",
+            "color": "ref(--c--theme--colors--success-600)",
+          },
+          "warning": {
+            "background-color": "ref(--c--theme--colors--warning-100)",
+            "color": "ref(--c--theme--colors--warning-600)",
+          },
+          "info": {
+            "background-color": "ref(--c--theme--colors--info-100)",
+            "color": "ref(--c--theme--colors--info-600)",
+          },
+        },
       },
     },
   },

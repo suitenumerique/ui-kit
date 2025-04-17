@@ -1,0 +1,51 @@
+.c__badge {
+    display: inline-flex;
+    text-align: center;
+    line-height: 1em;
+    font-size: var(--c--components--badge--font-size);
+    padding-inline: var(--c--components--badge--padding-inline);
+    padding-block: var(--c--components--badge--padding-block);
+    border-radius: var(--c--components--badge--border-radius);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.c__badge--uppercased {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.c__badge--accent {
+    background-color: var(--c--components--badge--accent--background-color);
+    color: var(--c--components--badge--accent--color);
+}
+
+.c__badge--neutral {
+    background-color: var(--c--components--badge--neutral--background-color);
+    color: var(--c--components--badge--neutral--color);
+}
+
+.c__badge--danger {
+    background-color: var(--c--components--badge--danger--background-color);
+    color: var(--c--components--badge--danger--color);
+}
+
+.c__badge--success {
+    background-color: var(--c--components--badge--success--background-color);
+    color: var(--c--components--badge--success--color);
+}
+
+.c__badge--warning {
+    background-color: var(--c--components--badge--warning--background-color);
+    color: var(--c--components--badge--warning--color);
+}
+
+.c__badge--info {
+    background-color: var(--c--components--badge--info--background-color);
+    color: var(--c--components--badge--info--color);
+}
+
+
+
+
+
