@@ -1,7 +1,7 @@
 import { Button, useCunningham } from "@openfun/cunningham-react";
 import { ReactNode, useState } from "react";
-import { DropdownMenuOption } from "../dropdown-menu";
-import { AccessRoleDropdown } from "./access/AccessRoleDropdown";
+import { DropdownMenuOption } from "../../dropdown-menu";
+import { AccessRoleDropdown } from "../access/AccessRoleDropdown";
 import { UserData } from ":/components/share/types.ts";
 
 export type AddShareUserListProps<UserType> = {
