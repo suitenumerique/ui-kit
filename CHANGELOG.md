@@ -1,5 +1,10 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.4.0
+
+### Minor Changes
+
+- add filter component
 
 ## 0.3.0
 
@@ -12,7 +17,7 @@
 
 ### Patch changes
 
-- fix useTree hook 
+- fix useTree hook
 
 ## 0.2.0
 
