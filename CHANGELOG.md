@@ -1,5 +1,8 @@
 # @gouvfr-lasuite/ui-kit
 
+### Minor Changes
+
+- add Badge component
 
 ## 0.3.0
 
