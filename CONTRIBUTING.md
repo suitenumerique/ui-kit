@@ -10,8 +10,10 @@
 
 4. Commit the changes and create a PR named "🔖(release) version package".
 
-5. Run `npx @changesets/cli publish`. It will publish the new version of the package to NPM and create a git tag.
+5. Ask for approval, once the PR is approved, merge it.
 
-6. Run `git push origin <TAG>`
+6. Once merged, run `npx @changesets/cli publish`. It will publish the new version of the package to NPM and create a git tag.
 
-7. Tell everyone 🎉 !
+7. Run `git push origin <TAG>`
+
+8. Tell everyone 🎉 !
