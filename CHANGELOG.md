@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.4.1
+
+### Patch Changes
+
+- hide the user list and enter in the Share Modal component if we can't update
+
 ## 0.4.0
 
 ### Minor Changes
