@@ -244,7 +244,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
     >
       <div>
-        {pendingInvitationUsers.length > 0 && (
+        {canUpdate && pendingInvitationUsers.length > 0 && (
           <div
             className="c__share-modal__selected-users"
             ref={selectedUsersRef}
@@ -268,6 +268,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
         <QuickSearch
           onFilter={onInputChange}
           inputValue={inputValue}
+          showInput={canUpdate}
           loading={props.loading}
           placeholder={t("components.share.user.placeholder")}
         >
