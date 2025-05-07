@@ -6,6 +6,7 @@ import svg from "./header/logo-exemple.svg";
 import { MainLayout } from "./MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
 import { useState } from "react";
+import { Button } from "@openfun/cunningham-react";
 
 const meta: Meta = {
   title: "Components/Layout",
@@ -61,6 +62,7 @@ export const FullLayout: StoryObj = {
   render: () => {
     const { isDesktop } = useResponsive();
     const [rightPanelIsOpen, setRightPanelIsOpen] = useState(false);
+    const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false);
     return (
       <MainLayout
         enableResize
@@ -97,9 +99,14 @@ export const FullLayout: StoryObj = {
               }}
             >
               LeftPanel
+              <Button onClick={() => setIsLeftPanelOpen(false)}>
+                Close left panel (controlled)
+              </Button>
             </div>
           </div>
         }
+        isLeftPanelOpen={isLeftPanelOpen}
+        setIsLeftPanelOpen={setIsLeftPanelOpen}
         icon={<img src={svg} alt="logo" />}
         languages={[
           { label: "Français", isChecked: true },

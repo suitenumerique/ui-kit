@@ -11,6 +11,7 @@ import {
 } from "react-resizable-panels";
 import { DropdownMenuOption } from "../dropdown-menu/types";
 import { RightPanel } from "./right-panel/RightPanel";
+import { useControllableState } from ":/hooks/useControllableState";
 
 export type MainLayoutProps = {
   icon?: React.ReactNode;
@@ -22,6 +23,8 @@ export type MainLayoutProps = {
   enableResize?: boolean;
   rightPanelIsOpen?: boolean;
   hideLeftPanelOnDesktop?: boolean;
+  isLeftPanelOpen?: boolean;
+  setIsLeftPanelOpen?: (isLeftPanelOpen: boolean) => void;
 };
 
 export const MainLayout = ({
@@ -35,8 +38,15 @@ export const MainLayout = ({
   languages,
   enableResize = false,
   rightPanelIsOpen = false,
+
+  ...props
 }: PropsWithChildren<MainLayoutProps>) => {
-  const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false);
+  const [isLeftPanelOpen, setIsLeftPanelOpen] = useControllableState(
+    false,
+    props.isLeftPanelOpen,
+    props.setIsLeftPanelOpen
+  );
+
   const { isDesktop } = useResponsive();
   const ref = useRef<ImperativePanelHandle>(null);
 
