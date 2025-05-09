@@ -1,10 +1,15 @@
 # @gouvfr-lasuite/ui-kit
 
-## [Unreleased]
+## 0.5.0
 
 ### Minor Changes
 
 - add Badge component
+- add controlled left-panel
+
+### Patch Changes 
+
+- update react-aria deps
 
 ## 0.4.1
 
