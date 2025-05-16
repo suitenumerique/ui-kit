@@ -148,7 +148,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   };
 
   const showSearchUsers =
-    (searchQuery !== "" || pendingInvitationUsers.length > 0) && !props.loading;
+    searchQuery !== "" || pendingInvitationUsers.length > 0;
 
   const onSelect = useCallback(
     (user: UserData<UserType>) => {
@@ -278,7 +278,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
               overflowY: "auto",
             }}
           >
-            {showSearchUsers && !props.loading && (
+            {showSearchUsers && (
               <div className="c__share-modal__search-users">
                 <QuickSearchGroup
                   group={usersData}
