@@ -1,5 +1,16 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.6.0
+
+### Minor Changes
+
+- add separator for the filter component
+
+### Patch Changes 
+
+- fix the cunningham file because the refs were not used correctly
+- fix ShareModal
+
 ## 0.5.0
 
 ### Minor Changes
