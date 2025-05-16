@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import {
   Button,
   Label,
@@ -8,14 +8,20 @@ import {
   Select,
   SelectProps,
   SelectStateContext,
+  Separator,
 } from "react-aria-components";
 
 import { Option } from "@openfun/cunningham-react";
 import clsx from "clsx";
 
+export type FilterOption = Option & {
+  showSeparator?: boolean;
+  isChecked?: boolean;
+};
+
 export type FilterProps = {
   label: string;
-  options: Option[];
+  options: FilterOption[];
 } & SelectProps;
 
 export const Filter = (props: FilterProps) => {
@@ -63,13 +69,21 @@ const FilterInner = (props: FilterProps) => {
       <Popover className="c__dropdown-menu">
         <ListBox>
           {props.options.map((option) => (
-            <ListBoxItem
-              key={option.value}
-              id={option.value}
-              className="c__dropdown-menu-item"
-            >
-              {option.render ? option.render() : option.label}
-            </ListBoxItem>
+            <Fragment key={option.value}>
+              <ListBoxItem
+                key={option.value}
+                id={option.value}
+                className="c__dropdown-menu-item"
+              >
+                <div className="c__filter__item">
+                  {option.render ? option.render() : option.label}
+                  {(props.selectedKey === option.value || option.isChecked) && (
+                    <span className="material-icons checked">check</span>
+                  )}
+                </div>
+              </ListBoxItem>
+              {option.showSeparator && <Separator />}
+            </Fragment>
           ))}
         </ListBox>
       </Popover>

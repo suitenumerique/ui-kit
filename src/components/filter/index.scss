@@ -45,6 +45,14 @@
     }
   }
 
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: space-between;
+  }
+
   &__label {
     display: flex;
     align-items: center;
