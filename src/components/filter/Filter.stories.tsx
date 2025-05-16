@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Filter } from "./Filter";
+import { Filter, FilterOption } from "./Filter";
 import { useState } from "react";
 import { Key } from "react-aria-components";
-import { Button, Option } from "@openfun/cunningham-react";
+import { Button } from "@openfun/cunningham-react";
 
 const meta: Meta<typeof Filter> = {
   title: "Components/Filter",
@@ -25,7 +25,7 @@ const meta: Meta<typeof Filter> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const OPTIONS: Option[] = [
+const OPTIONS: FilterOption[] = [
   {
     label: "All",
     value: "all",
@@ -40,16 +40,7 @@ const OPTIONS: Option[] = [
   },
 ];
 
-const OPTIONS_CUSTOM: Option[] = [
-  {
-    label: "All",
-    render: () => (
-      <div style={{ display: "flex", alignItems: "center", gap: "0.5em" }}>
-        <span className="material-icons">all_inclusive</span> All
-      </div>
-    ),
-    value: "all",
-  },
+const OPTIONS_CUSTOM: FilterOption[] = [
   {
     label: "File",
     render: () => (
@@ -62,11 +53,22 @@ const OPTIONS_CUSTOM: Option[] = [
   {
     label: "Folder",
     value: "folder",
+    showSeparator: true,
+
     render: () => (
       <div style={{ display: "flex", alignItems: "center", gap: "0.5em" }}>
         <span className="material-icons">folder</span> Folder
       </div>
     ),
+  },
+  {
+    label: "Reset",
+    render: () => (
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5em" }}>
+        <span className="material-icons">all_inclusive</span> All
+      </div>
+    ),
+    value: "all",
   },
 ];
 
