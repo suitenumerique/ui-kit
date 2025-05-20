@@ -4,6 +4,7 @@
 
 ### Minor Changes
 
+- export avatar utils
 - Do not show remove access option if the deleteAccess prop is not provided
 
 ## 0.6.0
