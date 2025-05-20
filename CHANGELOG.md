@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+[Unreleased]
+
+### Minor Changes
+
+- Do not show remove access option if the deleteAccess prop is not provided
+
 ## 0.6.0
 
 ### Minor Changes
