@@ -8,6 +8,7 @@ import {
   useDropdownMenu,
 } from ":/components/dropdown-menu";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
+import { useMemo } from "react";
 
 export type ShareMemberItemProps<UserType, AccessType> = {
   accessData: AccessData<UserType, AccessType>;
@@ -30,16 +31,18 @@ export const ShareMemberItem = <UserType, AccessType>({
   const roleDropdown = useDropdownMenu();
 
   const menuOptions = useDropdownMenu();
-  const options: DropdownMenuOption[] = [
-    {
-      label: t("components.share.access.delete"),
-      icon: <span className="material-icons">back_hand</span>,
-      isDisabled: !canUpdate,
-      callback: () => {
-        deleteAccess?.(accessData);
-      },
-    },
-  ];
+  const options: DropdownMenuOption[] = useMemo(() => {
+    const options: DropdownMenuOption[] = [];
+    if (deleteAccess) {
+      options.push({
+        label: t("components.share.access.delete"),
+        icon: <span className="material-icons">back_hand</span>,
+        isDisabled: !canUpdate,
+        callback: () => deleteAccess(accessData),
+      });
+    }
+    return options;
+  }, [deleteAccess, accessData, canUpdate, t]);
 
   const handleOpenMenu = () => {
     const isOpen = menuOptions.isOpen;
@@ -68,7 +71,7 @@ export const ShareMemberItem = <UserType, AccessType>({
               canUpdate={canUpdate}
               roleTopMessage={roleTopMessage}
             />
-            {canUpdate && (
+            {options.length > 0 && canUpdate && (
               <DropdownMenu
                 options={options}
                 isOpen={menuOptions.isOpen}
