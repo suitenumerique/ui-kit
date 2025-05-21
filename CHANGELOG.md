@@ -7,6 +7,10 @@
 - export avatar utils
 - Do not show remove access option if the deleteAccess prop is not provided
 
+### Patch Changes
+
+- Fix the keyDown event propagation in TreeViewItem
+
 ## 0.6.0
 
 ### Minor Changes

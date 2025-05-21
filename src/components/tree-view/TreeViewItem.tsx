@@ -99,11 +99,17 @@ export const TreeViewItem = <T,>({
           const isItem = target.closest(".c__tree-view--node");
           if (!isItem) {
             e.stopPropagation();
+            return;
           }
           onClick?.();
         }}
         onKeyDown={(e) => {
-          e.stopPropagation();
+          // We stop all propagation if it's not a tree view item
+          const target = e.target as HTMLElement;
+          const isItem = target.closest(".c__tree-view--node");
+          if (!isItem) {
+            e.stopPropagation();
+          }
         }}
         ref={dragHandle}
         style={style}
