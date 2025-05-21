@@ -1,6 +1,6 @@
 # @gouvfr-lasuite/ui-kit
 
-[Unreleased]
+## 0.7.0
 
 ### Minor Changes
 
