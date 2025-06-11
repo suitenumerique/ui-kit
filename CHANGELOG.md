@@ -1,5 +1,12 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.8.0
+
+### Minor Changes
+
+- add icon component
+- add material filled icons
+
 ## 0.7.0
 
 ### Minor Changes
