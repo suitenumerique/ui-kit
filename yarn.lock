@@ -890,6 +890,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/material-icons-outlined/-/material-icons-outlined-5.1.1.tgz#3a659277f5029fb1ea5f64739d7ef48fd2112a8e"
   integrity sha512-HjWe3anHu9RptoAvm2UF6MPXkwsbFbH+vkg48GRIhXPsXyfmZteGHVFZpPxaZnakrmnLXDxUnnKSj7zzqk+Rhg==
 
+"@fontsource/material-icons@5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/material-icons/-/material-icons-5.2.5.tgz#cdb9dd23c0da4b021c866dc529ed4c203414ec3c"
+  integrity sha512-9k0LBRVgResIeD+vC/epYmm/awN2k2L8twwEtUWQ3FHluMi+7PbISOpXqksvfqPn9FJy4/KEeWOhFTR/SrbhNw==
+
 "@formatjs/ecma402-abstract@2.3.2":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-2.3.2.tgz#0ee291effe7ee2c340742a6c95d92eacb5e6c00a"

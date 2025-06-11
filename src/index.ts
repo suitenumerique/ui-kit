@@ -18,6 +18,7 @@ export * from "./components/tabs";
 export * from "./components/tree-view";
 export * from "./components/form/label/label";
 export * from "./components/badge";
+export * from "./components/icon";
 export * from "./hooks/useResponsive";
 export * from "./components/share";
 export * from "./components/users";
