@@ -1,6 +1,6 @@
 # @gouvfr-lasuite/ui-kit
 
-## WIP
+## 0.8.1
 
 ### Patch Changes
 
