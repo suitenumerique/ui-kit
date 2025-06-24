@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## WIP
+
+### Patch Changes
+
+- Improve hero css to avoid collision
+
 ## 0.8.0
 
 ### Minor Changes
@@ -24,7 +30,7 @@
 
 - add separator for the filter component
 
-### Patch Changes 
+### Patch Changes
 
 - fix the cunningham file because the refs were not used correctly
 - fix ShareModal
@@ -36,7 +42,7 @@
 - add Badge component
 - add controlled left-panel
 
-### Patch Changes 
+### Patch Changes
 
 - update react-aria deps
 

@@ -60,18 +60,18 @@ $sm: map.get($themes, "default", "theme", "breakpoints", "sm");
         max-width: 100%;
       }
 
-      h2 {
+      > h2 {
         font-size: 2.3rem;
         font-weight: bold;
-        color: var(--c--themes--colorc--greyscale-800);
+        color: var(--c--theme--colors--greyscale-800);
         text-align: center;
         margin: 0;
         line-height: 45px;
       }
 
-      span {
+      &__subtitle {
         font-size: 1.125rem;
-        color: var(--c--themes--colorc--greyscale-700);
+        color: var(--c--theme--colors--greyscale-600);
         text-align: center;
         margin-bottom: 1rem;
       }

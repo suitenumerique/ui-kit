@@ -19,7 +19,9 @@ export const Hero = ({
         <div className="c__hero__display__captions">
           {logo}
           <h2>{title}</h2>
-          <span>{subtitle}</span>
+          <span className="c__hero__display__captions__subtitle">
+            {subtitle}
+          </span>
           {mainButton ? mainButton : <ProConnectButton />}
         </div>
         <img src={banner} alt="" />
