@@ -1,5 +1,10 @@
 # @gouvfr-lasuite/ui-kit
 
+
+### Patch Changes
+
+- add react 19 as peer dependency
+
 ## 0.8.1
 
 ### Patch Changes
