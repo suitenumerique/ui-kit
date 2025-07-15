@@ -1,4 +1,5 @@
 import { ShareModalExample } from "./ShareModalExample";
+import { ShareModal } from "../ShareModal";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -9,5 +10,121 @@ const meta = {
 export default meta;
 
 export const Default = {
+  render: () => <ShareModalExample linkSettings={true} />,
+};
+
+export const DefaultReadOnly = {
+  render: () => <ShareModalExample linkSettings={true} canUpdate={false} />,
+};
+
+export const WithoutLinkSettings = {
   render: () => <ShareModalExample />,
+};
+
+export const LinkSettingsOnly = {
+  render: () => (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      linkSettings={true}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      onUpdateLinkReach={(value) => {
+        console.log("UPDATE LINK REACH", value);
+      }}
+      hideInvitations={true}
+      hideMembers={true}
+      linkRole="reader"
+      showLinkRole={true}
+      linkRoleChoices={[
+        {
+          value: "reader",
+        },
+        {
+          value: "editor",
+        },
+      ]}
+      onUpdateLinkRole={(value) => {
+        console.log("UPDATE LINK ROLE", value);
+      }}
+    ></ShareModal>
+  ),
+};
+
+export const LinkSettingsOnlyReadOnly = {
+  render: () => (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      linkSettings={true}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      hideInvitations={true}
+      hideMembers={true}
+      canUpdate={false}
+      linkRole="reader"
+      showLinkRole={true}
+      linkRoleChoices={[
+        {
+          value: "reader",
+        },
+        {
+          value: "editor",
+        },
+      ]}
+    ></ShareModal>
+  ),
+};
+
+export const LinkSettingsOnlyWithoutRole = {
+  render: () => (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      linkSettings={true}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      hideInvitations={true}
+      hideMembers={true}
+    ></ShareModal>
+  ),
+};
+
+export const LinkSettingsOnlyWithoutRoleReadOnly = {
+  render: () => (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      linkSettings={true}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      hideInvitations={true}
+      hideMembers={true}
+      canUpdate={false}
+    ></ShareModal>
+  ),
 };
