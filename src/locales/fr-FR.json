@@ -26,6 +26,31 @@
       "user": {
         "no_result": "Aucun résultat",
         "placeholder": "Rechercher un utilisateur"
+      },
+      "linkSettings": {
+        "title": "Paramètres du lien",
+        "reach": {
+          "choices": {
+            "public": {
+              "title": "Public",
+              "description": "N'importe qui avec le lien peut accéder au document"
+            },
+            "restricted": {
+              "title": "Privé",
+              "description": "Seulement les utilisateurs de l'espace peuvent y avoir accès"
+            }
+          }
+        },
+        "role": {
+          "choices": {
+            "reader": {
+              "title": "Lecture seule"
+            },
+            "editor": {
+              "title": "Édition"
+            }
+          }
+        }
       }
     },
     "footer": {
