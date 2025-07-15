@@ -17,6 +17,9 @@
         "title_singular": "Shared between {count} person",
         "load_more": "Show more "
       },
+      "item": {
+        "add": "Add"
+      },
       "search": {
         "placeholder": "Search user",
         "group_name": "Search user result"
@@ -25,8 +28,30 @@
         "no_result": "No result",
         "placeholder": "Search user"
       },
-      "item": {
-        "add": "Add"
+      "linkSettings": {
+        "title": "Link settings",
+        "reach": {
+          "choices": {
+            "public": {
+              "title": "Public",
+              "description": "Anyone with the link can access the document"
+            },
+            "restricted": {
+              "title": "Private",
+              "description": "Only users of the space can access the document"
+            }
+          }
+        },
+        "role": {
+          "choices": {
+            "reader": {
+              "title": "Reader"
+            },
+            "editor": {
+              "title": "Editor"
+            }
+          }
+        }
       }
     },
     "footer": {
