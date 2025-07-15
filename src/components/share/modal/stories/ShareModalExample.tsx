@@ -28,7 +28,10 @@ type AccessType = AccessData<
   }
 >;
 
-export const ShareModalExample = () => {
+export const ShareModalExample = (props: {
+  linkSettings?: boolean;
+  canUpdate?: boolean;
+}) => {
   const [userQuery, setUserQuery] = useState("");
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -136,48 +139,65 @@ export const ShareModalExample = () => {
   };
 
   return (
-    <>
-      <ShareModal<UserType, InvitationType, AccessType>
-        isOpen={true}
-        onClose={() => {}}
-        accesses={members}
-        invitations={invitations}
-        onSearchUsers={setUserQuery}
-        onInviteUser={console.log}
-        onUpdateAccess={onUpdateAccess}
-        accessRoleTopMessage={(access) => {
-          if (access.role === "admin") {
-            return "Vous ne pouvez pas modifier le rôle d'un administrateur";
-          }
-          return undefined;
-        }}
-        loading={loading}
-        onDeleteAccess={onDeleteAccess}
-        onUpdateInvitation={onUpdateInvitation}
-        onDeleteInvitation={onDeleteInvitation}
-        invitationRoles={invitationRoles}
-        searchUsersResult={users}
-        hasNextMembers={true}
-        onLoadNextMembers={() => {
-          console.log("LOAD NEXT MEMBERS");
-        }}
-        canUpdate={true}
-        hasNextInvitations={true}
-        onLoadNextInvitations={() => {
-          console.log("LOAD NEXT INVITATIONS");
-        }}
-        getAccessRoles={getAccessRoles}
-        outsideSearchContent={
-          <ShareModalCopyLinkFooter
-            onCopyLink={() => {
-              console.log("COPY LINK");
-            }}
-            onOk={() => {
-              console.log("OK");
-            }}
-          />
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      accesses={members}
+      invitations={invitations}
+      onSearchUsers={setUserQuery}
+      onInviteUser={console.log}
+      onUpdateAccess={onUpdateAccess}
+      accessRoleTopMessage={(access) => {
+        if (access.role === "admin") {
+          return "Vous ne pouvez pas modifier le rôle d'un administrateur";
         }
-      />
-    </>
+        return undefined;
+      }}
+      loading={loading}
+      onDeleteAccess={onDeleteAccess}
+      onUpdateInvitation={onUpdateInvitation}
+      onDeleteInvitation={onDeleteInvitation}
+      invitationRoles={invitationRoles}
+      searchUsersResult={users}
+      hasNextMembers={true}
+      onLoadNextMembers={() => {
+        console.log("LOAD NEXT MEMBERS");
+      }}
+      canUpdate={props.canUpdate ?? true}
+      hasNextInvitations={true}
+      onLoadNextInvitations={() => {
+        console.log("LOAD NEXT INVITATIONS");
+      }}
+      getAccessRoles={getAccessRoles}
+      outsideSearchContent={
+        <ShareModalCopyLinkFooter
+          onCopyLink={() => {
+            console.log("COPY LINK");
+          }}
+          onOk={() => {
+            console.log("OK");
+          }}
+        />
+      }
+      {...props}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      linkRole="reader"
+      showLinkRole={true}
+      linkRoleChoices={[
+        {
+          value: "reader",
+        },
+        {
+          value: "editor",
+        },
+      ]}
+    />
   );
 };
