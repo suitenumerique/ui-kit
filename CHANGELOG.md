@@ -1,5 +1,15 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.9.0
+
+### Minor Changes
+
+- Added link reach and role handling in ShareModal
+
+### Patch Changes
+
+- Make tooltip word break for multiline overflow
+
 ## 0.8.2
 
 ### Patch Changes
