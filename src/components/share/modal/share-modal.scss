@@ -119,3 +119,26 @@ $md: map.get($themes, "default", "theme", "breakpoints", "md");
     }
   }
 }
+
+.c__share-modal__cannot-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    padding: var(--c--theme--spacings--sm);
+    font-size: var(--c--theme--font--sizes--sm);
+    color: var(--c--theme--colors--greyscale-600);
+    max-width: 320px;
+    text-align: center;
+    padding: var(--c--theme--spacings--sm);
+    margin: 0;
+  }
+}

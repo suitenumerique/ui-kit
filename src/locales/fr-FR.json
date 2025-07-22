@@ -8,6 +8,9 @@
       "access": {
         "delete": "Retirer l'accès"
       },
+      "cannot_view": {
+        "message": "Vous pouvez voir cet élément mais vous avez besoin d'un accès supplémentaire pour voir ses membres ou modifier les paramètres."
+      },
       "invitations": {
         "title": "Invitations en attente"
       },
