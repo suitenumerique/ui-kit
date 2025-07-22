@@ -31,6 +31,7 @@ type AccessType = AccessData<
 export const ShareModalExample = (props: {
   linkSettings?: boolean;
   canUpdate?: boolean;
+  canView?: boolean;
 }) => {
   const [userQuery, setUserQuery] = useState("");
   const [users, setUsers] = useState<UserType[]>([]);
@@ -164,6 +165,7 @@ export const ShareModalExample = (props: {
         console.log("LOAD NEXT MEMBERS");
       }}
       canUpdate={props.canUpdate ?? true}
+      canView={props.canView ?? true}
       hasNextInvitations={true}
       onLoadNextInvitations={() => {
         console.log("LOAD NEXT INVITATIONS");

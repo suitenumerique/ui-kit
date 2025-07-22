@@ -21,6 +21,16 @@ export const WithoutLinkSettings = {
   render: () => <ShareModalExample />,
 };
 
+export const DefaultCannotView = {
+  render: () => <ShareModalExample canView={false} canUpdate={false} />,
+};
+
+export const DefaultCannotViewWithLinkSettings = {
+  render: () => (
+    <ShareModalExample canView={false} canUpdate={false} linkSettings={true} />
+  ),
+};
+
 export const LinkSettingsOnly = {
   render: () => (
     <ShareModal

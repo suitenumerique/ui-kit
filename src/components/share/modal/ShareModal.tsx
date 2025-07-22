@@ -30,6 +30,12 @@ import { ShareInvitationItem } from "./items/ShareInvitationItem";
 import { useResponsive } from ":/hooks/useResponsive";
 import { ShareLinkSettings } from "./items/ShareLinkSettings";
 
+enum ViewMode {
+  CANNOT_VIEW = "cannot_view",
+  SEARCH = "search",
+  EMPTY = "empty",
+}
+
 // We separate the props into two types to make them lighter. Here are only the invitation-specific props
 type ShareModalInvitationProps<UserType, InvitationType> = {
   invitations?: InvitationData<UserType, InvitationType>[];
@@ -91,6 +97,9 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   modalTitle?: string;
   isOpen: boolean;
   canUpdate?: boolean;
+  canView?: boolean;
+  cannotViewChildren?: ReactNode;
+  cannotViewMessage?: string;
   onClose: () => void;
   invitationRoles?: DropdownMenuOption[];
   getAccessRoles?: (
@@ -112,9 +121,11 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   invitations = [],
   hasNextMembers = false,
   canUpdate = true,
+  canView = true,
   hasNextInvitations = false,
   hideInvitations = false,
   hideMembers = false,
+  cannotViewChildren,
   ...props
 }: PropsWithChildren<
   ShareModalProps<UserType, InvitationType, AccessType>
@@ -130,6 +141,9 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   }
   if (!hideInvitations && !props.onInviteUser) {
     throw new Error("onInviteUser is required");
+  }
+  if (canUpdate && !canView) {
+    throw new Error("canView cannot be false if canUpdate is true");
   }
 
   const { t } = useCunningham();
@@ -268,8 +282,20 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const showMembers =
     !hideMembers && !showSearchUsers && !props.loading && members.length > 0;
 
-  // If we hide invitations and members, we don't show the search anyway.
-  const showSearch = !(hideInvitations && hideMembers);
+  const getViewMode = () => {
+    if (!canView) {
+      return ViewMode.CANNOT_VIEW;
+    }
+
+    // If we hide invitations and members, we don't show the search anyway.
+    if (!(hideInvitations && hideMembers)) {
+      return ViewMode.SEARCH;
+    }
+
+    return ViewMode.EMPTY;
+  };
+
+  const viewMode = getViewMode();
 
   return (
     <Modal
@@ -302,7 +328,24 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
           </div>
         )}
 
-        {showSearch && (
+        {viewMode === ViewMode.CANNOT_VIEW && (
+          <div
+            className="c__share-modal__cannot-view"
+            style={{
+              height: listHeight,
+            }}
+          >
+            <div className="c__share-modal__cannot-view__content">
+              <p>
+                {props.cannotViewMessage ??
+                  t("components.share.cannot_view.message")}
+              </p>
+            </div>
+            {cannotViewChildren}
+          </div>
+        )}
+
+        {viewMode === ViewMode.SEARCH && (
           <QuickSearch
             onFilter={onInputChange}
             inputValue={inputValue}
