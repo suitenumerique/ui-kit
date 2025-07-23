@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.10.0
+
+### Minor Changes
+
+- Add cannot view feature to share modal
+
 ## 0.9.0
 
 ### Minor Changes
