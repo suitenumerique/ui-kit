@@ -57,3 +57,6 @@ db.sqlite3
 *.iml
 .devcontainer   
 node_modules
+
+# Storybook
+storybook-static/
