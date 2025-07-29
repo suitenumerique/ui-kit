@@ -45,8 +45,10 @@ export const Icon: React.FC<IconProps> = ({
     ``,
     {
       [`icon--${size}`]: size !== undefined,
-      [`material-icons-${type}`]: type !== IconType.OUTLINED,
-      "material-icons": type === IconType.OUTLINED,
+      "material-icons-outlined": type === IconType.OUTLINED,
+      "material-icons-round": type === IconType.ROUND,
+      "material-icons-two-tone": type === IconType.TWO_TONE,
+      "material-icons": type === IconType.FILLED,
     },
     className
   );

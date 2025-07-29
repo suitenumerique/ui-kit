@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Material Icons Round";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('https://fichiers.numerique.gouv.fr/media/item/6a6be3db-d271-4a65-b279-1a6c1a3f7b2f/MaterialIconsRound-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: "Material Icons Outlined";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('https://fichiers.numerique.gouv.fr/media/item/a73012ca-e267-4577-b4b4-28c46163bdbd/MaterialIconsOutlined-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: "Material Icons Two Tone";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('https://fichiers.numerique.gouv.fr/media/item/54cdc2bc-9e3c-4461-ac0a-f7d96530b250/MaterialIconsTwoTone-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: "Material Icons Regular";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url("https://fichiers.numerique.gouv.fr/media/item/88fd5818-c4e2-4925-bb98-0dcf5a474d68/MaterialIcons-Regular.ttf") format('truetype');
+}
+
+/* Base styles for all Material Icons */
+.material-icons-round,
+.material-icons-filled,
+.material-icons-outlined,
+.material-icons-two-tone,
+.material-icons {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-icons-round {
+  font-family: 'Material Icons Round';
+}
+.material-icons-outlined {
+  font-family: 'Material Icons Outlined';
+}
+.material-icons-two-tone {
+  font-family: 'Material Icons Two Tone';
+}
+.material-icons, .material-icons-filled {
+  font-family: 'Material Icons Regular';
+}
