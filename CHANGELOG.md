@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.11.0
+
+### Minor Changes
+
+- Update cunningham version to 3.2.1
+
 ## 0.10.0
 
 ### Minor Changes
