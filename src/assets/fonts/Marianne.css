@@ -1,0 +1,101 @@
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/6f43b1bf-c13d-471a-bf9f-31c1ed96c718/Marianne-Thin.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/4d62947d-8479-4bc5-893e-245b8219e916/Marianne-Thin.woff') format('woff');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/f26a85df-afaf-4581-9d7d-ebcec5378dfb/Marianne-Thin_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/7a91aac7-a19d-4315-be1e-d8c1fff9dea8/Marianne-Thin_Italic.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/2a16fa37-fcee-4e77-892a-ca6fd96dc6cb/Marianne-Light.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/0d5cce56-aea5-489d-99f6-19b427acc7ff/Marianne-Light.woff') format('woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/7a316525-f36d-4ddc-8e39-03189b74ee35/Marianne-Light_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/b0ce210c-88e1-4bdf-b8bd-2780a19d7398/Marianne-Light_Italic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/7508ebd8-7dc2-46df-9db7-0e1a786ac343/Marianne-Regular.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/3d7990a7-ccd1-4891-9c2f-70f0ed21795b/Marianne-Regular.woff') format('woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/05352282-8b33-4f65-8b38-cc2333b921c1/Marianne-Regular_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/149b8466-b73f-46a6-bf36-84b0283e9a9f/Marianne-Regular_Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/8528c5ad-524e-4bea-899e-f7ba0fc34fa5/Marianne-Medium.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/da426e8c-02f8-423e-b0d8-c1edd93e1fc6/Marianne-Medium.woff') format('woff');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/a7e93e1c-03ff-4ecf-ba36-b17cce60a8f4/Marianne-Medium_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/bfe23ab5-afda-4b56-ae9e-26a9b3e60a86/Marianne-Medium_Italic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/41dd47de-4453-4c9a-9e6a-25fa05341437/Marianne-Bold.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/7a1a7850-b448-4c81-a635-c2f6322db126/Marianne-Bold.woff') format('woff');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/b203bc91-d7bf-470b-92a3-ed498b95d815/Marianne-Bold_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/f318c374-69e5-4bb5-b339-fcaefcb4b2c5/Marianne-Bold_Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/d8e97f6c-9129-468d-9e81-515f57db9efb/Marianne-ExtraBold.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/383a6f90-e14f-4cc7-8803-e5c5a19b7f37/Marianne-ExtraBold.woff') format('woff');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: Marianne;
+  src:
+    url('https://fichiers.numerique.gouv.fr/media/item/0f13f26e-05b0-42c4-a42d-1b9ce9dcfd7d/Marianne-ExtraBold_Italic.woff2') format('woff2'),
+    url('https://fichiers.numerique.gouv.fr/media/item/5ee7442f-40ed-4702-b8c9-0492f8265243/Marianne-ExtraBold_Italic.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+}

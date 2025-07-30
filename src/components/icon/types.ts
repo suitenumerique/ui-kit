@@ -9,4 +9,6 @@ export enum IconSize {
 export enum IconType  {
   OUTLINED = "outlined",
   FILLED = "filled",
+  TWO_TONE = "two-tone",
+  ROUND = "round",
 };

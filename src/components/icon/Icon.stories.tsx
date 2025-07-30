@@ -69,6 +69,26 @@ export const Outlined: Story = {
   ),
 };
 
+export const TwoTone: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Icon name="home" type={IconType.TWO_TONE} />
+      <Icon name="check_circle" type={IconType.TWO_TONE} />
+      <Icon name="info" type={IconType.TWO_TONE} />
+    </div>
+  ),
+};
+
+export const Round: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Icon name="home" type={IconType.ROUND} />
+      <Icon name="check_circle" type={IconType.ROUND} />
+      <Icon name="info" type={IconType.ROUND} />
+    </div>
+  ),
+};
+
 // Different colors
 export const Colors: Story = {
   render: () => (
