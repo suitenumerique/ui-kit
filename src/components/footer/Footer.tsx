@@ -1,12 +1,34 @@
+import { useCunningham } from "@openfun/cunningham-react";
 import IconLink from "./assets/external-link.svg";
 import LogoGouv from ":/assets/logo-gouv.svg";
-import { useCunningham } from "@openfun/cunningham-react";
 
-// Improvements:
-// - Customize all links
-export const Footer = () => {
+type Link = {
+  label: string;
+  href: string;
+};
+
+export type FooterProps = {
+  externalLinks?: readonly Link[];
+  legalLinks?: readonly Link[];
+  license?: {
+    label: string;
+    link: Link;
+  };
+  logo?: {
+    src: string;
+    width?: string;
+    height?: string;
+    alt: string;
+  };
+};
+
+export const Footer = ({
+  externalLinks,
+  legalLinks,
+  license,
+  logo,
+}: FooterProps) => {
   const { t } = useCunningham();
-
   return (
     <footer className="c__footer">
       <div className="c__footer__stripe" />
@@ -16,83 +38,39 @@ export const Footer = () => {
             <div className="c__footer__content__top__logo">
               <img
                 className="c__footer__logo"
-                alt=""
-                width="0"
-                height="0"
+                alt={logo?.alt || t("components.footer.logo.alt")}
+                width={logo?.width}
+                height={logo?.height}
                 decoding="async"
-                data-nimg="1"
-                src={LogoGouv}
+                src={logo?.src || LogoGouv}
               />
             </div>
           </div>
           <div className="c__footer__content__top__links">
-            {[
-              {
-                label: "legifrance.gouv.fr",
-                href: "https://legifrance.gouv.fr/",
-              },
-              {
-                label: "info.gouv.fr",
-                href: "https://info.gouv.fr/",
-              },
-              {
-                label: "service-public.fr",
-                href: "https://service-public.fr/",
-              },
-              {
-                label: "data.gouv.fr",
-                href: "https://data.gouv.fr/",
-              },
-            ].map(({ label, href }) => (
+            {externalLinks?.map(({ label, href }) => (
               <a key={label} href={href} target="_blank">
                 <span>{label}</span>
-                <img
-                  alt=""
-                  width="18"
-                  decoding="async"
-                  data-nimg="1"
-                  src={IconLink}
-                />
+                <img alt="" width="18" decoding="async" src={IconLink} />
               </a>
             ))}
           </div>
         </div>
         <div className="c__footer__content__middle">
-          {[
-            {
-              label: t("components.footer.links.legal"),
-              href: "/legal-notice",
-            },
-            {
-              label: t("components.footer.links.personal_data"),
-              href: "/personal-data-cookies",
-            },
-            {
-              label: t("components.footer.links.accessibility"),
-              href: "/accessibility",
-            },
-          ].map(({ label, href }) => (
+          {legalLinks?.map(({ label, href }) => (
             <a key={label} href={href}>
               <span>{label}</span>
             </a>
           ))}
         </div>
-        <p className="c__footer__content__mention">
-          {t("components.footer.mention")}{" "}
-          <a
-            href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
-            target="__blank"
-          >
-            <span>{t("components.footer.license")}</span>
-            <img
-              alt=""
-              width="18"
-              decoding="async"
-              data-nimg="1"
-              src={IconLink}
-            />
-          </a>
-        </p>
+        {license && (
+          <p className="c__footer__content__mention">
+            {license?.label}{" "}
+            <a href={license?.link.href} target="_blank">
+              <span>{license?.link.label}</span>
+              <img alt="" width="18" decoding="async" src={IconLink} />
+            </a>
+          </p>
+        )}
       </div>
     </footer>
   );
