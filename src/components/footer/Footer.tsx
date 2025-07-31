@@ -1,12 +1,37 @@
 import IconLink from "./assets/external-link.svg";
 import LogoGouv from ":/assets/logo-gouv.svg";
-import { useCunningham } from "@openfun/cunningham-react";
 
+type FooterProps = {
+  externalLinks?: {
+    label: string;
+    href: string;
+  }[];
+  legalLinks?: {
+    label: string;
+    href: string;
+  }[];
+  license?: {
+    label: string;
+    link: {
+      label: string;
+      href: string;
+    };
+  };
+  logo?: {
+    src: string;
+    width?: string;
+    height?: string;
+    alt: string;
+  };
+}
 // Improvements:
 // - Customize all links
-export const Footer = () => {
-  const { t } = useCunningham();
-
+export const Footer = ({
+  externalLinks,
+  legalLinks,
+  license,
+  logo,
+}: FooterProps) => {
   return (
     <footer className="c__footer">
       <div className="c__footer__stripe" />
@@ -16,34 +41,17 @@ export const Footer = () => {
             <div className="c__footer__content__top__logo">
               <img
                 className="c__footer__logo"
-                alt=""
-                width="0"
-                height="0"
+                alt={logo?.alt}
+                width={logo?.width}
+                height={logo?.height}
                 decoding="async"
                 data-nimg="1"
-                src={LogoGouv}
+                src={logo?.src || LogoGouv}
               />
             </div>
           </div>
           <div className="c__footer__content__top__links">
-            {[
-              {
-                label: "legifrance.gouv.fr",
-                href: "https://legifrance.gouv.fr/",
-              },
-              {
-                label: "info.gouv.fr",
-                href: "https://info.gouv.fr/",
-              },
-              {
-                label: "service-public.fr",
-                href: "https://service-public.fr/",
-              },
-              {
-                label: "data.gouv.fr",
-                href: "https://data.gouv.fr/",
-              },
-            ].map(({ label, href }) => (
+            {externalLinks?.map(({ label, href }) => (
               <a key={label} href={href} target="_blank">
                 <span>{label}</span>
                 <img
@@ -58,32 +66,19 @@ export const Footer = () => {
           </div>
         </div>
         <div className="c__footer__content__middle">
-          {[
-            {
-              label: t("components.footer.links.legal"),
-              href: "/legal-notice",
-            },
-            {
-              label: t("components.footer.links.personal_data"),
-              href: "/personal-data-cookies",
-            },
-            {
-              label: t("components.footer.links.accessibility"),
-              href: "/accessibility",
-            },
-          ].map(({ label, href }) => (
+          {legalLinks?.map(({ label, href }) => (
             <a key={label} href={href}>
               <span>{label}</span>
             </a>
           ))}
         </div>
         <p className="c__footer__content__mention">
-          {t("components.footer.mention")}{" "}
+          {license?.label}{" "}
           <a
-            href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+            href={license?.link.href}
             target="__blank"
           >
-            <span>{t("components.footer.license")}</span>
+            <span>{license?.link.label}</span>
             <img
               alt=""
               width="18"
