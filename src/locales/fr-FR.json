@@ -57,13 +57,9 @@
       }
     },
     "footer": {
-      "links": {
-        "legal": "Mentions Légales",
-        "personal_data": "Données personnelles et cookies",
-        "accessibility": "Accessibilité"
-      },
-      "mention": "Sauf mention contraire, tout le contenu de ce site est sous",
-      "license": "licence etalab-2.0"
+      "logo": {
+        "alt": "Logo du gouvernement français"
+      }
     }
   }
 }
