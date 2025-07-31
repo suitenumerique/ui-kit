@@ -1,7 +1,7 @@
 import IconLink from "./assets/external-link.svg";
 import LogoGouv from ":/assets/logo-gouv.svg";
 
-type FooterProps = {
+export type FooterProps = {
   externalLinks?: {
     label: string;
     href: string;
@@ -72,6 +72,7 @@ export const Footer = ({
             </a>
           ))}
         </div>
+        {license && (
         <p className="c__footer__content__mention">
           {license?.label}{" "}
           <a
@@ -84,10 +85,11 @@ export const Footer = ({
               width="18"
               decoding="async"
               data-nimg="1"
-              src={IconLink}
-            />
-          </a>
-        </p>
+                src={IconLink}
+              />
+            </a>
+          </p>
+          )}
       </div>
     </footer>
   );
