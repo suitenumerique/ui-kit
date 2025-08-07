@@ -54,7 +54,8 @@
   color: var(--c--components--button--primary--color-focus-visible);
 }
 
-.c__button--primary:disabled {
+.c__button--primary:disabled,
+.c__button--primary.c__button--disabled {
   background-color: var(--c--components--button--primary--background--disabled);
   color: var(--c--components--button--primary--disabled);
 }
@@ -91,7 +92,8 @@
   );
 }
 
-.c__button--secondary:disabled {
+.c__button--secondary:disabled,
+.c__button--secondary.c__button--disabled {
   background-color: var(
     --c--components--button--secondary--background--disabled
   );
@@ -123,14 +125,15 @@
   );
 }
 
-.c__button--primary-text:disabled {
+.c__button--primary-text:disabled,
+.c__button--primary-text.c__button--disabled {
   border: 1px solid transparent;
   background-color: var(
     --c--components--button--primary-text--background--disabled
   );
   color: var(--c--components--button--primary-text--disabled) !important;
 }
-/** 
+/**
  * Button Tertiary
 */
 
@@ -166,7 +169,8 @@
   color: var(--c--components--button--tertiary--color);
 }
 
-.c__button--tertiary:disabled {
+.c__button--tertiary:disabled,
+.c__button--tertiary.c__button--disabled {
   background-color: var(
     --c--components--button--tertiary--background--disabled
   );
@@ -186,7 +190,8 @@
   color: var(--c--components--button--tertiary-text--color-hover);
 }
 
-.c__button--tertiary-text:disabled {
+.c__button--tertiary-text:disabled,
+.c__button--tertiary-text.c__button--disabled {
   background-color: var(
     --c--components--button--tertiary-text--background--color-disabled
   );
@@ -214,7 +219,8 @@
   color: var(--c--components--button--danger--color-hover);
 }
 
-.c__button--danger:disabled {
+.c__button--danger:disabled,
+.c__button--danger.c__button--disabled {
   background-color: var(
     --c--components--button--danger--background--color-disabled
   );
