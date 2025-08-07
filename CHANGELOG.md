@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## [Unreleased]
+
+### Minor Changes
+
+- Customize disable state of button link
+
 ## 0.11.0
 
 ### Minor Changes

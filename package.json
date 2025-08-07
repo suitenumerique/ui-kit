@@ -36,7 +36,7 @@
     "@dnd-kit/sortable": "10.0.0",
     "@fontsource/material-icons": "5.2.5",
     "@gouvfr-lasuite/integration": "1.0.2",
-    "@openfun/cunningham-react": "3.2.1",
+    "@openfun/cunningham-react": "3.2.2",
     "@types/node": "22.10.7",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",

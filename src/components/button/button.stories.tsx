@@ -44,25 +44,68 @@ export const All: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const AllAsLink: Story = {
   render: () => {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <Button color="primary" size="medium" disabled>
-          Primary
+          <Button href="#" color="primary" size="medium">
+          Primary link
         </Button>
-        <Button color="primary-text" size="medium" disabled>
-          Primary text
+        <Button href="#" color="primary-text" size="medium">
+          Primary text link
         </Button>
-        <Button color="secondary" size="medium" disabled>
-          Secondary
+        <Button href="#" color="secondary" size="medium">
+          Secondary link
         </Button>
-        <Button color="tertiary" size="medium" disabled>
-          Tertiary
+        <Button href="#" color="tertiary" size="medium">
+          Tertiary link
         </Button>
-        <Button color="danger" size="medium" disabled>
-          Danger
+        <Button href="#" color="danger" size="medium">
+          Danger link
         </Button>
+        </div>
+    );
+  },
+};
+
+export const Disabled: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Button color="primary" size="medium" disabled>
+            Primary
+          </Button>
+          <Button color="primary-text" size="medium" disabled>
+            Primary text
+          </Button>
+          <Button color="secondary" size="medium" disabled>
+            Secondary
+          </Button>
+          <Button color="tertiary" size="medium" disabled>
+            Tertiary
+          </Button>
+          <Button color="danger" size="medium" disabled>
+            Danger
+          </Button>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Button href="#" color="primary" size="medium" disabled>
+            Primary link
+          </Button>
+          <Button href="#" color="primary-text" size="medium" disabled>
+            Primary text link
+          </Button>
+          <Button href="#" color="secondary" size="medium" disabled>
+            Secondary link
+          </Button>
+          <Button href="#" color="tertiary" size="medium" disabled>
+            Tertiary link
+          </Button>
+          <Button href="#" color="danger" size="medium" disabled>
+            Danger link
+          </Button>
+        </div>
       </div>
     );
   },

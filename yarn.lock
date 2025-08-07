@@ -1120,10 +1120,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@openfun/cunningham-react@3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@openfun/cunningham-react/-/cunningham-react-3.2.1.tgz#19e1530d3e0b622d119265ef3f605f8f5e57b73a"
-  integrity sha512-nNbiae8P2lYQczzK8PC4QzYYmdbeGcjzTB7JoAXKsJv4Ep2XqFgNO9nVLVtIOs8W54zJEzDEw8mr1wuuse6Rjw==
+"@openfun/cunningham-react@3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@openfun/cunningham-react/-/cunningham-react-3.2.2.tgz#ba87442a51666eabb292d72c71c695dafbf5856e"
+  integrity sha512-yhVizO40D0wFGUxXEIOmAu9ujPq0xfUzOey8kibVNZAIGHaVDfVgJLNMVQSpBr4HHIqUZoJvGLPxHegcmKbvow==
   dependencies:
     "@fontsource-variable/roboto-flex" "5.2.5"
     "@fontsource/material-icons-outlined" "5.2.5"
