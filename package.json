@@ -22,14 +22,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "yarn run import-locales && tsc && vite build && cp cunningham.ts dist/cunningham.ts",
+    "build": "tsc && vite build && cp cunningham.ts dist/cunningham.ts",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
     "build-theme": "cunningham -g css,scss -o src && mv src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "import-locales": "cp -R node_modules/@openfun/cunningham-react/dist/locales/ src/locales/originals/"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@dnd-kit/core": "6.3.1",
