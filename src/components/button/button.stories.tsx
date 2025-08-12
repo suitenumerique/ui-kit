@@ -36,6 +36,9 @@ export const All: Story = {
         <Button color="tertiary" size="medium">
           Tertiary
         </Button>
+        <Button color="tertiary-text" size="medium">
+          Tertiary text
+        </Button>
         <Button color="danger" size="medium">
           Danger
         </Button>
@@ -59,6 +62,9 @@ export const AllAsLink: Story = {
         </Button>
         <Button href="#" color="tertiary" size="medium">
           Tertiary link
+        </Button>
+        <Button href="#" color="tertiary-text" size="medium">
+          Tertiary text link
         </Button>
         <Button href="#" color="danger" size="medium">
           Danger link
@@ -85,6 +91,9 @@ export const Disabled: Story = {
           <Button color="tertiary" size="medium" disabled>
             Tertiary
           </Button>
+          <Button color="tertiary-text" size="medium" disabled>
+            Tertiary text
+          </Button>
           <Button color="danger" size="medium" disabled>
             Danger
           </Button>
@@ -102,7 +111,59 @@ export const Disabled: Story = {
           <Button href="#" color="tertiary" size="medium" disabled>
             Tertiary link
           </Button>
+          <Button href="#" color="tertiary-text" size="medium" disabled>
+            Tertiary text link
+          </Button>
           <Button href="#" color="danger" size="medium" disabled>
+            Danger link
+          </Button>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const Active: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Button color="primary" size="medium" active>
+            Primary
+          </Button>
+          <Button color="primary-text" size="medium" active>
+            Primary text
+          </Button>
+          <Button color="secondary" size="medium" active>
+            Secondary
+          </Button>
+          <Button color="tertiary" size="medium" active>
+            Tertiary
+          </Button>
+          <Button color="tertiary-text" size="medium" active>
+            Tertiary text
+          </Button>
+          <Button color="danger" size="medium" active>
+            Danger
+          </Button>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Button href="#" color="primary" size="medium" active>
+            Primary link
+          </Button>
+          <Button href="#" color="primary-text" size="medium" active>
+            Primary text link
+          </Button>
+          <Button href="#" color="secondary" size="medium" active>
+            Secondary link
+          </Button>
+          <Button href="#" color="tertiary" size="medium" active>
+            Tertiary link
+          </Button>
+          <Button href="#" color="tertiary-text" size="medium" active>
+            Tertiary text link
+          </Button>
+          <Button href="#" color="danger" size="medium" active>
             Danger link
           </Button>
         </div>
@@ -156,6 +217,13 @@ export const AllWithIcons: Story = {
           Tertiary
         </Button>
         <Button
+          color="tertiary-text"
+          size="medium"
+          icon={<span className="material-icons">add</span>}
+        >
+          Tertiary text
+        </Button>
+        <Button
           color="danger"
           size="medium"
           icon={<span className="material-icons">add</span>}
@@ -198,6 +266,13 @@ export const AllWithIconsSmall: Story = {
           icon={<span className="material-icons">add</span>}
         >
           Tertiary
+        </Button>
+        <Button
+          color="tertiary-text"
+          size="small"
+          icon={<span className="material-icons">add</span>}
+        >
+          Tertiary text
         </Button>
         <Button
           color="danger"
