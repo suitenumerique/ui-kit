@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - Customize disable state of button link
+- Improve active states look and feel for button component
 
 ## 0.11.0
 

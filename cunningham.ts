@@ -218,6 +218,7 @@ const config = {
             "background--color-hover": "ref(theme.colors.greyscale-100)",
             "color-hover": "ref(theme.colors.primary-text)",
             color: "ref(theme.colors.primary-600)",
+            disabled: "ref(theme.colors.primary-300)",
           },
           danger: {
             "color-hover": "white",
