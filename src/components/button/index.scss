@@ -11,7 +11,6 @@
 }
 
 .pro-connect-button {
-  background-image: url(":/assets/proconnect-content.svg");
   background-position: 50% 50%;
   background-repeat: no-repeat;
   width: 214px;
@@ -20,13 +19,11 @@
   cursor: pointer;
   &:disabled {
     background-color: var(--c--theme--colors--greyscale-100) !important;
-    background-image: url(":/assets/proconnect-content-disabled.svg") !important;
   }
 }
 .c__button {
   text-decoration: none;
 }
-
 
 //
 // == Button NANO
@@ -35,7 +32,6 @@
   padding: 0 var(--c--theme--spacings--3xs);
   gap: var(--c--theme--spacings--3xs);
 }
-
 
 //
 // == Button primary
@@ -64,7 +60,6 @@
   color: var(--c--components--button--primary--disabled);
 }
 
-
 //
 // == Button primary-text
 //
@@ -74,7 +69,7 @@
 
 .c__button--primary-text:hover,
 .c__button--primary-text:active,
-.c__button--primary-text.c__button--active  {
+.c__button--primary-text.c__button--active {
   background-color: var(
     --c--components--button--primary-text--background--color-hover
   );
@@ -99,7 +94,6 @@
   );
   color: var(--c--components--button--primary-text--disabled) !important;
 }
-
 
 //
 // == Button secondary
@@ -134,7 +128,6 @@
   color: var(--c--components--button--secondary--disabled);
   border: 1px solid var(--c--components--button--secondary--border--disabled);
 }
-
 
 //
 // == Button Tertiary
@@ -185,7 +178,9 @@
 .c__button--tertiary-text:focus-visible,
 .c__button--tertiary-text:active,
 .c__button--tertiary-text.c__button--active {
-  background-color: var(--c--components--button--tertiary-text--background--color-hover);
+  background-color: var(
+    --c--components--button--tertiary-text--background--color-hover
+  );
   color: var(--c--components--button--tertiary-text--color-hover);
 }
 
@@ -232,7 +227,6 @@
 .c__button--danger.c__button--active {
   border: 1px solid transparent;
 }
-
 
 //
 // == END NEW BUTTONS
