@@ -18,11 +18,13 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./style": "./dist/style.css"
+    "./style": "./dist/style.css",
+    "./sass/fonts": "./dist/sass/fonts.scss"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && cp cunningham.ts dist/cunningham.ts",
+    "build": "tsc && vite build && cp cunningham.ts dist/cunningham.ts && yarn build-fonts",
+    "build-fonts": "mkdir -p dist/sass && mkdir -p dist/assets && cp src/styles/fonts.scss dist/sass/fonts.scss && cp -R src/assets/fonts dist/assets/fonts",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
