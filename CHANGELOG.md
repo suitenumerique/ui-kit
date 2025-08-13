@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## 0.13.0
+
+### Major Changes
+
+- Remove base64 fonts and roboto from styles
+
+### Minor Changes
+
+- Remove ProConnect button logo from style
+
 ## 0.12.0
 
 ### Minor Changes
@@ -213,7 +223,8 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/design-system/compare/v0.12.0...main
+[unreleased]: https://github.com/suitenumerique/design-system/compare/v0.13.0...main
+[0.13.0]: https://github.com/suitenumerique/design-system/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/suitenumerique/design-system/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/suitenumerique/design-system/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/suitenumerique/design-system/compare/v0.9.0...v0.10.0
