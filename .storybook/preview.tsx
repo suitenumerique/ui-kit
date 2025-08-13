@@ -1,5 +1,6 @@
 import { CunninghamProvider } from "../src/components/Provider/Provider";
 import "./../src/index.scss";
+import "./../src/styles/fonts.scss";
 import "./../src/style-stories.scss";
 import type { Preview } from "@storybook/react";
 import React from "react";
