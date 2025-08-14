@@ -23,8 +23,8 @@ export type OpenMap = {
 
 export type TreeViewProps<T> = {
   initialOpenState?: OpenMap;
+  dndRootElement?: HTMLElement | null;
   selectedNodeId?: string;
-
   rootNodeId: string;
   canDrop?: (args: {
     parentNode: NodeApi<TreeDataItem<T>> | null;
@@ -39,6 +39,7 @@ export type TreeViewProps<T> = {
 
 export const TreeView = <T,>({
   initialOpenState,
+  dndRootElement,
   selectedNodeId,
   rootNodeId,
   renderNode,
@@ -203,6 +204,7 @@ export const TreeView = <T,>({
       className="c__tree-view--container"
     >
       <Tree
+        dndRootElement={dndRootElement}
         data={treeData}
         ref={context.treeApiRef}
         openByDefault={false}
