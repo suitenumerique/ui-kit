@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.14.0
+
 ### Minor Changes
 
 - Add vertical separator component
@@ -227,7 +229,8 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/design-system/compare/v0.13.0...main
+[unreleased]: https://github.com/suitenumerique/design-system/compare/v0.14.0...main
+[0.14.0]: https://github.com/suitenumerique/design-system/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/suitenumerique/design-system/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/suitenumerique/design-system/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/suitenumerique/design-system/compare/v0.10.0...v0.11.0
