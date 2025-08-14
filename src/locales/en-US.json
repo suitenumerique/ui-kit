@@ -15,7 +15,6 @@
         "title": "Pending invitations"
       },
       "members": {
-        "title": "Members",
         "title_plural": "Shared between {count} people",
         "title_singular": "Shared between {count} person",
         "load_more": "Show more "
