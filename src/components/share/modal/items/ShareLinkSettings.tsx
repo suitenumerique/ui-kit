@@ -9,6 +9,7 @@ import {
   CustomTranslations,
   useCustomTranslations,
 } from ":/hooks/useCustomTranslations";
+import { TranslationKey } from ":/types/translations";
 
 const getIcon = (value: string | undefined) => {
   switch (value) {
@@ -63,7 +64,7 @@ export const ShareLinkSettings = ({
           label: t(
             "components.share.linkSettings.reach.choices." +
               choice.value +
-              ".title"
+              ".title" as TranslationKey
           ),
           ...choice,
         };
@@ -84,7 +85,7 @@ export const ShareLinkSettings = ({
           label: t(
             "components.share.linkSettings.role.choices." +
               choice.value +
-              ".title"
+              ".title" as TranslationKey
           ),
           ...choice,
         };
@@ -195,14 +196,14 @@ export const ShareLinkSettings = ({
         {renderLinkReach()}
         <div className="c__share-modal__link-settings__content__description desktop">
           {t(
-            `components.share.linkSettings.reach.choices.${selectedLinkReach}.description`
+            `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey
           )}
         </div>
         {renderLinkRole()}
       </div>
       <div className="c__share-modal__link-settings__content__description mobile">
         {t(
-          `components.share.linkSettings.reach.choices.${selectedLinkReach}.description`
+          `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey
         )}
       </div>
     </div>
