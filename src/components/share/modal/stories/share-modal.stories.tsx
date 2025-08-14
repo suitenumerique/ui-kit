@@ -138,3 +138,43 @@ export const LinkSettingsOnlyWithoutRoleReadOnly = {
     ></ShareModal>
   ),
 };
+
+export const LinkSettingsCustomTexts = {
+  render: () => (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      linkSettings={true}
+      linkReachChoices={[
+        {
+          value: "public",
+        },
+        {
+          value: "restricted",
+        },
+      ]}
+      onUpdateLinkReach={(value) => {
+        console.log("UPDATE LINK REACH", value);
+      }}
+      hideInvitations={true}
+      hideMembers={true}
+      linkRole="reader"
+      showLinkRole={true}
+      linkRoleChoices={[
+        {
+          value: "reader",
+        },
+        {
+          value: "editor",
+        },
+      ]}
+      onUpdateLinkRole={(value) => {
+        console.log("UPDATE LINK ROLE", value);
+      }}
+      customTranslations={{
+        "components.share.linkSettings.reach.choices.public.description":
+          "Yay custom text there, public link reach.",
+      }}
+    ></ShareModal>
+  ),
+};

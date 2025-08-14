@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Minor Changes
+
+- Add custom translation to share modal
+
 ## 0.14.0
 
 ### Minor Changes
