@@ -22,4 +22,5 @@ export * from "./components/icon";
 export * from "./hooks/useResponsive";
 export * from "./components/share";
 export * from "./components/users";
+export * from "./hooks/useCustomTranslations";
 export { default as cunninghamConfig } from "../cunningham";
