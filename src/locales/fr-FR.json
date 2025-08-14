@@ -1,5 +1,18 @@
 {
   "components": {
+    "datagrid": {
+      "loader_aria": "Chargement des données",
+      "rows_selection_aria": "Toutes les lignes sélectionnées",
+      "row_selection_aria": "Ligne sélectionnée"
+    },
+    "forms": {
+      "input": {
+        "password": {
+            "show_password": "Afficher le mot de passe",
+            "hide_password": "Masquer le mot de passe"
+        }
+      }
+    },
     "share": {
       "copyLink": "Copier le lien",
       "ok": "Ok",

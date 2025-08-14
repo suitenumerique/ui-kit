@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noErrorTruncation": false, // Turn on to see the full error message
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "lib": [
@@ -35,5 +36,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "cunningham.ts", "common.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
 }
