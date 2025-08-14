@@ -2,8 +2,8 @@ import { _AbstractSeparator, AbstractSeparatorProps } from "./AbstractSeparator"
 
 type Props = Omit<AbstractSeparatorProps, "direction">;
 
-export const HorizontalSeparator = (props: Props) => {
+export const VerticalSeparator = (props: Props) => {
   return (
-    <_AbstractSeparator direction="horizontal" {...props} />
+    <_AbstractSeparator direction="vertical" {...props} />
   );
 };

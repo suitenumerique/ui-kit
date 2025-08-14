@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Minor Changes
+
+- Add vertical separator component
+
 ## 0.13.0
 
 ### Major Changes

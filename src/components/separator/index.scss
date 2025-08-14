@@ -1,10 +1,33 @@
-.c__horizontal-separator {
-  height: 1px;
-  width: 100%;
-
+.c__separator {
+  --border-width: 1px;
+  --padding: var(--c--theme--spacings--sm, 0.75rem);
   background-color: var(--c--theme--colors--greyscale-100);
+}
+
+.c__separator--double {
+  --border-width: 2px;
+}
+
+.c__separator--horizontal {
+  height: var(--border-width);
+  width: var(--size, 100%);
 
   &.with-padding {
-    margin: var(--c--theme--spacings--sm, 0.75rem) 0;
+    margin-block: var(--padding);
+  }
+}
+
+.c__separator--vertical {
+  width: var(--border-width);
+  /* Let flexbox compute cross-size; ensures full container height in row flex */
+  align-self: stretch;
+  /* Also work inline by default */
+  display: inline-block;
+  height: var(--size, auto);
+  min-height: 1.5em;
+  vertical-align: middle;
+
+  &.with-padding {
+    margin-inline: var(--padding);
   }
 }
