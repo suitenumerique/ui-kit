@@ -2,9 +2,13 @@ import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import LogoPublic from ":/components/share/assets/public.svg";
 import LogoPrivate from ":/components/share/assets/lock_person.svg";
-import { Button, useCunningham } from "@openfun/cunningham-react";
+import { Button } from "@openfun/cunningham-react";
 import { useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
+import {
+  CustomTranslations,
+  useCustomTranslations,
+} from ":/hooks/useCustomTranslations";
 
 const getIcon = (value: string | undefined) => {
   switch (value) {
@@ -26,6 +30,7 @@ export const ShareLinkSettings = ({
   linkRoleChoices = [],
   linkRole = "reader",
   onUpdateLinkRole,
+  customTranslations,
 }: {
   canUpdate?: boolean;
   linkReachChoices?: Partial<DropdownMenuOption>[];
@@ -35,6 +40,7 @@ export const ShareLinkSettings = ({
   linkRoleChoices?: Partial<DropdownMenuOption>[];
   linkRole?: "reader" | "editor";
   onUpdateLinkRole: (value: string) => void;
+  customTranslations?: CustomTranslations;
 }) => {
   const linkReachDropdown = useDropdownMenu();
   const linkRoleDropdown = useDropdownMenu();
@@ -46,7 +52,7 @@ export const ShareLinkSettings = ({
     string[]
   >([linkRole]);
   const selectedLinkRole = selectedLinkRoleValues[0];
-  const { t } = useCunningham();
+  const { t } = useCustomTranslations(customTranslations);
 
   const reachChoices = useMemo(
     () =>

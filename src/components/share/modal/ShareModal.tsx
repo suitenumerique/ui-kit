@@ -29,6 +29,7 @@ import { ShareMemberItem } from "./items/ShareMemberItem";
 import { ShareInvitationItem } from "./items/ShareInvitationItem";
 import { useResponsive } from ":/hooks/useResponsive";
 import { ShareLinkSettings } from "./items/ShareLinkSettings";
+import { CustomTranslations } from ":/hooks/useCustomTranslations";
 
 enum ViewMode {
   CANNOT_VIEW = "cannot_view",
@@ -108,6 +109,7 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   outsideSearchContent?: ReactNode;
   hideInvitations?: boolean;
   hideMembers?: boolean;
+  customTranslations?: CustomTranslations;
 } & ShareModalInvitationProps<UserType, InvitationType> &
   ShareModalAccessProps<UserType, AccessType> &
   ShareModalSearchProps<UserType> &
@@ -126,6 +128,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   hideInvitations = false,
   hideMembers = false,
   cannotViewChildren,
+  customTranslations,
   ...props
 }: PropsWithChildren<
   ShareModalProps<UserType, InvitationType, AccessType>
@@ -448,6 +451,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   linkRole={props.linkRole}
                   onUpdateLinkRole={props.onUpdateLinkRole!}
                   showLinkRole={props.showLinkRole}
+                  customTranslations={customTranslations}
                 />
               )}
               {outsideSearchContent}
