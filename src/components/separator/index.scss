@@ -31,3 +31,8 @@
     margin-inline: var(--padding);
   }
 }
+
+/* When --size is defined, don't stretch */
+.c__separator--vertical[style*="--size"] {
+  align-self: auto;
+}

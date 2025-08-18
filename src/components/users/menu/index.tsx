@@ -105,6 +105,7 @@ export const UserMenu = ({
                                         size="small"
                                         icon={<Icon name="logout" />}
                                         onClick={logout}
+                                        fullWidth
                                     >
                                         {t("components.userMenu.logout")}
                                     </Button>
