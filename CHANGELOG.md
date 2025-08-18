@@ -6,6 +6,7 @@
 
 - Add custom translation to share modal
 - Make LanguagePicker component reusable and customizable
+- Add UserMenu component
 
 ## 0.14.0
 

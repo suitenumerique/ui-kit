@@ -56,6 +56,13 @@
         }
       }
     },
+    "userMenu": {
+      "open": "Open user menu",
+      "close": "Close user menu",
+      "accountSettings": "Account settings",
+      "logout": "Logout",
+      "dialogTitle": "User menu"
+    },
     "footer": {
       "logo": {
         "alt": "Logo of the French government"

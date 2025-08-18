@@ -56,6 +56,13 @@
         }
       }
     },
+    "userMenu": {
+      "open": "Ouvrir le menu utilisateur",
+      "close": "Fermer le menu utilisateur",
+      "accountSettings": "Paramètres du compte",
+      "logout": "Déconnexion",
+      "dialogTitle": "Menu utilisateur"
+    },
     "footer": {
       "logo": {
         "alt": "Logo du gouvernement français"
