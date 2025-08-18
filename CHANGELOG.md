@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - Add custom translation to share modal
+- Make LanguagePicker component reusable and customizable
 
 ## 0.14.0
 
