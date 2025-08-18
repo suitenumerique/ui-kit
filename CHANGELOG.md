@@ -8,6 +8,10 @@
 - Make LanguagePicker component reusable and customizable
 - Add UserMenu component
 
+### Patch Changes
+
+- Fix vertical separator stretch behavior
+
 ## 0.14.0
 
 ### Minor Changes
