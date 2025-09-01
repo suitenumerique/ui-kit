@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Make "build" command cross-platform compatible
+
 ## 0.16.0
 
 ### Minor Changes
