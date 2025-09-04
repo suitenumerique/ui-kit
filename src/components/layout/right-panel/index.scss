@@ -1,10 +1,9 @@
 .c__right-panel {
   height: calc(100dvh - 52px);
-
   width: 0;
   border-left: 1px solid var(--c--theme--colors--greyscale-200);
-  transition: width 0.15s ease-in-out;
   overflow-y: auto;
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.open {
     width: 300px;
@@ -18,8 +17,10 @@
   overflow-y: auto;
   position: fixed;
   background-color: var(--c--theme--colors--greyscale-000);
-  transition: transform 0.15s ease-in-out;
   transform: translateX(100dvw);
+
+  // Animation for both opening and closing
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.open {
     transform: translateX(0);
