@@ -1,6 +1,10 @@
 import { Button, ButtonProps } from "@openfun/cunningham-react";
 import { useEffect, useMemo, useState } from "react";
-import { useDropdownMenu, DropdownMenu, DropdownMenuOption } from ":/components/dropdown-menu";
+import {
+  useDropdownMenu,
+  DropdownMenu,
+  DropdownMenuOption,
+} from ":/components/dropdown-menu";
 import { Icon, IconSize } from ":/components/icon";
 
 export type LanguagePickerProps = {
@@ -20,18 +24,25 @@ export type LanguagePickerProps = {
  * - `size`: The size of the CTA.
  * - `color`: The color of the CTA.
  */
-export const LanguagePicker = ({ languages, onChange, size, color = "primary-text", fullWidth }: LanguagePickerProps) => {
-  const {isOpen, setIsOpen} = useDropdownMenu();
+export const LanguagePicker = ({
+  languages,
+  onChange,
+  size,
+  color = "primary-text",
+  fullWidth,
+}: LanguagePickerProps) => {
+  const { isOpen, setIsOpen } = useDropdownMenu();
   const getInitialLanguage = () => {
     const selectedLanguage = languages.find((lang) => lang.isChecked);
     return selectedLanguage?.value ?? languages[0].value!;
-  }
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(getInitialLanguage);
+  };
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<string>(getInitialLanguage);
 
   const handleLanguageChange = (value: string) => {
     setSelectedLanguage(value);
-    onChange?.(value)
-  }
+    onChange?.(value);
+  };
 
   const iconSize = useMemo((): IconSize | undefined => {
     if (!size) return undefined;
@@ -50,6 +61,7 @@ export const LanguagePicker = ({ languages, onChange, size, color = "primary-tex
    */
   useEffect(() => {
     setSelectedLanguage(getInitialLanguage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languages]);
 
   return (
@@ -76,4 +88,4 @@ export const LanguagePicker = ({ languages, onChange, size, color = "primary-tex
       </Button>
     </DropdownMenu>
   );
-}
+};

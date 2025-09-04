@@ -12,14 +12,15 @@
 .c__left-panel__mobile {
   z-index: 999;
   width: 100dvw;
-
   height: calc(100dvh - 52px);
   overflow-y: auto;
   border-right: 1px solid var(--c--theme--colors--greyscale-200);
   position: fixed;
   background-color: var(--c--theme--colors--greyscale-000);
-  transition: transform 0.15s ease-in-out;
   transform: translateX(-100dvw);
+
+  // Animation for both opening and closing
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.open {
     transform: translateX(0);
