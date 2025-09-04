@@ -1,30 +1,63 @@
 import { useEffect, useState } from "react";
 import config from "../../cunningham";
 
-export const useResponsive = () => {
-  const [width, setWidth] = useState(window.innerWidth);
-  const mobile = parseInt(
+type ResponsiveStates = {
+  isMobile: boolean;
+  isTablet: boolean;
+  isDesktop: boolean;
+};
+
+type Breakpoints = {
+  mobile: number;
+  tablet: number;
+};
+
+const breakpoints = {
+  mobile: parseInt(
     config.themes.default.theme.breakpoints.mobile.replace("px", "")
-  );
-  const tablet = parseInt(
+  ),
+  tablet: parseInt(
     config.themes.default.theme.breakpoints.tablet.replace("px", "")
+  ),
+};
+
+const getResponsiveStates = (
+  width: number,
+  breakpoints: Breakpoints
+): ResponsiveStates => {
+  return {
+    isMobile: width <= breakpoints.mobile,
+    isTablet: width <= breakpoints.tablet,
+    isDesktop: width > breakpoints.tablet,
+  };
+};
+
+export const useResponsive = () => {
+  const [responsiveStates, setResponsiveStates] = useState<ResponsiveStates>(
+    getResponsiveStates(window.innerWidth, breakpoints)
   );
 
-  const handleWindowSizeChange = () => {
-    setWidth(window.innerWidth);
-  };
-
+  // Memoize breakpoints to avoid recalculation on every render
   useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
+    const handleResize = () => {
+      const newResponsiveState = getResponsiveStates(
+        window.innerWidth,
+        breakpoints
+      );
+      const isSame =
+        JSON.stringify(newResponsiveState) === JSON.stringify(responsiveStates);
+      if (!isSame) {
+        setResponsiveStates(newResponsiveState);
+      }
     };
-  }, []);
 
-  const isMobile = width <= mobile;
-  const isTablet = width <= tablet;
-  const isDesktop = width > tablet;
+    window.addEventListener("resize", handleResize);
 
-  return { isMobile, isTablet, isDesktop };
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [responsiveStates]);
+
+  return responsiveStates;
 };
