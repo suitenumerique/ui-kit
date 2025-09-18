@@ -27,6 +27,15 @@
   align-items: center;
 }
 
+.c__tree-view--row {
+  outline: none;
+
+  &:focus-visible .c__tree-view--node {
+    box-shadow: 0 0 0 2px var(--c--theme--colors--primary-500);
+    border-radius: 4px;
+  }
+}
+
 .c__tree-view--node__separator {
   display: flex;
   align-items: center;
