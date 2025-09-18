@@ -323,6 +323,28 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
 
   const { style } = props.attrs;
   const newStyle = { ...style };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement | null;
+    if (target) {
+      const isInActionsToolbar = target.closest(".actions");
+      const interactiveSelector = 'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+      const isInteractive = target.closest(interactiveSelector);
+      if (isInActionsToolbar || isInteractive) {
+        return;
+      }
+    }
+    if (e.key === "Enter" || e.key === " ") {
+      e.currentTarget.click();
+    }
+    if (e.key === "F2") {
+      e.preventDefault();
+      // Focus the action button inside this node
+      const actionsButton = e.currentTarget.querySelector("button");
+      if (actionsButton) {
+        actionsButton.focus();
+      }
+    }
+  };
 
   if (isTitle || isSeparator) {
     return (
@@ -347,6 +369,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
       onClick={props.node.handleClick}
+      onKeyDown={handleKeyDown}
     >
       <div className="c__tree-view--row-content">{children}</div>
     </div>

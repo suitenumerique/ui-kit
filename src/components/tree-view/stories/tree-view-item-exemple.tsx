@@ -13,16 +13,23 @@ import {
   Input,
   Modal,
   ModalSize,
+  useCunningham,
   useModal,
 } from "@openfun/cunningham-react";
 import { useTreeContext } from "../providers/TreeContext";
+import { useArrowRoving } from ":/hooks/useArrowRoving";
+import { useRef } from "react";
 
 type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
 
 export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
+  const { t } = useCunningham();
+
   const context = useTreeContext<TreeViewExempleData>();
   const modal = useModal();
+  const actionsRef = useRef<HTMLDivElement | null>(null);
+  useArrowRoving(actionsRef.current);
 
   const options = [
     {
@@ -73,6 +80,11 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
     },
   ];
 
+  const handleOpenMenu: React.MouseEventHandler<HTMLElement> = (e) => {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <>
       <TreeViewItem {...props}>
@@ -84,17 +96,27 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
               <span className="name">
                 {props.node.data.value.name} -- {props.node.data.value.id}
               </span>
-              <div className={`actions ${isOpen ? "show-actions" : ""}`}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                className={`actions ${isOpen ? "show-actions" : ""}`}
+                ref={actionsRef}
+                role="toolbar"
+                aria-label={t("components.tree-view.node-actions")}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <DropdownMenu
                     onOpenChange={setIsOpen}
                     isOpen={isOpen}
                     options={options}
                   >
-                    <Button size="small" onClick={() => setIsOpen(!isOpen)}>
+                    <Button size="small" onClick={(e) => handleOpenMenu(e)}>
                       Open
                     </Button>
                   </DropdownMenu>
+                  <Button size="small" onClick={(e) => handleOpenMenu(e)}>
+                    Open
+                  </Button>
                 </div>
               </div>
             </div>

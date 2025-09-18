@@ -46,6 +46,10 @@
   }
 }
 
+.c__tree-view--row:focus-within .c__tree-view--node .actions {
+  opacity: 1;
+}
+
 .right-panel {
   display: flex;
   flex-direction: column;
