@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
+
 ## 0.16.1
 
 ### Patch Changes

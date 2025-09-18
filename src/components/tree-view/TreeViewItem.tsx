@@ -1,12 +1,6 @@
 import { NodeRendererProps } from "react-arborist";
 import { TreeDataItem, TreeViewNodeTypeEnum } from "./types";
-import {
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { Spinner } from "../loader/Spinner";
 import { Droppable } from "../dnd/Droppable";
@@ -39,40 +33,42 @@ export const TreeViewItem = <T,>({
   const hasLoadedChildren = node.children?.length ?? 0 > 0;
 
   const isLeaf = node.isLeaf || !hasChildren;
-  const handleClick = useCallback(async () => {
-    if (isLeaf) {
-      return;
-    }
-
-    if (hasLoadedChildren || node.data.value.hasLoadedChildren) {
-      node.toggle();
-      return;
-    }
-
-    setIsLoading(true);
-    await context?.treeData.handleLoadChildren(node.data.value.id);
-    setIsLoading(false);
-    node.open();
-  }, [isLeaf, hasLoadedChildren, node, context?.treeData]);
-
-  const handleOver = useCallback(
-    (isOver: boolean) => {
-      if (isOver && !node.isOpen && !node.isDragging) {
-        timeoutRef.current = setTimeout(() => {
-          void handleClick();
-        }, 500);
-      }
-
-      if (timeoutRef.current && !isOver) {
-        clearTimeout(timeoutRef.current);
-      }
-    },
-    [handleClick, node.isOpen, node.isDragging]
-  );
 
   useEffect(() => {
-    handleOver(isOver);
-  }, [isOver, handleOver]);
+    if (isLeaf || hasLoadedChildren || node.data.value.hasLoadedChildren) {
+      return;
+    }
+
+    if (node.isOpen) {
+      setIsLoading(true);
+      context?.treeData
+        .handleLoadChildren(node.data.value.id)
+        .then(() => setIsLoading(false));
+    }
+  }, [
+    node.isOpen,
+    isLeaf,
+    hasLoadedChildren,
+    node.data.value.hasLoadedChildren,
+    node.data.value.id,
+    context?.treeData,
+  ]);
+
+  useEffect(() => {
+    const shouldOpenNode = isOver && !node.isOpen && !node.isDragging;
+
+    if (shouldOpenNode) {
+      timeoutRef.current = setTimeout(() => {
+        node.open();
+      }, 500);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isOver, node.isOpen, node.isDragging, node]);
 
   if (node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR) {
     return <div className="c__tree-view--node__separator" />;
@@ -131,7 +127,7 @@ export const TreeViewItem = <T,>({
               <span
                 onClick={(e) => {
                   e.stopPropagation();
-                  void handleClick();
+                  node.toggle();
                 }}
                 className="c__tree-view--node__arrow material-icons"
               >
