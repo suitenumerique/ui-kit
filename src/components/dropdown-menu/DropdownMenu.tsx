@@ -1,6 +1,13 @@
-import { Menu, MenuItem, Popover, Separator } from "react-aria-components";
+import {
+  Menu,
+  MenuItem,
+  MenuTrigger,
+  Popover,
+  Separator,
+  Button,
+} from "react-aria-components";
 import { DropdownMenuOption } from "./types";
-import { Fragment, PropsWithChildren, useId, useRef } from "react";
+import { Fragment, PropsWithChildren, useMemo } from "react";
 
 export type DropdownMenuProps = {
   options: DropdownMenuOption[];
@@ -9,84 +16,82 @@ export type DropdownMenuProps = {
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
   topMessage?: string;
-  shouldCloseOnInteractOutside?: (element: Element) => boolean;
+  label?: string;
 };
 
 export const DropdownMenu = ({
   options,
-  isOpen = false,
+  isOpen,
   onOpenChange,
   children,
   selectedValues = [],
   onSelectValue,
   topMessage,
-  shouldCloseOnInteractOutside,
+  label = "Menu",
 }: PropsWithChildren<DropdownMenuProps>) => {
-  const id = useId();
-  const onOpenChangeHandler = (isOpen: boolean) => {
-    onOpenChange?.(isOpen);
+  // get the first selected value
+  const currentLabel = useMemo(() => {
+    if (!selectedValues?.length) return undefined;
+    return (
+      options.find((o) => o.value && selectedValues.includes(o.value))?.label ??
+      undefined
+    );
+  }, [options, selectedValues]);
+
+  const isOptionChecked = (option: DropdownMenuOption): boolean => {
+    return Boolean(
+      option.isChecked ||
+        (option.value && selectedValues.includes(option.value))
+    );
   };
 
-  const triggerRef = useRef(null);
+  const handleOptionAction = (option: DropdownMenuOption): void => {
+    if (option.value) onSelectValue?.(option.value);
+    option.callback?.();
+  };
+
   return (
-    <>
-      <div
+    <MenuTrigger onOpenChange={onOpenChange} isOpen={isOpen}>
+      {/* Trigger accessible button */}
+      <Button
         className="c__dropdown-menu-trigger"
-        ref={triggerRef}
-        id={id}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
+        aria-label={currentLabel ? `${label} : ${currentLabel}` : label}
       >
         {children}
-      </div>
+      </Button>
 
-      <Popover
-        triggerRef={triggerRef}
-        style={{
-          marginTop: "0px",
-        }}
-        isOpen={isOpen}
-        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
-        onOpenChange={onOpenChangeHandler}
-      >
-        <Menu className="c__dropdown-menu" aria-labelledby={id}>
+      <Popover placement="bottom start">
+        <Menu
+          className="c__dropdown-menu"
+          aria-label={label}
+          selectionMode="single"
+          selectedKeys={selectedValues}
+        >
           {topMessage && (
-            <MenuItem className="c__dropdown-menu-item-top-message">
+            <MenuItem className="c__dropdown-menu-item-top-message" isDisabled>
               {topMessage}
             </MenuItem>
           )}
+
           {options.map((option) => {
-            if (option.isHidden) {
-              return null;
-            }
+            if (option.isHidden) return null;
+
             return (
-              <Fragment key={option.label}>
+              <Fragment key={option.value ?? option.label}>
                 <MenuItem
                   className="c__dropdown-menu-item"
-                  aria-label={option.label}
-                  key={option.label}
-                  onAction={() => {
-                    if (option.value) {
-                      onSelectValue?.(option.value);
-                    }
-                    option.callback?.();
-                    onOpenChangeHandler(false);
-                  }}
+                  id={option.value}
+                  onAction={() => handleOptionAction(option)}
                   isDisabled={option.isDisabled}
                 >
                   {option.icon}
-                  <div
-                    className="c__dropdown-menu-item__label"
-                    aria-label={option.label}
-                  >
+                  <div className="c__dropdown-menu-item__label">
                     {option.label}
                   </div>
-                  {(option.isChecked ||
-                    (option.value &&
-                      selectedValues.includes(option.value))) && (
-                    <span className="material-icons checked">check</span>
+                  {isOptionChecked(option) && (
+                    <span className="material-icons checked" aria-hidden="true">
+                      check
+                    </span>
                   )}
                 </MenuItem>
                 {option.showSeparator && <Separator />}
@@ -95,6 +100,6 @@ export const DropdownMenu = ({
           })}
         </Menu>
       </Popover>
-    </>
+    </MenuTrigger>
   );
 };

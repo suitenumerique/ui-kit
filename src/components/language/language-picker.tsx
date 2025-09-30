@@ -83,6 +83,7 @@ export const LanguagePicker = ({
         color={color}
         variant={variant}
         fullWidth={fullWidth}
+        tabIndex={-1}
       >
         <Icon name="translate" size={iconSize} />
         <span className="c__language-picker__label">

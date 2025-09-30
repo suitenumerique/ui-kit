@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- make dropdown menu and language picker accessible
+
 ## 0.17.1
 
 ### Patch Changes
@@ -24,6 +28,7 @@
 - a11y: improves keyboard accessibility in the TreeView component
 - a11y: Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
 - badge: fix the export
+
 
 ## 0.16.1
 
