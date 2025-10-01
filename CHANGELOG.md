@@ -2,11 +2,16 @@
 
 ## [Unreleased]
 
+## 0.16.2
+
 ### Patch Changes
 
-- a11y : improves keyboard accessibility in the TreeView component
-- a11y : Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
-- a11y : Expose useArrowRoving hook
+- a11y: improves keyboard accessibility in the TreeView component
+- a11y: Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
+- a11y: Expose useArrowRoving hook
+- a11y: improves keyboard accessibility in the TreeView component
+- a11y: Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
+- badge: fix the export
 
 ## 0.16.1
 
@@ -261,7 +266,8 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.16.1...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.16.2...main
+[0.16.2]: https://github.com/suitenumerique/ui-kit/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/suitenumerique/ui-kit/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/suitenumerique/ui-kit/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/suitenumerique/ui-kit/compare/v0.14.0...v0.15.0
