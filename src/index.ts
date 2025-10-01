@@ -20,6 +20,7 @@ export * from "./components/form/label/label";
 export * from "./components/badge";
 export * from "./components/icon";
 export * from "./hooks/useResponsive";
+export * from "./hooks/useArrowRoving";
 export * from "./components/share";
 export * from "./components/users";
 export * from "./hooks/useCustomTranslations";
