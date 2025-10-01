@@ -6,6 +6,7 @@
 
 - a11y : improves keyboard accessibility in the TreeView component
 - a11y : Enable child node loading and fold/unfold via keyboard without requiring an initial mouse click.
+- a11y : Expose useArrowRoving hook
 
 ## 0.16.1
 
