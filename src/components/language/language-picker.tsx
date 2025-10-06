@@ -39,7 +39,7 @@ export const LanguagePicker = ({
     return selectedLanguage?.value ?? languages[0].value!;
   };
   const [selectedLanguage, setSelectedLanguage] =
-    useState<string>(getInitialLanguage);
+    useState<string>(getInitialLanguage());
 
   const handleLanguageChange = (value: string) => {
     setSelectedLanguage(value);
@@ -77,16 +77,20 @@ export const LanguagePicker = ({
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="c__language-picker"
-        icon={<Icon name={isOpen ? "arrow_drop_up" : "arrow_drop_down"} />}
+        icon={
+          <Icon
+            name={isOpen ? "arrow_drop_up" : "arrow_drop_down"}
+            aria-hidden="true"
+          />
+        }
         iconPosition="right"
         size={size}
         color={color}
         variant={variant}
         fullWidth={fullWidth}
-        tabIndex={-1}
       >
-        <Icon name="translate" size={iconSize} />
-        <span className="c__language-picker__label">
+        <Icon name="translate" size={iconSize} aria-hidden="true" />
+        <span className="c__language-picker__label" lang={selectedLanguage}>
           {languages.find((lang) => lang.value === selectedLanguage)?.label}
         </span>
       </Button>
