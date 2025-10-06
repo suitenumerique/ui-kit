@@ -19,7 +19,8 @@
       "require": "./dist/index.cjs"
     },
     "./style": "./dist/style.css",
-    "./sass/fonts": "./dist/sass/fonts.scss"
+    "./sass/fonts": "./dist/sass/fonts.scss",
+    "./fonts/Marianne": "./dist/assets/fonts/Marianne/Marianne-font.css"
   },
   "scripts": {
     "dev": "vite",
