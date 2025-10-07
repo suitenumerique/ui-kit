@@ -58,7 +58,7 @@ export const Example = () => {
       </div>
       <Checkbox label="Agree to the terms and services" fullWidth={true} />
       <Button fullWidth={true}>Envoyer</Button>
-      <Button fullWidth={true} color="secondary">
+      <Button fullWidth={true} variant="secondary">
         Annuler
       </Button>
     </form>

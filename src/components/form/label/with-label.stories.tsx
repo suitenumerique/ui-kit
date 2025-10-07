@@ -36,7 +36,7 @@ const Template: StoryFn<typeof WithLabel> = (args) => {
               {open ? "arrow_drop_up" : "arrow_drop_down"}
             </span>
           }
-          color="primary-text"
+          variant="tertiary"
           size="small"
           iconPosition="right"
           onClick={() => setOpen(true)}
