@@ -2,7 +2,7 @@
 .c__field,
 .c__select,
 .c__datagrid {
-  font-family: var(--c--theme--font--families--base);
+  font-family: var(--c--globals--font--families--base);
 }
 
 /**
@@ -13,22 +13,24 @@
 }
 
 .c__date-picker__wrapper {
-  transition: all var(--c--theme--transitions--duration)
-    var(--c--theme--transitions--ease-out);
+  transition: all var(--c--globals--transitions--duration)
+    var(--c--globals--transitions--ease-out);
 }
 
 .c__date-picker:not(.c__date-picker--disabled):hover .c__date-picker__wrapper {
-  box-shadow: var(--c--theme--colors--primary-500) 0 0 0 2px;
+  box-shadow: var(--c--contextuals--border--semantic--brand--secondary) 0 0 0
+    2px;
 }
 
 .c__date-picker.c__date-picker--invalid:not(.c__date-picker--disabled):hover
   .c__date-picker__wrapper {
-  box-shadow: var(--c--theme--colors--danger-300) 0 0 0 2px;
+  box-shadow: var(--c--contextuals--border--semantic--error--secondary) 0 0 0
+    2px;
 }
 
 .c__date-picker__wrapper button[aria-label="Clear date"],
 .c__date-picker.c__date-picker--invalid .c__date-picker__wrapper * {
-  color: var(--c--theme--colors--danger-300);
+  color: var(--c--contextuals--border--semantic--error--secondary);
 }
 
 /**

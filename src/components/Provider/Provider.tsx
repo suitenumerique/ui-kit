@@ -4,5 +4,5 @@ import { CunninghamProvider as OriginalProvider } from "@openfun/cunningham-reac
 export const CunninghamProvider = (
   props: Parameters<typeof OriginalProvider>[0]
 ) => {
-  return <OriginalProvider theme="dsfr" customLocales={locales} {...props} />;
+  return <OriginalProvider customLocales={locales} {...props} />;
 };
