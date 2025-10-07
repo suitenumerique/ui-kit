@@ -19,7 +19,7 @@ export const QuickSearchGroup = <T,>({
     return null;
   }
   return (
-    <div className="pt-base">
+    <div>
       <Command.Group
         key={group.groupName}
         heading={group.groupName}
@@ -59,7 +59,9 @@ export const QuickSearchGroup = <T,>({
           );
         })}
         {group.emptyString && group.elements.length === 0 && (
-          <span className="ml-b clr-greyscale-500">{group.emptyString}</span>
+          <span className="quick-search-group__empty-string">
+            {group.emptyString}
+          </span>
         )}
       </Command.Group>
     </div>
