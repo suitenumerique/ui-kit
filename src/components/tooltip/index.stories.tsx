@@ -23,8 +23,9 @@ export const Default = {
     children: (
       <Button
         size="small"
+        color="neutral"
         icon={<span className="material-icons">info</span>}
-        color="tertiary-text"
+        variant="tertiary"
       />
     ),
     content:
@@ -37,22 +38,22 @@ export const Placements = {
     return (
       <div>
         <Tooltip placement="left" content="Hi there">
-          <Button size="nano" color="tertiary-text">
+          <Button size="nano" color="neutral" variant="tertiary">
             ⬅️
           </Button>
         </Tooltip>
         <Tooltip placement="bottom" content="Hi there">
-          <Button size="nano" color="tertiary-text">
+          <Button size="nano" color="neutral" variant="tertiary">
             ⬇️
           </Button>
         </Tooltip>
         <Tooltip placement="top" content="Hi there">
-          <Button size="nano" color="tertiary-text">
+          <Button size="nano" color="neutral" variant="tertiary">
             ⬆️
           </Button>
         </Tooltip>
         <Tooltip placement="right" content="Hi there">
-          <Button size="nano" color="tertiary-text">
+          <Button size="nano" color="neutral" variant="tertiary">
             ➡️
           </Button>
         </Tooltip>
@@ -94,7 +95,8 @@ export const WithElements = {
         <div
           style={{
             borderRadius: "8px",
-            backgroundColor: "var(--c--theme--colors--greyscale-300)",
+            backgroundColor:
+              "var(--c--contextuals--background--semantic--neutral--secondary)",
             padding: "1rem",
             display: "flex",
             gap: "1rem",
@@ -105,7 +107,8 @@ export const WithElements = {
               width: "32px",
               height: "32px",
               borderRadius: "100%",
-              backgroundColor: "var(--c--theme--colors--greyscale-600)",
+              backgroundColor:
+                "var(--c--contextuals--background--semantic--neutral--tertiary)",
             }}
           />
           <div
@@ -113,7 +116,8 @@ export const WithElements = {
               width: "150px",
               height: "32px",
               borderRadius: "4px",
-              backgroundColor: "var(--c--theme--colors--greyscale-400)",
+              backgroundColor:
+                "var(--c--contextuals--background--semantic--neutral--tertiary)",
             }}
           />
         </div>
@@ -127,8 +131,9 @@ export const WithHtml = {
     children: (
       <Button
         size="small"
+        color="neutral"
         icon={<span className="material-icons">info</span>}
-        color="tertiary-text"
+        variant="tertiary"
       />
     ),
     placement: "right",
