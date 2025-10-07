@@ -14,10 +14,10 @@ type Breakpoints = {
 
 const breakpoints = {
   mobile: parseInt(
-    config.themes.default.theme.breakpoints.mobile.replace("px", "")
+    config.themes.default.globals.breakpoints.mobile.replace("px", "")
   ),
   tablet: parseInt(
-    config.themes.default.theme.breakpoints.tablet.replace("px", "")
+    config.themes.default.globals.breakpoints.tablet.replace("px", "")
   ),
 };
 
