@@ -1,19 +1,21 @@
 import clsx from "clsx";
-import { getUserInitials, getUserColor } from "./utils";
+import { getUserInitials, getUserColor, AVATAR_COLORS } from "./utils";
 
 export type AvatarProps = {
   fullName: string;
   size?: "xsmall" | "small" | "medium" | "large";
   forceColor?: string;
+  backgroundColor?: (typeof AVATAR_COLORS)[number];
 };
 
 export const UserAvatar = ({
   fullName,
   size = "medium",
   forceColor,
+  backgroundColor: color,
 }: AvatarProps) => {
   const initials = getUserInitials(fullName);
-  const backgroundColor = getUserColor(fullName);
+  const backgroundColor = color ? color : getUserColor(fullName);
   return (
     <div
       style={{ backgroundColor: forceColor ? forceColor : undefined }}
