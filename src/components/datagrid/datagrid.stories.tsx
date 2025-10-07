@@ -42,10 +42,7 @@ export const EmptyCustomWithButton = () => {
       rows={[]}
       emptyPlaceholderLabel="This table is empty, create the first object"
       emptyCta={
-        <Button
-          color="primary"
-          icon={<span className="material-icons">add</span>}
-        >
+        <Button icon={<span className="material-icons">add</span>}>
           Create object
         </Button>
       }
