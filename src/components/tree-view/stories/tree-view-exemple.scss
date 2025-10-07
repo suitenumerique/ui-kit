@@ -13,7 +13,9 @@
   .icon {
     width: 2rem;
     height: 2rem;
-    background-color: var(--c--theme--colors--greyscale-100);
+    background-color: var(
+      --c--contextuals--background--semantic--neutral--tertiary
+    );
     border-radius: 50%;
   }
 
