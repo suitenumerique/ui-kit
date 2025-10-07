@@ -21,6 +21,7 @@ export type ShareInvitationItemProps<UserType, InvitationType> = {
   ) => void;
   canUpdate?: boolean;
   roleTopMessage?: string;
+  showMoreActionsButton?: boolean;
 };
 
 export const ShareInvitationItem = <UserType, InvitationType>({
@@ -29,6 +30,7 @@ export const ShareInvitationItem = <UserType, InvitationType>({
   updateRole,
   deleteInvitation,
   canUpdate = true,
+  showMoreActionsButton = true,
   roleTopMessage,
 }: ShareInvitationItemProps<UserType, InvitationType>) => {
   const { t } = useCunningham();
@@ -64,14 +66,15 @@ export const ShareInvitationItem = <UserType, InvitationType>({
               onOpenChange={roleDropdown.setIsOpen}
               roleTopMessage={roleTopMessage}
             />
-            {canUpdate && (
+            {showMoreActionsButton && canUpdate && (
               <DropdownMenu
                 options={options}
                 isOpen={menuOptions.isOpen}
                 onOpenChange={menuOptions.setIsOpen}
               >
                 <Button
-                  color="primary-text"
+                  color="neutral"
+                  variant="tertiary"
                   onClick={handleOpenMenu}
                   size="small"
                   icon={<span className="material-icons toto">more_horiz</span>}

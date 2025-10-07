@@ -13,13 +13,13 @@ export const ShareModalCopyLinkFooter = ({
   return (
     <div className="c__share-modal__copy-link-footer">
       <Button
-        color="tertiary"
+        variant="secondary"
         icon={<span className="material-icons">link</span>}
         onClick={onCopyLink}
       >
         {t("components.share.copyLink")}
       </Button>
-      <Button color="primary" onClick={onOk}>
+      <Button variant="primary" onClick={onOk}>
         {t("components.share.ok")}
       </Button>
     </div>

@@ -7,71 +7,70 @@ $md: map.get($themes, "default", "theme", "breakpoints", "md");
 .c__share-modal__members {
   display: flex;
   flex-direction: column;
-  gap: var(--c--theme--spacings--xs);
-  padding: var(--c--theme--spacings--xs) var(--c--theme--spacings--base);
+  gap: var(--c--globals--spacings--xs);
+  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   padding-top: 0;
 }
 
 .c__share-modal__invitations {
   display: flex;
   flex-direction: column;
-  gap: var(--c--theme--spacings--xs);
-  padding: var(--c--theme--spacings--xs) var(--c--theme--spacings--base);
+  gap: var(--c--globals--spacings--xs);
+  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   padding-top: 0;
 }
 
 .c__share-modal__search-users {
-  padding: var(--c--theme--spacings--sm);
+  padding: var(--c--globals--spacings--sm);
 }
 
 .c__share-modal__members-title,
 .c__share-modal__invitations-title {
-  font-size: var(--c--theme--font--sizes--sm);
+  font-size: var(--c--globals--font--sizes--sm);
   font-weight: 600;
-  margin-bottom: var(--c--theme--spacings--4xs);
-  color: var(--c--theme--colors--greyscale-800);
+  margin-bottom: var(--c--globals--spacings--4xs);
+  color: var(--c--contextuals--content--semantic--neutral--primary);
 }
 
 .c__share-modal__copy-link-footer {
-  border-top: 1px solid var(--c--theme--colors--greyscale-200);
+  border-top: 1px solid var(--c--contextuals--border--surface--primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--c--theme--spacings--sm) var(--c--theme--spacings--base);
+  padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--base);
 }
 
 .c__share-modal__selected-users {
-  padding: var(--c--theme--spacings--sm);
+  padding: var(--c--globals--spacings--sm);
 }
 
 .c__share-modal__footer {
-  border-top: 1px solid var(--c--theme--colors--greyscale-200);
+  border-top: 1px solid var(--c--contextuals--border--surface--primary);
 }
 
 .c__share-modal__link-settings {
-  padding: var(--c--theme--spacings--base);
+  padding: var(--c--globals--spacings--base);
   gap: 8px;
   display: flex;
   flex-direction: column;
 
   &__title {
-    font-size: var(--c--theme--font--sizes--sm);
+    font-size: var(--c--globals--font--sizes--sm);
     font-weight: 600;
-    margin-bottom: var(--c--theme--spacings--4xs);
-    color: var(--c--theme--colors--greyscale-800);
+    margin-bottom: var(--c--globals--spacings--4xs);
+    color: var(--c--contextuals--content--semantic--neutral--primary);
   }
 
   &__content {
     display: flex;
     gap: 8px;
     align-items: center;
-
     justify-content: space-between;
 
     &__description {
       flex: 1;
       font-size: 12px;
-      color: var(--c--theme--colors--greyscale-600);
+      color: var(--c--contextuals--content--semantic--neutral--secondary);
 
       &.desktop {
         display: block;
@@ -84,19 +83,19 @@ $md: map.get($themes, "default", "theme", "breakpoints", "md");
 
   .c__share-modal__link-settings_f_content__select {
     .c__button {
-      padding: 0 var(--c--theme--spacings--t) 0 var(--c--theme--spacings--t);
+      padding: 0 var(--c--globals--spacings--t) 0 var(--c--globals--spacings--t);
     }
   }
 
   .c__share-modal__link-settings__content__select__value,
   .c__share-modal__link-settings__content__select-role__value {
-    color: var(--c--components--button--primary-text--color) !important;
-    font-size: var(--c--components--button--medium-font-size);
-    font-weight: var(--c--components--button--text-font-weight);
+    // color: var(--c--components--button--primary-text--color) !important;
+    // font-size: var(--c--components--button--medium-font-size);
+    // font-weight: var(--c--components--button--text-font-weight);
     display: flex;
     align-items: center;
-    gap: var(--c--theme--spacings--t);
-    padding: 0 var(--c--theme--spacings--t) 0 var(--c--theme--spacings--t);
+    gap: var(--c--globals--spacings--t);
+    padding: 0 var(--c--globals--spacings--t) 0 var(--c--globals--spacings--t);
     height: 40px;
   }
 
@@ -133,12 +132,12 @@ $md: map.get($themes, "default", "theme", "breakpoints", "md");
   }
 
   p {
-    padding: var(--c--theme--spacings--sm);
-    font-size: var(--c--theme--font--sizes--sm);
-    color: var(--c--theme--colors--greyscale-600);
+    padding: var(--c--globals--spacings--sm);
+    font-size: var(--c--globals--font--sizes--sm);
+    color: var(--c--contextuals--content--semantic--neutral--secondary);
     max-width: 320px;
     text-align: center;
-    padding: var(--c--theme--spacings--sm);
+    padding: var(--c--globals--spacings--sm);
     margin: 0;
   }
 }

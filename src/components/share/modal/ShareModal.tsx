@@ -474,7 +474,7 @@ const ShowMoreButton = ({ show, onShowMore }: ShowMoreButtonProps) => {
   return (
     <div className="c__share-modal__show-more-button">
       <Button
-        color="primary-text"
+        variant="tertiary"
         size="small"
         icon={<span className="material-icons">arrow_downward</span>}
         onClick={onShowMore}

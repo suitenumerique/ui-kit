@@ -1,24 +1,24 @@
 .c__add-share-user-list {
   display: flex;
   align-items: center;
-  padding: var(--c--theme--spacings--sm);
-  background-color: var(--c--theme--colors--greyscale-050);
-  border-radius: var(--c--theme--spacings--3xs);
-  border: 1px solid var(--c--theme--colors--greyscale-200);
-  gap: var(--c--theme--spacings--3xs);
+  padding: var(--c--globals--spacings--sm);
+  background-color: var(--c--contextuals--background--surface--tertiary);
+  border-radius: var(--c--globals--spacings--3xs);
+  border: 1px solid var(--c--contextuals--border--surface--primary);
+  gap: var(--c--globals--spacings--3xs);
 
   &__items {
     display: flex;
 
     flex-wrap: wrap;
-    gap: var(--c--theme--spacings--3xs);
+    gap: var(--c--globals--spacings--3xs);
     flex: 1;
   }
 
   &__right-actions {
     display: flex;
     align-items: center;
-    gap: var(--c--theme--spacings--xs);
+    gap: var(--c--globals--spacings--xs);
   }
 }
 
@@ -26,17 +26,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--c--theme--spacings--3xs);
-  border-radius: var(--c--theme--spacings--3xs);
+  gap: var(--c--globals--spacings--3xs);
+  border-radius: var(--c--globals--spacings--3xs);
   height: fit-content;
-  padding: var(--c--theme--spacings--4xs) var(--c--theme--spacings--4xs)
-    var(--c--theme--spacings--4xs) var(--c--theme--spacings--xs);
-  background-color: var(--c--theme--colors--greyscale-250);
-  color: var(--c--theme--colors--greyscale-1000);
-  font-size: var(--c--theme--font--sizes--xs);
+  padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--4xs)
+    var(--c--globals--spacings--4xs) var(--c--globals--spacings--xs);
+  background-color: var(
+    --c--contextuals--background--semantic--neutral--secondary
+  );
+  color: var(--c--contextuals--content--semantic--neutral--primary);
+  font-size: var(--c--globals--font--sizes--xs);
 
   .close-icon {
-    color: var(--c--theme--colors--greyscale-600);
-    font-size: var(--c--theme--font--sizes--sm);
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    font-size: var(--c--globals--font--sizes--sm);
   }
 }

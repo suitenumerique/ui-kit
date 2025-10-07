@@ -68,7 +68,8 @@ export const InvitationUserSelectorItem = <UserType,>({
     <div className="c__add-share-user-item">
       <span>{user.full_name || user.email}</span>
       <Button
-        color="tertiary-text"
+        variant="tertiary"
+        color="neutral"
         size="nano"
         onClick={() => onRemoveUser?.(user)}
         icon={<span className="material-icons">close</span>}
