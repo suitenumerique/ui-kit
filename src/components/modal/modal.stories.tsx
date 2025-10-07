@@ -55,7 +55,7 @@ export const ExampleCreateFolder: Story = {
     ),
     rightActions: (
       <>
-        <Button color="secondary">Cancel</Button>
+        <Button variant="bordered">Cancel</Button>
         <Button type="submit">Submit</Button>
       </>
     ),
@@ -130,6 +130,6 @@ export const ExampleApplication: Story = {
         touch.
       </>
     ),
-    rightActions: <Button color="primary">I understand</Button>,
+    rightActions: <Button>I understand</Button>,
   },
 };

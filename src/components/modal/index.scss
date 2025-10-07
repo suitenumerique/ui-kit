@@ -2,6 +2,13 @@
  * Modal
 */
 
+.c__modal__title {
+  text-align: left;
+  padding: 0;
+  font-size: 1.125rem;
+  margin-bottom: var(--c--globals--spacings--2xs);
+}
+
 .c__modal__close .c__button--tertiary-text:hover,
 .c__modal__close .c__button--tertiary-text:focus-visible {
   box-shadow: none;
@@ -17,7 +24,7 @@
 .c__modal__close button .material-icons {
   padding: 0;
   font-size: 24px;
-  color: var(--c--theme--colors--greyscale-600);
+  color: var(--c--contextuals--content--semantic--neutral--secondary);
 }
 
 .c__modal__close .c__button {
@@ -26,13 +33,6 @@
 
 .c__modal--full .c__modal__content {
   overflow-y: auto;
-}
-
-.c__modal__title {
-  text-align: left;
-  padding: 0;
-  font-size: 1.125rem;
-  margin-bottom: var(--c--theme--spacings--2xs);
 }
 
 @media screen and (width <= 420px) {
