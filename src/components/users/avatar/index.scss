@@ -42,47 +42,59 @@
     font-size: 26px;
   }
 
+  &.brand {
+    background-color: var(--c--globals--colors--brand-500);
+  }
+
+  &.gray {
+    background-color: var(--c--globals--colors--gray-500);
+  }
+
+  &.info {
+    background-color: var(--c--globals--colors--info-500);
+  }
+
+  &.success {
+    background-color: var(--c--globals--colors--success-500);
+  }
+
+  &.warning {
+    background-color: var(--c--globals--colors--warning-500);
+  }
+
+  &.error {
+    background-color: var(--c--globals--colors--error-500);
+  }
+
   &.purple {
-    background-color: var(--c--theme--colors--purple-500);
+    background-color: var(--c--globals--colors--purple-500);
   }
 
   &.blue {
-    background-color: var(--c--theme--colors--blue-500);
+    background-color: var(--c--globals--colors--blue-1-500);
   }
 
   &.green {
-    background-color: var(--c--theme--colors--green-500);
+    background-color: var(--c--globals--colors--green-500);
   }
 
   &.yellow {
-    background-color: var(--c--theme--colors--yellow-500);
+    background-color: var(--c--globals--colors--yellow-500);
   }
 
   &.orange {
-    background-color: var(--c--theme--colors--orange-500);
+    background-color: var(--c--globals--colors--orange-500);
   }
 
   &.red {
-    background-color: var(--c--theme--colors--red-500);
+    background-color: var(--c--globals--colors--red-500);
   }
 
   &.brown {
-    background-color: var(--c--theme--colors--brown-500);
+    background-color: var(--c--globals--colors--brown-500);
   }
 
-  &.cyan {
-    background-color: var(--c--theme--colors--cyan-500);
-  }
-
-  &.gold {
-    background-color: var(--c--theme--colors--gold-500);
-  }
-
-  &.olive {
-    background-color: var(--c--theme--colors--olive-500);
-  }
-
-  &.rose {
-    background-color: #e18b76;
+  &.pink {
+    background-color: var(--c--globals--colors--pink-500);
   }
 }

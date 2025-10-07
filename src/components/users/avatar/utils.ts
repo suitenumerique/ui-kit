@@ -1,15 +1,18 @@
-const AVATAR_COLORS = [
-    "purple",
-    "blue",
-    "green",
-    "yellow",
-    "orange",
+export const AVATAR_COLORS = [
+    "brand",
+    "gray",
+    "info",
+    "success",
+    "warning",
+    "error",
     "red",
+    "orange",
     "brown",
-    "cyan",
-    "gold",
-    "olive",
-    "rose",
+    "yellow",
+    "green",
+    "purple",
+    "pink",
+    "blue",
   ];
 
 

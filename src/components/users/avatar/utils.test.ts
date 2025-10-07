@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getUserInitials, getUserColor } from './utils';
+import { getUserInitials, getUserColor, AVATAR_COLORS } from './utils';
 
 describe('Avatar Utils', () => {
   describe('getUserInitials', () => {
@@ -33,12 +33,12 @@ describe('Avatar Utils', () => {
   describe('getUserColor', () => {
     it('should return a color from the predefined list', () => {
       const color = getUserColor('John');
-      expect(['purple', 'blue', 'green', 'yellow', 'orange', 'red', 'brown', 'cyan', 'gold', 'olive', 'rose']).toContain(color);
+      expect(AVATAR_COLORS).toContain(color);
     });
 
     it('should handle empty string', () => {
       const color = getUserColor('');
-      expect(['purple', 'blue', 'green', 'yellow', 'orange', 'red', 'brown', 'cyan', 'gold', 'olive', 'rose']).toContain(color);
+      expect(AVATAR_COLORS).toContain(color);
     });
   });
 }); 
