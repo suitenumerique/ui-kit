@@ -26,3 +26,5 @@ export const Badge = ({
     </div>
   );
 };
+
+export default Badge;
