@@ -5,7 +5,7 @@
     position: absolute;
     height: 2px;
     width: 100%;
-    background: var(--c--theme--colors--primary-600);
+    background: var(--c--contextuals--background--semantic--brand--primary);
     top: 0;
   }
 
@@ -45,7 +45,7 @@
         gap: 0.5rem 1.5rem;
 
         a {
-          color: var(--c--theme--colors--greyscale-text);
+          color: var(--c--contextuals--content--semantic--neutral--primary);
           text-decoration: none;
           display: flex;
           gap: 0.2rem;
@@ -60,30 +60,32 @@
       flex-flow: wrap;
       margin-top: 1.625rem;
       padding-top: 0.5rem;
-      border-top: 1px solid var(--c--theme--colors--greyscale-200);
+      border-top: 1px solid
+        var(--c--contextuals--border--semantic--neutral--tertiary);
       gap: 0.5rem 1rem;
 
       a {
         text-decoration: none;
         font-size: 0.8125rem;
-        color: var(--c--theme--colors--greyscale-600);
+        color: var(--c--contextuals--content--semantic--neutral--secondary);
         display: flex;
         padding-right: 1rem;
-        box-shadow: inset -1px 0px 0px 0px var(--c--theme--colors--greyscale-200);
+        box-shadow: inset -1px 0px 0px 0px var(--c--contextuals--border--semantic--neutral--tertiary);
       }
     }
 
     &__mention {
       font-size: 0.8125rem;
-      color: var(--c--theme--colors--greyscale-600);
+      color: var(--c--contextuals--content--semantic--neutral--secondary);
       display: inline;
       margin-top: 1.625rem;
 
       a {
-        color: var(--c--theme--colors--greyscale-600);
+        color: var(--c--contextuals--content--semantic--neutral--secondary);
         text-decoration: none;
         display: inline-flex;
-        box-shadow: 0px 1px 0 0 var(--c--theme--colors--greyscale-text);
+        box-shadow: 0px 1px 0 0
+          var(--c--contextuals--border--semantic--neutral--tertiary);
       }
     }
   }
