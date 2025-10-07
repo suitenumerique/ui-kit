@@ -78,7 +78,8 @@ export const ShareMemberItem = <UserType, AccessType>({
                 onOpenChange={menuOptions.setIsOpen}
               >
                 <Button
-                  color="primary-text"
+                  color="neutral"
+                  variant="tertiary"
                   onClick={handleOpenMenu}
                   size="small"
                   icon={<span className="material-icons toto">more_horiz</span>}

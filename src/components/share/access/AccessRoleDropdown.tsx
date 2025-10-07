@@ -23,7 +23,9 @@ export const AccessRoleDropdown = ({
 
   if (!canUpdate) {
     return (
-      <span className="fs-s clr-greyscale-600">{currentRoleString?.label}</span>
+      <span className="c__access-role-dropdown__role-label-can-not-update">
+        {currentRoleString?.label}
+      </span>
     );
   }
   return (
@@ -52,10 +54,10 @@ export const AccessRoleDropdown = ({
           onOpenChange?.(!isOpen);
         }}
       >
-        <span className="fs-s clr-greyscale-600">
+        <span className="c__access-role-dropdown__role-label">
           {currentRoleString?.label}
         </span>
-        <span className="material-icons">
+        <span className="material-icons c__access-role-dropdown__icon">
           {isOpen ? "arrow_drop_up" : "arrow_drop_down"}
         </span>
       </div>

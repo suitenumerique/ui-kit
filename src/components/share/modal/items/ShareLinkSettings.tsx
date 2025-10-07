@@ -62,9 +62,9 @@ export const ShareLinkSettings = ({
           icon: choice.icon ?? getIcon(choice.value),
           value: choice.value,
           label: t(
-            "components.share.linkSettings.reach.choices." +
+            ("components.share.linkSettings.reach.choices." +
               choice.value +
-              ".title" as TranslationKey
+              ".title") as TranslationKey
           ),
           ...choice,
         };
@@ -83,9 +83,9 @@ export const ShareLinkSettings = ({
         return {
           value: choice.value,
           label: t(
-            "components.share.linkSettings.role.choices." +
+            ("components.share.linkSettings.role.choices." +
               choice.value +
-              ".title" as TranslationKey
+              ".title") as TranslationKey
           ),
           ...choice,
         };
@@ -115,7 +115,7 @@ export const ShareLinkSettings = ({
             selectedValues={selectedLinkReachValues}
           >
             <Button
-              color="primary-text"
+              variant="tertiary"
               icon={getIcon(selectedLinkReach)}
               iconPosition="left"
               onClick={() => {
@@ -158,7 +158,7 @@ export const ShareLinkSettings = ({
             selectedValues={selectedLinkRoleValues}
           >
             <Button
-              color="primary-text"
+              variant="tertiary"
               icon={
                 <span className="material-icons">
                   {linkRoleDropdown.isOpen
