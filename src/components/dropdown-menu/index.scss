@@ -4,7 +4,7 @@
   justify-content: center;
 }
 .c__dropdown-menu {
-  background-color: var(--c--theme--colors--greyscale-000);
+  background-color: var(--c--contextuals--background--surface--primary);
   z-index: 1000;
   max-width: 320px;
   max-height: inherit;
@@ -13,14 +13,13 @@
   min-width: 150px;
   box-sizing: border-box;
   outline: none;
-  border-radius: var(--c--theme--spacings--3xs, 4px);
-  background-color: (--c--theme--colors--greyscale-000);
-  border: 1px solid var(--c--theme--colors--greyscale-200);
+  border-radius: var(--c--globals--spacings--3xs, 4px);
+  border: 1px solid var(--c--contextuals--border--surface--primary);
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 145, 0.1);
 
   .react-aria-Separator {
     height: 1px;
-    background: var(--c--theme--colors--greyscale-200, #e0e0e0);
+    background: var(--c--contextuals--border--semantic--neutral--tertiary);
   }
 }
 
@@ -28,25 +27,25 @@
   display: flex;
   align-items: center;
 
-  padding: var(--c--theme--spacings--sm, 0.5rem);
+  padding: var(--c--globals--spacings--sm, 0.5rem);
 
   font-weight: 500;
-  color: var(--c--theme--colors--greyscale-1000, #161616);
-  font-size: var(--c--theme--font--sizes--xs, 0.75rem);
+  color: var(--c--contextuals--content--semantic--neutral--primary);
+  font-size: var(--c--globals--font--sizes--xs, 0.75rem);
 }
 
 .c__dropdown-menu-item {
   display: flex;
-  gap: var(--c--theme--spacings--base, 16px);
+  gap: var(--c--globals--spacings--base, 16px);
   padding: 8px 16px;
   border-bottom: 1px solid transparent;
   padding-right: 24px;
   outline: none;
   cursor: pointer;
   line-height: 19px;
-  font-size: var(--c--theme--font--sizes--sm, 0.875rem);
+  font-size: var(--c--globals--font--sizes--sm, 0.875rem);
   font-weight: 500;
-  color: var(--c--theme--colors--greyscale-1000, #161616);
+  color: var(--c--contextuals--content--semantic--neutral--primary);
   align-items: center;
   forced-color-adjust: none;
 
@@ -55,16 +54,20 @@
   }
 
   &:hover {
-    background: var(--c--theme--colors--greyscale-100);
+    background: var(
+      --c--contextuals--background--semantic--contextual--primary
+    );
   }
 
   &[data-focused] {
-    background: var(--c--theme--colors--greyscale-100);
+    background: var(
+      --c--contextuals--background--semantic--contextual--primary
+    );
     color: black;
   }
 
   &[data-disabled] {
-    color: var(--c--theme--colors--greyscale-400, #808080);
+    color: var(--c--contextuals--content--semantic--disabled--primary);
     cursor: not-allowed;
 
     &:hover {
@@ -82,12 +85,12 @@
   }
 
   .checked {
-    margin-left: var(--c--theme--spacings--md, 1.5rem);
+    margin-left: var(--c--globals--spacings--md, 1.5rem);
   }
 }
 
 .dropdown-menu-separator {
-  background-color: var(--c--theme--colors--greyscale-200);
+  background-color: var(--c--contextuals--background--surface--primary);
   height: 1px;
   width: 100%;
 }
