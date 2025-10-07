@@ -1,7 +1,7 @@
 .c__separator {
   --border-width: 1px;
-  --padding: var(--c--theme--spacings--sm, 0.75rem);
-  background-color: var(--c--theme--colors--greyscale-100);
+  --padding: var(--c--globals--spacings--sm, 0.75rem);
+  background-color: var(--c--contextuals--border--surface--primary);
 }
 
 .c__separator--double {
