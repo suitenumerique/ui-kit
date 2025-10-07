@@ -23,7 +23,9 @@ export const HeaderOnly: StoryObj = {
     <Header
       leftIcon={<img src={svg} alt="logo" />}
       rightIcon={
-        <span className="material-icons clr-primary-800">help_outline</span>
+        <span className="material-icons clr-content-semantic-brand-tertiary">
+          help_outline
+        </span>
       }
       languages={[{ label: "Français", isChecked: true }, { label: "Anglais" }]}
     />
@@ -42,7 +44,7 @@ export const LeftPanelOnly: StoryObj = {
   render: () => {
     return (
       <div className="left-panel-story">
-        <LeftPanel>
+        <LeftPanel hasHeader={false}>
           <div className="p-s">LeftPanel</div>
         </LeftPanel>
       </div>
@@ -73,7 +75,6 @@ export const FullLayout: StoryObj = {
             <div
               style={{
                 height: "2000px",
-                backgroundColor: "var(--c--theme--colors--greyscale-000)",
               }}
             >
               {!isDesktop && (
@@ -95,7 +96,6 @@ export const FullLayout: StoryObj = {
             <div
               style={{
                 height: "2000px",
-                backgroundColor: "var(--c--theme--colors--greyscale-100)",
               }}
             >
               LeftPanel
@@ -128,14 +128,7 @@ export const FullLayout: StoryObj = {
           >
             Toggle Right Panel
           </button>
-          <div
-            style={{
-              backgroundColor: "var(--c--theme--colors--greyscale-100)",
-            }}
-            className="p-s"
-          >
-            Content
-          </div>
+          <div className="p-s">Content</div>
         </div>
       </MainLayout>
     );

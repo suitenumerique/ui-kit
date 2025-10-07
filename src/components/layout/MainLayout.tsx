@@ -144,9 +144,10 @@ export const MainLayout = ({
               </Panel>
               {isDesktop && (
                 <PanelResizeHandle
-                  className="bg-greyscale-200"
+                  className="border-clr-surface-primary"
                   style={{
-                    width: "1px",
+                    borderRightWidth: "1px",
+                    borderRightStyle: "solid",
                   }}
                 />
               )}

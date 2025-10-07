@@ -26,9 +26,9 @@ export const Header = ({
           size="medium"
           onClick={onTogglePanel}
           aria-label={isPanelOpen ? t("Close the menu") : t("Open the menu")}
-          color="tertiary-text"
+          variant="tertiary"
           icon={
-            <span className="material-icons clr-primary-800">
+            <span className="material-icons c__header__toggle-menu__icon">
               {isPanelOpen ? "close" : "menu"}
             </span>
           }
