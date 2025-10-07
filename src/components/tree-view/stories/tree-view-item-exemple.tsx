@@ -114,9 +114,6 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
                       Open
                     </Button>
                   </DropdownMenu>
-                  <Button size="small" onClick={(e) => handleOpenMenu(e)}>
-                    Open
-                  </Button>
                 </div>
               </div>
             </div>
