@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "@openfun/cunningham-react";
+import { Button, ButtonProps } from "@openfun/cunningham-react";
 import { ProConnectButton } from "./ProConnectButton";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -17,59 +17,37 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
+const colors: ButtonProps["color"][] = [
+  "brand",
+  "neutral",
+  "info",
+  "success",
+  "warning",
+  "error",
+  "success",
+];
+const variants: ButtonProps["variant"][] = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "bordered",
+];
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 
 export const All: Story = {
   render: () => {
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <Button color="primary" size="medium">
-          Primary
-        </Button>
-        <Button color="primary-text" size="medium">
-          Primary text
-        </Button>
-        <Button color="secondary" size="medium">
-          Secondary
-        </Button>
-        <Button color="tertiary" size="medium">
-          Tertiary
-        </Button>
-        <Button color="tertiary-text" size="medium">
-          Tertiary text
-        </Button>
-        <Button color="danger" size="medium">
-          Danger
-        </Button>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {colors.map((color) => (
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            {variants.map((variant) => (
+              <Button variant={variant} color={color} size="medium">
+                {variant} {color}
+              </Button>
+            ))}
+          </div>
+        ))}
       </div>
-    );
-  },
-};
-
-export const AllAsLink: Story = {
-  render: () => {
-    return (
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button href="#" color="primary" size="medium">
-          Primary link
-        </Button>
-        <Button href="#" color="primary-text" size="medium">
-          Primary text link
-        </Button>
-        <Button href="#" color="secondary" size="medium">
-          Secondary link
-        </Button>
-        <Button href="#" color="tertiary" size="medium">
-          Tertiary link
-        </Button>
-        <Button href="#" color="tertiary-text" size="medium">
-          Tertiary text link
-        </Button>
-        <Button href="#" color="danger" size="medium">
-          Danger link
-        </Button>
-        </div>
     );
   },
 };
@@ -77,95 +55,20 @@ export const AllAsLink: Story = {
 export const Disabled: Story = {
   render: () => {
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          alignItems: "center",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button color="primary" size="medium" disabled>
-            Primary
-          </Button>
-          <Button color="primary-text" size="medium" disabled>
-            Primary text
-          </Button>
-          <Button color="secondary" size="medium" disabled>
-            Secondary
-          </Button>
-          <Button color="tertiary" size="medium" disabled>
-            Tertiary
-          </Button>
-          <Button color="tertiary-text" size="medium" disabled>
-            Tertiary text
-          </Button>
-          <Button color="danger" size="medium" disabled>
-            Danger
-          </Button>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button href="#" color="primary" size="medium" disabled>
-            Primary link
-          </Button>
-          <Button href="#" color="primary-text" size="medium" disabled>
-            Primary text link
-          </Button>
-          <Button href="#" color="secondary" size="medium" disabled>
-            Secondary link
-          </Button>
-          <Button href="#" color="tertiary" size="medium" disabled>
-            Tertiary link
-          </Button>
-          <Button href="#" color="tertiary-text" size="medium" disabled>
-            Tertiary text link
-          </Button>
-          <Button href="#" color="danger" size="medium" disabled>
-            Danger link
-          </Button>
-        </div>
-      </div>
-    );
-  },
-};
-
-export const Active: Story = {
-  render: () => {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button color="primary" size="medium" active>
-            Primary
-          </Button>
-          <Button color="primary-text" size="medium" active>
-            Primary text
-          </Button>
-          <Button color="secondary" size="medium" active>
-            Secondary
-          </Button>
-          <Button color="tertiary" size="medium" active>
-            Tertiary
-          </Button>
-          <Button color="tertiary-text" size="medium" active>
-            Tertiary text
-          </Button>
-          <Button color="danger" size="medium" active>
-            Danger
-          </Button>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button href="#" color="primary" size="medium" active>
-            Primary link
-          </Button>
-          <Button href="#" color="primary-text" size="medium" active>
-            Primary text link
-          </Button>
-          <Button href="#" color="secondary" size="medium" active>
-            Secondary link
-          </Button>
-          <Button href="#" color="tertiary" size="medium" active>
-            Tertiary link
-          </Button>
-          <Button href="#" color="tertiary-text" size="medium" active>
-            Tertiary text link
-          </Button>
-          <Button href="#" color="danger" size="medium" active>
-            Danger link
-          </Button>
+          {variants.map((variant) => (
+            <Button color="brand" variant={variant} size="medium" disabled>
+              {variant}
+            </Button>
+          ))}
         </div>
       </div>
     );
@@ -187,49 +90,21 @@ export const ProConnectDisabled: Story = {
 export const AllWithIcons: Story = {
   render: () => {
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <Button
-          color="primary"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Primary
-        </Button>
-        <Button
-          color="primary-text"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Primary text
-        </Button>
-        <Button
-          color="secondary"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Secondary
-        </Button>
-        <Button
-          color="tertiary"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Tertiary
-        </Button>
-        <Button
-          color="tertiary-text"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Tertiary text
-        </Button>
-        <Button
-          color="danger"
-          size="medium"
-          icon={<span className="material-icons">add</span>}
-        >
-          Danger
-        </Button>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {colors.map((color) => (
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            {variants.map((variant) => (
+              <Button
+                icon={<span className="material-icons">add</span>}
+                variant={variant}
+                color={color}
+                size="medium"
+              >
+                {variant} {color}
+              </Button>
+            ))}
+          </div>
+        ))}
       </div>
     );
   },
@@ -238,49 +113,21 @@ export const AllWithIcons: Story = {
 export const AllWithIconsSmall: Story = {
   render: () => {
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <Button
-          color="primary"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Primary
-        </Button>
-        <Button
-          color="primary-text"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Primary text
-        </Button>
-        <Button
-          color="secondary"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Secondary
-        </Button>
-        <Button
-          color="tertiary"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Tertiary
-        </Button>
-        <Button
-          color="tertiary-text"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Tertiary text
-        </Button>
-        <Button
-          color="danger"
-          size="small"
-          icon={<span className="material-icons">add</span>}
-        >
-          Danger
-        </Button>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {colors.map((color) => (
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            {variants.map((variant) => (
+              <Button
+                icon={<span className="material-icons">add</span>}
+                variant={variant}
+                color={color}
+                size="small"
+              >
+                {variant} {color}
+              </Button>
+            ))}
+          </div>
+        ))}
       </div>
     );
   },
