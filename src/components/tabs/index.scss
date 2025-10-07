@@ -31,25 +31,27 @@
     cursor: pointer;
     outline: none;
     position: relative;
-    color: var(--c--theme--colors--greyscale-500);
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
     transition: color 200ms;
     --border-color: transparent;
     forced-color-adjust: none;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid var(--c--theme--colors--greyscale-200);
+    border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
 
     &[data-hovered] {
-      background-color: var(--c--theme--colors--greyscale-050);
+      background-color: var(
+        --c--contextuals--background--semantic--neutral--tertiary-hover
+      );
       color: var(--text-color-hover);
     }
 
     &[data-selected] {
       font-weight: 500;
-      // font-size: var(--c--theme--font--sizes--md);
-      color: var(--c--theme--colors--primary-800);
-      border-bottom: 2px solid var(--c--theme--colors--primary-800);
+      color: var(--c--contextuals--content--semantic--brand--primary);
+      border-bottom: 2px solid
+        var(--c--contextuals--content--semantic--brand--primary);
     }
 
     &[data-disabled] {
