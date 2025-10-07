@@ -4,10 +4,12 @@ import { PropsWithChildren } from "react";
 
 export type LeftPanelProps = {
   isOpen?: boolean;
+  hasHeader?: boolean;
 };
 export const LeftPanel = ({
   children,
   isOpen = false,
+  hasHeader = true,
 }: PropsWithChildren<LeftPanelProps>) => {
   const { isDesktop } = useResponsive();
 
@@ -23,5 +25,9 @@ export const LeftPanel = ({
     );
   }
 
-  return <div className="c__left-panel">{children}</div>;
+  return (
+    <div className={clsx("c__left-panel", { "has-header": hasHeader })}>
+      {children}
+    </div>
+  );
 };

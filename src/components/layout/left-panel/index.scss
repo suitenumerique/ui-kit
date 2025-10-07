@@ -1,12 +1,20 @@
 .c__left-panel {
   display: flex;
   overflow-y: auto;
-  height: calc(100dvh - 52px);
+
+  &.has-header {
+    height: calc(100dvh - 52px);
+  }
+
+  &:not(.has-header) {
+    height: 100dvh;
+  }
+
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-
-  background-color: var(--c--theme--colors--greyscale-000);
+  background-color: var(--c--contextuals--background--surface--secondary);
+  border-right: 1px solid var(--c--contextuals--border--surface--primary);
 }
 
 .c__left-panel__mobile {
@@ -14,9 +22,10 @@
   width: 100dvw;
   height: calc(100dvh - 52px);
   overflow-y: auto;
-  border-right: 1px solid var(--c--theme--colors--greyscale-200);
+  border-right: 1px solid var(--c--contextuals--border--surface--primary);
   position: fixed;
-  background-color: var(--c--theme--colors--greyscale-000);
+  background-color: var(--c--contextuals--background--surface--secondary);
+  transition: transform 0.15s ease-in-out;
   transform: translateX(-100dvw);
 
   // Animation for both opening and closing
