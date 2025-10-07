@@ -11,6 +11,7 @@ export type LanguagePickerProps = {
   languages: DropdownMenuOption[];
   onChange?: (language: string) => void;
   color?: ButtonProps["color"];
+  variant?: ButtonProps["variant"];
   size?: ButtonProps["size"];
   fullWidth?: ButtonProps["fullWidth"];
 };
@@ -28,7 +29,8 @@ export const LanguagePicker = ({
   languages,
   onChange,
   size,
-  color = "primary-text",
+  color = "brand",
+  variant = "tertiary",
   fullWidth,
 }: LanguagePickerProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
@@ -79,6 +81,7 @@ export const LanguagePicker = ({
         iconPosition="right"
         size={size}
         color={color}
+        variant={variant}
         fullWidth={fullWidth}
       >
         <Icon name="translate" size={iconSize} />
