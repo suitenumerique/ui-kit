@@ -63,7 +63,7 @@ $sm: map.get($themes, "default", "theme", "breakpoints", "sm");
       > h2 {
         font-size: 2.3rem;
         font-weight: bold;
-        color: var(--c--theme--colors--greyscale-800);
+        color: var(--c--contextuals--content--semantic--neutral--primary);
         text-align: center;
         margin: 0;
         line-height: 45px;
@@ -71,7 +71,7 @@ $sm: map.get($themes, "default", "theme", "breakpoints", "sm");
 
       &__subtitle {
         font-size: 1.125rem;
-        color: var(--c--theme--colors--greyscale-600);
+        color: var(--c--contextuals--content--semantic--neutral--secondary);
         text-align: center;
         margin-bottom: 1rem;
       }
