@@ -1,67 +1,69 @@
 .user-menu__trigger {
-    padding-inline: 4px;
+  padding-inline: 4px;
 }
 
 .user-menu__popover {
-    max-width: 400px;
+  max-width: 400px;
 }
 
 .user-menu__content__body {
-    padding-inline: var(--c--theme--spacings--base);
-    padding-block: var(--c--theme--spacings--base) var(--c--theme--spacings--xs);
-    margin-bottom: var(--c--theme--spacings--sm);
-    display: flex;
-    flex-direction: column;
-    gap: var(--c--theme--spacings--xs);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  padding-inline: var(--c--globals--spacings--base);
+  padding-block: var(--c--globals--spacings--base)
+    var(--c--globals--spacings--xs);
+  margin-bottom: var(--c--globals--spacings--sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--c--globals--spacings--xs);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .user-menu__content__identity {
-    display: flex;
-    flex-direction: column;
-    gap: var(--c--theme--spacings--3xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--c--globals--spacings--3xs);
 }
 
 .user-menu__content__identity__name {
-    color: var(--c--theme--colors--greyscale-950);
-    font-size: var(--c--theme--font--sizes--xl);
-    font-weight: 500;
-    margin: 0;
+  color: var(--c--contextuals--content--semantic--neutral--primary);
+  font-size: var(--c--globals--font--sizes--xl);
+  font-weight: 500;
+  margin: 0;
 
-    & > strong {
-        font-weight: inherit;
-    }
+  & > strong {
+    font-weight: inherit;
+  }
 }
 .user-menu__content__identity__email {
-    color: var(--c--theme--colors--greyscale-600);
-    font-size: var(--c--theme--font--sizes--sm);
-    font-weight: 400;
-    margin: 0;
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  font-size: var(--c--globals--font--sizes--sm);
+  font-weight: 400;
+  margin: 0;
 
-    // When email has a strong tag, that means there is no full name
-    // so we make the email a bit stronger
-    & > strong {
-        font-weight: 500;
-        font-size: var(--c--theme--font--sizes--ml);
-    }
+  // When email has a strong tag, that means there is no full name
+  // so we make the email a bit stronger
+  & > strong {
+    font-weight: 500;
+    font-size: var(--c--globals--font--sizes--ml);
+  }
 }
 
 .user-menu__footer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    box-sizing: border-box;
-    gap: var(--c--theme--spacings--base);
-    border-top: 1px solid var(--c--theme--colors--greyscale-200);
-    padding-inline: var(--c--theme--spacings--base);
-    padding-block: var(--c--theme--spacings--sm);
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  box-sizing: border-box;
+  gap: var(--c--globals--spacings--base);
+  border-top: 1px solid
+    var(--c--contextuals--border--semantic--neutral--tertiary);
+  padding-inline: var(--c--globals--spacings--base);
+  padding-block: var(--c--globals--spacings--sm);
+  width: 100%;
 
-    // Center content when there's only one item
-    &:has(.user-menu__footer__left:only-child),
-    &:has(.user-menu__footer__right:only-child) {
-        grid-template-columns: 1fr;
-        place-items: center;
-    }
+  // Center content when there's only one item
+  &:has(.user-menu__footer__left:only-child),
+  &:has(.user-menu__footer__right:only-child) {
+    grid-template-columns: 1fr;
+    place-items: center;
+  }
 }
