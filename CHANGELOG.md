@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.17.1
+
+### Patch Changes
+
+- update styles to use the new globals tokens
+
 ## 0.17.0
 
 ### Major Changes
