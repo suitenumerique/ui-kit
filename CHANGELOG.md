@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.17.0
+
+### Major Changes
+
+- switch and adapt all components to cunningham v4
+
 ## 0.16.2
 
 ### Patch Changes
