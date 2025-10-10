@@ -2,8 +2,8 @@
 @use "@openfun/cunningham-react/style" as *;
 @use "../../cunningham-tokens-sass" as *;
 
-$md: map.get($themes, "default", "theme", "breakpoints", "md");
-$sm: map.get($themes, "default", "theme", "breakpoints", "sm");
+$md: map.get($themes, "default", "globals", "breakpoints", "md");
+$sm: map.get($themes, "default", "globals", "breakpoints", "sm");
 
 .c__home-gutter {
   display: flex;
