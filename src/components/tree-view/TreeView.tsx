@@ -369,6 +369,37 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
     }
   };
 
+  // Block everything if clicking outside the actual row content (between items).
+  const handleRowMouseEvent = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    const rowContent = e.currentTarget.querySelector(
+      ".c__tree-view--row-content"
+    );
+
+    // Allow toolbar/interactives (menus, links, inputs…)
+    const interactiveSelector =
+      'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+    const inToolbar = target.closest(".actions");
+    const isInteractive = target.closest(interactiveSelector);
+
+    // Only allow primary click (leave context-menu/drag)
+    const isPrimaryClick = "button" in e && e.button === 0;
+    if (!isPrimaryClick) return;
+
+    const inside = !!rowContent && rowContent.contains(target);
+    const outside = !inside && !inToolbar && !isInteractive;
+
+    if (outside) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    if (e.type === "click") {
+      props.node.handleClick(e);
+    }
+  };
+
   if (isTitle || isSeparator || isViewMore) {
     return (
       <div
@@ -396,15 +427,8 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onClick={(e) => {
-        onClick?.(e);
-
-        // Prevent automatic opening on click
-        e.preventDefault();
-        e.stopPropagation();
-        // Only select, don't open
-        props.node.select();
-      }}
+      onMouseDown={handleRowMouseEvent}
+      onClick={handleRowMouseEvent}
       onKeyDown={handleKeyDown}
       {...restCustomRowProps}
     >
