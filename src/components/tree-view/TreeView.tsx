@@ -218,7 +218,7 @@ export const TreeView = <T,>({
         width={width}
         paddingTop={10}
         paddingBottom={10}
-        rowHeight={35}
+        rowHeight={50}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
@@ -327,7 +327,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     const target = e.target as HTMLElement | null;
     if (target) {
       const isInActionsToolbar = target.closest(".actions");
-      const interactiveSelector = 'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+      const interactiveSelector =
+        'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
       const isInteractive = target.closest(interactiveSelector);
       if (isInActionsToolbar || isInteractive) {
         return;
@@ -343,6 +344,37 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       if (actionsButton) {
         actionsButton.focus();
       }
+    }
+  };
+
+  // Block everything if clicking outside the actual row content (between items).
+  const handleRowMouseEvent = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    const rowContent = e.currentTarget.querySelector(
+      ".c__tree-view--row-content"
+    );
+
+    // Allow toolbar/interactives (menus, links, inputs…)
+    const interactiveSelector =
+      'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+    const inToolbar = target.closest(".actions");
+    const isInteractive = target.closest(interactiveSelector);
+
+    // Only allow primary click (leave context-menu/drag)
+    const isPrimaryClick = "button" in e && e.button === 0;
+    if (!isPrimaryClick) return;
+
+    const inside = !!rowContent && rowContent.contains(target);
+    const outside = !inside && !inToolbar && !isInteractive;
+
+    if (outside) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    if (e.type === "click") {
+      props.node.handleClick(e);
     }
   };
 
@@ -368,7 +400,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onClick={props.node.handleClick}
+      onMouseDown={handleRowMouseEvent}
+      onClick={handleRowMouseEvent}
       onKeyDown={handleKeyDown}
     >
       <div className="c__tree-view--row-content">{children}</div>
