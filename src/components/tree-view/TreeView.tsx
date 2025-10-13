@@ -396,15 +396,7 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onClick={(e) => {
-        onClick?.(e);
-
-        // Prevent automatic opening on click
-        e.preventDefault();
-        e.stopPropagation();
-        // Only select, don't open
-        props.node.select();
-      }}
+      onClick={props.node.handleClick}
       onKeyDown={handleKeyDown}
       {...restCustomRowProps}
     >
