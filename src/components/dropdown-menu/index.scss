@@ -2,13 +2,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:focus-visible {
+    border-color: #fff;
+    border-radius: var(--c--components--button--border-radius--focus);
+    box-shadow: 0 0 0 2px var(--c--theme--colors--primary-400);
+    outline: none;
+  }
+  &:hover {
+    background: var(--c--theme--colors--greyscale-100);
+  }
 }
+
 .c__dropdown-menu {
   background-color: var(--c--contextuals--background--surface--primary);
   z-index: 1000;
   max-width: 320px;
   max-height: inherit;
-  box-sizing: border-box;
   overflow: auto;
   min-width: 150px;
   box-sizing: border-box;
@@ -73,6 +86,12 @@
     &:hover {
       background: transparent;
     }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c--theme--colors--primary-400);
+    outline-offset: -2px;
+    background-color: var(--c--theme--colors--greyscale-050);
   }
 
   .material-icons {

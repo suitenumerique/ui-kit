@@ -9,6 +9,7 @@ export type DropdownMenuProps = {
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
   topMessage?: string;
+  label?: string;
   shouldCloseOnInteractOutside?: (element: Element) => boolean;
 };
 
@@ -20,19 +21,39 @@ export const DropdownMenu = ({
   selectedValues = [],
   onSelectValue,
   topMessage,
+  label = "Menu",
   shouldCloseOnInteractOutside,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
   };
 
-  const triggerRef = useRef(null);
+  const isOptionChecked = (option: DropdownMenuOption): boolean => {
+    return Boolean(
+      option.isChecked ||
+        (option.value && selectedValues.includes(option.value))
+    );
+  };
+
+  const handleOptionAction = (option: DropdownMenuOption): void => {
+    if (option.value) onSelectValue?.(option.value);
+    option.callback?.();
+    onOpenChangeHandler(false);
+  };
+
   return (
     <>
+      {/* Trigger accessible div */}
       <div
         className="c__dropdown-menu-trigger"
         ref={triggerRef}
+        role="button"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-controls={`${id}-menu`}
         id={id}
         onClick={(e) => {
           e.stopPropagation();
@@ -44,51 +65,47 @@ export const DropdownMenu = ({
 
       <Popover
         triggerRef={triggerRef}
-        style={{
-          marginTop: "0px",
-        }}
         isOpen={isOpen}
-        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
+        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
+        style={{ marginTop: "0px" }}
       >
-        <Menu className="c__dropdown-menu" aria-labelledby={id}>
+        <Menu
+          className="c__dropdown-menu"
+          aria-labelledby={id}
+          aria-label={label}
+          selectionMode="single"
+          selectedKeys={selectedValues}
+          autoFocus
+        >
           {topMessage && (
-            <MenuItem className="c__dropdown-menu-item-top-message">
+            <MenuItem className="c__dropdown-menu-item-top-message" isDisabled>
               {topMessage}
             </MenuItem>
           )}
+
           {options.map((option) => {
-            if (option.isHidden) {
-              return null;
-            }
+            if (option.isHidden) return null;
+
             return (
-              <Fragment key={option.label}>
+              <Fragment key={option.value ?? option.label}>
                 <MenuItem
                   className="c__dropdown-menu-item"
-                  aria-label={option.label}
-                  key={option.label}
-                  onAction={() => {
-                    if (option.value) {
-                      onSelectValue?.(option.value);
-                    }
-                    option.callback?.();
-                    onOpenChangeHandler(false);
-                  }}
+                  id={option.value}
+                  onAction={() => handleOptionAction(option)}
                   isDisabled={option.isDisabled}
                 >
                   {option.icon}
-                  <div
-                    className="c__dropdown-menu-item__label"
-                    aria-label={option.label}
-                  >
-                    {option.label}
+                  <div className="c__dropdown-menu-item__label">
+                    <span lang={option.value}>{option.label}</span>
                   </div>
-                  {(option.isChecked ||
-                    (option.value &&
-                      selectedValues.includes(option.value))) && (
-                    <span className="material-icons checked">check</span>
+                  {isOptionChecked(option) && (
+                    <span className="material-icons checked" aria-hidden="true">
+                      check
+                    </span>
                   )}
                 </MenuItem>
+
                 {option.showSeparator && <Separator />}
               </Fragment>
             );
