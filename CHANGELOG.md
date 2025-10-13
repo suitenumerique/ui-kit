@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - hide waffle icon from screen readers
+- Clicking between nodes no longer triggers phantom selection.
 
 ## 0.19.10
 
@@ -42,13 +43,13 @@
 
 ### Patch Changes
 
-- Fix the delete option visibility in access role dropdown 
+- Fix the delete option visibility in access role dropdown
 
 ## 0.19.4
 
 ### Patch Changes
 
-- Fix the delete option visibility in access role dropdown 
+- Fix the delete option visibility in access role dropdown
 
 ## 0.19.3
 
@@ -58,13 +59,13 @@
 
 ## 0.19.2
 
-### Minor Changes 
+### Minor Changes
 
--  add can_delete property and improve ShareModal Storybook docs 
+- add can_delete property and improve ShareModal Storybook docs
 
 ## 0.19.1
 
-### Minor Changes 
+### Minor Changes
 
 - Add ReleaseNoteModal component
 - Move delete access into AccessRoleDropdown.
@@ -80,9 +81,9 @@
 
 ## 0.19.0
 
-### Minor Changes 
+### Minor Changes
 
-- Add ContextMenu component 
+- Add ContextMenu component
 - Add OnBoardingModal component
 
 ## 0.18.7
@@ -100,7 +101,7 @@
 ### Minor Changes
 
 - Update `UserAvatar` and `UserMenu` components to stick to the Figma design
-- Upgrade to latest Cunningham tokens (@openfun/cunningham-* -> @gouvfr-lasuite/cunningham-*)
+- Upgrade to latest Cunningham tokens (@openfun/cunningham-_ -> @gouvfr-lasuite/cunningham-_)
 - Export White Label & ANCT themes with light/dark variants
 - Export `getUIKitThemesFromGlobals` utility function to create a custom from UI Kit globals and overrides
 
