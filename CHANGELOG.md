@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.17.2
+
 ### Patch Changes
 
 - Make "build" command cross-platform compatible
