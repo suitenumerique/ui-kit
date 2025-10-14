@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - Make "build" command cross-platform compatible
+- fix missing css variable replacement
 
 ## 0.17.1
 
