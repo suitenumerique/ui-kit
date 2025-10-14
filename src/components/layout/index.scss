@@ -26,7 +26,7 @@
   width: 100%;
   height: 100%;
   display: flex;
-  margin-top: calc(variables.$header-height + 1px);
+  margin-top: calc(variables.$header-height);
 
   &__left-panel {
     height: calc(100dvh - variables.$header-height);
@@ -42,6 +42,7 @@
     &__children {
       height: calc(100dvh - variables.$header-height);
       width: 100%;
+      background: var(--c--contextuals--background--surface--primary);
       flex: 1;
       overflow-y: auto;
     }
