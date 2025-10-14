@@ -33,5 +33,6 @@
 
   &.open {
     transform: translateX(0);
+    border-top: 1px solid var(--c--contextuals--border--surface--primary);
   }
 }
