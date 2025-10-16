@@ -26,6 +26,7 @@ export type TreeViewProps<T> = {
   dndRootElement?: HTMLElement | null;
   selectedNodeId?: string;
   rootNodeId: string;
+  rowHeight?: number;
   canDrop?: (args: {
     parentNode: NodeApi<TreeDataItem<T>> | null;
     dragNodes: NodeApi<TreeDataItem<T>>[];
@@ -46,6 +47,7 @@ export const TreeView = <T,>({
   selectedNodeId,
   rootNodeId,
   renderNode,
+  rowHeight = 35,
   canDrop,
   canDrag,
   afterMove,
@@ -228,7 +230,7 @@ export const TreeView = <T,>({
         width={width}
         paddingTop={paddingTop}
         paddingBottom={paddingBottom}
-        rowHeight={34}
+        rowHeight={rowHeight}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
@@ -369,37 +371,6 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
     }
   };
 
-  // Block everything if clicking outside the actual row content (between items).
-  const handleRowMouseEvent = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-    const rowContent = e.currentTarget.querySelector(
-      ".c__tree-view--row-content"
-    );
-
-    // Allow toolbar/interactives (menus, links, inputs…)
-    const interactiveSelector =
-      'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
-    const inToolbar = target.closest(".actions");
-    const isInteractive = target.closest(interactiveSelector);
-
-    // Only allow primary click (leave context-menu/drag)
-    const isPrimaryClick = "button" in e && e.button === 0;
-    if (!isPrimaryClick) return;
-
-    const inside = !!rowContent && rowContent.contains(target);
-    const outside = !inside && !inToolbar && !isInteractive;
-
-    if (outside) {
-      e.preventDefault();
-      e.stopPropagation();
-      return;
-    }
-
-    if (e.type === "click") {
-      props.node.handleClick(e);
-    }
-  };
-
   if (isTitle || isSeparator || isViewMore) {
     return (
       <div
@@ -427,8 +398,7 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onMouseDown={handleRowMouseEvent}
-      onClick={handleRowMouseEvent}
+      onClick={props.node.handleClick}
       onKeyDown={handleKeyDown}
       {...restCustomRowProps}
     >
