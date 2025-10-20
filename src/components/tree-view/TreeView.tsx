@@ -26,6 +26,7 @@ export type TreeViewProps<T> = {
   dndRootElement?: HTMLElement | null;
   selectedNodeId?: string;
   rootNodeId: string;
+  rowHeight?: number;
   canDrop?: (args: {
     parentNode: NodeApi<TreeDataItem<T>> | null;
     dragNodes: NodeApi<TreeDataItem<T>>[];
@@ -43,6 +44,7 @@ export const TreeView = <T,>({
   selectedNodeId,
   rootNodeId,
   renderNode,
+  rowHeight = 35,
   canDrop,
   canDrag,
   afterMove,
@@ -218,7 +220,7 @@ export const TreeView = <T,>({
         width={width}
         paddingTop={10}
         paddingBottom={10}
-        rowHeight={35}
+        rowHeight={rowHeight}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
@@ -327,7 +329,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     const target = e.target as HTMLElement | null;
     if (target) {
       const isInActionsToolbar = target.closest(".actions");
-      const interactiveSelector = 'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+      const interactiveSelector =
+        'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
       const isInteractive = target.closest(interactiveSelector);
       if (isInActionsToolbar || isInteractive) {
         return;
