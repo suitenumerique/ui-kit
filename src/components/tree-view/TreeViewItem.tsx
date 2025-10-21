@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Spinner } from "../loader/Spinner";
 import { Droppable } from "../dnd/Droppable";
 import { useTreeContext } from "./providers/TreeContext";
+import { ViewMoreButton } from "./ViewMoreButton";
 
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   onClick?: () => void;
@@ -41,9 +42,16 @@ export const TreeViewItem = <T,>({
 
     if (node.isOpen) {
       setIsLoading(true);
-      context?.treeData
-        .handleLoadChildren(node.data.value.id)
-        .then(() => setIsLoading(false));
+      // Use paginated loading if the callback is available and the node has pagination info
+      const shouldUsePagination = context?.treeData.handleLoadChildrenPaginated && 
+        node.data.value.childrenCount && 
+        node.data.value.childrenCount > 0;
+      
+      const loadPromise = shouldUsePagination
+        ? context.treeData.handleLoadChildrenPaginated(node.data.value.id, 1)
+        : context?.treeData.handleLoadChildren(node.data.value.id);
+      
+      loadPromise?.then(() => setIsLoading(false));
     }
   }, [
     node.isOpen,
@@ -51,6 +59,7 @@ export const TreeViewItem = <T,>({
     hasLoadedChildren,
     node.data.value.hasLoadedChildren,
     node.data.value.id,
+    node.data.value.childrenCount,
     context?.treeData,
   ]);
 
@@ -79,6 +88,15 @@ export const TreeViewItem = <T,>({
       <div className="c__tree-view--node__title">
         {node.data.value.headerTitle}
       </div>
+    );
+  }
+
+  if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+    return (
+      <ViewMoreButton
+        onLoadMore={node.data.value.onLoadMore}
+        className="c__tree-view--view-more-node"
+      />
     );
   }
 

@@ -109,6 +109,30 @@ export const complexTreeData: TreeViewExempleData[] = [
     },
   ];
 
+  export const paginatedTreeData: TreeViewExempleData[] = [
+    {
+      id: "paginated.1",
+      name: "Node avec enfants paginés",
+      nodeType: TreeViewNodeTypeEnum.NODE,
+      childrenCount: 25, // 25 enfants au total
+      children: [], // Pas d'enfants pré-chargés
+    },
+    {
+      id: "paginated.2",
+      name: "Node avec peu d'enfants",
+      nodeType: TreeViewNodeTypeEnum.NODE,
+      childrenCount: 3, // 3 enfants au total
+      children: [], // Pas d'enfants pré-chargés
+    },
+    {
+      id: "paginated.3",
+      name: "Node sans enfants",
+      nodeType: TreeViewNodeTypeEnum.NODE,
+      childrenCount: 0,
+      children: [],
+    },
+  ];
+
   export const simpleWithChildrenTreeData: TreeViewExempleData[] = [
     {
       id: "1",

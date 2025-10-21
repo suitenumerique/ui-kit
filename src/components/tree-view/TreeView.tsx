@@ -250,6 +250,11 @@ export const TreeView = <T,>({
           ) {
             return true;
           }
+          if (
+            parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+          ) {
+            return true;
+          }
 
           // Is the root node set by react arborist
           if (parentNode.id === "__REACT_ARBORIST_INTERNAL_ROOT__") {
@@ -320,6 +325,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
   const isTitle = props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
   const isSeparator =
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
+  const isViewMore =
+    props.node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE;
 
   const { style } = props.attrs;
   const newStyle = { ...style };
@@ -327,7 +334,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     const target = e.target as HTMLElement | null;
     if (target) {
       const isInActionsToolbar = target.closest(".actions");
-      const interactiveSelector = 'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+      const interactiveSelector =
+        'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
       const isInteractive = target.closest(interactiveSelector);
       if (isInActionsToolbar || isInteractive) {
         return;
@@ -346,7 +354,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     }
   };
 
-  if (isTitle || isSeparator) {
+  if (isTitle || isSeparator || isViewMore) {
     return (
       <div
         {...props.attrs}

@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
-import { TreeDataItem, TreeViewDataType, TreeViewMoveResult } from "./types";
+import {
+  TreeDataItem,
+  TreeViewDataType,
+  TreeViewMoveResult,
+  PaginatedChildrenResult,
+  TreeViewNodeTypeEnum,
+} from "./types";
 import { Key, useTreeData } from "react-stately";
 
 export const useTree = <T,>(
   initialItems: TreeViewDataType<T>[],
   refreshCallback?: (id: string) => Promise<Partial<TreeViewDataType<T>>>,
-  loadChildrenCallback?: (id: string) => Promise<TreeViewDataType<T>[]>
+  loadChildrenCallback?: (id: string) => Promise<TreeViewDataType<T>[]>,
+  loadChildrenPaginatedCallback?: (
+    id: string,
+    page: number,
+    pageSize: number
+  ) => Promise<PaginatedChildrenResult<T>>,
+  defaultPageSize: number = 10
 ) => {
   const {
     remove,
@@ -77,6 +89,7 @@ export const useTree = <T,>(
     updatedData: Partial<TreeViewDataType<T>>
   ) => {
     const item = getItem(nodeId);
+    console.log("item", item);
     if (!item) {
       console.error("No item found");
       return;
@@ -84,6 +97,7 @@ export const useTree = <T,>(
 
     let newSubItems: TreeViewDataType<T>[] | null =
       item.children?.map((child) => child.value) ?? null;
+    console.log("new sub items 1", newSubItems);
     const childrenCount =
       updatedData.childrenCount ?? item.value.childrenCount ?? 0;
 
@@ -94,16 +108,8 @@ export const useTree = <T,>(
     if (updatedData.children) {
       newSubItems = [...(newSubItems ?? []), ...updatedData.children];
     }
-    if (updatedData.children) {
-      const childrenIds = new Set(
-        updatedData.children.map((child) => child.id)
-      );
-      newSubItems = updatedData.children.filter(
-        (child) => !childrenIds.has(child.id)
-      );
 
-      newSubItems = [...(newSubItems ?? []), ...updatedData.children];
-    }
+    console.log("newSubItems", newSubItems);
 
     const updatedItem: TreeViewDataType<T> = {
       ...item.value,
@@ -248,6 +254,95 @@ export const useTree = <T,>(
     return children;
   };
 
+  const handleLoadChildrenPaginated = async (
+    nodeId: string,
+    page: number = 1
+  ) => {
+    if (!loadChildrenPaginatedCallback) {
+      return [];
+    }
+
+    console.log(`Loading page ${page} for node ${nodeId}`);
+
+    const result = await loadChildrenPaginatedCallback(
+      nodeId,
+      page,
+      defaultPageSize
+    );
+    const item = getItem(nodeId);
+
+    if (!item) {
+      console.error("No item found");
+      return [];
+    }
+
+    console.log("\n\n\n");
+    console.log("item", item);
+    console.log("result", result);
+    console.log(`Received ${result.children.length} children for page ${page}`);
+    console.log(`Existing children count: ${item.children?.length ?? 0}`);
+
+    // Remove existing VIEW_MORE nodes first
+    const existingViewMoreNodes =
+      item.children?.filter(
+        (child) => child.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+      ) ?? [];
+
+    console.log(`Removing ${existingViewMoreNodes.length} VIEW_MORE nodes`);
+
+    existingViewMoreNodes.forEach((viewMoreNode) => {
+      remove(viewMoreNode.key);
+    });
+
+    // Get existing children (excluding VIEW_MORE nodes)
+    const existingChildren =
+      item.children
+        ?.filter(
+          (child) => child.value.nodeType !== TreeViewNodeTypeEnum.VIEW_MORE
+        )
+        .map((child) => child.value) ?? [];
+
+    console.log(
+      `Existing children (non-VIEW_MORE): ${existingChildren.length}`
+    );
+
+    // Combine existing children with new ones
+    const allChildren = [...existingChildren, ...result.children];
+
+    console.log(`Total children after combining: ${allChildren.length}`);
+    console.log("allChildren", allChildren);
+
+    // Update the node with all children and pagination info
+    updateNode(nodeId, {
+      children: allChildren,
+      hasLoadedChildren: true,
+      childrenCount: result.pagination.totalCount,
+      pagination: result.pagination,
+    });
+
+    console.log(`Updated node ${nodeId} with ${allChildren.length} children`);
+
+    // Add VIEW_MORE button if there are more pages
+    if (result.pagination.hasMore) {
+      const viewMoreNode: TreeViewDataType<T> = {
+        id: `${nodeId}-view-more-${page}`,
+        nodeType: TreeViewNodeTypeEnum.VIEW_MORE,
+        parentId: nodeId,
+        onLoadMore: async () => {
+          await handleLoadChildrenPaginated(nodeId, page + 1);
+        },
+        children: [],
+        childrenCount: 0,
+      } as TreeViewDataType<T>;
+
+      addChild(nodeId, viewMoreNode);
+      console.log(`Added VIEW_MORE button for page ${page + 1}`);
+    }
+
+    console.log("\n\n\n");
+    return result.children;
+  };
+
   /**
    * This effect is used to replace the children references in the tree data with the children references in the tree data items
    * Because the useTreeData hook doesn't do it automatically. and we add childrenCount logic to avoid loading the children again.
@@ -298,6 +393,7 @@ export const useTree = <T,>(
     };
 
     replaceChildrenReferences(treeData as TreeDataItem<TreeViewDataType<T>>[]);
+    console.log("treeData", treeData);
   }, [treeData]);
 
   return {
@@ -321,6 +417,7 @@ export const useTree = <T,>(
     move,
     resetTree,
     handleLoadChildren,
+    handleLoadChildrenPaginated,
     selectNodeById,
     getParent,
     getNode,

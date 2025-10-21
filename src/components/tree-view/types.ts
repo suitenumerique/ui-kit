@@ -4,10 +4,18 @@ export type BaseTreeViewData<T> = {
     hasLoadedChildren?: boolean;
     children?: BaseTreeViewData<T>[];
     canDrop?: boolean;
+    // Pagination support
+    pagination?: {
+        page: number;
+        pageSize: number;
+        totalCount: number;
+        hasMore: boolean;
+    };
 } & (
   | ({ nodeType: TreeViewNodeTypeEnum.TITLE; headerTitle: string } )
   | ({ nodeType: TreeViewNodeTypeEnum.SEPARATOR } )
-  | ({ nodeType?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR> } & T)
+  | ({ nodeType: TreeViewNodeTypeEnum.VIEW_MORE; parentId: string; onLoadMore: () => Promise<void> } )
+  | ({ nodeType?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR | TreeViewNodeTypeEnum.VIEW_MORE> } & T)
 );
   
 export type TreeViewDataType<T> = BaseTreeViewData<T>;
@@ -27,6 +35,7 @@ export enum TreeViewNodeTypeEnum {
   NODE = 'node',
   SEPARATOR = 'separator',
   TITLE = 'title',
+  VIEW_MORE = 'view-more',
 }
 
 export enum TreeViewMoveModeEnum {
@@ -43,6 +52,16 @@ export type TreeViewMoveResult = {
   index: number;
   newParentId: string | null;
   sourceId: string;
+};
+
+export type PaginatedChildrenResult<T> = {
+  children: TreeViewDataType<T>[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    hasMore: boolean;
+  };
 };
 
 
