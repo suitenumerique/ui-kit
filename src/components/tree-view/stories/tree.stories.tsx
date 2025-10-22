@@ -5,6 +5,7 @@ import {
   complexTreeData,
   simpleTreeData,
   simpleWithChildrenTreeData,
+  treeDataWithViewMore,
 } from "./data";
 
 import { ReactNode } from "react";
@@ -32,15 +33,44 @@ const Wrapper = ({
     <TreeProvider<TreeViewExempleData>
       initialTreeData={initialData}
       initialNodeId="ROOT_NODE_ID"
+      loadPaginatedChildrenCallback={async (_id, page) => {
+        console.log("page", page);
+        return new Promise((resolve) => {
+          // INSERT_YOUR_CODE
+          const children: TreeViewExempleData[] = [];
+          for (let i = (page - 1) * 5; i < page * 5; i++) {
+            children.push({
+              id: `child-${i}`,
+              name: `children ${i}`,
+              childrenCount: 0,
+              nodeType: TreeViewNodeTypeEnum.NODE,
+              children: [],
+            });
+          }
+
+          setTimeout(() => {
+            resolve({
+              children: children,
+              pagination: {
+                currentPage: page,
+                nextPage: page < 3 ? page + 1 : null,
+                totalCount: 15,
+                hasMore: page < 3,
+              },
+            });
+          }, 200);
+        });
+      }}
       onLoadChildren={async () => {
         return new Promise((resolve) => {
+          const id = Math.floor(
+            Math.random() * (10000 - 100 + 1) + 100
+          ).toString();
           setTimeout(() => {
             resolve([
               {
-                id: Math.floor(
-                  Math.random() * (10000 - 100 + 1) + 100
-                ).toString(),
-                name: "children",
+                id,
+                name: "children " + id,
                 childrenCount: 0,
                 nodeType: TreeViewNodeTypeEnum.NODE,
                 children: [],
@@ -98,6 +128,19 @@ export const Exemple: Story = {
     return (
       <Wrapper initialData={complexTreeData}>
         <TreeViewExemple treeData={complexTreeData} withRightPanel />
+      </Wrapper>
+    );
+  },
+};
+
+export const WithViewMore: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: () => {
+    return (
+      <Wrapper initialData={treeDataWithViewMore}>
+        <TreeViewExemple treeData={treeDataWithViewMore} />
       </Wrapper>
     );
   },

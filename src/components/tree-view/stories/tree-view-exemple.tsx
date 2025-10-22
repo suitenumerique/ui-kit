@@ -63,7 +63,7 @@ export const TreeViewExemple = ({
   withRightPanel = false,
 }: TreeViewExempleProps) => {
   const treeContext = useTreeContext<TreeViewExempleData>();
-
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>("1");
   const [draggingData, setDraggingData] = useState<TreeViewExempleData | null>(
     null
   );
@@ -131,7 +131,7 @@ export const TreeViewExemple = ({
             <div>
               <TreeView
                 rootNodeId="ROOT_NODE_ID"
-                selectedNodeId={"1"}
+                selectedNodeId={selectedNodeId ?? undefined}
                 renderNode={TreeViewItemExemple}
               />
             </div>
@@ -162,6 +162,19 @@ export const TreeViewExemple = ({
           )}
           <button onClick={() => treeContext?.treeData.resetTree(data)}>
             Reset
+          </button>
+          <button
+            onClick={() => {
+              const randomId = `child-${Math.floor(Math.random() * 5)}`;
+              setSelectedNodeId(randomId);
+              const node = treeContext?.treeApiRef.current?.get(randomId);
+              if (node) {
+                node.select();
+              }
+              // treeContext?.treeData.selectNodeById(randomId);
+            }}
+          >
+            Select 1
           </button>
         </MainLayout>
       </DndContext>

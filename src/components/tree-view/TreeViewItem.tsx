@@ -9,6 +9,7 @@ import { useTreeContext } from "./providers/TreeContext";
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   onClick?: () => void;
   forceLoading?: boolean;
+  onLoadPaginatedChildren?: () => void;
 };
 
 export const TreeViewItem = <T,>({
@@ -42,7 +43,7 @@ export const TreeViewItem = <T,>({
     if (node.isOpen) {
       setIsLoading(true);
       context?.treeData
-        .handleLoadChildren(node.data.value.id)
+        .handleLoadPaginatedChildren(node.data.value.id)
         .then(() => setIsLoading(false));
     }
   }, [
@@ -78,6 +79,37 @@ export const TreeViewItem = <T,>({
     return (
       <div className="c__tree-view--node__title">
         {node.data.value.headerTitle}
+      </div>
+    );
+  }
+
+  if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+    return (
+      <div className="c__tree-view--row-content">
+        <div className="c__tree-view--node" style={{ ...style }}>
+          <div
+            role="button"
+            className="c__tree-view--node__view-more-button"
+            style={{ paddingLeft: 0, marginLeft: 20 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+                context?.treeData.handleLoadPaginatedChildren(
+                  node.data.parentKey as string
+                );
+              }
+            }}
+          >
+            {/* <span className="material-icons c__tree-view--node__view-more-button__icon">
+              arrow_downward
+            </span> */}
+            <span className="c__tree-view--node__view-more-text">
+              {node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+                ? node.data.value.label || "Voir plus"
+                : "Voir plus"}
+            </span>
+          </div>
+        </div>
       </div>
     );
   }

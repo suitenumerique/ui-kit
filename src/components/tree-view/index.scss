@@ -22,7 +22,8 @@
 }
 
 .c__tree-view--row:has(.c__tree-view--node__separator),
-.c__tree-view--row:has(.c__tree-view--node__title) {
+.c__tree-view--row:has(.c__tree-view--node__title),
+.c__tree-view--row:has(.c__tree-view--node__view-more) {
   display: flex;
   align-items: center;
 }
@@ -52,6 +53,25 @@
   width: 100%;
   padding: 0 var(--c--globals--spacings--sm);
   color: var(--c--contextuals--content--semantic--neutral--primary);
+}
+
+.c__tree-view--node__view-more {
+  width: 100%;
+  padding: 0 var(--c--globals--spacings--sm);
+  display: flex;
+  justify-content: center;
+}
+.c__tree-view--node__view-more-button {
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--3xs);
+  background: none;
+
+  padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--sm);
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .c__tree-view--node {

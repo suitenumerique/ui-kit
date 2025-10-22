@@ -63,6 +63,9 @@
       "logout": "Logout",
       "dialogTitle": "User menu"
     },
+    "treeView": {
+      "viewMore": "Load more elements"
+    },
     "footer": {
       "logo": {
         "alt": "Logo of the French government"

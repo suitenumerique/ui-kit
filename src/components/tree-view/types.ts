@@ -3,11 +3,18 @@ export type BaseTreeViewData<T> = {
     childrenCount?: number;
     hasLoadedChildren?: boolean;
     children?: BaseTreeViewData<T>[];
+    pagination?: {
+        currentPage: number;
+        nextPage: number;
+        totalCount: number;
+        hasMore: boolean;
+    };
     canDrop?: boolean;
 } & (
   | ({ nodeType: TreeViewNodeTypeEnum.TITLE; headerTitle: string } )
   | ({ nodeType: TreeViewNodeTypeEnum.SEPARATOR } )
-  | ({ nodeType?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR> } & T)
+  | ({ nodeType: TreeViewNodeTypeEnum.VIEW_MORE;  label?: string } )
+  | ({ nodeType?: Exclude<TreeViewNodeTypeEnum, TreeViewNodeTypeEnum.TITLE | TreeViewNodeTypeEnum.SEPARATOR | TreeViewNodeTypeEnum.VIEW_MORE> } & T)
 );
   
 export type TreeViewDataType<T> = BaseTreeViewData<T>;
@@ -27,6 +34,7 @@ export enum TreeViewNodeTypeEnum {
   NODE = 'node',
   SEPARATOR = 'separator',
   TITLE = 'title',
+  VIEW_MORE = 'viewMore',
 }
 
 export enum TreeViewMoveModeEnum {

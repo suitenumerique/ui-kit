@@ -3,7 +3,7 @@ import {
   TreeViewNodeProps,
   TreeViewNodeTypeEnum,
 } from ":/components/tree-view";
-import { TreeViewExempleData } from "./tree-view-exemple";
+import { TreeViewExempleData, ExempleData } from "./tree-view-exemple";
 
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 
@@ -20,13 +20,24 @@ import { useTreeContext } from "../providers/TreeContext";
 import { useArrowRoving } from ":/hooks/useArrowRoving";
 import { useRef } from "react";
 
-type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
+type TreeViewItemExempleProps = TreeViewNodeProps<ExempleData> & {};
 
 export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
   const { t } = useCunningham();
 
   const context = useTreeContext<TreeViewExempleData>();
+
+  // Helper function to safely get the name property
+  const getNodeName = (nodeValue: TreeViewExempleData): string => {
+    if (nodeValue.nodeType === TreeViewNodeTypeEnum.NODE) {
+      return (
+        (nodeValue as TreeViewExempleData & { name: string }).name ||
+        nodeValue.id
+      );
+    }
+    return nodeValue.id;
+  };
   const modal = useModal();
   const actionsRef = useRef<HTMLDivElement | null>(null);
   useArrowRoving(actionsRef.current);
@@ -94,7 +105,8 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
           <div className={"tree-view-item"}>
             <div className={`container`}>
               <span className="name">
-                {props.node.data.value.name} -- {props.node.data.value.id}
+                {getNodeName(props.node.data.value)} --{" "}
+                {props.node.data.value.id}
               </span>
               <div
                 className={`actions ${isOpen ? "show-actions" : ""}`}
@@ -110,7 +122,7 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
                     isOpen={isOpen}
                     options={options}
                   >
-                    <Button size="small" onClick={(e) => handleOpenMenu(e)}>
+                    <Button size="nano" onClick={(e) => handleOpenMenu(e)}>
                       Open
                     </Button>
                   </DropdownMenu>
