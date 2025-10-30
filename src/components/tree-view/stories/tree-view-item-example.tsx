@@ -3,7 +3,7 @@ import {
   TreeViewNodeProps,
   TreeViewNodeTypeEnum,
 } from ":/components/tree-view";
-import { TreeViewExempleData } from "./tree-view-exemple";
+import { TreeViewExampleData, ExampleData } from "./tree-view-example";
 
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 
@@ -20,16 +20,16 @@ import { useTreeContext } from "../providers/TreeContext";
 import { useArrowRoving } from ":/hooks/useArrowRoving";
 import { useRef } from "react";
 
-type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
+type TreeViewItemExampleProps = TreeViewNodeProps<ExampleData> & {};
 
-export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
+export const TreeViewItemExample = ({ ...props }: TreeViewItemExampleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
   const { t } = useCunningham();
 
-  const context = useTreeContext<TreeViewExempleData>();
+  const context = useTreeContext<TreeViewExampleData>();
 
   // Helper function to safely get the name property
-  const getNodeName = (nodeValue: TreeViewExempleData): string => {
+  const getNodeName = (nodeValue: TreeViewExampleData): string => {
     let name = nodeValue.id;
     if (nodeValue.nodeType === TreeViewNodeTypeEnum.SIMPLE_NODE) {
       name = nodeValue.label;
@@ -120,7 +120,7 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
                     isOpen={isOpen}
                     options={options}
                   >
-                    <Button size="small" onClick={(e) => handleOpenMenu(e)}>
+                    <Button size="nano" onClick={(e) => handleOpenMenu(e)}>
                       Open
                     </Button>
                   </DropdownMenu>

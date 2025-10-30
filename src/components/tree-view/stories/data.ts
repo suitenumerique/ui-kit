@@ -1,7 +1,7 @@
 import { TreeViewNodeTypeEnum } from "../types";
-import { TreeViewExempleData } from "./tree-view-exemple";
+import { TreeViewExampleData } from "./tree-view-example";
 
-export const complexTreeData: TreeViewExempleData[] = [
+export const complexTreeData: TreeViewExampleData[] = [
     {
       id: "Espace personnel",
       nodeType: TreeViewNodeTypeEnum.TITLE,
@@ -78,7 +78,7 @@ export const complexTreeData: TreeViewExempleData[] = [
   ];
 
 
-  export const simpleTreeData: TreeViewExempleData[] = [
+  export const simpleTreeData: TreeViewExampleData[] = [
     {
       id: "simple.1",
       name: "Node 1",
@@ -109,7 +109,7 @@ export const complexTreeData: TreeViewExempleData[] = [
     },
   ];
 
-  export const simpleWithChildrenTreeData: TreeViewExempleData[] = [
+  export const simpleWithChildrenTreeData: TreeViewExampleData[] = [
     {
       id: "1",
       name: "Node 1",
@@ -149,7 +149,7 @@ export const complexTreeData: TreeViewExempleData[] = [
     
   ];
 
-export const treeDataWithViewMore: TreeViewExempleData[] = [
+export const treeDataWithViewMore: TreeViewExampleData[] = [
   { id: "1", name: "Premier élément", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
   { id: "2", label: "simple node", childrenCount: 15, nodeType: TreeViewNodeTypeEnum.SIMPLE_NODE, children: [] },
   
