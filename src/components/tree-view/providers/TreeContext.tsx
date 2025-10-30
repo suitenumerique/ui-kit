@@ -1,7 +1,7 @@
 import { createContext, useContext, useRef, useState } from "react";
 import { TreeApi } from "react-arborist";
 import { TreeDataItem, TreeViewDataType } from "../types";
-import { useTree } from "../useTree";
+import { PaginatedChildrenResult, useTree } from "../useTree";
 
 export type TreeContextType<T> = {
   treeApiRef: React.RefObject<TreeApi<TreeDataItem<T>> | null>;
@@ -20,7 +20,10 @@ export type TreeProviderProps<T> = {
   initialTreeData?: TreeViewDataType<T>[];
   initialNodeId?: string;
   onRefresh?: (id: string) => Promise<Partial<TreeViewDataType<T>>>;
-  onLoadChildren?: (id: string) => Promise<TreeViewDataType<T>[]>;
+  onLoadChildren?: (
+    id: string,
+    page: number
+  ) => Promise<PaginatedChildrenResult<T>>;
 };
 export const TreeProvider = <T,>({
   children,
