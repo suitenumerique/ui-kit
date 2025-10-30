@@ -3,7 +3,7 @@ import {
   TreeViewNodeProps,
   TreeViewNodeTypeEnum,
 } from ":/components/tree-view";
-import { TreeViewExempleData } from "./tree-view-exemple";
+import { TreeViewExempleData, ExempleData } from "./tree-view-exemple";
 
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 
@@ -20,7 +20,7 @@ import { useTreeContext } from "../providers/TreeContext";
 import { useArrowRoving } from ":/hooks/useArrowRoving";
 import { useRef } from "react";
 
-type TreeViewItemExempleProps = TreeViewNodeProps<TreeViewExempleData> & {};
+type TreeViewItemExempleProps = TreeViewNodeProps<ExempleData> & {};
 
 export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
@@ -122,7 +122,7 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
                     isOpen={isOpen}
                     options={options}
                   >
-                    <Button size="small" onClick={(e) => handleOpenMenu(e)}>
+                    <Button size="nano" onClick={(e) => handleOpenMenu(e)}>
                       Open
                     </Button>
                   </DropdownMenu>
