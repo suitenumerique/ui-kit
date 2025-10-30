@@ -22,7 +22,8 @@
 }
 
 .c__tree-view--row:has(.c__tree-view--node__separator),
-.c__tree-view--row:has(.c__tree-view--node__title) {
+.c__tree-view--row:has(.c__tree-view--node__title),
+.c__tree-view--row:has(.c__tree-view--node__view-more) {
   display: flex;
   align-items: center;
 }
@@ -54,6 +55,32 @@
   color: var(--c--contextuals--content--semantic--neutral--primary);
 }
 
+.c__tree-view--node__view-more {
+  width: 100%;
+
+  padding: 0 var(--c--globals--spacings--sm);
+  display: flex;
+  justify-content: center;
+}
+.c__tree-view--node__view-more-button {
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--3xs);
+  background: none;
+  font-size: var(--c--globals--font--sizes--sm);
+  padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--sm);
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  padding-left: 0;
+  margin-left: 20px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  .material-icons {
+    font-size: var(--c--globals--font--sizes--sm);
+  }
+}
+
 .c__tree-view--node {
   overflow: hidden;
   display: flex;
@@ -65,20 +92,25 @@
   padding: var(--c--globals--spacings--4xs) 0;
   gap: var(--c--globals--spacings--3xs);
 
-  &:not(.willReceiveDrop, .isSelected):hover {
+  &.simpleNode {
+    cursor: default;
+    padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--sm);
+  }
+
+  &:not(.willReceiveDrop, .isSelected, .simpleNode):hover {
     background-color: var(
       --c--contextuals--background--semantic--contextual--primary
     );
   }
 
-  &.isSelected {
+  &.isSelected:not(.simpleNode) {
     background-color: var(
       --c--contextuals--background--semantic--contextual--primary
     );
     font-weight: 700;
   }
 
-  &.canDrop {
+  &.canDrop:not(.simpleNode) {
     &.willReceiveDrop:not(.isDragging),
     &.externalDrop {
       background-color: var(
@@ -98,6 +130,7 @@
   }
 
   .c__tree-view--node__arrow {
+    cursor: pointer;
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
     font-size: 16px;
   }

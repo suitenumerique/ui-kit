@@ -101,6 +101,10 @@ export const TreeView = <T,>({
       return null;
     }
 
+    if (parentNode?.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+      return null;
+    }
+
     const oldParentId = sourceNode.parentKey ?? rootNodeId;
     const defaultTargetNodeId = args.parentId ?? rootNodeId;
     let newIndex = args.index + 0;
@@ -218,7 +222,7 @@ export const TreeView = <T,>({
         width={width}
         paddingTop={10}
         paddingBottom={10}
-        rowHeight={35}
+        rowHeight={34}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
@@ -247,6 +251,11 @@ export const TreeView = <T,>({
           }
           if (
             parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.SEPARATOR
+          ) {
+            return true;
+          }
+          if (
+            parentNode.data.value?.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
           ) {
             return true;
           }
@@ -320,6 +329,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
   const isTitle = props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
   const isSeparator =
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
+  const isViewMore =
+    props.node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE;
 
   const { style } = props.attrs;
   const newStyle = { ...style };
@@ -327,7 +338,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     const target = e.target as HTMLElement | null;
     if (target) {
       const isInActionsToolbar = target.closest(".actions");
-      const interactiveSelector = 'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
+      const interactiveSelector =
+        'button, a[href], input, textarea, select, [role="menuitem"], [role="button"]';
       const isInteractive = target.closest(interactiveSelector);
       if (isInActionsToolbar || isInteractive) {
         return;
@@ -346,7 +358,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
     }
   };
 
-  if (isTitle || isSeparator) {
+  if (isTitle || isSeparator || isViewMore) {
     return (
       <div
         {...props.attrs}
@@ -368,7 +380,13 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onClick={props.node.handleClick}
+      onClick={(e) => {
+        // Prevent automatic opening on click
+        e.preventDefault();
+        e.stopPropagation();
+        // Only select, don't open
+        props.node.select();
+      }}
       onKeyDown={handleKeyDown}
     >
       <div className="c__tree-view--row-content">{children}</div>

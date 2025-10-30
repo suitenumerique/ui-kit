@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
-import { TreeDataItem, TreeViewDataType, TreeViewMoveResult } from "./types";
+import {
+  BaseTreeViewData,
+  TreeDataItem,
+  TreeViewDataType,
+  TreeViewMoveResult,
+  TreeViewNodeTypeEnum,
+} from "./types";
 import { Key, useTreeData } from "react-stately";
+import { useCunningham } from "@openfun/cunningham-react";
+
+export type PaginatedChildrenResult<T> = {
+  children?: TreeViewDataType<T>[];
+  pagination?: BaseTreeViewData<T>["pagination"];
+};
 
 export const useTree = <T,>(
   initialItems: TreeViewDataType<T>[],
   refreshCallback?: (id: string) => Promise<Partial<TreeViewDataType<T>>>,
-  loadChildrenCallback?: (id: string) => Promise<TreeViewDataType<T>[]>
+  onLoadChildren?: (
+    id: string,
+    page: number
+  ) => Promise<PaginatedChildrenResult<T>>
 ) => {
+  const { t } = useCunningham();
   const {
     remove,
     update,
@@ -14,6 +30,7 @@ export const useTree = <T,>(
     insertBefore,
     insertAfter,
     append,
+
     prepend,
     getItem,
     move,
@@ -49,6 +66,7 @@ export const useTree = <T,>(
     if (!item) {
       return;
     }
+
     setSelectedNode(item.value as T);
   };
 
@@ -60,7 +78,18 @@ export const useTree = <T,>(
     if (parentId) {
       const parent = getItem(parentId);
       if (parent) {
-        insert(parentId, index ?? parent.children?.length ?? 0, newNode);
+        const lastChild = parent.children?.[parent.children?.length - 1];
+        let insertIndex = index ?? parent.children?.length ?? 0;
+        const indexIsLast = index === parent.children?.length;
+        if (
+          indexIsLast &&
+          lastChild &&
+          lastChild.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+        ) {
+          insertIndex = insertIndex - 1;
+        }
+
+        insert(parentId, insertIndex, newNode);
       }
     } else {
       insert(null, index ?? treeData.length, newNode);
@@ -84,6 +113,7 @@ export const useTree = <T,>(
 
     let newSubItems: TreeViewDataType<T>[] | null =
       item.children?.map((child) => child.value) ?? null;
+
     const childrenCount =
       updatedData.childrenCount ?? item.value.childrenCount ?? 0;
 
@@ -92,17 +122,48 @@ export const useTree = <T,>(
     }
 
     if (updatedData.children) {
-      newSubItems = [...(newSubItems ?? []), ...updatedData.children];
+      const mergedChildren = [...(newSubItems ?? []), ...updatedData.children];
+      const uniqueChildrenMap = new Map();
+      for (const child of mergedChildren) {
+        uniqueChildrenMap.set(child.id, child);
+      }
+      newSubItems = Array.from(uniqueChildrenMap.values());
     }
-    if (updatedData.children) {
-      const childrenIds = new Set(
-        updatedData.children.map((child) => child.id)
-      );
-      newSubItems = updatedData.children.filter(
-        (child) => !childrenIds.has(child.id)
-      );
+    // Si on a des enfants, on met les VIEW_MORE à la fin du tableau newSubItems
+    if (newSubItems) {
+      // Place VIEW_MORE items at the end using sort
+      newSubItems = newSubItems.sort((a, b) => {
+        if (
+          a.nodeType === TreeViewNodeTypeEnum.VIEW_MORE &&
+          b.nodeType !== TreeViewNodeTypeEnum.VIEW_MORE
+        ) {
+          return 1;
+        }
+        if (
+          a.nodeType !== TreeViewNodeTypeEnum.VIEW_MORE &&
+          b.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+        ) {
+          return -1;
+        }
+        return 0;
+      });
+    }
 
-      newSubItems = [...(newSubItems ?? []), ...updatedData.children];
+    const hasMore = updatedData.pagination?.hasMore ?? false;
+
+    if (newSubItems) {
+      // enlève les types load more
+      newSubItems = newSubItems.filter(
+        (child) => child.nodeType !== TreeViewNodeTypeEnum.VIEW_MORE
+      );
+    }
+
+    if (hasMore && newSubItems) {
+      newSubItems.push({
+        id: `view-more-${nodeId}`,
+        nodeType: TreeViewNodeTypeEnum.VIEW_MORE,
+        label: t("components.treeView.viewMore"),
+      });
     }
 
     const updatedItem: TreeViewDataType<T> = {
@@ -235,17 +296,38 @@ export const useTree = <T,>(
   };
 
   const handleLoadChildren = async (nodeId: string) => {
-    if (!loadChildrenCallback) {
+    if (!onLoadChildren) {
+      console.error("No load paginated children callback provided");
       return [];
     }
-    const children = await loadChildrenCallback(nodeId);
+
+    const parent = getItem(nodeId);
+    if (!parent) {
+      console.error("No parent found");
+      return;
+    }
+    const itemCurrentPage = parent?.value.pagination?.currentPage ?? 0;
+    const nextPage = itemCurrentPage + 1;
+
+    const result = await onLoadChildren(nodeId, nextPage);
+    if (!result) {
+      console.error("No result found");
+      return;
+    }
+    const children = result.children;
+    const pagination = result.pagination;
+    const currentPage = nextPage;
+    const hasMore = pagination?.hasMore ?? false;
 
     updateNode(nodeId, {
       children: children,
       hasLoadedChildren: true,
-      childrenCount: children.length,
+
+      pagination: {
+        currentPage: currentPage,
+        hasMore: hasMore,
+      },
     });
-    return children;
   };
 
   /**

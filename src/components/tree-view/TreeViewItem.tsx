@@ -1,10 +1,17 @@
 import { NodeRendererProps } from "react-arborist";
 import { TreeDataItem, TreeViewNodeTypeEnum } from "./types";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import clsx from "clsx";
 import { Spinner } from "../loader/Spinner";
 import { Droppable } from "../dnd/Droppable";
 import { useTreeContext } from "./providers/TreeContext";
+import { useCunningham } from "@openfun/cunningham-react";
 
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   onClick?: () => void;
@@ -19,9 +26,11 @@ export const TreeViewItem = <T,>({
   style,
   forceLoading,
 }: PropsWithChildren<TreeViewNodeProps<T>>) => {
+  const { t } = useCunningham();
   const context = useTreeContext<T>();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [externalOver, setExternalOver] = useState(false);
   const loading = forceLoading ?? isLoading;
   const isOver = node.willReceiveDrop || externalOver;
@@ -33,6 +42,20 @@ export const TreeViewItem = <T,>({
   const hasLoadedChildren = node.children?.length ?? 0 > 0;
 
   const isLeaf = node.isLeaf || !hasChildren;
+
+  const handleLoadMore = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+        setIsLoadingMore(true);
+        context?.treeData
+          .handleLoadChildren(node.data.parentKey as string)
+          .then(() => setIsLoadingMore(false))
+          .catch(() => setIsLoadingMore(false));
+      }
+    },
+    [node.data.value.nodeType, node.data.parentKey, context?.treeData]
+  );
 
   useEffect(() => {
     if (isLeaf || hasLoadedChildren || node.data.value.hasLoadedChildren) {
@@ -82,6 +105,37 @@ export const TreeViewItem = <T,>({
     );
   }
 
+  if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
+    return (
+      <div className="c__tree-view--row-content">
+        <div className="c__tree-view--node" style={style}>
+          <div
+            role="button"
+            className="c__tree-view--node__view-more-button"
+            style={{ paddingLeft: 0, marginLeft: 20 }}
+            onClick={handleLoadMore}
+          >
+            {isLoadingMore ? (
+              <div className="c__tree-view--node__loading">
+                <Spinner />
+              </div>
+            ) : (
+              <span className="material-icons c__tree-view--node__view-more-button__icon">
+                arrow_downward
+              </span>
+            )}
+
+            <span className="c__tree-view--node__view-more-text">
+              {node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
+                ? node.data.value.label
+                : t("components.treeView.viewMore")}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Droppable
       id={node.id}
@@ -111,6 +165,8 @@ export const TreeViewItem = <T,>({
         style={style}
         className={clsx("c__tree-view--node", {
           ...node.state,
+          ["simpleNode"]:
+            node.data.value.nodeType === TreeViewNodeTypeEnum.SIMPLE_NODE,
           ["canDrop"]: node.data.value.canDrop ?? true,
           ["externalDrop"]: externalOver,
         })}
