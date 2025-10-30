@@ -27,6 +27,18 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
   const { t } = useCunningham();
 
   const context = useTreeContext<TreeViewExempleData>();
+
+  // Helper function to safely get the name property
+  const getNodeName = (nodeValue: TreeViewExempleData): string => {
+    let name = nodeValue.id;
+    if (nodeValue.nodeType === TreeViewNodeTypeEnum.SIMPLE_NODE) {
+      name = nodeValue.label;
+    }
+    if (nodeValue.nodeType === TreeViewNodeTypeEnum.NODE) {
+      name = nodeValue.name;
+    }
+    return name;
+  };
   const modal = useModal();
   const actionsRef = useRef<HTMLDivElement | null>(null);
   useArrowRoving(actionsRef.current);
@@ -93,9 +105,7 @@ export const TreeViewItemExemple = ({ ...props }: TreeViewItemExempleProps) => {
           TreeViewNodeTypeEnum.SEPARATOR ? null : (
           <div className={"tree-view-item"}>
             <div className={`container`}>
-              <span className="name">
-                {props.node.data.value.name} -- {props.node.data.value.id}
-              </span>
+              <span className="name">{getNodeName(props.node.data.value)}</span>
               <div
                 className={`actions ${isOpen ? "show-actions" : ""}`}
                 ref={actionsRef}

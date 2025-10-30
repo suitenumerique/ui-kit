@@ -148,3 +148,9 @@ export const complexTreeData: TreeViewExempleData[] = [
     },
     
   ];
+
+export const treeDataWithViewMore: TreeViewExempleData[] = [
+  { id: "1", name: "Premier élément", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+  { id: "2", label: "simple node", childrenCount: 15, nodeType: TreeViewNodeTypeEnum.SIMPLE_NODE, children: [] },
+  
+];
