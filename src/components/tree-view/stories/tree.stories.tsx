@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { TreeView } from ":/components/tree-view/TreeView";
-import { TreeViewExemple, TreeViewExempleData } from "./tree-view-exemple";
+import { TreeViewExample, TreeViewExampleData } from "./tree-view-example";
 import {
   complexTreeData,
   simpleTreeData,
   simpleWithChildrenTreeData,
+  treeDataWithViewMore,
 } from "./data";
 
 import { ReactNode } from "react";
@@ -26,26 +27,33 @@ const Wrapper = ({
   initialData,
 }: {
   children: ReactNode;
-  initialData: TreeViewExempleData[];
+  initialData: TreeViewExampleData[];
 }) => {
   return (
-    <TreeProvider<TreeViewExempleData>
+    <TreeProvider<TreeViewExampleData>
       initialTreeData={initialData}
       initialNodeId="ROOT_NODE_ID"
-      onLoadChildren={async () => {
+      onLoadChildren={async (_id, page) => {
         return new Promise((resolve) => {
+          const children: TreeViewExampleData[] = [];
+          for (let i = (page - 1) * 5; i < page * 5; i++) {
+            children.push({
+              id: `child-${i}`,
+              name: `children ${i}`,
+              childrenCount: 0,
+              nodeType: TreeViewNodeTypeEnum.NODE,
+              children: [],
+            });
+          }
+
           setTimeout(() => {
-            resolve([
-              {
-                id: Math.floor(
-                  Math.random() * (10000 - 100 + 1) + 100
-                ).toString(),
-                name: "children",
-                childrenCount: 0,
-                nodeType: TreeViewNodeTypeEnum.NODE,
-                children: [],
+            resolve({
+              children: children,
+              pagination: {
+                currentPage: page,
+                hasMore: page < 3,
               },
-            ]);
+            });
           }, 1000);
         });
       }}
@@ -71,7 +79,7 @@ export const Simple: Story = {
   render: () => {
     return (
       <Wrapper initialData={simpleTreeData}>
-        <TreeViewExemple treeData={simpleTreeData} />
+        <TreeViewExample treeData={simpleTreeData} />
       </Wrapper>
     );
   },
@@ -84,20 +92,33 @@ export const SimpleWithChildren: Story = {
   render: () => {
     return (
       <Wrapper initialData={simpleWithChildrenTreeData}>
-        <TreeViewExemple treeData={simpleWithChildrenTreeData} />
+        <TreeViewExample treeData={simpleWithChildrenTreeData} />
       </Wrapper>
     );
   },
 };
 
-export const Exemple: Story = {
+export const Example: Story = {
   parameters: {
     layout: "fullscreen",
   },
   render: () => {
     return (
       <Wrapper initialData={complexTreeData}>
-        <TreeViewExemple treeData={complexTreeData} withRightPanel />
+        <TreeViewExample treeData={complexTreeData} withRightPanel />
+      </Wrapper>
+    );
+  },
+};
+
+export const WithViewMore: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: () => {
+    return (
+      <Wrapper initialData={treeDataWithViewMore}>
+        <TreeViewExample treeData={treeDataWithViewMore} />
       </Wrapper>
     );
   },

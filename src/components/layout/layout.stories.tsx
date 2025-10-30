@@ -2,7 +2,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import { Header } from "./header/Header";
-import svg from "./header/logo-exemple.svg";
+import svg from "./header/logo-example.svg";
 import { MainLayout } from "./MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
 import { useState } from "react";

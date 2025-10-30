@@ -126,9 +126,9 @@ export const TreeViewItem = <T,>({
             )}
 
             <span className="c__tree-view--node__view-more-text">
-              {node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE
-                ? node.data.value.label
-                : t("components.treeView.viewMore")}
+              {node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE}
+
+              {t("components.treeView.viewMore")}
             </span>
           </div>
         </div>

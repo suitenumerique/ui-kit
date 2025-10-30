@@ -21,17 +21,17 @@ import { useListData } from "react-stately";
 import { useMemo, useState } from "react";
 import { MainLayout } from ":/components/layout";
 
-import svg from "./logo-exemple.svg";
-import { TreeViewItemExemple } from "./tree-view-item-exemple";
+import svg from "./logo-example.svg";
+import { TreeViewItemExample } from "./tree-view-item-example";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import clsx from "clsx";
 import { useTreeContext } from "../providers/TreeContext";
 
-export type ExempleData = {
+export type ExampleData = {
   name: string;
 };
 
-export type TreeViewExempleData = TreeViewDataType<ExempleData>;
+export type TreeViewExampleData = TreeViewDataType<ExampleData>;
 
 const containers = [
   {
@@ -54,17 +54,17 @@ const containers = [
   },
 ];
 
-type TreeViewExempleProps = {
-  treeData: TreeViewExempleData[];
+type TreeViewExampleProps = {
+  treeData: TreeViewExampleData[];
   withRightPanel?: boolean;
 };
-export const TreeViewExemple = ({
+export const TreeViewExample = ({
   treeData,
   withRightPanel = false,
-}: TreeViewExempleProps) => {
-  const treeContext = useTreeContext<TreeViewExempleData>();
+}: TreeViewExampleProps) => {
+  const treeContext = useTreeContext<TreeViewExampleData>();
 
-  const [draggingData, setDraggingData] = useState<TreeViewExempleData | null>(
+  const [draggingData, setDraggingData] = useState<TreeViewExampleData | null>(
     null
   );
 
@@ -88,7 +88,7 @@ export const TreeViewExemple = ({
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
   const data = useMemo(() => {
-    return JSON.parse(JSON.stringify(treeData)) as TreeViewExempleData[];
+    return JSON.parse(JSON.stringify(treeData)) as TreeViewExampleData[];
   }, [treeData]);
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -99,9 +99,9 @@ export const TreeViewExemple = ({
         return;
       }
       const overId = over.id.toString();
-      const data = active.data.current as TreeViewExempleData;
+      const data = active.data.current as TreeViewExampleData;
       const nodeApi = over.data.current
-        ?.nodeApi as NodeApi<TreeViewExempleData>;
+        ?.nodeApi as NodeApi<TreeViewExampleData>;
 
       treeContext?.treeData.addChild(overId, data);
       listData.remove(active.id);
@@ -116,7 +116,7 @@ export const TreeViewExemple = ({
     <>
       <DndContext
         onDragStart={(event) => {
-          setDraggingData(event.active.data.current as TreeViewExempleData);
+          setDraggingData(event.active.data.current as TreeViewExampleData);
         }}
         sensors={sensors}
         modifiers={[snapCenterToCursor]}
@@ -132,7 +132,7 @@ export const TreeViewExemple = ({
               <TreeView
                 rootNodeId="ROOT_NODE_ID"
                 selectedNodeId={"1"}
-                renderNode={TreeViewItemExemple}
+                renderNode={TreeViewItemExample}
               />
             </div>
           }
@@ -170,7 +170,7 @@ export const TreeViewExemple = ({
 };
 
 type FolderProps = {
-  folder: TreeViewExempleData;
+  folder: TreeViewExampleData;
 };
 const Folder = ({ folder }: FolderProps) => {
   const [isOver, setIsOver] = useState(false);
