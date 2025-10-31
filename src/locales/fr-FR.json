@@ -63,6 +63,9 @@
       "logout": "Déconnexion",
       "dialogTitle": "Menu utilisateur"
     },
+    "treeView": {
+      "viewMore": "Charger plus d'éléments"
+    },
     "footer": {
       "logo": {
         "alt": "Logo du gouvernement français"
