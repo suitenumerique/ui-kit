@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.0
+
+### Major changes
+
+- Add pagination to the tree components 
+
 ### Patch Changes
 
 - Several patch fixes after the uikit v2 refactoring
