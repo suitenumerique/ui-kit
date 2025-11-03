@@ -355,14 +355,14 @@ const designTokens = {
           tablet: "1024px",
         },
       },
-      
+
       components: {
         modal: {
           "width-small": "342px",
         },
         tooltip: {
           padding: "4px 8px",
-          "background-color": "ref(globals.colors.greyscale-1000)",
+          "background-color": "ref(contextuals.background.semantic.neutral.tertiary)",
         },
         button: {
           "medium-height": "40px",
@@ -378,7 +378,7 @@ const designTokens = {
           "body--background-color-hover": "ref(contextuals.background.semantic.neutral.tertiary)",
         },
         "forms-checkbox": {
-          "font-size": "ref(globals.font.sizes.sm)",          
+          "font-size": "ref(globals.font.sizes.sm)",
         },
         "badge": {
           "font-size": "ref(globals.font.sizes.xs)",
@@ -412,7 +412,7 @@ const designTokens = {
         },
       },
     },
-  }  
+  }
 };
 
 const config = { ...designTokens  };

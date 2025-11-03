@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Several patch fixes after the uikit v2 refactoring
+
 ## 0.17.2
 
 ### Patch Changes

@@ -95,7 +95,7 @@ export const UserMenu = ({
                   typeof settingsCTA === "function" ? settingsCTA : undefined
                 }
                 href={typeof settingsCTA === "string" ? settingsCTA : undefined}
-                variant="primary"
+                variant="secondary"
                 size="small"
                 icon={<Icon name="account_box" />}
               >
