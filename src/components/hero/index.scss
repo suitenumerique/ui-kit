@@ -80,7 +80,7 @@ $sm: map.get($themes, "default", "globals", "breakpoints", "sm");
     > img {
       width: auto;
       max-width: 100%;
-      height: fit-content;
+      object-fit: contain;
       overflow: auto;
       max-height: 100%;
       width: 50%;

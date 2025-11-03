@@ -53,17 +53,11 @@
     flex: 1;
   }
 
+  &[data-focused],
   &:hover {
     background: var(
       --c--contextuals--background--semantic--contextual--primary
     );
-  }
-
-  &[data-focused] {
-    background: var(
-      --c--contextuals--background--semantic--contextual--primary
-    );
-    color: black;
   }
 
   &[data-disabled] {
