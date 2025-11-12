@@ -57,6 +57,7 @@ type ShareModalInvitationProps<UserType, InvitationType> = {
 // We separate the props into two types to make them lighter. Here are only the access-specific props
 type ShareModalAccessProps<UserType, AccessType> = {
   accesses?: AccessData<UserType, AccessType>[];
+  accessRoleKey?: keyof AccessData<UserType, AccessType>;
   hasNextMembers?: boolean;
   onLoadNextMembers?: () => void;
   onDeleteAccess?: (access: AccessData<UserType, AccessType>) => void;
@@ -419,6 +420,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     <ShareMemberItem
                       key={member.id}
                       accessData={member}
+                      accessRoleKey={props.accessRoleKey ?? "role"}
                       canUpdate={canUpdate}
                       roleTopMessage={props.accessRoleTopMessage?.(member)}
                       roles={

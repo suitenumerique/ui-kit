@@ -1,7 +1,11 @@
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
-import LogoPublic from ":/components/share/assets/public.svg";
-import LogoPrivate from ":/components/share/assets/lock_person.svg";
+import LogoPublic from ":/components/share/assets/link_reach/public.svg";
+import LogoPrivate from ":/components/share/assets/link_reach/private.svg";
+import LogoAuthenticated from ":/components/share/assets/link_reach/authenticated.svg";
+import LogoPublicSelected from ":/components/share/assets/link_reach/public_selected.svg";
+import LogoPrivateSelected from ":/components/share/assets/link_reach/private_selected.svg";
+import LogoAuthenticatedSelected from ":/components/share/assets/link_reach/authenticated_selected.svg";
 import { Button } from "@openfun/cunningham-react";
 import { useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
@@ -11,12 +15,19 @@ import {
 } from ":/hooks/useCustomTranslations";
 import { TranslationKey } from ":/types/translations";
 
-const getIcon = (value: string | undefined) => {
+const getIcon = (value: string | undefined, selected: boolean = false) => {
   switch (value) {
     case "public":
-      return <img src={LogoPublic} alt="" />;
+      return <img src={selected ? LogoPublicSelected : LogoPublic} alt="" />;
     case "restricted":
-      return <img src={LogoPrivate} alt="" />;
+      return <img src={selected ? LogoPrivateSelected : LogoPrivate} alt="" />;
+    case "authenticated":
+      return (
+        <img
+          src={selected ? LogoAuthenticatedSelected : LogoAuthenticated}
+          alt=""
+        />
+      );
     default:
       return null;
   }
@@ -116,7 +127,7 @@ export const ShareLinkSettings = ({
           >
             <Button
               variant="tertiary"
-              icon={getIcon(selectedLinkReach)}
+              icon={getIcon(selectedLinkReach, true)}
               iconPosition="left"
               onClick={() => {
                 if (canUpdate) {
@@ -179,7 +190,7 @@ export const ShareLinkSettings = ({
           </DropdownMenu>
         ) : (
           <span className="c__share-modal__link-settings__content__select-role__value">
-            {getIcon(selectedLinkRole)}
+            {getIcon(selectedLinkRole, true)}
             {selectedLinkRoleChoice?.label}
           </span>
         )}

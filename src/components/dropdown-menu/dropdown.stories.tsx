@@ -21,11 +21,13 @@ const options = [
   {
     icon: <span className="material-icons">info</span>,
     label: "Informations",
+    subtText: "Can view and edit content",
     value: "info",
   },
   {
     icon: <span className="material-icons">group</span>,
     label: "Partager",
+    subtText: "Can share and manage access",
     callback: () => alert("Partager"),
   },
   {

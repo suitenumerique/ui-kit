@@ -17,10 +17,12 @@ export type ShareMemberItemProps<UserType, AccessType> = {
   deleteAccess?: (access: AccessData<UserType, AccessType>) => void;
   canUpdate?: boolean;
   roleTopMessage?: string;
+  accessRoleKey?: keyof AccessData<UserType, AccessType>;
 };
 
 export const ShareMemberItem = <UserType, AccessType>({
   accessData,
+  accessRoleKey,
   roles,
   updateRole,
   deleteAccess,
@@ -64,7 +66,7 @@ export const ShareMemberItem = <UserType, AccessType>({
           <div className="c__share-member-item__right">
             <AccessRoleDropdown
               roles={roles}
-              selectedRole={accessData.role}
+              selectedRole={accessData[accessRoleKey ?? "role"] as string}
               onSelect={(role) => updateRole?.(accessData, role)}
               isOpen={roleDropdown.isOpen}
               onOpenChange={roleDropdown.setIsOpen}

@@ -77,11 +77,18 @@ export const DropdownMenu = ({
                   isDisabled={option.isDisabled}
                 >
                   {option.icon}
-                  <div
-                    className="c__dropdown-menu-item__label"
-                    aria-label={option.label}
-                  >
-                    {option.label}
+                  <div className="c__dropdown-menu-item__label-container">
+                    <div
+                      className="c__dropdown-menu-item__label"
+                      aria-label={option.label}
+                    >
+                      {option.label}
+                    </div>
+                    {option.subtText && (
+                      <div className="c__dropdown-menu-item__label-subtext">
+                        {option.subtText}
+                      </div>
+                    )}
                   </div>
                   {(option.isChecked ||
                     (option.value &&
