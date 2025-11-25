@@ -56,6 +56,13 @@
         }
       }
     },
+    "laGaufre": {
+      "label": "Services de la Suite numérique",
+      "closeLabel": "Fermer le menu",
+      "loadingText": "Chargement…",
+      "newWindowLabelSuffix": " (nouvelle fenêtre)",
+      "headerLabel": "À propos"
+    },
     "userMenu": {
       "open": "Ouvrir le menu utilisateur",
       "close": "Fermer le menu utilisateur",
