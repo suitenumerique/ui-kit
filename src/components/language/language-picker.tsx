@@ -7,13 +7,18 @@ import {
 } from ":/components/dropdown-menu";
 import { Icon, IconSize } from ":/components/icon";
 
+export type LanguagesOption = DropdownMenuOption & {
+  shortLabel?: string;
+};
+
 export type LanguagePickerProps = {
-  languages: DropdownMenuOption[];
+  languages: LanguagesOption[];
   onChange?: (language: string) => void;
   color?: ButtonProps["color"];
   variant?: ButtonProps["variant"];
   size?: ButtonProps["size"];
   fullWidth?: ButtonProps["fullWidth"];
+  compact?: boolean;
 };
 
 /**
@@ -32,6 +37,7 @@ export const LanguagePicker = ({
   color = "brand",
   variant = "tertiary",
   fullWidth,
+  compact: lightMode = false,
 }: LanguagePickerProps) => {
   const { isOpen, setIsOpen } = useDropdownMenu();
   const getInitialLanguage = () => {
@@ -66,6 +72,11 @@ export const LanguagePicker = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languages]);
 
+  const selectedLanguageOption = useMemo(() => {
+    const lang = languages.find((lang) => lang.value === selectedLanguage);
+    return lang?.shortLabel ?? lang?.label;
+  }, [languages, selectedLanguage]);
+
   return (
     <DropdownMenu
       options={languages}
@@ -80,13 +91,13 @@ export const LanguagePicker = ({
         icon={<Icon name={isOpen ? "arrow_drop_up" : "arrow_drop_down"} />}
         iconPosition="right"
         size={size}
-        color={color}
+        color={lightMode ? "neutral" : color}
         variant={variant}
         fullWidth={fullWidth}
       >
-        <Icon name="translate" size={iconSize} />
+        {!lightMode ? <Icon name="translate" size={iconSize} /> : null}
         <span className="c__language-picker__label">
-          {languages.find((lang) => lang.value === selectedLanguage)?.label}
+          {selectedLanguageOption}
         </span>
       </Button>
     </DropdownMenu>
