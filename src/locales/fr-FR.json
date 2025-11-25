@@ -64,11 +64,13 @@
       "headerLabel": "À propos"
     },
     "userMenu": {
+      "term_of_service": "Conditions d'utilisation",
       "open": "Ouvrir le menu utilisateur",
       "close": "Fermer le menu utilisateur",
       "accountSettings": "Paramètres du compte",
       "logout": "Déconnexion",
-      "dialogTitle": "Menu utilisateur"
+      "dialogTitle": "Menu utilisateur",
+      "manage_account": "Gérer le compte"
     },
     "treeView": {
       "viewMore": "Charger plus d'éléments"

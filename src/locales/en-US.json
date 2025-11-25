@@ -64,6 +64,8 @@
       "headerLabel": "About"
     },
     "userMenu": {
+      "term_of_service": "Terms of service",
+      "manage_account": "Manage account",
       "open": "Open user menu",
       "close": "Close user menu",
       "accountSettings": "Account settings",
