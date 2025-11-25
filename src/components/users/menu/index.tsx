@@ -1,8 +1,9 @@
 import { Dialog, Popover } from "react-aria-components";
-import { ReactElement, useId, useRef, useState } from "react";
+import { ReactElement, useId, useMemo, useRef, useState } from "react";
 import { Button, useCunningham } from "@openfun/cunningham-react";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { Icon } from ":/components/icon";
+import { HorizontalSeparator } from ":/components/separator";
 
 export type UserMenuProps = {
   user?: {
@@ -11,6 +12,7 @@ export type UserMenuProps = {
   } | null;
   settingsCTA?: string | (() => void);
   logout?: () => void;
+  termOfServiceUrl?: string;
   isInitialOpen?: boolean;
   shouldCloseOnInteractOutside?: (element: Element) => boolean;
   footerAction?: ReactElement;
@@ -33,15 +35,41 @@ export const UserMenu = ({
   logout,
   isInitialOpen = false,
   shouldCloseOnInteractOutside,
+  termOfServiceUrl,
   footerAction,
 }: UserMenuProps) => {
   const { t } = useCunningham();
   const id = useId();
   const [openState, setOpenState] = useState(isInitialOpen);
   const toggleUserMenu = () => setOpenState(!openState);
-  const showFooter = !!logout || !!footerAction;
-  const showSettingsCTA = !!settingsCTA;
+  const showFooter = !!footerAction;
   const triggerRef = useRef(null);
+
+  const settingsItems = useMemo(() => {
+    const items: UserMenuItemProps[] = [];
+    if (settingsCTA) {
+      items.push({
+        label: t("components.userMenu.manage_account"),
+        icon: "settings",
+        onClick:
+          typeof settingsCTA === "function"
+            ? settingsCTA
+            : typeof settingsCTA === "string"
+            ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
+            : undefined,
+      });
+    }
+    if (logout) {
+      items.push({
+        label: t("components.userMenu.logout"),
+        icon: "logout",
+        onClick: logout,
+      });
+    }
+    return items;
+  }, [settingsCTA, logout, t]);
+
+  const showSettings = settingsItems.length > 0;
 
   if (!user) return null;
 
@@ -72,59 +100,78 @@ export const UserMenu = ({
       >
         <Dialog aria-label={t("components.userMenu.dialogTitle")}>
           <div className="user-menu__content__body">
-            <UserAvatar fullName={user.full_name ?? user.email!} size="large" />
-            <div className="user-menu__content__identity">
-              {user.full_name ? (
-                <>
-                  <p className="user-menu__content__identity__name">
-                    <strong>{user.full_name}</strong>
-                  </p>
+            <div className="user-menu__content__body__user-info">
+              <UserAvatar fullName={user.full_name ?? user.email!} />
+              <div className="user-menu__content__identity__name">
+                {user.full_name ? (
+                  <>
+                    <p className="user-menu__content__identity__name">
+                      <strong>{user.full_name}</strong>
+                    </p>
+                    <p className="user-menu__content__identity__email">
+                      {user.email}
+                    </p>
+                  </>
+                ) : (
                   <p className="user-menu__content__identity__email">
-                    {user.email}
+                    <strong>{user.email}</strong>
                   </p>
-                </>
-              ) : (
-                <p className="user-menu__content__identity__email">
-                  <strong>{user.email}</strong>
-                </p>
-              )}
+                )}
+              </div>
             </div>
-            {showSettingsCTA && (
-              <Button
-                onClick={
-                  typeof settingsCTA === "function" ? settingsCTA : undefined
-                }
-                href={typeof settingsCTA === "string" ? settingsCTA : undefined}
-                variant="secondary"
-                size="small"
-                icon={<Icon name="account_box" />}
-              >
-                {t("components.userMenu.accountSettings")}
-              </Button>
+            {showSettings && (
+              <>
+                <HorizontalSeparator withPadding={false} />
+                <div className="user-menu__content__body__settings">
+                  {settingsItems.map((item) => (
+                    <UserMenuItem
+                      key={item.label}
+                      label={item.label}
+                      icon={item.icon}
+                      onClick={item.onClick}
+                    />
+                  ))}
+                </div>
+              </>
             )}
           </div>
           {showFooter && (
-            <footer className="user-menu__footer">
+            <div className="user-menu__footer">
               {footerAction && (
                 <div className="user-menu__footer__left">{footerAction}</div>
               )}
-              {logout && (
+              {termOfServiceUrl && (
                 <div className="user-menu__footer__right">
                   <Button
-                    variant="bordered"
+                    variant="tertiary"
+                    target="_blank"
+                    href={termOfServiceUrl}
                     size="small"
-                    icon={<Icon name="logout" />}
-                    onClick={logout}
+                    color="neutral"
                     fullWidth
                   >
-                    {t("components.userMenu.logout")}
+                    {t("components.userMenu.term_of_service")}
                   </Button>
                 </div>
               )}
-            </footer>
+            </div>
           )}
         </Dialog>
       </Popover>
     </>
+  );
+};
+
+type UserMenuItemProps = {
+  label: string;
+  icon: string;
+  onClick?: () => void;
+};
+export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
+  return (
+    <div className="user-menu__item" onClick={onClick}>
+      <Icon name={icon} />
+      <span className="user-menu__item__label">{label}</span>
+    </div>
   );
 };

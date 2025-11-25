@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { LanguagePicker } from ":/components/language";
+import { LanguagePicker, LanguagesOption } from ":/components/language";
 import { UserMenu } from ".";
 
 const meta: Meta<typeof UserMenu> = {
@@ -24,11 +24,14 @@ const meta: Meta<typeof UserMenu> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const languages = [
-  { label: "Français", value: "fr-FR" },
-  { label: "English", value: "en-US" },
-  { label: "Deutsch", value: "de-DE" },
+const languages: LanguagesOption[] = [
+  { label: "Français", value: "fr-FR", shortLabel: "FR" },
+  { label: "English", value: "en-US", shortLabel: "EN" },
+  { label: "Deutsch", value: "de-DE", shortLabel: "DE" },
 ];
+
+const termOfServiceUrl =
+  "https://docs.numerique.gouv.fr/docs/8e298e03-c95f-44c7-be4a-ffb618af1854/";
 
 export const Default: Story = {
   args: {
@@ -39,14 +42,8 @@ export const Default: Story = {
     settingsCTA: () => {
       alert("Go to account settings");
     },
-    footerAction: (
-      <LanguagePicker
-        languages={languages}
-        size="small"
-        variant="bordered"
-        fullWidth
-      />
-    ),
+    footerAction: <LanguagePicker languages={languages} size="small" compact />,
+    termOfServiceUrl,
     logout: () => {
       alert("You have been logged out!");
     },
@@ -71,12 +68,7 @@ export const WithOnlyFooterAction: Story = {
       email: "john.doe@example.com",
     },
     footerAction: (
-      <LanguagePicker
-        languages={languages}
-        size="small"
-        variant="bordered"
-        fullWidth
-      />
+      <LanguagePicker languages={languages} size="small" fullWidth compact />
     ),
   },
 };
