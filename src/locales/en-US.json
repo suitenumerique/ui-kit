@@ -56,6 +56,13 @@
         }
       }
     },
+    "laGaufre": {
+      "label": "Digital LaSuite services",
+      "closeLabel": "Close the menu",
+      "loadingText": "Loading…",
+      "newWindowLabelSuffix": " (new window)",
+      "headerLabel": "About"
+    },
     "userMenu": {
       "open": "Open user menu",
       "close": "Close user menu",
