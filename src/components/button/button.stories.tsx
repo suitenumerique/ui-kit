@@ -21,7 +21,6 @@ const colors: ButtonProps["color"][] = [
   "brand",
   "neutral",
   "info",
-  "success",
   "warning",
   "error",
   "success",

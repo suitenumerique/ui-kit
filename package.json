@@ -28,7 +28,7 @@
     "lint": "eslint . --report-unused-disable-directives",
     "preview": "vite preview",
     "test": "vitest run",
-    "build-theme": "cunningham -g css,scss -o src && mv src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
+    "build-theme": "cunningham -g css,scss,ts -o src && mv src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
