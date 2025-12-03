@@ -1,46 +1,24 @@
-.material-icons-filled {
+.material-icons.icon--filled {
   font-family: "Material Icons", sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizelegibility;
-
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: "liga";
 }
 
 // Icon sizes
-.icon--xsmall {
+.material-icons.icon--xsmall {
   font-size: 11px;
 }
 
-.icon--small {
+.material-icons.icon--small {
   font-size: 16px;
 }
 
-.icon--medium {
+.material-icons.icon--medium {
   font-size: 24px;
 }
 
-.icon--large {
+.material-icons.icon--large {
   font-size: 32px;
 }
 
-.icon--xlarge {
+.material-icons.icon--xlarge {
   font-size: 48px;
 }

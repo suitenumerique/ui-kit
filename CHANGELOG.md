@@ -2,11 +2,15 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Fix icon size CSS selector specificity issue
+
 ## 0.18.0
 
 ### Major changes
 
-- Add pagination to the tree components 
+- Add pagination to the tree components
 
 ### Patch Changes
 
