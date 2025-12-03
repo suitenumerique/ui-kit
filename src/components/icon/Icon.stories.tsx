@@ -48,13 +48,23 @@ export const Default: Story = {
 // Different sizes
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-      <Icon name="home" size={IconSize.X_SMALL} />
-      <Icon name="home" size={IconSize.SMALL} />
-      <Icon name="home" size={IconSize.MEDIUM} />
-      <Icon name="home" size={IconSize.LARGE} />
-      <Icon name="home" size={IconSize.X_LARGE} />
-      <Icon name="home" size={84} />
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        <Icon name="home" size={IconSize.X_SMALL} />
+        <Icon name="home" size={IconSize.SMALL} />
+        <Icon name="home" size={IconSize.MEDIUM} />
+        <Icon name="home" size={IconSize.LARGE} />
+        <Icon name="home" size={IconSize.X_LARGE} />
+        <Icon name="home" size={84} />
+      </div>
+      <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        <Icon name="home" size={IconSize.X_SMALL} type={IconType.OUTLINED} />
+        <Icon name="home" size={IconSize.SMALL} type={IconType.OUTLINED} />
+        <Icon name="home" size={IconSize.MEDIUM} type={IconType.OUTLINED} />
+        <Icon name="home" size={IconSize.LARGE} type={IconType.OUTLINED} />
+        <Icon name="home" size={IconSize.X_LARGE} type={IconType.OUTLINED} />
+        <Icon name="home" size={84} type={IconType.OUTLINED} />
+      </div>
     </div>
   ),
 };
