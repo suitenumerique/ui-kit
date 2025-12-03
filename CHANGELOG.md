@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Fix icon size CSS selector specificity issue
+
 ## 0.18.5
 
 ### Minor Changes
@@ -10,19 +14,19 @@
 
 ## 0.18.4
 
-### Patch Changes 
+### Patch Changes
 
 - fix LaGaufreV2 component rerender and add headerLogo for mobile
 
 ## 0.18.3
 
-### Patch Changes 
+### Patch Changes
 
 - fixes the responsiveness of the User Menu component
 
 ## 0.18.2
 
-### Patch Changes 
+### Patch Changes
 
 - fix missing export LaGaufreV2 component
 
@@ -36,7 +40,7 @@
 
 ### Major changes
 
-- Add pagination to the tree components 
+- Add pagination to the tree components
 
 ### Patch Changes
 

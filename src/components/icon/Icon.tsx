@@ -42,11 +42,10 @@ export const Icon: React.FC<IconProps> = ({
   ...props
 }) => {
   const iconClasses = clsx(
-    ``,
+    "material-icons",
     {
       [`icon--${size}`]: size !== undefined,
-      [`material-icons-${type}`]: type !== IconType.OUTLINED,
-      "material-icons": type === IconType.OUTLINED,
+      [`icon--${type}`]: type !== IconType.OUTLINED,
     },
     className
   );
