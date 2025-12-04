@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.1
+
+### Minor Changes
+
+- Add Gaufre V2 component
+
 ## 0.18.0
 
 ### Major changes
