@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.2
+
+### Patch Changes 
+
+- fix missing export LaGaufreV2 component
+
 ## 0.18.1
 
 ### Minor Changes
