@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.3
+
+### Patch Changes 
+
+- fixes the responsiveness of the User Menu component
+
 ## 0.18.2
 
 ### Patch Changes 
