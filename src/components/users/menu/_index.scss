@@ -3,8 +3,40 @@
 }
 
 .user-menu__popover {
-  min-width: 280px;
+  min-width: 300px;
   max-width: 400px;
+
+  &--mobile {
+    background: var(--c--contextuals--background--surface--primary);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    border-radius: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+
+    .react-aria-Dialog {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+  }
+}
+
+.user-menu__close-button {
+  position: absolute !important;
+  top: 4px;
+  right: 4px;
 }
 
 .user-menu__content__body {
@@ -12,6 +44,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--xs);
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .user-menu__popover--mobile & {
+    padding-top: 14px;
+  }
 
   &__user-info {
     display: flex;
@@ -19,14 +58,20 @@
     padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
     gap: var(--c--globals--spacings--base);
   }
-  &__settings {
-  }
 }
 
 .user-menu__content__identity {
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--3xs);
+}
+
+.user-menu__content__identity__name,
+.user-menu__content__identity__email {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
 }
 
 .user-menu__content__identity__name {
@@ -53,7 +98,7 @@
   }
 }
 
-.user-menu__footer {
+.user-menu__actions {
   display: flex;
   padding: var(--c--globals--spacings--xs);
   flex-direction: row;
@@ -63,10 +108,24 @@
   border-top: 1px solid var(--c--contextuals--border--surface--primary);
 
   // Center content when there's only one item
-  &:has(.user-menu__footer__left:only-child),
-  &:has(.user-menu__footer__right:only-child) {
+  &:has(.user-menu__actions__left:only-child),
+  &:has(.user-menu__actions__right:only-child) {
     justify-content: flex-end;
   }
+
+  &--mobile {
+    border-top: none;
+    padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+  }
+}
+
+.user-menu__footer--mobile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--c--globals--spacings--base);
+  border-top: 1px solid var(--c--contextuals--border--surface--primary);
+  margin-top: auto;
 }
 
 .user-menu__item {

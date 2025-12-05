@@ -40,6 +40,8 @@ export type LaGaufreV2Props = {
   loadingText?: string;
   newWindowLabelSuffix?: string;
   showMoreLimit?: number;
+  viewMoreLabel?: string;
+  viewLessLabel?: string;
 };
 export const LaGaufreV2 = ({ apiUrl, data, ...props }: LaGaufreV2Props) => {
   const { t } = useCunningham();
@@ -60,7 +62,12 @@ export const LaGaufreV2 = ({ apiUrl, data, ...props }: LaGaufreV2Props) => {
   const background: string = props.background || "";
   const headerLabel: string =
     props.headerLabel || t("components.laGaufre.headerLabel");
-  console.log((window as any)._lasuite_widget);
+
+  const viewMoreLabel: string =
+    props.viewMoreLabel || t("components.laGaufre.viewMoreLabel");
+  const viewLessLabel: string =
+    props.viewLessLabel || t("components.laGaufre.viewLessLabel");
+
   useEffect(() => {
     (window as any)._lasuite_widget = (window as any)._lasuite_widget || [];
     (window as any)._lasuite_widget.push([
@@ -77,6 +84,8 @@ export const LaGaufreV2 = ({ apiUrl, data, ...props }: LaGaufreV2Props) => {
         headerLabel: headerLabel,
         loadingText: loadingText,
         newWindowLabelSuffix: newWindowLabelSuffix,
+        viewMoreLabel: viewMoreLabel,
+        viewLessLabel: viewLessLabel,
         buttonElement: buttonRef.current,
         position: () => {
           return {

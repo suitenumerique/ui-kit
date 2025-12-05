@@ -60,6 +60,8 @@
       "label": "Services de la Suite numérique",
       "closeLabel": "Fermer le menu",
       "loadingText": "Chargement…",
+      "viewMoreLabel": "Voir plus",
+      "viewLessLabel": "Voir moins",
       "newWindowLabelSuffix": " (nouvelle fenêtre)",
       "headerLabel": "À propos"
     },
