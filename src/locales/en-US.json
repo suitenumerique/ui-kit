@@ -59,6 +59,8 @@
     "laGaufre": {
       "label": "Digital LaSuite services",
       "closeLabel": "Close the menu",
+      "viewMoreLabel": "View more",
+      "viewLessLabel": "View less",
       "loadingText": "Loading…",
       "newWindowLabelSuffix": " (new window)",
       "headerLabel": "About"

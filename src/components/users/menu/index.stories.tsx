@@ -42,7 +42,7 @@ export const Default: Story = {
     settingsCTA: () => {
       alert("Go to account settings");
     },
-    footerAction: <LanguagePicker languages={languages} size="small" compact />,
+    actions: <LanguagePicker languages={languages} size="small" compact />,
     termOfServiceUrl,
     logout: () => {
       alert("You have been logged out!");
@@ -67,7 +67,7 @@ export const WithOnlyFooterAction: Story = {
       full_name: "J Doe",
       email: "john.doe@example.com",
     },
-    footerAction: (
+    actions: (
       <LanguagePicker languages={languages} size="small" fullWidth compact />
     ),
   },
