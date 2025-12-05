@@ -8,6 +8,7 @@ export * from "./components/footer/Footer";
 export * from "./components/filter/Filter";
 export * from "./components/hero/Hero";
 export * from "./components/la-gaufre/LaGaufre";
+export * from "./components/la-gaufre/LaGaufreV2";
 export * from "./components/language";
 export * from "./components/layout";
 export * from "./components/loader";
