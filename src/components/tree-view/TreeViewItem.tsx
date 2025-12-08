@@ -1,6 +1,6 @@
 import { NodeRendererProps } from "react-arborist";
 import { TreeDataItem, TreeViewNodeTypeEnum } from "./types";
-import {
+import React, {
   PropsWithChildren,
   useCallback,
   useEffect,
@@ -14,13 +14,17 @@ import { useTreeContext } from "./providers/TreeContext";
 import { useCunningham } from "@openfun/cunningham-react";
 
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
+  itemProps?: React.HTMLAttributes<HTMLDivElement>;
   onClick?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
   forceLoading?: boolean;
 };
 
 export const TreeViewItem = <T,>({
   children,
+  itemProps,
   onClick,
+  onKeyDown,
   node,
   dragHandle,
   style,
@@ -154,13 +158,15 @@ export const TreeViewItem = <T,>({
           onClick?.();
         }}
         onKeyDown={(e) => {
+          onKeyDown?.(e);
+          
           // We stop all propagation if it's not a tree view item
           const target = e.target as HTMLElement;
           const isItem = target.closest(".c__tree-view--node");
           if (!isItem) {
             e.stopPropagation();
           }
-        }}
+        }} 
         ref={dragHandle}
         style={style}
         className={clsx("c__tree-view--node", {
@@ -170,6 +176,7 @@ export const TreeViewItem = <T,>({
           ["canDrop"]: node.data.value.canDrop ?? true,
           ["externalDrop"]: externalOver,
         })}
+        {...itemProps}
       >
         {isLeaf && <div className="c__tree-view--node__leaf" />}
         {!isLeaf && (
