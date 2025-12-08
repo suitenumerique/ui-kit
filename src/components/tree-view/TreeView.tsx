@@ -35,6 +35,7 @@ export type TreeViewProps<T> = {
   beforeMove?: (result: TreeViewMoveResult, moveCallback: () => void) => void;
   afterMove?: (result: TreeViewMoveResult) => void;
   renderNode: (props: NodeRendererProps<TreeDataItem<T>>) => React.ReactNode;
+  rowProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
 export const TreeView = <T,>({
@@ -47,6 +48,7 @@ export const TreeView = <T,>({
   canDrag,
   afterMove,
   beforeMove,
+  rowProps,
 }: TreeViewProps<T>) => {
   const [height, setHeight] = useState<number>(400);
   const { ref, width } = useResizeObserver();
@@ -314,7 +316,7 @@ export const TreeView = <T,>({
         overscanCount={20}
         selection={selectedNodeId}
         renderCursor={TreeViewSeparator}
-        renderRow={Row}
+        renderRow={(props) => <Row {...props} customRowProps={rowProps} />}
         rowClassName="c__tree-view--row"
       >
         {renderNode}
@@ -323,18 +325,23 @@ export const TreeView = <T,>({
   );
 };
 
-type RowProps<T> = RowRendererProps<TreeDataItem<T>>;
+type RowProps<T> = RowRendererProps<TreeDataItem<T>> & {
+  customRowProps?: React.HTMLAttributes<HTMLDivElement>;
+};
 
-const Row = <T,>({ children, ...props }: RowProps<T>) => {
+const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
   const isTitle = props.node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE;
   const isSeparator =
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
   const isViewMore =
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE;
+ const {onKeyDown, onClick, ...restCustomRowProps} = customRowProps ?? {};
 
   const { style } = props.attrs;
   const newStyle = { ...style };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(e);
+
     const target = e.target as HTMLElement | null;
     if (target) {
       const isInActionsToolbar = target.closest(".actions");
@@ -366,7 +373,9 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
         style={newStyle}
         ref={props.innerRef}
         onFocus={(e) => e.stopPropagation()}
-        onClick={props.node.handleClick}
+        onClick={(e) => { onClick?.(e); props.node.handleClick(e); }}
+        onKeyDown={onKeyDown}
+        {...restCustomRowProps}
       >
         {children}
       </div>
@@ -381,6 +390,8 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
       onClick={(e) => {
+         onClick?.(e);
+
         // Prevent automatic opening on click
         e.preventDefault();
         e.stopPropagation();
@@ -388,6 +399,7 @@ const Row = <T,>({ children, ...props }: RowProps<T>) => {
         props.node.select();
       }}
       onKeyDown={handleKeyDown}
+      {...restCustomRowProps}
     >
       <div className="c__tree-view--row-content">{children}</div>
     </div>

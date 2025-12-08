@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Minor Changes
+
+- Add props to customize row in TreeView component
+
 ## 0.18.4
 
 ### Patch Changes 

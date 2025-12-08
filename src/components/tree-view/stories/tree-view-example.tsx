@@ -63,6 +63,7 @@ export const TreeViewExample = ({
   withRightPanel = false,
 }: TreeViewExampleProps) => {
   const treeContext = useTreeContext<TreeViewExampleData>();
+  const [selectedNodeText, setSelectedNodeText] = useState<string>("Node 1");
 
   const [draggingData, setDraggingData] = useState<TreeViewExampleData | null>(
     null
@@ -133,6 +134,20 @@ export const TreeViewExample = ({
                 rootNodeId="ROOT_NODE_ID"
                 selectedNodeId={"1"}
                 renderNode={TreeViewItemExample}
+                rowProps={{
+                  onKeyDown: (e) => {
+                    if (e.key === "Enter") {
+                      const selectedText = e.currentTarget
+                        .getElementsByClassName("name")?.[0].innerHTML
+                      setSelectedNodeText(selectedText);
+                    }
+                  },
+                  onClick: (e) => {
+                    const selectedText = (e.currentTarget as HTMLElement)
+                      .getElementsByClassName("name")?.[0].innerHTML
+                    setSelectedNodeText(selectedText);
+                  },
+                }}
               />
             </div>
           }
@@ -160,6 +175,7 @@ export const TreeViewExample = ({
               </div>
             </div>
           )}
+          <div>Display node {selectedNodeText}</div>
           <button onClick={() => treeContext?.treeData.resetTree(data)}>
             Reset
           </button>
