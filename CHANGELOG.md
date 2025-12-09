@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.4
+
+### Patch Changes 
+
+- fix LaGaufreV2 component rerender and add headerLogo for mobile
+
 ## 0.18.3
 
 ### Patch Changes 
