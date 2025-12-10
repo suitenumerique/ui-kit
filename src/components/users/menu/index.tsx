@@ -11,6 +11,7 @@ import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { Icon } from ":/components/icon";
 import { HorizontalSeparator } from ":/components/separator";
 import { useResponsive } from ":/hooks/useResponsive";
+import { getUserColor } from "../avatar/utils";
 
 type UserMenuContentProps = {
   user: UserMenuProps["user"];
@@ -33,14 +34,16 @@ const UserMenuContent = ({
   const showActions = !!footerAction || !!termOfServiceUrl;
 
   const { t } = useCunningham();
+  const userFullName = user ? user.full_name ?? user.email : undefined;
+  const userColor = userFullName ? getUserColor(userFullName) : undefined;
 
   if (!user) return null;
 
   return (
     <>
       <div className="user-menu__content__body">
-        <div className="user-menu__content__body__user-info">
-          <UserAvatar fullName={user.full_name ?? user.email!} />
+        <div className="user-menu__content__body__user-info" style={{ '--gradient-color': `var(--c--contextuals--background--palette--${userColor}--primary)` } as React.CSSProperties}>
+          <UserAvatar fullName={userFullName!} />
           <div className="user-menu__content__identity__name">
             {user.full_name ? (
               <>

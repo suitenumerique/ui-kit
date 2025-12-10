@@ -40,7 +40,7 @@
 }
 
 .user-menu__content__body {
-  padding: var(--c--globals--spacings--xs) 0;
+  padding-bottom: var(--c--globals--spacings--xs);
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--xs);
@@ -55,8 +55,14 @@
   &__user-info {
     display: flex;
     align-items: center;
-    padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+    padding-inline: var(--c--globals--spacings--base);
+    padding-block: var(--c--globals--spacings--md) var(--c--globals--spacings--base);
     gap: var(--c--globals--spacings--base);
+    background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gradient-color) 8%, transparent) 0%,
+    color-mix(in srgb, var(--c--contextuals--background--surface--primary) 8%, transparent) 100%,
+    );
   }
 }
 
@@ -78,6 +84,7 @@
   color: var(--c--contextuals--content--semantic--neutral--primary);
   font-size: var(--c--globals--font--sizes--md);
   font-weight: 700;
+  line-height: 1.375;
   margin: 0;
 
   & > strong {
@@ -107,8 +114,6 @@
   gap: var(--c--globals--spacings--base);
   border-top: 1px solid var(--c--contextuals--border--surface--primary);
 
-  // Center content when there's only one item
-  &:has(.user-menu__actions__left:only-child),
   &:has(.user-menu__actions__right:only-child) {
     justify-content: flex-end;
   }

@@ -72,6 +72,15 @@ export const WithOnlyFooterAction: Story = {
     ),
   },
 };
+export const WithOnlyTermOfService: Story = {
+  args: {
+    user: {
+      full_name: "J Doe",
+      email: "john.doe@example.com",
+    },
+    termOfServiceUrl,
+  },
+};
 
 export const Minimal: Story = {
   args: {
