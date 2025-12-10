@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Minor Changes
+
+- Update `UserAvatar` and `UserMenu` components to stick to the Figma design
+
 ### Patch Changes
 
 - Fix icon size CSS selector specificity issue

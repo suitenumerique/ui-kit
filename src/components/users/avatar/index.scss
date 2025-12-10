@@ -3,8 +3,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  // Use raw token value as fallback for browsers that don't support color-mix
+  color: var(--c--contextuals--background--surface--tertiary);
+  color: color-mix(in srgb, var(--c--contextuals--background--surface--tertiary) 95%, transparent);
+  border: 1px solid var(--c--contextuals--background--surface--tertiary);
+  border: 1px solid color-mix(in srgb, var(--c--contextuals--background--surface--tertiary) 80%, transparent);
 
   &__initials {
     display: flex;
@@ -12,9 +15,8 @@
     justify-content: center;
     text-align: center;
     font-style: normal;
-    font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
-
+    font-weight: 700;
+    font-family: var(--c--globals--font--families--base);
     text-transform: uppercase;
   }
 
@@ -22,79 +24,72 @@
     width: 16px;
     height: 16px;
     font-size: 7px;
+    letter-spacing: -0.25px;
   }
 
   &.small {
     width: 24px;
     height: 24px;
     font-size: 10px;
+    letter-spacing: -0.35px;
   }
 
   &.medium {
     width: 32px;
     height: 32px;
-    font-size: 12px;
+    font-size: 11px;
+    letter-spacing: -0.38px;
+
   }
 
   &.large {
     width: 64px;
     height: 64px;
-    font-size: 26px;
+    font-size: 27px;
+    letter-spacing: -0.54px;
   }
 
   &.brand {
-    background-color: var(--c--globals--colors--brand-500);
+    background-color: var(--c--contextuals--background--palette--brand--primary);
   }
 
   &.gray {
-    background-color: var(--c--globals--colors--gray-500);
-  }
-
-  &.info {
-    background-color: var(--c--globals--colors--info-500);
-  }
-
-  &.success {
-    background-color: var(--c--globals--colors--success-500);
-  }
-
-  &.warning {
-    background-color: var(--c--globals--colors--warning-500);
-  }
-
-  &.error {
-    background-color: var(--c--globals--colors--error-500);
+    background-color: var(--c--contextuals--background--palette--gray--primary);
   }
 
   &.purple {
-    background-color: var(--c--globals--colors--purple-500);
+    background-color: var(--c--contextuals--background--palette--purple--primary);
   }
 
-  &.blue {
-    background-color: var(--c--globals--colors--blue-1-500);
+  &.blue-1 {
+    background-color: var(--c--contextuals--background--palette--blue-1--primary);
+  }
+
+  &.blue-2 {
+    background-color: var(--c--contextuals--background--palette--blue-2--primary);
   }
 
   &.green {
-    background-color: var(--c--globals--colors--green-500);
+    background-color: var(--c--contextuals--background--palette--green--primary);
   }
 
   &.yellow {
-    background-color: var(--c--globals--colors--yellow-500);
+    background-color: var(--c--contextuals--background--palette--yellow--primary);
   }
 
   &.orange {
-    background-color: var(--c--globals--colors--orange-500);
+    background-color: var(--c--contextuals--background--palette--orange--primary);
   }
 
   &.red {
-    background-color: var(--c--globals--colors--red-500);
+    background-color: var(--c--contextuals--background--palette--red--primary);
   }
 
   &.brown {
-    background-color: var(--c--globals--colors--brown-500);
+    background-color: var(--c--contextuals--background--palette--brown--primary);
   }
 
   &.pink {
-    background-color: var(--c--globals--colors--pink-500);
+    background-color: var(--c--contextuals--background--palette--pink--primary);
   }
 }
