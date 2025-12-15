@@ -1,5 +1,5 @@
 import { UserRow } from ":/components/users/rows/UserRow";
-import { useCunningham } from "@openfun/cunningham-react";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { UserData } from ":/components/share/types.ts";
 import { QuickSearchItemTemplate } from ":/components/quick-search";
 

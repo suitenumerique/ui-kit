@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import { Button, Tooltip } from "@openfun/cunningham-react";
+import { Button, Tooltip } from "@gouvfr-lasuite/cunningham-react";
 
 export default {
   title: "Components/Tooltip",

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { useState } from "react";

@@ -6,10 +6,10 @@
   border: "none";
   cursor: pointer;
 
-  background-color: #000091;
+  background-color: var(--c--contextuals--background--semantic--brand--primary);
 
   &:hover {
-    background-color: #1212ff;
+    background-color: var(--c--contextuals--background--semantic--brand--primary-hover);
   }
 
   &:disabled {

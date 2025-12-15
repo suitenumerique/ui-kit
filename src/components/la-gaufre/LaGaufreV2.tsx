@@ -6,7 +6,7 @@ import {
   Button,
   ButtonElement,
   useCunningham,
-} from "@openfun/cunningham-react";
+} from "@gouvfr-lasuite/cunningham-react";
 import { useResponsive } from ":/hooks/useResponsive";
 
 export type Service = {

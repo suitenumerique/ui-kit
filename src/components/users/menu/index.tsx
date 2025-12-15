@@ -6,7 +6,7 @@ import {
   Modal,
   ModalSize,
   useCunningham,
-} from "@openfun/cunningham-react";
+} from "@gouvfr-lasuite/cunningham-react";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { Icon } from ":/components/icon";
 import { HorizontalSeparator } from ":/components/separator";

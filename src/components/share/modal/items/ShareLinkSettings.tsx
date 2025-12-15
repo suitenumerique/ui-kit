@@ -2,7 +2,7 @@ import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import LogoPublic from ":/components/share/assets/public.svg";
 import LogoPrivate from ":/components/share/assets/lock_person.svg";
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
 import {

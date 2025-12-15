@@ -25,4 +25,6 @@ export * from "./hooks/useArrowRoving";
 export * from "./components/share";
 export * from "./components/users";
 export * from "./hooks/useCustomTranslations";
+export * from "./utils/get-ui-kit-themes-from-globals";
+export { anctGlobals, dsfrGlobals, whiteLabelGlobals } from "../cunningham";
 export { default as cunninghamConfig } from "../cunningham";

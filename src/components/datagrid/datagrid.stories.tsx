@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import databaseCars from "./resources/databaseCars.json";
 
-import { Button, DataGrid, SimpleDataGrid } from "@openfun/cunningham-react";
+import { Button, DataGrid, SimpleDataGrid } from "@gouvfr-lasuite/cunningham-react";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

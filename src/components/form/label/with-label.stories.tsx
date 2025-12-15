@@ -2,7 +2,7 @@ import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 
 import { WithLabel } from "./WithLabel";
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { useState } from "react";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export

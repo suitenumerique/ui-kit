@@ -1,7 +1,7 @@
 import { DropdownMenuOption } from ":/components/dropdown-menu/types";
 import { LanguagePicker } from ":/components/language/language-picker";
 
-import { Button, useCunningham } from "@openfun/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 export type HeaderProps = {
   leftIcon?: React.ReactNode;

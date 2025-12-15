@@ -1,7 +1,7 @@
 import { Command } from "cmdk";
 import { ReactNode } from "react";
 import { Spinner } from ":/components/loader/Spinner";
-import { useCunningham } from "@openfun/cunningham-react";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { HorizontalSeparator } from ":/components/separator/HorizontalSeparator";
 
 type Props = {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Select } from "@openfun/cunningham-react";
+import { Select } from "@gouvfr-lasuite/cunningham-react";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

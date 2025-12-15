@@ -6,7 +6,7 @@ import svg from "./header/logo-example.svg";
 import { MainLayout } from "./MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
 import { useState } from "react";
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 
 const meta: Meta = {
   title: "Components/Layout",
