@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.18.6
+
 ### Minor Changes
 
 - Update `UserAvatar` and `UserMenu` components to stick to the Figma design
@@ -336,7 +338,17 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.16.2...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.18.6...main
+[0.18.6]: https://github.com/suitenumerique/ui-kit/compare/v0.18.5...v0.18.6
+[0.18.5]: https://github.com/suitenumerique/ui-kit/compare/v0.18.4...v0.18.5
+[0.18.4]: https://github.com/suitenumerique/ui-kit/compare/v0.18.3...v0.18.4
+[0.18.3]: https://github.com/suitenumerique/ui-kit/compare/v0.18.2...v0.18.3
+[0.18.2]: https://github.com/suitenumerique/ui-kit/compare/v0.18.1...v0.18.2
+[0.18.1]: https://github.com/suitenumerique/ui-kit/compare/v0.18.0...v0.18.1
+[0.18.0]: https://github.com/suitenumerique/ui-kit/compare/v0.17.2...v0.18.0
+[0.17.2]: https://github.com/suitenumerique/ui-kit/compare/v0.17.1...v0.17.2
+[0.17.1]: https://github.com/suitenumerique/ui-kit/compare/v0.17.0...v0.17.1
+[0.17.0]: https://github.com/suitenumerique/ui-kit/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/suitenumerique/ui-kit/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/suitenumerique/ui-kit/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/suitenumerique/ui-kit/compare/v0.15.0...v0.16.0
