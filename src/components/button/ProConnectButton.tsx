@@ -1,4 +1,4 @@
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 import logo from ":/assets/proconnect-content.svg";
 import logoDisabled from ":/assets/proconnect-content-disabled.svg";
 

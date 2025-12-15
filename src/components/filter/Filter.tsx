@@ -11,7 +11,7 @@ import {
   Separator,
 } from "react-aria-components";
 
-import { Option } from "@openfun/cunningham-react";
+import { Option } from "@gouvfr-lasuite/cunningham-react";
 import clsx from "clsx";
 
 export type FilterOption = Option & {

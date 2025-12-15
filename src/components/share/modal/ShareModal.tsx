@@ -13,7 +13,7 @@ import {
   Modal,
   ModalSize,
   useCunningham,
-} from "@openfun/cunningham-react";
+} from "@gouvfr-lasuite/cunningham-react";
 import {
   QuickSearch,
   QuickSearchData,

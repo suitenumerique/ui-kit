@@ -1,7 +1,7 @@
 import { QuickSearchItemTemplate } from ":/components/quick-search";
 import { InvitationData } from "../../types";
 import { UserRow } from ":/components/users/rows/UserRow";
-import { Button, useCunningham } from "@openfun/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import {
   DropdownMenu,
   DropdownMenuOption,

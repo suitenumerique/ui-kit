@@ -4,7 +4,7 @@ import {
   Modal,
   ModalSize,
   useModal,
-} from "@openfun/cunningham-react";
+} from "@gouvfr-lasuite/cunningham-react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useEffect } from "react";
 

@@ -1,4 +1,4 @@
-import { useCunningham } from "@openfun/cunningham-react";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import type { TranslationKey } from "../types/translations";
 
 /**

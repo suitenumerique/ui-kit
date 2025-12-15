@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@openfun/cunningham-react";
+import { Button, ButtonProps } from "@gouvfr-lasuite/cunningham-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   useDropdownMenu,

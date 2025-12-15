@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { QuickSearch } from "./QuickSearch";
 import { QuickSearchGroup } from "./QuickSearchGroup";
-import { Button, Modal, ModalSize } from "@openfun/cunningham-react";
+import { Button, Modal, ModalSize } from "@gouvfr-lasuite/cunningham-react";
 import { useState } from "react";
 import { QuickSearchData } from "./types";
 import { QuickSearchItemTemplate } from "./QuickSearchItemTemplate";

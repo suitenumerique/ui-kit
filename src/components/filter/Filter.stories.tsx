@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Filter, FilterOption } from "./Filter";
 import { useState } from "react";
 import { Key } from "react-aria-components";
-import { Button } from "@openfun/cunningham-react";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 
 const meta: Meta<typeof Filter> = {
   title: "Components/Filter",

@@ -5,6 +5,9 @@
 ### Minor Changes
 
 - Update `UserAvatar` and `UserMenu` components to stick to the Figma design
+- Upgrade to latest Cunningham tokens (@openfun/cunningham-* -> @gouvfr-lasuite/cunningham-*)
+- Export White Label & ANCT themes with light/dark variants
+- Export `getUIKitThemesFromGlobals` utility function to create a custom from UI Kit globals and overrides
 
 ### Patch Changes
 

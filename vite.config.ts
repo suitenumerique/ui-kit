@@ -16,7 +16,7 @@ export default defineConfig({
       cssFileName: "style",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "@openfun/cunningham-react"],
+      external: ["react", "react-dom", "@gouvfr-lasuite/cunningham-react"],
       output: {
         globals: {
           react: "React",

@@ -1,4 +1,4 @@
-import { useCunningham } from "@openfun/cunningham-react";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import IconLink from "./assets/external-link.svg";
 import LogoGouv from ":/assets/logo-gouv.svg";
 

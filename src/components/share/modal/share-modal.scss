@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "@openfun/cunningham-react/style" as *;
+@use "@gouvfr-lasuite/cunningham-react/style" as *;
 @use "../../../cunningham-tokens-sass" as *;
 
 $md: map.get($themes, "default", "globals", "breakpoints", "md");
