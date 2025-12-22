@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Fix CSS syntax issue in QuickSearch component
+
 ## 0.18.6
 
 ### Minor Changes

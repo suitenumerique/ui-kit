@@ -50,9 +50,7 @@
     }
 
     &[data-disabled="true"] {
-      background: var(
-        var(--c--contextuals--background--semantic--disabled--primary)
-      );
+      background: var(--c--contextuals--background--semantic--disabled--primary);
       cursor: not-allowed;
     }
 
