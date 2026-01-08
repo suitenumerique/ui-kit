@@ -5,6 +5,7 @@ import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import {
   DropdownMenu,
   DropdownMenuOption,
+  DropdownMenuProps,
   useDropdownMenu,
 } from ":/components/dropdown-menu";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
@@ -16,11 +17,13 @@ export type ShareMemberItemProps<UserType, AccessType> = {
   updateRole?: (access: AccessData<UserType, AccessType>, role: string) => void;
   deleteAccess?: (access: AccessData<UserType, AccessType>) => void;
   canUpdate?: boolean;
-  roleTopMessage?: string;
+  roleTopMessage?: DropdownMenuProps["topMessage"];
+  accessRoleKey?: keyof AccessData<UserType, AccessType>; // The key of the role in the access data, default to "role"
 };
 
 export const ShareMemberItem = <UserType, AccessType>({
   accessData,
+  accessRoleKey = "role",
   roles,
   updateRole,
   deleteAccess,
@@ -64,7 +67,7 @@ export const ShareMemberItem = <UserType, AccessType>({
           <div className="c__share-member-item__right">
             <AccessRoleDropdown
               roles={roles}
-              selectedRole={accessData.role}
+              selectedRole={accessData[accessRoleKey] as string}
               onSelect={(role) => updateRole?.(accessData, role)}
               isOpen={roleDropdown.isOpen}
               onOpenChange={roleDropdown.setIsOpen}
