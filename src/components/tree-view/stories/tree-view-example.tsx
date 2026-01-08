@@ -131,6 +131,7 @@ export const TreeViewExample = ({
           leftPanelContent={
             <div>
               <TreeView
+                canDrop={() => false}
                 rootNodeId="ROOT_NODE_ID"
                 selectedNodeId={"1"}
                 renderNode={TreeViewItemExample}

@@ -75,6 +75,7 @@ export const complexTreeData: TreeViewExampleData[] = [
       childrenCount: 0,
       children: [],
     },
+    { id: "7", label: "simple node", childrenCount: 15, nodeType: TreeViewNodeTypeEnum.SIMPLE_NODE, children: [] },
   ];
 
 
