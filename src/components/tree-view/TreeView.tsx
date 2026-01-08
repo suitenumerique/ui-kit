@@ -35,6 +35,8 @@ export type TreeViewProps<T> = {
   beforeMove?: (result: TreeViewMoveResult, moveCallback: () => void) => void;
   afterMove?: (result: TreeViewMoveResult) => void;
   renderNode: (props: NodeRendererProps<TreeDataItem<T>>) => React.ReactNode;
+  paddingTop?: number;
+  paddingBottom?: number;
   rowProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
@@ -48,6 +50,8 @@ export const TreeView = <T,>({
   canDrag,
   afterMove,
   beforeMove,
+  paddingTop = 10,
+  paddingBottom = 10,
   rowProps,
 }: TreeViewProps<T>) => {
   const [height, setHeight] = useState<number>(400);
@@ -222,8 +226,8 @@ export const TreeView = <T,>({
         onMove={onMove}
         height={height}
         width={width}
-        paddingTop={10}
-        paddingBottom={10}
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
         rowHeight={34}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
@@ -335,7 +339,7 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR;
   const isViewMore =
     props.node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE;
- const {onKeyDown, onClick, ...restCustomRowProps} = customRowProps ?? {};
+  const { onKeyDown, onClick, ...restCustomRowProps } = customRowProps ?? {};
 
   const { style } = props.attrs;
   const newStyle = { ...style };
@@ -373,7 +377,10 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
         style={newStyle}
         ref={props.innerRef}
         onFocus={(e) => e.stopPropagation()}
-        onClick={(e) => { onClick?.(e); props.node.handleClick(e); }}
+        onClick={(e) => {
+          onClick?.(e);
+          props.node.handleClick(e);
+        }}
         onKeyDown={onKeyDown}
         {...restCustomRowProps}
       >
@@ -390,7 +397,7 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
       onClick={(e) => {
-         onClick?.(e);
+        onClick?.(e);
 
         // Prevent automatic opening on click
         e.preventDefault();
