@@ -38,6 +38,10 @@
               "title": "Public",
               "description": "Anyone with the link can access the document"
             },
+            "authenticated": {
+              "title": "Authenticated",
+              "description": "Only authenticated users can access the document"
+            },
             "restricted": {
               "title": "Private",
               "description": "Only users of the space can access the document"

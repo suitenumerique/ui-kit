@@ -41,6 +41,10 @@
             "restricted": {
               "title": "Privé",
               "description": "Seulement les utilisateurs de l'espace peuvent y avoir accès"
+            },
+            "authenticated": {
+              "title": "Authenticated",
+              "description": "Seuls les utilisateurs authentifiés peuvent accéder au document"
             }
           }
         },
