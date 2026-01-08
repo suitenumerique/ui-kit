@@ -1,6 +1,6 @@
 import { Menu, MenuItem, Popover, Separator } from "react-aria-components";
 import { DropdownMenuOption } from "./types";
-import { Fragment, PropsWithChildren, useId, useRef } from "react";
+import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
 
 export type DropdownMenuProps = {
   options: DropdownMenuOption[];
@@ -8,7 +8,7 @@ export type DropdownMenuProps = {
   selectedValues?: string[];
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
-  topMessage?: string;
+  topMessage?: string | ReactNode;
   shouldCloseOnInteractOutside?: (element: Element) => boolean;
 };
 
@@ -23,11 +23,11 @@ export const DropdownMenu = ({
   shouldCloseOnInteractOutside,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
+  const triggerRef = useRef(null);
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
   };
 
-  const triggerRef = useRef(null);
   return (
     <>
       <div
@@ -77,11 +77,18 @@ export const DropdownMenu = ({
                   isDisabled={option.isDisabled}
                 >
                   {option.icon}
-                  <div
-                    className="c__dropdown-menu-item__label"
-                    aria-label={option.label}
-                  >
-                    {option.label}
+                  <div className="c__dropdown-menu-item__label-container">
+                    <div
+                      className="c__dropdown-menu-item__label"
+                      aria-label={option.label}
+                    >
+                      {option.label}
+                    </div>
+                    {option.subText && (
+                      <div className="c__dropdown-menu-item__label-subtext">
+                        {option.subText}
+                      </div>
+                    )}
                   </div>
                   {(option.isChecked ||
                     (option.value &&
