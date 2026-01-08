@@ -43,6 +43,8 @@ export const LinkSettingsOnly = {
         },
         {
           value: "restricted",
+          subText: "You don't have permission to modify this reach",
+          isDisabled: true,
         },
       ]}
       onUpdateLinkReach={(value) => {

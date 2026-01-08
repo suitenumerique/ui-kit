@@ -185,11 +185,15 @@ export const ShareModalExample = (props: {
       linkReachChoices={[
         {
           value: "public",
+          subText: "Public link",
         },
         {
           value: "restricted",
+          subText: "Restricted link",
         },
       ]}
+      topLinkReachMessage={<span>Top link reach message</span>}
+      topLinkRoleMessage={<span>Top link role message</span>}
       linkRole="reader"
       showLinkRole={true}
       linkRoleChoices={[

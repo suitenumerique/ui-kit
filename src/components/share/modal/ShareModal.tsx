@@ -1,4 +1,7 @@
-import { DropdownMenuOption } from ":/components/dropdown-menu";
+import {
+  DropdownMenuOption,
+  DropdownMenuProps,
+} from ":/components/dropdown-menu";
 import { InvitationUserSelectorList } from "../users-invitation/InvitationUserSelectorList";
 import {
   useState,
@@ -57,6 +60,7 @@ type ShareModalInvitationProps<UserType, InvitationType> = {
 // We separate the props into two types to make them lighter. Here are only the access-specific props
 type ShareModalAccessProps<UserType, AccessType> = {
   accesses?: AccessData<UserType, AccessType>[];
+  accessRoleKey?: keyof AccessData<UserType, AccessType>; // The key of the role in the access data
   hasNextMembers?: boolean;
   onLoadNextMembers?: () => void;
   onDeleteAccess?: (access: AccessData<UserType, AccessType>) => void;
@@ -66,7 +70,7 @@ type ShareModalAccessProps<UserType, AccessType> = {
   ) => void;
   accessRoleTopMessage?: (
     access: AccessData<UserType, AccessType>
-  ) => string | undefined;
+  ) => string | ReactNode | undefined;
 };
 
 // We separate the props into two types to make them lighter. Here are only the search-specific props
@@ -87,6 +91,8 @@ type ShareModalLinkSettingsProps = {
   linkRole?: "reader" | "editor";
   showLinkRole?: boolean;
   onUpdateLinkRole?: (value: string) => void;
+  topLinkReachMessage?: DropdownMenuProps["topMessage"];
+  topLinkRoleMessage?: DropdownMenuProps["topMessage"];
 };
 
 /**
@@ -419,6 +425,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     <ShareMemberItem
                       key={member.id}
                       accessData={member}
+                      accessRoleKey={props.accessRoleKey ?? "role"}
                       canUpdate={canUpdate}
                       roleTopMessage={props.accessRoleTopMessage?.(member)}
                       roles={
@@ -452,6 +459,8 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   onUpdateLinkRole={props.onUpdateLinkRole!}
                   showLinkRole={props.showLinkRole}
                   customTranslations={customTranslations}
+                  topLinkReachMessage={props.topLinkReachMessage}
+                  topLinkRoleMessage={props.topLinkRoleMessage}
                 />
               )}
               {outsideSearchContent}
