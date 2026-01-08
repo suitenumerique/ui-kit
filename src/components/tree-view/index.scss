@@ -93,24 +93,23 @@
   gap: var(--c--globals--spacings--3xs);
 
   &.simpleNode {
-    cursor: default;
     padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--sm);
   }
 
-  &:not(.willReceiveDrop, .isSelected, .simpleNode):hover {
+  &:not(.willReceiveDrop, .isSelected):hover {
     background-color: var(
       --c--contextuals--background--semantic--contextual--primary
     );
   }
 
-  &.isSelected:not(.simpleNode) {
+  &.isSelected {
     background-color: var(
       --c--contextuals--background--semantic--contextual--primary
     );
     font-weight: 700;
   }
 
-  &.canDrop:not(.simpleNode) {
+  &.canDrop {
     &.willReceiveDrop:not(.isDragging),
     &.externalDrop {
       background-color: var(

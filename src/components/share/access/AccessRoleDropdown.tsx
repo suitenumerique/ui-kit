@@ -1,4 +1,8 @@
-import { DropdownMenu, DropdownMenuOption } from ":/components/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuOption,
+  DropdownMenuProps,
+} from ":/components/dropdown-menu";
 
 type AccessRoleDropdownProps = {
   selectedRole: string;
@@ -7,7 +11,7 @@ type AccessRoleDropdownProps = {
   canUpdate?: boolean;
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  roleTopMessage?: string;
+  roleTopMessage?: DropdownMenuProps["topMessage"];
 };
 
 export const AccessRoleDropdown = ({

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 export type DropdownMenuOption = {
   label: string;
+  subText?: string;
   icon?: ReactNode;
   callback?: () => void | Promise<unknown>;
   isDisabled?: boolean;
