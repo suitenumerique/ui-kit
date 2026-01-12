@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.18.7
+
+### Minor Changes
+
+- Update ShareModal and dropdown to show more informations
+
 ### Patch Changes
 
 - Fix CSS syntax issue in QuickSearch component
