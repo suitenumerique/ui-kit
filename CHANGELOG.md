@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Fix update type apiUrl in LaGaufreV2 component
+
 ## 0.19.0
 
 ### Minor Changes 
