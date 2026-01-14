@@ -28,7 +28,7 @@ export const InvitationUserSelectorList = <UserType,>({
   const { t } = useCunningham();
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="c__add-share-user-list">
+    <div className="c__add-share-user-list" data-testid="selected-users-list">
       <div className="c__add-share-user-list__items">
         {users.map((user) => (
           <InvitationUserSelectorItem
@@ -65,7 +65,7 @@ export const InvitationUserSelectorItem = <UserType,>({
   onRemoveUser,
 }: ShareSelectedUserItemProps<UserType>) => {
   return (
-    <div className="c__add-share-user-item">
+    <div className="c__add-share-user-item" data-testid="selected-user-item">
       <span>{user.full_name || user.email}</span>
       <Button
         variant="tertiary"

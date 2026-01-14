@@ -5,6 +5,8 @@
       "ok": "Ok",
       "shareButton": "Share",
       "modalTitle": "Share folder",
+      "modalAriaLabel": "Share modal",
+      
       "access": {
         "delete": "Remove access"
       },

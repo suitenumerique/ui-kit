@@ -6,16 +6,18 @@ export type QuickSearchItemTemplateProps = {
   alwaysShowRight?: boolean;
   left: ReactNode;
   right?: ReactNode;
+  testId?: string;
 };
 
 export const QuickSearchItemTemplate = ({
   alwaysShowRight = false,
   left,
   right,
+  testId,
 }: QuickSearchItemTemplateProps) => {
   const { isDesktop } = useResponsive();
   return (
-    <div className="c__quick-search-item-template">
+    <div className="c__quick-search-item-template" data-testid={testId}>
       <div className="c__quick-search-item-template__left">{left}</div>
 
       {isDesktop && right && (

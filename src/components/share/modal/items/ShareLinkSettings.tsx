@@ -139,6 +139,7 @@ export const ShareLinkSettings = ({
               variant="tertiary"
               icon={getIcon(selectedLinkReach, true)}
               iconPosition="left"
+              data-testid="share-link-reach-dropdown-button"
               onClick={() => {
                 if (canUpdate) {
                   linkReachDropdown.setIsOpen(!linkReachDropdown.isOpen);
@@ -181,6 +182,7 @@ export const ShareLinkSettings = ({
           >
             <Button
               variant="tertiary"
+              data-testid="share-link-role-dropdown-button"
               icon={
                 <span className="material-icons">
                   {linkRoleDropdown.isOpen
@@ -210,7 +212,10 @@ export const ShareLinkSettings = ({
   };
 
   return (
-    <div className="c__share-modal__link-settings">
+    <div
+      className="c__share-modal__link-settings"
+      data-testid="share-link-settings"
+    >
       <span className="c__share-modal__link-settings__title">
         {t("components.share.linkSettings.title")}
       </span>
