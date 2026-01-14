@@ -18,11 +18,13 @@ export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   onClick?: () => void;
   onKeyDown?: (e: React.KeyboardEvent) => void;
   forceLoading?: boolean;
+  testId?: string;
 };
 
 export const TreeViewItem = <T,>({
   children,
   itemProps,
+  testId,
   onClick,
   onKeyDown,
   node,
@@ -98,12 +100,14 @@ export const TreeViewItem = <T,>({
   }, [isOver, node.isOpen, node.isDragging, node]);
 
   if (node.data.value.nodeType === TreeViewNodeTypeEnum.SEPARATOR) {
-    return <div className="c__tree-view--node__separator" />;
+    return (
+      <div className="c__tree-view--node__separator" data-testid={testId} />
+    );
   }
 
   if (node.data.value.nodeType === TreeViewNodeTypeEnum.TITLE) {
     return (
-      <div className="c__tree-view--node__title">
+      <div className="c__tree-view--node__title" data-testid={testId}>
         {node.data.value.headerTitle}
       </div>
     );
@@ -111,7 +115,7 @@ export const TreeViewItem = <T,>({
 
   if (node.data.value.nodeType === TreeViewNodeTypeEnum.VIEW_MORE) {
     return (
-      <div className="c__tree-view--row-content">
+      <div className="c__tree-view--row-content" data-testid={testId}>
         <div className="c__tree-view--node" style={style}>
           <div
             role="button"
@@ -159,14 +163,14 @@ export const TreeViewItem = <T,>({
         }}
         onKeyDown={(e) => {
           onKeyDown?.(e);
-          
+
           // We stop all propagation if it's not a tree view item
           const target = e.target as HTMLElement;
           const isItem = target.closest(".c__tree-view--node");
           if (!isItem) {
             e.stopPropagation();
           }
-        }} 
+        }}
         ref={dragHandle}
         style={style}
         className={clsx("c__tree-view--node", {
@@ -176,6 +180,7 @@ export const TreeViewItem = <T,>({
           ["canDrop"]: node.data.value.canDrop ?? true,
           ["externalDrop"]: externalOver,
         })}
+        data-testid={testId}
         {...itemProps}
       >
         {isLeaf && <div className="c__tree-view--node__leaf" />}

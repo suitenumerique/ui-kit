@@ -53,6 +53,7 @@ export const ShareInvitationItem = <UserType, InvitationType>({
   return (
     <div className="c__share-member-item">
       <QuickSearchItemTemplate
+        testId="share-invitation-item"
         left={<UserRow fullName="" email={invitation.email} showEmail={true} />}
         alwaysShowRight={true}
         right={

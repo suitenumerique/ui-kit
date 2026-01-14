@@ -311,6 +311,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       title={props.modalTitle ?? t("components.share.modalTitle")}
       isOpen={props.isOpen}
       onClose={props.onClose}
+      aria-label={t("components.share.modalAriaLabel")}
       closeOnClickOutside
       size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
     >
@@ -369,7 +370,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
               }}
             >
               {showSearchUsers && (
-                <div className="c__share-modal__search-users">
+                <div
+                  className="c__share-modal__search-users"
+                  data-testid="search-users-list"
+                >
                   <QuickSearchGroup
                     group={usersData}
                     onSelect={(user) => {
@@ -384,7 +388,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
 
               {/* Invitations list */}
               {showInvitations && (
-                <div className="c__share-modal__invitations">
+                <div
+                  className="c__share-modal__invitations"
+                  data-testid="invitations-list"
+                >
                   <span className="c__share-modal__invitations-title">
                     {t("components.share.invitations.title")}
                   </span>
@@ -410,7 +417,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
 
               {/* Members list */}
               {showMembers && (
-                <div className="c__share-modal__members">
+                <div
+                  className="c__share-modal__members"
+                  data-testid="members-list"
+                >
                   <span className="c__share-modal__members-title">
                     {t(
                       members.length > 1

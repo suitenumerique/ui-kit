@@ -4,6 +4,7 @@
       "copyLink": "Copier le lien",
       "ok": "Ok",
       "modalTitle": "Partage",
+      "modalAriaLabel": "Modale de partage",
       "shareButton": "Partager",
       "access": {
         "delete": "Retirer l'accès"

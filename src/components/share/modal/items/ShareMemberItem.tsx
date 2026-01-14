@@ -55,6 +55,7 @@ export const ShareMemberItem = <UserType, AccessType>({
   return (
     <div className="c__share-member-item">
       <QuickSearchItemTemplate
+        testId="share-member-item"
         left={
           <UserRow
             fullName={accessData.user.full_name}
@@ -84,6 +85,7 @@ export const ShareMemberItem = <UserType, AccessType>({
                   color="neutral"
                   variant="tertiary"
                   onClick={handleOpenMenu}
+                  data-testid="share-member-item-more-actions-button"
                   size="small"
                   icon={<span className="material-icons toto">more_horiz</span>}
                 />

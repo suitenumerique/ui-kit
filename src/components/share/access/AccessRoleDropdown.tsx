@@ -54,6 +54,7 @@ export const AccessRoleDropdown = ({
       <div
         role="button"
         className="c__access-role-dropdown"
+        data-testid="access-role-dropdown-button"
         onClick={() => {
           onOpenChange?.(!isOpen);
         }}

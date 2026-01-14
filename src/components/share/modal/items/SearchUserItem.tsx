@@ -14,6 +14,7 @@ export const SearchUserItem = <UserType,>({
 
   return (
     <QuickSearchItemTemplate
+      testId="search-user-item"
       left={<UserRow fullName={user.full_name} email={user.email} />}
       alwaysShowRight={false}
       right={
