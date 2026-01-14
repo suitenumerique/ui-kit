@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - Fix CSS syntax issue in QuickSearch component
+- Fix update type apiUrl in LaGaufreV2 component
 
 ## 0.18.6
 
