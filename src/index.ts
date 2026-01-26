@@ -24,6 +24,7 @@ export * from "./hooks/useResponsive";
 export * from "./hooks/useArrowRoving";
 export * from "./components/share";
 export * from "./components/users";
+export * from "./components/onboarding-modal";
 export * from "./hooks/useCustomTranslations";
 export * from "./utils/get-ui-kit-themes-from-globals";
 export { anctGlobals, dsfrGlobals, whiteLabelGlobals } from "../cunningham";
