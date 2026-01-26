@@ -86,6 +86,15 @@
       "logo": {
         "alt": "Logo du gouvernement français"
       }
+    },
+    "onboarding": {
+      "skip": "Passer",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "complete": "Compris",
+      "stepLabel": "Étape {current} sur {total} : {title}",
+      "currentStepSuffix": " (actuelle)",
+      "contentRegionLabel": "Contenu de l'étape {current} sur {total}"
     }
   }
 }
