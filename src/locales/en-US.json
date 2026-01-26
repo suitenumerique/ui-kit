@@ -87,6 +87,15 @@
       "logo": {
         "alt": "Logo of the French government"
       }
+    },
+    "onboarding": {
+      "skip": "Skip",
+      "next": "Next",
+      "previous": "Previous",
+      "complete": "Understood",
+      "stepLabel": "Step {current} of {total}: {title}",
+      "currentStepSuffix": " (current)",
+      "contentRegionLabel": "Step {current} of {total} content"
     }
   }
 }
