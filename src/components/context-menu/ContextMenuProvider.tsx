@@ -48,6 +48,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const isOpenRef = useRef(false);
+  const onBlurRef = useRef<(() => void) | undefined>(undefined);
   const isNested = existingContext !== null;
 
   // Keep ref in sync with state for use in event handlers
@@ -72,6 +73,9 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
       if (isOpenRef.current) {
         // Prevent native browser context menu
         event.preventDefault();
+        // Call onBlur before closing
+        onBlurRef.current?.();
+        onBlurRef.current = undefined;
         setState((prev) => ({ ...prev, isOpen: false }));
       }
     };
@@ -84,7 +88,15 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   }, [isNested]);
 
   const open = useCallback(
-    (config: { position: { x: number; y: number }; items: MenuItem[] }) => {
+    (config: {
+      position: { x: number; y: number };
+      items: MenuItem[];
+      onBlur?: () => void;
+    }) => {
+      // Call previous trigger's onBlur before opening for new trigger
+      onBlurRef.current?.();
+      onBlurRef.current = config.onBlur;
+
       setState({
         isOpen: true,
         position: config.position,
@@ -95,6 +107,8 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   );
 
   const close = useCallback(() => {
+    onBlurRef.current?.();
+    onBlurRef.current = undefined;
     setState((prev) => ({ ...prev, isOpen: false }));
   }, []);
 

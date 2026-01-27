@@ -1,5 +1,6 @@
 export { ContextMenuProvider, useContextMenuContext } from "./ContextMenuProvider";
 export { ContextMenu } from "./ContextMenu";
+export type { ContextMenuProps } from "./ContextMenu";
 export type {
   // Shared types (preferred)
   MenuItem,
@@ -9,6 +10,4 @@ export type {
   ContextMenuItem,
   ContextMenuItemAction,
   ContextMenuItemSeparator,
-  // Component props
-  ContextMenuProps,
 } from "./types";

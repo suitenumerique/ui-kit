@@ -215,3 +215,31 @@ The `ContextMenu` and `DropdownMenu` components SHALL share a common `MenuItem` 
 #### Scenario: DropdownMenuOption extends MenuItemAction
 - **WHEN** a `DropdownMenuOption` is used
 - **THEN** it SHALL extend `MenuItemAction` with additional properties: `isChecked`, `value`
+
+---
+
+### Requirement: Focus and blur callbacks for trigger tracking
+
+The `ContextMenu` SHALL support `onFocus` and `onBlur` callbacks to notify when the menu opens or closes on a specific trigger. This enables highlighting the right-clicked element while the menu is visible.
+
+#### Scenario: onFocus called when menu opens
+- **WHEN** user right-clicks on a `ContextMenu` trigger
+- **THEN** the `onFocus` callback (if provided) SHALL be called immediately
+- **AND** this SHALL happen before the menu visually appears
+
+#### Scenario: onBlur called when menu closes
+- **WHEN** the menu is open on a specific trigger
+- **AND** the menu closes (via click outside, action selection, or Escape key)
+- **THEN** the `onBlur` callback (if provided) SHALL be called for that trigger
+
+#### Scenario: onBlur called when switching triggers
+- **WHEN** the menu is open on trigger A
+- **AND** user right-clicks on trigger B
+- **THEN** trigger A's `onBlur` callback SHALL be called
+- **AND** trigger B's `onFocus` callback SHALL be called
+- **AND** only trigger B's menu SHALL be visible
+
+#### Scenario: Focus state for highlighting
+- **WHEN** a component uses `onFocus` to set `isFocused = true`
+- **AND** uses `onBlur` to set `isFocused = false`
+- **THEN** the component SHALL be able to apply visual highlighting only while the menu is open on that specific trigger

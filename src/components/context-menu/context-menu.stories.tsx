@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { ContextMenu } from "./ContextMenu";
 import { ContextMenuProvider } from "./ContextMenuProvider";
 import { MenuItem } from "./types";
@@ -88,6 +89,32 @@ import { MenuItem } from "./types";
  *   <li>List item</li>
  * </ContextMenu>
  * ```
+ *
+ * ## Focus tracking with onFocus/onBlur
+ *
+ * Use `onFocus` and `onBlur` callbacks to track when the menu is open on a specific trigger.
+ * This is useful for highlighting the right-clicked element while the menu is visible.
+ *
+ * ```tsx
+ * function FileCard({ file }) {
+ *   const [isFocused, setIsFocused] = useState(false);
+ *
+ *   return (
+ *     <ContextMenu
+ *       options={fileActions}
+ *       onFocus={() => setIsFocused(true)}
+ *       onBlur={() => setIsFocused(false)}
+ *     >
+ *       <div className={isFocused ? "file-card--focused" : "file-card"}>
+ *         {file.name}
+ *       </div>
+ *     </ContextMenu>
+ *   );
+ * }
+ * ```
+ *
+ * - `onFocus`: Called immediately when the menu opens on this trigger
+ * - `onBlur`: Called when the menu closes (click outside, action selected, or right-click elsewhere)
  */
 const meta = {
   title: "Components/ContextMenu",
@@ -119,6 +146,14 @@ const meta = {
     },
     children: {
       description: "Element(s) on which right-click triggers the menu",
+      control: false,
+    },
+    onFocus: {
+      description: "Called when the menu opens on this trigger",
+      control: false,
+    },
+    onBlur: {
+      description: "Called when the menu closes (if it was open on this trigger)",
       control: false,
     },
   },
@@ -418,5 +453,71 @@ export const WithAsChild: Story = {
         </li>
       </ContextMenu>
     </ul>
+  ),
+};
+
+const FileCardWithFocus = ({
+  file,
+}: {
+  file: FileItem;
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <ContextMenu
+      options={getFileMenuItems}
+      context={file}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+    >
+      <div
+        style={{
+          padding: "20px",
+          border: isFocused ? "2px solid #0063cb" : "1px solid #ddd",
+          borderRadius: "8px",
+          textAlign: "center",
+          minWidth: "120px",
+          backgroundColor: isFocused ? "#e8f4fd" : "#fff",
+          cursor: "default",
+          transition: "all 0.15s ease",
+        }}
+      >
+        <span
+          className="material-icons"
+          style={{ fontSize: "48px", color: isFocused ? "#0063cb" : "#666" }}
+        >
+          {file.type === "folder" ? "folder" : "description"}
+        </span>
+        <div style={{ marginTop: "8px" }}>{file.name}</div>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Focus highlighting with onFocus/onBlur callbacks.
+ *
+ * Use `onFocus` and `onBlur` to track when the menu is open on a specific trigger.
+ * This enables highlighting the right-clicked element while the menu is visible.
+ *
+ * - `onFocus`: Called immediately when the menu opens on this trigger
+ * - `onBlur`: Called when the menu closes (click outside, action selected, or right-click elsewhere)
+ *
+ * Try right-clicking on the items below:
+ * - The clicked item highlights with a blue border
+ * - Clicking outside or selecting an action removes the highlight
+ * - Right-clicking another item moves the highlight
+ */
+export const FocusHighlighting: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => (
+    <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+      {files.map((file) => (
+        <FileCardWithFocus key={file.id} file={file} />
+      ))}
+    </div>
   ),
 };
