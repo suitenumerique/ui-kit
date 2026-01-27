@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { MenuItem, MenuItemAction, MenuItemSeparator } from "../menu/types";
 
 // Re-export shared types for backwards compatibility
@@ -19,14 +18,6 @@ export type ContextMenuItemSeparator = MenuItemSeparator;
  */
 export type ContextMenuItem = MenuItem;
 
-export type ContextMenuProps<T = unknown> = {
-  children: ReactNode;
-  options: MenuItem[] | ((context: T) => MenuItem[]);
-  context?: T;
-  disabled?: boolean;
-  asChild?: boolean;
-};
-
 export type ContextMenuState = {
   isOpen: boolean;
   position: { x: number; y: number };
@@ -34,6 +25,10 @@ export type ContextMenuState = {
 };
 
 export type ContextMenuContextValue = {
-  open: (config: { position: { x: number; y: number }; items: MenuItem[] }) => void;
+  open: (config: {
+    position: { x: number; y: number };
+    items: MenuItem[];
+    onBlur?: () => void;
+  }) => void;
   close: () => void;
 };

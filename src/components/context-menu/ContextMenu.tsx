@@ -3,9 +3,22 @@ import {
   isValidElement,
   MouseEvent,
   ReactElement,
+  ReactNode,
 } from "react";
 import { useContextMenuContext } from "./ContextMenuProvider";
-import { MenuItem, ContextMenuProps } from "./types";
+import { MenuItem } from "./types";
+
+export type ContextMenuProps<T = unknown> = {
+  children: ReactNode;
+  options: MenuItem[] | ((context: T) => MenuItem[]);
+  context?: T;
+  disabled?: boolean;
+  asChild?: boolean;
+  /** Called when the menu opens on this trigger */
+  onFocus?: () => void;
+  /** Called when the menu closes (if it was open on this trigger) */
+  onBlur?: () => void;
+};
 
 type ChildProps = {
   onContextMenu?: (event: MouseEvent) => void;
@@ -18,6 +31,8 @@ export const ContextMenu = <T,>({
   context,
   disabled = false,
   asChild = false,
+  onFocus,
+  onBlur,
 }: ContextMenuProps<T>) => {
   const { open } = useContextMenuContext();
 
@@ -32,9 +47,13 @@ export const ContextMenu = <T,>({
     const items: MenuItem[] =
       typeof options === "function" ? options(context as T) : options;
 
+    // Call onFocus immediately when menu opens on this trigger
+    onFocus?.();
+
     open({
       position: { x: event.clientX, y: event.clientY },
       items,
+      onBlur,
     });
   };
 
