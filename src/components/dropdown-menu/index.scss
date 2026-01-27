@@ -3,6 +3,12 @@
   align-items: center;
   justify-content: center;
 }
+
+// Remove default React Aria Popover outline
+.react-aria-Popover {
+  outline: none;
+}
+
 .c__dropdown-menu {
   background-color: var(--c--contextuals--background--surface--primary);
   z-index: 1000;
@@ -48,6 +54,10 @@
   color: var(--c--contextuals--content--semantic--neutral--primary);
   align-items: center;
   forced-color-adjust: none;
+
+  &--danger {
+    color: var(--c--contextuals--content--semantic--negative--primary, #c9191e);
+  }
 
   &__label-container {
     display: flex;
