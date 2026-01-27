@@ -1,14 +1,18 @@
-import { ReactNode } from "react";
+import { MenuItemAction, MenuItemSeparator } from "../menu/types";
 
-export type DropdownMenuOption = {
-  label: string;
-  subText?: string;
-  icon?: ReactNode;
-  callback?: () => void | Promise<unknown>;
-  isDisabled?: boolean;
-  showSeparator?: boolean;
-  isHidden?: boolean;
+/**
+ * DropdownMenu option extending the shared MenuItemAction
+ * Adds selection-specific props: isChecked, value
+ * @deprecated showSeparator - use MenuItemSeparator instead
+ */
+export type DropdownMenuOption = MenuItemAction & {
   isChecked?: boolean;
-  testId?: string;
   value?: string;
+  /** @deprecated Use MenuItem with { type: "separator" } instead */
+  showSeparator?: boolean;
 };
+
+/**
+ * Union type for DropdownMenu items (supports separators)
+ */
+export type DropdownMenuItem = DropdownMenuOption | MenuItemSeparator;
