@@ -1,9 +1,14 @@
 import { Menu, MenuItem, Popover, Separator } from "react-aria-components";
-import { DropdownMenuOption } from "./types";
+import { DropdownMenuItem } from "./types";
 import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
+import { MenuItemSeparator } from "../menu/types";
+
+const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
+  return "type" in item && item.type === "separator";
+};
 
 export type DropdownMenuProps = {
-  options: DropdownMenuOption[];
+  options: DropdownMenuItem[];
   onOpenChange?: (isOpen: boolean) => void;
   selectedValues?: string[];
   onSelectValue?: (value: string) => void;
@@ -57,16 +62,23 @@ export const DropdownMenu = ({
               {topMessage}
             </MenuItem>
           )}
-          {options.map((option) => {
+          {options.map((option, index) => {
+            // Handle separator items
+            if (isSeparator(option)) {
+              return <Separator key={`separator-${index}`} />;
+            }
+
             if (option.isHidden) {
               return null;
             }
+
+            const itemKey = option.id || option.label;
+
             return (
-              <Fragment key={option.label}>
+              <Fragment key={itemKey}>
                 <MenuItem
-                  className="c__dropdown-menu-item"
+                  className={`c__dropdown-menu-item${option.variant === "danger" ? " c__dropdown-menu-item--danger" : ""}`}
                   aria-label={option.label}
-                  key={option.label}
                   onAction={() => {
                     if (option.value) {
                       onSelectValue?.(option.value);
@@ -75,6 +87,7 @@ export const DropdownMenu = ({
                     onOpenChangeHandler(false);
                   }}
                   isDisabled={option.isDisabled}
+                  data-testid={option.testId}
                 >
                   {option.icon}
                   <div className="c__dropdown-menu-item__label-container">
@@ -96,6 +109,7 @@ export const DropdownMenu = ({
                     <span className="material-icons checked">check</span>
                   )}
                 </MenuItem>
+                {/* @deprecated: use { type: "separator" } instead */}
                 {option.showSeparator && <Separator />}
               </Fragment>
             );
