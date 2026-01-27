@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
+import { DropdownMenuItem } from ":/components/dropdown-menu/types";
 import { useState } from "react";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -88,6 +89,60 @@ export const Default: Story = {
         <div style={{ display: "flex", gap: "10px" }}>
           <Button onClick={() => setIsOpen(!isOpen)}>Open</Button>
         </div>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * Using separator items and danger variant.
+ * The `{ type: "separator" }` item creates a visual divider between menu sections.
+ * The `variant: "danger"` makes the item red for destructive actions.
+ */
+const optionsWithSeparators: DropdownMenuItem[] = [
+  {
+    icon: <span className="material-icons">open_in_new</span>,
+    label: "Ouvrir",
+    callback: () => alert("Ouvrir"),
+  },
+  {
+    icon: <span className="material-icons">download</span>,
+    label: "Télécharger",
+    callback: () => alert("Télécharger"),
+  },
+  { type: "separator" },
+  {
+    icon: <span className="material-icons">edit</span>,
+    label: "Renommer",
+    callback: () => alert("Renommer"),
+  },
+  {
+    icon: <span className="material-icons">content_copy</span>,
+    label: "Dupliquer",
+    callback: () => alert("Dupliquer"),
+  },
+  { type: "separator" },
+  {
+    icon: <span className="material-icons">delete</span>,
+    label: "Supprimer",
+    callback: () => alert("Supprimer"),
+    variant: "danger",
+  },
+];
+
+export const WithSeparatorsAndDanger: Story = {
+  args: {
+    options: optionsWithSeparators,
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
       </DropdownMenu>
     );
   },
