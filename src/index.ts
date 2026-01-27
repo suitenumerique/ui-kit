@@ -4,6 +4,7 @@ export * from "./components/Provider/Provider";
 export * from "./locales/Locale";
 export * from "./components/button";
 export * from "./components/dropdown-menu";
+export * from "./components/context-menu";
 export * from "./components/footer/Footer";
 export * from "./components/filter/Filter";
 export * from "./components/hero/Hero";
