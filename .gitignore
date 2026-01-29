@@ -59,3 +59,4 @@ db.sqlite3
 node_modules
 .claude/
 CLAUDE.md
+openspec/
