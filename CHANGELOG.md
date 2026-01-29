@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## 0.19.0
+
+### Minor Changes 
+
+- Add ContextMenu component 
+- Add OnBoardingModal component
+
 ## 0.18.7
 
 ### Minor Changes
