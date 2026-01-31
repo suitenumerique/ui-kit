@@ -28,10 +28,18 @@ type ServicesResponse = {
   error?: unknown;
 };
 
-export type LaGaufreV2Props = {
-  widgetPath: string;
+type LaGaufreV2API = {
   apiUrl: string;
-  data?: ServicesResponse;
+  data?: never;
+};
+
+type LaGaufreV2Data = {
+  apiUrl?: never;
+  data: ServicesResponse;
+};
+
+export type LaGaufreV2Props = {
+  widgetPath?: string;
   fontFamily?: string;
   background?: string;
   headerLogo?: string;
@@ -44,7 +52,8 @@ export type LaGaufreV2Props = {
   showMoreLimit?: number;
   viewMoreLabel?: string;
   viewLessLabel?: string;
-};
+} & (LaGaufreV2API | LaGaufreV2Data);
+
 export const LaGaufreV2 = memo(
   ({ apiUrl, data, ...props }: LaGaufreV2Props) => {
     const { t } = useCunningham();
@@ -53,9 +62,9 @@ export const LaGaufreV2 = memo(
 
     const widgetPath = useMemo(
       () =>
-        props.widgetPath ||
+        props?.widgetPath ||
         "https://static.suite.anct.gouv.fr/widgets/lagaufre.js",
-      [props.widgetPath]
+      [props?.widgetPath]
     );
 
     const defaultApiUrl = data?.services ? undefined : apiUrl;
