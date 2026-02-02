@@ -47,6 +47,9 @@ export interface OnboardingModalProps {
   /** Callback when user clicks the close button */
   onClose: () => void;
 
+  /** Hide the content/preview zone (text-only mode) */
+  hideContent?: boolean;
+
   /** Custom labels for i18n */
   labels?: {
     skip?: string;
@@ -67,6 +70,7 @@ export const OnboardingModal = ({
   steps,
   initialStep = 0,
   footerLink,
+  hideContent,
   onSkip,
   onComplete,
   onClose,
@@ -88,12 +92,12 @@ export const OnboardingModal = ({
   // Labels with i18n fallbacks
   const labelSkip = labels?.skip ?? t("components.onboarding.skip");
   const labelNext = labels?.next ?? t("components.onboarding.next");
-  const labelPrevious =
-    labels?.previous ?? t("components.onboarding.previous");
+  const labelPrevious = labels?.previous ?? t("components.onboarding.previous");
   const labelComplete = labels?.complete ?? t("components.onboarding.complete");
 
   // displayedStep for content (delayed), currentStep for step list highlighting (immediate)
   const activeStep = steps[displayedStep];
+  const showContentZone = !hideContent && !!activeStep?.content;
 
   /**
    * Generates accessible label for a step button.
@@ -245,7 +249,10 @@ export const OnboardingModal = ({
 
   // Validate initialStep bounds
   const safeInitialStep = Math.max(0, Math.min(initialStep, steps.length - 1));
-  if (safeInitialStep !== initialStep && process.env.NODE_ENV === "development") {
+  if (
+    safeInitialStep !== initialStep &&
+    process.env.NODE_ENV === "development"
+  ) {
     console.warn(
       `OnboardingModal: initialStep (${initialStep}) is out of bounds. Using ${safeInitialStep} instead.`,
     );
@@ -267,7 +274,9 @@ export const OnboardingModal = ({
       <span className="material-icons" aria-hidden="true">
         info
       </span>
-      {footerLink.label}
+      <span className="c__onboarding-modal__footer-link__label">
+        {footerLink.label}
+      </span>
     </a>
   ) : undefined;
 
@@ -325,7 +334,11 @@ export const OnboardingModal = ({
           <h2 className="c__onboarding-modal__main-title">{mainTitle}</h2>
         </div>
 
-        <div className="c__onboarding-modal__body">
+        <div
+          className={clsx("c__onboarding-modal__body", {
+            "c__onboarding-modal__body--text-only": !showContentZone,
+          })}
+        >
           {/* Desktop: Steps list with keyboard navigation */}
           <div
             ref={stepsContainerRef}
@@ -351,41 +364,45 @@ export const OnboardingModal = ({
           </div>
 
           {/* Content zone with ARIA live region */}
-          <div
-            className="c__onboarding-modal__content"
-            role="tabpanel"
-            aria-live="polite"
-            aria-atomic="true"
-            aria-label={getContentRegionLabel()}
-          >
+          {showContentZone && (
             <div
-              className={clsx("c__onboarding-modal__content-inner", {
-                "c__onboarding-modal__content-inner--fading": isFading,
-              })}
+              className="c__onboarding-modal__content"
+              role="tabpanel"
+              aria-live="polite"
+              aria-atomic="true"
+              aria-label={getContentRegionLabel()}
             >
-              {activeStep?.content}
+              <div
+                className={clsx("c__onboarding-modal__content-inner", {
+                  "c__onboarding-modal__content-inner--fading": isFading,
+                })}
+              >
+                {activeStep?.content}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Mobile: Current step info */}
-          <div className="c__onboarding-modal__mobile-step">
-            <div
-              className="c__onboarding-modal__mobile-step__icon"
-              aria-hidden="true"
-            >
-              {activeStep && getStepIcon(activeStep, true)}
-            </div>
-            <div className="c__onboarding-modal__mobile-step__content">
-              <span className="c__onboarding-modal__mobile-step__title">
-                {activeStep?.title}
-              </span>
-              {activeStep?.description && (
-                <span className="c__onboarding-modal__mobile-step__description">
-                  {activeStep.description}
+          {showContentZone && (
+            <div className="c__onboarding-modal__mobile-step">
+              <div
+                className="c__onboarding-modal__mobile-step__icon"
+                aria-hidden="true"
+              >
+                {activeStep && getStepIcon(activeStep, true)}
+              </div>
+              <div className="c__onboarding-modal__mobile-step__content">
+                <span className="c__onboarding-modal__mobile-step__title">
+                  {activeStep?.title}
                 </span>
-              )}
+                {activeStep?.description && (
+                  <span className="c__onboarding-modal__mobile-step__description">
+                    {activeStep.description}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </Modal>
