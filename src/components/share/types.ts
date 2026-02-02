@@ -9,9 +9,10 @@ export type InvitationData<UserType, T> = T & {
 
 
 export type AccessData<UserType, T > = T & {
-  id: string; 
+  id: string;
   role: string;
   user: UserData<UserType>;
+  is_explicit?: boolean;
 };
 
 
