@@ -34,6 +34,9 @@ export const InvitationItem = {
           },
         }}
         roles={roles}
+        deleteInvitation={(invitation) =>
+          alert(`Delete invitation ${invitation.id}`)
+        }
       />
     </Wrapper>
   ),
@@ -54,6 +57,51 @@ export const MemberItem = {
           },
         }}
         roles={roles}
+        deleteAccess={(access) => alert(`Delete access ${access.id}`)}
+      />
+    </Wrapper>
+  ),
+};
+
+export const MemberItemExplicitAccess = {
+  render: () => (
+    <Wrapper>
+      <ShareMemberItem
+        accessData={{
+          id: "2",
+          email: "explicit@test.com",
+          role: "editor",
+          is_explicit: true,
+          user: {
+            id: "2",
+            email: "explicit@test.com",
+            full_name: "Jane Doe",
+          },
+        }}
+        roles={roles}
+        deleteAccess={(access) => alert(`Delete access ${access.id}`)}
+      />
+    </Wrapper>
+  ),
+};
+
+export const MemberItemImplicitAccess = {
+  render: () => (
+    <Wrapper>
+      <ShareMemberItem
+        accessData={{
+          id: "3",
+          email: "implicit@test.com",
+          role: "editor",
+          is_explicit: false,
+          user: {
+            id: "3",
+            email: "implicit@test.com",
+            full_name: "Bob Martin",
+          },
+        }}
+        roles={roles}
+        deleteAccess={(access) => alert(`Delete access ${access.id}`)}
       />
     </Wrapper>
   ),
