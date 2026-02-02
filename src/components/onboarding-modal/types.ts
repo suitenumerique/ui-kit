@@ -10,5 +10,5 @@ export interface OnboardingStep {
   /** Step description, visible only when the step is active */
   description?: string;
   /** Content displayed in the preview zone (image, video, component, etc.) */
-  content: ReactNode;
+  content?: ReactNode;
 }

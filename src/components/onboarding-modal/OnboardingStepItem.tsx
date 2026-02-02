@@ -49,10 +49,12 @@ export const OnboardingStepItem = forwardRef<
       </div>
       <div className="c__onboarding-modal__step__content">
         <span className="c__onboarding-modal__step__title">{step.title}</span>
-        {isActive && step.description && (
-          <span className="c__onboarding-modal__step__description">
-            {step.description}
-          </span>
+        {step.description && (
+          <div className="c__onboarding-modal__step__description-wrapper">
+            <span className="c__onboarding-modal__step__description">
+              {step.description}
+            </span>
+          </div>
         )}
       </div>
     </button>
