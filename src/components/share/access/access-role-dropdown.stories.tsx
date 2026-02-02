@@ -44,3 +44,35 @@ export const Default: Story = {
     );
   },
 };
+
+export const WithDelete: Story = {
+  args: {
+    selectedRole: "editor",
+    roles: [
+      { label: "Admin", value: "admin" },
+      { label: "Editor", value: "editor" },
+      { label: "Viewer", value: "viewer" },
+    ],
+    onSelect: () => {},
+    canUpdate: true,
+    isOpen: false,
+    onOpenChange: () => {},
+    onDelete: () => alert("Delete access"),
+  },
+  render: (args) => {
+    const [selectedRole, setSelectedRole] = useState(args.selectedRole);
+    const [isOpen, setIsOpen] = useState(args.isOpen);
+
+    return (
+      <AccessRoleDropdown
+        selectedRole={selectedRole}
+        roles={args.roles}
+        onSelect={setSelectedRole}
+        canUpdate={args.canUpdate}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        onDelete={args.onDelete}
+      />
+    );
+  },
+};
