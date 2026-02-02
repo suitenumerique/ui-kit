@@ -1,5 +1,8 @@
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useMemo } from "react";
 import {
   DropdownMenu,
+  DropdownMenuItem,
   DropdownMenuOption,
   DropdownMenuProps,
 } from ":/components/dropdown-menu";
@@ -12,6 +15,7 @@ type AccessRoleDropdownProps = {
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   roleTopMessage?: DropdownMenuProps["topMessage"];
+  onDelete?: () => void;
 };
 
 export const AccessRoleDropdown = ({
@@ -22,8 +26,25 @@ export const AccessRoleDropdown = ({
   isOpen,
   onOpenChange,
   roleTopMessage,
+  onDelete,
 }: AccessRoleDropdownProps) => {
+  const { t } = useCunningham();
+
   const currentRoleString = roles.find((role) => role.value === selectedRole);
+
+  const options: DropdownMenuItem[] = useMemo(() => {
+    if (!onDelete) {
+      return roles;
+    }
+    return [
+      ...roles,
+      { type: "separator" as const },
+      {
+        label: t("components.share.access.delete"),
+        callback: onDelete,
+      },
+    ];
+  }, [roles, onDelete, t]);
 
   if (!canUpdate) {
     return (
@@ -37,7 +58,7 @@ export const AccessRoleDropdown = ({
       isOpen={isOpen}
       shouldCloseOnInteractOutside={(element) => {
         const isAccessRoleDropdown = element.closest(
-          ".c__access-role-dropdown"
+          ".c__access-role-dropdown",
         );
         // If the element is not a child of the access role dropdown, close the dropdown
         if (isAccessRoleDropdown) {
@@ -46,7 +67,7 @@ export const AccessRoleDropdown = ({
         return true;
       }}
       onOpenChange={onOpenChange}
-      options={roles}
+      options={options}
       selectedValues={[selectedRole]}
       onSelectValue={onSelect}
       topMessage={roleTopMessage}

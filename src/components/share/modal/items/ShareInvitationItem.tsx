@@ -1,12 +1,7 @@
 import { QuickSearchItemTemplate } from ":/components/quick-search";
 import { InvitationData } from "../../types";
 import { UserRow } from ":/components/users/rows/UserRow";
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
-import {
-  DropdownMenu,
-  DropdownMenuOption,
-  useDropdownMenu,
-} from ":/components/dropdown-menu";
+import { DropdownMenuOption, useDropdownMenu } from ":/components/dropdown-menu";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
 
 export type ShareInvitationItemProps<UserType, InvitationType> = {
@@ -21,7 +16,6 @@ export type ShareInvitationItemProps<UserType, InvitationType> = {
   ) => void;
   canUpdate?: boolean;
   roleTopMessage?: string;
-  showMoreActionsButton?: boolean;
 };
 
 export const ShareInvitationItem = <UserType, InvitationType>({
@@ -30,25 +24,9 @@ export const ShareInvitationItem = <UserType, InvitationType>({
   updateRole,
   deleteInvitation,
   canUpdate = true,
-  showMoreActionsButton = true,
   roleTopMessage,
 }: ShareInvitationItemProps<UserType, InvitationType>) => {
-  const { t } = useCunningham();
   const roleDropdown = useDropdownMenu();
-  const menuOptions = useDropdownMenu();
-  const options: DropdownMenuOption[] = [
-    {
-      label: t("components.share.access.delete"),
-      callback: () => deleteInvitation?.(invitation),
-      isDisabled: !canUpdate,
-      icon: <span className="material-icons">back_hand</span>,
-    },
-  ];
-
-  const handleOpenMenu = () => {
-    const isOpen = menuOptions.isOpen;
-    menuOptions.setIsOpen(!isOpen);
-  };
 
   return (
     <div className="c__share-member-item">
@@ -66,22 +44,12 @@ export const ShareInvitationItem = <UserType, InvitationType>({
               canUpdate={canUpdate}
               onOpenChange={roleDropdown.setIsOpen}
               roleTopMessage={roleTopMessage}
+              onDelete={
+                deleteInvitation
+                  ? () => deleteInvitation(invitation)
+                  : undefined
+              }
             />
-            {showMoreActionsButton && canUpdate && (
-              <DropdownMenu
-                options={options}
-                isOpen={menuOptions.isOpen}
-                onOpenChange={menuOptions.setIsOpen}
-              >
-                <Button
-                  color="neutral"
-                  variant="tertiary"
-                  onClick={handleOpenMenu}
-                  size="small"
-                  icon={<span className="material-icons toto">more_horiz</span>}
-                />
-              </DropdownMenu>
-            )}
           </div>
         }
       />
