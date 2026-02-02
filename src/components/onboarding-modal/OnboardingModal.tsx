@@ -383,7 +383,7 @@ export const OnboardingModal = ({
           )}
 
           {/* Mobile: Current step info */}
-          {showContentZone && (
+          {(showContentZone || hideContent) && (
             <div className="c__onboarding-modal__mobile-step">
               <div
                 className="c__onboarding-modal__mobile-step__icon"
