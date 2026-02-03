@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.19.3
+
+### Patch Changes
+
+- Fix the ReleaseNoteModal component
+
 ## 0.19.2
 
 ### Minor Changes 
