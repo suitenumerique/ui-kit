@@ -52,7 +52,9 @@ export const ShareMemberItem = <UserType, AccessType>({
               canUpdate={canUpdate}
               roleTopMessage={roleTopMessage}
               onDelete={
-                accessData.is_explicit !== false && deleteAccess
+                accessData.is_explicit !== false &&
+                accessData.can_delete !== false &&
+                deleteAccess
                   ? () => deleteAccess(accessData)
                   : undefined
               }
