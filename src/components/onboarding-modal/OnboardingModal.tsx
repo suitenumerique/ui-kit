@@ -261,6 +261,7 @@ export const OnboardingModal = ({
   const leftActions = footerLink ? (
     <a
       className="c__onboarding-modal__footer-link"
+      target="_blank"
       href={footerLink.href}
       onClick={(e) => {
         if (footerLink.onClick) {
