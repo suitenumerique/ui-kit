@@ -101,6 +101,7 @@ $transition-duration: 200ms;
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--4xs);
+  margin-top: 2px;
 }
 
 .c__onboarding-modal__step__title {
@@ -133,7 +134,7 @@ $transition-duration: 200ms;
 }
 
 .c__onboarding-modal__step__description {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--c--contextuals--content--semantic--neutral--secondary);
   line-height: 1.4;
 }
@@ -180,16 +181,18 @@ $transition-duration: 200ms;
   .c__onboarding-modal__steps {
     width: 100%;
     padding-right: 0;
+    height: auto;
+    max-height: 350px;
   }
 }
 
 .c__onboarding-modal__footer-link {
   display: flex;
   align-items: center;
-  gap: var(--c--globals--spacings--3xs);
-  font-size: var(--c--globals--font--sizes--sm);
-  color: var(--c--contextuals--content--semantic--neutral--secondary);
-  padding-left: var(--c--globals--spacings--sm);
+  gap: 7px;
+  font-size: var(--c--globals--font--sizes--base);
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  padding-left: 16px;
   text-decoration: none;
 
   &:hover .c__onboarding-modal__footer-link__label {
@@ -197,7 +200,7 @@ $transition-duration: 200ms;
   }
 
   .material-icons {
-    font-size: 1rem;
+    font-size: 24px;
   }
 }
 
