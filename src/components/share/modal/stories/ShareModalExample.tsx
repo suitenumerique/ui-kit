@@ -55,9 +55,10 @@ export const ShareModalExample = (props: {
     return ids.map((id) => ({
       id: id.toString(),
       name: "John Doe " + id,
-
       email: "john.doe@example.com " + id,
       role: id === 1 ? "viewer" : "admin",
+      // Example: the first member cannot be deleted (e.g., last admin or current user)
+      can_delete: id !== 1,
       user: {
         id: id.toString(),
         full_name: "John Doe " + id,
