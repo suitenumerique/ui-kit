@@ -53,6 +53,10 @@
 - Add ReleaseNoteModal component
 - Move delete access into AccessRoleDropdown.
 
+### Minor Changes
+
+- Fix and improve dropdown menu focus and semantics
+
 ### Patch Changes
 
 - Fix update type apiUrl in LaGaufreV2 component
