@@ -107,6 +107,28 @@ export const MemberItemImplicitAccess = {
   ),
 };
 
+export const MemberItemCannotDelete = {
+  render: () => (
+    <Wrapper>
+      <ShareMemberItem
+        accessData={{
+          id: "4",
+          email: "nodelete@test.com",
+          role: "admin",
+          can_delete: false,
+          user: {
+            id: "4",
+            email: "nodelete@test.com",
+            full_name: "Alice Smith",
+          },
+        }}
+        roles={roles}
+        deleteAccess={(access) => alert(`Delete access ${access.id}`)}
+      />
+    </Wrapper>
+  ),
+};
+
 export const SearchResultUserItem = {
   render: () => (
     <Wrapper>
