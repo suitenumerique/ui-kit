@@ -2,9 +2,17 @@
 
 ## [Unreleased]
 
+## 0.19.1
+
+### Minor Changes 
+
+- Add ReleaseNoteModal component
+- Move delete access into AccessRoleDropdown.
+
 ### Patch Changes
 
 - Fix update type apiUrl in LaGaufreV2 component
+- Fix animation on OnboardingModal
 
 ## 0.19.0
 
