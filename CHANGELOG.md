@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Minor Changes 
+
+-  add can_delete property and improve ShareModal Storybook docs 
+
 ## 0.19.1
 
 ### Minor Changes 
