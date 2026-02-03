@@ -53,10 +53,11 @@ export const DropdownMenu = ({
           marginTop: "0px",
         }}
         isOpen={isOpen}
+        isNonModal
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className="c__dropdown-menu" aria-labelledby={id}>
+        <Menu className="c__dropdown-menu" aria-labelledby={id} autoFocus="first">
           {topMessage && (
             <MenuItem className="c__dropdown-menu-item-top-message">
               {topMessage}
