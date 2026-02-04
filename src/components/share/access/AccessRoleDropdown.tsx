@@ -16,6 +16,7 @@ type AccessRoleDropdownProps = {
   onOpenChange?: (isOpen: boolean) => void;
   roleTopMessage?: DropdownMenuProps["topMessage"];
   onDelete?: () => void;
+  canDelete?: boolean;
 };
 
 export const AccessRoleDropdown = ({
@@ -27,24 +28,23 @@ export const AccessRoleDropdown = ({
   onOpenChange,
   roleTopMessage,
   onDelete,
+  canDelete = true,
 }: AccessRoleDropdownProps) => {
   const { t } = useCunningham();
 
   const currentRoleString = roles.find((role) => role.value === selectedRole);
 
   const options: DropdownMenuItem[] = useMemo(() => {
-    if (!onDelete) {
-      return roles;
-    }
     return [
       ...roles,
       { type: "separator" as const },
       {
         label: t("components.share.access.delete"),
         callback: onDelete,
+        isDisabled: !canDelete,
       },
     ];
-  }, [roles, onDelete, t]);
+  }, [roles, onDelete, t, canDelete]);
 
   if (!canUpdate) {
     return (

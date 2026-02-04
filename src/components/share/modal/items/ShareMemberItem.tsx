@@ -28,7 +28,8 @@ export const ShareMemberItem = <UserType, AccessType>({
   roleTopMessage,
 }: ShareMemberItemProps<UserType, AccessType>) => {
   const roleDropdown = useDropdownMenu();
-
+  const canDelete =
+    accessData.is_explicit !== false && accessData.can_delete !== false;
   return (
     <div className="c__share-member-item">
       <QuickSearchItemTemplate
@@ -51,10 +52,9 @@ export const ShareMemberItem = <UserType, AccessType>({
               onOpenChange={roleDropdown.setIsOpen}
               canUpdate={canUpdate}
               roleTopMessage={roleTopMessage}
+              canDelete={canDelete}
               onDelete={
-                accessData.is_explicit !== false &&
-                accessData.can_delete !== false &&
-                deleteAccess
+                canDelete && deleteAccess
                   ? () => deleteAccess(accessData)
                   : undefined
               }
