@@ -46,6 +46,8 @@ export const InvitationUserSelectorList = <UserType,>({
           onSelect={onSelectRole}
           isOpen={isOpen}
           onOpenChange={setIsOpen}
+          canDelete={false}
+          onDelete={undefined}
         />
         <Button onClick={onShare}>
           {shareButtonLabel ?? t("components.share.shareButton")}
