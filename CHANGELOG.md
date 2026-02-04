@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.19.5
+
+### Patch Changes
+
+- Fix the delete option visibility in access role dropdown 
+
 ## 0.19.4
 
 ### Patch Changes
