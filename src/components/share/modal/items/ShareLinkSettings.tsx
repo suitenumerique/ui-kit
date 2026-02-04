@@ -10,7 +10,7 @@ import LogoPublicSelected from ":/components/share/assets/link_reach/public_sele
 import LogoPrivateSelected from ":/components/share/assets/link_reach/private_selected.svg";
 import LogoAuthenticatedSelected from ":/components/share/assets/link_reach/authenticated_selected.svg";
 import { Button } from "@gouvfr-lasuite/cunningham-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
 import {
   CustomTranslations,
@@ -68,10 +68,13 @@ export const ShareLinkSettings = ({
   const [selectedLinkReachValues, setSelectedLinkReachValues] = useState<
     string[]
   >([linkReach]);
+
   const selectedLinkReach = selectedLinkReachValues[0];
+
   const [selectedLinkRoleValues, setSelectedLinkRoleValues] = useState<
     string[]
   >([linkRole]);
+
   const selectedLinkRole = selectedLinkRoleValues[0];
   const { t } = useCustomTranslations(customTranslations);
 
@@ -84,17 +87,17 @@ export const ShareLinkSettings = ({
           label: t(
             ("components.share.linkSettings.reach.choices." +
               choice.value +
-              ".title") as TranslationKey
+              ".title") as TranslationKey,
           ),
           ...choice,
         };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [linkReachChoices]
+    [linkReachChoices],
   );
   const selectedLinkReachChoice = useMemo(
     () => reachChoices.find((choice) => choice.value === selectedLinkReach),
-    [reachChoices, selectedLinkReach]
+    [reachChoices, selectedLinkReach],
   );
 
   const roleChoices = useMemo(
@@ -105,18 +108,21 @@ export const ShareLinkSettings = ({
           label: t(
             ("components.share.linkSettings.role.choices." +
               choice.value +
-              ".title") as TranslationKey
+              ".title") as TranslationKey,
           ),
           ...choice,
         };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [linkRoleChoices]
+    [linkRoleChoices],
   );
-  const selectedLinkRoleChoice = useMemo(
-    () => roleChoices.find((choice) => choice.value === selectedLinkRole),
-    [roleChoices, selectedLinkRole]
-  );
+  const selectedLinkRoleChoice = useMemo(() => {
+    return roleChoices.find((choice) => choice.value === selectedLinkRole);
+  }, [roleChoices, selectedLinkRole]);
+
+  useEffect(() => {
+    setSelectedLinkReachValues([linkReach]);
+  }, [linkReach]);
 
   const showLinkRoleEffectively = showLinkRole && linkRoleChoices.length > 0;
 
@@ -223,14 +229,14 @@ export const ShareLinkSettings = ({
         {renderLinkReach()}
         <div className="c__share-modal__link-settings__content__description desktop">
           {t(
-            `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey
+            `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey,
           )}
         </div>
         {renderLinkRole()}
       </div>
       <div className="c__share-modal__link-settings__content__description mobile">
         {t(
-          `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey
+          `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey,
         )}
       </div>
     </div>
