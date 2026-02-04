@@ -35,6 +35,10 @@ export const AccessRoleDropdown = ({
   const currentRoleString = roles.find((role) => role.value === selectedRole);
 
   const options: DropdownMenuItem[] = useMemo(() => {
+    if (!onDelete && !canDelete) {
+      return roles;
+    }
+
     return [
       ...roles,
       { type: "separator" as const },
