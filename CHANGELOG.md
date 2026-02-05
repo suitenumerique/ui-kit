@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.19.6
+
+### Minor Changes
+
+- upgrade cunningham-react to 4.2.0
+
 ## 0.19.5
 
 ### Patch Changes
