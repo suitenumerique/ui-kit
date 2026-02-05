@@ -38,7 +38,7 @@
     "@dnd-kit/modifiers": "9.0.0",
     "@dnd-kit/sortable": "10.0.0",
     "@fontsource/material-icons": "5.2.5",
-    "@gouvfr-lasuite/cunningham-react": "4.1.0",
+    "@gouvfr-lasuite/cunningham-react": "4.2.0",
     "@gouvfr-lasuite/cunningham-tokens": "3.1.0",
     "@gouvfr-lasuite/integration": "1.0.2",
     "@types/node": "22.10.7",
