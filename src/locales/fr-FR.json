@@ -41,7 +41,7 @@
             },
             "restricted": {
               "title": "Privé",
-              "description": "Seulement les utilisateurs de l'espace peuvent y avoir accès"
+              "description": "Seules les personnes avec accès peuvent l'ouvrir à l'aide du lien"
             },
             "authenticated": {
               "title": "Authenticated",
