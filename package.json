@@ -32,7 +32,8 @@
     "build-theme": "cunningham -g css,scss,ts -o src && mv src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-icons": "tsx scripts/generate-icons.ts"
+    "generate-icons": "tsx scripts/generate-icons.ts",
+    "scalingo-postbuild": "yarn build && yarn build-storybook"
   },
   "dependencies": {
     "@dnd-kit/core": "6.3.1",

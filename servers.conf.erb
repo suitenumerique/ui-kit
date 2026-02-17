@@ -1,0 +1,16 @@
+server {
+    listen <%= ENV["PORT"] %>;
+    server_name _;
+    server_tokens off;
+
+    root /app/build/frontend-out;
+
+    location ~* \.(css|js|json|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
