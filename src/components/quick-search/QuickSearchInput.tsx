@@ -47,6 +47,7 @@ export const QuickSearchInput = ({
             e.stopPropagation();
           }}
           role="combobox"
+          className="quick-search-input"
           value={inputValue}
           placeholder={placeholder}
           onValueChange={onFilter}
