@@ -2,7 +2,7 @@
   "components": {
     "share": {
       "copyLink": "Copier le lien",
-      "ok": "Ok",
+      "ok": "OK",
       "modalTitle": "Partage",
       "modalAriaLabel": "Modale de partage",
       "shareButton": "Partager",
