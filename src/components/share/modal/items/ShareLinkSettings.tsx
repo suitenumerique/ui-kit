@@ -3,12 +3,6 @@ import {
   DropdownMenuProps,
 } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
-import LogoPublic from ":/components/share/assets/link_reach/public.svg";
-import LogoPrivate from ":/components/share/assets/link_reach/private.svg";
-import LogoAuthenticated from ":/components/share/assets/link_reach/authenticated.svg";
-import LogoPublicSelected from ":/components/share/assets/link_reach/public_selected.svg";
-import LogoPrivateSelected from ":/components/share/assets/link_reach/private_selected.svg";
-import LogoAuthenticatedSelected from ":/components/share/assets/link_reach/authenticated_selected.svg";
 import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { useEffect, useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
@@ -17,20 +11,20 @@ import {
   useCustomTranslations,
 } from ":/hooks/useCustomTranslations";
 import { TranslationKey } from ":/types/translations";
+import {
+  AuthenticatedIcon,
+  PublicIcon,
+  RestrictedIcon,
+} from "./share-modal-icons";
 
-const getIcon = (value: string | undefined, selected: boolean = false) => {
+const getIcon = (value: string | undefined) => {
   switch (value) {
     case "public":
-      return <img src={selected ? LogoPublicSelected : LogoPublic} alt="" />;
+      return <PublicIcon />;
     case "restricted":
-      return <img src={selected ? LogoPrivateSelected : LogoPrivate} alt="" />;
+      return <RestrictedIcon />;
     case "authenticated":
-      return (
-        <img
-          src={selected ? LogoAuthenticatedSelected : LogoAuthenticated}
-          alt=""
-        />
-      );
+      return <AuthenticatedIcon />;
     default:
       return null;
   }
@@ -143,7 +137,7 @@ export const ShareLinkSettings = ({
           >
             <Button
               variant="tertiary"
-              icon={getIcon(selectedLinkReach, true)}
+              icon={getIcon(selectedLinkReach)}
               iconPosition="left"
               data-testid="share-link-reach-dropdown-button"
               onClick={() => {
@@ -159,8 +153,8 @@ export const ShareLinkSettings = ({
             </Button>
           </DropdownMenu>
         ) : (
-          <span className="c__share-modal__link-settings__content__select__value">
-            {getIcon(selectedLinkReach)}
+          <span className="c__share-modal__link-settings__content__select__value disabled">
+            {getIcon("public")}
             {selectedLinkReachChoice?.label}
           </span>
         )}
@@ -208,8 +202,8 @@ export const ShareLinkSettings = ({
             </Button>
           </DropdownMenu>
         ) : (
-          <span className="c__share-modal__link-settings__content__select-role__value">
-            {getIcon(selectedLinkRole, true)}
+          <span className="c__share-modal__link-settings__content__select-role__value disabled">
+            {getIcon(selectedLinkRole)}
             {selectedLinkRoleChoice?.label}
           </span>
         )}
