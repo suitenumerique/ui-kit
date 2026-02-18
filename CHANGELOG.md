@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## 0.19.8
+
+### Patch Changes
+
+- Fix typos
+- Fix the share modal design to match figma sketches
+
 ## 0.19.7
 
 ### Patch Changes
