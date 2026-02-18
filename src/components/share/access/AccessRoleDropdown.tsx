@@ -1,4 +1,4 @@
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { useMemo } from "react";
 import {
   DropdownMenu,
@@ -76,21 +76,24 @@ export const AccessRoleDropdown = ({
       onSelectValue={onSelect}
       topMessage={roleTopMessage}
     >
-      <div
-        role="button"
+      <Button
         className="c__access-role-dropdown"
         data-testid="access-role-dropdown-button"
+        size="small"
+        color="brand"
+        variant="tertiary"
+        icon={
+          <span className="material-icons">
+            {isOpen ? "arrow_drop_up" : "arrow_drop_down"}
+          </span>
+        }
+        iconPosition="right"
         onClick={() => {
           onOpenChange?.(!isOpen);
         }}
       >
-        <span className="c__access-role-dropdown__role-label">
-          {currentRoleString?.label}
-        </span>
-        <span className="material-icons c__access-role-dropdown__icon">
-          {isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-        </span>
-      </div>
+        {currentRoleString?.label}
+      </Button>
     </DropdownMenu>
   );
 };
