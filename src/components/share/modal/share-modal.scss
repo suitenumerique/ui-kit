@@ -97,6 +97,10 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
     gap: var(--c--globals--spacings--t);
     padding: 0 var(--c--globals--spacings--t) 0 var(--c--globals--spacings--t);
     height: 40px;
+
+    &.disabled {
+      color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    }
   }
 
   .c__share-modal__link-settings__content__select-role__value {
