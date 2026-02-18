@@ -4,6 +4,18 @@
   gap: var(--c--globals--spacings--2xs);
   padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   margin-top: var(--c--globals--spacings--xs);
+
+  .material-icons {
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  }
+
+  .quick-search-input {
+    &::placeholder {
+      color: var(
+        --c--contextuals--content--semantic--neutral--tertiary
+      ) !important;
+    }
+  }
 }
 
 .c__quick-search-item-template {
@@ -38,5 +50,4 @@
 
 .quick-search-group__empty-string {
   color: var(--c--contextuals--content--semantic--neutral--tertiary);
-  margin-left: var(--c--globals--spacings--base);
 }
