@@ -1,3 +1,9 @@
+import {
+  Button,
+  Modal,
+  ModalSize,
+  useModal,
+} from "@gouvfr-lasuite/cunningham-react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { ContextMenu } from "./ContextMenu";
@@ -520,4 +526,54 @@ export const FocusHighlighting: Story = {
       ))}
     </div>
   ),
+};
+
+const WithModalContent = () => {
+  const modal = useModal();
+
+  return (
+    <ContextMenu options={basicItems}>
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p style={{ marginBottom: "16px" }}>
+          Right-click here to open the context menu
+        </p>
+        <Button onClick={() => modal.open()}>Open Modal</Button>
+        <Modal
+          {...modal}
+          size={ModalSize.MEDIUM}
+          title="Modal"
+          rightActions={
+            <Button onClick={() => modal.close()}>Close</Button>
+          }
+        >
+          <p>Right-click inside this modal — the context menu should not
+            appear.</p>
+        </Modal>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Portal isolation test.
+ *
+ * The ContextMenu wraps an area that contains a button to open a modal.
+ * When the modal is open, right-clicking inside it should **not** trigger
+ * the context menu, because the modal DOM lives in a portal outside the
+ * ContextMenu wrapper.
+ */
+export const WithModal: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <WithModalContent />,
 };

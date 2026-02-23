@@ -41,6 +41,11 @@ export const ContextMenu = <T,>({
       return;
     }
 
+    // Ignore events from portals (e.g. modals) whose DOM is outside this wrapper
+    if (!event.currentTarget.contains(event.target as Node)) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
