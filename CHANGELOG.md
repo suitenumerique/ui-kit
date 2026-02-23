@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- Clicking between nodes no longer triggers phantom selection.
+
 ## 0.19.8
 
 ### Patch Changes
