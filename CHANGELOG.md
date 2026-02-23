@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.19.9
+
+### Patch Changes
+
+- ignore right-click events from portals for ContextMenu
+
 ## 0.19.8
 
 ### Patch Changes
