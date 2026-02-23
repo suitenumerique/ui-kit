@@ -1,14 +1,6 @@
 import { Menu, MenuItem, Popover, Separator } from "react-aria-components";
 import { DropdownMenuItem } from "./types";
-import {
-  Fragment,
-  PropsWithChildren,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-} from "react";
+import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
 import { MenuItemSeparator } from "../menu/types";
 
 const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
@@ -36,42 +28,10 @@ export const DropdownMenu = ({
   shouldCloseOnInteractOutside,
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
-  const menuId = `${id}-menu`;
-  const triggerRef = useRef<HTMLDivElement | null>(null);
-  const popoverRef = useRef<HTMLElement | null>(null);
-  const shouldCloseOnOutside = useCallback(
-    (element: Element) => {
-      return shouldCloseOnInteractOutside?.(element) ?? true;
-    },
-    [shouldCloseOnInteractOutside]
-  );
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Node | null;
-      if (!target) return;
-
-      if (
-        triggerRef.current?.contains(target) ||
-        popoverRef.current?.contains(target)
-      ) {
-        return;
-      }
-
-      const targetElement =
-        target instanceof Element ? target : target.parentElement;
-      if (!targetElement || !shouldCloseOnOutside(targetElement)) return;
-
-      onOpenChange?.(false);
-    };
-
-    document.addEventListener("pointerdown", onPointerDown, true);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown, true);
-    };
-  }, [isOpen, onOpenChange, shouldCloseOnOutside]);
+  const triggerRef = useRef(null);
+  const onOpenChangeHandler = (isOpen: boolean) => {
+    onOpenChange?.(isOpen);
+  };
 
   return (
     <>
@@ -79,10 +39,6 @@ export const DropdownMenu = ({
         className="c__dropdown-menu-trigger"
         ref={triggerRef}
         id={id}
-        role="button"
-        aria-haspopup="menu"
-        aria-expanded={isOpen}
-        aria-controls={menuId}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -97,12 +53,10 @@ export const DropdownMenu = ({
           marginTop: "0px",
         }}
         isOpen={isOpen}
-        isNonModal
-        shouldCloseOnInteractOutside={shouldCloseOnOutside}
-        ref={popoverRef}
-        onOpenChange={onOpenChange}
+        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
+        onOpenChange={onOpenChangeHandler}
       >
-        <Menu className="c__dropdown-menu" id={menuId} aria-labelledby={id} autoFocus="first">
+        <Menu className="c__dropdown-menu" aria-labelledby={id} autoFocus="first">
           {topMessage && (
             <MenuItem className="c__dropdown-menu-item-top-message">
               {topMessage}
@@ -130,7 +84,7 @@ export const DropdownMenu = ({
                       onSelectValue?.(option.value);
                     }
                     option.callback?.();
-                    onOpenChange?.(false);
+                    onOpenChangeHandler(false);
                   }}
                   isDisabled={option.isDisabled}
                   data-testid={option.testId}
