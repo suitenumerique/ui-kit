@@ -26,7 +26,6 @@ export type TreeViewProps<T> = {
   dndRootElement?: HTMLElement | null;
   selectedNodeId?: string;
   rootNodeId: string;
-  rowHeight?: number;
   canDrop?: (args: {
     parentNode: NodeApi<TreeDataItem<T>> | null;
     dragNodes: NodeApi<TreeDataItem<T>>[];
@@ -47,7 +46,6 @@ export const TreeView = <T,>({
   selectedNodeId,
   rootNodeId,
   renderNode,
-  rowHeight = 35,
   canDrop,
   canDrag,
   afterMove,
@@ -230,7 +228,7 @@ export const TreeView = <T,>({
         width={width}
         paddingTop={paddingTop}
         paddingBottom={paddingBottom}
-        rowHeight={rowHeight}
+        rowHeight={34}
         disableDrag={disableDrag}
         disableDrop={({ parentNode, dragNodes, index }) => {
           if (canDrop) {
@@ -398,7 +396,15 @@ const Row = <T,>({ children, customRowProps, ...props }: RowProps<T>) => {
       key={props.node.id}
       ref={props.innerRef}
       onFocus={(e) => e.stopPropagation()}
-      onClick={props.node.handleClick}
+      onClick={(e) => {
+        onClick?.(e);
+
+        // Prevent automatic opening on click
+        e.preventDefault();
+        e.stopPropagation();
+        // Only select, don't open
+        props.node.select();
+      }}
       onKeyDown={handleKeyDown}
       {...restCustomRowProps}
     >
