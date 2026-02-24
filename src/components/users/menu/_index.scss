@@ -2,6 +2,12 @@
   padding-inline: 4px;
 }
 
+.user-menu__button {
+  &:hover, &:active, &:focus {
+    background-color: transparent;
+  }
+}
+
 .user-menu__popover {
   min-width: 300px;
   max-width: 400px;
@@ -40,23 +46,17 @@
 }
 
 .user-menu__content__body {
-  padding-bottom: var(--c--globals--spacings--xs);
   display: flex;
   flex-direction: column;
-  gap: var(--c--globals--spacings--xs);
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
 
-  .user-menu__popover--mobile & {
-    padding-top: 14px;
-  }
-
   &__user-info {
     display: flex;
     align-items: center;
-    padding-inline: var(--c--globals--spacings--base);
-    padding-block: var(--c--globals--spacings--md) var(--c--globals--spacings--base);
+    padding: var(--c--globals--spacings--base);
+    padding-block: var(--c--globals--spacings--xs);
     gap: var(--c--globals--spacings--base);
     background: linear-gradient(
     180deg,
@@ -67,9 +67,8 @@
 }
 
 .user-menu__content__identity {
-  display: flex;
-  flex-direction: column;
-  gap: var(--c--globals--spacings--3xs);
+  padding-block: var(--c--globals--spacings--sm);
+  line-height: 1.375;
 }
 
 .user-menu__content__identity__name,
@@ -92,7 +91,7 @@
   }
 }
 .user-menu__content__identity__email {
-  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  color: var(--c--contextuals--content--semantic--neutral--secondary);
   font-size: var(--c--globals--font--sizes--xs);
   font-weight: 400;
   margin: 0;
@@ -120,7 +119,7 @@
 
   &--mobile {
     border-top: none;
-    padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+    padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--xs);
   }
 }
 
@@ -139,12 +138,12 @@
 
   gap: var(--c--globals--spacings--base);
   border-radius: var(--c--globals--spacings--3xs);
-  padding: var(--c--globals--spacings--xxs) var(--c--globals--spacings--base);
+  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   cursor: pointer;
 
   &:hover {
     background-color: var(
-      --c--contextuals--background--semantic--contextual--primary
+      --c--contextuals--background--semantic--overlay--primary
     );
   }
   &__label {

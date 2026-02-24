@@ -44,7 +44,7 @@ const UserMenuContent = ({
       <div className="user-menu__content__body">
         <div className="user-menu__content__body__user-info" style={{ '--gradient-color': `var(--c--contextuals--background--palette--${userColor}--primary)` } as React.CSSProperties}>
           <UserAvatar fullName={userFullName!} />
-          <div className="user-menu__content__identity__name">
+          <div className="user-menu__content__identity">
             {user.full_name ? (
               <>
                 <p className="user-menu__content__identity__name">
@@ -284,8 +284,8 @@ const UserMenuTrigger = ({
 
   return (
     <Button
+      className="user-menu__button"
       variant="tertiary"
-      size="small"
       ref={triggerRef}
       id={id}
       onClick={toggleUserMenu}
