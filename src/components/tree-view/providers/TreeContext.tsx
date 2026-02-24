@@ -63,7 +63,7 @@ export const TreeProvider = <T,>({
 export const useTreeContext = <T,>() => {
   const Context = useContext(TreeContext);
   if (!Context) {
-    throw new Error("TreeContext not found");
+    return null
   }
   return Context as TreeContextType<T> | null;
 };
