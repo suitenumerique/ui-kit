@@ -88,6 +88,7 @@ export const LanguagePicker = ({
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="c__language-picker"
+        aria-label={`Language: ${selectedLanguageOption}`}
         icon={<Icon name={isOpen ? "arrow_drop_up" : "arrow_drop_down"} />}
         iconPosition="right"
         size={size}
