@@ -23,35 +23,32 @@
 
   .react-aria-TabList {
     display: flex;
-    width: 100%;
   }
 
   .react-aria-Tab {
     padding: 10px;
     cursor: pointer;
+    font-weight: 500;
+    color: var(--c--contextuals--content--semantic--brand--tertiary);
     outline: none;
     position: relative;
-    color: var(--c--contextuals--content--semantic--neutral--tertiary);
     transition: color 200ms;
-    --border-color: transparent;
     forced-color-adjust: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--c--globals--spacings--sm);
     border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
 
     &[data-hovered] {
       background-color: var(
-        --c--contextuals--background--semantic--neutral--tertiary-hover
+        --c--contextuals--background--semantic--overlay--primary
       );
-      color: var(--text-color-hover);
     }
 
     &[data-selected] {
-      font-weight: 500;
-      color: var(--c--contextuals--content--semantic--brand--primary);
+      padding-bottom: 9px;
       border-bottom: 2px solid
-        var(--c--contextuals--content--semantic--brand--primary);
+        var(--c--contextuals--content--semantic--brand--tertiary);
     }
 
     &[data-disabled] {
@@ -80,4 +77,58 @@
       outline: 2px solid var(--focus-ring-color);
     }
   }
+  
+  &__neutral {
+    .react-aria-Tab {
+      color: var(--c--contextuals--content--semantic--neutral--tertiary);
+      &[data-selected] {
+        border-color: var(--c--contextuals--content--semantic--neutral--tertiary);
+      }
+    }
+  }
+
+  &__orientation-vertical {
+    .react-aria-Tabs {
+      width: 100%;
+    }
+    .react-aria-TabList {
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .react-aria-Tab {
+      color: var(--c--contextuals--content--semantic--neutral--primary);
+      border-radius: 4px;
+      border: none !important;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      font-size: var(--c--globals--font--sizes--sm);
+      line-height: var(--c--globals--font--sizes--md);
+
+      &[data-hovered] {
+        background-color: var(
+          --c--contextuals--background--semantic--overlay--primary
+        );
+      }
+
+      .react-aria-Tab__subtext {
+        display: block;
+        font-weight: 400;
+        line-height: var(--c--globals--font--sizes--md);
+        font-size: var(--c--globals--font--sizes--xs);
+        color: var(--c--contextuals--content--semantic--neutral--secondary);
+      }
+
+      &[data-selected] {
+        font-weight: 700;
+        padding-bottom: 10px;
+        background-color: var(
+          --c--contextuals--background--semantic--overlay--primary
+        );
+        border: none;
+      }
+    }
+
+  }
+
 }
