@@ -1,43 +1,47 @@
-import { Tabs, TabList, Tab, TabPanel } from "react-aria-components";
+import { Key } from "react";
+import { Tabs as TabsContainer, TabList, Tab } from "react-aria-components";
 import { TabData } from "./types";
-import clsx from "clsx";
 
 export type TabsProps = {
   tabs: TabData[];
   defaultSelectedTab?: string;
-  fullWidth?: boolean;
+  selectedTab?: string;
+  onSelectionChange?: (tabId: string) => void;
+  gap?: string;
 };
 
-export const CustomTabs = ({
+export const Tabs = ({
   tabs,
   defaultSelectedTab,
-  fullWidth = false,
+  selectedTab,
+  onSelectionChange,
+  gap,
 }: TabsProps) => {
-  if (tabs.length === 0) {
+  if (!Array.isArray(tabs) || tabs.length === 0) {
     return null;
   }
 
   return (
     <div
-      className={clsx("c__tabs", {
-        "c__tabs__full-width": fullWidth,
-      })}
+      className="c__tabs"
     >
-      <Tabs defaultSelectedKey={defaultSelectedTab}>
-        <TabList aria-label="History of Ancient Rome">
+      <TabsContainer
+        defaultSelectedKey={defaultSelectedTab}
+        selectedKey={selectedTab}
+        onSelectionChange={(key: Key) => onSelectionChange?.(String(key))}
+      >
+        <TabList aria-label="menu" style={{ gap: gap ?? "var(--c--globals--spacings--xxxs)" }}>
           {tabs.map((tab) => (
             <Tab key={tab.id} id={tab.id}>
-              {tab.icon && <span className="material-icons">{tab.icon}</span>}
-              {tab.label}
+              {tab.icon && <span aria-hidden="true" className="material-icons">{tab.icon}</span>}
+              <span>
+                <span className="react-aria-Tab__title">{tab.label}</span>
+               { tab.subtext && <span className="react-aria-Tab__subtext">{tab.subtext}</span> }
+              </span>
             </Tab>
           ))}
         </TabList>
-        {tabs.map((tab) => (
-          <TabPanel key={tab.id} id={tab.id}>
-            {tab.content}
-          </TabPanel>
-        ))}
-      </Tabs>
+      </TabsContainer>
     </div>
   );
 };

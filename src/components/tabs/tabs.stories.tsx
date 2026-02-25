@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { CustomTabs } from "./Tabs";
+import { Tabs } from "./Tabs";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Tabs [WIP]",
-  component: CustomTabs,
+  title: "Components/Tabs",
+  component: Tabs,
   tags: ["autodocs"],
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-} satisfies Meta<typeof CustomTabs>;
+} satisfies Meta<typeof Tabs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -17,34 +17,37 @@ export const Default: Story = {
   args: {
     defaultSelectedTab: "Tpr",
     tabs: [
-      { id: "FoR", label: "Infos", content: "Infos", icon: "info" },
-      { id: "Emp", label: "Activités", content: "Activités", icon: "list" },
+      { id: "FoR", label: "Infos" },
+      { id: "Emp", label: "Activités"},
+      { id: "Tpr", label: "Notifications" },
+    ],
+  },
+};
+
+export const WithIcons: Story = {
+  args: {
+    defaultSelectedTab: "Emp",
+    tabs: [
+      { id: "FoR", label: "Infos", icon: "info" },
+      { id: "Emp", label: "Activités", icon: "list" },
+      { id: "Tpr", label: "Notifications", icon: "notifications" },
+    ],
+  },
+};
+
+export const WithSubtext: Story = {
+  args: {
+    defaultSelectedTab: "Emp",
+    tabs: [
+      { id: "FoR", label: "Infos", subtext: "Voir plus d'infos", icon: "info" },
+      { id: "Emp", label: "Activités", subtext: "Description courte", icon: "list" },
       {
         id: "Tpr",
         label: "Notifications",
-        content: "Notifications",
+        subtext: "Voir plus de notifications",
         icon: "notifications",
       },
     ],
   },
 };
 
-export const FullWidth: Story = {
-  parameters: {
-    layout: "fullscreen",
-  },
-  args: {
-    fullWidth: true,
-    defaultSelectedTab: "Tpr",
-    tabs: [
-      { id: "FoR", label: "Infos", content: "Infos", icon: "info" },
-      { id: "Emp", label: "Activités", content: "Activités", icon: "list" },
-      {
-        id: "Tpr",
-        label: "Notifications",
-        content: "Notifications",
-        icon: "notifications",
-      },
-    ],
-  },
-};

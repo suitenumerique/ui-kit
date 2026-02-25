@@ -1,57 +1,56 @@
 .c__tabs {
   display: flex;
 
-  &__full-width {
-    .react-aria-Tabs {
-      width: 100%;
-    }
-
-    .react-aria-Tab {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-  }
-
   .react-aria-Tabs {
     display: flex;
-
-    &[data-orientation="horizontal"] {
-      flex-direction: column;
-    }
+    width: 100%;
   }
 
   .react-aria-TabList {
     display: flex;
     width: 100%;
+    flex-direction: column;
   }
 
   .react-aria-Tab {
     padding: 10px;
     cursor: pointer;
+    font-weight: 400;
+    font-size: var(--c--globals--font--sizes--sm);
+    color: var(--c--contextuals--content--semantic--neutral--primary);
     outline: none;
+    border-radius: 4px;
+    letter-spacing: -0.01em;
     position: relative;
-    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    border: none;
     transition: color 200ms;
-    --border-color: transparent;
+    line-height: var(--c--globals--font--sizes--md);
     forced-color-adjust: none;
     display: flex;
     align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
+    gap: var(--c--globals--spacings--sm);
+
+    &__subtext {
+      display: block;
+      font-weight: 400;
+      line-height: var(--c--globals--font--sizes--md);
+      font-size: var(--c--globals--font--sizes--xs);
+      color: var(--c--contextuals--content--semantic--neutral--secondary);
+    }
 
     &[data-hovered] {
       background-color: var(
-        --c--contextuals--background--semantic--neutral--tertiary-hover
+        --c--contextuals--background--semantic--overlay--primary
       );
-      color: var(--text-color-hover);
     }
 
     &[data-selected] {
-      font-weight: 500;
-      color: var(--c--contextuals--content--semantic--brand--primary);
-      border-bottom: 2px solid
-        var(--c--contextuals--content--semantic--brand--primary);
+      font-weight: 700;
+      padding-bottom: 10px;
+      color: var(--c--contextuals--content--semantic--neutral--primary);
+      background-color:
+        var(--c--contextuals--background--semantic--overlay--primary);
+      border: none;
     }
 
     &[data-disabled] {
