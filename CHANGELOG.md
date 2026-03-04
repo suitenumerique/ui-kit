@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## 0.19.10
+
+### Patch Changes
+
+- fix user menu style
+
 ## 0.19.9
 
 ### Patch Changes
