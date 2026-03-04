@@ -3,9 +3,12 @@
 }
 
 .user-menu__button {
-  &:hover, &:active, &:focus {
-    background-color: transparent;
-  }
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-menu__popover {
@@ -59,9 +62,14 @@
     padding-block: var(--c--globals--spacings--xs);
     gap: var(--c--globals--spacings--base);
     background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--gradient-color) 8%, transparent) 0%,
-    color-mix(in srgb, var(--c--contextuals--background--surface--primary) 8%, transparent) 100%,
+      180deg,
+      color-mix(in srgb, var(--gradient-color) 8%, transparent) 0%,
+      color-mix(
+          in srgb,
+          var(--c--contextuals--background--surface--primary) 8%,
+          transparent
+        )
+        100%
     );
   }
 }
@@ -135,9 +143,7 @@
 .user-menu__item {
   display: flex;
   align-items: center;
-
   gap: var(--c--globals--spacings--base);
-  border-radius: var(--c--globals--spacings--3xs);
   padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   cursor: pointer;
 

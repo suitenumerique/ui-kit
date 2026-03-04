@@ -34,7 +34,7 @@ const UserMenuContent = ({
   const showActions = !!footerAction || !!termOfServiceUrl;
 
   const { t } = useCunningham();
-  const userFullName = user ? user.full_name ?? user.email : undefined;
+  const userFullName = user ? (user.full_name ?? user.email) : undefined;
   const userColor = userFullName ? getUserColor(userFullName) : undefined;
 
   if (!user) return null;
@@ -42,7 +42,14 @@ const UserMenuContent = ({
   return (
     <>
       <div className="user-menu__content__body">
-        <div className="user-menu__content__body__user-info" style={{ '--gradient-color': `var(--c--contextuals--background--palette--${userColor}--primary)` } as React.CSSProperties}>
+        <div
+          className="user-menu__content__body__user-info"
+          style={
+            {
+              "--gradient-color": `var(--c--contextuals--background--palette--${userColor}--primary)`,
+            } as React.CSSProperties
+          }
+        >
           <UserAvatar fullName={userFullName!} />
           <div className="user-menu__content__identity">
             {user.full_name ? (
@@ -211,8 +218,8 @@ export const UserMenu = ({
           typeof settingsCTA === "function"
             ? settingsCTA
             : typeof settingsCTA === "string"
-            ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
-            : undefined,
+              ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
+              : undefined,
       });
     }
     if (logout) {
@@ -290,13 +297,13 @@ const UserMenuTrigger = ({
       id={id}
       onClick={toggleUserMenu}
       aria-label={t(
-        openState ? "components.userMenu.close" : "components.userMenu.open"
+        openState ? "components.userMenu.close" : "components.userMenu.open",
       )}
       title={t(
-        openState ? "components.userMenu.close" : "components.userMenu.open"
+        openState ? "components.userMenu.close" : "components.userMenu.open",
       )}
     >
-      <UserAvatar fullName={user.full_name ?? user.email!} />
+      <UserAvatar size="small" fullName={user.full_name ?? user.email!} />
     </Button>
   );
 };

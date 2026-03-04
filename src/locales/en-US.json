@@ -30,7 +30,7 @@
       },
       "user": {
         "no_result": "No result",
-        "placeholder": "Search user"
+        "placeholder": "Search for a user to invite"
       },
       "linkSettings": {
         "title": "Link settings",
