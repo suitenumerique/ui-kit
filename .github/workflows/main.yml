@@ -19,7 +19,7 @@ jobs:
     if: github.event_name == 'pull_request' # Makes sense only for pull requests
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: show
@@ -40,13 +40,13 @@ jobs:
     needs: install-front
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "20.x"
       - name: Restore the frontend cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: "node_modules"
           key: front-node_modules-${{ hashFiles('yarn.lock') }}
@@ -59,13 +59,13 @@ jobs:
     needs: install-front
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "20.x"
       - name: Restore the frontend cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: "node_modules"
           key: front-node_modules-${{ hashFiles('yarn.lock') }}
@@ -78,13 +78,13 @@ jobs:
     needs: install-front
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "20.x"
       - name: Restore the frontend cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: "node_modules"
           key: front-node_modules-${{ hashFiles('yarn.lock') }}
