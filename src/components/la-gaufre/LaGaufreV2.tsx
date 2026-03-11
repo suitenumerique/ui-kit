@@ -150,6 +150,7 @@ export const LaGaufreV2 = memo(
                 height="18"
                 fill="none"
                 viewBox="0 0 18 18"
+                aria-hidden="true"
               >
                 <defs>
                   <path
