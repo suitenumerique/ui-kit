@@ -447,7 +447,7 @@
 
 ### Major Changes
 
-- Add basic components: button, datagrid, dropdown-menu, modal, layouts, provider, quick-search, tabs, tree-veiw
+- Add basic components: button, datagrid, dropdown-menu, modal, layouts, provider, quick-search, tabs, tree-view
 - Add storybook
 - Add custom cunningham.ts file
 - Still a WIP version
