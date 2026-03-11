@@ -463,7 +463,7 @@ Design tokens are defined in `cunningham.ts` and can be overridden:
     colors: { brand-*, gray-*, info-*, success-*, warning-*, error-* },
     breakpoints: { xxs, xs, mobile, tablet },
   },
-  contextutals: {
+  contextuals: {
     background: {
         semantic: {
             brand: {
