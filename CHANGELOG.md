@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Patch Changes
+
+- hide waffle icon from screen readers
+
 ## 0.19.10
 
 ### Patch Changes
