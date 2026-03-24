@@ -78,6 +78,7 @@ import { MenuItem } from "./types";
  * | `isDisabled` | `boolean` | Disables the item |
  * | `isHidden` | `boolean` | Hides the item |
  * | `variant` | `"default" \| "danger"` | Item style |
+ * | `keepOpen` | `boolean` | Prevents menu from closing on click |
  *
  * For a separator: `{ type: "separator" }`
  *
@@ -173,18 +174,18 @@ const basicItems: MenuItem[] = [
     label: "Open",
     subText: "Open in a new tab",
     icon: <span className="material-icons">open_in_new</span>,
-    callback: () => alert("Open"),
+    callback: () => console.log("Open"),
   },
   {
     label: "Download",
     icon: <span className="material-icons">download</span>,
-    callback: () => alert("Download"),
+    callback: () => console.log("Download"),
   },
   { type: "separator" },
   {
     label: "Rename",
     icon: <span className="material-icons">edit</span>,
-    callback: () => alert("Rename"),
+    callback: () => console.log("Rename"),
   },
 ];
 
@@ -231,26 +232,26 @@ const getFileMenuItems = (file: FileItem): MenuItem[] => [
     label: "Open",
     subText: file.type === "folder" ? "View contents" : "Open file",
     icon: <span className="material-icons">open_in_new</span>,
-    callback: () => alert(`Open: ${file.name}`),
+    callback: () => console.log(`Open: ${file.name}`),
   },
   {
     label: "Download",
     subText: "Download to your device",
     icon: <span className="material-icons">download</span>,
-    callback: () => alert(`Download: ${file.name} (id: ${file.id})`),
+    callback: () => console.log(`Download: ${file.name} (id: ${file.id})`),
     isHidden: file.type === "folder",
   },
   { type: "separator" },
   {
     label: "Rename",
     icon: <span className="material-icons">edit</span>,
-    callback: () => alert(`Rename: ${file.name}`),
+    callback: () => console.log(`Rename: ${file.name}`),
   },
   {
     label: "Delete",
     subText: "Move to trash",
     icon: <span className="material-icons">delete</span>,
-    callback: () => alert(`Delete: ${file.name}`),
+    callback: () => console.log(`Delete: ${file.name}`),
     variant: "danger",
   },
 ];
@@ -298,18 +299,18 @@ const backgroundItems: MenuItem[] = [
   {
     label: "New file",
     icon: <span className="material-icons">note_add</span>,
-    callback: () => alert("New file"),
+    callback: () => console.log("New file"),
   },
   {
     label: "New folder",
     icon: <span className="material-icons">create_new_folder</span>,
-    callback: () => alert("New folder"),
+    callback: () => console.log("New folder"),
   },
   { type: "separator" },
   {
     label: "Paste",
     icon: <span className="material-icons">content_paste</span>,
-    callback: () => alert("Paste"),
+    callback: () => console.log("Paste"),
     isDisabled: true,
   },
 ];
@@ -375,19 +376,19 @@ const variantItems: MenuItem[] = [
   {
     label: "Normal action",
     icon: <span className="material-icons">check</span>,
-    callback: () => alert("Normal action"),
+    callback: () => console.log("Normal action"),
   },
   {
     label: "Disabled action",
     icon: <span className="material-icons">block</span>,
-    callback: () => alert("Should not appear"),
+    callback: () => console.log("Should not appear"),
     isDisabled: true,
   },
   { type: "separator" },
   {
     label: "Delete permanently",
     icon: <span className="material-icons">delete_forever</span>,
-    callback: () => alert("Deleted"),
+    callback: () => console.log("Deleted"),
     variant: "danger",
   },
 ];
@@ -576,4 +577,79 @@ export const WithModal: Story = {
     children: null,
   },
   render: () => <WithModalContent />,
+};
+
+const KeepOpenContent = () => {
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const keepOpenItems: MenuItem[] = [
+    {
+      label: isFavorite ? "Remove from favorites" : "Add to favorites",
+      icon: (
+        <span className="material-icons">
+          {isFavorite ? "star" : "star_border"}
+        </span>
+      ),
+      callback: () => setIsFavorite((prev) => !prev),
+      keepOpen: true,
+    },
+    {
+      label: isBookmarked ? "Remove bookmark" : "Add bookmark",
+      icon: (
+        <span className="material-icons">
+          {isBookmarked ? "bookmark" : "bookmark_border"}
+        </span>
+      ),
+      callback: () => setIsBookmarked((prev) => !prev),
+      keepOpen: true,
+    },
+    { type: "separator" },
+    {
+      label: "Open",
+      icon: <span className="material-icons">open_in_new</span>,
+      callback: () => console.log("Open"),
+    },
+    {
+      label: "Delete",
+      icon: <span className="material-icons">delete</span>,
+      callback: () => console.log("Delete"),
+      variant: "danger",
+    },
+  ];
+
+  return (
+    <ContextMenu options={keepOpenItems}>
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p>Right-click here to open the menu</p>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          Favorite: {isFavorite ? "Yes" : "No"} | Bookmarked:{" "}
+          {isBookmarked ? "Yes" : "No"}
+        </p>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Items with `keepOpen: true` do not close the menu after being clicked.
+ * This is useful for toggle actions (favorites, bookmarks, etc.) where the
+ * user might want to toggle multiple items before dismissing the menu.
+ *
+ * Items without `keepOpen` (or `keepOpen: false`) still close the menu normally.
+ */
+export const KeepOpen: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <KeepOpenContent />,
 };
