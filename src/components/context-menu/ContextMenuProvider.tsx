@@ -165,7 +165,9 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
             );
             if (item && isActionItem(item) && !item.isDisabled) {
               item.callback?.();
-              close();
+              if (!item.keepOpen) {
+                close();
+              }
             }
           }}
         >
