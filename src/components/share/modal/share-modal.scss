@@ -27,7 +27,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 .c__share-modal__members-title,
 .c__share-modal__invitations-title {
   font-size: var(--c--globals--font--sizes--sm);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: var(--c--globals--spacings--4xs);
   color: var(--c--contextuals--content--semantic--neutral--primary);
 }
@@ -56,7 +56,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
   &__title {
     font-size: var(--c--globals--font--sizes--sm);
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: var(--c--globals--spacings--4xs);
     color: var(--c--contextuals--content--semantic--neutral--primary);
   }
