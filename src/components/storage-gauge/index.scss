@@ -1,0 +1,47 @@
+.c__storage-gauge {
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--xs, 8px);
+  padding: var(--c--globals--spacings--3xs, 4px)
+    var(--c--globals--spacings--xs, 8px);
+  border-radius: var(--c--globals--spacings--4xs, 4px);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  height: 24px;
+  width: 100%;
+  overflow: hidden;
+  font-family: inherit;
+
+  &:hover {
+    border-radius: var(--xxxs, 4px);
+    background: var(--c--contextuals--background--semantic--overlay--primary);
+  }
+
+  &__bar {
+    flex: 1 0 0;
+    height: 5px;
+    min-width: 1px;
+    border-radius: 15px;
+    background: var(
+      --c--contextuals--background--semantic--neutral--secondary,
+      #dfe2ea
+    );
+    overflow: hidden;
+
+    &__fill {
+      height: 100%;
+      border-radius: 15px;
+      background: var(--c--contextuals--content--semantic--neutral--secondary);
+    }
+  }
+
+  &__label {
+    flex-shrink: 0;
+    font-size: var(--c--globals--font--sizes--xs, 0.75rem);
+    line-height: var(--c--globals--spacings--base, 16px);
+    color: var(--c--contextuals--content--semantic--neutral--tertiary, #626a80);
+    white-space: nowrap;
+    text-align: center;
+  }
+}
