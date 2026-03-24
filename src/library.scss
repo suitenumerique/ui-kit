@@ -4,6 +4,7 @@
 @use "./components/dropdown-menu";
 @use "./components/footer";
 @use "./components/filter";
+@use "./components/search-filter";
 @use "./components/hero";
 @use "./components/loader";
 @use "./components/la-gaufre";
@@ -36,4 +37,7 @@
 @use "./components/modal";
 @use "./components/badge";
 @use "./components/icon";
+@use "./components/help-menu";
+@use "./components/feedback-form";
 @use "./components/onboarding-modal";
+@use "./components/storage-gauge";
