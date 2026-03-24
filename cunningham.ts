@@ -25,6 +25,26 @@ export const commonTokenOverrides = {
     "forms-checkbox": {
       "font-size": "ref(globals.font.sizes.sm)",
     },
+    "forms-input": {
+      "border-radius": "4px",
+      "border-radius--hover": "4px",
+      "border-radius--focus": "4px",
+    },
+    "forms-select": {
+      "border-radius": "4px",
+      "border-radius--hover": "4px",
+      "border-radius--focus": "4px",
+    },
+    "forms-textarea": {
+      "border-radius": "4px",
+      "border-radius--hover": "4px",
+      "border-radius--focus": "4px",
+    },
+    "forms-datepicker": {
+      "border-radius": "4px",
+      "border-radius--hover": "4px",
+      "border-radius--focus": "4px",
+    },
     badge: {
       "font-size": "ref(globals.font.sizes.xs)",
       "border-radius": "12px",
@@ -90,7 +110,6 @@ export const commonGlobals = {
     weights: {
       thin: 100,
       extrabold: 800,
-      black: 900,
     },
     families: {
       accent: "Marianne, Inter, Roboto Flex Variable, sans-serif",
