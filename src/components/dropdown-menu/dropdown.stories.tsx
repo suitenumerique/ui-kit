@@ -128,48 +128,48 @@ type Story = StoryObj<typeof meta>;
 const options = [
   {
     icon: <span className="material-icons">info</span>,
-    label: "Informations",
+    label: "Information",
     subText: "Can view and edit content",
     value: "info",
   },
   {
     icon: <span className="material-icons">group</span>,
-    label: "Partager",
-    subText: "Can share and manage accessdx",
-    callback: () => alert("Partager"),
+    label: "Share",
+    subText: "Can share and manage access",
+    callback: () => alert("Share"),
   },
   {
     icon: <span className="material-icons">download</span>,
-    label: "Télécharger",
+    label: "Download",
     value: "download",
     showSeparator: true,
   },
   {
     icon: <span className="material-icons">edit</span>,
-    label: "Renommer",
+    label: "Rename",
     value: "rename",
     showSeparator: true,
   },
   {
     icon: <span className="material-icons">arrow_forward</span>,
-    label: "Déplacer",
+    label: "Move",
     value: "move",
   },
   {
     icon: <span className="material-icons">arrow_back</span>,
-    label: "Dupliquer",
+    label: "Duplicate",
     value: "duplicate",
   },
   {
     icon: <span className="material-icons">add</span>,
     isDisabled: true,
-    label: "Crééer un raccourci",
+    label: "Create shortcut",
     value: "create-shortcut",
     showSeparator: true,
   },
   {
     icon: <span className="material-icons">delete</span>,
-    label: "Supprimer",
+    label: "Delete",
     value: "delete",
     showSeparator: true,
   },
@@ -209,30 +209,30 @@ export const Default: Story = {
 const optionsWithSeparators: DropdownMenuItem[] = [
   {
     icon: <span className="material-icons">open_in_new</span>,
-    label: "Ouvrir",
-    callback: () => alert("Ouvrir"),
+    label: "Open",
+    callback: () => alert("Open"),
   },
   {
     icon: <span className="material-icons">download</span>,
-    label: "Télécharger",
-    callback: () => alert("Télécharger"),
+    label: "Download",
+    callback: () => alert("Download"),
   },
   { type: "separator" },
   {
     icon: <span className="material-icons">edit</span>,
-    label: "Renommer",
-    callback: () => alert("Renommer"),
+    label: "Rename",
+    callback: () => alert("Rename"),
   },
   {
     icon: <span className="material-icons">content_copy</span>,
-    label: "Dupliquer",
-    callback: () => alert("Dupliquer"),
+    label: "Duplicate",
+    callback: () => alert("Duplicate"),
   },
   { type: "separator" },
   {
     icon: <span className="material-icons">delete</span>,
-    label: "Supprimer",
-    callback: () => alert("Supprimer"),
+    label: "Delete",
+    callback: () => alert("Delete"),
     variant: "danger",
   },
 ];
@@ -251,6 +251,160 @@ export const WithSeparatorsAndDanger: Story = {
       >
         <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
       </DropdownMenu>
+    );
+  },
+};
+
+const optionsWithSubmenus: DropdownMenuItem[] = [
+  {
+    icon: <span className="material-icons">open_in_new</span>,
+    label: "Open",
+    callback: () => alert("Open"),
+  },
+  {
+    icon: <span className="material-icons">share</span>,
+    label: "Share",
+    children: [
+      {
+        icon: <span className="material-icons">email</span>,
+        label: "Email",
+        callback: () => alert("Email"),
+      },
+      {
+        icon: <span className="material-icons">sms</span>,
+        label: "SMS",
+        callback: () => alert("SMS"),
+      },
+      {
+        icon: <span className="material-icons">link</span>,
+        label: "Copy link",
+        callback: () => alert("Link copied"),
+      },
+    ],
+  },
+  { type: "separator" },
+  {
+    icon: <span className="material-icons">drive_file_move</span>,
+    label: "Move to",
+    children: [
+      {
+        icon: <span className="material-icons">folder</span>,
+        label: "Documents",
+        callback: () => alert("Documents"),
+      },
+      {
+        icon: <span className="material-icons">folder</span>,
+        label: "Archives",
+        children: [
+          {
+            label: "2024",
+            callback: () => alert("Archives 2024"),
+          },
+          {
+            label: "2025",
+            callback: () => alert("Archives 2025"),
+          },
+        ],
+      },
+    ],
+  },
+  { type: "separator" },
+  {
+    icon: <span className="material-icons">delete</span>,
+    label: "Delete",
+    callback: () => alert("Delete"),
+    variant: "danger",
+  },
+];
+
+/**
+ * Demonstrates nested submenus. Items with a `children` array automatically
+ * become submenu triggers with a chevron icon. Supports unlimited nesting depth.
+ */
+export const WithSubmenus: Story = {
+  args: {
+    options: optionsWithSubmenus,
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * The `tiny` variant renders a more compact menu with smaller items, icons, and padding.
+ */
+export const Tiny: Story = {
+  args: {
+    options: optionsWithSeparators,
+    variant: "tiny",
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        variant={args.variant}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * The `tiny` variant with nested submenus.
+ */
+export const TinyWithSubmenus: Story = {
+  args: {
+    options: optionsWithSubmenus,
+    variant: "tiny",
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        variant={args.variant}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * Trigger placed at the right edge of the viewport to test submenu collision handling.
+ * Submenus should flip or shift to stay within the viewport bounds.
+ */
+export const SubmenuAtEdge: Story = {
+  args: {
+    options: optionsWithSubmenus,
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <DropdownMenu
+          options={args.options}
+          isOpen={isOpen}
+          onOpenChange={setIsOpen}
+        >
+          <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
+        </DropdownMenu>
+      </div>
     );
   },
 };

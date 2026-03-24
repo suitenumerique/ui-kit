@@ -12,7 +12,9 @@ export type MenuItemAction = {
   isDisabled?: boolean;
   isHidden?: boolean;
   variant?: "default" | "danger";
+  keepOpen?: boolean;
   testId?: string;
+  children?: MenuItem[];
 };
 
 /**
