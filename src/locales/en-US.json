@@ -96,6 +96,23 @@
       "stepLabel": "Step {current} of {total}: {title}",
       "currentStepSuffix": " (current)",
       "contentRegionLabel": "Step {current} of {total} content"
+    },
+    "feedbackForm": {
+      "title": "Contact the team",
+      "subtitle": "Bug, idea, question, or praise — the team reads everything and will get back to you if needed.",
+      "subject": "Subject",
+      "subjectPlaceholder": "What is it about?",
+      "message": "Your message",
+      "messagePlaceholder": "Describe your issue or suggestion...",
+      "uploadFile": "Upload a file",
+      "emailCheckbox": "I'd like to receive a reply by e-mail",
+      "emailLabel": "E-mail",
+      "emailPrivacy": "See how your email is used",
+      "emailError": "Please enter a valid e-mail address.",
+      "cancel": "Cancel",
+      "send": "Send",
+      "category": "Category",
+      "closeAriaLabel": "Close feedback form"
     }
   }
 }
