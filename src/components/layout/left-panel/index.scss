@@ -1,6 +1,6 @@
 .c__left-panel {
   display: flex;
-  overflow-y: auto;
+  flex-direction: column;
 
   &.has-header {
     height: calc(100dvh - 52px);
@@ -10,8 +10,6 @@
     height: 100dvh;
   }
 
-  flex-direction: column;
-  gap: 1rem;
   width: 100%;
   background-color: var(--c--contextuals--background--surface--secondary);
   border-right: 1px solid var(--c--contextuals--border--surface--primary);
@@ -21,7 +19,8 @@
   z-index: 999;
   width: 100dvw;
   height: calc(100dvh - 52px);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid var(--c--contextuals--border--surface--primary);
   position: fixed;
   background-color: var(--c--contextuals--background--surface--secondary);
@@ -33,6 +32,20 @@
 
   &.open {
     transform: translateX(0);
+    border-top: 1px solid var(--c--contextuals--border--surface--primary);
+  }
+}
+
+.c__left-panel__content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.c__left-panel__footer {
+  flex-shrink: 0;
+
+  .c__left-panel__mobile & {
     border-top: 1px solid var(--c--contextuals--border--surface--primary);
   }
 }
