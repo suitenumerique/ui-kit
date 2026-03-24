@@ -7,6 +7,7 @@ import { MainLayout } from "./MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
 import { useState } from "react";
 import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { HelpMenu } from "../help-menu/HelpMenu";
 
 const meta: Meta = {
   title: "Components/Layout",
@@ -48,6 +49,67 @@ export const LeftPanelOnly: StoryObj = {
           <div className="p-s">LeftPanel</div>
         </LeftPanel>
       </div>
+    );
+  },
+};
+
+// --- Story pour le Layout avec Footer ---
+export const FullLayoutWithFooter: StoryObj = {
+  parameters: {
+    layout: "fullscreen",
+    backgrounds: {
+      default: "Gray",
+    },
+  },
+  render: () => {
+    const { isDesktop } = useResponsive();
+    const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false);
+    return (
+      <MainLayout
+        leftPanelContent={
+          <div style={{ padding: "1rem" }}>
+            <div style={{ height: "2000px" }}>
+              <p>Long scrollable content in the left panel</p>
+              <p>Scroll down to see the footer stay fixed at the bottom.</p>
+              {Array.from({ length: 50 }, (_, i) => (
+                <p key={i}>Item {i + 1}</p>
+              ))}
+            </div>
+          </div>
+        }
+        leftPanelFooter={
+          <div style={{ padding: "0.75rem 1rem" }}>
+            <HelpMenu
+              documentationUrl="https://example.com/docs"
+              onOnboarding={() => alert("Onboarding clicked")}
+              feedbackForm={{
+                onSend: (data) => console.log("Feedback sent:", data),
+                showEmailReply: true,
+                emailPrivacyUrl: "#",
+              }}
+              release={{
+                version: "4.3.0",
+                date: "Updated Yesterday",
+                url: "https://example.com/releases/4.3.0",
+              }}
+            />
+          </div>
+        }
+        isLeftPanelOpen={isLeftPanelOpen}
+        setIsLeftPanelOpen={setIsLeftPanelOpen}
+        icon={<img src={svg} alt="logo" />}
+        languages={[
+          { label: "Français", isChecked: true },
+          { label: "Anglais" },
+        ]}
+        rightHeaderContent={
+          !isDesktop && <div style={{ width: "40px", height: "40px" }} />
+        }
+      >
+        <div style={{ padding: "1rem" }}>
+          <p>Main content area</p>
+        </div>
+      </MainLayout>
     );
   },
 };

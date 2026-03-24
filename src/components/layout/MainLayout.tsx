@@ -3,6 +3,10 @@ import { Header } from "./header/Header";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import clsx from "clsx";
 
+const MIN_LEFT_PANEL_PX = 300;
+const MAX_LEFT_PANEL_PX = 450;
+const MAX_LEFT_PANEL_PERCENT = 40;
+
 import { useResponsive } from ":/hooks/useResponsive";
 import {
   ImperativePanelHandle,
@@ -17,6 +21,7 @@ import { useControllableState } from ":/hooks/useControllableState";
 export type MainLayoutProps = {
   icon?: React.ReactNode;
   leftPanelContent?: React.ReactNode;
+  leftPanelFooter?: React.ReactNode;
   rightPanelContent?: React.ReactNode;
   rightHeaderContent?: React.ReactNode;
   languages?: DropdownMenuOption[];
@@ -33,6 +38,7 @@ export const MainLayout = ({
   children,
   hideLeftPanelOnDesktop = false,
   leftPanelContent,
+  leftPanelFooter,
   rightPanelContent,
   rightHeaderContent,
 
@@ -54,29 +60,6 @@ export const MainLayout = ({
   const [isResizing, setIsResizing] = useState(false);
   const resizeTimeoutRef = useRef<number | undefined>(undefined);
 
-  // Disable transitions during window resize to prevent panels from being visible
-  useEffect(() => {
-    const handleResizeStart = () => {
-      setIsResizing(true);
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-      resizeTimeoutRef.current = window.setTimeout(() => {
-        setIsResizing(false);
-      }, 150);
-    };
-
-    window.addEventListener("resize", handleResizeStart);
-
-    return () => {
-      window.removeEventListener("resize", handleResizeStart);
-
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-    };
-  }, []);
-
   // We need to have two different states for the left panel, we want to always keep the
   // left panel mounted on mobile in order to show the animation when it opens or closes, instead
   // of abruptly disappearing when closing the panel.
@@ -86,35 +69,46 @@ export const MainLayout = ({
   const showLeftPanel = isDesktop ? !hideLeftPanelOnDesktop : isLeftPanelOpen;
 
   const [minPanelSize, setMinPanelSize] = useState(
-    calculateDefaultSize(300, isDesktop)
+    calculateDefaultSize(MIN_LEFT_PANEL_PX, isDesktop)
   );
   const [maxPanelSize, setMaxPanelSize] = useState(
-    calculateDefaultSize(450, isDesktop)
+    calculateDefaultSize(MAX_LEFT_PANEL_PX, isDesktop)
   );
 
   const onTogglePanel = () => {
     setIsLeftPanelOpen(!isLeftPanelOpen);
   };
 
+  // Combined resize listener: disable transitions during window resize + update panel sizes
   useEffect(() => {
-    const updatePanelSize = () => {
-      const min = Math.round(calculateDefaultSize(300, isDesktop));
+    const updatePanelSizes = () => {
+      const min = Math.round(calculateDefaultSize(MIN_LEFT_PANEL_PX, isDesktop));
       const max = Math.round(
-        Math.min(calculateDefaultSize(450, isDesktop), 40)
+        Math.min(calculateDefaultSize(MAX_LEFT_PANEL_PX, isDesktop), MAX_LEFT_PANEL_PERCENT)
       );
       setMinPanelSize(isDesktop ? min : 0);
-      if (enableResize) {
-        setMaxPanelSize(max);
-      } else {
-        setMaxPanelSize(min);
-      }
+      setMaxPanelSize(enableResize ? max : min);
     };
 
-    updatePanelSize();
-    window.addEventListener("resize", updatePanelSize);
+    const handleResize = () => {
+      setIsResizing(true);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      resizeTimeoutRef.current = window.setTimeout(() => {
+        setIsResizing(false);
+      }, 150);
+      updatePanelSizes();
+    };
+
+    updatePanelSizes();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", updatePanelSize);
+      window.removeEventListener("resize", handleResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
     };
   }, [isDesktop, enableResize]);
 
@@ -140,7 +134,9 @@ export const MainLayout = ({
                 minSize={minPanelSize}
                 maxSize={maxPanelSize}
               >
-                <LeftPanel isOpen={showLeftPanel}>{leftPanelContent}</LeftPanel>
+                <LeftPanel isOpen={showLeftPanel} footer={leftPanelFooter}>
+                  {leftPanelContent}
+                </LeftPanel>
               </Panel>
               {isDesktop && (
                 <PanelResizeHandle
