@@ -95,6 +95,23 @@
       "stepLabel": "Étape {current} sur {total} : {title}",
       "currentStepSuffix": " (actuelle)",
       "contentRegionLabel": "Contenu de l'étape {current} sur {total}"
+    },
+    "feedbackForm": {
+      "title": "Contacter l'équipe",
+      "subtitle": "Bug, idée, question ou compliment — l'équipe lit tout et reviendra vers vous si nécessaire.",
+      "subject": "Sujet",
+      "subjectPlaceholder": "De quoi s'agit-il ?",
+      "message": "Votre message",
+      "messagePlaceholder": "Décrivez votre problème ou suggestion...",
+      "uploadFile": "Joindre un fichier",
+      "emailCheckbox": "Je souhaite recevoir une réponse par e-mail",
+      "emailLabel": "E-mail",
+      "emailPrivacy": "Voir comment votre e-mail est utilisé",
+      "emailError": "Veuillez saisir une adresse e-mail valide.",
+      "cancel": "Annuler",
+      "send": "Envoyer",
+      "category": "Catégorie",
+      "closeAriaLabel": "Fermer le formulaire de contact"
     }
   }
 }
