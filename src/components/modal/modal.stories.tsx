@@ -5,13 +5,17 @@ import {
   ModalSize,
   useModal,
 } from "@gouvfr-lasuite/cunningham-react";
+import type { ModalDefaultVariantProps } from "@gouvfr-lasuite/cunningham-react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+
+// Modal is a polymorphic component; narrow to the default variant so Storybook can infer props for controls.
+const ModalDefault = Modal as React.FC<ModalDefaultVariantProps>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: "Components/Modal",
-  component: Modal,
+  component: ModalDefault,
   args: {
     children: "Description",
     title: "Title",
@@ -36,7 +40,7 @@ const meta = {
     },
   ],
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-} satisfies Meta<typeof Modal>;
+} satisfies Meta<typeof ModalDefault>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
