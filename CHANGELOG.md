@@ -1,18 +1,25 @@
 # @gouvfr-lasuite/ui-kit
 
-## [Unreleased]
+## 0.20.0
 
 ### Minor Changes
 
 - add Figma-to-React SVG icon generation script
 - add IconSvg wrapper component
 - add auto-generated SVG icon components
+- Dropdown menu: submenus, tiny variant, keepOpen
+- add Layout footer support in left panel
+- add SearchFilter component (search + filtering)
+- add StorageGauge component (storage usage gauge)
+- add FeedbackForm component (feedback form)
+- add HelpMenu component (help menu)
 
 ### Patch Changes
 
 - hide waffle icon from screen readers
 - Clicking between nodes no longer triggers phantom selection.
 - reorganize stories and export SVG icons
+- Context menu: keepOpen support
 
 ## 0.19.10
 
@@ -439,7 +446,8 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.18.6...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.20.0...main
+[0.20.0]: https://github.com/suitenumerique/ui-kit/compare/v0.18.6...v0.20.0
 [0.18.6]: https://github.com/suitenumerique/ui-kit/compare/v0.18.5...v0.18.6
 [0.18.5]: https://github.com/suitenumerique/ui-kit/compare/v0.18.4...v0.18.5
 [0.18.4]: https://github.com/suitenumerique/ui-kit/compare/v0.18.3...v0.18.4
