@@ -1,0 +1,62 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/Icon" />
+
+# Icons
+
+The UI kit provides two types of icons that coexist and serve different use cases.
+
+## Material Icons
+
+General-purpose icons from [Google Material Icons](https://fonts.google.com/icons). Use them for common UI actions (navigation, editing, status indicators, etc.).
+
+```tsx
+import { Icon, IconSize } from "@gouvfr-lasuite/ui-kit";
+
+<Icon name="home" size={IconSize.MEDIUM} />
+<Icon name="search" size={IconSize.SMALL} color="#3498db" />
+<Icon name="settings" size={IconSize.LARGE} type={IconType.OUTLINED} />
+```
+
+The `name` prop accepts any [Material Icon name](https://fonts.google.com/icons). Size can be a preset (`IconSize.X_SMALL` to `IconSize.X_LARGE`) or a custom number in pixels.
+
+## SVG Icons
+
+Custom icons designed in Figma, specific to La Suite products. They are auto-generated as React components from the Figma source.
+
+```tsx
+import { Star, Copy, Folder } from "@gouvfr-lasuite/ui-kit";
+
+<Star size={IconSize.MEDIUM} />
+<Copy size={IconSize.LARGE} />
+<Folder size={24} />
+```
+
+SVG icons inherit `currentColor`, so they follow the parent's text color:
+
+```tsx
+<div style={{ color: "#e74c3c" }}>
+  <Star />
+</div>
+```
+
+Both icon types accept the same `size` prop (presets or custom number). Browse the available icons in the **Material** and **Svg Icons** sub-pages.
+
+## Custom SVG Icons
+
+If your product needs its own SVG icons beyond what the UI kit provides, wrap your SVG content inside `<IconSvg>` to benefit from the standard size presets and consistent behavior.
+
+```tsx
+import { IconSvg, IconSvgProps } from "@gouvfr-lasuite/ui-kit";
+
+const MyCustomIcon = (props: IconSvgProps) => (
+  <IconSvg {...props}>
+    <path fill="currentColor" d="M12 2L2 22h20L12 2z" />
+  </IconSvg>
+);
+
+// Then use it like any other icon
+<MyCustomIcon size={IconSize.LARGE} />
+```
+
+`IconSvg` handles the `viewBox`, `width`, `height` and `fill` attributes for you. Use `fill="currentColor"` on your paths so the icon inherits the parent's text color.

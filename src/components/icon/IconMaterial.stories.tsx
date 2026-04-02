@@ -3,7 +3,7 @@ import { Icon } from "./Icon";
 import { IconSize, IconType } from "./types";
 
 const meta: Meta<typeof Icon> = {
-  title: "Components/Icon",
+  title: "Components/Icon/Material",
   component: Icon,
   parameters: {
     layout: "centered",
