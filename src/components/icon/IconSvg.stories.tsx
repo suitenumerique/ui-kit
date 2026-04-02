@@ -88,69 +88,71 @@ export const Playground: Story = {
   render: (args) => <Star {...args} />,
 };
 
-export const All: Story = {
-  render: () => {
-    const [search, setSearch] = useState("");
+const AllIcons = () => {
+  const [search, setSearch] = useState("");
 
-    const filtered = search
-      ? icons.filter((i) => i.name.toLowerCase().includes(search.toLowerCase()))
-      : icons;
+  const filtered = search
+    ? icons.filter((i) => i.name.toLowerCase().includes(search.toLowerCase()))
+    : icons;
 
-    return (
-      <div>
-        <input
-          type="text"
-          placeholder="Search icons…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            marginBottom: "24px",
-            fontSize: "14px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxSizing: "border-box",
-          }}
-        />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-            gap: "16px",
-          }}
-        >
-          {filtered.map(({ name, Component }) => (
-            <div
-              key={name}
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search icons…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "8px 12px",
+          marginBottom: "24px",
+          fontSize: "14px",
+          border: "1px solid #ccc",
+          borderRadius: "4px",
+          boxSizing: "border-box",
+        }}
+      />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+          gap: "16px",
+        }}
+      >
+        {filtered.map(({ name, Component }) => (
+          <div
+            key={name}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "8px",
+              padding: "12px",
+              borderRadius: "8px",
+              border: "1px solid #eee",
+            }}
+          >
+            <Component width={32} height={32} />
+            <span
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-                padding: "12px",
-                borderRadius: "8px",
-                border: "1px solid #eee",
+                fontSize: "11px",
+                color: "#666",
+                textAlign: "center",
+                wordBreak: "break-word",
               }}
             >
-              <Component width={32} height={32} />
-              <span
-                style={{
-                  fontSize: "11px",
-                  color: "#666",
-                  textAlign: "center",
-                  wordBreak: "break-word",
-                }}
-              >
-                {name}
-              </span>
-            </div>
-          ))}
-        </div>
-        <p style={{ marginTop: "24px", fontSize: "13px", color: "#999" }}>
-          {filtered.length} icon{filtered.length !== 1 ? "s" : ""}
-        </p>
+              {name}
+            </span>
+          </div>
+        ))}
       </div>
-    );
-  },
+      <p style={{ marginTop: "24px", fontSize: "13px", color: "#999" }}>
+        {filtered.length} icon{filtered.length !== 1 ? "s" : ""}
+      </p>
+    </div>
+  );
+};
+
+export const All: Story = {
+  render: () => <AllIcons />,
 };
