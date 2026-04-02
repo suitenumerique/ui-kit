@@ -2,10 +2,17 @@
 
 ## [Unreleased]
 
+### Minor Changes
+
+- add Figma-to-React SVG icon generation script
+- add IconSvg wrapper component
+- add auto-generated SVG icon components
+
 ### Patch Changes
 
 - hide waffle icon from screen readers
 - Clicking between nodes no longer triggers phantom selection.
+- reorganize stories and export SVG icons
 
 ## 0.19.10
 
