@@ -96,7 +96,7 @@ const AllIcons = () => {
     : icons;
 
   return (
-    <div>
+    <div style={{ padding: "24px" }}>
       <input
         type="text"
         placeholder="Search icons…"
@@ -154,5 +154,6 @@ const AllIcons = () => {
 };
 
 export const All: Story = {
+  parameters: { layout: "fullscreen" },
   render: () => <AllIcons />,
 };
