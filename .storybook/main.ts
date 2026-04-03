@@ -15,6 +15,12 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  staticDirs: ["../src/assets/fonts/Marianne"],
+  // Fonts are served at "/" for dev mode and "/assets" for production builds.
+  // In production, Vite bundles CSS into "assets/preview-*.css" with relative
+  // url(./Marianne-*.woff2) references, resolving to "/assets/".
+  staticDirs: [
+    "../src/assets/fonts/Marianne",
+    { from: "../src/assets/fonts/Marianne", to: "/assets" },
+  ],
 };
 export default config;
