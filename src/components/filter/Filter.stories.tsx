@@ -87,6 +87,70 @@ export const UncontrolledWithDefault: Story = {
   },
 };
 
+const OPTIONS_LONG: FilterOption[] = [
+  {
+    label: "Tous les documents disponibles",
+    value: "all",
+  },
+  {
+    label: "Fichiers partagés avec mon équipe",
+    value: "file",
+  },
+  {
+    label: "Dossiers récemment modifiés par un collaborateur",
+    value: "folder",
+  },
+];
+
+export const LongLabels: Story = {
+  args: {
+    label: "Type de contenu à afficher dans la liste",
+    options: OPTIONS_LONG,
+  },
+};
+
+export const MultipleInConstrainedContainer: Story = {
+  render: () => (
+    <div
+      style={{
+        maxWidth: "600px",
+        border: "1px solid #ccc",
+        padding: "1em",
+        display: "flex",
+        gap: "1em",
+        alignItems: "center",
+        overflowX: "auto",
+      }}
+    >
+      <Filter
+        label="Type de contenu à afficher"
+        defaultSelectedKey="folder"
+        options={[
+          { label: "Dossier partagé avec l'équipe", value: "folder" },
+          { label: "Fichier récemment modifié", value: "file" },
+        ]}
+      />
+      <Filter
+        label="Espace de travail collaboratif"
+        defaultSelectedKey="public"
+        options={[
+          { label: "Espace public accessible à tous", value: "public" },
+          { label: "Espace privé réservé aux membres", value: "private" },
+        ]}
+      />
+      <Filter
+        label="Emplacement du document dans l'arborescence"
+        defaultSelectedKey="trash"
+        options={[
+          { label: "Corbeille des éléments supprimés", value: "trash" },
+          { label: "Favoris marqués par l'utilisateur", value: "favorites" },
+        ]}
+      />
+      <Button size="small">Réinitialiser</Button>
+    </div>
+  ),
+};
+
 export const Controlled: Story = {
   args: {
     label: "Type",
