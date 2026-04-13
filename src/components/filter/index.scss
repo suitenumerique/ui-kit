@@ -1,4 +1,6 @@
 .c__filter {
+  flex-shrink: 0;
+
   &__button {
     background-color: var(
       --c--contextuals--background--semantic--neutral--tertiary
@@ -15,6 +17,7 @@
     gap: 6px;
     padding: 0 6px 0 8px;
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    white-space: nowrap;
 
     &__icon {
       font-size: 1.25rem;
@@ -64,6 +67,7 @@
   &__label {
     display: flex;
     align-items: center;
+    white-space: nowrap;
   }
 
   &__popover {
