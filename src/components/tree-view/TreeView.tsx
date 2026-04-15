@@ -158,6 +158,32 @@ export const TreeView = <T,>({
       targetModeId = nextSibling.value.id;
     }
 
+    // Fallback for gaps between non-node rows (e.g. separator/view-more) to avoid silent no-op drops.
+    if (!mode) {
+      for (let i = siblingIndex; i >= 0; i--) {
+        if (children[i] && isNode(children[i].value)) {
+          targetModeId = children[i].value.id;
+          mode = TreeViewMoveModeEnum.RIGHT;
+          break;
+        }
+      }
+    }
+
+    if (!mode) {
+      for (let i = nextSiblingIndex; i < children.length; i++) {
+        if (children[i] && isNode(children[i].value)) {
+          targetModeId = children[i].value.id;
+          mode = TreeViewMoveModeEnum.LEFT;
+          break;
+        }
+      }
+    }
+
+    if (!mode) {
+      targetModeId = defaultTargetNodeId;
+      mode = TreeViewMoveModeEnum.LAST_CHILD;
+    }
+
     if (mode && targetModeId) {
       return {
         targetModeId: targetModeId,
