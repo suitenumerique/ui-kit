@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-kit
 
+## 0.20.1
+
+### Patch Changes
+
+- 🐛(filter) prevent label wrapping in constrained containers #190
+
 ## 0.20.0
 
 ### Minor Changes
