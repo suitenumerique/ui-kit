@@ -83,6 +83,20 @@ export const TreeView = <T,>({
     return () => observer?.disconnect();
   }, []);
 
+  /**
+   * Figures out where to drop a node by checking its two direct neighbors
+   * (the rows just before and just after the drop position). If one of them
+   * is a real node we anchor the move to it (RIGHT or LEFT).
+   *
+   * Problem: the children list can also contain non-node rows like separators,
+   * titles or view-more. If the cursor lands right between two of them (a
+   * separator followed by a title for example), neither neighbor is a real
+   * node, we can't pick a mode, and the drop is dropped silently. The node
+   * snaps back and the user gets no feedback.
+   *
+   * The fallback below looks further around the drop position to always find
+   * a real node to anchor on, so this never fails silently again.
+   */
   const getMovePosition = (args: {
     dragIds: string[];
     dragNodes: NodeApi<TreeDataItem<T>>[];
@@ -158,7 +172,9 @@ export const TreeView = <T,>({
       targetModeId = nextSibling.value.id;
     }
 
-    // Fallback for gaps between non-node rows (e.g. separator/view-more) to avoid silent no-op drops.
+    // Both neighbors are special rows, so look further away for a real node
+    // to anchor on. Backward first, then forward. If nothing, fall back to
+    // dropping as the last child of the parent.
     if (!mode) {
       for (let i = siblingIndex; i >= 0; i--) {
         if (children[i] && isNode(children[i].value)) {
