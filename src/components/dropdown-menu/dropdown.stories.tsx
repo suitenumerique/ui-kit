@@ -409,6 +409,54 @@ export const SubmenuAtEdge: Story = {
   },
 };
 
+/**
+ * Items without icons. Verifies that the icon container is not rendered
+ * when no `icon` is provided, so the label aligns flush with the item padding.
+ */
+const optionsWithoutIcons: DropdownMenuItem[] = [
+  {
+    label: "Open",
+    callback: () => alert("Open"),
+  },
+  {
+    label: "Download",
+    callback: () => alert("Download"),
+  },
+  { type: "separator" },
+  {
+    label: "Rename",
+    callback: () => alert("Rename"),
+  },
+  {
+    label: "Duplicate",
+    callback: () => alert("Duplicate"),
+  },
+  { type: "separator" },
+  {
+    label: "Delete",
+    callback: () => alert("Delete"),
+    variant: "danger",
+  },
+];
+
+export const WithoutIcons: Story = {
+  args: {
+    options: optionsWithoutIcons,
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Actions</Button>
+      </DropdownMenu>
+    );
+  },
+};
+
 export const WithTopMessage: Story = {
   args: {
     options: [

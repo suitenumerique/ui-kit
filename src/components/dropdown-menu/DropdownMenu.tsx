@@ -21,7 +21,9 @@ const hasChildren = (item: DropdownMenuOption): boolean => {
 
 const MenuItemContent = ({ option }: { option: DropdownMenuOption }) => (
   <>
-    <div className="c__dropdown-menu-item__icon">{option.icon}</div>
+    {option.icon && (
+      <div className="c__dropdown-menu-item__icon">{option.icon}</div>
+    )}
     <div className="c__dropdown-menu-item__label-container">
       <div className="c__dropdown-menu-item__label">{option.label}</div>
       {option.subText && (
@@ -57,7 +59,9 @@ export const DropdownMenu = ({
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
   const triggerRef = useRef(null);
-  const menuClassName = `c__dropdown-menu${variant === "tiny" ? " c__dropdown-menu--tiny" : ""}`;
+  const menuClassName = `c__dropdown-menu${
+    variant === "tiny" ? " c__dropdown-menu--tiny" : ""
+  }`;
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
   };
