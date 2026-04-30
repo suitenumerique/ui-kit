@@ -2,6 +2,10 @@
 
 [UNRELEASED]
 
+### Patch changes
+
+- ♿️(frontend) fix menu semantics and trigger ARIA for screen readers #210
+
 ## 0.20.1
 
 ### Patch Changes
