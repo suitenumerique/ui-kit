@@ -67,6 +67,12 @@
 
 ## 0.20.2
 
+### Patch changes
+
+- ♿️(frontend) fix menu semantics and trigger ARIA for screen readers #210
+
+## 0.20.1
+
 ### Patch Changes
 
 - 🐛(dropdown) fix to hide icon when no icon prop is passed
