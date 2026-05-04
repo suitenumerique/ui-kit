@@ -11,4 +11,6 @@ export interface OnboardingStep {
   description?: ReactNode;
   /** Content displayed in the preview zone (image, video, component, etc.) */
   content?: ReactNode;
+  /** SR description for the preview zone when it is not decorative (GIF, video, custom content). */
+  contentAlt?: string;
 }
