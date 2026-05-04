@@ -5,16 +5,20 @@ import { OnboardingStep } from "./types";
 export interface OnboardingStepItemProps {
   /** Step data */
   step: OnboardingStep;
-  /** Whether this step is active */
+  /** Whether this step is the selected (active) tab */
   isActive: boolean;
+  /** Whether this tab currently owns the roving tabindex (0 vs -1) */
+  isFocused: boolean;
   /** Click handler */
   onClick: () => void;
   /** Step index (0-based) for accessibility */
   index: number;
-  /** Total number of steps */
-  totalSteps: number;
   /** Accessible label for the step */
   ariaLabel: string;
+  /** DOM id for this tab (`aria-labelledby` on panel) */
+  id: string;
+  /** Panel id for `aria-controls` */
+  controls: string;
 }
 
 /**
@@ -28,37 +32,47 @@ export const getStepIcon = (step: OnboardingStep, isActive: boolean) => {
 export const OnboardingStepItem = forwardRef<
   HTMLButtonElement,
   OnboardingStepItemProps
->(({ step, isActive, onClick, index, ariaLabel }, ref) => {
-  const displayedIcon = getStepIcon(step, isActive);
+>(
+  (
+    { step, isActive, isFocused, onClick, index, ariaLabel, id, controls },
+    ref,
+  ) => {
+    const displayedIcon = getStepIcon(step, isActive);
 
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className={clsx("c__onboarding-modal__step", {
-        "c__onboarding-modal__step--active": isActive,
-      })}
-      onClick={onClick}
-      aria-current={isActive ? "step" : undefined}
-      aria-label={ariaLabel}
-      tabIndex={isActive ? 0 : -1}
-      data-testid={`onboarding-step-${index}`}
-    >
-      <div className="c__onboarding-modal__step__icon" aria-hidden="true">
-        {displayedIcon}
-      </div>
-      <div className="c__onboarding-modal__step__content">
-        <span className="c__onboarding-modal__step__title">{step.title}</span>
-        {step.description && (
-          <div className="c__onboarding-modal__step__description-wrapper">
-            <span className="c__onboarding-modal__step__description">
-              {step.description}
-            </span>
-          </div>
-        )}
-      </div>
-    </button>
-  );
-});
+    return (
+      <button
+        ref={ref}
+        type="button"
+        role="tab"
+        id={id}
+        aria-controls={controls}
+        aria-selected={isActive}
+        aria-label={ariaLabel}
+        tabIndex={isFocused ? 0 : -1}
+        className={clsx("c__onboarding-modal__step", {
+          "c__onboarding-modal__step--active": isActive,
+        })}
+        onClick={onClick}
+        data-testid={`onboarding-step-${index}`}
+      >
+        <div className="c__onboarding-modal__step__icon" aria-hidden="true">
+          {displayedIcon}
+        </div>
+        <div className="c__onboarding-modal__step__content">
+          <span className="c__onboarding-modal__step__title">
+            {step.title}
+          </span>
+          {step.description && (
+            <div className="c__onboarding-modal__step__description-wrapper">
+              <span className="c__onboarding-modal__step__description">
+                {step.description}
+              </span>
+            </div>
+          )}
+        </div>
+      </button>
+    );
+  },
+);
 
 OnboardingStepItem.displayName = "OnboardingStepItem";
