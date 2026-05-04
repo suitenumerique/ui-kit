@@ -13,6 +13,19 @@ $transition-duration: 200ms;
   gap: 1.5rem;
 }
 
+// SR-only live region (Next/Prev step announcements).
+.c__onboarding-modal__sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .c__onboarding-modal__header {
   text-align: center;
   padding: 0 var(--c--globals--spacings--base);
