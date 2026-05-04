@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 import {
   Modal,
   ModalSize,
@@ -78,13 +78,35 @@ export const OnboardingModal = ({
 }: OnboardingModalProps) => {
   const { t } = useCunningham();
   const { isMobile } = useResponsive();
+
+  // currentStep = selected tab (controls panel content, aria-selected, active style).
+  // focusedStep = roving tabindex target (controls which tab has tabindex=0).
+  // Arrows move focusedStep only; Enter/Space/click/Next/Prev sync both.
   const [currentStep, setCurrentStep] = useState(initialStep);
+  const [focusedStep, setFocusedStep] = useState(initialStep);
   const [displayedStep, setDisplayedStep] = useState(initialStep);
   const [isFading, setIsFading] = useState(false);
+  // SR: polite announcement when Next/Previous keeps focus on the button (not tabs).
+  const [stepAnnouncement, setStepAnnouncement] = useState("");
 
   const stepRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const stepsContainerRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Unique tab/panel ids per modal instance.
+  const reactId = useId();
+  const baseId = `onboarding-${reactId.replace(/:/g, "")}`;
+  const getTabId = useCallback(
+    (index: number) => `${baseId}-tab-${index + 1}`,
+    [baseId],
+  );
+  const getPanelId = useCallback(
+    (index: number) => `${baseId}-panel-${index + 1}`,
+    [baseId],
+  );
+  const getPanelDescId = useCallback(
+    (index: number) => `${baseId}-panel-desc-${index + 1}`,
+    [baseId],
+  );
 
   const isLastStep = currentStep === steps.length - 1;
   const isFirstStep = currentStep === 0;
@@ -100,31 +122,28 @@ export const OnboardingModal = ({
   const showContentZone = !hideContent && !!activeStep?.content;
 
   /**
-   * Generates accessible label for a step button.
+   * Accessible label for a step button. Selected state is conveyed by
+   * aria-selected on the <button role="tab">; do not duplicate it here.
    */
   const getStepAriaLabel = useCallback(
     (stepIndex: number, stepTitle: string) => {
-      const label = t("components.onboarding.stepLabel")
+      return t("components.onboarding.stepLabel")
         .replace("{current}", String(stepIndex + 1))
         .replace("{total}", String(steps.length))
         .replace("{title}", stepTitle);
-
-      if (stepIndex === currentStep) {
-        return label + t("components.onboarding.currentStepSuffix");
-      }
-      return label;
     },
-    [t, steps.length, currentStep],
+    [t, steps.length],
   );
 
-  /**
-   * Generates accessible label for the content region.
-   */
-  const getContentRegionLabel = useCallback(() => {
-    return t("components.onboarding.contentRegionLabel")
-      .replace("{current}", String(displayedStep + 1))
-      .replace("{total}", String(steps.length));
-  }, [t, displayedStep, steps.length]);
+  // Next/Prev: reuses the same label for the live-region announcement.
+  const buildStepAnnouncement = useCallback(
+    (stepIndex: number) => {
+      const step = steps[stepIndex];
+      if (!step) return "";
+      return getStepAriaLabel(stepIndex, step.title);
+    },
+    [steps, getStepAriaLabel],
+  );
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -135,42 +154,23 @@ export const OnboardingModal = ({
     };
   }, []);
 
-  // Scroll active step into view
-  useEffect(() => {
-    const activeRef = stepRefs.current[currentStep];
-    if (activeRef) {
-      activeRef.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  }, [currentStep]);
-
   // Reset step and manage focus when modal opens
   useEffect(() => {
     if (isOpen) {
-      // Clear any pending animation timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
 
       setCurrentStep(initialStep);
+      setFocusedStep(initialStep);
       setDisplayedStep(initialStep);
       setIsFading(false);
-
-      // Focus the initial step button after modal renders
-      // Use requestAnimationFrame + setTimeout to ensure DOM is ready
-      const focusTimeout = setTimeout(() => {
-        requestAnimationFrame(() => {
-          const stepButton = stepRefs.current[initialStep];
-          if (stepButton && !isMobile) {
-            stepButton.focus();
-          }
-        });
-      }, 150);
-
-      return () => clearTimeout(focusTimeout);
+      setStepAnnouncement("");
     }
-  }, [isOpen, initialStep, isMobile]);
+  }, [isOpen, initialStep]);
 
+  // Activates a step: updates selection + panel content (with fade animation).
   const handleStepChange = useCallback(
     (newStep: number) => {
       if (newStep === currentStep) return;
@@ -194,49 +194,97 @@ export const OnboardingModal = ({
     [currentStep],
   );
 
-  // Keyboard navigation for step list (ArrowUp/ArrowDown)
-  useEffect(() => {
-    const container = stepsContainerRef.current;
-    if (!container) return;
+  // Manual-activation vertical tablist: arrows move focus only, Enter/Space activates.
+  // Avoids duplicate SR announcements on arrow keys because aria-selected stays put until activation.
+  const handleTablistKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      let newFocusedIndex: number | null = null;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
-
-      const target = e.target as HTMLElement;
-      if (!target.closest(".c__onboarding-modal__step")) return;
+      switch (e.key) {
+        case "ArrowDown":
+          newFocusedIndex = (focusedStep + 1) % steps.length;
+          break;
+        case "ArrowUp":
+          newFocusedIndex =
+            (focusedStep - 1 + steps.length) % steps.length;
+          break;
+        case "Home":
+          newFocusedIndex = 0;
+          break;
+        case "End":
+          newFocusedIndex = steps.length - 1;
+          break;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          handleStepChange(focusedStep);
+          // Clear stale live-region text when user activates from inside tablist
+          setStepAnnouncement("");
+          return;
+        default:
+          return;
+      }
 
       e.preventDefault();
+      // Clear stale live-region text from a previous Next/Prev action
+      setStepAnnouncement("");
+      setFocusedStep(newFocusedIndex);
 
-      const newIndex =
-        e.key === "ArrowDown"
-          ? (currentStep + 1) % steps.length
-          : (currentStep - 1 + steps.length) % steps.length;
+      requestAnimationFrame(() => {
+        const el = stepRefs.current[newFocusedIndex!];
+        el?.focus();
+        el?.scrollIntoView({ block: "nearest", inline: "nearest" });
+      });
+    },
+    [focusedStep, steps.length, handleStepChange],
+  );
 
-      handleStepChange(newIndex);
+  // When focus leaves the tablist, reset roving focus to the selected tab
+  // so that re-entering (Shift+Tab) lands on the active tab (APG spec).
+  const handleTablistBlur = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+        setFocusedStep(currentStep);
+      }
+    },
+    [currentStep],
+  );
 
-      // Focus the new step after state update
-      setTimeout(() => {
-        stepRefs.current[newIndex]?.focus();
-      }, 0);
-    };
-
-    container.addEventListener("keydown", handleKeyDown);
-    return () => container.removeEventListener("keydown", handleKeyDown);
-  }, [currentStep, steps.length, handleStepChange]);
+  // Click on a tab: select it and sync roving focus.
+  const handleTabClick = useCallback(
+    (index: number) => {
+      setFocusedStep(index);
+      handleStepChange(index);
+      setStepAnnouncement("");
+    },
+    [handleStepChange],
+  );
 
   const handleNext = useCallback(() => {
     if (isLastStep) {
       onComplete();
     } else {
-      handleStepChange(currentStep + 1);
+      const nextIndex = currentStep + 1;
+      setFocusedStep(nextIndex);
+      handleStepChange(nextIndex);
+      setStepAnnouncement(buildStepAnnouncement(nextIndex));
     }
-  }, [isLastStep, onComplete, handleStepChange, currentStep]);
+  }, [
+    isLastStep,
+    onComplete,
+    handleStepChange,
+    currentStep,
+    buildStepAnnouncement,
+  ]);
 
   const handlePrevious = useCallback(() => {
     if (!isFirstStep) {
-      handleStepChange(currentStep - 1);
+      const prevIndex = currentStep - 1;
+      setFocusedStep(prevIndex);
+      handleStepChange(prevIndex);
+      setStepAnnouncement(buildStepAnnouncement(prevIndex));
     }
-  }, [isFirstStep, handleStepChange, currentStep]);
+  }, [isFirstStep, handleStepChange, currentStep, buildStepAnnouncement]);
 
   const handleSkip = useCallback(() => {
     onSkip?.();
@@ -341,12 +389,15 @@ export const OnboardingModal = ({
           })}
         >
           {/* Desktop: Steps list with keyboard navigation */}
+          {/* tablist tabIndex=-1: avoids Chromium Tab stop on overflow:auto */}
           <div
-            ref={stepsContainerRef}
             className="c__onboarding-modal__steps"
             role="tablist"
             aria-orientation="vertical"
             aria-label={mainTitle}
+            tabIndex={-1}
+            onKeyDown={handleTablistKeyDown}
+            onBlur={handleTablistBlur}
           >
             {steps.map((step, index) => (
               <OnboardingStepItem
@@ -356,22 +407,29 @@ export const OnboardingModal = ({
                 }}
                 step={step}
                 index={index}
-                totalSteps={steps.length}
                 isActive={index === currentStep}
+                isFocused={index === focusedStep}
                 ariaLabel={getStepAriaLabel(index, step.title)}
-                onClick={() => handleStepChange(index)}
+                id={getTabId(index)}
+                controls={getPanelId(index)}
+                onClick={() => handleTabClick(index)}
               />
             ))}
           </div>
 
-          {/* Content zone with ARIA live region */}
+          {/* Content zone (tabpanel) */}
           {showContentZone && (
             <div
               className="c__onboarding-modal__content"
               role="tabpanel"
-              aria-live="polite"
-              aria-atomic="true"
-              aria-label={getContentRegionLabel()}
+              id={getPanelId(currentStep)}
+              aria-labelledby={getTabId(currentStep)}
+              aria-describedby={
+                activeStep?.contentAlt
+                  ? getPanelDescId(currentStep)
+                  : undefined
+              }
+              tabIndex={0}
             >
               <div
                 className={clsx("c__onboarding-modal__content-inner", {
@@ -380,6 +438,14 @@ export const OnboardingModal = ({
               >
                 {activeStep?.content}
               </div>
+              {activeStep?.contentAlt && (
+                <span
+                  id={getPanelDescId(currentStep)}
+                  className="c__onboarding-modal__sr-status"
+                >
+                  {activeStep.contentAlt}
+                </span>
+              )}
             </div>
           )}
 
@@ -404,6 +470,15 @@ export const OnboardingModal = ({
               </div>
             </div>
           )}
+        </div>
+
+        {/* SR: step change on Next/Prev (not on tab focus). */}
+        <div
+          className="c__onboarding-modal__sr-status"
+          role="status"
+          aria-live="polite"
+        >
+          {stepAnnouncement}
         </div>
       </div>
     </Modal>

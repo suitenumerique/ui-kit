@@ -2,6 +2,10 @@
 
 [UNRELEASED]
 
+### Patch Changes
+
+- ♿️(onboarding) improve OnboardingModal keyboard, screen reader, and preview content a11y
+
 ## 0.20.1
 
 ### Patch Changes

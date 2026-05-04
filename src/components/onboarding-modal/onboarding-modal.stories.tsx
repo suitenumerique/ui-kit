@@ -50,6 +50,7 @@ import { OnboardingStep } from "./types";
  * | `title` | `string` | Step title |
  * | `description` | `string` | Step description, visible only when the step is active |
  * | `content` | `ReactNode` | Content displayed in the preview zone (image, video, component, etc.) |
+ * | `contentAlt` | `string` | Accessible description of the content zone (omit if decorative) |
  *
  * ## OnboardingModalProps
  *
