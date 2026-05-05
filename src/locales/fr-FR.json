@@ -112,6 +112,47 @@
       "send": "Envoyer",
       "category": "Catégorie",
       "closeAriaLabel": "Fermer le formulaire de contact"
+    },
+    "filePreview": {
+      "title": "Aperçu du fichier",
+      "unsupported": {
+        "title": "Fichier non pris en charge",
+        "disclaimer": "Format non supporté.",
+        "description": "Pour visualiser le fichier, téléchargez-le sur votre appareil.",
+        "download": "Télécharger le fichier",
+        "heicTitle": "Les fichiers HEIC ne sont pas encore supportés pour la prévisualisation."
+      },
+      "suspicious": {
+        "title": "Fichier suspect",
+        "description": "Ce fichier semble suspect. Il n'est visible que pour vous.",
+        "download": "Télécharger le fichier"
+      },
+      "error": {
+        "title": "Une erreur est survenue lors du chargement du document.",
+        "description": "Vous pouvez contacter le support pour obtenir de l'aide."
+      },
+      "wopi": {
+        "loading": "Chargement du document...",
+        "error": "Une erreur est survenue lors du chargement du document.",
+        "openInEditor": "Ouvrir dans l'éditeur",
+        "openInEditorDescription": "Ce fichier peut être modifié avec un éditeur en ligne. Il s'ouvre dans un nouvel onglet."
+      },
+      "image": {
+        "loading": "Chargement de l'image..."
+      },
+      "externalLink": {
+        "title": "Lien externe",
+        "description": "Vous êtes sur le point de quitter cette page et d'être redirigé vers :",
+        "confirmQuestion": "Voulez-vous continuer ?"
+      },
+      "outdatedBrowser": {
+        "title": "Votre navigateur n'est pas pris en charge",
+        "description": "Pour des raisons de sécurité, la visionneuse PDF nécessite un navigateur récent. Veuillez mettre à jour votre navigateur ou utiliser Firefox ou Chrome."
+      },
+      "actions": {
+        "download": "Télécharger",
+        "print": "Imprimer"
+      }
     }
   }
 }

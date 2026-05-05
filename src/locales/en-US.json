@@ -113,6 +113,47 @@
       "send": "Send",
       "category": "Category",
       "closeAriaLabel": "Close feedback form"
+    },
+    "filePreview": {
+      "title": "File Preview",
+      "unsupported": {
+        "title": "Unsupported file",
+        "disclaimer": "Unsupported format.",
+        "description": "To view the file, download it to your device.",
+        "download": "Download file",
+        "heicTitle": "HEIC files are not yet supported for preview."
+      },
+      "suspicious": {
+        "title": "Suspicious file",
+        "description": "This file looks suspicious. It is only visible to you.",
+        "download": "Download file"
+      },
+      "error": {
+        "title": "An error occurred while loading the document.",
+        "description": "You can contact the support for help."
+      },
+      "wopi": {
+        "loading": "Loading document...",
+        "error": "An error occurred while loading the document.",
+        "openInEditor": "Open in editor",
+        "openInEditorDescription": "This file can be edited with an online editor. It opens in a new tab."
+      },
+      "image": {
+        "loading": "Loading image..."
+      },
+      "externalLink": {
+        "title": "External link",
+        "description": "You are about to leave this page and be redirected to:",
+        "confirmQuestion": "Do you want to continue?"
+      },
+      "outdatedBrowser": {
+        "title": "Your browser is not supported",
+        "description": "For security reasons, the PDF viewer requires a recent browser. Please update your browser or use Firefox or Chrome."
+      },
+      "actions": {
+        "download": "Download",
+        "print": "Print"
+      }
     }
   }
 }

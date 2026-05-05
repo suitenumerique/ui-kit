@@ -32,6 +32,7 @@ export * from "./components/users";
 export * from "./components/onboarding-modal";
 export * from "./components/storage-gauge";
 export * from "./components/release-note-modal";
+export * from "./components/preview";
 export * from "./hooks/useCustomTranslations";
 export * from "./utils/get-ui-kit-themes-from-globals";
 export { anctGlobals, dsfrGlobals, whiteLabelGlobals } from "../cunningham";
