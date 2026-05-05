@@ -16,7 +16,18 @@ export default defineConfig({
       cssFileName: "style",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "@gouvfr-lasuite/cunningham-react"],
+      external: [
+        "react",
+        "react-dom",
+        "@gouvfr-lasuite/cunningham-react",
+        "@tanstack/react-query",
+        "react-pdf",
+        /^react-pdf\//,
+        "pdfjs-dist",
+        /^pdfjs-dist\//,
+        "react-virtualized",
+        /^react-virtualized\//,
+      ],
       output: {
         globals: {
           react: "React",

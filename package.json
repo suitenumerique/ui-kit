@@ -49,11 +49,14 @@
     "react-arborist": "3.4.3",
     "react-aria-components": "1.16.0",
     "react-resizable-panels": "2.1.7",
-    "react-stately": "3.37.0"
+    "react-stately": "3.37.0",
+    "react-virtualized": "9.22.6",
+    "react-pdf": "10.1.0"
   },
   "peerDependencies": {
     "react": "^19.1.2",
-    "react-dom": "^19.1.2"
+    "react-dom": "^19.1.2",
+    "@tanstack/react-query": "^5"
   },
   "devDependencies": {
     "@babel/core": "7.26.0",
@@ -74,8 +77,10 @@
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-prettier": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
+    "@tanstack/react-query": "5.90.10",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
+    "@types/react-virtualized": "9.22.3",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/coverage-c8": "0.33.0",
     "@vitest/ui": "2.1.8",

@@ -21,6 +21,8 @@ const config: StorybookConfig = {
   staticDirs: [
     "../src/assets/fonts/Marianne",
     { from: "../src/assets/fonts/Marianne", to: "/assets" },
+    // pdfjs-dist worker so PdfPreview's default workerSrc ("/pdf.worker.mjs") resolves.
+    { from: "../node_modules/pdfjs-dist/build", to: "/" },
   ],
 };
 export default config;
