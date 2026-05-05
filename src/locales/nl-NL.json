@@ -1,0 +1,158 @@
+{
+  "components": {
+    "share": {
+      "copyLink": "Link kopiëren",
+      "ok": "OK",
+      "shareButton": "Delen",
+      "modalTitle": "Map delen",
+      "modalAriaLabel": "Deelvenster",
+      "access": {
+        "delete": "Toegang intrekken"
+      },
+      "cannot_view": {
+        "message": "U kunt dit item bekijken, maar u heeft aanvullende toegang nodig om de leden te zien of de instellingen te wijzigen."
+      },
+      "invitations": {
+        "title": "Openstaande uitnodigingen"
+      },
+      "members": {
+        "title_plural": "Gedeeld met {count} personen",
+        "title_singular": "Gedeeld met {count} persoon",
+        "load_more": "Meer weergeven"
+      },
+      "item": {
+        "add": "Toevoegen"
+      },
+      "search": {
+        "placeholder": "Gebruiker zoeken",
+        "group_name": "Resultaat gebruiker zoeken"
+      },
+      "user": {
+        "no_result": "Geen resultaten",
+        "placeholder": "Zoek een gebruiker om uit te nodigen"
+      },
+      "linkSettings": {
+        "title": "Linkinstellingen",
+        "reach": {
+          "choices": {
+            "public": {
+              "title": "Openbaar",
+              "description": "Iedereen met de link heeft toegang tot het document"
+            },
+            "authenticated": {
+              "title": "Geauthenticeerd",
+              "description": "Alleen geauthenticeerde gebruikers hebben toegang tot het document"
+            },
+            "restricted": {
+              "title": "Privé",
+              "description": "Alleen gebruikers van de werkruimte hebben toegang tot het document"
+            }
+          }
+        },
+        "role": {
+          "choices": {
+            "reader": {
+              "title": "Lezer"
+            },
+            "editor": {
+              "title": "Bewerker"
+            }
+          }
+        }
+      }
+    },
+    "laGaufre": {
+      "label": "Digitale LaSuite-diensten",
+      "closeLabel": "Menu sluiten",
+      "viewMoreLabel": "Meer weergeven",
+      "viewLessLabel": "Minder weergeven",
+      "loadingText": "Laden…",
+      "newWindowLabelSuffix": " (nieuw venster)",
+      "headerLabel": "Over"
+    },
+    "userMenu": {
+      "term_of_service": "Servicevoorwaarden",
+      "manage_account": "Account beheren",
+      "open": "Gebruikersmenu openen",
+      "close": "Gebruikersmenu sluiten",
+      "accountSettings": "Accountinstellingen",
+      "logout": "Uitloggen",
+      "dialogTitle": "Gebruikersmenu"
+    },
+    "treeView": {
+      "viewMore": "Meer elementen laden"
+    },
+    "footer": {
+      "logo": {
+        "alt": "Logo van de Franse overheid"
+      }
+    },
+    "onboarding": {
+      "skip": "Overslaan",
+      "next": "Volgende",
+      "previous": "Vorige",
+      "complete": "Begrepen",
+      "stepLabel": "Stap {current} van {total}: {title}",
+      "currentStepSuffix": " (huidig)",
+      "contentRegionLabel": "Inhoud van stap {current} van {total}"
+    },
+    "feedbackForm": {
+      "title": "Neem contact op met het team",
+      "subtitle": "Bug, idee, vraag of compliment — het team leest alles en neemt indien nodig contact met u op.",
+      "subject": "Onderwerp",
+      "subjectPlaceholder": "Waar gaat het over?",
+      "message": "Uw bericht",
+      "messagePlaceholder": "Beschrijf uw probleem of suggestie...",
+      "uploadFile": "Een bestand uploaden",
+      "emailCheckbox": "Ik wil graag een antwoord per e-mail ontvangen",
+      "emailLabel": "E-mail",
+      "emailPrivacy": "Bekijk hoe uw e-mailadres wordt gebruikt",
+      "emailError": "Voer een geldig e-mailadres in.",
+      "cancel": "Annuleren",
+      "send": "Verzenden",
+      "category": "Categorie",
+      "closeAriaLabel": "Feedbackformulier sluiten"
+    },
+    "filePreview": {
+      "title": "Bestandsvoorbeeld",
+      "unsupported": {
+        "title": "Niet-ondersteund bestand",
+        "disclaimer": "Format niet ondersteund.",
+        "description": "Om het bestand te bekijken, downloadt u het naar uw apparaat.",
+        "download": "Bestand downloaden",
+        "heicTitle": "HEIC-bestanden worden nog niet ondersteund voor voorbeeld."
+      },
+      "suspicious": {
+        "title": "Verdacht bestand",
+        "description": "Dit bestand is verdacht. Het is alleen voor u zichtbaar.",
+        "download": "Bestand downloaden"
+      },
+      "error": {
+        "title": "Er is een fout opgetreden tijdens het laden van het document.",
+        "description": "U kunt contact opnemen met de support voor hulp."
+      },
+      "wopi": {
+        "loading": "Document laden...",
+        "error": "Er is een fout opgetreden tijdens het laden van het document.",
+        "openInEditor": "Openen in editor",
+        "openInEditorDescription": "Dit bestand kan worden bewerkt met een online editor. Het opent in een nieuw tabblad."
+      },
+      "image": {
+        "loading": "Afbeelding laden..."
+      },
+      "externalLink": {
+        "title": "Externe link",
+        "description": "U staat op het punt deze pagina te verlaten en te worden doorgestuurd naar:",
+        "confirmQuestion": "Wilt u doorgaan?"
+      },
+      "outdatedBrowser": {
+        "title": "Uw browser wordt niet ondersteund",
+        "description": "Om veiligheidsredenen vereist de PDF-viewer een recente browser. Werk uw browser bij of gebruik Firefox of Chrome."
+      },
+      "actions": {
+        "download": "Downloaden",
+        "print": "Afdrukken"
+      }
+    }
+  }
+}
