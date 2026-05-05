@@ -33,7 +33,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate-icons": "tsx scripts/generate-icons.ts",
-    "scalingo-postbuild": "yarn build && yarn build-storybook"
+    "scalingo-postbuild": "yarn build && yarn build-storybook",
+    "test:ct": "playwright test -c playwright.config.ts",
+    "test:ct:ui": "playwright test -c playwright.config.ts --ui",
+    "generate-test-pdfs": "node scripts/generate-test-pdfs.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "6.3.1",
@@ -111,7 +114,10 @@
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "2.1.8",
     "vitest-fetch-mock": "0.4.3",
-    "yup": "1.6.1"
+    "yup": "1.6.1",
+    "@playwright/experimental-ct-react": "1.52.0",
+    "@playwright/test": "1.52.0",
+    "pdf-lib": "1.17.1"
   },
   "eslintConfig": {
     "extends": [

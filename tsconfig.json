@@ -35,6 +35,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "cunningham.ts", "common.d.ts", "scripts"],
+  "include": ["src", "cunningham.ts", "common.d.ts", "scripts", "e2e"],
   "exclude": ["node_modules", "dist"],
 }
