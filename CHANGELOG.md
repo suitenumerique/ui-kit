@@ -11,6 +11,7 @@
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
 - ✨(front) add SmartScroller component
+- 🐛(tree-view) remove pointer-events rules breaking drag-and-drop #215
 
 ## 0.23.2
 
