@@ -34,7 +34,7 @@ export const QuickSearchInput = ({
   return (
     <>
       <div className="quick-search-input-container">
-        {!loading && <span className="material-icons">search</span>}
+        {!loading && <span className="material-icons" aria-hidden="true">search</span>}
         {loading && (
           <div>
             <Spinner size="md" />

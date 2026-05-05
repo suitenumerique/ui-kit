@@ -14,7 +14,7 @@ export const ShareModalCopyLinkFooter = ({
     <div className="c__share-modal__copy-link-footer">
       <Button
         variant="secondary"
-        icon={<span className="material-icons">link</span>}
+        icon={<span className="material-icons" aria-hidden="true">link</span>}
         onClick={onCopyLink}
       >
         {t("components.share.copyLink")}
