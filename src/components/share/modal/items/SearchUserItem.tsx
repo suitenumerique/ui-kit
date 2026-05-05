@@ -20,7 +20,7 @@ export const SearchUserItem = <UserType,>({
       right={
         <div className="c__search-user-item-right">
           <span>{t("components.share.item.add")}</span>
-          <span className="material-icons">add</span>
+          <span className="material-icons" aria-hidden="true">add</span>
         </div>
       }
     />
