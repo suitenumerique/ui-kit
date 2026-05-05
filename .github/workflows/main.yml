@@ -8,6 +8,10 @@ on:
     branches:
       - "*"
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   install-front:
     uses: ./.github/workflows/front-dependencies-installation.yml
@@ -26,7 +30,7 @@ jobs:
         run: git log
       - name: Enforce absence of print statements in code
         run: |
-          ! git diff origin/${{ github.event.pull_request.base.ref }}..HEAD -- . ':(exclude)**/main.yml' | grep "print("
+          ! git diff origin/${{ github.event.pull_request.base.ref }}..HEAD -- . ':(exclude)**/main.yml' ':(exclude)**/pdf.worker.mjs' ':(exclude)**/printImage.ts' ':(exclude)**/image-preview.spec.ts' | grep "print("
       - name: Check absence of fixup commits
         run: |
           ! git log | grep 'fixup!'
@@ -91,3 +95,52 @@ jobs:
           fail-on-cache-miss: true
       - name: Build
         run: yarn build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: install-front
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20.x"
+      - name: Restore the frontend cache
+        uses: actions/cache@v5
+        with:
+          path: "node_modules"
+          key: front-node_modules-${{ hashFiles('yarn.lock') }}
+          fail-on-cache-miss: true
+      # Playwright browsers live outside node_modules and weigh hundreds of
+      # MB; cache them by the @playwright/test version so we only re-download
+      # when the version bumps.
+      - name: Restore Playwright browsers cache
+        id: playwright-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: yarn playwright install --with-deps chromium webkit firefox
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: yarn playwright install-deps chromium webkit firefox
+      # The PDF viewer loads pdfjs's worker from /pdf.worker.mjs at runtime;
+      # copy it from the installed pdfjs-dist so the served public/ has it.
+      - name: Provision PDF worker
+        run: cp node_modules/pdfjs-dist/build/pdf.worker.mjs public/pdf.worker.mjs
+      - name: Generate test PDFs
+        run: yarn generate-test-pdfs
+      - name: Run component tests
+        run: yarn test:ct
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            e2e/report
+            test-results
+          retention-days: 7
