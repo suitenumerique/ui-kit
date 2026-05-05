@@ -10,18 +10,23 @@
       "modalAriaLabel": "Modale de partage",
       "shareButton": "Partager",
       "access": {
-        "delete": "Retirer l'accès"
+        "delete": "Retirer l'accès",
+        "remove_user": "Retirer {name}",
+        "role_label": "Changer le rôle de {name}, actuellement {role}",
+        "role_changed": "Rôle modifié en {role} pour {name}"
       },
       "cannot_view": {
         "message": "Vous pouvez voir cet élément mais vous avez besoin d'un accès supplémentaire pour voir ses membres ou modifier les paramètres."
       },
       "invitations": {
-        "title": "Invitations en attente"
+        "title": "Invitations en attente",
+        "load_more_aria": "Afficher plus d'invitations"
       },
       "members": {
         "title_plural": "Partagé entre {count} personnes",
         "title_singular": "Partagé entre {count} personne",
-        "load_more": "Afficher plus"
+        "load_more": "Afficher plus",
+        "load_more_aria": "Afficher plus de membres"
       },
       "item": {
         "add": "Ajouter"
@@ -32,7 +37,9 @@
       },
       "user": {
         "no_result": "Aucun résultat",
-        "placeholder": "Rechercher un utilisateur à inviter"
+        "placeholder": "Rechercher un utilisateur à inviter",
+        "added": "{name} ajouté aux invitations",
+        "removed": "{name} retiré des invitations"
       },
       "linkSettings": {
         "title": "Paramètres du lien",
