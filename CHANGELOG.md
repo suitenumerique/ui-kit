@@ -2,7 +2,15 @@
 
 [UNRELEASED]
 
-## 0.20.1
+## 0.21.0
+
+### Minor Changes
+
+- ✨(front) add FilePreview component and viewers
+- ✨(front) add FileIcon component
+- ✅(test) add Playwright component tests
+
+## 0.20.2
 
 ### Patch Changes
 
@@ -460,7 +468,10 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.20.0...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.21.0...main
+[0.21.0]: https://github.com/suitenumerique/ui-kit/compare/v0.2.2...v0.21.0
+[0.20.2]: https://github.com/suitenumerique/ui-kit/compare/v0.2.1...v0.20.2
+[0.20.1]: https://github.com/suitenumerique/ui-kit/compare/v0.2.0...v0.20.1
 [0.20.0]: https://github.com/suitenumerique/ui-kit/compare/v0.18.6...v0.20.0
 [0.18.6]: https://github.com/suitenumerique/ui-kit/compare/v0.18.5...v0.18.6
 [0.18.5]: https://github.com/suitenumerique/ui-kit/compare/v0.18.4...v0.18.5
