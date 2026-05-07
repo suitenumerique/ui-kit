@@ -6,10 +6,7 @@ import type { FilePreviewType } from "../../src/components/preview/types";
 test.describe("File Preview Actions Menu", () => {
   test.beforeEach(async ({ mount, page }) => {
     await mount(
-      <TestFilePreview
-        files={[pdfFile]}
-        handleDownloadFile={() => {}}
-      />,
+      <TestFilePreview files={[pdfFile]} handleDownloadFile={() => {}} />,
     );
     await expect(page.getByTestId("file-preview")).toBeVisible({
       timeout: 10000,
@@ -63,7 +60,9 @@ test.describe("File Preview Actions Menu - Download callback", () => {
     await mount(
       <TestFilePreview
         files={[pdfFile]}
-        handleDownloadFile={(file) => { downloadedFile = file; }}
+        handleDownloadFile={(file) => {
+          downloadedFile = file;
+        }}
       />,
     );
     await expect(page.getByTestId("file-preview")).toBeVisible({
@@ -98,6 +97,86 @@ test.describe("File Preview Actions Menu - Non-printable file", () => {
   });
 });
 
+test.describe("File Preview customHeaderActions", () => {
+  test("Renders custom content alongside the built-in header actions", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestFilePreview
+        files={[pdfFile]}
+        handleDownloadFile={() => {}}
+        customHeaderActionsMode="wrap"
+      />,
+    );
+    await expect(page.getByTestId("file-preview")).toBeVisible({
+      timeout: 10000,
+    });
+
+    await expect(page.getByTestId("custom-before")).toBeVisible();
+    await expect(page.getByTestId("custom-after")).toBeVisible();
+
+    const filePreview = page.getByTestId("file-preview");
+    await expect(filePreview.getByText("info_outline")).toBeVisible();
+    await expect(filePreview.getByText("more_vert")).toBeVisible();
+    await expect(filePreview.getByText("file_download")).toBeVisible();
+  });
+
+  test("Replaces the built-in header actions when the wrapper omits them", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestFilePreview
+        files={[pdfFile]}
+        handleDownloadFile={() => {}}
+        customHeaderActionsMode="replace"
+      />,
+    );
+    await expect(page.getByTestId("file-preview")).toBeVisible({
+      timeout: 10000,
+    });
+
+    await expect(page.getByTestId("custom-only")).toBeVisible();
+
+    const filePreview = page.getByTestId("file-preview");
+    await expect(filePreview.getByText("info_outline")).not.toBeVisible();
+    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+  });
+});
+
+test.describe("File Preview headerActionsMenuOptions", () => {
+  test("Appends the custom entries after the built-in options", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestFilePreview
+        files={[pdfFile]}
+        handleDownloadFile={() => {}}
+        extraMenuOptions={[
+          { id: "copy-link", label: "Copy link" },
+          { id: "delete", label: "Delete", variant: "danger" },
+        ]}
+      />,
+    );
+    await expect(page.getByTestId("file-preview")).toBeVisible({
+      timeout: 10000,
+    });
+
+    const filePreview = page.getByTestId("file-preview");
+    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    await moreVertButton.click();
+
+    const items = page.getByRole("menuitem");
+    await expect(items).toHaveCount(4);
+    await expect(items.nth(0)).toHaveText(/Download/);
+    await expect(items.nth(1)).toHaveText(/Print/);
+    await expect(items.nth(2)).toHaveText(/Copy link/);
+    await expect(items.nth(3)).toHaveText(/Delete/);
+  });
+});
+
 test.describe("File Preview Header", () => {
   test("Closes the preview when the close button is clicked", async ({
     mount,
@@ -107,7 +186,9 @@ test.describe("File Preview Header", () => {
     await mount(
       <TestFilePreview
         files={[pdfFile]}
-        onClose={() => { closed = true; }}
+        onClose={() => {
+          closed = true;
+        }}
       />,
     );
     await expect(page.getByTestId("file-preview")).toBeVisible({
