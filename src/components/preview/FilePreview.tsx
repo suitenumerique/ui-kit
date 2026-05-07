@@ -70,6 +70,7 @@ interface FilePreviewProps {
   initialIndexFile?: number;
   openedFileId?: string;
   headerRightContent?: React.ReactNode;
+  headerRightContentEnd?: React.ReactNode;
   sidebarContent?: React.ReactNode;
   onChangeFile?: (file?: FilePreviewType) => void;
   onFileOpen?: (file: FilePreviewType) => void;
@@ -88,6 +89,7 @@ export const FilePreview = ({
   openedFileId,
   sidebarContent,
   headerRightContent,
+  headerRightContentEnd,
   onChangeFile,
   onFileOpen,
   handleDownloadFile,
@@ -408,6 +410,7 @@ export const FilePreview = ({
                     />
                   </DropdownMenu>
                 )}
+                {headerRightContentEnd}
               </div>
             </div>
           </div>
