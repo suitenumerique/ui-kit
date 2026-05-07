@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CunninghamProvider } from "../../src/components/Provider/Provider";
 import { FilePreview } from "../../src/components/preview/FilePreview";
@@ -8,6 +9,8 @@ interface TestFilePreviewProps {
   initialIndexFile?: number;
   handleDownloadFile?: (file?: FilePreviewType) => void;
   onClose?: () => void;
+  headerRightContent?: ReactNode;
+  headerRightContentEnd?: ReactNode;
 }
 
 export const TestFilePreview = ({
@@ -15,6 +18,8 @@ export const TestFilePreview = ({
   initialIndexFile = 0,
   handleDownloadFile,
   onClose,
+  headerRightContent,
+  headerRightContentEnd,
 }: TestFilePreviewProps) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const openedFileId = files[initialIndexFile]?.id;
@@ -29,6 +34,8 @@ export const TestFilePreview = ({
           pdfWorkerSrc="/pdf.worker.mjs"
           handleDownloadFile={handleDownloadFile}
           onClose={onClose}
+          headerRightContent={headerRightContent}
+          headerRightContentEnd={headerRightContentEnd}
         />
       </CunninghamProvider>
     </QueryClientProvider>
