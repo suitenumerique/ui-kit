@@ -26,6 +26,7 @@ import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
 import { OutdatedBrowserPreview } from "./viewers/pdf-preview/OutdatedBrowserPreview";
+import { MenuItemAction } from ":/components/menu";
 
 // Lazy-load PDF rendering — react-pdf + pdfjs-dist + react-virtualized weigh
 // over a megabyte gzipped, and most previews aren't PDFs. We narrow the
@@ -69,7 +70,8 @@ interface FilePreviewProps {
   files?: FilePreviewType[];
   initialIndexFile?: number;
   openedFileId?: string;
-  headerRightContent?: React.ReactNode;
+  customHeaderActions?: (headerActions: React.ReactNode) => React.ReactNode;
+  headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
   sidebarContent?: React.ReactNode;
   onChangeFile?: (file?: FilePreviewType) => void;
   onFileOpen?: (file: FilePreviewType) => void;
@@ -87,7 +89,8 @@ export const FilePreview = ({
   initialIndexFile = -1,
   openedFileId,
   sidebarContent,
-  headerRightContent,
+  customHeaderActions,
+  headerActionsMenuOptions,
   onChangeFile,
   onFileOpen,
   handleDownloadFile,
@@ -311,6 +314,59 @@ export const FilePreview = ({
     };
   }, [isOpen, currentFile]);
 
+  const renderHeaderActions = () => {
+    return (
+      <>
+        {handleDownloadFile && (
+          <Button
+            variant="tertiary"
+            onClick={handleDownload}
+            icon={<Icon type={IconType.OUTLINED} name={"file_download"} />}
+          />
+        )}
+        <Button
+          variant="tertiary"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          icon={<Icon name={"info_outline"} />}
+        />
+        {(currentFile?.category === MimeCategory.PDF ||
+          currentFile?.category === MimeCategory.IMAGE) && (
+          <DropdownMenu
+            options={[
+              ...(handleDownloadFile
+                ? [
+                    {
+                      icon: (
+                        <Icon type={IconType.OUTLINED} name="file_download" />
+                      ),
+                      label: t("components.filePreview.actions.download"),
+                      value: "download",
+                      callback: handleDownload,
+                    },
+                  ]
+                : []),
+              {
+                icon: <Icon name="print" />,
+                label: t("components.filePreview.actions.print"),
+                value: "print",
+                callback: handlePrint,
+              },
+              ...(headerActionsMenuOptions?.(currentFile) || []),
+            ]}
+            isOpen={isActionsMenuOpen}
+            onOpenChange={setIsActionsMenuOpen}
+          >
+            <Button
+              variant="tertiary"
+              onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
+              icon={<Icon name="more_vert" />}
+            />
+          </DropdownMenu>
+        )}
+      </>
+    );
+  };
+
   if (!isOpen || !currentFile) {
     return null;
   }
@@ -355,59 +411,9 @@ export const FilePreview = ({
                 </div>
               </div>
               <div className="file-preview__header__content__right">
-                {headerRightContent}
-                {handleDownloadFile && (
-                  <Button
-                    variant="tertiary"
-                    onClick={handleDownload}
-                    icon={
-                      <Icon type={IconType.OUTLINED} name={"file_download"} />
-                    }
-                  />
-                )}
-                <Button
-                  variant="tertiary"
-                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  icon={<Icon name={"info_outline"} />}
-                />
-                {(currentFile?.category === MimeCategory.PDF ||
-                  currentFile?.category === MimeCategory.IMAGE) && (
-                  <DropdownMenu
-                    options={[
-                      ...(handleDownloadFile
-                        ? [
-                            {
-                              icon: (
-                                <Icon
-                                  type={IconType.OUTLINED}
-                                  name="file_download"
-                                />
-                              ),
-                              label: t(
-                                "components.filePreview.actions.download",
-                              ),
-                              value: "download",
-                              callback: handleDownload,
-                            },
-                          ]
-                        : []),
-                      {
-                        icon: <Icon name="print" />,
-                        label: t("components.filePreview.actions.print"),
-                        value: "print",
-                        callback: handlePrint,
-                      },
-                    ]}
-                    isOpen={isActionsMenuOpen}
-                    onOpenChange={setIsActionsMenuOpen}
-                  >
-                    <Button
-                      variant="tertiary"
-                      onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
-                      icon={<Icon name="more_vert" />}
-                    />
-                  </DropdownMenu>
-                )}
+                {customHeaderActions
+                  ? customHeaderActions(renderHeaderActions())
+                  : renderHeaderActions()}
               </div>
             </div>
           </div>
