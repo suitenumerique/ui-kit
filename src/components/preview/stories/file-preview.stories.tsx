@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Title, Description, Controls, Primary, Stories } from "@storybook/blocks";
+import {
+  Title,
+  Description,
+  Controls,
+  Primary,
+  Stories,
+} from "@storybook/blocks";
 import { FilePreview } from "../FilePreview";
 import { FilePreviewExample } from "./FilePreviewExample";
 import {
@@ -13,6 +19,7 @@ import {
   videoFiles,
   wopiFile,
 } from "./fixtures";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 
 /**
  * The `FilePreview` component is a fullscreen modal viewer that renders a list
@@ -120,7 +127,8 @@ import {
  * | `onFileOpen` | `(file: FilePreviewType) => void` | Fires once per file when it becomes visible |
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
- * | `headerRightContent` | `ReactNode` | Custom node injected next to the action buttons |
+ * | `customHeaderActions` | `(headerActions: ReactNode) => ReactNode` | Wraps the built-in header actions — receives them as a node so you can add nodes around them or replace the group entirely |
+ * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_vert`) menu with extra entries — appended after Download / Print on PDF and image files |
  * | `sidebarContent` | `ReactNode` | Content of the right-side info panel (toggled with the `info` button) |
  * | `hideCloseButton` | `boolean?` | Remove the top-left close button |
  * | `pdfWorkerSrc` | `string?` | Override the `pdf.worker.mjs` URL passed to `pdfjs-dist` |
@@ -166,8 +174,14 @@ const meta: Meta<typeof FilePreview> = {
     },
   },
   argTypes: {
-    isOpen: { description: "Controls the modal visibility", control: "boolean" },
-    files: { description: "Collection navigated via prev/next", control: false },
+    isOpen: {
+      description: "Controls the modal visibility",
+      control: "boolean",
+    },
+    files: {
+      description: "Collection navigated via prev/next",
+      control: false,
+    },
     openedFileId: {
       description: "Currently opened file id — drives the viewer",
       control: "text",
@@ -180,7 +194,10 @@ const meta: Meta<typeof FilePreview> = {
       description: "Header title used when no file is selected",
       control: "text",
     },
-    onClose: { description: "Called when the user dismisses the modal", control: false },
+    onClose: {
+      description: "Called when the user dismisses the modal",
+      control: false,
+    },
     onChangeFile: {
       description: "Fires on prev/next — sync your `openedFileId` here",
       control: false,
@@ -194,11 +211,17 @@ const meta: Meta<typeof FilePreview> = {
       control: false,
     },
     onOpenInEditor: {
-      description: "Required to render the WOPI \"Open in editor\" CTA",
+      description: 'Required to render the WOPI "Open in editor" CTA',
       control: false,
     },
-    headerRightContent: {
-      description: "Custom node injected next to the action buttons",
+    customHeaderActions: {
+      description:
+        "Wraps the built-in header actions — receives them as a node so you can add content around or replace them",
+      control: false,
+    },
+    headerActionsMenuOptions: {
+      description:
+        "Extends the kebab actions menu with extra entries (PDF and image files only)",
       control: false,
     },
     sidebarContent: {
@@ -318,6 +341,48 @@ export const Suspicious: Story = {
  */
 export const WopiOpenInEditor: Story = {
   render: () => <FilePreviewExample files={[wopiFile]} />,
+};
+
+/**
+ * Two hooks let consumers extend the header without forking the component:
+ *
+ * - `customHeaderActions(headerActions)` — receives the built-in action group
+ *   as a `ReactNode` and returns whatever you want rendered in its place.
+ *   Use it to add content around the built-in buttons (e.g. a status pill,
+ *   a trailing "Share" button) or to replace the group entirely.
+ * - `headerActionsMenuOptions(file)` — returns extra `MenuItemAction[]`
+ *   appended to the kebab (`more_vert`) menu. Only rendered for PDF and image
+ *   files, where the actions menu is shown.
+ *
+ * Both are evaluated per file, so you can show different actions for
+ * different files.
+ */
+export const CustomHeaderActions: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={imageFiles}
+      customHeaderActions={(headerActions) => (
+        <>
+          <Button variant="tertiary">Custom button</Button>
+          {headerActions}
+          <Button variant="secondary">Custom button too</Button>
+        </>
+      )}
+      headerActionsMenuOptions={(file) => [
+        {
+          id: "copy-link",
+          label: "Copy link",
+          callback: () => console.log("[storybook] copy link", file.id),
+        },
+        {
+          id: "delete",
+          label: "Delete",
+          variant: "danger",
+          callback: () => console.log("[storybook] delete", file.id),
+        },
+      ]}
+    />
+  ),
 };
 
 /**

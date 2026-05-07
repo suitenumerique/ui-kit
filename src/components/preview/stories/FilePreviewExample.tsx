@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilePreview } from "../FilePreview";
 import type { FilePreviewType } from "../types";
+import type { MenuItemAction } from "../../menu";
 
 // Storybook re-mounts on HMR; reusing one client keeps the PDF cache warm.
 const queryClient = new QueryClient();
@@ -9,11 +10,15 @@ const queryClient = new QueryClient();
 interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
+  customHeaderActions?: (headerActions: ReactNode) => ReactNode;
+  headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
 }
 
 export const FilePreviewExample = ({
   files,
   initialFileId,
+  customHeaderActions,
+  headerActionsMenuOptions,
 }: FilePreviewExampleProps) => {
   const [openedFileId, setOpenedFileId] = useState<string | undefined>(
     initialFileId ?? files[0]?.id,
@@ -45,6 +50,8 @@ export const FilePreviewExample = ({
           onOpenInEditor={(file) =>
             console.log("[storybook] open in editor", file.id)
           }
+          customHeaderActions={customHeaderActions}
+          headerActionsMenuOptions={headerActionsMenuOptions}
         />
       </div>
     </QueryClientProvider>
