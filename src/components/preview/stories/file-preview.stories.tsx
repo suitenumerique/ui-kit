@@ -120,7 +120,8 @@ import {
  * | `onFileOpen` | `(file: FilePreviewType) => void` | Fires once per file when it becomes visible |
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
- * | `headerRightContent` | `ReactNode` | Custom node injected next to the action buttons |
+ * | `headerRightContent` | `ReactNode` | Custom node injected at the **start** of the right-side action group (before the built-in download/info/actions buttons) |
+ * | `headerRightContentEnd` | `ReactNode` | Custom node appended at the **end** of the right-side action group (after the built-in actions menu) |
  * | `sidebarContent` | `ReactNode` | Content of the right-side info panel (toggled with the `info` button) |
  * | `hideCloseButton` | `boolean?` | Remove the top-left close button |
  * | `pdfWorkerSrc` | `string?` | Override the `pdf.worker.mjs` URL passed to `pdfjs-dist` |
@@ -198,7 +199,13 @@ const meta: Meta<typeof FilePreview> = {
       control: false,
     },
     headerRightContent: {
-      description: "Custom node injected next to the action buttons",
+      description:
+        "Custom node injected at the start of the right-side action group",
+      control: false,
+    },
+    headerRightContentEnd: {
+      description:
+        "Custom node appended at the end of the right-side action group",
       control: false,
     },
     sidebarContent: {
@@ -318,6 +325,56 @@ export const Suspicious: Story = {
  */
 export const WopiOpenInEditor: Story = {
   render: () => <FilePreviewExample files={[wopiFile]} />,
+};
+
+/**
+ * The header has two slots for custom content on its right side:
+ *
+ * - `headerRightContent` — rendered **before** the built-in download / info /
+ *   actions buttons. Use it for content you want adjacent to the title side
+ *   of the action group (e.g. a status pill, a "shared with…" indicator).
+ * - `headerRightContentEnd` — rendered **after** the actions menu, as the
+ *   last item of the row. Use it for trailing actions you want pinned to the
+ *   far end of the header (e.g. a "Share" button, a custom kebab).
+ *
+ * Both accept any `ReactNode` and stay aligned with the built-in buttons.
+ */
+export const HeaderRightSlots: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={imageFiles}
+      headerRightContent={
+        <span
+          style={{
+            alignSelf: "center",
+            padding: "2px 8px",
+            borderRadius: 999,
+            background: "var(--c--theme--colors--primary-100)",
+            color: "var(--c--theme--colors--primary-700)",
+            fontSize: 12,
+            fontWeight: 600,
+          }}
+        >
+          Shared
+        </span>
+      }
+      headerRightContentEnd={
+        <button
+          type="button"
+          onClick={() => console.log("[storybook] share clicked")}
+          style={{
+            border: "1px solid var(--c--theme--colors--greyscale-300)",
+            borderRadius: 4,
+            padding: "4px 10px",
+            background: "transparent",
+            cursor: "pointer",
+          }}
+        >
+          Share
+        </button>
+      }
+    />
+  ),
 };
 
 /**

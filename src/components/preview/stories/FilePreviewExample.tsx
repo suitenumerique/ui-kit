@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilePreview } from "../FilePreview";
 import type { FilePreviewType } from "../types";
@@ -9,11 +9,15 @@ const queryClient = new QueryClient();
 interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
+  headerRightContent?: ReactNode;
+  headerRightContentEnd?: ReactNode;
 }
 
 export const FilePreviewExample = ({
   files,
   initialFileId,
+  headerRightContent,
+  headerRightContentEnd,
 }: FilePreviewExampleProps) => {
   const [openedFileId, setOpenedFileId] = useState<string | undefined>(
     initialFileId ?? files[0]?.id,
@@ -45,6 +49,8 @@ export const FilePreviewExample = ({
           onOpenInEditor={(file) =>
             console.log("[storybook] open in editor", file.id)
           }
+          headerRightContent={headerRightContent}
+          headerRightContentEnd={headerRightContentEnd}
         />
       </div>
     </QueryClientProvider>
