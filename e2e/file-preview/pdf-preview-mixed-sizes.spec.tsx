@@ -2,7 +2,11 @@ import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page, Locator } from "@playwright/test";
 import { TestFilePreview } from "../helpers/mount-preview";
 import { pdfMixedFile } from "../helpers/fixtures";
-import { waitForPdfReady, openSidebar, getPageInput } from "../helpers/pdf-helpers";
+import {
+  waitForPdfReady,
+  openSidebar,
+  getPageInput,
+} from "../helpers/pdf-helpers";
 
 const EXPECTED_RATIOS = [
   1.414, 0.707, 1.294, 1.647, 0.707, 1.419, 0.709, 1.545, 1.412, 0.704, 1.0,
@@ -137,6 +141,13 @@ test.describe("PDF Preview — mixed page sizes", () => {
     const pageInput = getPageInput(page);
     for (const target of [13, 5, 17, 2, 11]) {
       await pageInput.fill(String(target));
+      // Wait for React to commit the new pageInputValue before pressing Enter.
+      // Without this, on slow CI runners the keydown handler can fire while its
+      // closure still holds the previous pageInputValue.
+      await expect(pageInput).toHaveAttribute(
+        "size",
+        String(String(target).length),
+      );
       await pageInput.press("Enter");
       await expect(getRenderedPage(page, target)).toBeVisible({
         timeout: 10000,
