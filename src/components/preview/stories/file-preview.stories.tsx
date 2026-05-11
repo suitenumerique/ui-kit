@@ -128,7 +128,7 @@ import { Button } from "@gouvfr-lasuite/cunningham-react";
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
  * | `customHeaderActions` | `(headerActions: ReactNode) => ReactNode` | Wraps the built-in header actions — receives them as a node so you can add nodes around them or replace the group entirely |
- * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_vert`) menu with extra entries — appended after Download / Print on PDF and image files |
+ * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_horiz`) menu with extra entries — appended after Download / Print on PDF and image files |
  * | `sidebarContent` | `ReactNode` | Content of the right-side info panel (toggled with the `info` button) |
  * | `hideCloseButton` | `boolean?` | Remove the top-left close button |
  * | `pdfWorkerSrc` | `string?` | Override the `pdf.worker.mjs` URL passed to `pdfjs-dist` |
@@ -351,7 +351,7 @@ export const WopiOpenInEditor: Story = {
  *   Use it to add content around the built-in buttons (e.g. a status pill,
  *   a trailing "Share" button) or to replace the group entirely.
  * - `headerActionsMenuOptions(file)` — returns extra `MenuItemAction[]`
- *   appended to the kebab (`more_vert`) menu. Only rendered for PDF and image
+ *   appended to the kebab (`more_horiz`) menu. Only rendered for PDF and image
  *   files, where the actions menu is shown.
  *
  * Both are evaluated per file, so you can show different actions for

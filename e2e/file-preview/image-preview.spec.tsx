@@ -22,11 +22,11 @@ test.describe("Image Preview", () => {
     expect(src).toMatch(/monet_1/);
   });
 
-  test("Shows the actions menu (more_vert) for image files", async ({
+  test("Shows the actions menu (more_horiz) for image files", async ({
     page,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await expect(moreVertButton).toBeVisible();
 
     await moreVertButton.click();
@@ -50,9 +50,8 @@ test.describe("Image Preview", () => {
           if (win && !(win as unknown as { __patched?: boolean }).__patched) {
             (win as unknown as { __patched: boolean }).__patched = true;
             win.print = () => {
-              (
-                window as unknown as { __printCalled: boolean }
-              ).__printCalled = true;
+              (window as unknown as { __printCalled: boolean }).__printCalled =
+                true;
             };
           }
           return win;
@@ -68,7 +67,7 @@ test.describe("Image Preview", () => {
     expect(previewSrc).toBeTruthy();
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await moreVertButton.click();
     await page.getByRole("menuitem", { name: "Print" }).click();
 
@@ -82,8 +81,7 @@ test.describe("Image Preview", () => {
 
     await expect
       .poll(
-        () =>
-          iframeImg.evaluate((img: HTMLImageElement) => img.naturalWidth),
+        () => iframeImg.evaluate((img: HTMLImageElement) => img.naturalWidth),
         { timeout: 5000 },
       )
       .toBeGreaterThan(0);
@@ -174,7 +172,12 @@ test.describe("Image Preview - close interactions", () => {
   }) => {
     let closed = false;
     await mount(
-      <TestFilePreview files={[imageFile]} onClose={() => { closed = true; }} />,
+      <TestFilePreview
+        files={[imageFile]}
+        onClose={() => {
+          closed = true;
+        }}
+      />,
     );
 
     const container = page.locator(".image-viewer__container");
