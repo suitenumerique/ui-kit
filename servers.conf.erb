@@ -5,6 +5,15 @@ server {
 
     root /app/build/frontend-out;
 
+    location ~* \.(mjs|wasm)$ {
+        types {
+            text/javascript  mjs;
+            application/wasm wasm;
+        }
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+    }
+
     location ~* \.(css|js|json|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 30d;
         add_header Cache-Control "public, max-age=2592000";
