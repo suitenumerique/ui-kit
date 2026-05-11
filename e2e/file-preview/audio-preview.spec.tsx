@@ -30,6 +30,6 @@ test.describe("Audio Preview", () => {
 
   test("Hides the actions menu for audio files", async ({ page }) => {
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
   });
 });

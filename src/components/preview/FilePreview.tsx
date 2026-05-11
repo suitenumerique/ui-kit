@@ -359,7 +359,7 @@ export const FilePreview = ({
             <Button
               variant="tertiary"
               onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
-              icon={<Icon name="more_vert" />}
+              icon={<Icon name="more_horiz" />}
             />
           </DropdownMenu>
         )}

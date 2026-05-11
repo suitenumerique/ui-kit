@@ -22,14 +22,14 @@ test.describe("Unsupported File Preview", () => {
     const unsupported = page.locator(".preview-message");
     await expect(unsupported).toBeVisible();
 
-    await expect(
-      unsupported.locator(".preview-message__title"),
-    ).toHaveText("test-unsupported.bin");
+    await expect(unsupported.locator(".preview-message__title")).toHaveText(
+      "test-unsupported.bin",
+    );
   });
 
   test("Hides the actions menu for unsupported files", async ({ page }) => {
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
   });
 });
 
@@ -42,7 +42,9 @@ test.describe("Unsupported File Preview - Download callback", () => {
     await mount(
       <TestFilePreview
         files={[unsupportedFile]}
-        handleDownloadFile={(file) => { downloadedFile = file; }}
+        handleDownloadFile={(file) => {
+          downloadedFile = file;
+        }}
       />,
     );
     await expect(page.getByTestId("file-preview")).toBeVisible({

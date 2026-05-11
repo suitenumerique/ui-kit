@@ -10,9 +10,7 @@ test.describe("Video Preview", () => {
     });
   });
 
-  test("Renders the VideoPlayer inside the video wrapper", async ({
-    page,
-  }) => {
+  test("Renders the VideoPlayer inside the video wrapper", async ({ page }) => {
     const wrapper = page.locator(".video-preview-viewer-container");
     await expect(wrapper).toBeVisible();
 
@@ -45,6 +43,6 @@ test.describe("Video Preview", () => {
 
   test("Hides the actions menu for video files", async ({ page }) => {
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
   });
 });

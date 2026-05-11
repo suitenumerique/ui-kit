@@ -17,7 +17,7 @@ test.describe("File Preview Actions Menu", () => {
     page,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await expect(moreVertButton).toBeVisible();
     await moreVertButton.click();
 
@@ -32,7 +32,7 @@ test.describe("File Preview Actions Menu", () => {
     context,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await moreVertButton.click();
 
     const [newPage] = await Promise.all([
@@ -70,7 +70,7 @@ test.describe("File Preview Actions Menu - Download callback", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await moreVertButton.click();
 
     await page.getByRole("menuitem", { name: "Download" }).click();
@@ -93,7 +93,7 @@ test.describe("File Preview Actions Menu - Non-printable file", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
   });
 });
 
@@ -118,7 +118,7 @@ test.describe("File Preview customHeaderActions", () => {
 
     const filePreview = page.getByTestId("file-preview");
     await expect(filePreview.getByText("info_outline")).toBeVisible();
-    await expect(filePreview.getByText("more_vert")).toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).toBeVisible();
     await expect(filePreview.getByText("file_download")).toBeVisible();
   });
 
@@ -141,7 +141,7 @@ test.describe("File Preview customHeaderActions", () => {
 
     const filePreview = page.getByTestId("file-preview");
     await expect(filePreview.getByText("info_outline")).not.toBeVisible();
-    await expect(filePreview.getByText("more_vert")).not.toBeVisible();
+    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
   });
 });
 
@@ -165,7 +165,7 @@ test.describe("File Preview headerActionsMenuOptions", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_vert").locator("..");
+    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
     await moreVertButton.click();
 
     const items = page.getByRole("menuitem");
