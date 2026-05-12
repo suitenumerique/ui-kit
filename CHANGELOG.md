@@ -2,6 +2,21 @@
 
 [UNRELEASED]
 
+## 0.23.0
+
+### Major Changes
+
+- 💥(frontend) add dedicated icons entrypoint 
+
+### Patch Changes
+
+- 🐛(front) fix the import styles files
+
+### Minor Changes
+
+- ✨(front) resync all ui-kit icons
+- ✨(front) mark as deprecated the icons more present in the UI kit's Figma
+
 ## 0.22.0
 
 ### Minor Changes
