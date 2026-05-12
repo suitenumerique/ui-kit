@@ -3,9 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Document, pdfjs } from "react-pdf";
 import type { PDFDocumentProxy } from "pdfjs-dist";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-import "react-virtualized/styles.css";
+
 import { Icon, IconType } from ":/components/icon";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 
