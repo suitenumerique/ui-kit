@@ -17,6 +17,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: "./src/index.ts",
+        icons: "./src/icons.ts",
       },
       name: "@lasuite/ui-kit",
       formats: ["es", "cjs"],
