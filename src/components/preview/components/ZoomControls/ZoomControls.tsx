@@ -1,5 +1,5 @@
 import { Button } from "@gouvfr-lasuite/cunningham-react";
-import { Zoom1, ZoomMinus, ZoomPlus } from ":/components/icon";
+import { Zoom1, ZoomMinus, ZoomPlus } from ":/components/icon/icons";
 
 interface ZoomControlsProps {
   zoomOut: () => void;

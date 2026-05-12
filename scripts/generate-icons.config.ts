@@ -20,9 +20,6 @@ export const config = {
   /** Maximum number of retries on Figma API rate limit (429) */
   maxRetries: 5,
 
-  /** Renames applied in the barrel file to avoid export conflicts with other components */
-  exportRenames: {
-    LeftPanel: "IconLeftPanel",
-    RightPanel: "IconRightPanel",
-  } as Record<string, string>,
+  /** Renames applied in the barrel file (e.g. to avoid export conflicts) */
+  exportRenames: {} as Record<string, string>,
 };
