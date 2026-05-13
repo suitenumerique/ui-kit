@@ -2,6 +2,12 @@
 
 [UNRELEASED]
 
+## 0.23.1
+
+### Patch Changes
+
+- 🐛(front) fix export icons files
+
 ## 0.23.0
 
 ### Major Changes
