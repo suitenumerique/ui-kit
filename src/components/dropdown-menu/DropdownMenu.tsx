@@ -7,7 +7,17 @@ import {
   SubmenuTrigger,
 } from "react-aria-components";
 import { DropdownMenuItem, DropdownMenuOption } from "./types";
-import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
+import {
+  Children,
+  cloneElement,
+  Fragment,
+  isValidElement,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  useId,
+  useRef,
+} from "react";
 import { MenuItemSeparator } from "../menu/types";
 import clsx from "clsx";
 
@@ -58,6 +68,7 @@ export const DropdownMenu = ({
   variant = "default",
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
+  const menuId = `${id}-menu`;
   const triggerRef = useRef(null);
   const menuClassName = `c__dropdown-menu${
     variant === "tiny" ? " c__dropdown-menu--tiny" : ""
@@ -103,6 +114,11 @@ export const DropdownMenu = ({
         );
       }
 
+      const isSelected = Boolean(
+        option.isChecked ||
+          (option.value && selectedValues.includes(option.value))
+      );
+
       return (
         <Fragment key={itemKey}>
           <MenuItem
@@ -110,6 +126,7 @@ export const DropdownMenu = ({
               "c__dropdown-menu-item--danger": option.variant === "danger",
             })}
             aria-label={option.label}
+            aria-current={isSelected || undefined}
             onAction={() => {
               if (option.value) {
                 onSelectValue?.(option.value);
@@ -123,9 +140,10 @@ export const DropdownMenu = ({
             data-testid={option.testId}
           >
             <MenuItemContent option={option} />
-            {(option.isChecked ||
-              (option.value && selectedValues.includes(option.value))) && (
-              <span className="material-icons checked">check</span>
+            {isSelected && (
+              <span className="material-icons checked" aria-hidden="true">
+                check
+              </span>
             )}
           </MenuItem>
           {/* @deprecated: use { type: "separator" } instead */}
@@ -133,6 +151,15 @@ export const DropdownMenu = ({
         </Fragment>
       );
     });
+
+  const trigger = Children.count(children) === 1 ? Children.only(children) : children;
+  const triggerWithA11yState = isValidElement(trigger)
+    ? cloneElement(trigger as ReactElement<Record<string, unknown>>, {
+        "aria-expanded": isOpen,
+        "aria-haspopup": "menu",
+        "aria-controls": isOpen ? menuId : undefined,
+      })
+    : trigger;
 
   return (
     <>
@@ -145,7 +172,7 @@ export const DropdownMenu = ({
           e.preventDefault();
         }}
       >
-        {children}
+        {triggerWithA11yState}
       </div>
 
       <Popover
@@ -159,7 +186,12 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className={menuClassName} aria-labelledby={id} autoFocus="first">
+        <Menu
+          id={menuId}
+          className={menuClassName}
+          aria-labelledby={id}
+          autoFocus="first"
+        >
           {topMessage && (
             <Header
               className="c__dropdown-menu-item-top-message"
