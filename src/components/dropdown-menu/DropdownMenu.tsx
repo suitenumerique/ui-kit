@@ -7,7 +7,16 @@ import {
   SubmenuTrigger,
 } from "react-aria-components";
 import { DropdownMenuItem, DropdownMenuOption } from "./types";
-import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
+import {
+  cloneElement,
+  Fragment,
+  isValidElement,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  useId,
+  useRef,
+} from "react";
 import { MenuItemSeparator } from "../menu/types";
 import clsx from "clsx";
 
@@ -59,11 +68,27 @@ export const DropdownMenu = ({
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
   const triggerRef = useRef(null);
+  const menuId = `${id}-menu`;
   const menuClassName = `c__dropdown-menu${
     variant === "tiny" ? " c__dropdown-menu--tiny" : ""
   }`;
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
+  };
+
+  const renderTrigger = (children: ReactNode) => {
+    if (!isValidElement(children)) {
+      return children;
+    }
+
+    const triggerElement = children as ReactElement<Record<string, unknown>>;
+
+    return cloneElement(triggerElement, {
+      ...triggerElement.props,
+      "aria-controls": isOpen ? menuId : undefined,
+      "aria-expanded": isOpen,
+      "aria-haspopup": "menu",
+    });
   };
 
   const renderMenuItems = (items: DropdownMenuItem[]) =>
@@ -145,7 +170,7 @@ export const DropdownMenu = ({
           e.preventDefault();
         }}
       >
-        {children}
+        {renderTrigger(children)}
       </div>
 
       <Popover
@@ -159,7 +184,12 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className={menuClassName} aria-labelledby={id} autoFocus="first">
+        <Menu
+          id={menuId}
+          className={menuClassName}
+          aria-labelledby={id}
+          autoFocus="first"
+        >
           {topMessage && (
             <Header
               className="c__dropdown-menu-item-top-message"
