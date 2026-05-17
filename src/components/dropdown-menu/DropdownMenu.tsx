@@ -58,6 +58,7 @@ export const DropdownMenu = ({
   variant = "default",
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
+  const menuId = `${id}-menu`;
   const triggerRef = useRef(null);
   const menuClassName = `c__dropdown-menu${
     variant === "tiny" ? " c__dropdown-menu--tiny" : ""
@@ -77,6 +78,12 @@ export const DropdownMenu = ({
       }
 
       const itemKey = option.id || option.label;
+      const isSelectable =
+        option.value !== undefined || option.isChecked !== undefined;
+      const isSelected = Boolean(
+        option.isChecked ||
+          (option.value && selectedValues.includes(option.value))
+      );
 
       if (hasChildren(option)) {
         return (
@@ -86,6 +93,7 @@ export const DropdownMenu = ({
                 "c__dropdown-menu-item--danger": option.variant === "danger",
               })}
               aria-label={option.label}
+              aria-checked={isSelectable ? isSelected : undefined}
               isDisabled={option.isDisabled}
               data-testid={option.testId}
             >
@@ -110,6 +118,7 @@ export const DropdownMenu = ({
               "c__dropdown-menu-item--danger": option.variant === "danger",
             })}
             aria-label={option.label}
+            aria-checked={isSelectable ? isSelected : undefined}
             onAction={() => {
               if (option.value) {
                 onSelectValue?.(option.value);
@@ -123,8 +132,7 @@ export const DropdownMenu = ({
             data-testid={option.testId}
           >
             <MenuItemContent option={option} />
-            {(option.isChecked ||
-              (option.value && selectedValues.includes(option.value))) && (
+            {isSelected && (
               <span className="material-icons checked">check</span>
             )}
           </MenuItem>
@@ -140,6 +148,9 @@ export const DropdownMenu = ({
         className="c__dropdown-menu-trigger"
         ref={triggerRef}
         id={id}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? menuId : undefined}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -159,7 +170,12 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className={menuClassName} aria-labelledby={id} autoFocus="first">
+        <Menu
+          id={menuId}
+          className={menuClassName}
+          aria-labelledby={id}
+          autoFocus="first"
+        >
           {topMessage && (
             <Header
               className="c__dropdown-menu-item-top-message"

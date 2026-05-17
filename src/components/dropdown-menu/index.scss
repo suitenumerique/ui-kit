@@ -103,6 +103,11 @@
     );
   }
 
+  &[data-focused] {
+    box-shadow: inset 0 0 0 2px
+      var(--c--contextuals--border--semantic--active--primary, #000091);
+  }
+
   &[data-disabled] {
     color: var(--c--contextuals--content--semantic--disabled--primary);
     cursor: not-allowed;
