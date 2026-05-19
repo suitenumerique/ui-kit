@@ -66,15 +66,18 @@ export const InvitationUserSelectorItem = <UserType,>({
   user,
   onRemoveUser,
 }: ShareSelectedUserItemProps<UserType>) => {
+  const { t } = useCunningham();
+  const displayName = user.full_name || user.email;
   return (
     <div className="c__add-share-user-item" data-testid="selected-user-item">
-      <span>{user.full_name || user.email}</span>
+      <span>{displayName}</span>
       <Button
         variant="tertiary"
         color="neutral"
         size="nano"
         onClick={() => onRemoveUser?.(user)}
-        icon={<span className="material-icons">close</span>}
+        icon={<span className="material-icons" aria-hidden="true">close</span>}
+        aria-label={t("components.share.access.remove_user", { name: displayName })}
       />
     </div>
   );
