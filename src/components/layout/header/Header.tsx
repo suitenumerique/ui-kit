@@ -20,7 +20,7 @@ export const Header = ({
 }: HeaderProps) => {
   const { t } = useCunningham();
   return (
-    <div className="c__header">
+    <header className="c__header">
       <div className="c__header__toggle-menu">
         <Button
           size="medium"
@@ -44,6 +44,6 @@ export const Header = ({
 
         {rightIcon}
       </div>
-    </div>
+    </header>
   );
 };
