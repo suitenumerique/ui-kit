@@ -1,0 +1,17 @@
+- generic [ref=e5]:
+  - status [ref=e7]:
+    - paragraph [ref=e8]: You are on a pre-production version.
+    - generic [ref=e9]:
+      - link "Open the production version" [ref=e10] [cursor=pointer]:
+        - /url: https://example.com
+        - generic [ref=e11]: open_in_new
+        - generic [ref=e12]: Open the production version
+      - button "Close banner" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: close
+  - generic [ref=e16]:
+    - button "Close the menu" [active] [ref=e35] [cursor=pointer]:
+      - generic [ref=e20]: close
+    - img "logo" [ref=e22]
+  - generic [ref=e24]:
+    - generic [ref=e27]: Left panel
+    - paragraph [ref=e32]: Main content area below the banner.

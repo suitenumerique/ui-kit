@@ -1,0 +1,27 @@
+- generic [ref=e1]:
+  - button "Close user menu" [ref=e6] [cursor=pointer]:
+    - generic [ref=e8]: DA
+  - generic [ref=e12]:
+    - button "Rejeter" [ref=e14]
+    - dialog "User menu" [active] [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e19]: DA
+          - generic [ref=e20]:
+            - paragraph [ref=e21]:
+              - strong [ref=e22]: Daniel Anatole
+            - paragraph [ref=e23]: daniel.anatole@numerique.gouv.fr
+        - generic [ref=e24]:
+          - generic [ref=e25] [cursor=pointer]:
+            - img [ref=e27]
+            - generic [ref=e30]: Manage account
+          - generic [ref=e31] [cursor=pointer]:
+            - img [ref=e33]
+            - generic [ref=e36]: Logout
+        - generic [ref=e37]:
+          - 'button "Language: FR" [ref=e40] [cursor=pointer]':
+            - generic [ref=e41]: FR
+            - generic [ref=e43]: arrow_drop_down
+          - link "Terms of service" [ref=e45] [cursor=pointer]:
+            - /url: https://docs.numerique.gouv.fr/docs/8e298e03-c95f-44c7-be4a-ffb618af1854/
+    - button "Rejeter" [ref=e47]

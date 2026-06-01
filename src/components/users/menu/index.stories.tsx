@@ -50,6 +50,27 @@ export const Default: Story = {
   },
 };
 
+/**
+ * Matches the refreshed design: softer gradient header, separator-less body
+ * and rounded, inset menu items.
+ */
+export const RefreshedExample: Story = {
+  args: {
+    user: {
+      full_name: "Daniel Anatole",
+      email: "daniel.anatole@numerique.gouv.fr",
+    },
+    settingsCTA: () => {
+      alert("Go to account settings");
+    },
+    logout: () => {
+      alert("You have been logged out!");
+    },
+    actions: <LanguagePicker languages={languages} size="small" compact />,
+    termOfServiceUrl,
+  },
+};
+
 export const WithOnlyLogout: Story = {
   args: {
     user: {

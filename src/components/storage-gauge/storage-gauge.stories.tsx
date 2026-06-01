@@ -16,9 +16,25 @@ type Story = StoryObj<typeof StorageGauge>;
 
 export const Default: Story = {};
 
+/** Clickable gauge button: a trailing arrow hints it opens more details. */
+export const WithArrow: Story = {
+  args: {
+    showArrow: true,
+  },
+};
+
 export const Compact: Story = {
   args: {
     compact: true,
+  },
+};
+
+/** Warning color once usage crosses the warning threshold (default 90%). */
+export const Warning: Story = {
+  args: {
+    used: 9.1,
+    total: 10,
+    showArrow: true,
   },
 };
 

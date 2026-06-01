@@ -1,0 +1,111 @@
+.c__header-banner {
+  --c--header-banner--on-color: var(
+    --c--contextuals--content--semantic--brand--on-brand,
+    #edf0ff
+  );
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--c--globals--spacings--xs, 8px);
+  width: 100%;
+  padding: var(--c--globals--spacings--3xs, 4px)
+    var(--c--globals--spacings--3xs, 4px) var(--c--globals--spacings--3xs, 4px)
+    var(--c--globals--spacings--sm, 12px);
+  border-bottom: 1px solid
+    var(--c--contextuals--border--surface--primary, #dfe2ea);
+
+  &--info {
+    --c--header-banner--on-color: var(
+      --c--contextuals--content--semantic--brand--on-brand,
+      #edf0ff
+    );
+    background: var(--c--contextuals--background--semantic--brand--primary, #3e5de7);
+  }
+
+  &--warning {
+    --c--header-banner--on-color: var(
+      --c--contextuals--content--semantic--warning--on-warning,
+      #ffeedf
+    );
+    background: var(
+      --c--contextuals--background--semantic--warning--primary,
+      #a75400
+    );
+  }
+
+  &--error {
+    --c--header-banner--on-color: var(
+      --c--contextuals--content--semantic--error--on-error,
+      #ffedeb
+    );
+    background: var(--c--contextuals--background--semantic--error--primary, #cf202d);
+  }
+
+  &__message {
+    flex: 1 0 0;
+    min-width: 0;
+    margin: 0;
+    font-size: var(--c--globals--font--sizes--xs, 0.75rem);
+    line-height: var(--c--globals--spacings--base, 16px);
+    font-weight: 700;
+    color: var(--c--header-banner--on-color);
+  }
+
+  &__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--c--globals--spacings--3xs, 4px);
+  }
+
+  &__action,
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--c--globals--spacings--3xs, 4px);
+    height: 24px;
+    padding: 0 var(--c--globals--spacings--3xs, 4px);
+    border: none;
+    border-radius: var(--c--globals--spacings--4xs, 4px);
+    background: transparent;
+    color: var(--c--header-banner--on-color);
+    font-family: inherit;
+    font-size: var(--c--globals--font--sizes--xs, 0.75rem);
+    line-height: var(--c--globals--spacings--base, 16px);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c--header-banner--on-color);
+      outline-offset: 1px;
+    }
+
+    .material-icons {
+      font-size: 16px;
+    }
+  }
+
+  &__close {
+    padding: 0;
+    width: 24px;
+  }
+}
+
+// On mobile, an action that carries an icon collapses to the icon only — the
+// label would take too much horizontal space next to the (often wrapping)
+// message. The accessible name is preserved via aria-label/title on the action.
+@media (max-width: 768px) {
+  .c__header-banner__action--has-icon .c__header-banner__action__label {
+    display: none;
+  }
+}

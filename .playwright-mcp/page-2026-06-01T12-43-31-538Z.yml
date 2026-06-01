@@ -1,0 +1,6 @@
+- status [ref=e5]:
+  - paragraph [ref=e6]: You are on a pre-production version.
+  - link "Open the production version" [ref=e8] [cursor=pointer]:
+    - /url: https://example.com
+    - generic [ref=e9]: open_in_new
+    - generic [ref=e10]: Open the production version

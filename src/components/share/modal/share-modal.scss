@@ -40,8 +40,50 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
   padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--base);
 }
 
-.c__share-modal__selected-users {
-  padding: var(--c--globals--spacings--sm);
+.c__share-modal__search-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--c--globals--spacings--2xs);
+  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--c--globals--spacings--3xs);
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--c--globals--spacings--2xs);
+  }
+
+  &__chips .material-icons,
+  &__bottom .material-icons {
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    color: var(--c--contextuals--content--semantic--neutral--primary);
+
+    &::placeholder {
+      color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--c--globals--spacings--xs);
+    margin-left: auto;
+  }
 }
 
 .c__share-modal__footer {

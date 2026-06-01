@@ -79,6 +79,28 @@
       "dialogTitle": "Menu utilisateur",
       "manage_account": "Gérer le compte"
     },
+    "headerBanner": {
+      "close": "Masquer la bannière"
+    },
+    "storageGauge": {
+      "title": "Espace utilisé",
+      "used": "{used} sur {total} {unit} utilisés",
+      "moreInfo": "En savoir plus",
+      "infoLabel": "Plus d'informations"
+    },
+    "bottomMenu": {
+      "settings": "Paramètres"
+    },
+    "upload": {
+      "clickToUpload": "Cliquez pour téléverser",
+      "dragAndDrop": "ou glissez-déposez",
+      "addFile": "Ajouter un fichier",
+      "maxSize": "Max {size}",
+      "uploading": "Téléversement",
+      "cancel": "Annuler le téléversement",
+      "remove": "Supprimer le fichier",
+      "genericError": "Une erreur est survenue"
+    },
     "treeView": {
       "viewMore": "Charger plus d'éléments"
     },

@@ -1,0 +1,31 @@
+- generic [ref=e2]:
+  - button [ref=e6] [cursor=pointer]:
+    - generic [ref=e8]: DA
+  - dialog "User menu" [active] [ref=e11]:
+    - generic [ref=e12]:
+      - button "close" [ref=e13] [cursor=pointer]:
+        - img [ref=e15]
+      - generic [ref=e17]:
+        - button "Close user menu" [ref=e18] [cursor=pointer]:
+          - img [ref=e20]
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e25]: DA
+            - generic [ref=e26]:
+              - paragraph [ref=e27]:
+                - strong [ref=e28]: Daniel Anatole
+              - paragraph [ref=e29]: daniel.anatole@numerique.gouv.fr
+          - generic [ref=e30]:
+            - generic [ref=e31] [cursor=pointer]:
+              - img [ref=e33]
+              - generic [ref=e36]: Manage account
+            - generic [ref=e37] [cursor=pointer]:
+              - img [ref=e39]
+              - generic [ref=e42]: Logout
+          - generic [ref=e43]:
+            - 'button "Language: FR" [ref=e46] [cursor=pointer]':
+              - generic [ref=e47]: FR
+              - generic [ref=e49]: arrow_drop_down
+            - link "Terms of service" [ref=e51] [cursor=pointer]:
+              - /url: https://docs.numerique.gouv.fr/docs/8e298e03-c95f-44c7-be4a-ffb618af1854/
+        - button "OK" [ref=e53] [cursor=pointer]

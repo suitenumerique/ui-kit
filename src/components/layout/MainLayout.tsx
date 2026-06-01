@@ -31,6 +31,12 @@ export type MainLayoutProps = {
   hideLeftPanelOnDesktop?: boolean;
   isLeftPanelOpen?: boolean;
   setIsLeftPanelOpen?: (isLeftPanelOpen: boolean) => void;
+  /**
+   * Content rendered above the header, spanning the full width of the layout
+   * (e.g. a HeaderBanner). It stays visible and pushes the rest of the shell
+   * down instead of being overlaid by the header.
+   */
+  topContent?: React.ReactNode;
 };
 
 export const MainLayout = ({
@@ -45,6 +51,7 @@ export const MainLayout = ({
   languages,
   enableResize = false,
   rightPanelIsOpen = false,
+  topContent,
 
   ...props
 }: PropsWithChildren<MainLayoutProps>) => {
@@ -114,6 +121,7 @@ export const MainLayout = ({
 
   return (
     <div className={clsx("c__main-layout", { resizing: isResizing })}>
+      {topContent && <div className="c__main-layout__top">{topContent}</div>}
       <div className="c__main-layout__header">
         <Header
           onTogglePanel={onTogglePanel}

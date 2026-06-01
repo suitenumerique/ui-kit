@@ -80,6 +80,28 @@
       "logout": "Logout",
       "dialogTitle": "User menu"
     },
+    "headerBanner": {
+      "close": "Close banner"
+    },
+    "storageGauge": {
+      "title": "Used storage",
+      "used": "{used} of {total} {unit} used",
+      "moreInfo": "More info",
+      "infoLabel": "More information"
+    },
+    "bottomMenu": {
+      "settings": "Settings"
+    },
+    "upload": {
+      "clickToUpload": "Click to upload",
+      "dragAndDrop": "or drag and drop",
+      "addFile": "Add file",
+      "maxSize": "Max {size}",
+      "uploading": "Uploading",
+      "cancel": "Cancel upload",
+      "remove": "Remove file",
+      "genericError": "An error occurred"
+    },
     "treeView": {
       "viewMore": "Load more elements"
     },

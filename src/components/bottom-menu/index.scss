@@ -1,0 +1,15 @@
+.c__bottom-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--3xs, 4px);
+  width: 100%;
+
+  .c__storage-gauge {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__settings {
+    flex-shrink: 0;
+  }
+}

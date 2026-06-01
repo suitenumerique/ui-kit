@@ -1,0 +1,11 @@
+- generic [ref=e5]:
+  - generic [ref=e16]:
+    - img "logo" [ref=e18]
+    - 'button "Language: Français" [ref=e22] [cursor=pointer]':
+      - generic [ref=e23]: translate
+      - generic [ref=e24]: Français
+      - generic [ref=e26]: arrow_drop_down
+  - generic [ref=e28]:
+    - generic [ref=e32]: Left panel
+    - separator [ref=e33]
+    - paragraph [ref=e38]: Main content area below the banner.

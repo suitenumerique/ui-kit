@@ -79,6 +79,28 @@
       "logout": "Uitloggen",
       "dialogTitle": "Gebruikersmenu"
     },
+    "headerBanner": {
+      "close": "Banner verbergen"
+    },
+    "storageGauge": {
+      "title": "Gebruikte opslag",
+      "used": "{used} van {total} {unit} gebruikt",
+      "moreInfo": "Meer info",
+      "infoLabel": "Meer informatie"
+    },
+    "bottomMenu": {
+      "settings": "Instellingen"
+    },
+    "upload": {
+      "clickToUpload": "Klik om te uploaden",
+      "dragAndDrop": "of sleep en zet neer",
+      "addFile": "Bestand toevoegen",
+      "maxSize": "Max {size}",
+      "uploading": "Uploaden",
+      "cancel": "Uploaden annuleren",
+      "remove": "Bestand verwijderen",
+      "genericError": "Er is een fout opgetreden"
+    },
     "treeView": {
       "viewMore": "Meer elementen laden"
     },

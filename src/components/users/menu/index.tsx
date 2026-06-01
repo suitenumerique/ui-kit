@@ -1,5 +1,12 @@
 import { Dialog, Popover } from "react-aria-components";
-import { ReactElement, useId, useMemo, useRef, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Button,
   ButtonElement,
@@ -8,8 +15,7 @@ import {
   useCunningham,
 } from "@gouvfr-lasuite/cunningham-react";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
-import { Icon } from ":/components/icon";
-import { HorizontalSeparator } from ":/components/separator";
+import { GearRounded, Logout, XMark } from ":/icons";
 import { useResponsive } from ":/hooks/useResponsive";
 import { getUserColor } from "../avatar/utils";
 
@@ -34,7 +40,7 @@ const UserMenuContent = ({
   const showActions = !!footerAction || !!termOfServiceUrl;
 
   const { t } = useCunningham();
-  const userFullName = user ? (user.full_name ?? user.email) : undefined;
+  const userFullName = user ? user.full_name ?? user.email : undefined;
   const userColor = userFullName ? getUserColor(userFullName) : undefined;
 
   if (!user) return null;
@@ -70,7 +76,6 @@ const UserMenuContent = ({
         </div>
         {showSettings && (
           <>
-            <HorizontalSeparator withPadding={false} />
             <div className="user-menu__content__body__settings">
               {settingsItems.map((item) => (
                 <UserMenuItem
@@ -85,7 +90,6 @@ const UserMenuContent = ({
         )}
         {showActions && (
           <>
-            <HorizontalSeparator withPadding={false} />
             <div className="user-menu__actions user-menu__actions--mobile">
               {footerAction && (
                 <div className="user-menu__actions__left">{footerAction}</div>
@@ -133,7 +137,7 @@ const UserMenuMobile = ({ ...props }: UserMenuMobileProps) => {
             onClick={menuTrigger.toggleUserMenu}
             aria-label={t("components.userMenu.close")}
             color="neutral"
-            icon={<Icon name="close" />}
+            icon={<XMark />}
             size="small"
           />
 
@@ -213,19 +217,19 @@ export const UserMenu = ({
     if (settingsCTA) {
       items.push({
         label: t("components.userMenu.manage_account"),
-        icon: "settings",
+        icon: <GearRounded />,
         onClick:
           typeof settingsCTA === "function"
             ? settingsCTA
             : typeof settingsCTA === "string"
-              ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
-              : undefined,
+            ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
+            : undefined,
       });
     }
     if (logout) {
       items.push({
         label: t("components.userMenu.logout"),
-        icon: "logout",
+        icon: <Logout />,
         onClick: logout,
       });
     }
@@ -261,14 +265,14 @@ export const UserMenu = ({
 
 type UserMenuItemProps = {
   label: string;
-  icon: string;
+  icon: ReactNode;
   onClick?: () => void;
 };
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
     <div className="user-menu__item" onClick={onClick}>
-      <Icon name={icon} />
+      <span className="user-menu__item__icon">{icon}</span>
       <span className="user-menu__item__label">{label}</span>
     </div>
   );

@@ -36,11 +36,14 @@
 @use "./components/share/modal/share-modal";
 @use "./components/modal";
 @use "./components/badge";
+@use "./components/header-banner";
 @use "./components/icon";
 @use "./components/help-menu";
 @use "./components/feedback-form";
 @use "./components/onboarding-modal";
 @use "./components/storage-gauge";
+@use "./components/bottom-menu";
+@use "./components/upload";
 @use "./components/preview/preview";
 @use "react-pdf/dist/Page/AnnotationLayer.css";
 @use "react-pdf/dist/Page/TextLayer.css";

@@ -2,7 +2,7 @@ import {
   DropdownMenuOption,
   DropdownMenuProps,
 } from ":/components/dropdown-menu";
-import { InvitationUserSelectorList } from "../users-invitation/InvitationUserSelectorList";
+import { ShareSearchField } from "./ShareSearchField";
 import {
   useState,
   useRef,
@@ -275,10 +275,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
    * Because the package sets the size automatically based on the content
    */
   const handleRef = (node: HTMLDivElement) => {
-    const inputHeight = 70;
     const footerHeight = node?.clientHeight ?? 0;
-    const selectedUsersHeight = selectedUsersRef.current?.clientHeight ?? 0;
-    const height = `calc(${modalContentHeight} - ${footerHeight}px - ${selectedUsersHeight}px - ${inputHeight}px - 10px)`;
+    // The search field now holds both the input and the selected-user chips.
+    const searchFieldHeight = selectedUsersRef.current?.clientHeight ?? 0;
+    const height = `calc(${modalContentHeight} - ${footerHeight}px - ${searchFieldHeight}px - 24px)`;
     setListHeight(height);
   };
 
@@ -316,28 +316,6 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
     >
       <div className="c__share-modal no-padding">
-        {canUpdate && pendingInvitationUsers.length > 0 && (
-          <div
-            className="c__share-modal__selected-users"
-            ref={selectedUsersRef}
-          >
-            <InvitationUserSelectorList
-              users={pendingInvitationUsers}
-              onRemoveUser={onRemoveUser}
-              roles={props.invitationRoles!}
-              selectedRole={selectedInvitationRole}
-              onSelectRole={setSelectedInvitationRole}
-              onShare={() => {
-                props.onInviteUser!(
-                  pendingInvitationUsers,
-                  selectedInvitationRole
-                );
-                setPendingInvitationUsers([]);
-              }}
-            />
-          </div>
-        )}
-
         {viewMode === ViewMode.CANNOT_VIEW && (
           <div
             className="c__share-modal__cannot-view"
@@ -362,6 +340,28 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
             showInput={canUpdate}
             loading={props.loading}
             placeholder={t("components.share.user.placeholder")}
+            inputContent={
+              <div ref={selectedUsersRef}>
+                <ShareSearchField
+                  selectedUsers={pendingInvitationUsers}
+                  onRemoveUser={onRemoveUser}
+                  inputValue={inputValue}
+                  onInputChange={onInputChange}
+                  placeholder={t("components.share.user.placeholder")}
+                  loading={props.loading}
+                  roles={props.invitationRoles!}
+                  selectedRole={selectedInvitationRole}
+                  onSelectRole={setSelectedInvitationRole}
+                  onShare={() => {
+                    props.onInviteUser!(
+                      pendingInvitationUsers,
+                      selectedInvitationRole,
+                    );
+                    setPendingInvitationUsers([]);
+                  }}
+                />
+              </div>
+            }
           >
             <div
               style={{

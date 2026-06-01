@@ -1,5 +1,5 @@
 .c__right-panel {
-  height: calc(100dvh - 52px);
+  height: 100%;
   width: 0;
   border-left: 1px solid var(--c--contextuals--border--surface--primary);
   transition: width 0.15s ease-in-out;
@@ -14,9 +14,11 @@
 .c__right-panel__mobile {
   z-index: 998;
   width: 100dvw;
-  height: calc(100dvh - 52px);
+  height: 100%;
   overflow-y: auto;
-  position: fixed;
+  position: absolute;
+  top: 0;
+  right: 0;
   background-color: var(--c--contextuals--background--surface--secondary);
   transition: transform 0.15s ease-in-out;
   transform: translateX(100dvw);

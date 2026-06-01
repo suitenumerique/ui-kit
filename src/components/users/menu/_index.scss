@@ -14,6 +14,7 @@
 .user-menu__popover {
   min-width: 300px;
   max-width: 400px;
+  border-radius: 8px;
 
   &--mobile {
     background: var(--c--contextuals--background--surface--primary);
@@ -59,18 +60,20 @@
     display: flex;
     align-items: center;
     padding: var(--c--globals--spacings--base);
-    padding-block: var(--c--globals--spacings--xs);
-    gap: var(--c--globals--spacings--base);
+    padding-bottom: 0;
+    // padding-block: var(--c--globals--spacings--sm);
+    gap: var(--c--globals--spacings--sm);
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--gradient-color) 8%, transparent) 0%,
-      color-mix(
-          in srgb,
-          var(--c--contextuals--background--surface--primary) 8%,
-          transparent
-        )
-        100%
+      color-mix(in srgb, var(--gradient-color) 6%, transparent) 0%,
+      transparent 100%
     );
+  }
+
+  &__settings {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--c--globals--spacings--xs);
   }
 }
 
@@ -129,6 +132,10 @@
     border-top: none;
     padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--xs);
   }
+
+  .c__language-picker {
+    padding-left: 8px !important;
+  }
 }
 
 .user-menu__footer--mobile {
@@ -143,8 +150,9 @@
 .user-menu__item {
   display: flex;
   align-items: center;
-  gap: var(--c--globals--spacings--base);
-  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+  gap: var(--c--globals--spacings--sm);
+  padding: var(--c--globals--spacings--xs);
+  border-radius: var(--c--globals--spacings--xs);
   cursor: pointer;
 
   &:hover {
@@ -152,9 +160,27 @@
       --c--contextuals--background--semantic--overlay--primary
     );
   }
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   &__label {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: var(--c--globals--font--sizes--sm);
     font-weight: 500;
     color: var(--c--contextuals--content--semantic--neutral--primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
