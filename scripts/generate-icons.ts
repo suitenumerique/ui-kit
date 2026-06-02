@@ -206,8 +206,21 @@ async function downloadWithConcurrency(
 // SVGR transformation
 // ---------------------------------------------------------------------------
 
+/** Icon export names that collide with JavaScript global properties. */
+const SHADOWING_GLOBAL_EXPORTS = new Set(["Infinity", "NaN"]);
+
+function componentIdentifier(exportName: string): string {
+  return SHADOWING_GLOBAL_EXPORTS.has(exportName) ? `${exportName}Icon` : exportName;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const iconSvgTemplate = (variables: any, { tpl }: any) => {
+  const exportName = variables.componentName;
+  const identifier = componentIdentifier(exportName);
+  const exportStatement =
+    identifier === exportName
+      ? `export { ${exportName} };`
+      : `export { ${identifier} as ${exportName} };`;
   // Extract children from the <svg> JSX element
   const svgElement = variables.jsx;
   const children = svgElement.children;
@@ -224,11 +237,11 @@ const iconSvgTemplate = (variables: any, { tpl }: any) => {
   return tpl`
 import { IconSvg, IconSvgProps } from ":/components/icon/IconSvg";
 
-const ${variables.componentName} = (props: IconSvgProps) => (
+const ${identifier} = (props: IconSvgProps) => (
   ${iconSvgJsx}
 );
 
-${variables.exports};
+${exportStatement}
   `;
 };
 

@@ -2,6 +2,12 @@
 
 [UNRELEASED]
 
+## 0.23.2
+
+### Minor Changes
+
+- ✨(icons) update icons library
+
 ## 0.23.1
 
 ### Patch Changes
