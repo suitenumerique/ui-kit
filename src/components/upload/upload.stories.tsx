@@ -16,7 +16,7 @@ const meta: Meta<typeof FileUploader> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 360 }}>
+      <div style={{ width: 402 }}>
         <Story />
       </div>
     ),
@@ -64,12 +64,29 @@ export const MultipleStates: Story = {
   args: {
     multiple: true,
     files: [
-      { id: "1", name: "Presentation on Monet.key", size: 12 * GB, status: "done" },
-      { id: "2", name: "Flower wallpaper.png", status: "uploading", type: "image/png" },
-      { id: "3", name: "Seminar Logistics.docx", size: 2 * MB, status: "done" },
+      {
+        id: "1",
+        name: "Presentation on Monet",
+        size: 12 * GB,
+        status: "done",
+        type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      },
+      {
+        id: "2",
+        name: "Flower wallpaper",
+        status: "uploading",
+        type: "image/png",
+      },
+      {
+        id: "3",
+        name: "Seminar Logistics",
+        size: 2 * MB,
+        status: "done",
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      },
       {
         id: "4",
-        name: "Essay on the Vosges.pdf",
+        name: "Essay on the Vosges",
         size: 10 * MB,
         status: "error",
         error: "An error occurred",

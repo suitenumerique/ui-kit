@@ -92,13 +92,14 @@
       "settings": "Paramètres"
     },
     "upload": {
+      "noFileYet": "Aucun fichier",
       "clickToUpload": "Cliquez pour téléverser",
       "dragAndDrop": "ou glissez-déposez",
       "addFile": "Ajouter un fichier",
       "maxSize": "Max {size}",
       "uploading": "Téléversement",
       "cancel": "Annuler le téléversement",
-      "remove": "Supprimer le fichier",
+      "remove": "Supprimer",
       "genericError": "Une erreur est survenue"
     },
     "treeView": {

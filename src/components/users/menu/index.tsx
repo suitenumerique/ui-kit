@@ -271,10 +271,10 @@ type UserMenuItemProps = {
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
-    <div className="user-menu__item" onClick={onClick}>
+    <button type="button" className="user-menu__item" onClick={onClick}>
       <span className="user-menu__item__icon">{icon}</span>
       <span className="user-menu__item__label">{label}</span>
-    </div>
+    </button>
   );
 };
 

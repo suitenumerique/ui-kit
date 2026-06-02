@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { Icon } from ":/components/icon";
 import { Spinner } from ":/components/loader/Spinner";
+import { FileIcon as PreviewFileIcon } from ":/components/preview/icons/FileIcon";
 import { ResolvedUploadLabels, UploadFile } from "./types";
-import { formatBytes, getFileIconName } from "./utils";
+import { formatBytes } from "./utils";
 
 type UploadFileItemProps = {
   file: UploadFile;
@@ -28,7 +29,7 @@ export const UploadFileItem = ({
       return onCancel ? (
         <button
           type="button"
-          className="c__file-uploader__link c__file-uploader__link--danger"
+          className="c__file-uploader__link c__file-uploader__link--danger c__file-uploader__item__cancel"
           onClick={() => onCancel(file)}
         >
           {labels.cancel}
@@ -41,7 +42,7 @@ export const UploadFileItem = ({
       return (
         <Icon
           name="error"
-          size={20}
+          size={16}
           className="c__file-uploader__item__status c__file-uploader__item__status--error"
           aria-hidden="true"
         />
@@ -59,7 +60,7 @@ export const UploadFileItem = ({
     ) : (
       <Icon
         name="check_circle"
-        size={20}
+        size={16}
         className="c__file-uploader__item__status c__file-uploader__item__status--done"
         aria-hidden="true"
       />
@@ -74,10 +75,9 @@ export const UploadFileItem = ({
       )}
       data-testid="file-uploader-item"
     >
-      <Icon
-        name={getFileIconName(file.name, file.type)}
-        className="c__file-uploader__item__icon"
-        aria-hidden="true"
+      <PreviewFileIcon
+        file={{ title: file.name, mimetype: file.type ?? "" }}
+        size={32}
       />
       <span className="c__file-uploader__item__name">
         {file.name}

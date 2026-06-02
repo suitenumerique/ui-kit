@@ -3,6 +3,7 @@ import { DragEvent, useRef, useState } from "react";
 import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { Icon } from ":/components/icon";
 import { Spinner } from ":/components/loader/Spinner";
+import { FileIcon as PreviewFileIcon } from ":/components/preview/icons/FileIcon";
 import { UploadFileItem } from "./UploadFileItem";
 import { ResolvedUploadLabels, UploadFile, UploadFileLabels } from "./types";
 import { formatBytes } from "./utils";
@@ -59,6 +60,7 @@ export const FileUploader = ({
   const [isDragging, setIsDragging] = useState(false);
 
   const l: ResolvedUploadLabels = {
+    noFileYet: labels?.noFileYet ?? t("components.upload.noFileYet"),
     clickToUpload: labels?.clickToUpload ?? t("components.upload.clickToUpload"),
     dragAndDrop: labels?.dragAndDrop ?? t("components.upload.dragAndDrop"),
     addFile: labels?.addFile ?? t("components.upload.addFile"),
@@ -117,18 +119,52 @@ export const FileUploader = ({
 
   const hasError = !!singleFile && singleFile.status === "error";
 
+  const renderIllustration = () => (
+    <div className="c__file-uploader__illustration" aria-hidden="true">
+      <span className="c__file-uploader__illustration__file c__file-uploader__illustration__file--doc">
+        <PreviewFileIcon
+          file={{
+            title: "document.docx",
+            mimetype:
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          }}
+          size={42}
+        />
+      </span>
+      <span className="c__file-uploader__illustration__file c__file-uploader__illustration__file--slide">
+        <PreviewFileIcon
+          file={{
+            title: "presentation.pptx",
+            mimetype:
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          }}
+          size={42}
+        />
+      </span>
+      <span className="c__file-uploader__illustration__file c__file-uploader__illustration__file--image">
+        <PreviewFileIcon
+          file={{ title: "wallpaper.png", mimetype: "image/png" }}
+          size={54}
+        />
+      </span>
+    </div>
+  );
+
   const renderPrompt = () => (
     <>
-      <Icon name="cloud_upload" className="c__file-uploader__dropzone__icon" />
-      <p className="c__file-uploader__dropzone__text">
-        <strong>
-          {multiple && files.length > 0 ? l.addFile : l.clickToUpload}
-        </strong>{" "}
-        <span>{l.dragAndDrop}</span>
+      {renderIllustration()}
+      <p className="c__file-uploader__dropzone__hint">
+        <span>{l.noFileYet}</span>
+        {l.maxSize && (
+          <>
+            <span>&nbsp;-&nbsp;</span>
+            <span>{l.maxSize}</span>
+          </>
+        )}
       </p>
-      {l.maxSize && (
-        <span className="c__file-uploader__dropzone__hint">{l.maxSize}</span>
-      )}
+      <span className="c__file-uploader__link c__file-uploader__link--brand">
+        {multiple && files.length > 0 ? l.addFile : l.clickToUpload}
+      </span>
     </>
   );
 
@@ -157,13 +193,12 @@ export const FileUploader = ({
     }
     return (
       <>
-        <Icon
-          name="check_circle"
-          className="c__file-uploader__dropzone__icon c__file-uploader__dropzone__icon--success"
+        <PreviewFileIcon
+          file={{ title: file.name, mimetype: file.type ?? "" }}
+          size={48}
         />
         <p className="c__file-uploader__dropzone__text">
           {file.name}
-          {file.size !== undefined && ` · ${formatBytes(file.size)}`}
         </p>
         {onRemoveFile && (
           <button
@@ -201,6 +236,7 @@ export const FileUploader = ({
           "c__file-uploader__dropzone--dragging": isDragging,
           "c__file-uploader__dropzone--error": hasError,
           "c__file-uploader__dropzone--filled": dropzoneIsFile,
+          "c__file-uploader__dropzone--multiple": multiple && files.length > 0,
           "c__file-uploader__dropzone--disabled": disabled,
         })}
         role="button"
@@ -218,8 +254,25 @@ export const FileUploader = ({
         onDrop={onDrop}
         data-testid="file-uploader-dropzone"
       >
-        {dropzoneIsFile && singleFile ? (
-          renderSingleFile(singleFile)
+        {multiple && files.length > 0 ? (
+          <ul className="c__file-uploader__list" data-testid="file-uploader-list">
+            {files.map((file) => (
+              <UploadFileItem
+                key={file.id}
+                file={file}
+                labels={l}
+                onRemove={onRemoveFile}
+                onCancel={onCancelFile}
+              />
+            ))}
+          </ul>
+        ) : isDragging ? (
+          <>
+            {renderIllustration()}
+            <p className="c__file-uploader__dropzone__drag-label">
+              {l.addFile}
+            </p>
+          </>
         ) : hasError && singleFile ? (
           <>
             <Icon
@@ -231,24 +284,12 @@ export const FileUploader = ({
             </p>
             {renderPrompt()}
           </>
+        ) : dropzoneIsFile && singleFile ? (
+          renderSingleFile(singleFile)
         ) : (
           renderPrompt()
         )}
       </div>
-
-      {multiple && files.length > 0 && (
-        <ul className="c__file-uploader__list" data-testid="file-uploader-list">
-          {files.map((file) => (
-            <UploadFileItem
-              key={file.id}
-              file={file}
-              labels={l}
-              onRemove={onRemoveFile}
-              onCancel={onCancelFile}
-            />
-          ))}
-        </ul>
-      )}
     </div>
   );
 };

@@ -12,9 +12,12 @@
 }
 
 .user-menu__popover {
-  min-width: 300px;
-  max-width: 400px;
+  width: 288px;
+  min-width: 288px;
+  max-width: min(288px, calc(100vw - 32px));
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 18, 0.1);
 
   &--mobile {
     background: var(--c--contextuals--background--surface--primary);
@@ -45,23 +48,23 @@
 
 .user-menu__close-button {
   position: absolute !important;
-  top: 4px;
-  right: 4px;
+  top: 8px;
+  right: 8px;
 }
 
 .user-menu__content__body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: var(--c--globals--spacings--xs);
+
   overflow-y: auto;
   overflow-x: hidden;
 
   &__user-info {
     display: flex;
     align-items: center;
-    padding: var(--c--globals--spacings--base);
-    padding-bottom: 0;
-    // padding-block: var(--c--globals--spacings--sm);
+    padding: 12px var(--c--globals--spacings--base);
     gap: var(--c--globals--spacings--sm);
     background: linear-gradient(
       180deg,
@@ -74,12 +77,13 @@
     display: flex;
     flex-direction: column;
     padding: 0 var(--c--globals--spacings--xs);
+    gap: 1px;
   }
 }
 
 .user-menu__content__identity {
-  padding-block: var(--c--globals--spacings--sm);
-  line-height: 1.375;
+  line-height: 1;
+  min-width: 0;
 }
 
 .user-menu__content__identity__name,
@@ -94,7 +98,7 @@
   color: var(--c--contextuals--content--semantic--neutral--primary);
   font-size: var(--c--globals--font--sizes--md);
   font-weight: 700;
-  line-height: 1.375;
+  line-height: 22px;
   margin: 0;
 
   & > strong {
@@ -105,6 +109,7 @@
   color: var(--c--contextuals--content--semantic--neutral--secondary);
   font-size: var(--c--globals--font--sizes--xs);
   font-weight: 400;
+  line-height: 16px;
   margin: 0;
 
   // When email has a strong tag, that means there is no full name
@@ -117,12 +122,12 @@
 
 .user-menu__actions {
   display: flex;
-  padding: var(--c--globals--spacings--xs);
+  padding: var(--c--globals--spacings--3xs) var(--c--globals--spacings--xs);
   flex-direction: row;
   justify-content: space-between;
 
   gap: var(--c--globals--spacings--base);
-  border-top: 1px solid var(--c--contextuals--border--surface--primary);
+  border-top: none;
 
   &:has(.user-menu__actions__right:only-child) {
     justify-content: flex-end;
@@ -150,9 +155,15 @@
 .user-menu__item {
   display: flex;
   align-items: center;
-  gap: var(--c--globals--spacings--sm);
+  gap: var(--c--globals--spacings--xxs, 6px);
+  width: 100%;
+  min-height: 32px;
   padding: var(--c--globals--spacings--xs);
-  border-radius: var(--c--globals--spacings--xs);
+  border: 0;
+  border-radius: var(--c--globals--spacings--3xs, 4px);
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
   cursor: pointer;
 
   &:hover {
@@ -168,19 +179,55 @@
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
   }
 
   &__label {
     flex: 1 1 auto;
     min-width: 0;
-    font-size: var(--c--globals--font--sizes--sm);
+    font-size: var(--c--globals--font--sizes--xs);
+    line-height: 16px;
     font-weight: 500;
     color: var(--c--contextuals--content--semantic--neutral--primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+.user-menu__popover--mobile {
+  .user-menu__content__body {
+    gap: var(--c--globals--spacings--sm);
+    padding-block: var(--c--globals--spacings--sm);
+  }
+
+  .user-menu__content__body__user-info {
+    padding: 12px var(--c--globals--spacings--base);
+  }
+
+  .user-menu__content__body__settings {
+    padding: 0 var(--c--globals--spacings--xs);
+  }
+
+  .user-menu__item {
+    gap: var(--c--globals--spacings--xs);
+    min-height: 40px;
+    padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--sm);
+  }
+
+  .user-menu__item__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .user-menu__item__label {
+    font-size: var(--c--globals--font--sizes--sm);
+    line-height: 18px;
+  }
+
+  .user-menu__actions {
+    padding: var(--c--globals--spacings--3xs) var(--c--globals--spacings--sm);
   }
 }

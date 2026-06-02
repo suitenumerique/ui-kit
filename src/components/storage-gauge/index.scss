@@ -8,8 +8,9 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  height: 24px;
-  width: 100%;
+  height: 32px;
+  width: 205px;
+  max-width: 100%;
   overflow: hidden;
   font-family: inherit;
 
@@ -49,6 +50,10 @@
     color: var(--c--contextuals--content--semantic--neutral--tertiary, #626a80);
     white-space: nowrap;
     text-align: center;
+  }
+
+  &--compact {
+    width: fit-content;
   }
 
   &__arrow {
@@ -95,7 +100,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--4xs, 2px);
-  width: 100%;
+  padding-block: var(--c--globals--spacings--xs, 8px);
+  width: 270px;
+  max-width: 100%;
 
   &__header {
     display: flex;

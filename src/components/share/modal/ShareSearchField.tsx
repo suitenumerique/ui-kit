@@ -52,31 +52,27 @@ export const ShareSearchField = <UserType,>({
 
   return (
     <div className="c__share-modal__search-field" data-testid="share-search-field">
-      {hasSelection && (
-        <div className="c__share-modal__search-field__chips">
-          {leadingIcon}
-          {selectedUsers.map((user) => (
+      <div className="c__share-modal__search-field__icon">{leadingIcon}</div>
+      <div className="c__share-modal__search-field__content">
+        {hasSelection &&
+          selectedUsers.map((user) => (
             <InvitationUserSelectorItem
               key={user.id}
               user={user}
               onRemoveUser={onRemoveUser}
             />
           ))}
-        </div>
-      )}
-      <div className="c__share-modal__search-field__bottom">
-        {!hasSelection && leadingIcon}
-        <Command.Input
-          autoFocus
-          role="combobox"
-          aria-label={t("components.share.user.placeholder")}
-          className="c__share-modal__search-field__input"
-          value={inputValue}
-          placeholder={placeholder}
-          onValueChange={onInputChange}
-        />
-        {hasSelection && (
-          <div className="c__share-modal__search-field__actions">
+        <div className="c__share-modal__search-field__main-space">
+          <Command.Input
+            autoFocus
+            role="combobox"
+            aria-label={t("components.share.user.placeholder")}
+            className="c__share-modal__search-field__input"
+            value={inputValue}
+            placeholder={hasSelection ? undefined : placeholder}
+            onValueChange={onInputChange}
+          />
+          {hasSelection && (
             <AccessRoleDropdown
               roles={roles}
               selectedRole={selectedRole}
@@ -86,12 +82,16 @@ export const ShareSearchField = <UserType,>({
               canDelete={false}
               onDelete={undefined}
             />
-            <Button onClick={onShare} data-testid="share-invite-button">
-              {shareButtonLabel ?? t("components.share.shareButton")}
-            </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+      {hasSelection && (
+        <div className="c__share-modal__search-field__actions">
+          <Button onClick={onShare} data-testid="share-invite-button">
+            {shareButtonLabel ?? t("components.share.shareButton")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

@@ -42,26 +42,43 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
 .c__share-modal__search-field {
   display: flex;
-  flex-direction: column;
-  gap: var(--c--globals--spacings--2xs);
-  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
+  align-items: flex-end;
+  gap: var(--c--globals--spacings--xs, 8px);
+  padding: var(--c--globals--spacings--xs, 8px)
+    var(--c--globals--spacings--base, 16px)
+    var(--c--globals--spacings--3xs, 4px);
 
-  &__chips {
+  &__icon {
     display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 24px;
+    min-height: 32px;
+    padding-top: var(--c--globals--spacings--3xs, 4px);
+    flex-shrink: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 auto;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--c--globals--spacings--3xs);
+    gap: var(--c--globals--spacings--xxs, 6px);
+    min-width: 0;
+    min-height: 40px;
   }
 
-  &__bottom {
-    display: flex;
-    align-items: center;
-    gap: var(--c--globals--spacings--2xs);
-  }
-
-  &__chips .material-icons,
-  &__bottom .material-icons {
+  &__icon .material-icons {
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  }
+
+  &__main-space {
+    display: flex;
+    flex: 1 0 130px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--c--globals--spacings--xs, 8px);
+    min-width: 130px;
   }
 
   &__input {
@@ -71,6 +88,8 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
     outline: none;
     background: transparent;
     font: inherit;
+    font-size: var(--c--globals--font--sizes--md, 1rem);
+    line-height: 22px;
     color: var(--c--contextuals--content--semantic--neutral--primary);
 
     &::placeholder {
@@ -80,9 +99,10 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
   &__actions {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
-    gap: var(--c--globals--spacings--xs);
-    margin-left: auto;
+    justify-content: flex-end;
+    min-height: 40px;
   }
 }
 

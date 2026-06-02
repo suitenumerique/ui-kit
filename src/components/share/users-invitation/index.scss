@@ -26,16 +26,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--c--globals--spacings--3xs);
+  gap: var(--c--globals--spacings--4xs);
   border-radius: var(--c--globals--spacings--3xs);
-  height: fit-content;
-  padding: var(--c--globals--spacings--4xs) var(--c--globals--spacings--4xs)
-    var(--c--globals--spacings--4xs) var(--c--globals--spacings--xs);
-  background-color: var(
-    --c--contextuals--background--semantic--neutral--secondary
-  );
+  min-height: 24px;
+  padding-left: var(--c--globals--spacings--xxs, 6px);
+  background-color: var(--c--contextuals--background--semantic--overlay--primary);
   color: var(--c--contextuals--content--semantic--neutral--primary);
   font-size: var(--c--globals--font--sizes--xs);
+  line-height: 16px;
 
   .close-icon {
     color: var(--c--contextuals--content--semantic--neutral--tertiary);

@@ -16,6 +16,7 @@ export type UploadFile = {
 };
 
 export type UploadFileLabels = Partial<{
+  noFileYet: string;
   clickToUpload: string;
   dragAndDrop: string;
   addFile: string;
@@ -28,6 +29,7 @@ export type UploadFileLabels = Partial<{
 }>;
 
 export type ResolvedUploadLabels = {
+  noFileYet: string;
   clickToUpload: string;
   dragAndDrop: string;
   addFile: string;
