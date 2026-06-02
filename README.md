@@ -342,12 +342,15 @@ const customTranslations = {
 
 ## Internationalization
 
-The UI Kit natively supports French and English.
+The UI Kit natively supports French, English, Dutch, German and Spanish.
 
 ### Supported Languages
 
 - `fr-FR` - French (default)
 - `en-US` - English
+- `nl-NL` - Dutch
+- `de-DE` - German
+- `es-ES` - Spanish
 
 ### Changing Language
 

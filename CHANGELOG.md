@@ -10,6 +10,10 @@
 
 ## 0.23.1
 
+### Minor Changes
+
+- ♿(i18n) add german and spanish gaufre translations #242
+
 ### Patch Changes
 
 - 🐛(front) fix export icons files

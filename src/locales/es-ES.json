@@ -1,0 +1,158 @@
+{
+  "components": {
+    "share": {
+      "copyLink": "Copiar enlace",
+      "ok": "OK",
+      "shareButton": "Compartir",
+      "modalTitle": "Compartir carpeta",
+      "modalAriaLabel": "Ventana de compartir",
+      "access": {
+        "delete": "Retirar acceso"
+      },
+      "cannot_view": {
+        "message": "Puede ver este elemento, pero necesita acceso adicional para ver sus miembros o modificar la configuración."
+      },
+      "invitations": {
+        "title": "Invitaciones pendientes"
+      },
+      "members": {
+        "title_plural": "Compartido entre {count} personas",
+        "title_singular": "Compartido entre {count} persona",
+        "load_more": "Mostrar más"
+      },
+      "item": {
+        "add": "Añadir"
+      },
+      "search": {
+        "placeholder": "Buscar usuario",
+        "group_name": "Resultado de la búsqueda de usuario"
+      },
+      "user": {
+        "no_result": "Sin resultados",
+        "placeholder": "Buscar un usuario para invitar"
+      },
+      "linkSettings": {
+        "title": "Configuración del enlace",
+        "reach": {
+          "choices": {
+            "public": {
+              "title": "Público",
+              "description": "Cualquier persona con el enlace puede acceder al documento"
+            },
+            "authenticated": {
+              "title": "Autenticado",
+              "description": "Solo los usuarios autenticados pueden acceder al documento"
+            },
+            "restricted": {
+              "title": "Privado",
+              "description": "Solo los usuarios del espacio pueden acceder al documento"
+            }
+          }
+        },
+        "role": {
+          "choices": {
+            "reader": {
+              "title": "Lector"
+            },
+            "editor": {
+              "title": "Editor"
+            }
+          }
+        }
+      }
+    },
+    "laGaufre": {
+      "label": "Servicios digitales de LaSuite",
+      "closeLabel": "Cerrar el menú",
+      "viewMoreLabel": "Ver más",
+      "viewLessLabel": "Ver menos",
+      "loadingText": "Cargando…",
+      "newWindowLabelSuffix": " (nueva ventana)",
+      "headerLabel": "Acerca de"
+    },
+    "userMenu": {
+      "term_of_service": "Condiciones de uso",
+      "manage_account": "Gestionar la cuenta",
+      "open": "Abrir el menú de usuario",
+      "close": "Cerrar el menú de usuario",
+      "accountSettings": "Configuración de la cuenta",
+      "logout": "Cerrar sesión",
+      "dialogTitle": "Menú de usuario"
+    },
+    "treeView": {
+      "viewMore": "Cargar más elementos"
+    },
+    "footer": {
+      "logo": {
+        "alt": "Logotipo del gobierno francés"
+      }
+    },
+    "onboarding": {
+      "skip": "Omitir",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "complete": "Entendido",
+      "stepLabel": "Paso {current} de {total}: {title}",
+      "currentStepSuffix": " (actual)",
+      "contentRegionLabel": "Contenido del paso {current} de {total}"
+    },
+    "feedbackForm": {
+      "title": "Contactar con el equipo",
+      "subtitle": "Error, idea, pregunta o felicitación: el equipo lo lee todo y le responderá si es necesario.",
+      "subject": "Asunto",
+      "subjectPlaceholder": "¿De qué se trata?",
+      "message": "Su mensaje",
+      "messagePlaceholder": "Describa su problema o sugerencia...",
+      "uploadFile": "Subir un archivo",
+      "emailCheckbox": "Me gustaría recibir una respuesta por correo electrónico",
+      "emailLabel": "Correo electrónico",
+      "emailPrivacy": "Ver cómo se utiliza su correo electrónico",
+      "emailError": "Introduzca una dirección de correo electrónico válida.",
+      "cancel": "Cancelar",
+      "send": "Enviar",
+      "category": "Categoría",
+      "closeAriaLabel": "Cerrar el formulario de contacto"
+    },
+    "filePreview": {
+      "title": "Vista previa del archivo",
+      "unsupported": {
+        "title": "Archivo no compatible",
+        "disclaimer": "Formato no compatible.",
+        "description": "Para ver el archivo, descárguelo en su dispositivo.",
+        "download": "Descargar archivo",
+        "heicTitle": "Los archivos HEIC aún no son compatibles para la vista previa."
+      },
+      "suspicious": {
+        "title": "Archivo sospechoso",
+        "description": "Este archivo parece sospechoso. Solo es visible para usted.",
+        "download": "Descargar archivo"
+      },
+      "error": {
+        "title": "Se ha producido un error al cargar el documento.",
+        "description": "Puede contactar con el soporte para obtener ayuda."
+      },
+      "wopi": {
+        "loading": "Cargando documento...",
+        "error": "Se ha producido un error al cargar el documento.",
+        "openInEditor": "Abrir en el editor",
+        "openInEditorDescription": "Este archivo se puede editar con un editor en línea. Se abre en una nueva pestaña."
+      },
+      "image": {
+        "loading": "Cargando imagen..."
+      },
+      "externalLink": {
+        "title": "Enlace externo",
+        "description": "Está a punto de salir de esta página y ser redirigido a:",
+        "confirmQuestion": "¿Desea continuar?"
+      },
+      "outdatedBrowser": {
+        "title": "Su navegador no es compatible",
+        "description": "Por razones de seguridad, el visor de PDF requiere un navegador reciente. Actualice su navegador o utilice Firefox o Chrome."
+      },
+      "actions": {
+        "download": "Descargar",
+        "print": "Imprimir"
+      }
+    }
+  }
+}
