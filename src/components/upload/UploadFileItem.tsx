@@ -1,6 +1,7 @@
 import clsx from "clsx";
+import { Button } from "@gouvfr-lasuite/cunningham-react";
 import { Icon } from ":/components/icon";
-import { Spinner } from ":/components/loader/Spinner";
+import { CircleCheckFilled } from ":/components/icon/icons/CircleCheckFilled";
 import { FileIcon as PreviewFileIcon } from ":/components/preview/icons/FileIcon";
 import { ResolvedUploadLabels, UploadFile } from "./types";
 import { formatBytes } from "./utils";
@@ -10,6 +11,13 @@ type UploadFileItemProps = {
   labels: ResolvedUploadLabels;
   onRemove?: (file: UploadFile) => void;
   onCancel?: (file: UploadFile) => void;
+};
+
+const clampProgress = (progress?: number) => {
+  if (progress === undefined || Number.isNaN(progress)) {
+    return 0;
+  }
+  return Math.min(100, Math.max(0, progress));
 };
 
 /**
@@ -23,47 +31,81 @@ export const UploadFileItem = ({
   onCancel,
 }: UploadFileItemProps) => {
   const status = file.status ?? "done";
+  const progress = clampProgress(file.progress);
 
   const renderTrailing = () => {
     if (status === "uploading") {
       return onCancel ? (
-        <button
+        <Button
           type="button"
-          className="c__file-uploader__link c__file-uploader__link--danger c__file-uploader__item__cancel"
-          onClick={() => onCancel(file)}
+          variant="tertiary"
+          color="error"
+          size="nano"
+          className="c__file-uploader__item__cancel"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCancel(file);
+          }}
         >
           {labels.cancel}
-        </button>
+        </Button>
       ) : (
-        <Spinner size="sm" />
+        <span
+          className="c__file-uploader__item__status c__file-uploader__item__status--uploading"
+          role="progressbar"
+          aria-label={`${file.name} – ${labels.uploading}`}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progress}
+        >
+          <svg
+            className="c__file-uploader__item__progress"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="7"
+              pathLength={100}
+              strokeDasharray={`${progress} 100`}
+            />
+          </svg>
+        </span>
       );
     }
     if (status === "error") {
       return (
-        <Icon
-          name="error"
-          size={16}
+        <span
           className="c__file-uploader__item__status c__file-uploader__item__status--error"
           aria-hidden="true"
-        />
+        >
+          <Icon name="error" size={16} />
+        </span>
       );
     }
     return onRemove ? (
-      <button
+      <Button
         type="button"
+        variant="tertiary"
+        color="neutral"
+        size="nano"
         className="c__file-uploader__item__remove"
         aria-label={`${labels.remove} ${file.name}`}
-        onClick={() => onRemove(file)}
-      >
-        <Icon name="close" size={18} aria-hidden="true" />
-      </button>
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(file);
+        }}
+        icon={<Icon name="close" size={18} aria-hidden="true" />}
+      />
     ) : (
-      <Icon
-        name="check_circle"
-        size={16}
+      <span
         className="c__file-uploader__item__status c__file-uploader__item__status--done"
         aria-hidden="true"
-      />
+      >
+        <CircleCheckFilled size={16} />
+      </span>
     );
   };
 

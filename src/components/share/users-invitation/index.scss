@@ -35,6 +35,17 @@
   font-size: var(--c--globals--font--sizes--xs);
   line-height: 16px;
 
+  &--selected {
+    background-color: var(--c--contextuals--background--semantic--brand--primary);
+    color: var(--c--contextuals--content--semantic--brand--on-brand);
+
+    .c__button__icon,
+    .c__button__icon *,
+    .material-icons {
+      color: var(--c--contextuals--content--semantic--brand--on-brand);
+    }
+  }
+
   .close-icon {
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
     font-size: var(--c--globals--font--sizes--sm);

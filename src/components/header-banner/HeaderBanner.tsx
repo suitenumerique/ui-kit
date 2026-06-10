@@ -5,7 +5,7 @@ import {
   ReactNode,
   useState,
 } from "react";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { Icon } from ":/components/icon";
 import { ExternalLink } from ":/icons";
 
@@ -105,49 +105,39 @@ export const HeaderBanner = ({
       <p className="c__header-banner__message">{children}</p>
       {(action || closable) && (
         <div className="c__header-banner__actions">
-          {action &&
-            (action.href ? (
-              <a
-                className={clsx("c__header-banner__action", {
-                  "c__header-banner__action--has-icon": hasActionIcon,
-                })}
-                href={action.href}
-                target={action.target ?? "_blank"}
-                rel="noopener noreferrer"
-                onClick={action.onClick}
-                aria-label={action.label}
-                title={action.label}
-              >
-                {actionIcon}
-                <span className="c__header-banner__action__label">
-                  {action.label}
-                </span>
-              </a>
-            ) : (
-              <button
-                type="button"
-                className={clsx("c__header-banner__action", {
-                  "c__header-banner__action--has-icon": hasActionIcon,
-                })}
-                onClick={action.onClick}
-                aria-label={action.label}
-                title={action.label}
-              >
-                {actionIcon}
-                <span className="c__header-banner__action__label">
-                  {action.label}
-                </span>
-              </button>
-            ))}
-          {closable && (
-            <button
+          {action && (
+            <Button
               type="button"
+              variant="tertiary"
+              color="neutral"
+              size="nano"
+              className={clsx("c__header-banner__action", {
+                "c__header-banner__action--has-icon": hasActionIcon,
+              })}
+              href={action.href}
+              target={action.href ? action.target ?? "_blank" : undefined}
+              rel={action.href ? "noopener noreferrer" : undefined}
+              onClick={action.onClick}
+              icon={actionIcon}
+              aria-label={action.label}
+              title={action.label}
+            >
+              <span className="c__header-banner__action__label">
+                {action.label}
+              </span>
+            </Button>
+          )}
+          {closable && (
+            <Button
+              type="button"
+              variant="tertiary"
+              color="neutral"
+              size="nano"
               className="c__header-banner__close"
               onClick={handleClose}
               aria-label={closeLabel ?? t("components.headerBanner.close")}
-            >
-              <Icon name="close" size={16} aria-hidden="true" />
-            </button>
+              icon={<Icon name="close" size={16} aria-hidden="true" />}
+            />
           )}
         </div>
       )}

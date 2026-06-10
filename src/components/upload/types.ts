@@ -9,6 +9,8 @@ export type UploadFile = {
   size?: number;
   /** Current status (default: "done"). */
   status?: UploadFileStatus;
+  /** Upload progress percentage, from 0 to 100, used when status is "uploading". */
+  progress?: number;
   /** Error message shown when status is "error". */
   error?: string;
   /** Mimetype, used to pick the file icon. */

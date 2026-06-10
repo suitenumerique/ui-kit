@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { DragEvent, useRef, useState } from "react";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { Icon } from ":/components/icon";
 import { Spinner } from ":/components/loader/Spinner";
 import { FileIcon as PreviewFileIcon } from ":/components/preview/icons/FileIcon";
@@ -177,16 +177,19 @@ export const FileUploader = ({
             {file.name} – {l.uploading}
           </p>
           {onCancelFile && (
-            <button
+            <Button
               type="button"
-              className="c__file-uploader__link c__file-uploader__link--danger"
+              variant="tertiary"
+              color="error"
+              size="nano"
+              className="c__file-uploader__button"
               onClick={(e) => {
                 e.stopPropagation();
                 onCancelFile(file);
               }}
             >
               {l.cancel}
-            </button>
+            </Button>
           )}
         </>
       );
@@ -201,16 +204,19 @@ export const FileUploader = ({
           {file.name}
         </p>
         {onRemoveFile && (
-          <button
+          <Button
             type="button"
-            className="c__file-uploader__link"
+            variant="tertiary"
+            color="neutral"
+            size="nano"
+            className="c__file-uploader__button"
             onClick={(e) => {
               e.stopPropagation();
               onRemoveFile(file);
             }}
           >
             {l.remove}
-          </button>
+          </Button>
         )}
       </>
     );

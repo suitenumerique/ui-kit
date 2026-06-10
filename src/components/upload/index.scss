@@ -177,14 +177,9 @@
   }
 
   &__link {
-    border: none;
-    background: transparent;
-    padding: 0;
-    font-family: inherit;
     font-size: var(--c--globals--font--sizes--sm, 0.875rem);
     font-weight: 500;
     color: var(--c--contextuals--content--semantic--neutral--tertiary, #626a80);
-    cursor: pointer;
 
     &--brand {
       font-size: var(--c--globals--font--sizes--xs, 0.75rem);
@@ -195,10 +190,13 @@
     &:hover {
       text-decoration: underline;
     }
+  }
 
-    &--danger {
-      color: var(--c--contextuals--content--semantic--error--secondary, #bd0f23);
-    }
+  &__button.c__button {
+    flex-shrink: 0;
+    height: 24px;
+    font-size: var(--c--globals--font--sizes--xs, 0.75rem);
+    line-height: var(--c--globals--line-heights--xs, 16px);
   }
 
   &__list {
@@ -277,11 +275,27 @@
     }
 
     &__status {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--c--globals--spacings--3xs, 4px);
+      line-height: 0;
+
+      > svg,
+      > .material-icons {
+        display: block;
+        flex-shrink: 0;
+      }
+
       &--done {
-        color: var(
-          --c--contextuals--content--semantic--success--primary,
-          #1f8c4d
-        );
+        color: var(--c--contextuals--content--semantic--brand--tertiary, #3e5de7);
+      }
+
+      &--uploading {
+        color: var(--c--contextuals--content--semantic--brand--tertiary, #3e5de7);
       }
 
       &--error {
@@ -292,18 +306,28 @@
       }
     }
 
-    &__remove {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      border: none;
-      background: transparent;
+    &__progress {
+      display: block;
+      width: 16px;
+      height: 16px;
+      overflow: visible;
+      transform: rotate(-90deg);
+
+      circle {
+        display: block;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-width: 2;
+      }
+    }
+
+    &__remove.c__button {
+      flex-shrink: 0;
       color: var(
         --c--contextuals--content--semantic--neutral--tertiary,
         #626a80
       );
-      cursor: pointer;
 
       &:hover {
         color: var(
@@ -313,7 +337,8 @@
       }
     }
 
-    &__cancel {
+    &__cancel.c__button {
+      flex-shrink: 0;
       font-size: var(--c--globals--font--sizes--xs, 0.75rem);
       line-height: var(--c--globals--line-heights--xs, 16px);
     }

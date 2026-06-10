@@ -7,7 +7,6 @@ test.describe("FileUploader", () => {
   }) => {
     const component = await mount(<TestUploader />);
     await expect(component).toContainText("Click to upload");
-    await expect(component).toContainText("or drag and drop");
     await expect(component).toContainText("Max 5 GB");
   });
 
@@ -38,12 +37,43 @@ test.describe("FileUploader", () => {
     );
 
     await expect(page.getByTestId("file-uploader-item")).toHaveCount(2);
-    await component
-      .getByRole("button", { name: "Remove file drop.txt" })
-      .click();
+    const list = page.getByTestId("file-uploader-list");
+    let fileChooserOpened = false;
+    page.on("filechooser", () => {
+      fileChooserOpened = true;
+    });
+    await list.getByRole("button", { name: "Delete drop.txt" }).click();
+    await page.waitForTimeout(100);
     await expect(page.getByTestId("file-uploader-item")).toHaveCount(1);
     await expect(component).toContainText("keep.txt");
     await expect(component).not.toContainText("drop.txt");
+    expect(fileChooserOpened).toBe(false);
+  });
+
+  test("canceling an upload does not open the file picker", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestUploader
+        multiple
+        cancelUploads
+        initialFiles={[{ id: "1", name: "uploading.png", status: "uploading" }]}
+      />,
+    );
+
+    let fileChooserOpened = false;
+    page.on("filechooser", () => {
+      fileChooserOpened = true;
+    });
+
+    await page
+      .getByTestId("file-uploader-list")
+      .getByRole("button", { name: "Cancel upload" })
+      .click();
+    await page.waitForTimeout(100);
+    await expect(page.getByTestId("file-uploader-item")).toHaveCount(0);
+    expect(fileChooserOpened).toBe(false);
   });
 
   test("multiple mode renders uploading and error states", async ({
@@ -83,7 +113,6 @@ test.describe("FileUploader", () => {
 
     const dropzone = page.getByTestId("file-uploader-dropzone");
     await expect(dropzone).toContainText("report.pdf");
-    await expect(dropzone).toContainText("248 MB");
     // No separate list in single mode.
     await expect(page.getByTestId("file-uploader-list")).toHaveCount(0);
   });

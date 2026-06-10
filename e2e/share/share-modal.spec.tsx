@@ -56,4 +56,51 @@ test.describe("ShareModal — unified search field", () => {
     await expect(field.getByTestId("selected-user-item")).toHaveCount(0);
     await expect(page.getByTestId("share-invite-button")).toHaveCount(0);
   });
+
+  test("Backspace selects the last chip before removing it when the input is empty", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal />);
+
+    const field = page.getByTestId("share-search-field");
+    const input = field.locator(".c__share-modal__search-field__input");
+
+    await input.fill("am");
+    await page
+      .getByTestId("search-users-list")
+      .getByText("Amandine Salambo")
+      .click();
+
+    await input.fill("ja");
+    await page
+      .getByTestId("search-users-list")
+      .getByText("Jakob Philips")
+      .click();
+
+    const chips = field.getByTestId("selected-user-item");
+    const amandineChip = chips.filter({ hasText: "Amandine Salambo" });
+    const jakobChip = chips.filter({ hasText: "Jakob Philips" });
+
+    await expect(input).toHaveValue("");
+    await expect(chips).toHaveCount(2);
+
+    await input.press("Backspace");
+
+    await expect(chips).toHaveCount(2);
+    await expect(jakobChip).toHaveAttribute("data-selected", "true");
+    await expect(amandineChip).not.toHaveAttribute("data-selected", "true");
+
+    await input.press("Backspace");
+
+    await expect(jakobChip).toHaveCount(0);
+    await expect(amandineChip).toBeVisible();
+
+    await input.press("Backspace");
+    await expect(amandineChip).toHaveAttribute("data-selected", "true");
+
+    await input.press("Backspace");
+    await expect(field.getByTestId("selected-user-item")).toHaveCount(0);
+    await expect(page.getByTestId("share-invite-button")).toHaveCount(0);
+  });
 });

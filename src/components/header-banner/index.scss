@@ -60,11 +60,8 @@
     gap: var(--c--globals--spacings--3xs, 4px);
   }
 
-  &__action,
-  &__close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  &__action.c__button,
+  &__close.c__button {
     gap: var(--c--globals--spacings--3xs, 4px);
     height: 24px;
     padding: 0 var(--c--globals--spacings--3xs, 4px);
@@ -78,11 +75,11 @@
     font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    cursor: pointer;
     transition: background 0.15s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.15);
+      color: var(--c--header-banner--on-color);
     }
 
     &:focus-visible {
@@ -90,12 +87,17 @@
       outline-offset: 1px;
     }
 
+    .c__button__icon,
+    .c__button__icon * {
+      color: var(--c--header-banner--on-color);
+    }
+
     .material-icons {
       font-size: 16px;
     }
   }
 
-  &__close {
+  &__close.c__button {
     padding: 0;
     width: 24px;
   }

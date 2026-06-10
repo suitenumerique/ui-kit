@@ -1,5 +1,5 @@
 import { Command } from "cmdk";
-import { useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { Spinner } from ":/components/loader/Spinner";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
@@ -42,7 +42,58 @@ export const ShareSearchField = <UserType,>({
 }: ShareSearchFieldProps<UserType>) => {
   const { t } = useCunningham();
   const [isRoleOpen, setIsRoleOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const hasSelection = selectedUsers.length > 0;
+
+  useEffect(() => {
+    if (
+      selectedUserId !== null &&
+      !selectedUsers.some((user) => user.id === selectedUserId)
+    ) {
+      setSelectedUserId(null);
+    }
+  }, [selectedUserId, selectedUsers]);
+
+  const handleInputChange = (value: string) => {
+    if (value.length > 0 && selectedUserId !== null) {
+      setSelectedUserId(null);
+    }
+
+    onInputChange(value);
+  };
+
+  const handleRemoveUser = (user: UserData<UserType>) => {
+    if (selectedUserId === user.id) {
+      setSelectedUserId(null);
+    }
+
+    onRemoveUser(user);
+  };
+
+  const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key !== "Backspace" ||
+      inputValue.length > 0 ||
+      selectedUsers.length === 0
+    ) {
+      if (selectedUserId !== null && event.key !== "Backspace") {
+        setSelectedUserId(null);
+      }
+
+      return;
+    }
+
+    event.preventDefault();
+
+    const selectedUser = selectedUsers.find((user) => user.id === selectedUserId);
+
+    if (selectedUser) {
+      handleRemoveUser(selectedUser);
+      return;
+    }
+
+    setSelectedUserId(selectedUsers[selectedUsers.length - 1].id);
+  };
 
   const leadingIcon = loading ? (
     <Spinner size="md" />
@@ -59,7 +110,8 @@ export const ShareSearchField = <UserType,>({
             <InvitationUserSelectorItem
               key={user.id}
               user={user}
-              onRemoveUser={onRemoveUser}
+              isSelected={selectedUserId === user.id}
+              onRemoveUser={handleRemoveUser}
             />
           ))}
         <div className="c__share-modal__search-field__main-space">
@@ -70,7 +122,8 @@ export const ShareSearchField = <UserType,>({
             className="c__share-modal__search-field__input"
             value={inputValue}
             placeholder={hasSelection ? undefined : placeholder}
-            onValueChange={onInputChange}
+            onKeyDown={handleInputKeyDown}
+            onValueChange={handleInputChange}
           />
           {hasSelection && (
             <AccessRoleDropdown

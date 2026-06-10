@@ -59,7 +59,7 @@ export const SingleError: Story = {
   },
 };
 
-/** Multiple files with a mix of statuses. */
+/** Multiple-file populated state matching the Figma upload list. */
 export const MultipleStates: Story = {
   args: {
     multiple: true,
@@ -75,6 +75,7 @@ export const MultipleStates: Story = {
         id: "2",
         name: "Flower wallpaper",
         status: "uploading",
+        progress: 78,
         type: "image/png",
       },
       {
@@ -88,8 +89,7 @@ export const MultipleStates: Story = {
         id: "4",
         name: "Essay on the Vosges",
         size: 10 * MB,
-        status: "error",
-        error: "An error occurred",
+        status: "done",
         type: "application/pdf",
       },
     ],

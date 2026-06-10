@@ -60,14 +60,22 @@ export const InvitationUserSelectorList = <UserType,>({
 export type ShareSelectedUserItemProps<UserType> = {
   user: UserData<UserType>;
   onRemoveUser: (user: UserData<UserType>) => void;
+  isSelected?: boolean;
 };
 
 export const InvitationUserSelectorItem = <UserType,>({
   user,
   onRemoveUser,
+  isSelected = false,
 }: ShareSelectedUserItemProps<UserType>) => {
   return (
-    <div className="c__add-share-user-item" data-testid="selected-user-item">
+    <div
+      className={`c__add-share-user-item${
+        isSelected ? " c__add-share-user-item--selected" : ""
+      }`}
+      data-selected={isSelected ? "true" : undefined}
+      data-testid="selected-user-item"
+    >
       <span>{user.full_name || user.email}</span>
       <Button
         variant="tertiary"

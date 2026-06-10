@@ -8,6 +8,7 @@ const GB = 1024 * 1024 * 1024;
 type TestUploaderProps = {
   multiple?: boolean;
   initialFiles?: UploadFile[];
+  cancelUploads?: boolean;
 };
 
 /**
@@ -18,6 +19,7 @@ type TestUploaderProps = {
 export const TestUploader = ({
   multiple = true,
   initialFiles = [],
+  cancelUploads = false,
 }: TestUploaderProps) => {
   const [files, setFiles] = useState<UploadFile[]>(initialFiles);
   return (
@@ -40,6 +42,11 @@ export const TestUploader = ({
         }
         onRemoveFile={(file) =>
           setFiles((prev) => prev.filter((f) => f.id !== file.id))
+        }
+        onCancelFile={
+          cancelUploads
+            ? (file) => setFiles((prev) => prev.filter((f) => f.id !== file.id))
+            : undefined
         }
       />
     </CunninghamProvider>
