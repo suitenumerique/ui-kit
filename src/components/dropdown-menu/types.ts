@@ -1,9 +1,8 @@
 import { MenuItemAction, MenuItemSeparator } from "../menu/types";
 
 /**
- * DropdownMenu option extending the shared MenuItemAction
- * Adds selection-specific props: isChecked, value
- * @deprecated showSeparator - use MenuItemSeparator instead
+ * DropdownMenu option extending the shared MenuItemAction.
+ * Adds selection-specific props: isChecked, value.
  */
 export type DropdownMenuOption = MenuItemAction & {
   isChecked?: boolean;

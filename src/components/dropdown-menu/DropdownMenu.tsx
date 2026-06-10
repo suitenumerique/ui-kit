@@ -6,20 +6,21 @@ import {
   Separator,
   SubmenuTrigger,
 } from "react-aria-components";
-import { DropdownMenuItem, DropdownMenuOption } from "./types";
+import { MenuItemAction, MenuItemSeparator } from "../menu/types";
+import { DropdownMenuItem } from "./types";
 import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
-import { MenuItemSeparator } from "../menu/types";
 import clsx from "clsx";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
   return "type" in item && item.type === "separator";
 };
 
-const hasChildren = (item: DropdownMenuOption): boolean => {
+const hasChildren = (item: MenuItemAction): boolean => {
   return Array.isArray(item.children) && item.children.length > 0;
 };
 
-const MenuItemContent = ({ option }: { option: DropdownMenuOption }) => (
+const MenuItemContent = ({ option }: { option: MenuItemAction }) => (
   <>
     {option.icon && (
       <div className="c__dropdown-menu-item__icon">{option.icon}</div>
@@ -59,11 +60,19 @@ export const DropdownMenu = ({
 }: PropsWithChildren<DropdownMenuProps>) => {
   const id = useId();
   const triggerRef = useRef(null);
+  const { t } = useCunningham();
   const menuClassName = `c__dropdown-menu${
     variant === "tiny" ? " c__dropdown-menu--tiny" : ""
   }`;
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
+  };
+
+  const getAriaLabel = (option: MenuItemAction): string => {
+    if (option.opensInNewWindow) {
+      return option.label + t("components.menu.newWindowLabelSuffix");
+    }
+    return option.label;
   };
 
   const renderMenuItems = (items: DropdownMenuItem[]) =>
@@ -85,7 +94,7 @@ export const DropdownMenu = ({
               className={clsx("c__dropdown-menu-item", {
                 "c__dropdown-menu-item--danger": option.variant === "danger",
               })}
-              aria-label={option.label}
+              aria-label={getAriaLabel(option)}
               isDisabled={option.isDisabled}
               data-testid={option.testId}
             >
@@ -109,7 +118,7 @@ export const DropdownMenu = ({
             className={clsx("c__dropdown-menu-item", {
               "c__dropdown-menu-item--danger": option.variant === "danger",
             })}
-            aria-label={option.label}
+            aria-label={getAriaLabel(option)}
             onAction={() => {
               if (option.value) {
                 onSelectValue?.(option.value);

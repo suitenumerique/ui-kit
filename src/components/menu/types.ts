@@ -15,6 +15,7 @@ export type MenuItemAction = {
   keepOpen?: boolean;
   testId?: string;
   children?: MenuItem[];
+  opensInNewWindow?: boolean;
 };
 
 /**

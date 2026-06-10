@@ -46,6 +46,7 @@ import { useState } from "react";
  * | `variant` | `"default" \| "danger"` | Item style (danger = red) |
  * | `value` | `string` | Value for selection mode |
  * | `isChecked` | `boolean` | Shows a checkmark |
+ * | `opensInNewWindow` | `boolean` | Appends "(new window)" to aria-label for screen readers |
  *
  * For a separator: `{ type: "separator" }`
  *

@@ -15,6 +15,7 @@ import {
   MenuItemAction,
   ContextMenuState,
 } from "./types";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
 
@@ -39,6 +40,7 @@ const getItemKey = (item: MenuItemAction, index: number): string => {
 export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   // Check for nested providers first (but after hook declarations for Rules of Hooks)
   const existingContext = useContext(ContextMenuContext);
+  const { t } = useCunningham();
 
   const [state, setState] = useState<ContextMenuState>({
     isOpen: false,
@@ -187,7 +189,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
                 key={itemKey}
                 id={itemKey}
                 className={`c__dropdown-menu-item${item.variant === "danger" ? " c__dropdown-menu-item--danger" : ""}`}
-                aria-label={item.label}
+                aria-label={item.opensInNewWindow ? item.label + t("components.menu.newWindowLabelSuffix") : item.label}
                 isDisabled={item.isDisabled}
                 data-testid={item.testId || `context-menu-item-${itemKey}`}
               >
