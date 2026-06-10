@@ -2,6 +2,10 @@
 
 [UNRELEASED]
 
+### Minor Changes
+
+- ♿️(menu) add opensInNewWindow for external link aria-label #246
+
 ## 0.23.2
 
 ### Minor Changes

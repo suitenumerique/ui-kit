@@ -458,6 +458,49 @@ export const WithoutIcons: Story = {
   },
 };
 
+const optionsWithExternalLinks: DropdownMenuItem[] = [
+  {
+    icon: <span className="material-icons">menu_book</span>,
+    label: "Documentation",
+    opensInNewWindow: true,
+    callback: () => alert("Open documentation"),
+  },
+  {
+    icon: <span className="material-icons">gavel</span>,
+    label: "Legal notice",
+    opensInNewWindow: true,
+    callback: () => alert("Open legal notice"),
+  },
+  { type: "separator" },
+  {
+    icon: <span className="material-icons">settings</span>,
+    label: "Settings",
+    callback: () => alert("Open settings"),
+  },
+];
+
+/**
+ * External links announce "(new window)" to screen readers via `aria-label`,
+ * without changing the visible label. Inspect `aria-label` in DevTools to verify.
+ */
+export const OpensInNewWindow: Story = {
+  args: {
+    options: optionsWithExternalLinks,
+  },
+  render: (args) => {
+    const { isOpen, setIsOpen } = useDropdownMenu();
+    return (
+      <DropdownMenu
+        options={args.options}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Help</Button>
+      </DropdownMenu>
+    );
+  },
+};
+
 export const WithTopMessage: Story = {
   args: {
     options: [
