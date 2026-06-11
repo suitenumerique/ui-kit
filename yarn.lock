@@ -1327,10 +1327,10 @@
     figlet "1.8.1"
     ts-node "10.9.2"
 
-"@gouvfr-lasuite/integration@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@gouvfr-lasuite/integration/-/integration-1.0.2.tgz#ed0000f4b738c5a19bb60f5b80a9a2f5d9414234"
-  integrity sha512-npOotZQSyu6SffHiPP+jQVOkJ3qW2KE2cANhEK92sNLX9uZqQaCqljO5GhzsBmh0lB76fiXnrr9i8SIpnDUSZg==
+"@gouvfr-lasuite/integration@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@gouvfr-lasuite/integration/-/integration-1.0.3.tgz#7aca824ba61d343a7905dc90c8a8bbdbce8f9a09"
+  integrity sha512-OgP28CqlPi35wQPul1Dr52SngACXAk8buLGqHYXDp23fbTOJThqarrZE/pgJHoc9Ndwiu7ngwBSO4rZ7OPyMpA==
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
