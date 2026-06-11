@@ -96,7 +96,7 @@
     "@vitest/coverage-c8": "0.33.0",
     "@vitest/ui": "2.1.8",
     "babel-loader": "9.2.1",
-    "css-loader": "7.1.2",
+    "css-loader": "7.1.4",
     "eslint": "9.17.0",
     "eslint-plugin-react-hooks": "5.0.0",
     "eslint-plugin-react-refresh": "0.4.16",
