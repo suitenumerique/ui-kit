@@ -50,4 +50,10 @@
     gap: 0.5rem;
     flex-direction: column-reverse;
   }
+
+  .c__modal__footer {
+    button {
+      justify-content: center;
+    }
+  }
 }
