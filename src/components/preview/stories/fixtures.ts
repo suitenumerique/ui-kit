@@ -41,10 +41,23 @@ export const pdfFiles: FilePreviewType[] = [
   file("large-pdf", "XFA-3_3.pdf", "application/pdf"),
 ];
 
+// Public-domain test photo: "Alpine lakes and forest, Denali National Park,
+// Alaska" by Carol M. Highsmith (Library of Congress, dedicated to the public
+// domain). Re-encoded to HEIC for the preview demo.
 export const heicFile: FilePreviewType = file(
   "heic-img",
-  "IMG_7665.heic",
+  "denali-national-park.heic",
   "image/heic",
+);
+
+// A second public-domain photo ("Badlands National Park" by Carol M. Highsmith,
+// Library of Congress) in a plain HEIF container (mimetype image/heif), to
+// exercise the generic-HEIF branch alongside HEIC. HEIC is a HEIF container
+// that happens to hold an HEVC image; both decode through the same codec.
+export const heifFile: FilePreviewType = file(
+  "heif-img",
+  "badlands-national-park.heif",
+  "image/heif",
 );
 
 export const unsupportedFiles: FilePreviewType[] = [
@@ -74,6 +87,7 @@ export const allFiles: FilePreviewType[] = [
   ...audioFiles,
   ...pdfFiles,
   heicFile,
+  heifFile,
   ...unsupportedFiles,
   suspiciousFile,
   wopiFile,
