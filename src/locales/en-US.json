@@ -138,6 +138,11 @@
         "openInEditor": "Open in editor",
         "openInEditorDescription": "This file can be edited with an online editor. It opens in a new tab."
       },
+      "spreadsheet": {
+        "loading": "Loading spreadsheet…",
+        "previewReadOnly": "Preview (read-only)",
+        "description": "Preview this spreadsheet without leaving the page."
+      },
       "image": {
         "loading": "Loading image..."
       },

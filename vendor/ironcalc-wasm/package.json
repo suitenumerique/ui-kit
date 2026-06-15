@@ -1,0 +1,1 @@
+{"name":"@ironcalc/wasm","type":"module","version":"0.7.1","files":["wasm_bg.wasm","wasm.js","wasm.d.ts","wasm_bg.wasm.d.ts","snippets"],"main":"wasm.js","types":"wasm.d.ts","sideEffects":["./snippets/*"]}

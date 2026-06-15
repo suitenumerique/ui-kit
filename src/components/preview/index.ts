@@ -17,4 +17,5 @@ export * from "./viewers/not-supported/NotSupportedPreview";
 export * from "./viewers/suspicious/SuspiciousPreview";
 export * from "./viewers/error/ErrorPreview";
 export * from "./viewers/wopi/WopiOpenInEditor";
+export * from "./viewers/spreadsheet/SpreadsheetPreview";
 export { DEFAULT_PDF_WORKER_SRC } from "./viewers/pdf-preview/pdfConsts";

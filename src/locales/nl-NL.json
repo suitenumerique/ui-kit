@@ -137,6 +137,11 @@
         "openInEditor": "Openen in editor",
         "openInEditorDescription": "Dit bestand kan worden bewerkt met een online editor. Het opent in een nieuw tabblad."
       },
+      "spreadsheet": {
+        "loading": "Spreadsheet laden…",
+        "previewReadOnly": "Voorbeeld (alleen-lezen)",
+        "description": "Bekijk deze spreadsheet zonder de pagina te verlaten."
+      },
       "image": {
         "loading": "Afbeelding laden..."
       },
