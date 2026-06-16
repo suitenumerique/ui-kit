@@ -9,11 +9,16 @@
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
   }
 
-  .quick-search-input {
+  input.quick-search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--c--contextuals--content--semantic--neutral--primary);
+
     &::placeholder {
       color: var(
         --c--contextuals--content--semantic--neutral--tertiary
-      ) !important;
+      );
     }
   }
 }
