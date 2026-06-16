@@ -20,7 +20,7 @@ export const QuickSearchItemTemplate = ({
     <div className="c__quick-search-item-template" data-testid={testId}>
       <div className="c__quick-search-item-template__left">{left}</div>
 
-      {isDesktop && right && (
+      {(isDesktop || alwaysShowRight) && right && (
         <div
           className={clsx("c__quick-search-item-template__right", {
             "always-show-right": alwaysShowRight,
