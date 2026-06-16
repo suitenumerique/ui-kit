@@ -120,7 +120,8 @@
         "disclaimer": "Format niet ondersteund.",
         "description": "Om het bestand te bekijken, downloadt u het naar uw apparaat.",
         "download": "Bestand downloaden",
-        "heicTitle": "HEIC-bestanden worden nog niet ondersteund voor voorbeeld."
+        "heicTitle": "HEIC-bestanden worden nog niet ondersteund voor voorbeeld.",
+        "videoTitle": "Dit videoformaat wordt niet ondersteund voor voorbeeld."
       },
       "suspicious": {
         "title": "Verdacht bestand",
@@ -139,6 +140,9 @@
       },
       "image": {
         "loading": "Afbeelding laden..."
+      },
+      "video": {
+        "preparing": "Video voorbereiden…"
       },
       "externalLink": {
         "title": "Externe link",

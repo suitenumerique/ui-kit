@@ -12,6 +12,7 @@ interface FilePreviewExampleProps {
   initialFileId?: string;
   customHeaderActions?: (headerActions: ReactNode) => ReactNode;
   headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
+  forceVideoTranscode?: boolean;
 }
 
 export const FilePreviewExample = ({
@@ -19,9 +20,10 @@ export const FilePreviewExample = ({
   initialFileId,
   customHeaderActions,
   headerActionsMenuOptions,
+  forceVideoTranscode,
 }: FilePreviewExampleProps) => {
   const [openedFileId, setOpenedFileId] = useState<string | undefined>(
-    initialFileId ?? files[0]?.id,
+    initialFileId ?? files[0]?.id
   );
 
   useEffect(() => {
@@ -52,6 +54,7 @@ export const FilePreviewExample = ({
           }
           customHeaderActions={customHeaderActions}
           headerActionsMenuOptions={headerActionsMenuOptions}
+          forceVideoTranscode={forceVideoTranscode}
         />
       </div>
     </QueryClientProvider>
