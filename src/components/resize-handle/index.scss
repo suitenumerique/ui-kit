@@ -1,0 +1,110 @@
+// Reusable styling for a `react-resizable-panels` resize handle
+// (`PanelResizeHandle` in v2, `Separator` in v4).
+//
+// By default it renders as a thin static line. Add the `--interactive`
+// modifier to reveal a hover affordance (a thicker line on hover plus an
+// enlarged catch zone) that makes it explicit the handle can be dragged.
+//
+// Usage (consumer side):
+//   <PanelResizeHandle className="c__resize-handle c__resize-handle--interactive" />
+//
+// The hover effect can be disabled globally (without editing each usage) by
+// overriding the `--c--components--resize-handle--hover--color` token to
+// `transparent` on an ancestor scope, e.g. `:root` for the whole app. The
+// keyboard focus indicator stays visible.
+//
+// Orientation is derived from whichever attribute the installed version of
+// react-resizable-panels exposes, so the same class works across versions:
+//   v2 → `data-panel-group-direction` (direction of the panel group)
+//   v4 → `aria-orientation`           (orientation of the handle line)
+.c__resize-handle {
+  background-color: var(--c--contextuals--border--surface--primary);
+  position: relative;
+  flex-shrink: 0;
+
+  // Vertical line.
+  &[data-panel-group-direction="horizontal"],
+  &[aria-orientation="vertical"] {
+    width: 1px;
+  }
+
+  // Horizontal line.
+  &[data-panel-group-direction="vertical"],
+  &[aria-orientation="horizontal"] {
+    height: 1px;
+  }
+
+  &--interactive {
+    &:before {
+      content: "";
+      background: transparent;
+      position: absolute;
+      transition: background-color 200ms var(--c--globals--transitions--ease-out);
+      z-index: 10;
+    }
+
+    // Expand the hover catch zone beyond the visible line.
+    &:after {
+      content: "";
+      position: absolute;
+    }
+
+    &:hover:before {
+      background: var(--c--components--resize-handle--hover--color);
+      transition-timing-function: var(--c--globals--transitions--ease-in);
+      transition-delay: 100ms;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &:before {
+        background: var(--c--contextuals--border--semantic--brand--secondary);
+        transition-timing-function: var(--c--globals--transitions--ease-in);
+        transition-delay: 100ms;
+      }
+    }
+
+    // Vertical line.
+    &[data-panel-group-direction="horizontal"],
+    &[aria-orientation="vertical"] {
+      &:before {
+        width: 3px;
+        left: -1px;
+        top: 0;
+        bottom: 0;
+      }
+
+      &:after {
+        width: 11px;
+        left: -5px;
+        top: 0;
+        bottom: 0;
+      }
+    }
+
+    // Horizontal line.
+    &[data-panel-group-direction="vertical"],
+    &[aria-orientation="horizontal"] {
+      &:before {
+        height: 3px;
+        top: -1px;
+        left: 0;
+        right: 0;
+      }
+
+      &:after {
+        height: 11px;
+        top: -5px;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &:before {
+        transition: none;
+      }
+    }
+  }
+}

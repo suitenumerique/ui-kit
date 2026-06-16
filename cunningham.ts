@@ -15,6 +15,11 @@ export const commonTokenOverrides = {
       "border-radius--active": "4px",
       "border-radius--focus": "4px",
     },
+    "resize-handle": {
+      // Color revealed on the interactive resize handle when hovered. Set to
+      // "transparent" (app-wide or on a subtree) to disable the hover effect.
+      "hover--color": "ref(contextuals.border.surface.primary)",
+    },
     datagrid: {
       "header--color": "ref(contextuals.content.semantic.neutral.primary)",
       "header--size": "12px",
