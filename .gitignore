@@ -59,12 +59,13 @@ public/storybook/preview-files/pdf_with_js_link.pdf
 
 # Site media
 /data/
+storybook-static/
 
 # IDEs
 .idea/
 .vscode/
 *.iml
-.devcontainer   
+.devcontainer
 node_modules
 .claude/
 CLAUDE.md

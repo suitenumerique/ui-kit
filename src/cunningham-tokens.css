@@ -551,6 +551,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;
@@ -1138,6 +1139,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;
@@ -1700,6 +1702,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;
@@ -2262,6 +2265,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;
@@ -2827,6 +2831,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;
@@ -3392,6 +3397,7 @@
 	--c--components--button--border-radius: 4px;
 	--c--components--button--border-radius--active: 4px;
 	--c--components--button--border-radius--focus: 4px;
+	--c--components--resize-handle--hover--color: var(--c--contextuals--border--surface--primary);
 	--c--components--datagrid--header--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--datagrid--header--size: 12px;
 	--c--components--datagrid--header--weight: 500;

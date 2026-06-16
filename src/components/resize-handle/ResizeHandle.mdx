@@ -1,0 +1,66 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as ResizeHandleStories from "./resize-handle.stories";
+
+<Meta of={ResizeHandleStories} />
+
+# ResizeHandle
+
+`c__resize-handle` is a reusable style for a [`react-resizable-panels`](https://github.com/bvaughn/react-resizable-panels) resize handle (`PanelResizeHandle` in v2, `Separator` in v4).
+
+The UI kit ships a CSS class rather than a React component on purpose: it keeps the style agnostic of the `react-resizable-panels` version the consumer installs, and lets each product wire the handle into its own panel layout.
+
+## Usage
+
+Apply the class directly to your handle:
+
+```tsx
+// react-resizable-panels v2
+<PanelResizeHandle className="c__resize-handle c__resize-handle--interactive" />
+
+// react-resizable-panels v4
+<Separator className="c__resize-handle c__resize-handle--interactive" />
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is imported once in your app.
+
+## Variants
+
+### Interactive
+
+The `c__resize-handle--interactive` modifier reveals a thicker line on hover plus an enlarged catch zone, signalling the handle can be dragged. Add it **only when the handle can actually resize** — otherwise it suggests an interaction that does not exist.
+
+<Canvas of={ResizeHandleStories.Interactive} />
+
+It works the same way for a stacked layout (drag up/down):
+
+<Canvas of={ResizeHandleStories.InteractiveVertical} />
+
+### Static
+
+Without the modifier, the handle is just a thin separating line, with no hover affordance.
+
+<Canvas of={ResizeHandleStories.Static} />
+
+## Disabling the hover effect globally
+
+The hover affordance is driven by the `--c--components--resize-handle--hover--color` design token. To turn it off across the whole app — without editing every `c__resize-handle--interactive` usage — set it to `transparent` on any ancestor scope:
+
+```css
+:root {
+  --c--components--resize-handle--hover--color: transparent;
+}
+```
+
+You can also scope it to a subtree by setting the property on a wrapping element instead of `:root`. The keyboard focus indicator is intentionally **not** affected, so disabling the hover effect never removes the focus-visible affordance.
+
+## Orientation
+
+You never set the orientation yourself: it is derived from whichever attribute the installed version exposes, so the same class works across versions.
+
+| Version | Attribute | Vertical line | Horizontal line |
+| --- | --- | --- | --- |
+| v2 | `data-panel-group-direction` | `horizontal` | `vertical` |
+| v4 | `aria-orientation` | `vertical` | `horizontal` |
+
+- **Vertical line** → panels side by side → drag left/right.
+- **Horizontal line** → panels stacked → drag up/down.

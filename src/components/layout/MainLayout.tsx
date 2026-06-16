@@ -140,11 +140,9 @@ export const MainLayout = ({
               </Panel>
               {isDesktop && (
                 <PanelResizeHandle
-                  className="border-clr-surface-primary"
-                  style={{
-                    borderRightWidth: "1px",
-                    borderRightStyle: "solid",
-                  }}
+                  className={clsx("c__resize-handle", {
+                    "c__resize-handle--interactive": enableResize,
+                  })}
                 />
               )}
             </>
