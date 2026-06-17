@@ -1,5 +1,7 @@
 import { Gaufre } from "@gouvfr-lasuite/integration";
-import "@gouvfr-lasuite/integration/dist/css/gaufre.css";
+// Gaufre's styles are pulled into the kit's single stylesheet from
+// library.scss (alongside the other external-dependency CSS), so this
+// component does not import them itself.
 
 export const LaGaufre = () => {
   return (
