@@ -7,6 +7,11 @@
  * guaranteeing the APIs exist when PDF code initialises.
  * A separate file also makes it easy to remove once browser support
  * catches up.
+ *
+ * This module is listed in the package's "sideEffects" because it is imported
+ * for its side effects only: without that entry, tree-shaking drops the bare
+ * `import "./pdfPolyfills"` and the polyfills never reach the bundle. Keep the
+ * two in sync if this file is ever renamed or moved.
  */
 
 if (

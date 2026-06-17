@@ -104,12 +104,14 @@ export const MIME_MAP = {
   [MimeCategory.SQLITE]: ["application/x-sqlite3", "application/vnd.sqlite3"],
 };
 
-export const MIME_TO_CATEGORY: Record<string, MimeCategory> = {};
-Object.entries(MIME_MAP).forEach(([category, mimes]) => {
+export const MIME_TO_CATEGORY: Record<string, MimeCategory> = Object.entries(
+  MIME_MAP,
+).reduce<Record<string, MimeCategory>>((acc, [category, mimes]) => {
   mimes.forEach((mime) => {
-    MIME_TO_CATEGORY[mime] = category as MimeCategory;
+    acc[mime] = category as MimeCategory;
   });
-});
+  return acc;
+}, {});
 
 export const CALC_EXTENSIONS = ["numbers", "xlsx", "xls"];
 
