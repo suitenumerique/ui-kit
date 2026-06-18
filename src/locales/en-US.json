@@ -121,7 +121,8 @@
         "disclaimer": "Unsupported format.",
         "description": "To view the file, download it to your device.",
         "download": "Download file",
-        "heicTitle": "HEIC files are not yet supported for preview."
+        "heicTitle": "HEIC files are not yet supported for preview.",
+        "videoTitle": "This video format is not supported for preview."
       },
       "suspicious": {
         "title": "Suspicious file",
@@ -140,6 +141,9 @@
       },
       "image": {
         "loading": "Loading image..."
+      },
+      "video": {
+        "preparing": "Preparing video…"
       },
       "externalLink": {
         "title": "External link",

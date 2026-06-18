@@ -12,6 +12,8 @@ import {
   allFiles,
   audioFiles,
   heicFile,
+  hevcVideoFile,
+  iphoneVideoFile,
   imageFiles,
   pdfFiles,
   suspiciousFile,
@@ -33,7 +35,7 @@ import { Button } from "@gouvfr-lasuite/cunningham-react";
  * | Category | Viewer | Highlights |
  * |----------|--------|------------|
  * | Image    | `ImageViewer`   | Zoom (wheel, pinch, keyboard), pan, reset, fit-to-viewport |
- * | Video    | `VideoPlayer`   | Custom controls, ±10s skip, volume + mute, fullscreen |
+ * | Video    | `VideoPlayer`   | Custom controls, ±10s skip, volume + mute, fullscreen. Native-first; HEVC/H.265 the browser can't decode is transcoded to H.264 in-browser via a lazy-loaded WASM codec (download fallback otherwise) |
  * | Audio    | `AudioPlayer`   | Title, seekable bar, ±10s skip, volume + mute |
  * | PDF      | `PdfPreview`    | Virtualized pages, zoom, page input, thumbnail sidebar (lazy-loaded) |
  * | HEIC     | `NotSupportedPreview` | Fallback with download CTA (no native browser support) |
@@ -260,6 +262,40 @@ export const Image: Story = {
  */
 export const Video: Story = {
   render: () => <FilePreviewExample files={videoFiles} />,
+};
+
+/**
+ * HEVC/H.265 video. The codec is not in the mimetype (`video/mp4`, like a real
+ * upload), so the player is native-first: it hands the file to a normal
+ * `<video>` and only when that fails to decode does it lazy-load a WASM
+ * transcoder (`@hevcjs/core`) that converts the video to H.264 on the fly and
+ * plays it through Media Source Extensions, with the original audio passed
+ * through untouched. Safari plays HEVC natively (no transcode); browsers
+ * without WebCodecs fall back to a download prompt. A brief "preparing"
+ * spinner shows while the first segments transcode.
+ *
+ * Two samples (prev/next): a standard 8-bit clip, and a real iPhone capture
+ * (10-bit HDR, portrait, QuickTime container with AAC). The transcoder carries
+ * the source rotation, real duration and AAC audio across, so the result
+ * renders the same whether played natively or transcoded.
+ */
+export const HevcVideo: Story = {
+  render: () => <FilePreviewExample files={[hevcVideoFile, iphoneVideoFile]} />,
+};
+
+/**
+ * Forces the in-browser HEVC → H.264 transcoding path (via `forceVideoTranscode`),
+ * skipping the native attempt. Renders through the same `FilePreview` as every
+ * other story (identical chrome), so it's useful to exercise the transcoder on
+ * browsers that decode HEVC natively (Safari, or Chrome/Brave on Apple Silicon)
+ * where the native-first stories would just play the file directly. Uses the
+ * standard 8-bit clip; the iPhone sample in `HevcVideo` exercises the full case
+ * (rotation + audio + seekbar + HDR colour).
+ */
+export const HevcVideoForcedTranscode: Story = {
+  render: () => (
+    <FilePreviewExample files={[hevcVideoFile]} forceVideoTranscode />
+  ),
 };
 
 /**

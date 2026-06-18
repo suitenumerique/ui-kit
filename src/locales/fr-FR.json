@@ -120,7 +120,8 @@
         "disclaimer": "Format non supporté.",
         "description": "Pour visualiser le fichier, téléchargez-le sur votre appareil.",
         "download": "Télécharger le fichier",
-        "heicTitle": "Les fichiers HEIC ne sont pas encore supportés pour la prévisualisation."
+        "heicTitle": "Les fichiers HEIC ne sont pas encore supportés pour la prévisualisation.",
+        "videoTitle": "Ce format vidéo n'est pas pris en charge pour la prévisualisation."
       },
       "suspicious": {
         "title": "Fichier suspect",
@@ -139,6 +140,9 @@
       },
       "image": {
         "loading": "Chargement de l'image..."
+      },
+      "video": {
+        "preparing": "Préparation de la vidéo…"
       },
       "externalLink": {
         "title": "Lien externe",

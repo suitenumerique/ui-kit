@@ -54,7 +54,7 @@ const PreviewPdf = lazy(() =>
         };
       }
       throw err;
-    }),
+    })
 );
 
 export type { FilePreviewType } from "./types";
@@ -79,6 +79,11 @@ interface FilePreviewProps {
   hideCloseButton?: boolean;
   pdfWorkerSrc?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
+  /**
+   * Force HEVC videos through the in-browser transcoder even when the browser
+   * could decode them natively. Mainly for testing/demoing the transcode path.
+   */
+  forceVideoTranscode?: boolean;
 }
 
 export const FilePreview = ({
@@ -97,6 +102,7 @@ export const FilePreview = ({
   hideCloseButton,
   pdfWorkerSrc,
   onOpenInEditor,
+  forceVideoTranscode,
 }: FilePreviewProps) => {
   const { t } = useCustomTranslations();
   const [currentIndex, setCurrentIndex] = useState(initialIndexFile);
@@ -199,6 +205,19 @@ export const FilePreview = ({
                 src={currentFile.url_preview}
                 className="file-preview__viewer"
                 controls={true}
+                forceTranscode={forceVideoTranscode}
+                // Remount per file id so playback / transcoding restarts cleanly
+                // when switching between videos.
+                key={currentFile.id}
+                // HEVC/H.265 that the browser can't decode is transcoded to
+                // H.264 in-browser; if that also fails, offer a download.
+                unsupportedFallback={
+                  <NotSupportedPreview
+                    title={t("components.filePreview.unsupported.videoTitle")}
+                    file={currentFile}
+                    onDownload={handleDownload}
+                  />
+                }
               />
             </div>
           </div>
@@ -384,7 +403,7 @@ export const FilePreview = ({
           className={clsx(
             "file-preview__container",
             isSidebarOpen && "file-preview__container--sidebar-open",
-            classNames,
+            classNames
           )}
         >
           <div className="file-preview__header">
