@@ -57,6 +57,7 @@
     "@types/node": "22.10.7",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
+    "heic-to": "1.5.2",
     "react-arborist": "3.4.3",
     "react-aria-components": "1.16.0",
     "react-resizable-panels": "2.1.7",
