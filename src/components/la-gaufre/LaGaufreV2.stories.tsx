@@ -30,3 +30,26 @@ export const Default: Story = {
     );
   },
 };
+
+export const BottomLeft: Story = {
+  args: {
+    widgetPath: "https://static.suite.anct.gouv.fr/widgets/lagaufre.js",
+    apiUrl: "https://lasuite.numerique.gouv.fr/api/services",
+  },
+  render: (args) => {
+    return (
+      <div
+        style={{
+          width: "80vw",
+          height: "80vh",
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          padding: "30px",
+        }}
+      >
+        <LaGaufreV2 {...args} />
+      </div>
+    );
+  },
+};
