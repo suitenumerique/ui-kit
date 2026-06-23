@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - ♿️(menu) add opensInNewWindow for external link aria-label #246
+- 🚸(LaGaufreV2) automatic positionning #260
 
 ## 0.23.2
 

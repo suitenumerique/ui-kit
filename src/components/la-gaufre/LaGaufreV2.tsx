@@ -112,17 +112,35 @@ export const LaGaufreV2 = memo(
           viewLessLabel: viewLessLabel,
           buttonElement: buttonRef.current,
           position: () => {
-            return {
-              position: "absolute",
-              top:
-                (buttonRef.current?.offsetTop ?? 0) +
-                (buttonRef.current?.offsetHeight ?? 0) +
-                10,
-              right:
-                window.innerWidth -
-                (buttonRef.current?.offsetLeft ?? 0) -
-                (buttonRef.current?.offsetWidth ?? 0),
+            const button = buttonRef.current;
+            if (!button) return { position: "absolute", top: 10, right: 10 };
+
+            const rect = button.getBoundingClientRect();
+            const gap = 10;
+
+            const result: Record<string, number | string> = {
+              position: "fixed",
             };
+
+            /**
+             * The widget creates the shadow host after calling position(), so we can never measure it here.
+             * Button is in the lower half of the viewport — place panel above. 
+            */
+            if (rect.top > window.innerHeight / 2) {
+              result.bottom = window.innerHeight - rect.top + gap;
+            } else {
+              result.top = rect.bottom + gap;
+            }
+
+            // Source: https://github.com/suitenumerique/integration/blob/5316093a071ddc6cf348994d9bdc30b5fdc256d8/packages/widgets/src/widgets/lagaufre/styles.css#L13
+            const panelWidth = 340;
+            if (rect.right >= panelWidth) {
+              result.right = window.innerWidth - rect.right;
+            } else {
+              result.left = rect.left;
+            }
+
+            return result;
           },
         },
       ]);
