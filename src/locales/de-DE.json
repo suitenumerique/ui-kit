@@ -1,5 +1,8 @@
 {
   "components": {
+    "menu": {
+      "newWindowLabelSuffix": " (neues Fenster)"
+    },
     "share": {
       "copyLink": "Link kopieren",
       "ok": "OK",
