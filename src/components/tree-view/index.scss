@@ -30,7 +30,6 @@
 
 .c__tree-view--row {
   outline: none;
-  pointer-events: none;
 
   &:focus-visible .c__tree-view--node {
     box-shadow: 0 0 0 2px
@@ -91,7 +90,6 @@
   border: 1.5px solid rgba(0, 0, 0, 0);
   cursor: pointer;
   padding: var(--c--globals--spacings--4xs) 0;
-  pointer-events: auto;
   gap: var(--c--globals--spacings--3xs);
 
   &.simpleNode {
