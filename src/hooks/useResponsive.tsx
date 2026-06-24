@@ -51,11 +51,17 @@ export const useResponsive = () => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    const debouncedResizeHandler = () => {
+      setTimeout(() => {
+        handleResize();
+      }, 300);
+    };
+
+    window.addEventListener("resize", debouncedResizeHandler);
 
     // Cleanup on unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", debouncedResizeHandler);
     };
   }, [responsiveStates]);
 
