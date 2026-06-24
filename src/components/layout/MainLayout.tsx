@@ -1,10 +1,4 @@
-import {
-  CSSProperties,
-  PropsWithChildren,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { Header } from "./header/Header";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import clsx from "clsx";
@@ -72,10 +66,6 @@ export const MainLayout = ({
   const [isResizing, setIsResizing] = useState(false);
   const resizeTimeoutRef = useRef<number | undefined>(undefined);
 
-  const bannerRef = useRef<HTMLDivElement>(null);
-  const [bannerHeight, setBannerHeight] = useState(0);
-  const hasTopBanner = Boolean(topBanner);
-
   // We need to have two different states for the left panel, we want to always keep the
   // left panel mounted on mobile in order to show the animation when it opens or closes, instead
   // of abruptly disappearing when closing the panel.
@@ -128,36 +118,9 @@ export const MainLayout = ({
     };
   }, [isDesktop, enableResize]);
 
-  // Measure the optional top banner so the layout (and its fixed header) can be
-  // offset by its height. A ResizeObserver keeps the offset correct when the
-  // banner wraps onto several lines on small viewports.
-  useEffect(() => {
-    const element = bannerRef.current;
-    if (!element) {
-      setBannerHeight(0);
-      return;
-    }
-    const observer = new ResizeObserver(([entry]) => {
-      setBannerHeight(entry.contentRect.height);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [hasTopBanner]);
-
   return (
-    <div
-      className={clsx("c__main-layout", { resizing: isResizing })}
-      style={
-        {
-          "--c--main-layout--banner-height": `${bannerHeight}px`,
-        } as CSSProperties
-      }
-    >
-      {topBanner && (
-        <div className="c__main-layout__banner" ref={bannerRef}>
-          {topBanner}
-        </div>
-      )}
+    <div className={clsx("c__main-layout", { resizing: isResizing })}>
+      {topBanner && <div className="c__main-layout__banner">{topBanner}</div>}
       <div className="c__main-layout__header">
         <Header
           onTogglePanel={onTogglePanel}
