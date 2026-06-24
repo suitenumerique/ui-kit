@@ -1,12 +1,8 @@
-@use "sass:map";
-@use "../../cunningham-tokens-sass" as *;
-
 .c__header-banner {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  column-gap: var(--c--globals--spacings--xs, 0.5rem);
-  row-gap: var(--c--globals--spacings--xxxs, 0.25rem);
+  align-items: flex-start;
+  gap: var(--c--globals--spacings--4xs, 0.5rem);
   width: 100%;
   // Keep a consistent height whether or not actions (cta / close button) are
   // present: the action controls are 24px tall, plus 2 * 4px of vertical padding.
@@ -29,8 +25,12 @@
     font-size: 12px;
     line-height: 16px;
     word-break: break-word;
+    align-self: center;
   }
 
+  // The CTA stays inline before the close button at every size. On small
+  // viewports it collapses to its icon only (handled in the component) so a
+  // long label never has to wrap onto its own line.
   &__cta {
     display: flex;
     flex-shrink: 0;
@@ -40,23 +40,6 @@
   &__close {
     flex-shrink: 0;
     order: 3;
-  }
-
-  // On small viewports a long CTA label would not fit next to the message, so
-  // the CTA moves onto its own line below the message while the close button
-  // stays on the first line, aligned with the message.
-  $xs: map.get($themes, "default", "globals", "breakpoints", "xs");
-  @media (max-width: $xs) {
-    &__close {
-      align-self: flex-start;
-      order: 2;
-    }
-
-    &__cta {
-      order: 3;
-      flex-basis: 100%;
-      transform: translateX(-10px);
-    }
   }
 
   &--brand {

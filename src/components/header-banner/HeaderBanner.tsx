@@ -1,8 +1,14 @@
 import clsx from "clsx";
-import { HTMLAttributes, PropsWithChildren, ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import { HeaderBannerVariant } from "./types";
 import { Button, ButtonProps, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { ExternalLink, XMark } from ":/icons";
+import { useResponsive } from ":/hooks/useResponsive";
+
+type HeaderBannerCTAProps = { label: string } & Omit<
+  ButtonProps,
+  "size" | "variant" | "color"
+>;
 
 export type HeaderBannerProps = HTMLAttributes<HTMLDivElement> & {
   /**
@@ -14,10 +20,14 @@ export type HeaderBannerProps = HTMLAttributes<HTMLDivElement> & {
    */
   color?: HeaderBannerVariant;
   /**
-   * Optional call to action (href or callback) displayed at the end of the banner.
-   * Use `HeaderBannerCTA` for the default styling.
+   * Optional call to action displayed at the end of the banner. An icon is
+   * mandatory: on small viewports the CTA collapses to its icon only and sits
+   * just before the close button. For links (`href`) the icon defaults to an
+   * external-link glyph.
    */
-   ctaProps?: { label: string } & Omit<ButtonProps, 'size' | 'variant' | 'color'>;
+  ctaProps?:
+    | (HeaderBannerCTAProps & { href: string })
+    | (HeaderBannerCTAProps & { href?: undefined; icon: ReactNode });
   /**
    * Called when the close button is clicked. The close button is only rendered
    * when this callback is provided.
@@ -49,9 +59,7 @@ export const HeaderBanner = ({
       <p className="c__header-banner__label">{label}</p>
       {ctaProps && (
         <div className="c__header-banner__cta">
-          <HeaderBannerCTA {...ctaProps} color={color}>
-            {ctaProps.label}
-          </HeaderBannerCTA>
+          <HeaderBannerCTA {...ctaProps} color={color} />
         </div>
       )}
       {onClose && (
@@ -69,15 +77,32 @@ export const HeaderBanner = ({
   );
 };
 
-const HeaderBannerCTA = ({ children, ...props }: PropsWithChildren<ButtonProps>) => (
-    <Button
-        type="button"
-        size="nano"
-        icon={props.href && <ExternalLink size="small" />}
-        {...props}
-    >
-        {children}
-    </Button>
-);
+const HeaderBannerCTA = ({
+    label,
+    href,
+    icon,
+    color,
+    ...props
+}: HeaderBannerCTAProps & {
+    color: HeaderBannerVariant;
+    }) => {
+    const { isMobile: iconOnly } = useResponsive();
+    return (
+        <Button
+            type="button"
+            size="nano"
+            color={color}
+            href={href}
+            icon={icon ?? (href ? <ExternalLink size="small" /> : undefined)}
+            // When collapsed to its icon, the visible label disappears, so expose it as
+            // the button's accessible name and as a hover tooltip instead.
+            aria-label={iconOnly ? label : undefined}
+            title={iconOnly ? label : undefined}
+            {...props}
+        >
+            {iconOnly ? undefined : label}
+        </Button>
+    )
+};
 
 export default HeaderBanner;

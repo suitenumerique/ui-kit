@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HeaderBanner } from "./HeaderBanner";
 import { MainLayout } from "../layout/MainLayout";
 import svg from "../layout/header/logo-example.svg";
+import { ArrowSquarepath } from ":/icons";
 
 const meta: Meta<typeof HeaderBanner> = {
   title: "Components/HeaderBanner",
@@ -67,7 +68,7 @@ export const WithCloseOnly: Story = {
 export const WithButtonCTA: Story = {
     args: {
     label: "A new version is available.",
-    ctaProps: { label: "Reload" },
+    ctaProps: { label: "Reload", icon: <ArrowSquarepath size="small" /> },
     onClose: () => {},
   },
 };
