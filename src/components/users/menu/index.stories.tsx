@@ -98,3 +98,12 @@ export const WithNoFullName: Story = {
     },
   },
 };
+
+export const WithNoMobileView: Story = {
+  args: {
+    user: {
+      email: "jane.doe@example.com",
+    },
+    withMobileView: false,
+  },
+};
