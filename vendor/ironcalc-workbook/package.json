@@ -1,0 +1,25 @@
+{
+  "name": "@ironcalc/workbook",
+  "version": "0.7.1",
+  "type": "module",
+  "description": "Vendored IronCalc workbook React component (built against the custom @ironcalc/wasm with in-browser xlsx import, patched with a read-only mode).",
+  "main": "./dist/ironcalc.js",
+  "module": "./dist/ironcalc.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ironcalc.js"
+    },
+    "./style.css": "./dist/ironcalc.css"
+  },
+  "sideEffects": ["*.css", "**/*.css"],
+  "peerDependencies": {
+    "@ironcalc/wasm": "*",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "i18next": "^26",
+    "react-i18next": "^16",
+    "lucide-react": "^1.17"
+  }
+}

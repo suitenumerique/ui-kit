@@ -67,6 +67,31 @@ export const wopiFile: FilePreviewType = {
   is_wopi_supported: true,
 };
 
+// A non-spreadsheet WOPI file: exercises the plain "Open in editor" screen
+// (spreadsheets get the combined read-only-preview screen instead).
+export const wopiDocFile: FilePreviewType = {
+  ...file(
+    "wopi-doc",
+    "Document.docx",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ),
+  is_wopi_supported: true,
+};
+
+const XLSX_MIME =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+// A real-world, multi-tab, formatted spreadsheet (no WOPI flag, so the read-only
+// IronCalc preview opens straight away): the BnF legal-deposit observatory for
+// printed books 2020 — 8 sheets (Dépôts, Genres, Pays, Langues…), merged cells,
+// fills, French locale. Open data from data.gouv.fr (Licence Ouverte / Etalab,
+// © BnF).
+export const spreadsheetFile: FilePreviewType = file(
+  "calc-depot-livres",
+  "depot-legal-2020-livres.xlsx",
+  XLSX_MIME,
+);
+
 // All non-special fixtures, ordered so prev/next sweeps through every viewer.
 export const allFiles: FilePreviewType[] = [
   ...imageFiles,
@@ -76,5 +101,6 @@ export const allFiles: FilePreviewType[] = [
   heicFile,
   ...unsupportedFiles,
   suspiciousFile,
+  spreadsheetFile,
   wopiFile,
 ];

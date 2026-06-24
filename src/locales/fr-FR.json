@@ -140,6 +140,11 @@
         "openInEditor": "Ouvrir dans l'éditeur",
         "openInEditorDescription": "Ce fichier peut être modifié avec un éditeur en ligne. Il s'ouvre dans un nouvel onglet."
       },
+      "spreadsheet": {
+        "loading": "Chargement du tableur…",
+        "previewReadOnly": "Aperçu (lecture seule)",
+        "description": "Prévisualisez ce tableur sans quitter la page."
+      },
       "image": {
         "loading": "Chargement de l'image..."
       },
