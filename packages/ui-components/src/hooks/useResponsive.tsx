@@ -36,27 +36,40 @@ export const useResponsive = () => {
     getResponsiveStates(window.innerWidth, breakpoints)
   );
 
-  // Memoize breakpoints to avoid recalculation on every render
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let pending: boolean = false;
+
     const handleResize = () => {
-      const newResponsiveState = getResponsiveStates(
-        window.innerWidth,
-        breakpoints
-      );
-      const isSame =
-        JSON.stringify(newResponsiveState) === JSON.stringify(responsiveStates);
-      if (!isSame) {
-        setResponsiveStates(newResponsiveState);
-      }
+      const newResponsiveState = getResponsiveStates(window.innerWidth, breakpoints);
+
+      setResponsiveStates((oldResponsiveStates) => {
+        const isSame = (
+          Object.keys(oldResponsiveStates) as (keyof ResponsiveStates)[]
+        ).every((key) => oldResponsiveStates[key] === newResponsiveState[key]);
+        return isSame ? oldResponsiveStates : newResponsiveState;
+      });
     };
 
-    window.addEventListener("resize", handleResize);
+    const throttledResizeHandler = () => {
+      if (pending === true){
+        return;
+      } 
 
-    // Cleanup on unmount
+      pending = true;
+      timeoutId = setTimeout(() => {
+        pending = false;
+        handleResize();
+      }, 300);
+    };
+
+    window.addEventListener("resize", throttledResizeHandler);
+
     return () => {
-      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", throttledResizeHandler);
     };
-  }, [responsiveStates]);
+  }, []);
 
   return responsiveStates;
 };
