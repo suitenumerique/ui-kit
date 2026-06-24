@@ -1,0 +1,50 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as SmartScrollerStories from "./smart-scroller.stories";
+
+<Meta of={SmartScrollerStories} name="Docs" />
+
+# SmartScroller
+
+`SmartScroller` is a container that makes its content horizontally scrollable and overlays an arrow button on each edge where content is hidden by overflow. Clicking an arrow scrolls the viewport by half of its visible width (configurable). It is well suited to horizontal toolbars, tab strips, chip rows, or any single row of items that may not fit the available width.
+
+The component handles everything itself: it measures overflow, shows or hides each arrow as needed, and hides the native scrollbar so the arrows are the primary affordance. Content still scrolls with the wheel/trackpad.
+
+## Usage
+
+```tsx
+import { SmartScroller } from "@gouvfr-lasuite/ui-kit";
+
+<SmartScroller>
+  <Chip>Item 1</Chip>
+  <Chip>Item 2</Chip>
+  <Chip>Item 3</Chip>
+  {/* … */}
+</SmartScroller>;
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is imported once in your app.
+
+Children are laid out in a single row sized to their content, so the container overflows horizontally once the items exceed the available width. Give the `SmartScroller` a bounded width (or place it in a width-constrained parent) so there is an edge to overflow against.
+
+## Behaviour
+
+- An arrow is rendered **only** on the side(s) where there is hidden content: the right arrow appears when there is more content to the right, the left arrow once you have scrolled away from the start. Each arrow disappears as soon as its edge is fully reached.
+- A subtle gradient fade is drawn on every scrollable edge to hint at the partially-cut content underneath. The fade never intercepts clicks.
+- Overflow is recomputed on scroll and whenever the container **or** its content is resized (e.g. items added or removed, the viewport shrinking), so the arrows always reflect the current state.
+- Scrolling on click is smooth, and respects the user's `prefers-reduced-motion` setting.
+
+<Canvas of={SmartScrollerStories.Overflowing} />
+
+When the content fits within the container, no arrows are shown:
+
+<Canvas of={SmartScrollerStories.NoOverflow} />
+
+## Props
+
+<ArgTypes of={SmartScrollerStories} />
+
+## Responsive resizing
+
+Because the arrows are derived from a live measurement, they stay correct when the container is resized — for example inside a resizable panel or a responsive layout. Drag the frame below to see the arrows recompute as the available width changes:
+
+<Canvas of={SmartScrollerStories.Resizable} />
