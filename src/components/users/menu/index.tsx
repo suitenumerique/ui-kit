@@ -196,6 +196,7 @@ export type UserMenuProps = {
   termOfServiceUrl?: string;
   isInitialOpen?: boolean;
   actions?: ReactElement;
+  withMobileView?: boolean;
 };
 
 export const UserMenu = ({
@@ -204,6 +205,7 @@ export const UserMenu = ({
   logout,
   termOfServiceUrl,
   actions,
+  withMobileView = true,
 }: UserMenuProps) => {
   const { t } = useCunningham();
   const { isTablet } = useResponsive();
@@ -238,7 +240,7 @@ export const UserMenu = ({
 
   return (
     <>
-      {isTablet ? (
+      {withMobileView && isTablet ? (
         <UserMenuMobile
           user={user}
           settingsItems={settingsItems}

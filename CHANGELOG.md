@@ -2,6 +2,11 @@
 
 [UNRELEASED]
 
+### Minor Changes
+
+- 🐛(tree-view) remove pointer-events rules breaking drag-and-drop #215
+- 📱(user-menu) add withMobileView prop to hide mobile view rendering #264
+
 ## 0.24.0
 
 ### Minor Changes
@@ -11,7 +16,6 @@
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
 - ✨(front) add SmartScroller component
-- 🐛(tree-view) remove pointer-events rules breaking drag-and-drop #215
 
 ## 0.23.2
 
