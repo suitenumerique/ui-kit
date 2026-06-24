@@ -1,0 +1,87 @@
+// The native scrollbar is hidden so the arrows are the primary affordance;
+// the content still scrolls with the wheel/trackpad and the arrow buttons.
+// An arrow (and its gradient fade) is only rendered by the component on the
+// side(s) where hidden content exists.
+
+$arrow-size: 28px;
+$fade-width: 48px;
+
+.c__smart-scroller {
+  position: relative;
+  width: 100%;
+
+  &__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+
+    // Hide the native scrollbar (the arrows replace it).
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // legacy Edge
+    &::-webkit-scrollbar {
+      display: none; // Chrome / Safari
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
+
+  // Lay children out in a single row sized to their content so the viewport
+  // can overflow horizontally.
+  &__content {
+    display: flex;
+    width: max-content;
+  }
+
+  // Gradient hint over the partially-cut content. Sits under the arrow button
+  // and never intercepts pointer events.
+  &__fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: $fade-width;
+    z-index: 1;
+    pointer-events: none;
+    backdrop-filter: blur(1px);
+
+    &--left {
+      left: 0;
+      background: linear-gradient(
+        to right,
+        var(--c--contextuals--background--surface--primary) 75%,
+        transparent 100%
+      );
+    }
+
+    &--right {
+      right: 0;
+      background: linear-gradient(
+        to left,
+        var(--c--contextuals--background--surface--primary) 75%,
+        transparent 100%
+      );
+    }
+  }
+
+  // Floating circular button overlaying the edge of the content.
+  &__arrow.c__smart-scroller__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+
+    border-radius: 8px;
+    border-color: var(--c--contextuals--border--surface--primary);
+
+    background-color: var(--c--contextuals--background--surface--primary);
+
+    &--left {
+      left: var(--c--globals--spacings--3xs);
+    }
+
+    &--right {
+      right: var(--c--globals--spacings--3xs);
+    }
+  }
+}
