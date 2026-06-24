@@ -9,7 +9,7 @@
       "shareButton": "Share",
       "modalTitle": "Share folder",
       "modalAriaLabel": "Share modal",
-      
+
       "access": {
         "delete": "Remove access"
       },
@@ -157,6 +157,9 @@
         "download": "Download",
         "print": "Print"
       }
+    },
+    "headerBanner": {
+      "close": "Close"
     }
   }
 }
