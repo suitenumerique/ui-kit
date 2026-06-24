@@ -18,6 +18,7 @@ export * from "./components/loader";
 export * from "./components/form";
 export * from "./components/quick-search";
 export * from "./components/separator";
+export * from "./components/smart-scroller";
 export * from "./components/tabs";
 export * from "./components/tree-view";
 export * from "./components/form/label/label";
