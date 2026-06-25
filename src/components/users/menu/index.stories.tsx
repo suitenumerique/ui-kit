@@ -107,3 +107,22 @@ export const WithNoMobileView: Story = {
     withMobileView: false,
   },
 };
+
+export const WithLotOfSettings: Story = {
+  args: {
+    user: {
+      full_name: "J Doe",
+      email: "john.doe@example.com",
+    },
+    logout: () => {
+      alert("You have been logged out!");
+    },
+    settingsCTA: () => {
+      alert("Go to account settings");
+    },
+    actions: (
+      <LanguagePicker languages={languages} size="small" fullWidth compact />
+    ),
+    termOfServiceUrl,
+  },
+};
