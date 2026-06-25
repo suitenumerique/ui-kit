@@ -132,7 +132,7 @@
 
   &--mobile {
     border-top: none;
-    padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--xs);
+    padding: var(--c--globals--spacings--xs);
   }
 }
 
@@ -143,6 +143,10 @@
   padding: var(--c--globals--spacings--base);
   border-top: 1px solid var(--c--contextuals--border--surface--primary);
   margin-top: auto;
+}
+
+.user-menu__content__body__settings {
+  padding: var(--c--globals--spacings--xs);
 }
 
 .user-menu__item {
