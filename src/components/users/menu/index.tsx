@@ -9,9 +9,9 @@ import {
 } from "@gouvfr-lasuite/cunningham-react";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { Icon } from ":/components/icon";
-import { HorizontalSeparator } from ":/components/separator";
 import { useResponsive } from ":/hooks/useResponsive";
 import { getUserColor } from "../avatar/utils";
+import { GearRounded, Logout } from ":/icons";
 
 type UserMenuContentProps = {
   user: UserMenuProps["user"];
@@ -70,7 +70,6 @@ const UserMenuContent = ({
         </div>
         {showSettings && (
           <>
-            <HorizontalSeparator withPadding={false} />
             <div className="user-menu__content__body__settings">
               {settingsItems.map((item) => (
                 <UserMenuItem
@@ -85,7 +84,6 @@ const UserMenuContent = ({
         )}
         {showActions && (
           <>
-            <HorizontalSeparator withPadding={false} />
             <div className="user-menu__actions user-menu__actions--mobile">
               {footerAction && (
                 <div className="user-menu__actions__left">{footerAction}</div>
@@ -213,7 +211,7 @@ export const UserMenu = ({
     if (settingsCTA) {
       items.push({
         label: t("components.userMenu.manage_account"),
-        icon: "settings",
+        icon: <GearRounded aria-hidden="true" />,
         onClick:
           typeof settingsCTA === "function"
             ? settingsCTA
@@ -225,7 +223,7 @@ export const UserMenu = ({
     if (logout) {
       items.push({
         label: t("components.userMenu.logout"),
-        icon: "logout",
+        icon: <Logout aria-hidden="true" />,
         onClick: logout,
       });
     }
@@ -261,16 +259,15 @@ export const UserMenu = ({
 
 type UserMenuItemProps = {
   label: string;
-  icon: string;
+  icon: ReactElement;
   onClick?: () => void;
 };
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
-    <div className="user-menu__item" onClick={onClick}>
-      <Icon name={icon} />
+    <Button className="user-menu__item" onClick={onClick} icon={icon} fullWidth variant="tertiary" color="neutral">
       <span className="user-menu__item__label">{label}</span>
-    </div>
+    </Button>
   );
 };
 
