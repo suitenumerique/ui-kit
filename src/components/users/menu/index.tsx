@@ -269,10 +269,9 @@ type UserMenuItemProps = {
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
-    <div className="user-menu__item" onClick={onClick}>
-      <Icon name={icon} />
+    <Button className="user-menu__item" onClick={onClick} icon={<Icon name={icon} />} fullWidth variant="tertiary" color="neutral">
       <span className="user-menu__item__label">{label}</span>
-    </div>
+    </Button>
   );
 };
 
@@ -298,12 +297,10 @@ const UserMenuTrigger = ({
       ref={triggerRef}
       id={id}
       onClick={toggleUserMenu}
-      aria-label={t(
-        openState ? "components.userMenu.close" : "components.userMenu.open",
-      )}
-      title={t(
-        openState ? "components.userMenu.close" : "components.userMenu.open",
-      )}
+      aria-expanded={openState}
+      aria-haspopup="dialog"
+      aria-label={t("components.userMenu.dialogTitle")}
+      title={t("components.userMenu.dialogTitle")}
     >
       <UserAvatar size="small" fullName={user.full_name ?? user.email!} />
     </Button>

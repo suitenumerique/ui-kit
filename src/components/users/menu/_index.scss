@@ -15,6 +15,11 @@
   min-width: 300px;
   max-width: 400px;
 
+  & button:focus-visible, a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--c--contextuals--border--semantic--neutral--primary);
+  }
+
   &--mobile {
     background: var(--c--contextuals--background--surface--primary);
     position: fixed;
@@ -141,17 +146,10 @@
 }
 
 .user-menu__item {
-  display: flex;
-  align-items: center;
-  gap: var(--c--globals--spacings--base);
-  padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
-  cursor: pointer;
+  gap: var(--c--globals--spacings--xxs);
+  padding: var(--c--globals--spacings--xs);
+  justify-content: flex-start;
 
-  &:hover {
-    background-color: var(
-      --c--contextuals--background--semantic--overlay--primary
-    );
-  }
   &__label {
     font-size: var(--c--globals--font--sizes--sm);
     font-weight: 500;
