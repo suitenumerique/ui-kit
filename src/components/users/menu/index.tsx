@@ -267,10 +267,9 @@ type UserMenuItemProps = {
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
-    <div className="user-menu__item" onClick={onClick}>
-      <Icon name={icon} />
+    <Button className="user-menu__item" onClick={onClick} icon={<Icon name={icon} />} fullWidth variant="tertiary" color="neutral">
       <span className="user-menu__item__label">{label}</span>
-    </div>
+    </Button>
   );
 };
 
