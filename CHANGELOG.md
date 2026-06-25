@@ -6,6 +6,7 @@
 
 - 🐛(tree-view) remove pointer-events rules breaking drag-and-drop #215
 - 📱(user-menu) add withMobileView prop to hide mobile view rendering #264
+- ♿️(user-menu) add accessibility to user menu item #265
 
 ## 0.24.0
 
