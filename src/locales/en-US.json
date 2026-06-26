@@ -117,6 +117,20 @@
       "category": "Category",
       "closeAriaLabel": "Close feedback form"
     },
+    "helpMenu": {
+      "ariaLabel": "Help",
+      "documentation": "Documentation",
+      "onboarding": "Onboarding",
+      "contactUs": "Contact us",
+      "latestRelease": "Latest release",
+      "legal": {
+        "label": "Legal",
+        "personalData": "Personal data",
+        "termsOfUse": "Terms of use",
+        "accessibility": "Accessibility",
+        "legalNotice": "Legal notice"
+      }
+    },
     "filePreview": {
       "title": "File Preview",
       "unsupported": {
