@@ -1,0 +1,56 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as HelpMenuStories from "./help-menu.stories";
+
+<Meta of={HelpMenuStories} />
+
+# HelpMenu
+
+A compact help button (`?`) that opens a dropdown of support entries: documentation, onboarding, legal links, custom actions, contact, and the latest release. Every section is optional — the menu only renders the entries you configure, and nothing at all if none are set.
+
+All labels are translated via Cunningham (`useCunningham`), so the component must live under a `CunninghamProvider`.
+
+## Usage
+
+```tsx
+<HelpMenu
+  documentationUrl="https://example.com/docs"
+  onOnboarding={() => startOnboarding()}
+  onContactUs={() => (window.location.href = "mailto:support@example.com")}
+  legal={{ legalNoticeUrl: "https://example.com/legal" }}
+  release={{ version: "4.3.0", url: "https://example.com/releases/4.3.0" }}
+/>
+```
+
+<Canvas of={HelpMenuStories.AllOptions} />
+
+## Sections
+
+Items always render in this order: **Documentation → Onboarding → Legal → custom options → Contact us → Latest release.**
+
+### Legal
+
+Pass any subset of `personalDataUrl`, `termsOfUse`, `accessibilityUrl`, `legalNoticeUrl`. The "Legal" submenu appears only when at least one is set, listing just the defined links — each opening in a new tab.
+
+<Canvas of={HelpMenuStories.WithLegal} />
+
+### Custom options
+
+`customOptions` accepts raw `DropdownMenuItem[]` (label, icon, callback, `opensInNewWindow`, even nested submenus) and slots them between Legal and Contact us. Labels are passed through as-is, so handle their i18n on your side.
+
+<Canvas of={HelpMenuStories.WithCustomOptions} />
+
+### Contact us
+
+Provide `onContactUs` for a custom action (e.g. a `mailto:`), or `feedbackForm` to open the built-in [FeedbackForm](?path=/docs/components-feedbackform--docs) instead. If both are set, `feedbackForm` wins.
+
+<Canvas of={HelpMenuStories.WithFeedbackForm} />
+
+### Release
+
+`release` shows the version (and optional `date`) as subtext. When `url` is provided, the entry opens it in a new tab.
+
+## In a layout
+
+Typically placed in a panel or layout footer:
+
+<Canvas of={HelpMenuStories.InLayoutFooter} />
