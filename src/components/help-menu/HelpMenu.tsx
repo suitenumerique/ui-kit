@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
 import { DropdownMenuItem } from "../dropdown-menu/types";
@@ -10,6 +10,14 @@ import {
   FeedbackFormLabels,
   FeedbackFormPlacement,
 } from "../feedback-form/types";
+import {
+  BubbleEdit,
+  ClockArrowCirclepath,
+  Doc,
+  Scale,
+  Spotlight,
+} from ":/icons";
+import { IconSize } from "../icon";
 
 export type HelpMenuRelease = {
   version: string;
@@ -36,6 +44,14 @@ export type HelpMenuProps = {
   onContactUs?: () => void;
   feedbackForm?: HelpMenuFeedbackConfig;
   release?: HelpMenuRelease;
+  legal?: {
+    personalDataUrl?: string;
+    termsOfUseUrl?: string;
+    accessibilityUrl?: string;
+    legalNoticeUrl?: string;
+  };
+  /** Custom menu items inserted between the legal submenu and the contact us item. */
+  customOptions?: DropdownMenuItem[];
 };
 
 export const HelpMenu = ({
@@ -44,7 +60,10 @@ export const HelpMenu = ({
   onContactUs,
   feedbackForm,
   release,
+  legal,
+  customOptions,
 }: HelpMenuProps) => {
+  const { t } = useCunningham();
   const { isOpen, setIsOpen } = useDropdownMenu();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -55,8 +74,9 @@ export const HelpMenu = ({
 
     if (documentationUrl) {
       items.push({
-        label: "Documentation",
-        icon: <span className="material-icons">article</span>,
+        label: t("components.helpMenu.documentation"),
+        icon: <Doc size={IconSize.SMALL} />,
+        opensInNewWindow: true,
         callback: () => {
           window.open(documentationUrl, "_blank", "noopener,noreferrer");
         },
@@ -64,19 +84,63 @@ export const HelpMenu = ({
     }
 
     if (onOnboarding) {
-      if (items.length > 0) items.push({ type: "separator" });
       items.push({
-        label: "Onboarding",
-        icon: <span className="material-icons">auto_fix_high</span>,
+        label: t("components.helpMenu.onboarding"),
+        icon: <Spotlight size={IconSize.SMALL} />,
         callback: onOnboarding,
       });
+    }
+
+    const legalItems: DropdownMenuItem[] = [];
+    if (legal) {
+      const legalLinks: { url?: string; labelKey: string }[] = [
+        {
+          url: legal.personalDataUrl,
+          labelKey: "components.helpMenu.legal.personalData",
+        },
+        {
+          url: legal.termsOfUseUrl,
+          labelKey: "components.helpMenu.legal.termsOfUse",
+        },
+        {
+          url: legal.accessibilityUrl,
+          labelKey: "components.helpMenu.legal.accessibility",
+        },
+        {
+          url: legal.legalNoticeUrl,
+          labelKey: "components.helpMenu.legal.legalNotice",
+        },
+      ];
+
+      for (const { url, labelKey } of legalLinks) {
+        if (!url) continue;
+        legalItems.push({
+          label: t(labelKey),
+          opensInNewWindow: true,
+          callback: () => {
+            window.open(url, "_blank", "noopener,noreferrer");
+          },
+        });
+      }
+    }
+
+    if (legalItems.length > 0) {
+      items.push({
+        label: t("components.helpMenu.legal.label"),
+        icon: <Scale size={IconSize.SMALL} />,
+        children: legalItems,
+      });
+    }
+
+    if (customOptions && customOptions.length > 0) {
+      items.push(...customOptions);
     }
 
     if (onContactUs || feedbackForm) {
       if (items.length > 0) items.push({ type: "separator" });
       items.push({
-        label: "Contact us",
-        icon: <span className="material-icons">edit_note</span>,
+        label: t("components.helpMenu.contactUs"),
+        icon: <BubbleEdit size={IconSize.SMALL} />,
         callback: () => {
           if (feedbackForm) {
             setIsFeedbackOpen(true);
@@ -93,9 +157,10 @@ export const HelpMenu = ({
       if (release.date) subTextParts.push(release.date);
 
       items.push({
-        label: "Latest release",
+        label: t("components.helpMenu.latestRelease"),
         subText: subTextParts.join(" · "),
-        icon: <span className="material-icons">update</span>,
+        icon: <ClockArrowCirclepath size={IconSize.SMALL} />,
+        opensInNewWindow: !!release.url,
         callback: release.url
           ? () => {
               window.open(release.url, "_blank", "noopener,noreferrer");
@@ -105,7 +170,16 @@ export const HelpMenu = ({
     }
 
     return items;
-  }, [documentationUrl, onOnboarding, onContactUs, feedbackForm, release]);
+  }, [
+    documentationUrl,
+    onOnboarding,
+    onContactUs,
+    feedbackForm,
+    release,
+    legal,
+    customOptions,
+    t,
+  ]);
 
   if (options.length === 0) return null;
 
@@ -120,7 +194,7 @@ export const HelpMenu = ({
             size="small"
             icon={<QuestionMark />}
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Help"
+            aria-label={t("components.helpMenu.ariaLabel")}
           />
         </div>
       </DropdownMenu>

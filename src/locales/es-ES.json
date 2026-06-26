@@ -116,6 +116,20 @@
       "category": "Categoría",
       "closeAriaLabel": "Cerrar el formulario de contacto"
     },
+    "helpMenu": {
+      "ariaLabel": "Ayuda",
+      "documentation": "Documentación",
+      "onboarding": "Introducción",
+      "contactUs": "Contáctanos",
+      "latestRelease": "Última versión",
+      "legal": {
+        "label": "Información legal",
+        "personalData": "Datos personales",
+        "termsOfUse": "Condiciones de uso",
+        "accessibility": "Accesibilidad",
+        "legalNotice": "Aviso legal"
+      }
+    },
     "filePreview": {
       "title": "Vista previa del archivo",
       "unsupported": {
