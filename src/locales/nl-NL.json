@@ -116,6 +116,20 @@
       "category": "Categorie",
       "closeAriaLabel": "Feedbackformulier sluiten"
     },
+    "helpMenu": {
+      "ariaLabel": "Help",
+      "documentation": "Documentatie",
+      "onboarding": "Aan de slag",
+      "contactUs": "Contact",
+      "latestRelease": "Laatste versie",
+      "legal": {
+        "label": "Juridisch",
+        "personalData": "Persoonsgegevens",
+        "termsOfUse": "Gebruiksvoorwaarden",
+        "accessibility": "Toegankelijkheid",
+        "legalNotice": "Juridische kennisgeving"
+      }
+    },
     "filePreview": {
       "title": "Bestandsvoorbeeld",
       "unsupported": {
