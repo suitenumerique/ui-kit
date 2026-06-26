@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from "@storybook/react";
 import { HelpMenu } from "./HelpMenu";
+import { DropdownMenuItem } from "../dropdown-menu/types";
 import { MainLayout } from "../layout/MainLayout";
 import { useResponsive } from ":/hooks/useResponsive";
 import { useState } from "react";
@@ -21,10 +22,69 @@ export const AllOptions: Story = {
       documentationUrl="https://example.com/docs"
       onOnboarding={() => alert("Onboarding clicked")}
       onContactUs={() => alert("Contact us clicked")}
+      legal={{
+        personalDataUrl: "https://example.com/personal-data",
+        termsOfUse: "https://example.com/terms",
+        accessibilityUrl: "https://example.com/accessibility",
+        legalNoticeUrl: "https://example.com/legal-notice",
+      }}
       release={{
         version: "4.3.0",
         date: "Updated Yesterday",
         url: "https://example.com/releases/4.3.0",
+      }}
+    />
+  ),
+};
+
+export const WithLegal: Story = {
+  render: () => (
+    <HelpMenu
+      documentationUrl="https://example.com/docs"
+      legal={{
+        personalDataUrl: "https://example.com/personal-data",
+        legalNoticeUrl: "https://example.com/legal-notice",
+      }}
+    />
+  ),
+};
+
+const customOptions: DropdownMenuItem[] = [
+  {
+    label: "Keyboard shortcuts",
+    icon: <span className="material-icons">keyboard</span>,
+    callback: () => alert("Keyboard shortcuts clicked"),
+  },
+  {
+    label: "What's new",
+    icon: <span className="material-icons">campaign</span>,
+    opensInNewWindow: true,
+    callback: () => {
+      window.open("https://example.com/changelog", "_blank");
+    },
+  },
+];
+
+export const WithCustomOptions: Story = {
+  render: () => (
+    <HelpMenu
+      documentationUrl="https://example.com/docs"
+      legal={{
+        personalDataUrl: "https://example.com/personal-data",
+        legalNoticeUrl: "https://example.com/legal-notice",
+      }}
+      customOptions={customOptions}
+      onContactUs={() => alert("Contact us clicked")}
+    />
+  ),
+};
+
+export const ContactUsMailto: Story = {
+  render: () => (
+    <HelpMenu
+      documentationUrl="https://example.com/docs"
+      onContactUs={() => {
+        window.open("mailto:support@example.com?subject=Need%20help");
       }}
     />
   ),
