@@ -3,6 +3,7 @@ import { InvitationData } from "../../types";
 import { UserRow } from ":/components/users/rows/UserRow";
 import { DropdownMenuOption, useDropdownMenu } from ":/components/dropdown-menu";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 export type ShareInvitationItemProps<UserType, InvitationType> = {
   invitation: InvitationData<UserType, InvitationType>;
@@ -27,6 +28,11 @@ export const ShareInvitationItem = <UserType, InvitationType>({
   roleTopMessage,
 }: ShareInvitationItemProps<UserType, InvitationType>) => {
   const roleDropdown = useDropdownMenu();
+  const { t } = useCunningham();
+  const displayName = invitation.email;
+  const currentRoleLabel = roles.find(
+    (r) => r.value === invitation.role,
+  )?.label;
 
   return (
     <div className="c__share-member-item">
@@ -49,6 +55,10 @@ export const ShareInvitationItem = <UserType, InvitationType>({
                   ? () => deleteInvitation(invitation)
                   : undefined
               }
+              aria-label={t("components.share.access.role_label", {
+                name: displayName,
+                role: currentRoleLabel ?? "",
+              })}
             />
           </div>
         }

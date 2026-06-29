@@ -17,6 +17,7 @@ type AccessRoleDropdownProps = {
   roleTopMessage?: DropdownMenuProps["topMessage"];
   onDelete?: () => void;
   canDelete?: boolean;
+  "aria-label"?: string;
 };
 
 export const AccessRoleDropdown = ({
@@ -29,6 +30,7 @@ export const AccessRoleDropdown = ({
   roleTopMessage,
   onDelete,
   canDelete = true,
+  "aria-label": ariaLabel,
 }: AccessRoleDropdownProps) => {
   const { t } = useCunningham();
 
@@ -83,7 +85,7 @@ export const AccessRoleDropdown = ({
         color="brand"
         variant="tertiary"
         icon={
-          <span className="material-icons">
+          <span className="material-icons" aria-hidden="true">
             {isOpen ? "arrow_drop_up" : "arrow_drop_down"}
           </span>
         }
@@ -91,6 +93,7 @@ export const AccessRoleDropdown = ({
         onClick={() => {
           onOpenChange?.(!isOpen);
         }}
+        aria-label={ariaLabel}
       >
         {currentRoleString?.label}
       </Button>

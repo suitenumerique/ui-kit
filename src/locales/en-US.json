@@ -11,18 +11,23 @@
       "modalAriaLabel": "Share modal",
       
       "access": {
-        "delete": "Remove access"
+        "delete": "Remove access",
+        "remove_user": "Remove {name}",
+        "role_label": "Change role for {name}, currently {role}",
+        "role_changed": "Role changed to {role} for {name}"
       },
       "cannot_view": {
         "message": "You can view this item but you need additional access to view its members or modify the settings."
       },
       "invitations": {
-        "title": "Pending invitations"
+        "title": "Pending invitations",
+        "load_more_aria": "Show more invitations"
       },
       "members": {
         "title_plural": "Shared between {count} people",
         "title_singular": "Shared between {count} person",
-        "load_more": "Show more "
+        "load_more": "Show more ",
+        "load_more_aria": "Show more members"
       },
       "item": {
         "add": "Add"
@@ -33,7 +38,9 @@
       },
       "user": {
         "no_result": "No result",
-        "placeholder": "Search for a user to invite"
+        "placeholder": "Search for a user to invite",
+        "added": "{name} added to invitations",
+        "removed": "{name} removed from invitations"
       },
       "linkSettings": {
         "title": "Link settings",
