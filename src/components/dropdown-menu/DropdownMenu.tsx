@@ -7,6 +7,7 @@ import {
   SubmenuTrigger,
 } from "react-aria-components";
 import { MenuItemAction, MenuItemSeparator } from "../menu/types";
+import { MenuItemBody } from "../menu/MenuItemBody";
 import { DropdownMenuItem } from "./types";
 import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
 import clsx from "clsx";
@@ -19,22 +20,6 @@ const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
 const hasChildren = (item: MenuItemAction): boolean => {
   return Array.isArray(item.children) && item.children.length > 0;
 };
-
-const MenuItemContent = ({ option }: { option: MenuItemAction }) => (
-  <>
-    {option.icon && (
-      <div className="c__dropdown-menu-item__icon">{option.icon}</div>
-    )}
-    <div className="c__dropdown-menu-item__label-container">
-      <div className="c__dropdown-menu-item__label">{option.label}</div>
-      {option.subText && (
-        <div className="c__dropdown-menu-item__label-subtext">
-          {option.subText}
-        </div>
-      )}
-    </div>
-  </>
-);
 
 export type DropdownMenuProps = {
   options: DropdownMenuItem[];
@@ -98,10 +83,12 @@ export const DropdownMenu = ({
               isDisabled={option.isDisabled}
               data-testid={option.testId}
             >
-              <MenuItemContent option={option} />
-              <span className="material-icons c__dropdown-menu-item__chevron">
-                chevron_right
-              </span>
+              <MenuItemBody
+                icon={option.icon}
+                label={option.label}
+                subText={option.subText}
+                hasSubmenu
+              />
             </MenuItem>
             <Popover offset={-4} shouldFlip containerPadding={16}>
               <Menu className={menuClassName}>
@@ -131,11 +118,15 @@ export const DropdownMenu = ({
             isDisabled={option.isDisabled}
             data-testid={option.testId}
           >
-            <MenuItemContent option={option} />
-            {(option.isChecked ||
-              (option.value && selectedValues.includes(option.value))) && (
-              <span className="material-icons checked">check</span>
-            )}
+            <MenuItemBody
+              icon={option.icon}
+              label={option.label}
+              subText={option.subText}
+              isChecked={
+                option.isChecked ||
+                (!!option.value && selectedValues.includes(option.value))
+              }
+            />
           </MenuItem>
           {/* @deprecated: use { type: "separator" } instead */}
           {option.showSeparator && <Separator />}

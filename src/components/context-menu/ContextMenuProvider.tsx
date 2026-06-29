@@ -15,6 +15,7 @@ import {
   MenuItemAction,
   ContextMenuState,
 } from "./types";
+import { MenuItemBody } from "../menu/MenuItemBody";
 import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
@@ -193,17 +194,11 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
                 isDisabled={item.isDisabled}
                 data-testid={item.testId || `context-menu-item-${itemKey}`}
               >
-                {item.icon}
-                <div className="c__dropdown-menu-item__label-container">
-                  <div className="c__dropdown-menu-item__label">
-                    {item.label}
-                  </div>
-                  {item.subText && (
-                    <div className="c__dropdown-menu-item__label-subtext">
-                      {item.subText}
-                    </div>
-                  )}
-                </div>
+                <MenuItemBody
+                  icon={item.icon}
+                  label={item.label}
+                  subText={item.subText}
+                />
               </AriaMenuItem>
             );
           })}

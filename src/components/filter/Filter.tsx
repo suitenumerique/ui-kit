@@ -23,6 +23,8 @@ import {
 import { Option } from "@gouvfr-lasuite/cunningham-react";
 import clsx from "clsx";
 
+import { MenuItemBody } from "../menu/MenuItemBody";
+
 export type FilterSubContentHelpers = {
   /** Selects this option (sets the Filter's selected key to the option value). */
   select: () => void;
@@ -293,23 +295,13 @@ const FilterInner = (props: FilterInnerProps) => {
                    * here is unreliable. `isSelected` is provided per item and is
                    * correct in both controlled and uncontrolled modes.
                    */}
-                  {({ isSelected }) =>
-                    hasSubContent ? (
-                      <div className="c__filter__item">
-                        {option.render ? option.render() : option.label}
-                        <span className="material-icons c__dropdown-menu-item__chevron">
-                          chevron_right
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="c__filter__item">
-                        {option.render ? option.render() : option.label}
-                        {(isSelected || option.isChecked) && (
-                          <span className="material-icons checked">check</span>
-                        )}
-                      </div>
-                    )
-                  }
+                  {({ isSelected }) => (
+                    <MenuItemBody
+                      label={option.render ? option.render() : option.label}
+                      isChecked={isSelected || option.isChecked}
+                      hasSubmenu={hasSubContent}
+                    />
+                  )}
                 </ListBoxItem>
                 {option.showSeparator && <Separator />}
               </Fragment>
