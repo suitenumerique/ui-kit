@@ -2,12 +2,15 @@
 
 [UNRELEASED]
 
+## 0.24.0
+
 ### Minor Changes
 
 - ♿️(menu) add opensInNewWindow for external link aria-label #246
 - 🚸(LaGaufreV2) automatic positionning #260
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
+- ✨(front) add SmartScroller component
 
 ## 0.23.2
 
