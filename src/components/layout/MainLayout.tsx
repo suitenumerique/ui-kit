@@ -124,7 +124,7 @@ export const MainLayout = ({
         />
       </div>
       <div className="c__main-layout__content">
-        <PanelGroup autoSaveId={"persistance"} direction="horizontal">
+        <PanelGroup autoSaveId={"persistence"} direction="horizontal">
           {mountLeftPanel && (
             <>
               <Panel
