@@ -246,7 +246,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     };
 
     /**
-     * If the search query is an email, we don't display the empty string beacause
+     * If the search query is an email, we don't display the empty string because
      * we display the user with this email row instead
      */
     if (isInvitationMode) {

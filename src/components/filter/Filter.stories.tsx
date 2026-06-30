@@ -170,7 +170,7 @@ export const Uncontrolled: Story = {
 };
 
 /**
- * Same uncontrolled behaviour, but `defaultValue` pre-selects an option on
+ * Same uncontrolled behaviour, but `defaultValue` preselects an option on
  * mount. The trigger renders in its active state and the matching row shows a
  * checkmark from the start.
  */
@@ -184,15 +184,15 @@ export const UncontrolledWithDefault: Story = {
 
 const OPTIONS_LONG: FilterOption[] = [
   {
-    label: "Tous les documents disponibles",
+    label: "All available documents",
     value: "all",
   },
   {
-    label: "Fichiers partagés avec mon équipe",
+    label: "Files shared with my team",
     value: "file",
   },
   {
-    label: "Dossiers récemment modifiés par un collaborateur",
+    label: "Folders recently modified by a collaborator",
     value: "folder",
   },
 ];
@@ -204,7 +204,7 @@ const OPTIONS_LONG: FilterOption[] = [
  */
 export const LongLabels: Story = {
   args: {
-    label: "Type de contenu à afficher dans la liste",
+    label: "Type of content to display in the list",
     options: OPTIONS_LONG,
   },
 };
@@ -229,30 +229,30 @@ export const MultipleInConstrainedContainer: Story = {
       }}
     >
       <Filter
-        label="Type de contenu à afficher"
+        label="Type of content to display"
         defaultValue="folder"
         options={[
-          { label: "Dossier partagé avec l'équipe", value: "folder" },
-          { label: "Fichier récemment modifié", value: "file" },
+          { label: "Shared folder with the team", value: "folder" },
+          { label: "Recently modified file", value: "file" },
         ]}
       />
       <Filter
-        label="Espace de travail collaboratif"
+        label="Collaborative Workspace"
         defaultValue="public"
         options={[
-          { label: "Espace public accessible à tous", value: "public" },
-          { label: "Espace privé réservé aux membres", value: "private" },
+          { label: "Public workspace accessible to all", value: "public" },
+          { label: "Private workspace reserved for members", value: "private" },
         ]}
       />
       <Filter
-        label="Emplacement du document dans l'arborescence"
+        label="Document location in the hierarchy"
         defaultValue="trash"
         options={[
-          { label: "Corbeille des éléments supprimés", value: "trash" },
-          { label: "Favoris marqués par l'utilisateur", value: "favorites" },
+          { label: "Deleted items trash", value: "trash" },
+          { label: "User-marked favorites", value: "favorites" },
         ]}
       />
-      <Button size="small">Réinitialiser</Button>
+      <Button size="small">Reset</Button>
     </div>
   ),
 };
