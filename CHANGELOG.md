@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - 🧑‍💻(CI) add basic pull request template #268
-- 🧑‍💻(CI) add a check changelog job #268
+- 🧑‍💻(CI) add a check changelog and spell mistake job #268
 
 ## 0.24.0
 
