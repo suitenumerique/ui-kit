@@ -1,0 +1,20 @@
+[codespell]
+check-filenames =
+skip =
+    # Dependencies and build outputs, when run locally
+    ./node_modules,
+    ./packages/*/node_modules,
+    ./packages/*/dist,
+    ./packages/*/storybook-static,
+    # Lock file hashes and binary or encoded assets (PDF previews, SVG images)
+    yarn.lock,
+    *.pdf,
+    *.svg,
+    # Translations and fixtures (lorem ipsum, fake users) are not written in English
+    *.json,
+    # Tests assert translated strings and table headers (`ths`)
+    *.spec.tsx,
+    # Generated from the icon names (e.g. `MapPin`, `Dumbell`)
+    */icon/icons,
+# Vitest API
+ignore-words-list = afterAll

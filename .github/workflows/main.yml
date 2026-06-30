@@ -44,6 +44,18 @@ jobs:
       - name: Check that a changeset has been added in the current branch
         run: yarn changeset status --since=origin/${{ github.base_ref }}
 
+  lint-spell-mistakes:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Install codespell
+        run: pip install --user codespell==2.4.3
+      # Configuration lives in .codespellrc
+      - name: Check for typos
+        run: codespell
+
   install-front:
     uses: ./.github/workflows/front-dependencies-installation.yml
     with:
