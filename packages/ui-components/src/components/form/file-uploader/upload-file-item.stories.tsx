@@ -19,7 +19,7 @@ const labels: ResolvedUploadLabels = {
   uploading: "Uploading",
   cancel: "Cancel",
   remove: "Delete",
-  genericError: "An error occured",
+  genericError: "An error occurred",
 };
 
 const files = {
@@ -40,7 +40,7 @@ const files = {
       "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ),
     status: "error",
-    error: "An error occured",
+    error: "An error occurred",
   },
   errorWithDetails: {
     id: "error-with-details",
@@ -50,7 +50,7 @@ const files = {
       "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ),
     status: "error",
-    error: "An error occured",
+    error: "An error occurred",
     errorDetails: "The file could not be uploaded. Please try again.",
   },
   uploading: {

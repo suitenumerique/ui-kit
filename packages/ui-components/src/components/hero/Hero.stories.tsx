@@ -23,9 +23,8 @@ const storybookBaseUrl = import.meta.env.BASE_URL;
 
 export const Default: Story = {
   args: {
-    title: "Stockage et partage faciles.",
-    subtitle:
-      "Stockez et partagez vos fichiers simplement dans un espace cloud collaboratif synchronisé.",
+    title: "Easy storage and sharing.",
+    subtitle: "Store and share your files simply in a synchronized collaborative cloud space.",
     logo: (
       <img
         src={`${storybookBaseUrl}storybook/logo-fichiers.svg`}
