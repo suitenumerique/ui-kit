@@ -175,6 +175,13 @@
         "download": "Download",
         "print": "Print"
       }
+    },
+    "storage-gauge": {
+      "information": {
+        "title": "Used Storage",
+        "usage": "{used} of {total} {unit} used",
+        "more-info": "More info"
+      }
     }
   }
 }

@@ -8,14 +8,27 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  height: 24px;
+  height: 32px;
   width: 100%;
   overflow: hidden;
   font-family: inherit;
 
+  &--locked {
+    border: 1px solid var(--c--contextuals--border--surface--primary);
+    border-radius: 4px;
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  }
+
   &:hover {
     border-radius: var(--xxxs, 4px);
     background: var(--c--contextuals--background--semantic--overlay--primary);
+  }
+
+  &__locked {
+    flex-grow: 1;
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 
   &__bar {
@@ -32,7 +45,12 @@
     &__fill {
       height: 100%;
       border-radius: 15px;
-      background: var(--c--contextuals--content--semantic--neutral--secondary);
+      // Threshold color, driven by the component:
+      // <80% neutral, >=80% warning, >=100% error.
+      background: var(
+        --c--storage-gauge-fill-color,
+        var(--c--contextuals--background--semantic--neutral--secondary)
+      );
     }
   }
 
@@ -43,5 +61,40 @@
     color: var(--c--contextuals--content--semantic--neutral--tertiary, #626a80);
     white-space: nowrap;
     text-align: center;
+  }
+}
+
+.c__storage-gauge__information {
+  &__header {
+    display: flex;
+    gap: var(--c--globals--spacings--xs, 8px);
+    align-items: center;
+    margin-bottom: 8px;
+
+    .c__storage-gauge__information__more-info {
+      height: 24px;
+      font-size: var(--c--globals--font--sizes--xs);
+    }
+
+    &__left {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  }
+
+  &__title {
+    color: var(--c--contextuals--content--semantic--neutral--primary);
+    font-size: var(--c--globals--font--sizes--sm);
+    font-weight: 500;
+  }
+
+  &__label {
+    color: var(--c--contextuals--content--semantic--neutral--secondary);
+    font-size: var(--c--globals--font--sizes--xs);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 2px;
   }
 }
