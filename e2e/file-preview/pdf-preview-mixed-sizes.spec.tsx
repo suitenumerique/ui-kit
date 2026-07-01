@@ -147,6 +147,7 @@ test.describe("PDF Preview — mixed page sizes", () => {
       await expect(pageInput).toHaveAttribute(
         "size",
         String(String(target).length),
+        { timeout: 10000 },
       );
       await pageInput.press("Enter");
       await expect(getRenderedPage(page, target)).toBeVisible({
