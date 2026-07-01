@@ -54,7 +54,7 @@
     "@gouvfr-lasuite/cunningham-react": "4.3.0",
     "@gouvfr-lasuite/cunningham-tokens": "3.1.0",
     "@gouvfr-lasuite/integration": "1.0.2",
-    "@types/node": "22.10.7",
+    "@types/node": "22.19.18",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
     "react-arborist": "3.4.3",
