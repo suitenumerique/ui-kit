@@ -2,6 +2,11 @@
 
 [UNRELEASED]
 
+### Patch CHanges
+
+- 🐛(front) dismiss filter sub-panel on click outside, not hover out
+- 
+
 ## 0.25.0
 
 ### Minor Changes
