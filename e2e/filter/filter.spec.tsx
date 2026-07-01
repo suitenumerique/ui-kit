@@ -74,6 +74,52 @@ test.describe("Filter", () => {
     await expect(page.getByRole("grid")).toBeVisible();
   });
 
+  test("keeps the sub-panel open when the pointer leaves it", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: /Updated/ }).click();
+
+    await page.getByRole("option", { name: "Custom" }).hover();
+    await expect(page.getByRole("grid")).toBeVisible();
+
+    // Moving the pointer away used to close the panel after a 150ms delay. It
+    // must now stay open until an explicit click outside, so wait past that old
+    // delay and assert it is still there.
+    await page.getByRole("option", { name: "Today" }).hover();
+    await page.waitForTimeout(300);
+    await expect(page.getByRole("grid")).toBeVisible();
+  });
+
+  test("clicking outside closes the sub-panel", async ({ page }) => {
+    await page.getByRole("button", { name: /Updated/ }).click();
+
+    await page.getByRole("option", { name: "Custom" }).hover();
+    await expect(page.getByRole("grid")).toBeVisible();
+
+    // A click away from the panel and its row dismisses it.
+    await page.mouse.click(1200, 650);
+
+    await expect(page.getByRole("grid")).not.toBeVisible();
+  });
+
+  test("selecting another option closes an open sub-panel", async ({
+    page,
+  }) => {
+    const trigger = page.getByRole("button", { name: /Updated/ });
+    await trigger.click();
+
+    await page.getByRole("option", { name: "Custom" }).hover();
+    await expect(page.getByRole("grid")).toBeVisible();
+
+    // Selecting any option dismisses a lingering sub-panel along with the
+    // dropdown.
+    await page.getByRole("option", { name: "Today" }).click();
+
+    await expect(page.getByRole("grid")).not.toBeVisible();
+    await expect(page.getByRole("listbox")).not.toBeVisible();
+    await expect(trigger).toHaveAccessibleName("Updated : Today");
+  });
+
   test("opens the sub-panel with the keyboard and restores focus on Escape", async ({
     page,
   }) => {
