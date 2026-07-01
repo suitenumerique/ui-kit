@@ -20,6 +20,9 @@ import { DateValue } from "@internationalized/date";
  * - **Custom option rendering.** Each option can supply a `render` function to
  *   display icons or richer content instead of a plain label.
  * - **Separators.** Set `showSeparator` on an option to draw a divider after it.
+ * - **Built-in reset.** Once a value is selected, a "Reset" row appears above the
+ *   options to clear the selection. It is enabled by default; pass
+ *   `showReset={false}` to hide it (e.g. when a value must always be selected).
  * - **Sub-panels.** An option can expose a `subContent` panel (e.g. a date-range
  *   picker) that opens on hover, with `select` / `close` helpers to drive the
  *   parent selection.
@@ -50,6 +53,7 @@ import { DateValue } from "@internationalized/date";
  * |------|------|-------------|
  * | `label` | `string` | Text shown on the trigger button; combined with the selected option's label once a value is picked |
  * | `options` | `FilterOption[]` | The selectable entries |
+ * | `showReset` | `boolean?` | Show a built-in "Reset" row (with an undo icon) above the options that clears the selection. Defaults to `true`; only visible while a value is selected |
  * | `defaultValue` | `Key \| null?` | Initial selection in uncontrolled mode |
  * | `value` | `Key \| null?` | Selected value in controlled mode |
  * | `onChange` | `(key: Key \| null) => void` | Fires when the user picks an option |
@@ -83,6 +87,11 @@ const meta: Meta<typeof Filter> = {
     options: {
       description: "The selectable entries",
       control: false,
+    },
+    showReset: {
+      description:
+        'Show a built-in "Reset" row above the options that clears the selection; visible only while a value is selected',
+      control: "boolean",
     },
     defaultValue: {
       description: "Initial selection in uncontrolled mode",
@@ -179,6 +188,33 @@ export const UncontrolledWithDefault: Story = {
     label: "Type",
     defaultValue: "folder",
     options: OPTIONS,
+  },
+};
+
+/**
+ * A value is pre-selected, so opening the dropdown reveals the built-in **Reset**
+ * row above the options. Clicking it clears the selection (the trigger falls back
+ * to just the `label`) without leaving the menu. The row is shown by default and
+ * only while something is selected.
+ */
+export const WithReset: Story = {
+  args: {
+    label: "Type",
+    defaultValue: "file",
+    options: OPTIONS,
+  },
+};
+
+/**
+ * Passing `showReset={false}` hides the reset row entirely — useful when the
+ * filter should always keep a value selected and clearing it makes no sense.
+ */
+export const WithoutReset: Story = {
+  args: {
+    label: "Type",
+    defaultValue: "file",
+    options: OPTIONS,
+    showReset: false,
   },
 };
 
