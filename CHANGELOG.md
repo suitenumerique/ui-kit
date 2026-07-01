@@ -2,6 +2,12 @@
 
 [UNRELEASED]
 
+### Patch Changes
+
+- ♻️(front) keep SmartScroller arrows mounted for smooth fades
+- ♻️(front) improve SmartScroller blurry gradient
+- 🐛(front) fix SmartScroller button background
+
 ## 0.24.0
 
 ### Minor Changes
@@ -32,7 +38,7 @@
 
 ### Major Changes
 
-- 💥(frontend) add dedicated icons entrypoint 
+- 💥(frontend) add dedicated icons entrypoint
 
 ### Patch Changes
 

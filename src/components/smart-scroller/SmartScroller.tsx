@@ -76,24 +76,33 @@ export const SmartScroller = ({
 
   return (
     <div className={clsx("c__smart-scroller", className)}>
-      {canScrollLeft && (
-        <>
-          <span className="c__smart-scroller__fade c__smart-scroller__fade--left" />
-          <Button
-            className="c__smart-scroller__arrow c__smart-scroller__arrow--left"
-            onClick={() => scrollByRatio(-1)}
-            // Pointer-only affordance: assistive-tech and keyboard users reach
-            // the content directly (focusing a child scrolls it into view), so
-            // the arrows are hidden from the a11y tree and the tab order.
-            aria-hidden="true"
-            tabIndex={-1}
-            icon={<ArrowLeft size={IconSize.SMALL} />}
-            color="neutral"
-            variant="bordered"
-            size="small"
-          />
-        </>
-      )}
+      {/*
+       * Arrows and fades stay mounted and toggle visibility via a modifier
+       * class so their opacity transitions smoothly as scrollability changes
+       * (mounting/unmounting would make them pop in and out instantly).
+       */}
+      <span
+        className={clsx(
+          "c__smart-scroller__fade c__smart-scroller__fade--left",
+          canScrollLeft && "c__smart-scroller__fade--visible"
+        )}
+      />
+      <Button
+        className={clsx(
+          "c__smart-scroller__arrow c__smart-scroller__arrow--left",
+          canScrollLeft && "c__smart-scroller__arrow--visible"
+        )}
+        onClick={() => scrollByRatio(-1)}
+        // Pointer-only affordance: assistive-tech and keyboard users reach
+        // the content directly (focusing a child scrolls it into view), so
+        // the arrows are hidden from the a11y tree and the tab order.
+        aria-hidden="true"
+        tabIndex={-1}
+        icon={<ArrowLeft size={IconSize.SMALL} />}
+        color="neutral"
+        variant="bordered"
+        size="small"
+      />
 
       <div className="c__smart-scroller__viewport" ref={viewportRef}>
         <div className="c__smart-scroller__content" ref={contentRef}>
@@ -101,21 +110,25 @@ export const SmartScroller = ({
         </div>
       </div>
 
-      {canScrollRight && (
-        <>
-          <span className="c__smart-scroller__fade c__smart-scroller__fade--right" />
-          <Button
-            className="c__smart-scroller__arrow c__smart-scroller__arrow--right"
-            onClick={() => scrollByRatio(1)}
-            aria-hidden="true"
-            tabIndex={-1}
-            icon={<ArrowRight size={IconSize.SMALL} />}
-            color="neutral"
-            variant="bordered"
-            size="small"
-          />
-        </>
-      )}
+      <span
+        className={clsx(
+          "c__smart-scroller__fade c__smart-scroller__fade--right",
+          canScrollRight && "c__smart-scroller__fade--visible"
+        )}
+      />
+      <Button
+        className={clsx(
+          "c__smart-scroller__arrow c__smart-scroller__arrow--right",
+          canScrollRight && "c__smart-scroller__arrow--visible"
+        )}
+        onClick={() => scrollByRatio(1)}
+        aria-hidden="true"
+        tabIndex={-1}
+        icon={<ArrowRight size={IconSize.SMALL} />}
+        color="neutral"
+        variant="bordered"
+        size="small"
+      />
     </div>
   );
 };
