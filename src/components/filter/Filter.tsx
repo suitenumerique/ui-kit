@@ -74,7 +74,6 @@ export const Filter = (props: FilterProps) => {
   // Set from within the Select so the out-of-tree sub-panel can drive selection.
   const selectStateRef = useRef<SelectStateLike | null>(null);
 
-  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [openKey, setOpenKey] = useState<string | null>(null);
 
   // The content of the currently-open sub-panel, used to move focus into it when
@@ -82,21 +81,34 @@ export const Filter = (props: FilterProps) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const focusOnOpen = useRef(false);
 
-  const cancelClose = () => {
-    if (closeTimeout.current) {
-      clearTimeout(closeTimeout.current);
-      closeTimeout.current = null;
-    }
-  };
   const openSub = (value: string, withFocus = false) => {
-    cancelClose();
     focusOnOpen.current = withFocus;
     setOpenKey(value);
   };
-  const scheduleClose = () => {
-    cancelClose();
-    closeTimeout.current = setTimeout(() => setOpenKey(null), 150);
-  };
+
+  // Close the open sub-panel on a click outside of it. react-aria disables its
+  // own interact-outside dismissal for non-modal popovers (`isDismissable` is
+  // false unless it is a submenu), so we handle it ourselves. Clicks on the
+  // panel or on its trigger row keep it open; anything else dismisses it.
+  useEffect(() => {
+    if (!openKey) {
+      return;
+    }
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+      const row = getRowRef(openKey).current;
+      if (target.closest(".c__filter__subpanel") || row?.contains(target)) {
+        return;
+      }
+      setOpenKey(null);
+    };
+    document.addEventListener("pointerdown", onPointerDown, true);
+    return () =>
+      document.removeEventListener("pointerdown", onPointerDown, true);
+  }, [openKey]);
 
   // When a sub-panel is opened via keyboard, move focus to its first focusable
   // element so it is operable without a pointer.
@@ -117,12 +129,20 @@ export const Filter = (props: FilterProps) => {
 
   return (
     <>
-      <Select {...props} className="c__filter">
+      <Select
+        {...props}
+        className="c__filter"
+        onSelectionChange={(key) => {
+          // Selecting an option changes the Filter value; dismiss any open
+          // sub-panel so a stale sub-content popover never lingers.
+          setOpenKey(null);
+          props.onSelectionChange?.(key);
+        }}
+      >
         <FilterInner
           {...props}
           getRowRef={getRowRef}
           openSub={openSub}
-          scheduleClose={scheduleClose}
           selectStateRef={selectStateRef}
         />
       </Select>
@@ -132,13 +152,13 @@ export const Filter = (props: FilterProps) => {
         const helpers: FilterSubContentHelpers = {
           select: () => selectStateRef.current?.setValue(value),
           close: () => {
-            cancelClose();
             setOpenKey(null);
             selectStateRef.current?.close();
           },
         };
         return (
           <Popover
+            offset={0}
             key={value}
             triggerRef={getRowRef(value)}
             isOpen={openKey === value}
@@ -159,11 +179,7 @@ export const Filter = (props: FilterProps) => {
             placement="right top"
             className="c__filter__subpanel"
           >
-            <div
-              ref={openKey === value ? panelRef : undefined}
-              onMouseEnter={cancelClose}
-              onMouseLeave={scheduleClose}
-            >
+            <div ref={openKey === value ? panelRef : undefined}>
               {option.subContent?.(helpers)}
             </div>
           </Popover>
@@ -176,13 +192,11 @@ export const Filter = (props: FilterProps) => {
 type FilterInnerProps = FilterProps & {
   getRowRef: (value: string) => RefObject<HTMLDivElement | null>;
   openSub: (value: string, withFocus?: boolean) => void;
-  scheduleClose: () => void;
   selectStateRef: RefObject<SelectStateLike | null>;
 };
 
 const FilterInner = (props: FilterInnerProps) => {
-  const { getRowRef, openSub, scheduleClose, selectStateRef, ...filterProps } =
-    props;
+  const { getRowRef, openSub, selectStateRef, ...filterProps } = props;
   const state = useContext(SelectStateContext);
 
   // Expose the Select state to the out-of-tree sub-panel (see Filter comment).
@@ -253,60 +267,61 @@ const FilterInner = (props: FilterInnerProps) => {
           }}
         >
           <ListBox>
-          {filterProps.options.map((option) => {
-            const hasSubContent =
-              !!option.subContent && option.value !== undefined;
-            return (
-              <Fragment key={option.value}>
-                <ListBoxItem
-                  key={option.value}
-                  id={option.value}
-                  textValue={option.label}
-                  className="c__dropdown-menu-item"
-                  data-has-submenu={hasSubContent}
-                  // Carries the option value (the DOM `id` is a react-aria
-                  // generated key) so the keyboard handler can open this row.
-                  data-submenu-value={hasSubContent ? option.value : undefined}
-                  ref={hasSubContent ? getRowRef(option.value!) : undefined}
-                  onMouseEnter={
-                    hasSubContent
-                      ? () => openSub(option.value as string)
-                      : undefined
-                  }
-                  onMouseLeave={hasSubContent ? scheduleClose : undefined}
-                  // Swallow the press in the capture phase so react-aria's Select
-                  // never selects this row (which would close the popover). The
-                  // sub-panel is driven by hover + its own actions instead.
-                  onPointerDownCapture={
-                    hasSubContent
-                      ? (event) => event.stopPropagation()
-                      : undefined
-                  }
-                  onPointerUpCapture={
-                    hasSubContent
-                      ? (event) => event.stopPropagation()
-                      : undefined
-                  }
-                >
-                  {/*
-                   * Use the ListBoxItem render prop for selection: the checkmark
-                   * lives inside the ListBox collection, which react-aria renders
-                   * in a pass without `SelectStateContext`, so reading `state`
-                   * here is unreliable. `isSelected` is provided per item and is
-                   * correct in both controlled and uncontrolled modes.
-                   */}
-                  {({ isSelected }) => (
-                    <MenuItemBody
-                      label={option.render ? option.render() : option.label}
-                      isChecked={isSelected || option.isChecked}
-                      hasSubmenu={hasSubContent}
-                    />
-                  )}
-                </ListBoxItem>
-                {option.showSeparator && <Separator />}
-              </Fragment>
-            );
-          })}
+            {filterProps.options.map((option) => {
+              const hasSubContent =
+                !!option.subContent && option.value !== undefined;
+              return (
+                <Fragment key={option.value}>
+                  <ListBoxItem
+                    key={option.value}
+                    id={option.value}
+                    textValue={option.label}
+                    className="c__dropdown-menu-item"
+                    data-has-submenu={hasSubContent}
+                    // Carries the option value (the DOM `id` is a react-aria
+                    // generated key) so the keyboard handler can open this row.
+                    data-submenu-value={
+                      hasSubContent ? option.value : undefined
+                    }
+                    ref={hasSubContent ? getRowRef(option.value!) : undefined}
+                    onMouseEnter={
+                      hasSubContent
+                        ? () => openSub(option.value as string)
+                        : undefined
+                    }
+                    // Swallow the press in the capture phase so react-aria's Select
+                    // never selects this row (which would close the popover). The
+                    // sub-panel is driven by hover + its own actions instead.
+                    onPointerDownCapture={
+                      hasSubContent
+                        ? (event) => event.stopPropagation()
+                        : undefined
+                    }
+                    onPointerUpCapture={
+                      hasSubContent
+                        ? (event) => event.stopPropagation()
+                        : undefined
+                    }
+                  >
+                    {/*
+                     * Use the ListBoxItem render prop for selection: the checkmark
+                     * lives inside the ListBox collection, which react-aria renders
+                     * in a pass without `SelectStateContext`, so reading `state`
+                     * here is unreliable. `isSelected` is provided per item and is
+                     * correct in both controlled and uncontrolled modes.
+                     */}
+                    {({ isSelected }) => (
+                      <MenuItemBody
+                        label={option.render ? option.render() : option.label}
+                        isChecked={isSelected || option.isChecked}
+                        hasSubmenu={hasSubContent}
+                      />
+                    )}
+                  </ListBoxItem>
+                  {option.showSeparator && <Separator />}
+                </Fragment>
+              );
+            })}
           </ListBox>
         </div>
       </Popover>
