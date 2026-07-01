@@ -61,3 +61,28 @@ export const TestFilter = () => {
     </CunninghamProvider>
   );
 };
+
+// Minimal Filter used to exercise the built-in reset row (`showReset`). Kept
+// separate from `TestFilter` so there is no external "Reset" button to collide
+// with the reset row's label.
+export const TestResetFilter = ({ showReset }: { showReset?: boolean }) => {
+  const [selected, setSelected] = useState<Key | null>(null);
+
+  const options: FilterOption[] = [
+    { label: "All", value: "all" },
+    { label: "File", value: "file" },
+    { label: "Folder", value: "folder" },
+  ];
+
+  return (
+    <CunninghamProvider currentLocale="en-US">
+      <Filter
+        label="Type"
+        options={options}
+        value={selected}
+        onChange={setSelected}
+        showReset={showReset}
+      />
+    </CunninghamProvider>
+  );
+};

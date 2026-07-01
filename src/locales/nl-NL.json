@@ -3,6 +3,9 @@
     "menu": {
       "newWindowLabelSuffix": " (nieuw venster)"
     },
+    "searchFilter": {
+      "reset": "Resetten"
+    },
     "share": {
       "copyLink": "Link kopiëren",
       "ok": "OK",

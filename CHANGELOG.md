@@ -27,6 +27,9 @@
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
 - ✨(front) add SmartScroller component
+- ✨(front) add a reset row to Filter
+- ✨(front) add a reset row to SearchFilter and ui revamp
+- ✨(front) align menu item to figma ( mainly smaller )
 
 ## 0.23.2
 

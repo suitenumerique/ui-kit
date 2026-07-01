@@ -10,6 +10,7 @@ import {
 } from "react";
 import {
   Button,
+  Key,
   Label,
   ListBox,
   ListBoxItem,
@@ -20,10 +21,13 @@ import {
   Separator,
 } from "react-aria-components";
 
-import { Option } from "@gouvfr-lasuite/cunningham-react";
+import { Option, useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import clsx from "clsx";
 
 import { MenuItemBody } from "../menu/MenuItemBody";
+import { IconSize } from "../icon";
+import { Undo } from ":/icons";
+import { HorizontalSeparator } from "../separator";
 
 export type FilterSubContentHelpers = {
   /** Selects this option (sets the Filter's selected key to the option value). */
@@ -45,11 +49,12 @@ export type FilterOption = Option & {
 export type FilterProps = {
   label: string;
   options: FilterOption[];
+  showReset?: boolean;
 } & SelectProps;
 
 /** Minimal slice of react-aria's SelectState used to drive custom selection. */
 type SelectStateLike = {
-  setValue: (value: string) => void;
+  setValue: (value: Key | null) => void;
   close: () => void;
 };
 
@@ -196,8 +201,15 @@ type FilterInnerProps = FilterProps & {
 };
 
 const FilterInner = (props: FilterInnerProps) => {
-  const { getRowRef, openSub, selectStateRef, ...filterProps } = props;
+  const {
+    getRowRef,
+    openSub,
+    selectStateRef,
+    showReset = true,
+    ...filterProps
+  } = props;
   const state = useContext(SelectStateContext);
+  const { t } = useCunningham();
 
   // Expose the Select state to the out-of-tree sub-panel (see Filter comment).
   selectStateRef.current = state ?? null;
@@ -246,6 +258,27 @@ const FilterInner = (props: FilterInnerProps) => {
          * sub-content row opens its panel and moves focus into it instead of
          * selecting the row.
          */}
+        {/*
+         * The reset row is rendered *outside* the ListBox on purpose: react-aria
+         * runs ListBox children through its CollectionBuilder, which only keeps
+         * recognized collection nodes (ListBoxItem, Section, …) and silently drops
+         * plain DOM like this <div>. Rendering it here (a normal render pass where
+         * `state` from SelectStateContext is available) makes it show reliably.
+         */}
+        {showReset && state?.value && (
+          <>
+            <div
+              className="c__dropdown-menu-item"
+              onClick={() => state?.setValue(null)}
+            >
+              <MenuItemBody
+                icon={<Undo size={IconSize.SMALL} />}
+                label={t("components.searchFilter.reset")}
+              />
+            </div>
+            <HorizontalSeparator withPadding={false} />
+          </>
+        )}
         <div
           onKeyDownCapture={(event) => {
             if (
