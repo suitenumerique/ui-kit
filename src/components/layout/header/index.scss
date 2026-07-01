@@ -1,19 +1,14 @@
 @use "../../../styles/_variables";
 
 .c__header {
+  --border-bottom-width: 1px;
   display: flex;
   background-color: var(--c--contextuals--background--surface--secondary);
-  border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
+  border-bottom: var(--border-bottom-width) solid var(--c--contextuals--border--surface--primary);
   justify-content: space-between;
   align-items: center;
-  height: variables.$header-height;
-  min-height: variables.$header-height;
-  max-height: variables.$header-height;
-  padding: 0 1.125rem;
-
-  @media screen and (max-width: 1024px) {
-    padding: 0 1rem;
-  }
+  padding-inline: var(--c--globals--spacings--xs);
+  padding-block: var(--c--globals--spacings--3xs) calc(var(--c--globals--spacings--3xs) - var(--border-bottom-width));
 
   &__toggle-menu {
     display: none;

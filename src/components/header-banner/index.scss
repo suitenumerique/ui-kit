@@ -1,0 +1,59 @@
+.c__header-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--c--globals--spacings--4xs, 0.5rem);
+  width: 100%;
+  // Keep a consistent height whether or not actions (cta / close button) are
+  // present: the action controls are 24px tall, plus 2 * 4px of vertical padding.
+  min-height: 32px;
+  box-sizing: border-box;
+  padding-block: var(--c--globals--spacings--xxxs, 0.25rem);
+  padding-inline-start: var(--c--globals--spacings--sm, 0.75rem);
+  padding-inline-end: var(--c--globals--spacings--xxxs, 0.25rem);
+  border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
+
+  &__label {
+    // `flex-basis: 0` keeps the label from pushing the close button onto a new
+    // line when its text is long: the label grows to fill the first line and
+    // wraps internally instead.
+    flex: 1 1 0;
+    min-width: 0;
+    order: 1;
+    margin: 0;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    word-break: break-word;
+    align-self: center;
+  }
+
+  // The CTA stays inline before the close button at every size. On small
+  // viewports it collapses to its icon only (handled in the component) so a
+  // long label never has to wrap onto its own line.
+  &__cta {
+    display: flex;
+    flex-shrink: 0;
+    order: 2;
+  }
+
+  &__close {
+    flex-shrink: 0;
+    order: 3;
+  }
+
+  &--brand {
+    background-color: var(--c--contextuals--background--semantic--brand--primary);
+    color: var(--c--contextuals--content--semantic--brand--on-brand);
+  }
+
+  &--error {
+    background-color: var(--c--contextuals--background--semantic--error--primary);
+    color: var(--c--contextuals--content--semantic--error--on-error);
+  }
+
+  &--warning {
+    background-color: var(--c--contextuals--background--semantic--warning--primary);
+    color: var(--c--contextuals--content--semantic--warning--on-warning);
+  }
+}

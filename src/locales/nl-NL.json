@@ -170,6 +170,9 @@
         "download": "Downloaden",
         "print": "Afdrukken"
       }
+    },
+    "headerBanner": {
+      "close": "Sluit"
     }
   }
 }
