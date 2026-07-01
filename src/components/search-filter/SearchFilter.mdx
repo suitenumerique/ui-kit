@@ -1,0 +1,107 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as SearchFilterStories from "./search-filter.stories";
+
+<Meta of={SearchFilterStories} name="Docs" />
+
+# SearchFilter
+
+`SearchFilter` is a filter button that opens a popover combining a search input with a scrollable list of results. It is designed for the "filter by X" chips found in toolbars: the trigger shows the filter label, and once a value is picked it reads `Label : value` and switches to an active style.
+
+The component is **fully controlled**: it owns the popover and keyboard interactions, but you own the search string and the list of items. This means the actual filtering (or remote fetching, debouncing, pagination…) happens on your side — `SearchFilter` just renders what you pass through `items`.
+
+All labels (such as the "Reset" entry) are translated via Cunningham (`useCunningham`), so the component must live under a `CunninghamProvider`.
+
+## Usage
+
+```tsx
+import { SearchFilter } from "@gouvfr-lasuite/ui-kit";
+import { MenuItemBody } from "@gouvfr-lasuite/ui-kit";
+
+const [search, setSearch] = useState("");
+const [selected, setSelected] = useState<SearchFilterItem>();
+
+const filtered = items.filter((item) =>
+  item.label.toLowerCase().includes(search.toLowerCase()),
+);
+
+<SearchFilter
+  label="Category"
+  activeLabel={selected?.label}
+  searchValue={search}
+  onSearchChange={setSearch}
+  placeholder="Search..."
+  items={filtered}
+  renderItem={(item) => (
+    <div className="c__dropdown-menu-item">
+      <MenuItemBody label={item.label} />
+    </div>
+  )}
+  onItemSelect={setSelected}
+  selected={selected}
+/>;
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is imported once in your app.
+
+<Canvas of={SearchFilterStories.Basic} />
+
+## Behaviour
+
+- Clicking the trigger toggles the popover. When it opens, focus moves to the search input automatically.
+- Typing calls `onSearchChange`; you decide how (and whether) the results change. Nothing is filtered internally.
+- Selecting an item calls `onItemSelect(item)`, clears the search, and closes the popover. The trigger then shows `label : activeLabel` and gains the active style.
+- Keyboard: `ArrowDown` from the input moves focus into the results list, `Escape` closes the popover and returns focus to the trigger. The list itself is a fully accessible `ListBox` (react-aria).
+
+## Controlled state
+
+There are three independent pieces of controlled state, all optional except `onSearchChange`:
+
+- **Search** — `searchValue` / `onSearchChange`. Required wiring; drives the input.
+- **Selection** — `selected` / `onItemSelect`. Pass the currently selected item back as `selected` so the component can render the reset entry.
+- **Open state** — `isOpen` / `onOpenChange`. Omit both to let the component manage its own open/close.
+
+The active (highlighted) state of the trigger is derived from `activeLabel` by default, or you can force it with `isActive`.
+
+## Reset
+
+When `selected` is set and `showReset` is `true` (the default), a "Reset" entry is prepended to the popover. Clicking it calls `onItemSelect(undefined)`, letting the consumer clear the selection. Pass `showReset={false}` to hide it.
+
+## Loading and empty states
+
+While `isLoading` is `true`, a spinner replaces the list — useful for async/remote search. When the search resolves to no results, pass an `emptyState` node to show instead of an empty list.
+
+<Canvas of={SearchFilterStories.Loading} />
+
+<Canvas of={SearchFilterStories.Empty} />
+
+## Props
+
+<ArgTypes of={SearchFilterStories} />
+
+## UserSearchFilter
+
+`UserSearchFilter` is a thin wrapper around `SearchFilter` preconfigured to display people. It renders each row with a [UserAvatar](?path=/docs/components-useravatar--docs) and the user's `fullName`, and defaults the placeholder to "Search for a name", so you only provide the data.
+
+```tsx
+import { UserSearchFilter } from "@gouvfr-lasuite/ui-kit";
+
+<UserSearchFilter
+  label="Owner"
+  activeLabel={selected?.fullName}
+  searchValue={search}
+  onSearchChange={setSearch}
+  items={filteredUsers}
+  onItemSelect={setSelected}
+  selected={selected}
+/>;
+```
+
+Its items extend `SearchFilterItem` with a required `fullName` and an optional `email`. It accepts every `SearchFilter` prop except `renderItem`, which it supplies itself.
+
+<Canvas of={SearchFilterStories.UserSearch} />
+
+### Async user search
+
+A typical remote search debounces the input, shows the loading spinner while fetching, and renders an `emptyState` when nothing matches:
+
+<Canvas of={SearchFilterStories.ManyUsers} />

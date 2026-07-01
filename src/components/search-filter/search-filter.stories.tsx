@@ -4,9 +4,89 @@ import { CunninghamProvider } from ":/components/Provider/Provider";
 import { SearchFilter } from "./SearchFilter";
 import { UserSearchFilter } from "./UserSearchFilter";
 import { SearchFilterItem, UserSearchFilterItem } from "./types";
+import { MenuItemBody } from "../menu";
 
-const meta: Meta = {
+const meta: Meta<typeof SearchFilter> = {
   title: "Components/SearchFilter",
+  component: SearchFilter,
+  argTypes: {
+    label: {
+      description: "Text shown on the trigger button.",
+      table: { type: { summary: "string" } },
+    },
+    activeLabel: {
+      description:
+        "Selected value; renders as `label : activeLabel` and marks the " +
+        "trigger active.",
+      table: { type: { summary: "string" } },
+    },
+    isActive: {
+      description: "Force the active style independently of `activeLabel`.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "!!activeLabel" },
+      },
+    },
+    searchValue: {
+      description: "Controlled value of the search input.",
+      table: { type: { summary: "string" }, defaultValue: { summary: '""' } },
+    },
+    onSearchChange: {
+      description: "Called on every input change. Required.",
+      table: { type: { summary: "(value: string) => void" } },
+    },
+    placeholder: {
+      description: "Placeholder / accessible label for the search input.",
+      table: { type: { summary: "string" } },
+    },
+    items: {
+      description: "Items to render in the list (already filtered by you).",
+      control: false,
+      table: { type: { summary: "T[]" } },
+    },
+    renderItem: {
+      description: "Renders a single result row.",
+      control: false,
+      table: { type: { summary: "(item: T) => ReactNode" } },
+    },
+    onItemSelect: {
+      description: "Called with the picked item, or `undefined` when reset.",
+      table: { type: { summary: "(item?: T) => void" } },
+    },
+    selected: {
+      description: "Currently selected item; enables the reset entry.",
+      control: false,
+      table: { type: { summary: "T" } },
+    },
+    isLoading: {
+      description: "Shows a spinner instead of the list.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    emptyState: {
+      description: "Shown when `items` is empty and not loading.",
+      control: false,
+      table: { type: { summary: "ReactNode" } },
+    },
+    isOpen: {
+      description: "Controls the popover open state.",
+      table: { type: { summary: "boolean" } },
+    },
+    onOpenChange: {
+      description: "Called when the popover opens or closes.",
+      table: { type: { summary: "(isOpen: boolean) => void" } },
+    },
+    showReset: {
+      description:
+        "Whether to show the reset entry when an item is selected.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
+    },
+  },
   decorators: [
     (Story) => (
       <CunninghamProvider>
@@ -30,7 +110,7 @@ export const Basic: StoryObj = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [search, setSearch] = useState("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [selected, setSelected] = useState<string | undefined>();
+    const [selected, setSelected] = useState<SearchFilterItem>();
 
     const filtered = simpleItems.filter((item) =>
       item.label.toLowerCase().includes(search.toLowerCase()),
@@ -39,15 +119,20 @@ export const Basic: StoryObj = {
     return (
       <SearchFilter
         label="Category"
-        activeLabel={selected}
+        activeLabel={selected?.label}
         searchValue={search}
         onSearchChange={setSearch}
         placeholder="Search..."
         items={filtered}
-        renderItem={(item) => <span>{item.label}</span>}
+        renderItem={(item) => (
+          <div className="c__dropdown-menu-item">
+            <MenuItemBody label={item.label} />
+          </div>
+        )}
         onItemSelect={(item) => {
-          setSelected(item.label);
+          setSelected(item);
         }}
+        selected={selected}
       />
     );
   },
@@ -89,7 +174,7 @@ export const UserSearch: StoryObj = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [search, setSearch] = useState("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [selected, setSelected] = useState<string | undefined>();
+    const [selected, setSelected] = useState<UserSearchFilterItem>();
 
     const filtered = mockUsers.filter((user) =>
       user.fullName.toLowerCase().includes(search.toLowerCase()),
@@ -98,13 +183,14 @@ export const UserSearch: StoryObj = {
     return (
       <UserSearchFilter
         label="Owner"
-        activeLabel={selected}
+        activeLabel={selected?.fullName}
         searchValue={search}
         onSearchChange={setSearch}
         items={filtered}
         onItemSelect={(user) => {
-          setSelected(user.fullName);
+          setSelected(user);
         }}
+        selected={selected}
       />
     );
   },
@@ -132,7 +218,7 @@ export const ManyUsers: StoryObj = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [search, setSearch] = useState("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [selected, setSelected] = useState<string | undefined>();
+    const [selected, setSelected] = useState<UserSearchFilterItem>();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isLoading, setIsLoading] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -166,15 +252,16 @@ export const ManyUsers: StoryObj = {
     return (
       <UserSearchFilter
         label="Owner"
-        activeLabel={selected}
+        activeLabel={selected?.fullName}
         searchValue={search}
         onSearchChange={setSearch}
         items={results}
         isLoading={isLoading}
         emptyState="No users found"
         onItemSelect={(user) => {
-          setSelected(user.fullName);
+          setSelected(user);
         }}
+        selected={selected}
       />
     );
   },

@@ -2,13 +2,16 @@
 
 [UNRELEASED]
 
-### Patch CHanges
+### Patch Changes
 
 - 🐛(front) dismiss filter sub-panel on click outside, not hover out
 - ♻️(front) keep SmartScroller arrows mounted for smooth fades
 - ♻️(front) improve SmartScroller blurry gradient
 - 🐛(front) fix SmartScroller button background
 - 💄(front) refresh the mini file icons
+- ✨(front) add a reset row to Filter
+- ✨(front) add a reset row to SearchFilter
+- ♻️(front) use Icon components for menu item affordances
 
 ## 0.25.0
 

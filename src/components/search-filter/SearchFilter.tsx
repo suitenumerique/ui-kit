@@ -4,6 +4,10 @@ import clsx from "clsx";
 import { HorizontalSeparator } from ":/components/separator/HorizontalSeparator";
 import { Spinner } from ":/components/loader/Spinner";
 import { SearchFilterItem, SearchFilterProps } from "./types";
+import { MenuItemBody } from "../menu/MenuItemBody";
+import { Undo, Zoom } from ":/icons";
+import { IconSize } from "../icon";
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
   props: SearchFilterProps<T>,
@@ -22,8 +26,11 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
     emptyState,
     isOpen: controlledIsOpen,
     onOpenChange,
+    showReset = true,
+    selected,
   } = props;
 
+  const { t } = useCunningham();
   const id = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -101,10 +108,22 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         className="c__dropdown-menu c__search-filter__popover"
         style={{ marginTop: "0px" }}
       >
+        {showReset && selected && (
+          <>
+            <div
+              className="c__dropdown-menu-item"
+              onClick={() => onItemSelect?.(undefined)}
+            >
+              <MenuItemBody
+                icon={<Undo size={IconSize.SMALL} />}
+                label={t("components.searchFilter.reset")}
+              />
+            </div>
+            <HorizontalSeparator withPadding={false} />
+          </>
+        )}
         <div className="c__search-filter__search">
-          <span className="material-icons" aria-hidden="true">
-            search
-          </span>
+          <Zoom size={IconSize.SMALL} />
           <input
             ref={inputRef}
             type="text"
@@ -129,12 +148,20 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
           }}
         >
           {isLoading && (
-            <ListBoxItem id="__loading" className="c__search-filter__loading" textValue="Loading">
+            <ListBoxItem
+              id="__loading"
+              className="c__search-filter__loading"
+              textValue="Loading"
+            >
               <Spinner />
             </ListBoxItem>
           )}
           {!isLoading && items.length === 0 && emptyState && (
-            <ListBoxItem id="__empty" className="c__search-filter__empty" textValue="Empty">
+            <ListBoxItem
+              id="__empty"
+              className="c__search-filter__empty"
+              textValue="Empty"
+            >
               {emptyState}
             </ListBoxItem>
           )}

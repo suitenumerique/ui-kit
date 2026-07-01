@@ -8,13 +8,8 @@
     display: flex;
     align-items: center;
     gap: var(--c--globals--spacings--xxs, 6px);
-    min-height: 40px;
-    padding: var(--c--globals--spacings--xxs, 6px) var(--c--globals--spacings--xs, 8px);
-
-    .material-icons {
-      font-size: 24px;
-      color: var(--c--contextuals--content--semantic--neutral--tertiary);
-    }
+    height: 36px;
+    padding: 0 var(--c--globals--spacings--xs, 8px);
 
     input {
       flex: 1;
@@ -38,24 +33,13 @@
   }
 
   &__item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 8px 16px;
-    min-height: 40px;
+    min-height: 32px;
     cursor: pointer;
     font-size: var(--c--globals--font--sizes--sm, 0.875rem);
     font-weight: 500;
     color: var(--c--contextuals--content--semantic--neutral--primary);
     box-sizing: border-box;
     outline: none;
-
-    &:hover,
-    &:focus-visible {
-      background: var(
-        --c--contextuals--background--semantic--contextual--primary
-      );
-    }
   }
 
   &__user-row {
@@ -69,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 8px;
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
     font-size: var(--c--globals--font--sizes--sm, 0.875rem);
   }
