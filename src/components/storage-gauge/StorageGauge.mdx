@@ -1,0 +1,50 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as StorageGaugeBarStories from "./storage-gauge-bar/storage-gauge-bar.stories";
+import * as StorageGaugeButtonStories from "./storage-gauge-button/storage-gauge.stories";
+import * as StorageGaugeInformationStories from "./storage-gauge-information/storage-gauge-information.stories";
+
+<Meta title="Components/StorageGauge/Docs" />
+
+# StorageGauge
+
+**StorageGauge** is a small family of components for showing how much of a
+storage quota is consumed. They all share the same core idea — a `used / total`
+value rendered as a horizontal bar whose color shifts as the quota fills — but
+differ in how much surrounding chrome they provide, so you can pick the density
+that fits the space you have.
+
+The label-bearing variants use Cunningham's `useCunningham` for locale-aware
+number formatting and translated labels, so they must live under a
+`CunninghamProvider`. Styles ship in `@gouvfr-lasuite/ui-kit/style` — import it
+once in your app.
+
+### StorageGaugeBar
+
+The bare track and fill — no label, no wrapper. Drop it wherever a plain bar is
+enough, or compose your own UI around it. → [Read the docs](?path=/docs/components-storagegauge-bar--docs)
+
+<Canvas of={StorageGaugeBarStories.Default} />
+
+### StorageGaugeButton
+
+A compact, clickable row: the bar plus a `used / total unit` label, rendered as a
+`<button>` that forwards native button props (`onClick`, `disabled`, …). → [Read the docs](?path=/docs/components-storagegauge-button--docs)
+
+<Canvas of={StorageGaugeButtonStories.Default} />
+
+### StorageGaugeInformation
+
+The expanded, panel-style variant: a header with a title, the usage label, and an
+optional "more info" action, laid out above a full-width bar. Supports `title`,
+`titleChildren`, `label`, and `labelChildren` for customization. → [Read the docs](?path=/docs/components-storagegauge-information--docs)
+
+<Canvas of={StorageGaugeInformationStories.Default} />
+
+## Choosing a variant
+
+- Need just a progress bar, or building a bespoke layout? Reach for
+  **`StorageGaugeBar`**.
+- Want a one-line, clickable quota entry in a sidebar or footer? Use
+  **`StorageGaugeButton`**.
+- Have room to show the quota with a heading and a "more info" link (e.g. a
+  settings page)? Use **`StorageGaugeInformation`**.

@@ -9,7 +9,6 @@
       "shareButton": "Share",
       "modalTitle": "Share folder",
       "modalAriaLabel": "Share modal",
-      
       "access": {
         "delete": "Remove access"
       },
@@ -170,6 +169,13 @@
       "actions": {
         "download": "Download",
         "print": "Print"
+      }
+    },
+    "storage-gauge": {
+      "information": {
+        "title": "Used Storage",
+        "usage": "{used} of {total} {unit} used",
+        "more-info": "More info"
       }
     }
   }

@@ -1,0 +1,100 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as StorageGaugeInformationStories from "./storage-gauge-information.stories";
+
+<Meta of={StorageGaugeInformationStories} name="Docs" />
+
+# StorageGaugeInformation
+
+`StorageGaugeInformation` is the expanded, panel-style variant of the storage
+gauge. Where [`StorageGaugeButton`](?path=/docs/components-storagegauge-button--docs)
+is a single compact row, this component lays out a **header** (a title and the
+`used / total` usage label, with an optional "more info" action) above a
+full-width [`StorageGaugeBar`](?path=/docs/components-storagegauge-bar--docs). It
+is meant for settings pages, account panels, or anywhere you have room to show
+the quota with more context.
+
+Unlike the button, it is a plain `<div>` (not clickable as a whole); interaction
+is opt-in through the "more info" button. It uses Cunningham's `useCunningham`
+for both the default labels and locale-aware number formatting, so it must live
+under a `CunninghamProvider`.
+
+## Usage
+
+```tsx
+import { StorageGaugeInformation } from "@gouvfr-lasuite/ui-kit";
+
+<StorageGaugeInformation
+  used={1.83}
+  total={10}
+  unit="Go"
+  onMoreInfoClick={() => openStoragePanel()}
+/>;
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is
+imported once in your app. Give the component a bounded width so the bar and
+header lay out correctly.
+
+<Canvas of={StorageGaugeInformationStories.Default} />
+
+## Props
+
+<ArgTypes of={StorageGaugeInformationStories} />
+
+The `used`/`total`/`unit`/`precision` props behave exactly as on the other
+variants (the percentage is `min((used / total) * 100, 100)`, `total === 0`
+renders empty). On top of those, this component adds:
+
+- **`title`** — override the default heading (falls back to the translated
+  "Storage" title).
+- **`titleChildren`** — extra nodes rendered right after the title (e.g. a badge).
+- **`label`** — override the default `used / total unit` usage text.
+- **`labelChildren`** — extra nodes rendered after the usage label (e.g. an info
+  button with a tooltip).
+- **`onMoreInfoClick`** — when provided, renders a "more info" action button in
+  the header.
+- **`locked` / `lockedContent`** — see the locked state below.
+
+## Header customization
+
+Provide `title` to replace the heading, and `titleChildren` to append content
+after it:
+
+<Canvas of={StorageGaugeInformationStories.CustomTitle} />
+
+`labelChildren` slots content after the usage label — for instance a small info
+button with a tooltip:
+
+<Canvas of={StorageGaugeInformationStories.CustomLabelChildren} />
+
+## More info action
+
+Pass `onMoreInfoClick` to render the "more info" button in the top-right of the
+header. Omit it to hide the button entirely:
+
+<Canvas of={StorageGaugeInformationStories.WithoutMoreInfo} />
+
+## Color thresholds
+
+Like the other variants, the bar color reflects usage: neutral below 80%,
+warning from 80%, and error at 100%.
+
+<Canvas of={StorageGaugeInformationStories.AlmostFull} />
+<Canvas of={StorageGaugeInformationStories.Full} />
+
+## Empty state
+
+`used={0}` renders an empty bar with the neutral color.
+
+<Canvas of={StorageGaugeInformationStories.Empty} />
+
+## Locked state
+
+When the quota cannot be displayed, pass `locked`. The bar renders empty and, by
+default, a warning icon replaces the usage content.
+
+<Canvas of={StorageGaugeInformationStories.Locked} />
+
+Provide `lockedContent` to replace the default icon with your own message:
+
+<Canvas of={StorageGaugeInformationStories.LockedCustomContent} />
