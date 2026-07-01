@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Filter, FilterOption } from "./Filter";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Key } from "react-aria-components";
 import { Button, CalendarRange } from "@gouvfr-lasuite/cunningham-react";
 import { DateValue } from "@internationalized/date";
@@ -338,18 +338,26 @@ export const UpdatedWithDateRange: Story = {
       setRange(null);
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const pendingRangeRef = useRef<DateRangeValue | null>(null);
+
     const options: FilterOption[] = [
       { label: "Today", value: "today" },
       { label: "Yesterday", value: "yesterday" },
       { label: "Last week", value: "lastWeek", showSeparator: true },
       {
-        label: range ? formatRange(range) : "Custom",
+        label: range && selected === "custom" ? formatRange(range) : "Custom",
         value: "custom",
         subContent: ({ select, close }) => (
           <CalendarRange
-            value={range}
-            onChange={setRange}
+            onChange={(range) => {
+              pendingRangeRef.current = range;
+            }}
             onOk={() => {
+              const picked = pendingRangeRef.current;
+              if (picked) {
+                setRange(picked);
+              }
               select();
               close();
             }}
