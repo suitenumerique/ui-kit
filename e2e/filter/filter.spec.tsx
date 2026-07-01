@@ -32,10 +32,11 @@ test.describe("Filter", () => {
 
   test("shows a checkmark on the selected option", async ({ page }) => {
     const trigger = page.getByRole("button", { name: /Updated/ });
+    const check = page.locator(".c__dropdown-menu-item__check");
     await trigger.click();
 
     // Nothing selected yet → no checkmark anywhere.
-    await expect(page.getByText("check", { exact: true })).toHaveCount(0);
+    await expect(check).toHaveCount(0);
 
     await page.getByRole("option", { name: "Today" }).click();
 
@@ -43,10 +44,12 @@ test.describe("Filter", () => {
     await trigger.click();
     const selected = page.getByRole("option", { name: "Today", selected: true });
     await expect(selected).toBeVisible();
-    await expect(selected.getByText("check", { exact: true })).toBeVisible();
+    await expect(
+      selected.locator(".c__dropdown-menu-item__check"),
+    ).toBeVisible();
 
     // The checkmark is exclusive to the selected option.
-    await expect(page.getByText("check", { exact: true })).toHaveCount(1);
+    await expect(check).toHaveCount(1);
   });
 
   test("the Custom option shows a chevron affordance that normal options lack", async ({
@@ -55,11 +58,15 @@ test.describe("Filter", () => {
     await page.getByRole("button", { name: /Updated/ }).click();
 
     await expect(
-      page.getByRole("option", { name: "Custom" }),
-    ).toHaveAccessibleName(/chevron_right/);
+      page
+        .getByRole("option", { name: "Custom" })
+        .locator(".c__dropdown-menu-item__chevron"),
+    ).toBeVisible();
     await expect(
-      page.getByRole("option", { name: "Today" }),
-    ).toHaveAccessibleName("Today");
+      page
+        .getByRole("option", { name: "Today" })
+        .locator(".c__dropdown-menu-item__chevron"),
+    ).toHaveCount(0);
   });
 
   // --- Sub-element (CalendarRange) feature -----------------------------------

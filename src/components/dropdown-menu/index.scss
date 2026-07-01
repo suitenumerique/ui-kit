@@ -9,6 +9,10 @@
   outline: none;
 }
 
+.react-aria-ListBox {
+  outline: none;
+}
+
 .c__dropdown-menu {
   background-color: var(--c--contextuals--background--surface--primary);
   z-index: 1000;
@@ -19,7 +23,7 @@
   min-width: 150px;
   box-sizing: border-box;
   outline: none;
-  border-radius: var(--c--globals--spacings--3xs, 4px);
+  border-radius: 8px;
   border: 1px solid var(--c--contextuals--border--surface--primary);
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 145, 0.1);
 
@@ -42,10 +46,9 @@
 
 .c__dropdown-menu-item {
   display: flex;
-  gap: var(--c--globals--spacings--base, 16px);
-  padding: 8px 16px;
+  gap: 8px;
+  padding: 8px 8px;
   border-bottom: 1px solid transparent;
-  padding-right: 24px;
 
   outline: none;
   cursor: pointer;
@@ -60,8 +63,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
   }
 
@@ -114,15 +115,6 @@
     .c__dropdown-menu-item__label-subtext {
       color: var(--c--contextuals--content--semantic--disabled--primary);
     }
-  }
-
-  .material-icons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    font-size: 20px;
   }
 
   .checked {

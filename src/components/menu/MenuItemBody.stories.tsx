@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { ReactNode } from "react";
 import { MenuItemBody } from "./MenuItemBody";
+import { Icon, IconSize } from "../icon";
 
 /**
  * `MenuItemBody` is the presentational inner content shared by every menu row:
@@ -62,13 +63,15 @@ const MenuRow = ({
   danger?: boolean;
 }) => (
   <div
-    className={`c__dropdown-menu-item${danger ? " c__dropdown-menu-item--danger" : ""}`}
+    className={`c__dropdown-menu-item${
+      danger ? " c__dropdown-menu-item--danger" : ""
+    }`}
   >
     {children}
   </div>
 );
 
-const icon = (name: string) => <span className="material-icons">{name}</span>;
+const icon = (name: string) => <Icon name={name} size={IconSize.SMALL} />;
 
 export const Default: Story = {
   args: {
@@ -159,7 +162,11 @@ export const Gallery: Story = {
         <MenuItemBody icon={icon("visibility")} label="Viewer" isChecked />
       </MenuRow>
       <MenuRow>
-        <MenuItemBody icon={icon("drive_file_move")} label="Move to" hasSubmenu />
+        <MenuItemBody
+          icon={icon("drive_file_move")}
+          label="Move to"
+          hasSubmenu
+        />
       </MenuRow>
       <MenuRow>
         <MenuItemBody label="Rename" />

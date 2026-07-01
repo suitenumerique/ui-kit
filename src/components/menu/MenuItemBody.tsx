@@ -1,4 +1,6 @@
+import { Checkmark2, ChevronRight } from ":/icons";
 import { ReactNode } from "react";
+import { IconSize } from "../icon";
 
 export type MenuItemBodyProps = {
   icon?: ReactNode;
@@ -32,11 +34,15 @@ export const MenuItemBody = ({
       )}
     </div>
     {hasSubmenu ? (
-      <span className="material-icons c__dropdown-menu-item__chevron">
-        chevron_right
-      </span>
+      <ChevronRight
+        size={IconSize.SMALL}
+        className="c__dropdown-menu-item__chevron"
+      />
     ) : isChecked ? (
-      <span className="material-icons checked">check</span>
+      <Checkmark2
+        size={IconSize.SMALL}
+        className="c__dropdown-menu-item__check"
+      />
     ) : null}
   </>
 );
