@@ -170,6 +170,13 @@
         "download": "Descargar",
         "print": "Imprimir"
       }
+    },
+    "storage-gauge": {
+      "information": {
+        "title": "Almacenamiento",
+        "usage": "{used} / {total} {unit}",
+        "more-info": "Más información"
+      }
     }
   }
 }

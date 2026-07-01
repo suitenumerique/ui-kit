@@ -170,6 +170,13 @@
         "download": "Downloaden",
         "print": "Afdrukken"
       }
+    },
+    "storage-gauge": {
+      "information": {
+        "title": "Opslag",
+        "usage": "{used} / {total} {unit}",
+        "more-info": "Meer informatie"
+      }
     }
   }
 }

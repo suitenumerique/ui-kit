@@ -170,6 +170,13 @@
         "download": "Herunterladen",
         "print": "Drucken"
       }
+    },
+    "storage-gauge": {
+      "information": {
+        "title": "Speicher",
+        "usage": "{used} / {total} {unit}",
+        "more-info": "Mehr Informationen"
+      }
     }
   }
 }
