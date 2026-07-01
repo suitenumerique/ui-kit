@@ -1,0 +1,98 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as StorageGaugeButtonStories from "./storage-gauge.stories";
+
+<Meta of={StorageGaugeButtonStories} name="Docs" />
+
+# StorageGaugeButton
+
+`StorageGaugeButton` is a compact, clickable indicator that shows how much of a
+storage quota is consumed. It renders a thin progress bar next to a
+`used / total unit` label (e.g. `1.83 / 10 Go`) and is typically placed in a
+sidebar or layout footer, where clicking it opens an upgrade / manage-storage
+screen.
+
+The component is rendered as a `<button>`, so it accepts every standard button
+attribute (`onClick`, `disabled`, `aria-label`, …) on top of its own props. It
+relies on Cunningham's `useCunningham` for locale-aware number formatting, so it
+must live under a `CunninghamProvider`.
+
+## Usage
+
+```tsx
+import { StorageGaugeButton } from "@gouvfr-lasuite/ui-kit";
+
+<StorageGaugeButton
+  used={1.83}
+  total={10}
+  unit="Go"
+  onClick={openStoragePanel}
+/>;
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is
+imported once in your app. The gauge fills the width of its container — give it a
+bounded width (or place it in a width-constrained parent) so the bar has room to
+render.
+
+<Canvas of={StorageGaugeButtonStories.Animated} />
+
+## Props
+
+`StorageGaugeProps` extends `ButtonHTMLAttributes<HTMLButtonElement>` (minus
+`children`), so any native button prop is forwarded to the underlying element.
+
+<ArgTypes of={StorageGaugeButtonStories} />
+
+The percentage is derived as `min((used / total) * 100, 100)`. `used` may exceed
+`total` (the bar simply caps at 100%), and when `total` is `0` the gauge renders
+empty rather than dividing by zero. Values are formatted with the active locale;
+`total` keeps no decimals when it is a whole number, while `used` honours
+`precision` (default `2`).
+
+## Color thresholds
+
+The bar fill changes color with usage so a near-full quota stands out at a
+glance:
+
+- **Below 80%** — neutral, the calm "plenty of room" state.
+- **80% to 99%** — warning, a heads-up that space is running low.
+- **100%** — error, the quota is full.
+
+<Canvas of={StorageGaugeButtonStories.Default} />
+<Canvas of={StorageGaugeButtonStories.AlmostFull} />
+<Canvas of={StorageGaugeButtonStories.Full} />
+
+The `Animated` story loops the gauge from 0% to 100% over five seconds so you can
+watch it cross each threshold:
+
+<Canvas of={StorageGaugeButtonStories.Animated} />
+
+## Empty and full states
+
+`used={0}` shows an empty bar, while `used >= total` fills it completely and
+switches to the error color.
+
+<Canvas of={StorageGaugeButtonStories.Empty} />
+<Canvas of={StorageGaugeButtonStories.Full} />
+
+## Compact mode
+
+Set `compact` to hide the bar and keep only the `used / total` label — useful in
+tight spaces such as a collapsed sidebar or a dense toolbar.
+
+<Canvas of={StorageGaugeButtonStories.Compact} />
+<Canvas of={StorageGaugeButtonStories.AlmostFullCompact} />
+
+## Locked state
+
+When the quota cannot be displayed — for example an organization whose storage is
+managed elsewhere, or a plan whose limit has been exceeded — pass `locked`. The
+gauge drops the bar and label, draws a bordered container, and shows a default
+warning icon.
+
+<Canvas of={StorageGaugeButtonStories.Locked} />
+
+Provide `lockedContent` to replace the default icon with your own message (icon +
+text, a link, etc.).
+
+<Canvas of={StorageGaugeButtonStories.LockedCustomContent} />

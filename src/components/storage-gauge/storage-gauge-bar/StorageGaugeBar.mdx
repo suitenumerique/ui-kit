@@ -1,0 +1,63 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as StorageGaugeBarStories from "./storage-gauge-bar.stories";
+
+<Meta of={StorageGaugeBarStories} name="Docs" />
+
+# StorageGaugeBar
+
+`StorageGaugeBar` is the bare progress bar used inside
+[`StorageGauge`](?path=/docs/components-storagegauge--docs). It renders just the
+track and its fill — no label, no button wrapper — so you can drop a quota
+indicator wherever a plain bar is enough, or compose your own layout around it.
+
+## Usage
+
+```tsx
+import { StorageGaugeBar } from "@gouvfr-lasuite/ui-kit";
+
+<div style={{ display: "flex", width: "300px" }}>
+  <StorageGaugeBar used={1.83} total={10} />
+</div>;
+```
+
+The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is
+imported once in your app. The bar grows to fill its parent (`flex: 1 0 0`), so
+place it inside a **flex** container with a bounded width — otherwise it has no
+room to render.
+
+<Canvas of={StorageGaugeBarStories.Default} />
+
+## Props
+
+<ArgTypes of={StorageGaugeBarStories} />
+
+The fill width is derived as `min((used / total) * 100, 100)`. `used` may exceed
+`total` (the bar caps at 100%), and when `total` is `0` the bar renders empty
+rather than dividing by zero.
+
+## Color thresholds
+
+The fill color changes with usage so a near-full quota stands out at a glance:
+
+- **Below 80%** — neutral, the calm "plenty of room" state.
+- **80% to 99%** — warning, a heads-up that space is running low.
+- **100%** — error, the quota is full.
+
+<Canvas of={StorageGaugeBarStories.Default} />
+<Canvas of={StorageGaugeBarStories.Warning} />
+<Canvas of={StorageGaugeBarStories.Full} />
+
+## Empty and overfilled
+
+`used={0}` shows an empty bar, while a `used` greater than `total` simply caps
+the fill at 100% and stays in the error color.
+
+<Canvas of={StorageGaugeBarStories.Empty} />
+<Canvas of={StorageGaugeBarStories.Overfilled} />
+
+## Animated
+
+The `Animated` story loops the bar from 0% to 100% over five seconds so you can
+watch it cross each threshold:
+
+<Canvas of={StorageGaugeBarStories.Animated} />
