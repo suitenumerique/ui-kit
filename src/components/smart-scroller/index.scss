@@ -4,7 +4,7 @@
 // side(s) where hidden content exists.
 
 $arrow-size: 28px;
-$fade-width: 48px;
+$fade-width: 64px;
 
 .c__smart-scroller {
   position: relative;
@@ -45,22 +45,37 @@ $fade-width: 48px;
     pointer-events: none;
     backdrop-filter: blur(1px);
 
+    // Hidden until there is content to reveal on this side; fades in/out.
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
+    &--visible {
+      opacity: 1;
+    }
+
     &--left {
       left: 0;
       background: linear-gradient(
         to right,
-        var(--c--contextuals--background--surface--primary) 75%,
-        transparent 100%
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0) 100%
       );
+
+      mask-image: linear-gradient(to right, black 50%, transparent 100%);
     }
 
     &--right {
       right: 0;
       background: linear-gradient(
         to left,
-        var(--c--contextuals--background--surface--primary) 75%,
-        transparent 100%
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0) 100%
       );
+      mask-image: linear-gradient(to left, black 50%, transparent 100%);
     }
   }
 
@@ -74,7 +89,33 @@ $fade-width: 48px;
     border-radius: 8px;
     border-color: var(--c--contextuals--border--surface--primary);
 
+    // By default the neutral bordered button has a partially transparent background,
+      // that would not work properly for this component. We need to use a solid background.
     background-color: var(--c--contextuals--background--surface--primary);
+
+    // Hidden until there is content to reveal on this side; fades in/out.
+    // pointer-events are disabled while hidden so it never blocks the content
+    // underneath.
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
+    &--visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--c--contextuals--background--semantic--neutral--secondary),
+        white 70%
+      );
+    }
 
     &--left {
       left: var(--c--globals--spacings--3xs);

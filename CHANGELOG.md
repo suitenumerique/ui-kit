@@ -5,7 +5,9 @@
 ### Patch CHanges
 
 - 🐛(front) dismiss filter sub-panel on click outside, not hover out
-- 
+- ♻️(front) keep SmartScroller arrows mounted for smooth fades
+- ♻️(front) improve SmartScroller blurry gradient
+- 🐛(front) fix SmartScroller button background
 
 ## 0.25.0
 
@@ -45,7 +47,7 @@
 
 ### Major Changes
 
-- 💥(frontend) add dedicated icons entrypoint 
+- 💥(frontend) add dedicated icons entrypoint
 
 ### Patch Changes
 

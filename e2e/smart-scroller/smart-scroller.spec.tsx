@@ -12,6 +12,18 @@ const rightArrowOf = (page: Page) =>
 const leftArrowOf = (page: Page) =>
   page.locator(".c__smart-scroller__arrow--left");
 
+// The arrows stay mounted and fade via opacity (for smooth transitions), so
+// shown/hidden is asserted on the computed style rather than on DOM presence.
+// While hidden they must also be click-through so they never block content.
+const expectArrowShown = async (arrow: Locator) => {
+  await expect(arrow).toHaveCSS("opacity", "1");
+  await expect(arrow).toHaveCSS("pointer-events", "auto");
+};
+const expectArrowHidden = async (arrow: Locator) => {
+  await expect(arrow).toHaveCSS("opacity", "0");
+  await expect(arrow).toHaveCSS("pointer-events", "none");
+};
+
 // Read a numeric geometry property off the scrollable viewport.
 const geom = (
   viewport: Locator,
@@ -33,12 +45,12 @@ const settledScrollLeft = async (viewport: Locator) => {
 };
 
 test.describe("SmartScroller", () => {
-  test("renders no arrows when content fits", async ({ mount, page }) => {
+  test("shows no arrows when content fits", async ({ mount, page }) => {
     await mount(<TestSmartScroller itemCount={2} />);
     await expect(viewportOf(page)).toBeVisible();
 
-    await expect(rightArrowOf(page)).toHaveCount(0);
-    await expect(leftArrowOf(page)).toHaveCount(0);
+    await expectArrowHidden(rightArrowOf(page));
+    await expectArrowHidden(leftArrowOf(page));
   });
 
   test("shows only the right arrow when content overflows at the start", async ({
@@ -47,8 +59,8 @@ test.describe("SmartScroller", () => {
   }) => {
     await mount(<TestSmartScroller itemCount={15} />);
 
-    await expect(rightArrowOf(page)).toBeVisible();
-    await expect(leftArrowOf(page)).toHaveCount(0);
+    await expectArrowShown(rightArrowOf(page));
+    await expectArrowHidden(leftArrowOf(page));
     expect(await geom(viewportOf(page), "scrollLeft")).toBe(0);
   });
 
@@ -59,7 +71,7 @@ test.describe("SmartScroller", () => {
     await mount(<TestSmartScroller itemCount={15} />);
 
     // The visible arrow is aria-hidden, so it is absent from the a11y tree...
-    await expect(rightArrowOf(page)).toBeVisible();
+    await expectArrowShown(rightArrowOf(page));
     await expect(rightArrowOf(page)).toHaveAttribute("aria-hidden", "true");
     await expect(
       page.getByRole("button", { name: "Scroll right" }),
@@ -88,7 +100,7 @@ test.describe("SmartScroller", () => {
 
     await rightArrowOf(page).click();
 
-    await expect(leftArrowOf(page)).toBeVisible();
+    await expectArrowShown(leftArrowOf(page));
   });
 
   test("clicking the left arrow scrolls back toward the start", async ({
@@ -118,8 +130,8 @@ test.describe("SmartScroller", () => {
       el.scrollLeft = el.scrollWidth;
     });
 
-    await expect(rightArrowOf(page)).toHaveCount(0);
-    await expect(leftArrowOf(page)).toBeVisible();
+    await expectArrowHidden(rightArrowOf(page));
+    await expectArrowShown(leftArrowOf(page));
   });
 
   test("scrollRatio of 1 scrolls a full viewport width", async ({
@@ -142,18 +154,18 @@ test.describe("SmartScroller", () => {
   }) => {
     // 3 items (~360px) fit the 480px frame: no arrows.
     await mount(<TestSmartScroller itemCount={3} />);
-    await expect(rightArrowOf(page)).toHaveCount(0);
+    await expectArrowHidden(rightArrowOf(page));
 
     // Shrinking the frame makes the same content overflow -> right arrow shows.
     await page.getByTestId("frame").evaluate((el) => {
       (el as HTMLElement).style.width = "200px";
     });
-    await expect(rightArrowOf(page)).toBeVisible();
+    await expectArrowShown(rightArrowOf(page));
 
     // Growing it back past the content width hides the arrow again.
     await page.getByTestId("frame").evaluate((el) => {
       (el as HTMLElement).style.width = "480px";
     });
-    await expect(rightArrowOf(page)).toHaveCount(0);
+    await expectArrowHidden(rightArrowOf(page));
   });
 });
