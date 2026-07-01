@@ -2,6 +2,8 @@
 
 [UNRELEASED]
 
+## 0.25.0
+
 ### Minor Changes
 
 - 🐛(tree-view) remove pointer-events rules breaking drag-and-drop #215
