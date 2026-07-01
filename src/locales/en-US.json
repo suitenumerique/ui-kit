@@ -3,13 +3,16 @@
     "menu": {
       "newWindowLabelSuffix": " (new window)"
     },
+    "searchFilter": {
+      "reset": "Reset"
+    },
     "share": {
       "copyLink": "Copy link",
       "ok": "OK",
       "shareButton": "Share",
       "modalTitle": "Share folder",
       "modalAriaLabel": "Share modal",
-      
+
       "access": {
         "delete": "Remove access"
       },
