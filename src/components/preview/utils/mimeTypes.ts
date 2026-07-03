@@ -1,5 +1,7 @@
 import mimeCalc from ":/assets/files/icons/mime-calc.svg";
+// Both are the same icon, but we keep both for now until the v2 of icons.
 import mimeDoc from ":/assets/files/icons/mime-doc.svg";
+import mimeDocs from ":/assets/files/icons/mime-doc.svg";
 import mimeImage from ":/assets/files/icons/mime-image.svg";
 import mimeOther from ":/assets/files/icons/mime-other.svg";
 import mimePdf from ":/assets/files/icons/mime-pdf.svg";
@@ -11,7 +13,9 @@ import mimeGrist from ":/assets/files/icons/mime-grist.svg";
 
 import mimeCalcMini from ":/assets/files/icons/mime-calc-mini.svg";
 import mimeDocMini from ":/assets/files/icons/mime-doc-mini.svg";
+import mimeDocsMini from ":/assets/files/icons/mime-docs-mini.svg";
 import mimeImageMini from ":/assets/files/icons/mime-image-mini.svg";
+import mimeOtherMini from ":/assets/files/icons/mime-other-mini.svg";
 import mimePdfMini from ":/assets/files/icons/mime-pdf-mini.svg";
 import mimePowerpointMini from ":/assets/files/icons/mime-powerpoint-mini.svg";
 import mimeAudioMini from ":/assets/files/icons/mime-audio-mini.svg";
@@ -25,6 +29,7 @@ import mimeArchive from ":/assets/files/icons/mime-archive.svg";
 import { getExtensionFromName } from "./getExtensionFromName";
 
 export enum MimeCategory {
+  DOCS = "docs",
   CALC = "calc",
   DOC = "doc",
   IMAGE = "image",
@@ -41,10 +46,11 @@ export enum MimeCategory {
 
 export const ICONS = {
   mini: {
+    [MimeCategory.DOCS]: mimeDocsMini,
     [MimeCategory.CALC]: mimeCalcMini,
     [MimeCategory.DOC]: mimeDocMini,
     [MimeCategory.IMAGE]: mimeImageMini,
-    [MimeCategory.OTHER]: mimeOther,
+    [MimeCategory.OTHER]: mimeOtherMini,
     [MimeCategory.PDF]: mimePdfMini,
     [MimeCategory.POWERPOINT]: mimePowerpointMini,
     [MimeCategory.AUDIO]: mimeAudioMini,
@@ -55,6 +61,7 @@ export const ICONS = {
     [MimeCategory.GRIST]: mimeGristMini,
   },
   normal: {
+    [MimeCategory.DOCS]: mimeDocs,
     [MimeCategory.CALC]: mimeCalc,
     [MimeCategory.DOC]: mimeDoc,
     [MimeCategory.IMAGE]: mimeImage,
@@ -71,6 +78,7 @@ export const ICONS = {
 };
 
 export const MIME_MAP = {
+  [MimeCategory.DOCS]: ["lasuite/docs"],
   [MimeCategory.CALC]: [
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/vnd.oasis.opendocument.spreadsheet",
@@ -93,10 +101,7 @@ export const MIME_MAP = {
     "application/x-rar",
     "application/octet-stream",
   ],
-  [MimeCategory.SQLITE]: [
-    "application/x-sqlite3",
-    "application/vnd.sqlite3",
-  ],
+  [MimeCategory.SQLITE]: ["application/x-sqlite3", "application/vnd.sqlite3"],
 };
 
 export const MIME_TO_CATEGORY: Record<string, MimeCategory> = {};
@@ -109,23 +114,88 @@ Object.entries(MIME_MAP).forEach(([category, mimes]) => {
 export const CALC_EXTENSIONS = ["numbers", "xlsx", "xls"];
 
 export const KNOWN_EXTENSIONS = new Set([
-  "doc", "docx", "docm", "odt", "rtf", "txt", "pdf",
-  "xls", "xlsx", "xlsm", "ods", "csv", "numbers",
-  "ppt", "pptx", "pptm", "odp",
-  "jpg", "jpeg", "png", "gif", "bmp", "svg", "webp", "ico",
-  "tiff", "tif", "heic", "heif",
-  "mp3", "wav", "flac", "aac", "ogg", "oga", "wma", "m4a",
-  "mp4", "avi", "mov", "wmv", "flv", "webm", "mkv", "m4v", "3gp",
-  "zip", "rar", "7z", "tar", "gz", "bz2", "xz",
-  "db", "sqlite", "sqlite3", "grist",
-  "html", "htm", "xml", "json", "js", "ts", "css", "scss",
-  "py", "java", "cpp", "c", "h", "php", "rb", "go", "rs",
-  "md", "yaml", "yml",
+  "doc",
+  "docx",
+  "docm",
+  "odt",
+  "rtf",
+  "txt",
+  "pdf",
+  "xls",
+  "xlsx",
+  "xlsm",
+  "ods",
+  "csv",
+  "numbers",
+  "ppt",
+  "pptx",
+  "pptm",
+  "odp",
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "bmp",
+  "svg",
+  "webp",
+  "ico",
+  "tiff",
+  "tif",
+  "heic",
+  "heif",
+  "mp3",
+  "wav",
+  "flac",
+  "aac",
+  "ogg",
+  "oga",
+  "wma",
+  "m4a",
+  "mp4",
+  "avi",
+  "mov",
+  "wmv",
+  "flv",
+  "webm",
+  "mkv",
+  "m4v",
+  "3gp",
+  "zip",
+  "rar",
+  "7z",
+  "tar",
+  "gz",
+  "bz2",
+  "xz",
+  "db",
+  "sqlite",
+  "sqlite3",
+  "grist",
+  "html",
+  "htm",
+  "xml",
+  "json",
+  "js",
+  "ts",
+  "css",
+  "scss",
+  "py",
+  "java",
+  "cpp",
+  "c",
+  "h",
+  "php",
+  "rb",
+  "go",
+  "rs",
+  "md",
+  "yaml",
+  "yml",
 ]);
 
 export const getMimeCategory = (
   mimetype: string,
-  extension?: string | null
+  extension?: string | null,
 ): MimeCategory => {
   // Some calc files have a archive mime type, but are actually calc files.
   if (extension && CALC_EXTENSIONS.includes(extension)) {

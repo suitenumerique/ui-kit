@@ -106,6 +106,14 @@ const SAMPLES: Array<{ category: MimeCategory; file: FilePreviewType }> = [
     file: fixture("pdf", "report.pdf", "application/pdf"),
   },
   {
+    category: MimeCategory.DOCS,
+    file: fixture(
+      "docs",
+      "letter.docs",
+      "lasuite/docs",
+    ),
+  },
+  {
     category: MimeCategory.DOC,
     file: fixture(
       "doc",
