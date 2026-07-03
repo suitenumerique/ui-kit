@@ -8,6 +8,7 @@
 - ♻️(front) keep SmartScroller arrows mounted for smooth fades
 - ♻️(front) improve SmartScroller blurry gradient
 - 🐛(front) fix SmartScroller button background
+- 💄(front) refresh the mini file icons
 
 ## 0.25.0
 
