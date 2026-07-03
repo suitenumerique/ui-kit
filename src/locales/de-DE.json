@@ -4,7 +4,8 @@
       "newWindowLabelSuffix": " (neues Fenster)"
     },
     "searchFilter": {
-      "reset": "Zurücksetzen"
+      "reset": "Zurücksetzen",
+      "placeholder": "Nach einem Namen suchen"
     },
     "share": {
       "copyLink": "Link kopieren",
