@@ -149,6 +149,35 @@ test.describe("SearchFilter", () => {
     await expect(page.getByRole("option", { name: "Cherry" })).toHaveCount(0);
   });
 
+  test("keyboard navigation among options is visibly highlighted", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestSearchFilter />);
+
+    await page.getByRole("button", { name: triggerName }).click();
+    await expect(page.getByPlaceholder("Search...")).toBeFocused();
+
+    // ArrowDown moves focus from the input into the list…
+    await page.keyboard.press("ArrowDown");
+    const apple = page.getByRole("option", { name: "Apple" });
+    await expect(apple).toBeFocused();
+
+    // …and the focused option must be visually highlighted: react-aria sets
+    // `data-focused` on the ListBoxItem itself, not on the inner
+    // `.c__dropdown-menu-item` rendered by `renderItem`.
+    await expect(apple).toHaveAttribute("data-focused", "true");
+    const background = await apple.evaluate(
+      (el) => getComputedStyle(el).backgroundColor,
+    );
+    expect(background).not.toBe("rgba(0, 0, 0, 0)");
+
+    // Arrow keys move the highlight between options.
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("option", { name: "Banana" })).toBeFocused();
+    await expect(apple).not.toHaveAttribute("data-focused", "true");
+  });
+
   test("shows a spinner and no options while loading", async ({
     mount,
     page,

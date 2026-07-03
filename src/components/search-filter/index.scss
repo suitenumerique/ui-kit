@@ -41,6 +41,15 @@
     color: var(--c--contextuals--content--semantic--neutral--primary);
     box-sizing: border-box;
     outline: none;
+
+    // react-aria sets `data-focused` on the ListBoxItem itself; consumers
+    // render `.c__dropdown-menu-item` *inside* it, so its `[data-focused]`
+    // style never matches and keyboard navigation was invisible.
+    &[data-focused] {
+      background: var(
+        --c--contextuals--background--semantic--contextual--primary
+      );
+    }
   }
 
   &__user-row {
