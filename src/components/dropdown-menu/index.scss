@@ -44,7 +44,8 @@
   font-size: var(--c--globals--font--sizes--xs, 0.75rem);
 }
 
-.c__dropdown-menu-item {
+.c__dropdown-menu-item,
+button.c__dropdown-menu-item {
   display: flex;
   gap: 8px;
   padding: 8px 8px;
@@ -119,6 +120,23 @@
 
   .checked {
     margin-left: var(--c--globals--spacings--md, 1.5rem);
+  }
+}
+
+// Reset rows are native buttons (keyboard operable, unlike ListBox items they
+// get no react-aria handling): neutralize the UA button styles and mirror the
+// `[data-focused]` background on keyboard focus.
+button.c__dropdown-menu-item {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+
+  &:focus-visible {
+    background: var(
+      --c--contextuals--background--semantic--contextual--primary
+    );
   }
 }
 

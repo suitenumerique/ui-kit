@@ -7,8 +7,11 @@ import {
 test.describe("SearchFilter", () => {
   const triggerName = /Category/;
 
-  // The Reset row lives above the search box and is a plain div (not a
-  // listbox option), so it is located by its text rather than by role.
+  // The Reset row lives above the search box, outside the listbox, and is
+  // rendered as a native button so it is keyboard operable.
+  const resetButton = (page: import("@playwright/test").Page) =>
+    page.getByRole("button", { name: "Reset" });
+
   // --- Reset feature (the point of this branch) ----------------------------
 
   test("shows no Reset row when nothing is selected", async ({
@@ -20,7 +23,7 @@ test.describe("SearchFilter", () => {
     await page.getByRole("button", { name: triggerName }).click();
 
     await expect(page.getByRole("listbox")).toBeVisible();
-    await expect(page.getByText("Reset", { exact: true })).toHaveCount(0);
+    await expect(resetButton(page)).toHaveCount(0);
   });
 
   test("shows a Reset row once an item is selected", async ({
@@ -35,7 +38,7 @@ test.describe("SearchFilter", () => {
     await expect(trigger).toHaveAccessibleName("Category : Apple");
 
     await trigger.click();
-    await expect(page.getByText("Reset", { exact: true })).toBeVisible();
+    await expect(resetButton(page)).toBeVisible();
   });
 
   test("clicking Reset clears the selection", async ({ mount, page }) => {
@@ -48,10 +51,33 @@ test.describe("SearchFilter", () => {
 
     // Reset only clears the selection; it does not close the popover, so the
     // row vanishes in place and the trigger drops the active value.
-    await page.getByText("Reset", { exact: true }).click();
+    await resetButton(page).click();
 
     await expect(trigger).toHaveAccessibleName("Category");
-    await expect(page.getByText("Reset", { exact: true })).toHaveCount(0);
+    await expect(resetButton(page)).toHaveCount(0);
+  });
+
+  test("Reset is reachable and operable with the keyboard", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestSearchFilter
+        initialSelected={{ id: "apple", label: "Apple" }}
+      />,
+    );
+    const trigger = page.getByRole("button", { name: triggerName });
+
+    await trigger.click();
+    await expect(page.getByPlaceholder("Search...")).toBeFocused();
+
+    // The Reset button precedes the search box in the popover.
+    await page.keyboard.press("Shift+Tab");
+    await expect(resetButton(page)).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(trigger).toHaveAccessibleName("Category");
+    await expect(resetButton(page)).toHaveCount(0);
   });
 
   test("showReset={false} hides the Reset row even when selected", async ({
@@ -70,7 +96,7 @@ test.describe("SearchFilter", () => {
     await trigger.click();
 
     await expect(page.getByRole("listbox")).toBeVisible();
-    await expect(page.getByText("Reset", { exact: true })).toHaveCount(0);
+    await expect(resetButton(page)).toHaveCount(0);
   });
 
   // --- Core behavior --------------------------------------------------------

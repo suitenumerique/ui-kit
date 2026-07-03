@@ -21,13 +21,11 @@ import {
   Separator,
 } from "react-aria-components";
 
-import { Option, useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Option } from "@gouvfr-lasuite/cunningham-react";
 import clsx from "clsx";
 
 import { MenuItemBody } from "../menu/MenuItemBody";
-import { IconSize } from "../icon";
-import { Undo } from ":/icons";
-import { HorizontalSeparator } from "../separator";
+import { FilterResetRow } from "./FilterResetRow";
 
 export type FilterSubContentHelpers = {
   /** Selects this option (sets the Filter's selected key to the option value). */
@@ -209,7 +207,6 @@ const FilterInner = (props: FilterInnerProps) => {
     ...filterProps
   } = props;
   const state = useContext(SelectStateContext);
-  const { t } = useCunningham();
 
   // Expose the Select state to the out-of-tree sub-panel (see Filter comment).
   selectStateRef.current = state ?? null;
@@ -266,18 +263,7 @@ const FilterInner = (props: FilterInnerProps) => {
          * `state` from SelectStateContext is available) makes it show reliably.
          */}
         {showReset && state?.value && (
-          <>
-            <div
-              className="c__dropdown-menu-item"
-              onClick={() => state?.setValue(null)}
-            >
-              <MenuItemBody
-                icon={<Undo size={IconSize.SMALL} />}
-                label={t("components.searchFilter.reset")}
-              />
-            </div>
-            <HorizontalSeparator withPadding={false} />
-          </>
+          <FilterResetRow onReset={() => state?.setValue(null)} />
         )}
         <div
           onKeyDownCapture={(event) => {

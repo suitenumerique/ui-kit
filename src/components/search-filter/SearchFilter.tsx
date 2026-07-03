@@ -4,10 +4,9 @@ import clsx from "clsx";
 import { HorizontalSeparator } from ":/components/separator/HorizontalSeparator";
 import { Spinner } from ":/components/loader/Spinner";
 import { SearchFilterItem, SearchFilterProps } from "./types";
-import { MenuItemBody } from "../menu/MenuItemBody";
-import { Undo, Zoom } from ":/icons";
+import { FilterResetRow } from "../filter/FilterResetRow";
+import { Zoom } from ":/icons";
 import { IconSize } from "../icon";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 
 export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
   props: SearchFilterProps<T>,
@@ -30,7 +29,6 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
     selected,
   } = props;
 
-  const { t } = useCunningham();
   const id = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -109,18 +107,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         style={{ marginTop: "0px" }}
       >
         {showReset && selected && (
-          <>
-            <div
-              className="c__dropdown-menu-item"
-              onClick={() => onItemSelect?.(undefined)}
-            >
-              <MenuItemBody
-                icon={<Undo size={IconSize.SMALL} />}
-                label={t("components.searchFilter.reset")}
-              />
-            </div>
-            <HorizontalSeparator withPadding={false} />
-          </>
+          <FilterResetRow onReset={() => onItemSelect?.(undefined)} />
         )}
         <div className="c__search-filter__search">
           <Zoom size={IconSize.SMALL} />
