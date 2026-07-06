@@ -85,6 +85,7 @@
     "react-modal": "3.16.3",
     "react-resizable-panels": "2.1.7",
     "react-stately": "3.45.0",
+    "react-toastify": "11.1.0",
     "react-virtualized": "9.22.6",
     "react-pdf": "10.1.0",
     "read-excel-file": "9.3.1",
