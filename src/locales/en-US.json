@@ -175,6 +175,9 @@
         "download": "Download",
         "print": "Print"
       }
+    },
+    "headerBanner": {
+      "close": "Close"
     }
   }
 }

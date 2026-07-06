@@ -15,21 +15,22 @@
   }
 }
 
+// The optional top banner and the header keep their natural height; the content
+// fills the remaining space. This flex flow lets the banner grow (e.g. when it
+// wraps on small viewports) while the layout stays correct without measuring it.
+.c__main-layout__banner,
 .c__main-layout__header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  flex-shrink: 0;
 }
 
 .c__main-layout__content {
   width: 100%;
-  height: 100%;
   display: flex;
-  margin-top: calc(variables.$header-height);
+  flex: 1;
+  min-height: 0;
 
   &__left-panel {
-    height: calc(100dvh - variables.$header-height);
+    height: 100%;
     width: 300px;
     border-right: 1px solid var(--c--contextuals--border--surface--primary);
     @media screen and (max-width: 1024px) {
@@ -40,7 +41,7 @@
     display: flex;
 
     &__children {
-      height: calc(100dvh - variables.$header-height);
+      height: 100%;
       width: 100%;
       background: var(--c--contextuals--background--surface--primary);
       flex: 1;

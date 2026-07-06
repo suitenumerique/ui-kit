@@ -20,6 +20,11 @@ import { useControllableState } from ":/hooks/useControllableState";
 
 export type MainLayoutProps = {
   icon?: React.ReactNode;
+  /**
+   * Optional banner rendered above the whole layout (header included), pushing
+   * everything down by its height. Typically a `HeaderBanner`.
+   */
+  topBanner?: React.ReactNode;
   leftPanelContent?: React.ReactNode;
   leftPanelFooter?: React.ReactNode;
   rightPanelContent?: React.ReactNode;
@@ -36,6 +41,7 @@ export type MainLayoutProps = {
 export const MainLayout = ({
   icon,
   children,
+  topBanner,
   hideLeftPanelOnDesktop = false,
   leftPanelContent,
   leftPanelFooter,
@@ -114,6 +120,7 @@ export const MainLayout = ({
 
   return (
     <div className={clsx("c__main-layout", { resizing: isResizing })}>
+      {topBanner && <div className="c__main-layout__banner">{topBanner}</div>}
       <div className="c__main-layout__header">
         <Header
           onTogglePanel={onTogglePanel}

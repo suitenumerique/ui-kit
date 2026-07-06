@@ -23,6 +23,7 @@ export * from "./components/tabs";
 export * from "./components/tree-view";
 export * from "./components/form/label/label";
 export * from "./components/badge";
+export * from "./components/header-banner";
 export * from "./components/icon";
 export * from "./components/help-menu";
 export * from "./components/feedback-form";

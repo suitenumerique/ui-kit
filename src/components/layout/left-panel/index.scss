@@ -3,11 +3,11 @@
   flex-direction: column;
 
   &.has-header {
-    height: calc(100dvh - 52px);
+    height: calc(100dvh - 52px - var(--c--main-layout--banner-height, 0px));
   }
 
   &:not(.has-header) {
-    height: 100dvh;
+    height: calc(100dvh - var(--c--main-layout--banner-height, 0px));
   }
 
   width: 100%;
@@ -18,7 +18,7 @@
 .c__left-panel__mobile {
   z-index: 999;
   width: 100dvw;
-  height: calc(100dvh - 52px);
+  height: calc(100dvh - 52px - var(--c--main-layout--banner-height, 0px));
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--c--contextuals--border--surface--primary);
