@@ -1,4 +1,5 @@
 import { useState } from "react";
+import clsx from "clsx";
 import { FileIcon } from ":/components/preview/icons/FileIcon";
 import { CircleCheckFilled } from "../icon/icons/CircleCheckFilled";
 import { Loader } from "../icon/icons/Loader";
@@ -51,14 +52,26 @@ export const ToastExtendedContent = ({
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className="c__toast-extended">
-      {expanded && (
-        <ul className="c__toast-extended__list">
-          {items.map((item) => (
-            <ToastExtendedItemRow key={item.id ?? item.title} item={item} />
-          ))}
-        </ul>
+    <div
+      className={clsx(
+        "c__toast-extended",
+        expanded && "c__toast-extended--expanded",
       )}
+    >
+      <div
+        className={clsx(
+          "c__toast-extended__list-wrapper",
+          expanded && "c__toast-extended__list-wrapper--expanded",
+        )}
+      >
+        <div className="c__toast-extended__list-inner">
+          <ul className="c__toast-extended__list" aria-hidden={!expanded}>
+            {items.map((item) => (
+              <ToastExtendedItemRow key={item.id ?? item.title} item={item} />
+            ))}
+          </ul>
+        </div>
+      </div>
       <div className="c__toast-extended__footer">
         <div className="c__toast-extended__summary">
           <span className="c__toast-extended__summary-text">{summary}</span>

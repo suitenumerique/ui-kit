@@ -217,9 +217,29 @@
 .c__toast-extended {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
   width: 100%;
   font-family: var(--c--globals--font--families--base);
+  transition: gap 0.2s ease;
+
+  &--expanded {
+    gap: 10px;
+  }
+}
+
+.c__toast-extended__list-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+
+  &--expanded {
+    grid-template-rows: 1fr;
+  }
+}
+
+.c__toast-extended__list-inner {
+  min-height: 0;
+  overflow: hidden;
 }
 
 .c__toast-extended__list {
@@ -321,6 +341,7 @@
   gap: var(--c--globals--spacings--3xs, 4px);
   flex: 0 1 auto;
   min-width: 0;
+  padding-left: var(--c--globals--spacings--3xs, 4px);
   font-size: var(--c--globals--font--sizes--sm, 14px);
   line-height: var(--c--globals--line-heights--sm, 18px);
 }
