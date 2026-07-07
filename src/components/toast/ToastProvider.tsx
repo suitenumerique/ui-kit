@@ -9,11 +9,13 @@ export type ToastProviderProps = {
     | "bottom-center"
     | "bottom-left";
   stacked?: boolean;
+  containerId?: string;
 };
 
 export const ToastProvider = ({
   position = "bottom-left",
   stacked = true,
+  containerId,
 }: ToastProviderProps) => {
   return (
     <ToastContainer
@@ -28,6 +30,7 @@ export const ToastProvider = ({
       draggable={false}
       transition={Slide}
       stacked={stacked}
+      containerId={containerId}
     />
   );
 };

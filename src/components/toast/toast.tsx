@@ -16,6 +16,7 @@ export const toast = (message: ReactNode, options?: ToastOptions): Id => {
       type: options?.type ?? "default",
       autoClose: options?.autoClose ?? 5000,
       icon: false,
+      containerId: options?.containerId,
     },
   );
 };

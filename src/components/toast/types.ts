@@ -13,4 +13,5 @@ export type ToastOptions = {
   actions?: ToastAction[];
   progress?: number;
   autoClose?: number | false;
+  containerId?: string;
 };
