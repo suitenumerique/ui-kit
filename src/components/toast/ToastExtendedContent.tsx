@@ -90,18 +90,18 @@ export const ToastExtendedContent = ({
             aria-label={expanded ? "Collapse" : "Expand"}
             aria-expanded={expanded}
           >
-            <ChevronDown size={16} />
+            <ChevronDown size={24} />
           </button>
           <button
             type="button"
-            className="c__toast-extended__footer-action"
+            className="c__toast-extended__footer-action c__toast-extended__footer-action--close"
             onClick={(e) => {
               e.stopPropagation();
               onClose?.();
             }}
             aria-label="Close"
           >
-            <XMark size={16} />
+            <XMark size={24} />
           </button>
         </div>
       </div>
