@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { toast as reactToastify, Id } from "react-toastify";
 import { ToastContent } from "./ToastContent";
-import { ToastOptions } from "./types";
+import { ToastExtendedContent } from "./ToastExtendedContent";
+import { ToastExtendedOptions, ToastOptions } from "./types";
 
 export const toast = (message: ReactNode, options?: ToastOptions): Id => {
   return reactToastify(
@@ -38,6 +39,16 @@ toast.error = (
   message: ReactNode,
   options?: Omit<ToastOptions, "type">,
 ): Id => toast(message, { ...options, type: "error" });
+
+toast.extended = (options: ToastExtendedOptions): Id => {
+  return reactToastify(<ToastExtendedContent {...options} />, {
+    type: "default",
+    autoClose: options.autoClose ?? false,
+    icon: false,
+    containerId: options.containerId,
+    className: "c__toast c__toast--extended",
+  });
+};
 
 toast.update = reactToastify.update;
 toast.dismiss = reactToastify.dismiss;

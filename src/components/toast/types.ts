@@ -15,3 +15,24 @@ export type ToastOptions = {
   autoClose?: number | false;
   containerId?: string;
 };
+
+export type ToastExtendedItemStatus = "completed" | "loading";
+
+export type ToastExtendedItem = {
+  id?: string;
+  title: string;
+  size?: string;
+  mimetype?: string;
+  status: ToastExtendedItemStatus;
+  icon?: ReactNode;
+};
+
+export type ToastExtendedOptions = {
+  items: ToastExtendedItem[];
+  summary?: string;
+  progress?: number;
+  onClose?: () => void;
+  onInfoClick?: () => void;
+  autoClose?: number | false;
+  containerId?: string;
+};
