@@ -176,6 +176,7 @@
       }
     },
     "storage-gauge": {
+      "locked": "Stockage verrouillé",
       "information": {
         "title": "Utilisation du stockage",
         "usage": "{used} sur {total} {unit} utilisés",

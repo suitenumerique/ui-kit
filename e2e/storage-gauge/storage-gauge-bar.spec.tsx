@@ -59,4 +59,29 @@ test.describe("StorageGaugeBar", () => {
     await expect(fillOf(page)).not.toHaveClass(WARNING);
     await expect(fillOf(page)).not.toHaveClass(ERROR);
   });
+
+  test("exposes meter semantics with the current values", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestStorageGaugeBar used={2.5} total={10} />);
+
+    const meter = page.getByRole("meter");
+    await expect(meter).toBeVisible();
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "10");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2.5");
+  });
+
+  test("caps aria-valuenow at the total when usage exceeds it", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestStorageGaugeBar used={15} total={10} />);
+
+    await expect(page.getByRole("meter")).toHaveAttribute(
+      "aria-valuenow",
+      "10",
+    );
+  });
 });

@@ -177,6 +177,7 @@
       }
     },
     "storage-gauge": {
+      "locked": "Storage locked",
       "information": {
         "title": "Used Storage",
         "usage": "{used} of {total} {unit} used",

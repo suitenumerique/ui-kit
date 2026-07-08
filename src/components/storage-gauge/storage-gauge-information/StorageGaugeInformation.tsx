@@ -56,7 +56,7 @@ export const StorageGaugeInformation = ({
             color="neutral"
             variant="tertiary"
             size="small"
-            icon={<ArrowUpRight size={IconSize.SMALL} />}
+            icon={<ArrowUpRight size={IconSize.SMALL} aria-hidden />}
             iconPosition="right"
           >
             {t("components.storage-gauge.information.more-info")}

@@ -176,6 +176,7 @@
       }
     },
     "storage-gauge": {
+      "locked": "Almacenamiento bloqueado",
       "information": {
         "title": "Almacenamiento",
         "usage": "{used} / {total} {unit}",

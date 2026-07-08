@@ -1,3 +1,4 @@
+import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
 import { Warning } from ":/icons";
 import { StorageGaugeProps } from "../types";
 import { IconSize } from ":/components/icon";
@@ -21,10 +22,12 @@ export const StorageGaugeButton = ({
     total,
     precision,
   });
+  const { t } = useCunningham();
 
   return (
     <button
       type="button"
+      aria-label={locked ? t("components.storage-gauge.locked") : undefined}
       className={clsx("c__storage-gauge", className, {
         "c__storage-gauge--compact": compact,
         "c__storage-gauge--locked": locked,
@@ -33,7 +36,7 @@ export const StorageGaugeButton = ({
     >
       {locked && (
         <div className="c__storage-gauge__locked">
-          {lockedContent ?? <Warning size={IconSize.SMALL} />}
+          {lockedContent ?? <Warning size={IconSize.SMALL} aria-hidden />}
         </div>
       )}
       {!locked && (

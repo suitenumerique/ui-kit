@@ -176,6 +176,7 @@
       }
     },
     "storage-gauge": {
+      "locked": "Speicher gesperrt",
       "information": {
         "title": "Speicher",
         "usage": "{used} / {total} {unit}",

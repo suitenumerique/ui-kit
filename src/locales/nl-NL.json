@@ -176,6 +176,7 @@
       }
     },
     "storage-gauge": {
+      "locked": "Opslag vergrendeld",
       "information": {
         "title": "Opslag",
         "usage": "{used} / {total} {unit}",

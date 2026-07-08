@@ -53,6 +53,8 @@ test.describe("StorageGaugeButton", () => {
     await expect(page.locator(".c__storage-gauge__locked")).toBeVisible();
     await expect(labelOf(page)).toHaveCount(0);
     await expect(barOf(page)).toHaveCount(0);
+    // The icon alone carries no text, so the button gets a translated name.
+    await expect(buttonOf(page)).toHaveAccessibleName("Storage locked");
   });
 
   test("renders custom locked content when provided", async ({
