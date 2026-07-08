@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import clsx from "clsx";
 
 export type StorageGaugeBarProps = {
   used: number;
@@ -7,23 +7,16 @@ export type StorageGaugeBarProps = {
 
 export const StorageGaugeBar = ({ used, total }: StorageGaugeBarProps) => {
   const percentage = total > 0 ? Math.min((used / total) * 100, 100) : 0;
-  const fillColor =
-    percentage >= 100
-      ? "var(--c--contextuals--content--semantic--error--secondary)"
-      : percentage >= 80
-      ? "var(--c--contextuals--content--semantic--warning--secondary)"
-      : "var(--c--contextuals--content--semantic--neutral--secondary)";
 
   return (
     <div className="c__storage-gauge__bar">
       <div
-        className="c__storage-gauge__bar__fill"
-        style={
-          {
-            width: `${percentage}%`,
-            "--c--storage-gauge-fill-color": fillColor,
-          } as CSSProperties
-        }
+        className={clsx("c__storage-gauge__bar__fill", {
+          "c__storage-gauge__bar__fill--warning":
+            percentage >= 80 && percentage < 100,
+          "c__storage-gauge__bar__fill--error": percentage >= 100,
+        })}
+        style={{ width: `${percentage}%` }}
       />
     </div>
   );

@@ -45,12 +45,17 @@
     &__fill {
       height: 100%;
       border-radius: 15px;
-      // Threshold color, driven by the component:
-      // <80% neutral, >=80% warning, >=100% error.
-      background: var(
-        --c--storage-gauge-fill-color,
-        var(--c--contextuals--background--semantic--neutral--secondary)
-      );
+      background: var(--c--contextuals--content--semantic--neutral--secondary);
+
+      &--warning {
+        background: var(
+          --c--contextuals--content--semantic--warning--secondary
+        );
+      }
+
+      &--error {
+        background: var(--c--contextuals--content--semantic--error--secondary);
+      }
     }
   }
 
