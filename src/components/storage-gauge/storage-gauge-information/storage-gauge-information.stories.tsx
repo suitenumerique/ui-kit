@@ -99,8 +99,8 @@ export const CustomLabelChildren: Story = {
 };
 
 /**
- * When the quota cannot be displayed, pass `locked`. The usage label is replaced
- * by a default warning icon.
+ * When the quota cannot be displayed, pass `locked`. The bar renders empty while
+ * the header keeps showing the title and usage label.
  */
 export const Locked: Story = {
   args: {
@@ -109,7 +109,7 @@ export const Locked: Story = {
 };
 
 /**
- * Provide `lockedContent` to replace the default icon with your own message.
+ * Combine `title`, `label` and `labelChildren` to explain the locked state.
  */
 export const LockedCustomContent: Story = {
   args: {

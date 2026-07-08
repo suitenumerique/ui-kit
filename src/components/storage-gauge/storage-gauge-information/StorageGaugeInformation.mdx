@@ -53,7 +53,7 @@ renders empty). On top of those, this component adds:
   button with a tooltip).
 - **`onMoreInfoClick`** — when provided, renders a "more info" action button in
   the header.
-- **`locked` / `lockedContent`** — see the locked state below.
+- **`locked`** — see the locked state below.
 
 ## Header customization
 
@@ -90,11 +90,11 @@ warning from 80%, and error at 100%.
 
 ## Locked state
 
-When the quota cannot be displayed, pass `locked`. The bar renders empty and, by
-default, a warning icon replaces the usage content.
+When the quota cannot be displayed, pass `locked`. The bar renders empty while
+the header keeps showing the title and usage label.
 
 <Canvas of={StorageGaugeInformationStories.Locked} />
 
-Provide `lockedContent` to replace the default icon with your own message:
+Combine `title`, `label` and `labelChildren` to explain the locked state:
 
 <Canvas of={StorageGaugeInformationStories.LockedCustomContent} />

@@ -16,12 +16,11 @@ export const StorageGaugeInformation = ({
   locked,
   labelChildren,
   label,
-}: StorageGaugeProps & {
+}: Omit<StorageGaugeProps, "lockedContent"> & {
   titleChildren?: React.ReactNode;
   onMoreInfoClick?: () => void;
   title?: string;
   locked?: boolean;
-  lockedContent?: React.ReactNode;
   labelChildren?: React.ReactNode;
   label?: string;
 }) => {
