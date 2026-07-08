@@ -2,6 +2,12 @@
 
 ## [UNRELEASED]
 
+## 0.27.0
+
+### Minor Changes
+
+- ✨(front) add StorageGauge component family
+
 ## 0.26.0
 
 ### Patch Changes
