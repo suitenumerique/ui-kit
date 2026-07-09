@@ -21,6 +21,7 @@ import { FileIcon } from "./icons/FileIcon";
 import { VideoPlayer } from "./viewers/video-player/VideoPlayer";
 import { AudioPlayer } from "./viewers/audio-player/AudioPlayer";
 import { ImageViewer } from "./viewers/image-viewer/ImageViewer";
+import { HeicImageViewer } from "./viewers/image-viewer/HeicImageViewer";
 import { SuspiciousPreview } from "./viewers/suspicious/SuspiciousPreview";
 import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview";
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
@@ -168,12 +169,24 @@ export const FilePreview = ({
 
     switch (currentFile.category) {
       case MimeCategory.IMAGE:
-        if (currentFile.mimetype.includes("heic")) {
+        if (
+          currentFile.mimetype.includes("heic") ||
+          currentFile.mimetype.includes("heif")
+        ) {
           return (
-            <NotSupportedPreview
-              title={t("components.filePreview.unsupported.heicTitle")}
-              file={currentFile}
-              onDownload={handleDownload}
+            <HeicImageViewer
+              src={currentFile.url_preview}
+              alt={currentFile.title}
+              className="file-preview__viewer"
+              // Remount per file id so decoding restarts cleanly when switching.
+              key={currentFile.id}
+              errorFallback={
+                <NotSupportedPreview
+                  title={t("components.filePreview.unsupported.heicTitle")}
+                  file={currentFile}
+                  onDownload={handleDownload}
+                />
+              }
             />
           );
         }

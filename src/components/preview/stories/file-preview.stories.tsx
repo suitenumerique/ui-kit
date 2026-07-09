@@ -12,6 +12,7 @@ import {
   allFiles,
   audioFiles,
   heicFile,
+  heifFile,
   imageFiles,
   pdfFiles,
   suspiciousFile,
@@ -36,7 +37,7 @@ import { Button } from "@gouvfr-lasuite/cunningham-react";
  * | Video    | `VideoPlayer`   | Custom controls, ±10s skip, volume + mute, fullscreen |
  * | Audio    | `AudioPlayer`   | Title, seekable bar, ±10s skip, volume + mute |
  * | PDF      | `PdfPreview`    | Virtualized pages, zoom, page input, thumbnail sidebar (lazy-loaded) |
- * | HEIC     | `NotSupportedPreview` | Fallback with download CTA (no native browser support) |
+ * | HEIC/HEIF | `HeicImageViewer`    | Decoded to JPEG via a lazy-loaded WASM codec, then shown in `ImageViewer` (download fallback if decoding fails) |
  * | Unknown  | `NotSupportedPreview` | Fallback with download CTA |
  * | Flagged  | `SuspiciousPreview`   | Warning screen when `isSuspicious: true` |
  * | WOPI     | `WopiOpenInEditor`    | "Open in editor" CTA when `is_wopi_supported: true` and `onOpenInEditor` is provided |
@@ -306,11 +307,15 @@ export const Pdf: Story = {
 };
 
 /**
- * HEIC images are not natively supported by most browsers. This story shows the
- * fallback "not supported" message with the file icon and a download button.
+ * HEIC/HEIF images are not natively renderable in most browsers. The viewer
+ * decodes them to JPEG using a WASM codec (`heic-to`) that is lazy-loaded only
+ * when such a file is opened, then displays the result in the regular
+ * `ImageViewer`. A brief loading state shows while decoding; if decoding fails,
+ * it falls back to a "not supported" message with a download button. Use
+ * prev/next to switch between the `image/heic` and `image/heif` samples.
  */
-export const HeicUnsupported: Story = {
-  render: () => <FilePreviewExample files={[heicFile]} />,
+export const Heic: Story = {
+  render: () => <FilePreviewExample files={[heicFile, heifFile]} />,
 };
 
 /**
