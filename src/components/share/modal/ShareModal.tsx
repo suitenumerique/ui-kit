@@ -158,6 +158,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const { t } = useCunningham();
   const { isMobile } = useResponsive();
   const searchUserTimeoutRef = useRef<NodeJS.Timeout>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const [listHeight, setListHeight] = useState<string>("400px");
   const selectedUsersRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
@@ -168,6 +169,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const [selectedInvitationRole, setSelectedInvitationRole] = useState<string>(
     props.invitationRoles?.[0]?.value ?? ""
   );
+  const [pendingAnnouncement, setPendingAnnouncement] = useState<string>("");
 
   /**
    * The height of the modal content
@@ -199,6 +201,22 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     onSearchUser(str);
   };
 
+  const focusSearchInput = useCallback(() => {
+    requestAnimationFrame(() => {
+      const input = searchContainerRef.current?.querySelector<HTMLInputElement>(
+        "input.quick-search-input",
+      );
+      input?.focus();
+    });
+  }, []);
+
+  // On vide puis on remet le message pour forcer l'annonce SR.
+  // Petit délai pour éviter qu'il soit noyé à la fermeture du menu.
+  const announce = useCallback((message: string) => {
+    setPendingAnnouncement("");
+    setTimeout(() => setPendingAnnouncement(message), 250);
+  }, []);
+
   const showSearchUsers =
     searchQuery !== "" || pendingInvitationUsers.length > 0;
 
@@ -208,13 +226,63 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       setInputValue("");
       setSearchQuery("");
       props.onSearchUsers!("");
+      announce(
+        t("components.share.user.added", {
+          name: user.full_name || user.email,
+        }),
+      );
+      focusSearchInput();
     },
-    [props]
+    [props, focusSearchInput, t, announce]
   );
 
-  const onRemoveUser = (user: UserData<UserType>) => {
-    setPendingInvitationUsers((prev) => prev.filter((u) => u.id !== user.id));
-  };
+  const onRemoveUser = useCallback(
+    (user: UserData<UserType>) => {
+      setPendingInvitationUsers((prev) => prev.filter((u) => u.id !== user.id));
+      announce(
+        t("components.share.user.removed", {
+          name: user.full_name || user.email,
+        }),
+      );
+      focusSearchInput();
+    },
+    [focusSearchInput, t, announce],
+  );
+
+  const handleUpdateInvitation = useCallback(
+    (
+      invitation: InvitationData<UserType, InvitationType>,
+      role: string,
+    ) => {
+      props.onUpdateInvitation?.(invitation, role);
+      const roleLabel =
+        props.invitationRoles?.find((r) => r.value === role)?.label ?? role;
+      announce(
+        t("components.share.access.role_changed", {
+          name: invitation.email,
+          role: roleLabel,
+        }),
+      );
+    },
+    [props, t, announce],
+  );
+
+  const handleUpdateAccess = useCallback(
+    (access: AccessData<UserType, AccessType>, role: string) => {
+      props.onUpdateAccess?.(access, role);
+      const accessRoles =
+        props.getAccessRoles?.(access) ?? props.invitationRoles ?? [];
+      const roleLabel =
+        accessRoles.find((r) => r.value === role)?.label ?? role;
+      announce(
+        t("components.share.access.role_changed", {
+          name: access.user.full_name || access.user.email,
+          role: roleLabel,
+        }),
+      );
+    },
+    [props, t, announce],
+  );
 
   const usersData: QuickSearchData<UserData<UserType>> = useMemo(() => {
     const searchMemberResult = searchUsersResult?.filter(
@@ -315,7 +383,15 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       closeOnClickOutside
       size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
     >
-      <div className="c__share-modal no-padding">
+      <div className="c__share-modal no-padding" ref={searchContainerRef}>
+        <div
+          className="c__share-modal__sr-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {pendingAnnouncement}
+        </div>
         {canUpdate && pendingInvitationUsers.length > 0 && (
           <div
             className="c__share-modal__selected-users"
@@ -392,15 +468,15 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   className="c__share-modal__invitations"
                   data-testid="invitations-list"
                 >
-                  <span className="c__share-modal__invitations-title">
+                  <h3 className="c__share-modal__invitations-title">
                     {t("components.share.invitations.title")}
-                  </span>
+                  </h3>
                   {invitations.map((invitation) => (
                     <ShareInvitationItem
                       key={invitation.id}
                       invitation={invitation}
                       roles={props.invitationRoles!}
-                      updateRole={props.onUpdateInvitation}
+                      updateRole={handleUpdateInvitation}
                       deleteInvitation={props.onDeleteInvitation}
                       canUpdate={canUpdate}
                       roleTopMessage={props.invitationRoleTopMessage?.(
@@ -411,6 +487,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   <ShowMoreButton
                     show={hasNextInvitations}
                     onShowMore={props.onLoadNextInvitations}
+                    aria-label={t("components.share.invitations.load_more_aria")}
                   />
                 </div>
               )}
@@ -421,7 +498,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   className="c__share-modal__members"
                   data-testid="members-list"
                 >
-                  <span className="c__share-modal__members-title">
+                  <h3 className="c__share-modal__members-title">
                     {t(
                       members.length > 1
                         ? "components.share.members.title_plural"
@@ -430,7 +507,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                         count: members.length,
                       }
                     )}
-                  </span>
+                  </h3>
                   {members.map((member) => (
                     <ShareMemberItem
                       key={member.id}
@@ -441,13 +518,14 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                       roles={
                         props.getAccessRoles?.(member) ?? props.invitationRoles!
                       }
-                      updateRole={props.onUpdateAccess}
+                      updateRole={handleUpdateAccess}
                       deleteAccess={props.onDeleteAccess}
                     />
                   ))}
                   <ShowMoreButton
                     show={hasNextMembers}
                     onShowMore={props.onLoadNextMembers}
+                    aria-label={t("components.share.members.load_more_aria")}
                   />
                 </div>
               )}
@@ -485,9 +563,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
 type ShowMoreButtonProps = {
   show: boolean;
   onShowMore?: () => void;
+  "aria-label"?: string;
 };
 
-const ShowMoreButton = ({ show, onShowMore }: ShowMoreButtonProps) => {
+const ShowMoreButton = ({ show, onShowMore, "aria-label": ariaLabel }: ShowMoreButtonProps) => {
   const { t } = useCunningham();
   if (!show) return null;
   return (
@@ -495,8 +574,9 @@ const ShowMoreButton = ({ show, onShowMore }: ShowMoreButtonProps) => {
       <Button
         variant="tertiary"
         size="small"
-        icon={<span className="material-icons">arrow_downward</span>}
+        icon={<span className="material-icons" aria-hidden="true">arrow_downward</span>}
         onClick={onShowMore}
+        aria-label={ariaLabel}
       >
         {t("components.share.members.load_more")}
       </Button>
