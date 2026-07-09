@@ -71,6 +71,11 @@
   },
   "devDependencies": {
     "@babel/core": "7.26.0",
+    "@ironcalc/wasm": "file:vendor/ironcalc-wasm",
+    "@ironcalc/workbook": "file:vendor/ironcalc-workbook",
+    "i18next": "26.3.1",
+    "lucide-react": "1.17.0",
+    "react-i18next": "16.6.6",
     "@babel/plugin-proposal-decorators": "7.25.9",
     "@babel/plugin-proposal-export-default-from": "7.25.9",
     "@babel/preset-typescript": "7.26.0",

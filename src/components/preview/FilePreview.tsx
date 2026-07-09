@@ -24,6 +24,7 @@ import { ImageViewer } from "./viewers/image-viewer/ImageViewer";
 import { SuspiciousPreview } from "./viewers/suspicious/SuspiciousPreview";
 import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview";
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
+import { SpreadsheetPreview } from "./viewers/spreadsheet/SpreadsheetPreview";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
 import { OutdatedBrowserPreview } from "./viewers/pdf-preview/OutdatedBrowserPreview";
 import { MenuItemAction } from ":/components/menu";
@@ -160,13 +161,30 @@ export const FilePreview = ({
     if (currentFile.isSuspicious) {
       return <SuspiciousPreview handleDownload={handleDownload} />;
     }
-    if (currentFile.is_wopi_supported && onOpenInEditor) {
+    // Spreadsheets get a combined screen (read-only preview + "open in editor"),
+    // handled in the CALC case below — so they skip this generic editor gate.
+    if (
+      currentFile.is_wopi_supported &&
+      onOpenInEditor &&
+      currentFile.category !== MimeCategory.CALC
+    ) {
       return (
         <WopiOpenInEditor file={currentFile} onOpenInEditor={onOpenInEditor} />
       );
     }
 
     switch (currentFile.category) {
+      case MimeCategory.CALC:
+        return (
+          <SpreadsheetPreview
+            file={currentFile}
+            onOpenInEditor={
+              currentFile.is_wopi_supported ? onOpenInEditor : undefined
+            }
+            onDownload={handleDownloadFile ? handleDownload : undefined}
+            key={currentFile.id}
+          />
+        );
       case MimeCategory.IMAGE:
         if (currentFile.mimetype.includes("heic")) {
           return (

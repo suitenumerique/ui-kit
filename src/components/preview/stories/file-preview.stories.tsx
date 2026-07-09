@@ -14,9 +14,11 @@ import {
   heicFile,
   imageFiles,
   pdfFiles,
+  spreadsheetFile,
   suspiciousFile,
   unsupportedFiles,
   videoFiles,
+  wopiDocFile,
   wopiFile,
 } from "./fixtures";
 import { Button } from "@gouvfr-lasuite/cunningham-react";
@@ -340,6 +342,32 @@ export const Suspicious: Story = {
  * `onOpenInEditor` prop are provided.
  */
 export const WopiOpenInEditor: Story = {
+  render: () => <FilePreviewExample files={[wopiDocFile]} />,
+};
+
+/**
+ * Spreadsheets (`.xlsx`, `.ods` — the `CALC` category) get an in-browser
+ * **read-only preview** rendered by IronCalc itself: the file is parsed and
+ * recalculated in-browser by the IronCalc wasm engine and drawn by its own
+ * canvas worksheet — with formatting (fills, borders, merged cells), keyboard
+ * navigation, a read-only formula bar, and sheet tabs — but no editing toolbar.
+ *
+ * The fixture is a real-world, multi-tab French open-data workbook (BnF
+ * legal-deposit observatory, 8 sheets; data.gouv.fr, Licence Ouverte). With no
+ * `is_wopi_supported` flag there is no editor alternative, so the read-only
+ * grid opens immediately, on the first sheet. Files IronCalc can't parse or
+ * render fall back to a download screen.
+ */
+export const Spreadsheet: Story = {
+  render: () => <FilePreviewExample files={[spreadsheetFile]} />,
+};
+
+/**
+ * When a spreadsheet is **also** WOPI-editable, the preview offers both options
+ * side by side: "Preview (read-only)" opens the in-page grid, while "Open in
+ * editor" hands off to the `onOpenInEditor` callback.
+ */
+export const SpreadsheetWithEditor: Story = {
   render: () => <FilePreviewExample files={[wopiFile]} />,
 };
 
