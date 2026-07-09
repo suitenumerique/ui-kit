@@ -1,6 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { Description, Title, Subtitle, ArgTypes } from "@storybook/blocks";
 import { ShareModalExample } from "./ShareModalExample";
+import { ShareModalExtensionsExample } from "./ShareModalExtensionsExample";
 import { ShareModal } from "../ShareModal";
 
 /**
@@ -211,6 +212,32 @@ const meta: Meta<typeof ShareModal> = {
       description: "Custom translations for component texts",
       control: false,
     },
+    renderAccessFooter: {
+      description: "Renders custom content directly below each access row",
+      control: false,
+    },
+    renderAccessRightExtras: {
+      description:
+        "Renders custom content on the right of each access row, before the role dropdown",
+      control: false,
+    },
+    getAccessClassName: {
+      description: "Returns an extra class name applied to each access row wrapper",
+      control: false,
+    },
+    membersTitle: {
+      description: "Overrides the default members section heading",
+      control: false,
+    },
+    searchGroupName: {
+      description: "Overrides the search results group heading",
+      control: "text",
+    },
+    allowInvitation: {
+      description:
+        "When false, typing an unknown email won't offer an invite action (default: true)",
+      control: "boolean",
+    },
   },
 };
 
@@ -226,6 +253,17 @@ export const DefaultReadOnly = {
 
 export const WithoutLinkSettings = {
   render: () => <ShareModalExample />,
+};
+
+/**
+ * Demonstrates the access-row extension slots: an inline "Assign" CTA
+ * (`renderAccessRightExtras`), a per-row class for assigned state
+ * (`getAccessClassName`), a note below assigned rows (`renderAccessFooter`),
+ * a custom members heading (`membersTitle`) and invitation-by-email disabled
+ * (`allowInvitation={false}`).
+ */
+export const WithAccessExtensions = {
+  render: () => <ShareModalExtensionsExample />,
 };
 
 export const DefaultCannotView = {
