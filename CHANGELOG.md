@@ -21,6 +21,10 @@
 - ✨(front) add a reset row to SearchFilter
 - ♻️(front) use Icon components for menu item affordances
 
+### Patch Changes
+
+- ♿️(onboarding) improve OnboardingModal keyboard, screen reader, and preview content a11y
+
 ## 0.25.0
 
 ### Minor Changes
