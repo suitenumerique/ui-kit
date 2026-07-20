@@ -79,7 +79,8 @@
       "headerLabel": "About"
     },
     "userMenu": {
-      "term_of_service": "Terms of service",
+      "term_of_service": "Terms of Service",
+      "app_settings": "App settings",
       "manage_account": "Manage account",
       "open": "Open user menu",
       "close": "Close user menu",

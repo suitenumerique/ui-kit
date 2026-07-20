@@ -12,16 +12,35 @@
 }
 
 .user-menu__popover {
-  min-width: 300px;
-  max-width: 400px;
+  width: 272px;
+  min-width: min(272px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  // The 1px border is included in the 8px inset from the outer edge.
+  padding-block: 7px;
+  border: 1px solid var(--c--contextuals--border--surface--primary);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--c--contextuals--background--surface--primary);
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 18, 0.1);
 
-  & button:focus-visible, a:focus-visible {
+  .react-aria-Dialog {
+    width: 100%;
     outline: none;
-    box-shadow: 0 0 0 1px var(--c--contextuals--border--semantic--neutral--primary);
+  }
+
+  & button:focus-visible,
+  a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px
+      var(--c--contextuals--border--semantic--neutral--primary);
   }
 
   &--mobile {
     background: var(--c--contextuals--background--surface--primary);
+    padding-block: 0;
+    border: 0;
+    box-shadow: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -49,39 +68,43 @@
 
 .user-menu__close-button {
   position: absolute !important;
-  top: 4px;
-  right: 4px;
+  top: 8px;
+  right: 8px;
 }
 
 .user-menu__content__body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: var(--c--globals--spacings--xs);
+
   overflow-y: auto;
   overflow-x: hidden;
 
   &__user-info {
     display: flex;
     align-items: center;
-    padding: var(--c--globals--spacings--base);
-    padding-block: var(--c--globals--spacings--xs);
-    gap: var(--c--globals--spacings--base);
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--gradient-color) 8%, transparent) 0%,
-      color-mix(
-          in srgb,
-          var(--c--contextuals--background--surface--primary) 8%,
-          transparent
-        )
-        100%
-    );
+    padding: 12px var(--c--globals--spacings--base);
+    gap: var(--c--globals--spacings--xs);
+
+    & > .c__avatar {
+      flex: 0 0 32px;
+      box-sizing: border-box;
+    }
+  }
+
+  &__settings {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--c--globals--spacings--xs);
+    gap: 1px;
   }
 }
 
 .user-menu__content__identity {
-  padding-block: var(--c--globals--spacings--sm);
-  line-height: 1.375;
+  flex: 1 1 auto;
+  line-height: 1;
+  min-width: 0;
 }
 
 .user-menu__content__identity__name,
@@ -89,14 +112,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 280px;
+  max-width: 100%;
 }
 
 .user-menu__content__identity__name {
   color: var(--c--contextuals--content--semantic--neutral--primary);
-  font-size: var(--c--globals--font--sizes--md);
+  font-size: var(--c--globals--font--sizes--sm);
   font-weight: 700;
-  line-height: 1.375;
+  line-height: 18px;
   margin: 0;
 
   & > strong {
@@ -107,6 +130,7 @@
   color: var(--c--contextuals--content--semantic--neutral--secondary);
   font-size: var(--c--globals--font--sizes--xs);
   font-weight: 400;
+  line-height: 16px;
   margin: 0;
 
   // When email has a strong tag, that means there is no full name
@@ -119,20 +143,29 @@
 
 .user-menu__actions {
   display: flex;
-  padding: var(--c--globals--spacings--xs);
+  align-items: center;
+  padding: var(--c--globals--spacings--3xs) var(--c--globals--spacings--xs);
   flex-direction: row;
   justify-content: space-between;
 
-  gap: var(--c--globals--spacings--base);
-  border-top: 1px solid var(--c--contextuals--border--surface--primary);
+  gap: var(--c--globals--spacings--xs);
+  border-top: none;
 
   &:has(.user-menu__actions__right:only-child) {
     justify-content: flex-end;
   }
 
-  &--mobile {
-    border-top: none;
-    padding: var(--c--globals--spacings--xs);
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  .c__language-picker {
+    width: 51px;
+    min-width: 51px;
+    gap: var(--c--globals--spacings--3xs);
+    padding-inline: var(--c--globals--spacings--3xs) !important;
   }
 }
 
@@ -145,18 +178,83 @@
   margin-top: auto;
 }
 
-.user-menu__content__body__settings {
-  padding: var(--c--globals--spacings--xs);
-}
-
 .user-menu__item {
-  gap: var(--c--globals--spacings--xxs);
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--xxs, 6px);
+  width: 100%;
+  height: 32px;
+  box-sizing: border-box;
   padding: var(--c--globals--spacings--xs);
-  justify-content: flex-start;
+  border: 0;
+  border-radius: var(--c--globals--spacings--3xs, 4px);
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(
+      --c--contextuals--background--semantic--overlay--primary
+    );
+  }
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
 
   &__label {
-    font-size: var(--c--globals--font--sizes--sm);
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--c--globals--font--sizes--xs);
+    line-height: 16px;
     font-weight: 500;
     color: var(--c--contextuals--content--semantic--neutral--primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.user-menu__popover--mobile {
+  .user-menu__content__body {
+    gap: var(--c--globals--spacings--sm);
+    padding-block: var(--c--globals--spacings--sm);
+  }
+
+  .user-menu__content__body__user-info {
+    padding: 12px var(--c--globals--spacings--base);
+  }
+
+  .user-menu__content__body__settings {
+    padding: 0 var(--c--globals--spacings--xs);
+  }
+
+  .user-menu__item {
+    gap: var(--c--globals--spacings--xs);
+    height: 40px;
+    padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--sm);
+  }
+
+  .user-menu__item__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .user-menu__item__label {
+    font-size: var(--c--globals--font--sizes--sm);
+    line-height: 18px;
+  }
+
+  .user-menu__actions {
+    padding: var(--c--globals--spacings--3xs) var(--c--globals--spacings--sm);
   }
 }

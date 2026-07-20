@@ -39,14 +39,41 @@ export const Default: Story = {
       full_name: "John Doe",
       email: "john.doe@example.com",
     },
+    appSettingsCTA: () => {
+      alert("Go to app settings");
+    },
     settingsCTA: () => {
       alert("Go to account settings");
     },
-    actions: <LanguagePicker languages={languages} size="small" compact />,
+    actions: <LanguagePicker languages={languages} size="nano" compact />,
     termOfServiceUrl,
     logout: () => {
       alert("You have been logged out!");
     },
+  },
+};
+
+/**
+ * Matches the refreshed design: compact identity, three menu actions and a
+ * neutral footer inside a 272px popover.
+ */
+export const RefreshedExample: Story = {
+  args: {
+    user: {
+      full_name: "Amandine Salambo",
+      email: "amandine.salambo@numerique.gouv.fr",
+    },
+    appSettingsCTA: () => {
+      alert("Go to app settings");
+    },
+    settingsCTA: () => {
+      alert("Go to account settings");
+    },
+    logout: () => {
+      alert("You have been logged out!");
+    },
+    actions: <LanguagePicker languages={languages} size="nano" compact />,
+    termOfServiceUrl,
   },
 };
 
@@ -68,7 +95,7 @@ export const WithOnlyFooterAction: Story = {
       email: "john.doe@example.com",
     },
     actions: (
-      <LanguagePicker languages={languages} size="small" fullWidth compact />
+      <LanguagePicker languages={languages} size="nano" fullWidth compact />
     ),
   },
 };
@@ -121,7 +148,7 @@ export const WithLotOfSettings: Story = {
       alert("Go to account settings");
     },
     actions: (
-      <LanguagePicker languages={languages} size="small" fullWidth compact />
+      <LanguagePicker languages={languages} size="nano" fullWidth compact />
     ),
     termOfServiceUrl,
   },
