@@ -86,6 +86,17 @@
       "logout": "Uitloggen",
       "dialogTitle": "Gebruikersmenu"
     },
+    "upload": {
+      "noFileYet": "Nog geen bestand",
+      "clickToUpload": "Klik om te uploaden",
+      "dragAndDrop": "of sleep en zet neer",
+      "addFile": "Bestand toevoegen",
+      "maxSize": "Max {size}",
+      "uploading": "Uploaden",
+      "cancel": "Uploaden annuleren",
+      "remove": "Verwijderen",
+      "genericError": "Er is een fout opgetreden"
+    },
     "treeView": {
       "viewMore": "Meer elementen laden"
     },

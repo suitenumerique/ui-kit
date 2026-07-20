@@ -43,6 +43,7 @@
 @use "./components/feedback-form";
 @use "./components/onboarding-modal";
 @use "./components/storage-gauge";
+@use "./components/upload";
 @use "./components/preview/preview";
 @use "react-pdf/dist/Page/AnnotationLayer.css";
 @use "react-pdf/dist/Page/TextLayer.css";

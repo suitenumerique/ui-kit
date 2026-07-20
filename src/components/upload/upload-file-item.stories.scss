@@ -1,0 +1,29 @@
+.upload-file-item-story {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__viewport {
+    width: min(402px, calc(100vw - 32px));
+  }
+
+  &__all-states {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding-block: 12px;
+  }
+
+  &--hovered {
+    .c__file-uploader__item__status {
+      opacity: 0;
+    }
+
+    .c__file-uploader__item__action {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
