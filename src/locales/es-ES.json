@@ -79,6 +79,7 @@
     },
     "userMenu": {
       "term_of_service": "Condiciones de uso",
+      "app_settings": "Configuración de la aplicación",
       "manage_account": "Gestionar la cuenta",
       "open": "Abrir el menú de usuario",
       "close": "Cerrar el menú de usuario",

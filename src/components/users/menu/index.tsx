@@ -1,5 +1,12 @@
 import { Dialog, Popover } from "react-aria-components";
-import { ReactElement, useId, useMemo, useRef, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Button,
   ButtonElement,
@@ -8,10 +15,8 @@ import {
   useCunningham,
 } from "@gouvfr-lasuite/cunningham-react";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
-import { Icon } from ":/components/icon";
+import { GearRounded, Logout, User, XMark } from ":/icons";
 import { useResponsive } from ":/hooks/useResponsive";
-import { getUserColor } from "../avatar/utils";
-import { GearRounded, Logout } from ":/icons";
 
 type UserMenuContentProps = {
   user: UserMenuProps["user"];
@@ -34,22 +39,14 @@ const UserMenuContent = ({
   const showActions = !!footerAction || !!termOfServiceUrl;
 
   const { t } = useCunningham();
-  const userFullName = user ? (user.full_name ?? user.email) : undefined;
-  const userColor = userFullName ? getUserColor(userFullName) : undefined;
+  const userFullName = user ? user.full_name ?? user.email : undefined;
 
   if (!user) return null;
 
   return (
     <>
       <div className="user-menu__content__body">
-        <div
-          className="user-menu__content__body__user-info"
-          style={
-            {
-              "--gradient-color": `var(--c--contextuals--background--palette--${userColor}--primary)`,
-            } as React.CSSProperties
-          }
-        >
+        <div className="user-menu__content__body__user-info">
           <UserAvatar fullName={userFullName!} />
           <div className="user-menu__content__identity">
             {user.full_name ? (
@@ -84,7 +81,7 @@ const UserMenuContent = ({
         )}
         {showActions && (
           <>
-            <div className="user-menu__actions user-menu__actions--mobile">
+            <div className="user-menu__actions">
               {footerAction && (
                 <div className="user-menu__actions__left">{footerAction}</div>
               )}
@@ -94,7 +91,7 @@ const UserMenuContent = ({
                     variant="tertiary"
                     target="_blank"
                     href={termOfServiceUrl}
-                    size="small"
+                    size="nano"
                     color="neutral"
                   >
                     {t("components.userMenu.term_of_service")}
@@ -131,7 +128,7 @@ const UserMenuMobile = ({ ...props }: UserMenuMobileProps) => {
             onClick={menuTrigger.toggleUserMenu}
             aria-label={t("components.userMenu.close")}
             color="neutral"
-            icon={<Icon name="close" />}
+            icon={<XMark aria-hidden="true" />}
             size="small"
           />
 
@@ -189,6 +186,7 @@ export type UserMenuProps = {
     full_name?: string;
     email: string;
   } | null;
+  appSettingsCTA?: string | (() => void);
   settingsCTA?: string | (() => void);
   logout?: () => void;
   termOfServiceUrl?: string;
@@ -199,6 +197,7 @@ export type UserMenuProps = {
 
 export const UserMenu = ({
   user,
+  appSettingsCTA,
   settingsCTA,
   logout,
   termOfServiceUrl,
@@ -210,16 +209,28 @@ export const UserMenu = ({
 
   const settingsItems = useMemo(() => {
     const items: UserMenuItemProps[] = [];
+    if (appSettingsCTA) {
+      items.push({
+        label: t("components.userMenu.app_settings"),
+        icon: <GearRounded aria-hidden="true" />,
+        onClick:
+          typeof appSettingsCTA === "function"
+            ? appSettingsCTA
+            : typeof appSettingsCTA === "string"
+            ? () => window.open(appSettingsCTA, "_blank", "noopener,noreferrer")
+            : undefined,
+      });
+    }
     if (settingsCTA) {
       items.push({
         label: t("components.userMenu.manage_account"),
-        icon: <GearRounded aria-hidden="true" />,
+        icon: <User aria-hidden="true" />,
         onClick:
           typeof settingsCTA === "function"
             ? settingsCTA
             : typeof settingsCTA === "string"
-              ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
-              : undefined,
+            ? () => window.open(settingsCTA, "_blank", "noopener,noreferrer")
+            : undefined,
       });
     }
     if (logout) {
@@ -230,7 +241,7 @@ export const UserMenu = ({
       });
     }
     return items;
-  }, [settingsCTA, logout, t]);
+  }, [appSettingsCTA, settingsCTA, logout, t]);
 
   const showSettings = settingsItems.length > 0;
 
@@ -261,15 +272,16 @@ export const UserMenu = ({
 
 type UserMenuItemProps = {
   label: string;
-  icon: ReactElement;
+  icon: ReactNode;
   onClick?: () => void;
 };
 
 export const UserMenuItem = ({ label, icon, onClick }: UserMenuItemProps) => {
   return (
-    <Button className="user-menu__item" onClick={onClick} icon={icon} fullWidth variant="tertiary" color="neutral">
+    <button type="button" className="user-menu__item" onClick={onClick}>
+      <span className="user-menu__item__icon">{icon}</span>
       <span className="user-menu__item__label">{label}</span>
-    </Button>
+    </button>
   );
 };
 
@@ -297,8 +309,12 @@ const UserMenuTrigger = ({
       onClick={toggleUserMenu}
       aria-expanded={openState}
       aria-haspopup="dialog"
-      aria-label={t("components.userMenu.dialogTitle")}
-      title={t("components.userMenu.dialogTitle")}
+      aria-label={t(
+        openState ? "components.userMenu.close" : "components.userMenu.open"
+      )}
+      title={t(
+        openState ? "components.userMenu.close" : "components.userMenu.open"
+      )}
     >
       <UserAvatar size="small" fullName={user.full_name ?? user.email!} />
     </Button>

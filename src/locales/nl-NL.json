@@ -79,6 +79,7 @@
     },
     "userMenu": {
       "term_of_service": "Servicevoorwaarden",
+      "app_settings": "App-instellingen",
       "manage_account": "Account beheren",
       "open": "Gebruikersmenu openen",
       "close": "Gebruikersmenu sluiten",
