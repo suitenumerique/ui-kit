@@ -51,7 +51,7 @@ export const ShareModalExample = (props: {
     }));
   });
   const [members, setMembers] = useState<AccessType[]>(() => {
-    const ids = [1, 2, 3, 4];
+    const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return ids.map((id) => ({
       id: id.toString(),
       name: "John Doe " + id,
@@ -113,14 +113,14 @@ export const ShareModalExample = (props: {
         },
       ]);
       setLoading(false);
-    }, 2000);
+    }, 200);
   }, [userQuery]);
 
   const onUpdateAccess = (access: AccessType, role: string) => {
     setMembers(
       members.map((member) =>
-        member.id === access.id ? { ...member, role } : member
-      )
+        member.id === access.id ? { ...member, role } : member,
+      ),
     );
   };
 
@@ -131,8 +131,8 @@ export const ShareModalExample = (props: {
   const onUpdateInvitation = (invit: InvitationType, role: string) => {
     setInvitations(
       invitations.map((invitation) =>
-        invitation.id === invit.id ? { ...invitation, role } : invitation
-      )
+        invitation.id === invit.id ? { ...invitation, role } : invitation,
+      ),
     );
   };
 

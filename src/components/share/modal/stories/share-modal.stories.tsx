@@ -1,7 +1,9 @@
 import type { Meta } from "@storybook/react";
 import { Description, Title, Subtitle, ArgTypes } from "@storybook/blocks";
+import { useState } from "react";
 import { ShareModalExample } from "./ShareModalExample";
 import { ShareModal } from "../ShareModal";
+import { UserData } from ":/components/share/types.ts";
 
 /**
  * The `ShareModal` component displays a sharing modal with access management, invitations, and link settings.
@@ -218,6 +220,41 @@ export default meta;
 
 export const Default = {
   render: () => <ShareModalExample linkSettings={true} />,
+};
+
+const SELECTABLE_USERS: UserData<unknown>[] = [
+  { id: "u1", full_name: "Amandine Salambo", email: "amandine@example.com" },
+  { id: "u2", full_name: "Jakob Philips", email: "jakob@example.com" },
+  { id: "u3", full_name: "Kaylynn George", email: "kaylynn@example.com" },
+];
+
+const SelectableShareModal = () => {
+  const [, setSearch] = useState("");
+  return (
+    <ShareModal
+      isOpen={true}
+      onClose={() => {}}
+      invitationRoles={[
+        { label: "Admin", value: "admin" },
+        { label: "Editor", value: "editor" },
+        { label: "Viewer", value: "viewer" },
+      ]}
+      onSearchUsers={setSearch}
+      onInviteUser={(users, role) => console.log("INVITE", users, role)}
+      searchUsersResult={SELECTABLE_USERS}
+      accesses={[]}
+      invitations={[]}
+    />
+  );
+};
+
+/**
+ * Demonstrates the ergonomic update: search a user, then the selected people
+ * become chips inside the same container as the input (no separate gray frame),
+ * with the role selector and invite button surfacing once a user is selected.
+ */
+export const UnifiedSearchField = {
+  render: () => <SelectableShareModal />,
 };
 
 export const DefaultReadOnly = {
