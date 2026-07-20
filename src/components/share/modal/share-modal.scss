@@ -40,8 +40,74 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
   padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--base);
 }
 
-.c__share-modal__selected-users {
-  padding: var(--c--globals--spacings--sm);
+.c__share-modal__search-field {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--c--globals--spacings--xs, 8px);
+  padding: var(--c--globals--spacings--xs, 8px)
+    var(--c--globals--spacings--base, 16px)
+    var(--c--globals--spacings--3xs, 4px);
+
+  &__icon {
+    display: flex;
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-content: center;
+    width: 24px;
+    min-height: 32px;
+    padding-top: 7px;
+    flex-shrink: 0;
+    color: var(
+      --c--contextuals--content--semantic--neutral--secondary,
+      #555e74
+    );
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    gap: var(--c--globals--spacings--xxs, 6px);
+    min-width: 0;
+    min-height: 40px;
+    padding-top: var(--c--globals--spacings--xs, 8px);
+  }
+
+  &__main-space {
+    display: flex;
+    flex: 1 0 130px;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--c--globals--spacings--xs, 8px);
+    min-width: 130px;
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: var(--c--globals--font--sizes--md, 1rem);
+    line-height: 22px;
+    color: var(--c--contextuals--content--semantic--neutral--primary);
+
+    &::placeholder {
+      color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 40px;
+  }
 }
 
 .c__share-modal__footer {
