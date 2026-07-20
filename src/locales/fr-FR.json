@@ -86,6 +86,17 @@
       "dialogTitle": "Menu utilisateur",
       "manage_account": "Gérer le compte"
     },
+    "upload": {
+      "noFileYet": "Aucun fichier",
+      "clickToUpload": "Cliquez pour téléverser",
+      "dragAndDrop": "ou glissez-déposez",
+      "addFile": "Ajouter un fichier",
+      "maxSize": "Max {size}",
+      "uploading": "Téléversement",
+      "cancel": "Annuler le téléversement",
+      "remove": "Supprimer",
+      "genericError": "Une erreur est survenue"
+    },
     "treeView": {
       "viewMore": "Charger plus d'éléments"
     },

@@ -32,6 +32,7 @@ export * from "./components/share";
 export * from "./components/users";
 export * from "./components/onboarding-modal";
 export * from "./components/storage-gauge";
+export * from "./components/upload";
 export * from "./components/release-note-modal";
 export * from "./components/preview";
 export * from "./hooks/useCustomTranslations";
