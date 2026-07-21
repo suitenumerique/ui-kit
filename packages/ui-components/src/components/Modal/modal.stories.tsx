@@ -4,8 +4,8 @@ import {
   Modal,
   ModalSize,
   useModal,
-} from "@gouvfr-lasuite/cunningham-react";
-import type { ModalDefaultVariantProps } from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
+import type { ModalDefaultVariantProps } from ":/cunningham";
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";
 
@@ -14,7 +14,7 @@ const ModalDefault = Modal as React.FC<ModalDefaultVariantProps>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Modal",
+  title: "Components/Modal/UI Kit extensions",
   component: ModalDefault,
   args: {
     children: "Description",

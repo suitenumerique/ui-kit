@@ -8,10 +8,10 @@ import React, {
   useState,
 } from "react";
 import clsx from "clsx";
-import { Spinner } from "../loader/Spinner";
+import { Spinner } from "../Loader/Spinner";
 import { Droppable } from "../dnd/Droppable";
 import { useTreeContext } from "./providers/TreeContext";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 
 export type TreeViewNodeProps<T> = NodeRendererProps<TreeDataItem<T>> & {
   itemProps?: React.HTMLAttributes<HTMLDivElement>;

@@ -1,4 +1,4 @@
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 import { Warning } from ":/icons";
 import { StorageGaugeProps } from "../types";
 import { IconSize } from ":/components/icon";

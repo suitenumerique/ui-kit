@@ -1,0 +1,74 @@
+import { Meta, Source } from "@storybook/addon-docs";
+
+<Meta title="Getting Started/Theming" />
+
+# Theming
+
+La Suite UI ships with six themes. They all use the same semantic and component
+token structure, so switching themes does not change component APIs.
+
+| Theme        | Description          |
+| ------------ | -------------------- |
+| `default`    | La Suite light theme |
+| `dark`       | La Suite dark theme  |
+| `dsfr-light` | DSFR light theme     |
+| `dsfr-dark`  | DSFR dark theme      |
+| `anct-light` | ANCT light theme     |
+| `anct-dark`  | ANCT dark theme      |
+
+## Select a theme
+
+Pass the theme name to `CunninghamProvider`:
+
+<Source
+  dark
+  code={`import { useState } from "react";
+import {
+  Button,
+  CunninghamProvider,
+} from "@gouvfr-lasuite/ui-components";
+
+export const App = () => {
+  const [theme, setTheme] = useState("default");
+
+return (
+
+<CunninghamProvider theme={theme}>
+  <Button
+    onClick={() => setTheme(theme === "default" ? "dsfr-light" : "default")}
+  >
+    Switch theme
+  </Button>
+</CunninghamProvider>
+); };`} />
+
+The provider removes the previous `cunningham-theme--*` class from the root
+element and adds the selected one. For example:
+
+```html
+<html class="cunningham-theme--dsfr-light"></html>
+```
+
+The `default` theme is declared on `:root`; its class therefore does not need a
+separate CSS block. The historical `cunningham-theme--` prefix remains part of
+the current theming contract.
+
+## Use theme variables
+
+Components and application styles can consume the same CSS custom properties:
+
+<Source
+  language="css"
+  dark
+  code={`.panel {
+  color: var(--c--contextuals--content--semantic--neutral--primary);
+  background-color: var(
+    --c--contextuals--background--semantic--neutral--secondary
+  );
+}`}
+/>
+
+Their values change automatically when the provider selects another theme.
+
+To override an existing theme or add a new one, continue with
+[Customization](?path=/docs/getting-started-customization--docs).

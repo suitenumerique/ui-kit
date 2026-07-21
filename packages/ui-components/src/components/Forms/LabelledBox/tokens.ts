@@ -1,0 +1,16 @@
+import { DefaultTokens } from "@gouvfr-lasuite/ui-tokens";
+
+export const tokens = (defaults: DefaultTokens) => ({
+  "label-color--small": defaults.contextuals.content.semantic.neutral.tertiary,
+  "label-color--big": defaults.contextuals.content.semantic.neutral.primary,
+  "label-color--small--disabled":
+    defaults.contextuals.content.semantic.neutral.secondary,
+  "label-color--big--disabled":
+    defaults.contextuals.content.semantic.neutral.secondary,
+  // Classic variant tokens
+  "classic-label-margin-bottom": defaults.globals.spacings.xs,
+  "classic-label-font-size": defaults.globals.font.sizes.sm,
+  "classic-label-color": defaults.contextuals.content.semantic.neutral.primary,
+  "classic-label-font-weight": defaults.globals.font.weights.medium,
+  "classic-label-line-height": "1.125rem",
+});

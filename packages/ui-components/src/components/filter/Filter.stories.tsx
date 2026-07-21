@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Filter, FilterOption } from "./Filter";
 import { useRef, useState } from "react";
 import { Key } from "react-aria-components";
-import { Button, CalendarRange } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/components/Button";
+import { CalendarRange } from ":/components/Calendar/CalendarAux";
 import { DateValue } from "@internationalized/date";
 
 /**
@@ -30,7 +31,7 @@ import { DateValue } from "@internationalized/date";
  * ## Basic usage
  *
  * ```tsx
- * import { Filter, FilterOption } from "@gouvfr-lasuite/ui-kit";
+ * import { Filter, FilterOption } from "@gouvfr-lasuite/ui-components";
  *
  * const options: FilterOption[] = [
  *   { label: "All", value: "all" },
@@ -311,7 +312,9 @@ export const Controlled: Story = {
     return (
       <div>
         <Filter
-          {...args}
+          label={args.label!}
+          options={args.options!}
+          showReset={args.showReset}
           value={selected}
           onChange={(key) => {
             if (key === "all") {

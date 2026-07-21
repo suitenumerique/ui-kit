@@ -14,8 +14,8 @@ All labels (such as the "Reset" entry) are translated via Cunningham (`useCunnin
 ## Usage
 
 ```tsx
-import { SearchFilter } from "@gouvfr-lasuite/ui-kit";
-import { MenuItemBody } from "@gouvfr-lasuite/ui-kit";
+import { SearchFilter } from "@gouvfr-lasuite/ui-components";
+import { MenuItemBody } from "@gouvfr-lasuite/ui-components";
 
 const [search, setSearch] = useState("");
 const [selected, setSelected] = useState<SearchFilterItem>();
@@ -41,7 +41,7 @@ const filtered = items.filter((item) =>
 />;
 ```
 
-The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is imported once in your app.
+The styles are bundled in `@gouvfr-lasuite/ui-components/style`, so make sure it is imported once in your app.
 
 <Canvas of={SearchFilterStories.Basic} />
 
@@ -83,7 +83,7 @@ While `isLoading` is `true`, a spinner replaces the list — useful for async/re
 `UserSearchFilter` is a thin wrapper around `SearchFilter` preconfigured to display people. It renders each row with a [UserAvatar](?path=/docs/components-useravatar--docs) and the user's `fullName`, and defaults the placeholder to "Search for a name", so you only provide the data.
 
 ```tsx
-import { UserSearchFilter } from "@gouvfr-lasuite/ui-kit";
+import { UserSearchFilter } from "@gouvfr-lasuite/ui-components";
 
 <UserSearchFilter
   label="Owner"

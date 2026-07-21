@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Input } from "@gouvfr-lasuite/cunningham-react";
+import { Input } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Forms/Input",
+  title: "Components/Forms/Input/UI Kit extensions",
   component: Input,
   tags: ["autodocs"],
 

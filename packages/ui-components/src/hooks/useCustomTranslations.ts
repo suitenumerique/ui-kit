@@ -1,4 +1,4 @@
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 import type { TranslationKey } from "../types/translations";
 
 /**

@@ -1,4 +1,4 @@
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { Icon, IconType } from ":/components/icon";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 import { FileIcon } from "../../icons/FileIcon";

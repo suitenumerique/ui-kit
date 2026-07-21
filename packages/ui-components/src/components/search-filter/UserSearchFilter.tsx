@@ -2,7 +2,7 @@ import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { SearchFilter } from "./SearchFilter";
 import { UserSearchFilterItem, UserSearchFilterProps } from "./types";
 import { MenuItemBody } from "../menu/MenuItemBody";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 
 export const UserSearchFilter = (props: UserSearchFilterProps) => {
   const { t } = useCunningham();

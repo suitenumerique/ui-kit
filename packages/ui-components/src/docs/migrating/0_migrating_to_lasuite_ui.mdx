@@ -1,0 +1,95 @@
+import { Meta, Source } from "@storybook/addon-docs";
+
+<Meta title="Migrating/From UI Kit and Cunningham" />
+
+# Migrate to La Suite UI
+
+The former UI Kit and Cunningham packages are now maintained together in this
+repository.
+
+| Former package                      | New package                     |
+| ----------------------------------- | ------------------------------- |
+| `@gouvfr-lasuite/ui-kit`            | `@gouvfr-lasuite/ui-components` |
+| `@gouvfr-lasuite/cunningham-react`  | `@gouvfr-lasuite/ui-components` |
+| `@gouvfr-lasuite/cunningham-tokens` | `@gouvfr-lasuite/ui-tokens`     |
+
+No compatibility package is published under the former names.
+
+## Preview the automated migration
+
+Run the codemod with an exact version. Preview mode is read-only and does not
+modify the project:
+
+<Source
+  language="bash"
+  dark
+  format={false}
+  code={`npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all`}
+/>
+
+Apply the reported changes with `--write`:
+
+```bash
+npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --write
+```
+
+Verify that no supported migration remains:
+
+```bash
+npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --check
+```
+
+The `npx` command downloads the CLI temporarily. It does not add
+`ui-codemod` to the application's dependencies.
+
+## Import changes
+
+React components from both former packages now share the same root entry:
+
+<Source
+  language="ts"
+  dark
+  code={`import {
+  Button,
+  CunninghamProvider,
+  MainLayout,
+} from "@gouvfr-lasuite/ui-components";`}
+/>
+
+Named SVG icons use a dedicated entry:
+
+```ts
+import { ArrowRight } from "@gouvfr-lasuite/ui-components/icons";
+```
+
+The codemod automatically splits mixed former UI Kit imports between the
+package root and `/icons`.
+
+## Style and font paths
+
+| Former path                              | New path                                           |
+| ---------------------------------------- | -------------------------------------------------- |
+| `@gouvfr-lasuite/cunningham-react/style` | `@gouvfr-lasuite/ui-components/style`              |
+| `@gouvfr-lasuite/cunningham-react/fonts` | `@gouvfr-lasuite/ui-components/fonts/roboto`       |
+| `@gouvfr-lasuite/cunningham-react/icons` | `@gouvfr-lasuite/ui-components/material-icons`     |
+| `@gouvfr-lasuite/ui-kit/style`           | `@gouvfr-lasuite/ui-components/style`              |
+| `@gouvfr-lasuite/ui-kit/fonts/Marianne`  | `@gouvfr-lasuite/ui-components/fonts/marianne`     |
+| `@gouvfr-lasuite/ui-kit/sass/fonts`      | `@gouvfr-lasuite/ui-components/sass/fonts/lasuite` |
+
+Sass variants are available through `/sass/material-icons` and
+`/sass/fonts/*`.
+
+## Token compatibility
+
+The token engine moved to `@gouvfr-lasuite/ui-tokens`, while these historical
+runtime conventions remain unchanged in the first unified release:
+
+- the generator command is `cunningham`;
+- configuration files are named `cunningham.ts`, `cunningham.js` or
+  `cunningham.cjs`;
+- generated files are named `cunningham-tokens.*`;
+- CSS custom properties use the `--c--` prefix.
+
+After running the codemod, follow the current
+[Installation](?path=/docs/getting-started-installation--docs) and
+[Customization](?path=/docs/getting-started-customization--docs) guides.

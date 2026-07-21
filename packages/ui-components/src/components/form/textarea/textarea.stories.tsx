@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { TextArea } from "@gouvfr-lasuite/cunningham-react";
+import { TextArea } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Forms/TextArea",
+  title: "Components/Forms/TextArea/UI Kit extensions",
   component: TextArea,
   tags: ["autodocs"],
 

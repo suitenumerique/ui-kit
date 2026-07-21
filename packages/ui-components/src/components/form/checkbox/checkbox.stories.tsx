@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Checkbox } from "@gouvfr-lasuite/cunningham-react";
+import { Checkbox } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Forms/Checkbox",
+  title: "Components/Forms/Checkbox/UI Kit extensions",
   component: Checkbox,
   tags: ["autodocs"],
 

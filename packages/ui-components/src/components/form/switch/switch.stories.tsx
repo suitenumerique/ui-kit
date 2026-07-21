@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Switch } from "@gouvfr-lasuite/cunningham-react";
+import { Switch } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Forms/Switch",
+  title: "Components/Forms/Switch/UI Kit extensions",
   component: Switch,
   tags: ["autodocs"],
 

@@ -1,0 +1,83 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs";
+import * as Stories from "./colors.stories.tsx";
+
+<Meta title="Getting Started/Colors" />
+
+# Colors
+
+La Suite UI exposes global palettes and semantic color tokens. Prefer semantic
+tokens in application code because their values adapt to the active theme.
+
+## Contextual backgrounds
+
+Use `.bg-{semantic-path}` utility classes for backgrounds:
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<div className="bg-semantic-brand-primary" />`}
+/>
+
+<Canvas sourceState="none" of={Stories.ContextualBackgrounds} />
+
+All available background classes are shown below.
+
+<Canvas sourceState="none" of={Stories.BackgroundColors} />
+
+## Text colors
+
+Use `.clr-content-{semantic-path}` for semantic content colors:
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<p className="clr-content-semantic-brand-primary">
+  Brand-colored text
+</p>`}
+/>
+
+<Canvas sourceState="none" of={Stories.TextColors} />
+
+The following examples combine background and content tokens that remain
+readable together across themes.
+
+<Canvas sourceState="none" of={Stories.Example} />
+
+## Global palette classes
+
+Global colors are also available as `.bg-{palette-key}` and
+`.clr-{palette-key}`, for example `bg-purple-500`. Use them when an exact
+palette value is required; semantic tokens should remain the default choice for
+product interfaces.
+
+## Customize a color
+
+Colors are configured under `themes.<name>.globals.colors`:
+
+<Source
+  language="ts"
+  dark
+  code={`import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+themes: {
+default: {
+globals: {
+colors: {
+"brand-500": "#6a5acd",
+"amazing-500": "#ff69b4",
+},
+},
+},
+},
+} satisfies Configuration;
+
+export default config;`}
+/>
+
+With utility-class generation enabled, the additional color creates
+`bg-amazing-500` and `clr-amazing-500`. See
+[Customization](?path=/docs/getting-started-customization--docs) for the full
+generation workflow.

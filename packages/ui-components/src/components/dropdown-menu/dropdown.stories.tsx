@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
 import { DropdownMenuItem } from ":/components/dropdown-menu/types";
@@ -13,7 +13,7 @@ import { useState } from "react";
  * ## Basic usage
  *
  * ```tsx
- * import { DropdownMenu, useDropdownMenu } from "@gouvfr-lasuite/ui-kit";
+ * import { DropdownMenu, useDropdownMenu } from "@gouvfr-lasuite/ui-components";
  *
  * function MyComponent() {
  *   const { isOpen, setIsOpen } = useDropdownMenu();
@@ -74,7 +74,7 @@ import { useState } from "react";
  * and use them in both components (e.g., "..." button and right-click menu).
  *
  * ```tsx
- * import { MenuItem, DropdownMenu, ContextMenu } from "@gouvfr-lasuite/ui-kit";
+ * import { MenuItem, DropdownMenu, ContextMenu } from "@gouvfr-lasuite/ui-components";
  *
  * const actions: MenuItem[] = [
  *   { label: "Open", callback: () => open() },

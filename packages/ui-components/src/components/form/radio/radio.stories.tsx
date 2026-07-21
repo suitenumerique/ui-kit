@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Radio } from "@gouvfr-lasuite/cunningham-react";
+import { Radio } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Forms/Radio",
+  title: "Components/Forms/Radio/UI Kit extensions",
   component: Radio,
   tags: ["autodocs"],
 

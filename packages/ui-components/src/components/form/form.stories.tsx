@@ -1,8 +1,8 @@
-import { Checkbox, Radio, RadioGroup, Switch } from "@gouvfr-lasuite/cunningham-react";
+import { Checkbox, Radio, RadioGroup, Switch } from ":/cunningham";
 
-import { Button, Select, TextArea } from "@gouvfr-lasuite/cunningham-react";
+import { Button, Select, TextArea } from ":/cunningham";
 
-import { Input } from "@gouvfr-lasuite/cunningham-react";
+import { Input } from ":/cunningham";
 import { Meta } from "@storybook/react";
 import { Label } from "./label/label";
 

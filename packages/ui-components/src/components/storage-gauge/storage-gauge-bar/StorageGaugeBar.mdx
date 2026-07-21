@@ -13,14 +13,14 @@ indicator wherever a plain bar is enough, or compose your own layout around it.
 ## Usage
 
 ```tsx
-import { StorageGaugeBar } from "@gouvfr-lasuite/ui-kit";
+import { StorageGaugeBar } from "@gouvfr-lasuite/ui-components";
 
 <div style={{ display: "flex", width: "300px" }}>
   <StorageGaugeBar used={1.83} total={10} />
 </div>;
 ```
 
-The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is
+The styles are bundled in `@gouvfr-lasuite/ui-components/style`, so make sure it is
 imported once in your app. The bar grows to fill its parent (`flex: 1 0 0`), so
 place it inside a **flex** container with a bounded width — otherwise it has no
 room to render.

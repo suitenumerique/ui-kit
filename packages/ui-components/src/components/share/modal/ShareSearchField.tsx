@@ -1,7 +1,8 @@
 import { Command } from "cmdk";
 import { KeyboardEvent, useEffect, useState } from "react";
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
-import { Spinner } from ":/components/loader/Spinner";
+import { Button } from ":/components/Button";
+import { useCunningham } from ":/components/Provider";
+import { Spinner } from ":/components/Loader/Spinner";
 import { Zoom } from ":/components/icon/icons/Zoom";
 import { IconSize } from ":/components/icon/types";
 import { DropdownMenuOption } from ":/components/dropdown-menu";

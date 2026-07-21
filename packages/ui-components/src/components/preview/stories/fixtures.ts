@@ -1,6 +1,6 @@
 import type { FilePreviewType } from "../types";
 
-const ROOT = "storybook/preview-files";
+const ROOT = `${import.meta.env.BASE_URL}storybook/preview-files`;
 
 const file = (
   id: string,

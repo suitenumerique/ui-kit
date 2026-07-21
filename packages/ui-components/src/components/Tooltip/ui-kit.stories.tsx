@@ -1,8 +1,8 @@
 import { Meta } from "@storybook/react";
-import { Button, Tooltip } from "@gouvfr-lasuite/cunningham-react";
+import { Button, Tooltip } from ":/cunningham";
 
 export default {
-  title: "Components/Tooltip",
+  title: "Components/Tooltip/UI Kit extensions",
   component: Tooltip,
   decorators: [
     (Story) => {

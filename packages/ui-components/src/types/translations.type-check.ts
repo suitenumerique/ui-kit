@@ -28,7 +28,6 @@ type AssertIsStrictEqual<X, Y> =
 type EnKeys = ExtractTranslationKeys<typeof locales["en-US"]>;
 type FrKeys = ExtractTranslationKeys<typeof locales["fr-FR"]>;
 
-// @ts-expect-error : TS6133 - assertTranslationKeysMatch is not used
 function assertTranslationKeysMatch(): AssertIsStrictEqual<EnKeys, FrKeys> {
   return true;
 }

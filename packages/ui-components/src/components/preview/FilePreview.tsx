@@ -4,7 +4,7 @@ import {
   ButtonProps,
   Modal,
   ModalSize,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
 import clsx from "clsx";
 import { Icon, IconSize, IconType } from ":/components/icon";
 import { DropdownMenu } from ":/components/dropdown-menu";

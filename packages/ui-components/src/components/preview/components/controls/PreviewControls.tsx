@@ -1,4 +1,4 @@
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { FastBackward } from ":/components/icon/icons/FastBackward";
 import { FastForward } from ":/components/icon/icons/FastForward";
 import { Maximize } from ":/components/icon/icons/Maximize";

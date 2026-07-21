@@ -21,7 +21,7 @@ import {
   Separator,
 } from "react-aria-components";
 
-import { Option } from "@gouvfr-lasuite/cunningham-react";
+import { Option } from ":/cunningham";
 import clsx from "clsx";
 
 import { MenuItemBody } from "../menu/MenuItemBody";

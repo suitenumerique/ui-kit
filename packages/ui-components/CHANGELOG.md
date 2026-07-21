@@ -1,6 +1,20 @@
-# @gouvfr-lasuite/ui-kit
+# @gouvfr-lasuite/ui-components
 
 ## [UNRELEASED]
+
+## 1.0.0
+
+### Major Changes
+
+- Merge the La Suite UI Kit and Cunningham React component libraries into the
+  canonical `@gouvfr-lasuite/ui-components` package.
+- Expose SVG components from `/icons` and provide explicit public paths for
+  component styles, Material Icons and the Roboto, Marianne and La Suite fonts.
+- Use the enriched UI Kit provider as the single public `CunninghamProvider`.
+
+### Historical UI Kit releases
+
+The entries below were published under `@gouvfr-lasuite/ui-kit`.
 
 ## 0.28.1
 

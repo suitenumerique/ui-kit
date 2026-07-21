@@ -1,0 +1,31 @@
+import { Meta, Source } from "@storybook/addon-docs";
+
+<Meta title="Getting Started/First steps" />
+
+# Rendering your first component
+
+After completing the
+[Installation](?path=/docs/getting-started-installation--docs), wrap your
+application in `CunninghamProvider` and render a component:
+
+<Source
+  dark
+  code={`import {
+  Button,
+  CunninghamProvider,
+} from "@gouvfr-lasuite/ui-components";
+
+export const App = () => (
+  <CunninghamProvider>
+    <Button onClick={() => alert("Hello world!")}>Click me!</Button>
+  </CunninghamProvider>
+);`}
+/>
+
+Use one provider near the root of your application. It supplies the active
+theme and locale and also configures the modal and toast providers used by the
+component library.
+
+The `CunninghamProvider` name is kept for compatibility with existing
+applications, but it is the single provider for all Cunningham and former UI
+Kit components now distributed by `@gouvfr-lasuite/ui-components`.

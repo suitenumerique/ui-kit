@@ -27,6 +27,25 @@ const preview: Preview = {
     ),
   ],
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          "Getting Started",
+          [
+            "Installation",
+            "First steps",
+            "Theming",
+            "Customization",
+            "Colors",
+            "Spacings",
+            "Typography",
+          ],
+          "Components",
+          "Migrating",
+          "Misc",
+        ],
+      },
+    },
     backgrounds: {
       default: null,
       values: Object.entries(BACKGROUND_COLOR_TO_THEME).map(([key, value]) => ({

@@ -1,4 +1,5 @@
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import { ReactNode, useState } from "react";
 import { DropdownMenuOption } from "../../dropdown-menu";
 import { AccessRoleDropdown } from "../access/AccessRoleDropdown";

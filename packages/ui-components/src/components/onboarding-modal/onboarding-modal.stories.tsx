@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Title, Description, Controls } from "@storybook/blocks";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { OnboardingModal } from "./OnboardingModal";
 import { OnboardingStep } from "./types";
 
@@ -14,7 +14,7 @@ import { OnboardingStep } from "./types";
  * ## Basic usage
  *
  * ```tsx
- * import { OnboardingModal, OnboardingStep } from "@gouvfr-lasuite/ui-kit";
+ * import { OnboardingModal, OnboardingStep } from "@gouvfr-lasuite/ui-components";
  *
  * const steps: OnboardingStep[] = [
  *   {

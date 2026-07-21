@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useModals } from "@gouvfr-lasuite/cunningham-react";
+import { useModals } from ":/cunningham";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 
 const SAFE_PROTOCOLS = ["https:", "http:"];

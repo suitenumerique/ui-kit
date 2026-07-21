@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Key } from "react-aria-components";
-import { Button, CalendarRange } from "@gouvfr-lasuite/cunningham-react";
+import { Button, CalendarRange } from ":/cunningham";
 import { DateValue } from "@internationalized/date";
 import { CunninghamProvider } from "../../src/components/Provider/Provider";
 import { Filter, FilterOption } from "../../src/components/filter/Filter";

@@ -1,0 +1,186 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Getting Started/Customization" />
+
+# Customization
+
+Design tokens define the visual values shared by the component library:
+colors, typography, spacing and component-specific properties such as a button
+radius.
+
+`@gouvfr-lasuite/ui-components` contains the complete component token model.
+`@gouvfr-lasuite/ui-tokens` provides the generator that turns a configuration
+into CSS, SCSS, JavaScript or TypeScript files.
+
+The built-in themes require no generation. Follow this guide only when an
+application needs to override them or add a custom theme.
+
+## Install the token generator
+
+Declare the generator directly in the application that owns the custom theme:
+
+```bash
+yarn add --dev @gouvfr-lasuite/ui-tokens
+```
+
+Add a script to the application's `package.json`:
+
+```json
+{
+  "scripts": {
+    "build-theme": "cunningham -g css,scss,ts -o src --utility-classes"
+  }
+}
+```
+
+The command and generated `cunningham-tokens.*` filenames retain their
+historical names for compatibility.
+
+## Configure the tokens
+
+Create `cunningham.ts` at the root of the application. The generator also
+accepts `cunningham.js` and `cunningham.cjs`.
+
+```ts
+// cunningham.ts
+import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+  themes: {
+    default: {
+      globals: {
+        colors: {
+          "brand-500": "#6a5acd",
+        },
+      },
+    },
+  },
+} satisfies Configuration;
+
+export default config;
+```
+
+JavaScript projects can export the same object from `cunningham.cjs`:
+
+```js
+module.exports = {
+  themes: {
+    default: {
+      globals: {
+        colors: {
+          "brand-500": "#6a5acd",
+        },
+      },
+    },
+  },
+};
+```
+
+Run the generator whenever the configuration changes:
+
+```bash
+yarn build-theme
+```
+
+Import the generated CSS after the component stylesheet so application
+overrides win in the cascade:
+
+```ts
+import "@gouvfr-lasuite/ui-components/style";
+import "./cunningham-tokens.css";
+```
+
+Generated files should normally be committed so application builds remain
+deterministic.
+
+## Customize a component
+
+Component tokens live under `themes.<name>.components`. This example changes
+the Button radius in the default theme:
+
+```ts
+import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+  themes: {
+    default: {
+      components: {
+        button: {
+          "border-radius": "30px",
+        },
+      },
+    },
+  },
+} satisfies Configuration;
+
+export default config;
+```
+
+Component documentation lists the token keys supported by each component.
+
+## Reuse an existing value
+
+`defaultTokens` contains the complete generated default theme from
+`ui-components`:
+
+```ts
+import {
+  defaultTokens,
+  type Configuration,
+} from "@gouvfr-lasuite/ui-components";
+
+const config = {
+  themes: {
+    default: {
+      components: {
+        button: {
+          "border-radius--active":
+            defaultTokens.components.button["border-radius"],
+          "medium-font-size": defaultTokens.globals.font.sizes.md,
+        },
+      },
+    },
+  },
+} satisfies Configuration;
+
+export default config;
+```
+
+References can also remain semantic instead of copying a concrete value:
+
+```ts
+"background-color":
+  "ref(contextuals.background.semantic.brand.primary)",
+```
+
+## Add a theme
+
+Add another key under `themes` and select it through the provider:
+
+```ts
+import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+  themes: {
+    ocean: {
+      globals: {
+        colors: {
+          "brand-500": "#006a8b",
+        },
+      },
+    },
+  },
+} satisfies Configuration;
+```
+
+```tsx
+<CunninghamProvider theme="ocean">
+  <App />
+</CunninghamProvider>
+```
+
+Unspecified values continue to come from the default theme through the CSS
+cascade.
+
+If a required token is missing, open an issue in the
+[UI Kit repository](https://github.com/suitenumerique/ui-kit/issues/new).

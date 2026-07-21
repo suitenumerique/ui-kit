@@ -20,7 +20,7 @@ const languages = [
 export const Default: Story = {
     args: {
         languages,
-        onChange: (value) => {
+        onChange: (value: string) => {
             alert(`Language changed to ${languages.find((lang) => lang.value === value)?.label}`);
         },
     },

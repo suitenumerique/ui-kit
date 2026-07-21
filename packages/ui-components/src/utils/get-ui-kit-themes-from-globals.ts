@@ -1,4 +1,4 @@
-import { getThemesFromGlobals } from "@gouvfr-lasuite/cunningham-tokens";
+import { getThemesFromGlobals } from "@gouvfr-lasuite/ui-tokens";
 import { deepMerge } from "./objects";
 import { commonTokenOverrides, commonGlobals } from "../../cunningham";
 

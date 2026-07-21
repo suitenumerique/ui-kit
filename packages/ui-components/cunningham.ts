@@ -1,6 +1,45 @@
-import { getThemesFromGlobals } from "@gouvfr-lasuite/cunningham-tokens";
+import {
+  defaultTokenRefs,
+  getThemesFromGlobals,
+} from "@gouvfr-lasuite/ui-tokens";
+import { tokens as alertTokens } from "./src/components/Alert/tokens";
+import { tokens as buttonTokens } from "./src/components/Button/tokens";
+import { tokens as calendarTokens } from "./src/components/Calendar/tokens";
+import { tokens as checkboxTokens } from "./src/components/Forms/Checkbox/tokens";
+import { tokens as datePickerTokens } from "./src/components/Forms/DatePicker/tokens";
+import { tokens as fieldTokens } from "./src/components/Forms/Field/tokens";
+import { tokens as fileUploaderTokens } from "./src/components/Forms/FileUploader/tokens";
+import { tokens as inputTokens } from "./src/components/Forms/Input/tokens";
+import { tokens as labelledBoxTokens } from "./src/components/Forms/LabelledBox/tokens";
+import { tokens as radioTokens } from "./src/components/Forms/Radio/tokens";
+import { tokens as selectTokens } from "./src/components/Forms/Select/tokens";
+import { tokens as switchTokens } from "./src/components/Forms/Switch/tokens";
+import { tokens as textAreaTokens } from "./src/components/Forms/TextArea/tokens";
+import { tokens as modalTokens } from "./src/components/Modal/tokens";
+import { tokens as toastTokens } from "./src/components/Toast/tokens";
+import { tokens as tooltipTokens } from "./src/components/Tooltip/tokens";
+import { deepMerge } from "./src/utils/objects";
 
-export const commonTokenOverrides = {
+const componentTokenDefaults = {
+  alert: alertTokens(defaultTokenRefs),
+  button: buttonTokens(defaultTokenRefs),
+  calendar: calendarTokens(defaultTokenRefs),
+  "forms-checkbox": checkboxTokens(defaultTokenRefs),
+  "forms-datepicker": datePickerTokens(defaultTokenRefs),
+  "forms-field": fieldTokens(defaultTokenRefs),
+  "forms-fileuploader": fileUploaderTokens(defaultTokenRefs),
+  "forms-input": inputTokens(defaultTokenRefs),
+  "forms-labelledbox": labelledBoxTokens(defaultTokenRefs),
+  "forms-radio": radioTokens(),
+  "forms-select": selectTokens(defaultTokenRefs),
+  "forms-switch": switchTokens(defaultTokenRefs),
+  "forms-textarea": textAreaTokens(defaultTokenRefs),
+  modal: modalTokens(defaultTokenRefs),
+  toast: toastTokens(defaultTokenRefs),
+  tooltip: tooltipTokens(defaultTokenRefs),
+};
+
+const suiteComponentTokenOverrides = {
   components: {
     modal: {
       "width-small": "342px",
@@ -93,6 +132,11 @@ export const commonTokenOverrides = {
     },
   },
 };
+
+export const commonTokenOverrides = deepMerge(
+  { components: componentTokenDefaults },
+  suiteComponentTokenOverrides,
+);
 
 export const commonGlobals = {
   font: {
