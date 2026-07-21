@@ -1,13 +1,20 @@
 .c__avatar {
+  --border-width: 1px;
+  --overlay-color: color-mix(in srgb,var(--c--contextuals--background--surface--primary) 20%, transparent 80%); 
+  --background-size: calc(100% + var(--border-width) * 2);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  // Use raw token value as fallback for browsers that don't support color-mix
+  background: var(--background-color);
+  background: var(--background-color) linear-gradient(0deg, var(--overlay-color) 0%, transparent 100%);
+  background-size: var(--background-size) calc(var(--background-size) * 0.5);
+  background-repeat: no-repeat;
+  background-position: center calc(100% + var(--border-width));
   color: var(--c--contextuals--background--surface--tertiary);
-  color: color-mix(in srgb, var(--c--contextuals--background--surface--tertiary) 95%, transparent);
-  border: 1px solid var(--c--contextuals--background--surface--tertiary);
-  border: 1px solid color-mix(in srgb, var(--c--contextuals--background--surface--tertiary) 80%, transparent);
+  color: color-mix(in srgb,var(--c--contextuals--background--surface--tertiary) 80%, transparent 20%); 
+  border: var(--border-width) solid var(--overlay-color);
+  box-sizing: border-box;
 
   &__initials {
     display: flex;
@@ -48,47 +55,15 @@
     letter-spacing: -0.54px;
   }
 
-  &.brand {
-    background-color: var(--c--contextuals--background--palette--brand--primary);
-  }
-
-  &.gray {
-    background-color: var(--c--contextuals--background--palette--gray--primary);
-  }
-
-  &.purple {
-    background-color: var(--c--contextuals--background--palette--purple--primary);
-  }
-
-  &.blue-1 {
-    background-color: var(--c--contextuals--background--palette--blue-1--primary);
-  }
-
-  &.blue-2 {
-    background-color: var(--c--contextuals--background--palette--blue-2--primary);
-  }
-
-  &.green {
-    background-color: var(--c--contextuals--background--palette--green--primary);
-  }
-
-  &.yellow {
-    background-color: var(--c--contextuals--background--palette--yellow--primary);
-  }
-
-  &.orange {
-    background-color: var(--c--contextuals--background--palette--orange--primary);
-  }
-
-  &.red {
-    background-color: var(--c--contextuals--background--palette--red--primary);
-  }
-
-  &.brown {
-    background-color: var(--c--contextuals--background--palette--brown--primary);
-  }
-
-  &.pink {
-    background-color: var(--c--contextuals--background--palette--pink--primary);
-  }
+  &.brand  { --background-color: var(--c--contextuals--background--palette--brand--primary);  }
+  &.gray   { --background-color: var(--c--contextuals--background--palette--gray--primary);   }
+  &.purple { --background-color: var(--c--contextuals--background--palette--purple--primary); }
+  &.blue-1 { --background-color: var(--c--contextuals--background--palette--blue-1--primary); }
+  &.blue-2 { --background-color: var(--c--contextuals--background--palette--blue-2--primary); }
+  &.green  { --background-color: var(--c--contextuals--background--palette--green--primary);  }
+  &.yellow { --background-color: var(--c--contextuals--background--palette--yellow--primary); }
+  &.orange { --background-color: var(--c--contextuals--background--palette--orange--primary); }
+  &.red    { --background-color: var(--c--contextuals--background--palette--red--primary);    }
+  &.brown  { --background-color: var(--c--contextuals--background--palette--brown--primary);  }
+  &.pink   { --background-color: var(--c--contextuals--background--palette--pink--primary);   }
 }
