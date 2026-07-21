@@ -1,0 +1,62 @@
+{
+  "name": "@gouvfr-lasuite/ui-tokens",
+  "private": false,
+  "version": "1.0.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "cunningham": "dist/bin/Main.js"
+  },
+  "main": "./dist/lib/index.js",
+  "module": "./dist/lib/index.mjs",
+  "types": "./dist/lib/index.d.ts",
+  "exports": {
+    "./default-tokens": "./dist/cunningham-tokens.css",
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "require": "./dist/lib/index.js",
+      "import": "./dist/lib/index.mjs"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "lint": "eslint . --report-unused-disable-directives",
+    "dev": "nodemon --watch 'src/bin' --ext '*' --exec 'yarn build'",
+    "build-bin": "cd src/bin && rm -rf ../../dist/bin && tsc -p tsconfig.build.json && tsc-alias && chmod +x ../../dist/bin/Main.js",
+    "build-lib": "rm -rf dist/lib && cp src/bin/cunningham.ts src/lib && cp dist/cunningham-tokens.ts src/lib && cd src/lib && tsc -p tsconfig.json && cd ../.. && vite build -c vite.lib.config.mts",
+    "build": "yarn build-bin && yarn build-default-theme && yarn build-lib && cd ../.. && ln -sf ../../packages/ui-tokens/dist/bin/Main.js node_modules/.bin/cunningham",
+    "build-default-theme": "node ./dist/bin/Main.js -o dist -s html -g scss,css,js,ts --utility-classes",
+    "test": "yarn build && cross-env FORCE_COLOR=1 jest --no-watchman --runInBand --verbose src",
+    "test-ci": "yarn build && cross-env FORCE_COLOR=1 jest --no-watchman --runInBand src"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "commander": "13.1.0",
+    "deepmerge": "4.3.1",
+    "figlet": "1.8.1",
+    "ts-node": "10.9.2"
+  },
+  "devDependencies": {
+    "@types/figlet": "1.7.0",
+    "@types/jest": "29.5.14",
+    "@types/node": "22.15.3",
+    "cross-env": "7.0.3",
+    "jest": "29.7.0",
+    "nodemon": "3.1.10",
+    "prettier": "3.5.3",
+    "ts-jest": "29.3.2",
+    "tsc-alias": "1.8.15",
+    "typescript": "5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "volta": {
+    "node": "20.16.0",
+    "yarn": "1.22.22"
+  }
+}
