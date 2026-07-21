@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../tsconfig.node.json",
+  "include": ["**/*"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["*"]
+    },
+    "resolveJsonModule": true,
+    "outDir": "../../dist/bin"
+  }
+}
