@@ -1,5 +1,12 @@
 import { mergeConfig } from "vite";
 import type { StorybookConfig } from "@storybook/react-vite";
+import remarkGfm from "remark-gfm";
+
+const normalizeBasePath = (basePath?: string) => {
+  const path = basePath?.trim().replace(/^\/+|\/+$/g, "");
+
+  return path ? `/${path}/` : "/";
+};
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -9,6 +16,16 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
   ],
 
   framework: {
@@ -16,21 +33,41 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  // Fonts are served at "/" for dev mode and "/assets" for production builds.
-  // In production, Vite bundles CSS into "assets/preview-*.css" with relative
-  // url(./Marianne-*.woff2) references, resolving to "/assets/".
+  // Fonts are copied to both the output root and its assets directory. Vite's
+  // base then keeps their public URLs inside the configured Storybook path.
   staticDirs: [
     "../src/assets/fonts/Marianne",
     { from: "../src/assets/fonts/Marianne", to: "/assets" },
-    // pdfjs-dist worker so PdfPreview's default workerSrc ("/pdf.worker.mjs") resolves.
-    { from: "../node_modules/pdfjs-dist/build", to: "/" },
+    // FilePreviewExample points to this worker through import.meta.env.BASE_URL.
+    { from: "../../../node_modules/pdfjs-dist/build", to: "/" },
   ],
-
-  // Pre-bundle addon previews up front so Vite does not discover them lazily and
-  // trigger a mid-session dep re-optimization + reload, which races with the
-  // browser and breaks dynamic imports ("Failed to fetch dynamically imported module").
-  viteFinal: (viteConfig) =>
-    mergeConfig(viteConfig, {
+  docs: {
+    autodocs: false,
+  },
+  async viteFinal(viteConfig, { configType }) {
+    viteConfig.base =
+      configType === "PRODUCTION"
+        ? normalizeBasePath(process.env.STORYBOOK_BASE_PATH)
+        : "/";
+    viteConfig.plugins = viteConfig.plugins?.filter((plugin) => {
+      return !(
+        typeof plugin === "object" &&
+        plugin !== null &&
+        "name" in plugin &&
+        plugin.name === "vite:dts"
+      );
+    });
+    viteConfig.build = {
+      ...viteConfig.build,
+      commonjsOptions: {
+        ...viteConfig.build?.commonjsOptions,
+        include: [/node_modules/, /packages\/ui-tokens\/dist\/lib/],
+      },
+    };
+    // Pre-bundle addon previews up front so Vite does not discover them lazily and
+    // trigger a mid-session dep re-optimization + reload, which races with the
+    // browser and breaks dynamic imports ("Failed to fetch dynamically imported module").
+    return mergeConfig(viteConfig, {
       optimizeDeps: {
         include: [
           "@storybook/addon-interactions/preview",
@@ -44,6 +81,7 @@ const config: StorybookConfig = {
           "@storybook/addon-essentials/highlight/preview",
         ],
       },
-    }),
+    });
+  },
 };
 export default config;

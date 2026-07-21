@@ -12,8 +12,15 @@ export default defineConfig({
     // otherwise be picked up by vitest's default glob — they're driven by
     // `yarn test:ct` (playwright.config.ts), not vitest.
     include: ["src/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
+    environment: "jsdom",
+    globals: true,
+    reporters: "verbose",
+    watchExclude: ["**/cunningham-tokens.js"],
+    globalSetup: ["src/tests/Global.ts"],
+    setupFiles: ["src/tests/Setup.ts"],
   },
   build: {
+    copyPublicDir: false,
     lib: {
       entry: {
         index: "./src/index.ts",
@@ -27,7 +34,7 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "@gouvfr-lasuite/cunningham-react",
+        "@gouvfr-lasuite/ui-tokens",
         "@tanstack/react-query",
         "react-pdf",
         /^react-pdf\//,
@@ -48,7 +55,17 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
   },
-  plugins: [tsconfigPaths(), dts({ rollupTypes: true }), react()],
+  plugins: [
+    tsconfigPaths(),
+    dts({
+      rollupTypes: true,
+      beforeWriteFile: (filePath, content) => ({
+        filePath,
+        content: content.replace("../../locales", "./locales"),
+      }),
+    }),
+    react(),
+  ],
   resolve: {
     alias: [
       {

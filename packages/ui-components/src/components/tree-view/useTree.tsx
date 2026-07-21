@@ -7,7 +7,7 @@ import {
   TreeViewNodeTypeEnum,
 } from "./types";
 import { Key, useTreeData } from "react-stately";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 
 export type PaginatedChildrenResult<T> = {
   children?: TreeViewDataType<T>[];

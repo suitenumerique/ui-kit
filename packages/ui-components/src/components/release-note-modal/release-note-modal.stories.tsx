@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Title, Description, Controls } from "@storybook/blocks";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { ReleaseNoteModal } from "./ReleaseNoteModal";
 import { ReleaseNoteStep } from "./types";
 
@@ -14,7 +14,7 @@ import { ReleaseNoteStep } from "./types";
  * ## Basic usage
  *
  * ```tsx
- * import { ReleaseNoteModal, ReleaseNoteStep } from "@gouvfr-lasuite/ui-kit";
+ * import { ReleaseNoteModal, ReleaseNoteStep } from "@gouvfr-lasuite/ui-components";
  *
  * const steps: ReleaseNoteStep[] = [
  *   {

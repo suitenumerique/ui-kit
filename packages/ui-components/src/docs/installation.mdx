@@ -1,0 +1,72 @@
+import { Meta, Source } from "@storybook/addon-docs";
+
+<Meta title="Getting Started/Installation" />
+
+# Installation
+
+Install the component library and its peer dependency:
+
+<Source
+  language="bash"
+  dark
+  format={false}
+  code={`yarn add @gouvfr-lasuite/ui-components @tanstack/react-query`}
+/>
+
+React 19 and React DOM 19 are also required. They are normally already present
+in a React application. `ui-components` installs `ui-tokens` as a regular
+dependency, so no additional token package is needed to use the built-in
+themes.
+
+## Load the styles
+
+Import the component stylesheet and the La Suite fonts once from your
+application entry point:
+
+<Source
+  language="ts"
+  dark
+  format={false}
+  code={`import "@gouvfr-lasuite/ui-components/style";
+import "@gouvfr-lasuite/ui-components/fonts/lasuite";
+import "@gouvfr-lasuite/ui-components/material-icons";`}
+/>
+
+The Material Icons stylesheet is required by components that use the Material
+Icons font. If your application does not use any of them, this last import can
+be omitted.
+
+Roboto, Marianne and the combined La Suite font entry points are also
+available separately:
+
+```text
+@gouvfr-lasuite/ui-components/fonts/roboto
+@gouvfr-lasuite/ui-components/fonts/marianne
+@gouvfr-lasuite/ui-components/fonts/lasuite
+```
+
+## SVG icons
+
+Named SVG icons are React components exposed through the dedicated `/icons`
+entry point:
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`import { ArrowRight } from "@gouvfr-lasuite/ui-components/icons";
+
+<ArrowRight aria-hidden />
+;`} />
+
+The package root deliberately does not export these SVG components.
+
+## Built-in themes
+
+The default, dark, DSFR and ANCT themes are already included in the component
+stylesheet. You do not need to generate a token file for a standard
+installation.
+
+Continue with [First steps](?path=/docs/getting-started-first-steps--docs) to
+render your first component. To create or override a theme, follow the
+[Customization](?path=/docs/getting-started-customization--docs) guide.

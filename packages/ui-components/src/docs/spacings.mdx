@@ -1,0 +1,47 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs";
+import * as Stories from "./spacings.stories";
+
+<Meta title="Getting Started/Spacings" />
+
+# Spacings
+
+Spacing utilities use the values defined in the active theme. The available
+values are:
+
+<Canvas sourceState="none" of={Stories.Default} />
+
+## Margins
+
+| Class          | CSS property    |
+| -------------- | --------------- |
+| `m-[spacing]`  | `margin`        |
+| `mt-[spacing]` | `margin-top`    |
+| `mr-[spacing]` | `margin-right`  |
+| `mb-[spacing]` | `margin-bottom` |
+| `ml-[spacing]` | `margin-left`   |
+
+## Paddings
+
+| Class          | CSS property     |
+| -------------- | ---------------- |
+| `p-[spacing]`  | `padding`        |
+| `pt-[spacing]` | `padding-top`    |
+| `pr-[spacing]` | `padding-right`  |
+| `pb-[spacing]` | `padding-bottom` |
+| `pl-[spacing]` | `padding-left`   |
+
+## Example
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<div className="p-md mb-sm">Content</div>`}
+/>
+
+<Canvas sourceState="shown" of={Stories.Example} />
+
+Spacing values can be overridden under
+`themes.<name>.globals.spacings`. Follow the
+[Customization](?path=/docs/getting-started-customization--docs) guide before
+generating application-specific utilities.

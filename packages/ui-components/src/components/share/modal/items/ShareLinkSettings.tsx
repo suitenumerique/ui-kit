@@ -3,7 +3,7 @@ import {
   DropdownMenuProps,
 } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { useEffect, useMemo, useState } from "react";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
 import {

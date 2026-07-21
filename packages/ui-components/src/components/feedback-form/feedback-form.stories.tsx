@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { FeedbackForm } from "./FeedbackForm";
 import { FeedbackFormProps } from "./types";
 import { DropdownMenuItem } from "../dropdown-menu/types";

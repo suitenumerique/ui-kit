@@ -1,4 +1,5 @@
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 
 export type ShareModalCopyLinkFooterProps = {
   onCopyLink: () => void;

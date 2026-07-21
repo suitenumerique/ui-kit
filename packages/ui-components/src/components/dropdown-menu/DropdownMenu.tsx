@@ -11,7 +11,7 @@ import { MenuItemBody } from "../menu/MenuItemBody";
 import { DropdownMenuItem } from "./types";
 import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
 import clsx from "clsx";
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 
 const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
   return "type" in item && item.type === "separator";

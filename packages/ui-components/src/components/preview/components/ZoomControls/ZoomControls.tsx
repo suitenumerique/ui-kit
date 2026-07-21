@@ -1,4 +1,4 @@
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { Zoom1, ZoomMinus, ZoomPlus } from ":/components/icon/icons";
 
 interface ZoomControlsProps {

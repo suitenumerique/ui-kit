@@ -13,9 +13,9 @@ import {
   Input,
   Modal,
   ModalSize,
-  useCunningham,
   useModal,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import { useTreeContext } from "../providers/TreeContext";
 import { useArrowRoving } from ":/hooks/useArrowRoving";
 import { useRef } from "react";

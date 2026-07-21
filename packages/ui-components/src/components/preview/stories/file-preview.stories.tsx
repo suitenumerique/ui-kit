@@ -19,7 +19,7 @@ import {
   videoFiles,
   wopiFile,
 } from "./fixtures";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 
 /**
  * The `FilePreview` component is a fullscreen modal viewer that renders a list
@@ -44,7 +44,7 @@ import { Button } from "@gouvfr-lasuite/cunningham-react";
  * ## Installation
  *
  * ```tsx
- * import { FilePreview, FilePreviewType } from "@gouvfr-lasuite/ui-kit";
+ * import { FilePreview, FilePreviewType } from "@gouvfr-lasuite/ui-components";
  * ```
  *
  * The PDF viewer relies on optional peer dependencies (`react-pdf`,
@@ -57,7 +57,7 @@ import { Button } from "@gouvfr-lasuite/cunningham-react";
  * ```tsx
  * import { useState } from "react";
  * import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
- * import { FilePreview, FilePreviewType } from "@gouvfr-lasuite/ui-kit";
+ * import { FilePreview, FilePreviewType } from "@gouvfr-lasuite/ui-components";
  *
  * const queryClient = new QueryClient();
  *

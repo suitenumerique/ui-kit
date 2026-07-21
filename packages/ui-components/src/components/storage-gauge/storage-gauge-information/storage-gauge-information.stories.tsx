@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { IconSize } from "../../icon";
 import { Info } from ":/icons";
 import { StorageGaugeInformation } from "./StorageGaugeInformation";
-import { Button, Tooltip } from "@gouvfr-lasuite/cunningham-react";
+import { Button, Tooltip } from ":/cunningham";
 
 const meta: Meta<typeof StorageGaugeInformation> = {
   title: "Components/StorageGauge/Information",

@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { IconSize } from ":/components/icon";
 import { ArrowLeft, ArrowRight } from ":/icons";
 

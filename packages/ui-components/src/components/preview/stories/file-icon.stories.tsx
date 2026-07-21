@@ -22,7 +22,7 @@ import { IconSize } from ":/components/icon";
  * ## Usage
  *
  * ```tsx
- * import { FileIcon } from "@gouvfr-lasuite/ui-kit";
+ * import { FileIcon } from "@gouvfr-lasuite/ui-components";
  *
  * // Minimum input — only mimetype and title are required.
  * <FileIcon file={{ mimetype: "application/pdf", title: "report.pdf" }} />

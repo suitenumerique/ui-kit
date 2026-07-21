@@ -1,11 +1,11 @@
 import type { Meta } from "@storybook/react";
 import databaseCars from "./resources/databaseCars.json";
 
-import { Button, DataGrid, SimpleDataGrid } from "@gouvfr-lasuite/cunningham-react";
+import { Button, DataGrid, SimpleDataGrid } from ":/cunningham";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Components/Datagrid",
+  title: "Components/DataGrid/UI Kit extensions",
   component: DataGrid,
   tags: ["autodocs"],
 

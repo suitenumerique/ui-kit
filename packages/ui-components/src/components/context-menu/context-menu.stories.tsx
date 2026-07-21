@@ -3,7 +3,7 @@ import {
   Modal,
   ModalSize,
   useModal,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { ContextMenu } from "./ContextMenu";
@@ -18,7 +18,7 @@ import { MenuItem } from "./types";
  * The component requires a `ContextMenuProvider` parent to work:
  *
  * ```tsx
- * import { ContextMenuProvider, ContextMenu } from "@gouvfr-lasuite/ui-kit";
+ * import { ContextMenuProvider, ContextMenu } from "@gouvfr-lasuite/ui-components";
  *
  * function App() {
  *   return (

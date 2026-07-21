@@ -1,4 +1,5 @@
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import { useStorageGauge } from "../hooks";
 import { StorageGaugeBar } from "../storage-gauge-bar/StorageGaugeBar";
 import { StorageGaugeProps } from "../types";

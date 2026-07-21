@@ -11,7 +11,7 @@ The UI kit provides two types of icons that coexist and serve different use case
 General-purpose icons from [Google Material Icons](https://fonts.google.com/icons). Use them for common UI actions (navigation, editing, status indicators, etc.).
 
 ```tsx
-import { Icon, IconSize } from "@gouvfr-lasuite/ui-kit";
+import { Icon, IconSize } from "@gouvfr-lasuite/ui-components";
 
 <Icon name="home" size={IconSize.MEDIUM} />
 <Icon name="search" size={IconSize.SMALL} color="#3498db" />
@@ -25,7 +25,7 @@ The `name` prop accepts any [Material Icon name](https://fonts.google.com/icons)
 Custom icons designed in Figma, specific to La Suite products. They are auto-generated as React components from the Figma source.
 
 ```tsx
-import { Star, Copy, Folder } from "@gouvfr-lasuite/ui-kit/icons";
+import { Star, Copy, Folder } from "@gouvfr-lasuite/ui-components/icons";
 
 <Star size={IconSize.MEDIUM} />
 <Copy size={IconSize.LARGE} />
@@ -47,7 +47,7 @@ Both icon types accept the same `size` prop (presets or custom number). Browse t
 If your product needs its own SVG icons beyond what the UI kit provides, wrap your SVG content inside `<IconSvg>` to benefit from the standard size presets and consistent behavior.
 
 ```tsx
-import { IconSvg, IconSvgProps } from "@gouvfr-lasuite/ui-kit";
+import { IconSvg, IconSvgProps } from "@gouvfr-lasuite/ui-components";
 
 const MyCustomIcon = (props: IconSvgProps) => (
   <IconSvg {...props}>

@@ -12,7 +12,7 @@ The component handles everything itself: it measures overflow, shows or hides ea
 ## Usage
 
 ```tsx
-import { SmartScroller } from "@gouvfr-lasuite/ui-kit";
+import { SmartScroller } from "@gouvfr-lasuite/ui-components";
 
 <SmartScroller>
   <Chip>Item 1</Chip>
@@ -22,7 +22,7 @@ import { SmartScroller } from "@gouvfr-lasuite/ui-kit";
 </SmartScroller>;
 ```
 
-The styles are bundled in `@gouvfr-lasuite/ui-kit/style`, so make sure it is imported once in your app.
+The styles are bundled in `@gouvfr-lasuite/ui-components/style`, so make sure it is imported once in your app.
 
 Children are laid out in a single row sized to their content, so the container overflows horizontally once the items exceed the available width. Give the `SmartScroller` a bounded width (or place it in a width-constrained parent) so there is an edge to overflow against.
 

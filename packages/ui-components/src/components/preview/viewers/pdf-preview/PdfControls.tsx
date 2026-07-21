@@ -1,4 +1,4 @@
-import { Button, Input } from "@gouvfr-lasuite/cunningham-react";
+import { Button, Input } from ":/cunningham";
 import { LeftSidebarIcon } from "../../icons/LeftSidebarIcon";
 import { ZoomControls } from "../../components/ZoomControls/ZoomControls";
 

@@ -1,0 +1,128 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs";
+import * as Stories from "./typo.stories";
+
+<Meta title="Getting Started/Typography" />
+
+# Typography
+
+Typography utilities use the font sizes, weights and families of the active
+theme. Load the fonts once as described in
+[Installation](?path=/docs/getting-started-installation--docs).
+
+## Sizes
+
+Use `.fs-{size}` to apply a tokenized font size:
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<p className="fs-md">Medium text</p>`}
+/>
+
+<Canvas sourceState="none" of={Stories.Sizes} />
+
+Font sizes are configured under `globals.font.sizes`:
+
+<Source
+  language="ts"
+  dark
+  code={`import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+themes: {
+default: {
+globals: {
+font: {
+sizes: {
+md: "1rem",
+display: "3rem",
+},
+},
+},
+},
+},
+} satisfies Configuration;`}
+/>
+
+With utility classes enabled, the custom key is exposed as `fs-display`.
+
+## Weights
+
+Use `.fw-{weight}` to apply a tokenized font weight:
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<p className="fs-lg fw-bold">Large bold text</p>`}
+/>
+
+<Canvas sourceState="none" of={Stories.Weights} />
+
+Weights are configured under `globals.font.weights` — `font` is singular:
+
+<Source
+  language="ts"
+  dark
+  code={`import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+themes: {
+default: {
+globals: {
+font: {
+weights: {
+regular: 400,
+chunky: 900,
+},
+},
+},
+},
+},
+} satisfies Configuration;`}
+/>
+
+## Families
+
+Use `.f-{family}` to select a tokenized family. The base family is applied to
+the component library by default, while `f-accent` selects the accent family.
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`<p className="f-accent">Accent text</p>`}
+/>
+
+<Canvas sourceState="none" of={Stories.Families} />
+
+The family depends on the selected theme. La Suite themes use the La Suite font
+stack, while DSFR and ANCT can select their own stacks. The package exposes
+Roboto, Marianne and a combined `/fonts/lasuite` entry point.
+
+Custom families are configured under `globals.font.families`:
+
+<Source
+  language="ts"
+  dark
+  code={`import type { Configuration } from "@gouvfr-lasuite/ui-components";
+
+const config = {
+themes: {
+default: {
+globals: {
+font: {
+families: {
+base: "Inter, sans-serif",
+accent: "Marianne, sans-serif",
+},
+},
+},
+},
+},
+} satisfies Configuration;`}
+/>
+
+See [Customization](?path=/docs/getting-started-customization--docs) for the
+complete configuration and generation steps.

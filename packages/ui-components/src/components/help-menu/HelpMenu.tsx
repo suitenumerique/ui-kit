@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
-import { Button, useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
 import { DropdownMenuItem } from "../dropdown-menu/types";

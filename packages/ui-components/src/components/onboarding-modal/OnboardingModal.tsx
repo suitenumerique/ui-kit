@@ -3,8 +3,8 @@ import {
   Modal,
   ModalSize,
   Button,
-  useCunningham,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import clsx from "clsx";
 import { useResponsive } from ":/hooks/useResponsive";
 import { OnboardingStep } from "./types";

@@ -21,8 +21,8 @@ import {
   Button,
   Modal,
   ModalSize,
-  useCunningham,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import {
   QuickSearch,
   QuickSearchData,

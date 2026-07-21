@@ -1,6 +1,6 @@
 import { Volume2 } from ":/components/icon/icons/Volume2";
 import { VolumeX } from ":/components/icon/icons/VolumeX";
-import { Button } from "@gouvfr-lasuite/cunningham-react";
+import { Button } from ":/cunningham";
 import { useEffect } from "react";
 
 export type VolumeBarProps = {

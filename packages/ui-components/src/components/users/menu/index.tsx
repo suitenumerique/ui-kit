@@ -12,8 +12,8 @@ import {
   ButtonElement,
   Modal,
   ModalSize,
-  useCunningham,
-} from "@gouvfr-lasuite/cunningham-react";
+} from ":/cunningham";
+import { useCunningham } from ":/components/Provider";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { GearRounded, Logout, User, XMark } from ":/icons";
 import { useResponsive } from ":/hooks/useResponsive";

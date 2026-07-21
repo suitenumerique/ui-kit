@@ -1,5 +1,5 @@
 import { locales } from ":/locales/Locale";
-import { CunninghamProvider as OriginalProvider } from "@gouvfr-lasuite/cunningham-react";
+import { CunninghamProvider as OriginalProvider } from "./index";
 
 export const CunninghamProvider = (
   props: Parameters<typeof OriginalProvider>[0]

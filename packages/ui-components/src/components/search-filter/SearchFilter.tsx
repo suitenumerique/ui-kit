@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ListBox, ListBoxItem, Popover } from "react-aria-components";
 import clsx from "clsx";
 import { HorizontalSeparator } from ":/components/separator/HorizontalSeparator";
-import { Spinner } from ":/components/loader/Spinner";
+import { Spinner } from ":/components/Loader/Spinner";
 import { SearchFilterItem, SearchFilterProps } from "./types";
 import { FilterResetRow } from "../filter/FilterResetRow";
 import { Zoom } from ":/icons";
@@ -59,7 +59,12 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
       listBox?.focus();
     } else if (e.key === "Escape") {
       setIsOpen(false);
-      triggerRef.current?.focus();
+      // React Aria tears down the popover's focus scope after this event. Wait
+      // until that cleanup is complete before restoring focus to the trigger,
+      // otherwise WebKit moves focus back to the document body.
+      requestAnimationFrame(() => {
+        triggerRef.current?.focus();
+      });
     }
   };
 

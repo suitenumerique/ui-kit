@@ -1,4 +1,4 @@
-import { useCunningham } from "@gouvfr-lasuite/cunningham-react";
+import { useCunningham } from ":/components/Provider";
 
 import { MenuItemBody } from "../menu/MenuItemBody";
 import { IconSize } from "../icon";
