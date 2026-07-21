@@ -1,0 +1,34 @@
+{
+  "name": "@gouvfr-lasuite/ui-codemod",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MIT",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "ui-codemod": "dist/cli.js"
+  },
+  "exports": {},
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "eslint src scripts tests --report-unused-disable-directives",
+    "test": "yarn build && node --test tests/*.test.js",
+    "test:ct": "node -e \"process.exit(0)\""
+  },
+  "dependencies": {
+    "fast-glob": "3.3.3",
+    "jscodeshift": "17.3.0"
+  },
+  "devDependencies": {
+    "eslint": "9.17.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

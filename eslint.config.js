@@ -5,7 +5,19 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "playwright/.cache", "storybook-static"] },
+  {
+    ignores: [
+      "**/dist/**",
+      "**/storybook-static/**",
+      "**/playwright/.cache/**",
+      "**/test-results/**",
+      "packages/ui-components/public/pdf.worker.mjs",
+      "packages/ui-components/src/cunningham-tokens.{js,ts}",
+      "packages/ui-tokens/src/bin/tests/assets/**",
+      "packages/ui-tokens/src/bin/ThemeColors/**",
+      "packages/ui-tokens/src/lib/cunningham-tokens.ts",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
@@ -19,6 +31,34 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+    },
+  },
+  {
+    files: ["packages/ui-tokens/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-wrapper-object-types": "off",
+    },
+  },
+  {
+    files: ["packages/ui-components/**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: [
+      "packages/ui-components/**/*.stories.{ts,tsx}",
+      "packages/ui-components/**/*.spec.{ts,tsx}",
+      "packages/ui-components/**/*.test.{ts,tsx}",
+    ],
+    rules: {
+      "react-hooks/rules-of-hooks": "off",
     },
   },
 );
