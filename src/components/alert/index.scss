@@ -1,0 +1,38 @@
+.c__alert {
+  border-left-width: 1px;
+  padding: 12px;
+
+  &__content {
+    min-height: auto;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &__additional {
+    font-size: 11px;
+  }
+
+  &--success {
+    background-color: var(
+      --c--contextuals--background--semantic--success--tertiary
+    );
+  }
+
+  &--warning {
+    background-color: var(
+      --c--contextuals--background--semantic--warning--tertiary
+    );
+  }
+
+  &--error {
+    background-color: var(
+      --c--contextuals--background--semantic--error--tertiary
+    );
+  }
+
+  &--neutral {
+    background-color: var(
+      --c--contextuals--background--semantic--neutral--tertiary
+    );
+  }
+}

@@ -1,0 +1,38 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as AlertStories from "./alert.stories";
+
+<Meta of={AlertStories} />
+
+# Alert
+
+A thin wrapper around Cunningham's [`Alert`](https://cunningham.numerique.gouv.fr/?path=/docs/components-alert--docs)
+
+## Props
+
+### `children`
+
+The message of the alert. Any React node works, but it is usually a short
+sentence describing the information, success, warning or error.
+
+<Canvas of={AlertStories.Info} />
+
+### `type`
+
+The visual variant, from Cunningham's `VariantType` enum: `info`, `success`,
+`warning`, `error` or `neutral`. Defaults to `info`.
+
+<Canvas of={AlertStories.Success} />
+<Canvas of={AlertStories.Warning} />
+<Canvas of={AlertStories.Error} />
+<Canvas of={AlertStories.Neutral} />
+
+### `canClose`
+
+When `true`, a close button is rendered on the right side of the alert,
+letting the user dismiss it.
+
+### `buttons`
+
+A React node rendered next to the alert message.
+
+<Canvas of={AlertStories.CustomButtons} />
