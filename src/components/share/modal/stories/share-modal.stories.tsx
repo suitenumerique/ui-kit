@@ -1,123 +1,19 @@
 import type { Meta } from "@storybook/react";
-import { Description, Title, Subtitle, ArgTypes } from "@storybook/blocks";
 import { useState } from "react";
 import { ShareModalExample } from "./ShareModalExample";
 import { ShareModal } from "../ShareModal";
 import { UserData } from ":/components/share/types.ts";
 
-/**
- * The `ShareModal` component displays a sharing modal with access management, invitations, and link settings.
- *
- * ## Installation
- *
- * ```tsx
- * import { ShareModal } from "@gouvfr-lasuite/ui-kit";
- * ```
- *
- * ## Basic Usage
- *
- * ```tsx
- * <ShareModal
- *   isOpen={true}
- *   onClose={() => setOpen(false)}
- *   accesses={members}
- *   invitations={invitations}
- *   invitationRoles={[
- *     { label: "Admin", value: "admin" },
- *     { label: "Viewer", value: "viewer" },
- *   ]}
- *   onSearchUsers={setSearchQuery}
- *   searchUsersResult={searchResults}
- *   onInviteUser={(users, role) => invite(users, role)}
- *   onUpdateAccess={(access, role) => updateAccess(access, role)}
- *   onDeleteAccess={(access) => deleteAccess(access)}
- * />
- * ```
- *
- * ## Data Types
- *
- * ### UserData
- * | Property | Type | Description |
- * |----------|------|-------------|
- * | `id` | `string` | Unique identifier |
- * | `full_name` | `string` | Full name |
- * | `email` | `string` | Email address |
- *
- * ### AccessData
- * | Property | Type | Description |
- * |----------|------|-------------|
- * | `id` | `string` | Access identifier |
- * | `role` | `string` | Assigned role |
- * | `user` | `UserData` | Related user |
- * | `is_explicit` | `boolean?` | If `false`, inherited access (no deletion) |
- * | `can_delete` | `boolean?` | If `false`, prevents deletion |
- *
- * ### InvitationData
- * | Property | Type | Description |
- * |----------|------|-------------|
- * | `id` | `string` | Invitation identifier |
- * | `role` | `string` | Proposed role |
- * | `email` | `string` | Invitee email |
- * | `user` | `UserData` | User data |
- *
- * ## Access Deletion Control
- *
- * | `is_explicit` | `can_delete` | Deletion allowed |
- * |---------------|--------------|------------------|
- * | `false` | - | No (implicit access) |
- * | `true`/`undefined` | `false` | No |
- * | `true`/`undefined` | `true`/`undefined` | Yes |
- *
- * ### Example: Prevent deletion of the last admin
- *
- * ```tsx
- * const accesses = rawAccesses.map((access, _, all) => ({
- *   ...access,
- *   can_delete: all.length > 1 || access.user.id !== currentUserId,
- * }));
- * ```
- *
- * ## Link Settings
- *
- * Enable with `linkSettings={true}`:
- *
- * ```tsx
- * <ShareModal
- *   linkSettings={true}
- *   linkReachChoices={[
- *     { value: "public", subText: "Everyone" },
- *     { value: "restricted", subText: "Members only" },
- *   ]}
- *   linkRole="reader"
- *   showLinkRole={true}
- *   linkRoleChoices={[
- *     { value: "reader" },
- *     { value: "editor" },
- *   ]}
- *   onUpdateLinkReach={(value) => updateReach(value)}
- *   onUpdateLinkRole={(value) => updateRole(value)}
- * />
- * ```
- *
- * ## Read-only Mode
- *
- * Use `canUpdate={false}` to disable modifications.
- * Use `canView={false}` to hide the members list.
- */
+// The docs page is the attached MDX guide: ./ShareModal.mdx
 const meta: Meta<typeof ShareModal> = {
   title: "Components/Share/Modal",
   component: ShareModal,
-  tags: ["autodocs"],
   parameters: {
     docs: {
-      page: () => (
-        <>
-          <Title />
-          <Subtitle />
-          <Description />
-          <ArgTypes />
-        </>
-      ),
+      story: {
+        inline: false,
+        iframeHeight: 700,
+      },
     },
   },
   argTypes: {
@@ -201,6 +97,21 @@ const meta: Meta<typeof ShareModal> = {
       description: "Callback when link role changes",
       control: false,
     },
+    allowFileImport: {
+      description:
+        "Shows an 'Import contacts' menu on the members title (requires canUpdate)",
+      control: "boolean",
+    },
+    onImportContacts: {
+      description:
+        "Async callback called with the rows parsed by the import contacts modal. Resolve `true` to close the modal, `false` (or throw) to keep it open. While pending the modal is locked and the import button shows a spinner",
+      control: false,
+    },
+    importModalChildren: {
+      description:
+        "Extra content rendered inside the import contacts modal (e.g. an error Alert)",
+      control: false,
+    },
     hideInvitations: {
       description: "Hides the invitations section",
       control: "boolean",
@@ -218,8 +129,14 @@ const meta: Meta<typeof ShareModal> = {
 
 export default meta;
 
+/**
+ * The full modal: user search with invitation flow, pending invitations,
+ * members list with role management, link settings, and the "Import contacts"
+ * menu on the members title (`allowFileImport={true}`) that opens the
+ * `ShareImportModal`.
+ */
 export const Default = {
-  render: () => <ShareModalExample linkSettings={true} />,
+  render: () => <ShareModalExample linkSettings={true} allowFileImport={true} />,
 };
 
 const SELECTABLE_USERS: UserData<unknown>[] = [
@@ -257,24 +174,68 @@ export const UnifiedSearchField = {
   render: () => <SelectableShareModal />,
 };
 
+/**
+ * Read-only mode (`canUpdate={false}`): the search input, role dropdowns,
+ * deletion actions and the import contacts menu are all hidden — the modal
+ * only displays the current accesses and link settings.
+ */
 export const DefaultReadOnly = {
   render: () => <ShareModalExample linkSettings={true} canUpdate={false} />,
 };
 
+/**
+ * A working `onImportContacts` flow: open the "..." menu on the members title,
+ * import a two-column CSV/XLSX file, and a mock backend "processes" it for
+ * 1 s before refreshing the lists — each row of the file is randomly
+ * registered as a pending invitation or as a member, keeping the real emails
+ * and roles from the file. While the import is pending the modal is locked
+ * and the import button shows a spinner; it closes once the promise
+ * resolves `true`.
+ */
+export const ImportContacts = {
+  render: () => <ShareModalExample allowFileImport={true} />,
+};
+
+/**
+ * Failing import: the mock server resolves `false` after a delay, so the
+ * import modal stays open (non-closable while pending, import button showing
+ * a spinner) and the consumer surfaces the error as an Alert through
+ * `importModalChildren`.
+ */
+export const ImportContactsFailure = {
+  render: () => <ShareModalExample allowFileImport={true} importFails={true} />,
+};
+
+/**
+ * Invitations and members without the link settings footer
+ * (`linkSettings` omitted).
+ */
 export const WithoutLinkSettings = {
   render: () => <ShareModalExample />,
 };
 
+/**
+ * `canView={false}`: the members list is replaced by an explanatory message
+ * (customizable via `cannotViewMessage` / `cannotViewChildren`).
+ */
 export const DefaultCannotView = {
   render: () => <ShareModalExample canView={false} canUpdate={false} />,
 };
 
+/**
+ * Same as CannotView but keeping the link settings footer visible.
+ */
 export const DefaultCannotViewWithLinkSettings = {
   render: () => (
     <ShareModalExample canView={false} canUpdate={false} linkSettings={true} />
   ),
 };
 
+/**
+ * Link-settings-only mode (`hideInvitations` + `hideMembers`): the modal is
+ * reduced to the link reach/role dropdowns. A disabled reach choice shows the
+ * `subText`/`isDisabled` option flags.
+ */
 export const LinkSettingsOnly = {
   render: () => (
     <ShareModal
@@ -313,6 +274,9 @@ export const LinkSettingsOnly = {
   ),
 };
 
+/**
+ * Link-settings-only in read-only mode: both dropdowns are rendered disabled.
+ */
 export const LinkSettingsOnlyReadOnly = {
   render: () => (
     <ShareModal
@@ -344,6 +308,10 @@ export const LinkSettingsOnlyReadOnly = {
   ),
 };
 
+/**
+ * Link settings without the role selector (`showLinkRole` omitted): only the
+ * link reach can be changed.
+ */
 export const LinkSettingsOnlyWithoutRole = {
   render: () => (
     <ShareModal
@@ -364,6 +332,9 @@ export const LinkSettingsOnlyWithoutRole = {
   ),
 };
 
+/**
+ * Reach-only link settings in read-only mode.
+ */
 export const LinkSettingsOnlyWithoutRoleReadOnly = {
   render: () => (
     <ShareModal
@@ -385,6 +356,10 @@ export const LinkSettingsOnlyWithoutRoleReadOnly = {
   ),
 };
 
+/**
+ * Overriding built-in texts with the `customTranslations` prop — here the
+ * description of the "public" link reach choice.
+ */
 export const LinkSettingsCustomTexts = {
   render: () => (
     <ShareModal

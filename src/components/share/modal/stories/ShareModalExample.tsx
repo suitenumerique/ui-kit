@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ShareModal } from "../ShareModal";
 
 import {
@@ -8,6 +8,9 @@ import {
 } from ":/components/share/types.ts";
 import { ShareModalCopyLinkFooter } from "../../utils/ShareModalCopyLinkFooter";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
+import { ShareImportRow } from "../../import-modal/ShareImportModal";
+import { Alert } from ":/components/alert/Alert";
+import { VariantType } from "@gouvfr-lasuite/cunningham-react";
 
 type UserType = UserData<{
   short_name?: string;
@@ -28,14 +31,20 @@ type AccessType = AccessData<
   }
 >;
 
-export const ShareModalExample = (props: {
+export const ShareModalExample = ({
+  importFails,
+  ...props
+}: {
   linkSettings?: boolean;
   canUpdate?: boolean;
   canView?: boolean;
+  allowFileImport?: boolean;
+  importFails?: boolean;
 }) => {
   const [userQuery, setUserQuery] = useState("");
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
+
   const [invitations, setInvitations] = useState<InvitationType[]>(() => {
     const ids = [1];
     return ids.map((id) => ({
@@ -56,7 +65,7 @@ export const ShareModalExample = (props: {
       id: id.toString(),
       name: "John Doe " + id,
       email: "john.doe@example.com " + id,
-      role: id === 1 ? "viewer" : "admin",
+      role: id === 1 ? "reader" : "admin",
       // Example: the first member cannot be deleted (e.g., last admin or current user)
       can_delete: id !== 1,
       user: {
@@ -68,9 +77,10 @@ export const ShareModalExample = (props: {
   });
 
   const invitationRoles = [
+    { label: "Owner", value: "owner" },
     { label: "Admin", value: "admin" },
     { label: "Editor", value: "editor" },
-    { label: "Viewer", value: "viewer" },
+    { label: "Reader", value: "reader" },
   ];
 
   const getAccessRoles = (access: AccessType): DropdownMenuOption[] => {
@@ -83,8 +93,8 @@ export const ShareModalExample = (props: {
         isDisabled: isAdmin,
       },
       {
-        label: "Viewer",
-        value: "viewer",
+        label: "Reader",
+        value: "reader",
         isDisabled: isAdmin,
       },
     ];
@@ -140,6 +150,62 @@ export const ShareModalExample = (props: {
     setInvitations(invitations.filter((invit) => invit.id !== invitation.id));
   };
 
+  const [importModalChildren, setImportModalChildren] = useState<ReactNode>();
+
+  /**
+   * Mock backend for the contacts import: after 1s of "processing", each
+   * imported row is randomly registered as a pending invitation or as a
+   * member, and the lists refresh with the emails and roles from the file.
+   * When `importFails` is set, the "server" rejects the file instead: the
+   * promise resolves false so the import modal stays open and the error is
+   * surfaced through `importModalChildren`.
+   */
+  const onImportContacts = (rows: ShareImportRow[]): Promise<boolean> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (importFails) {
+          setImportModalChildren(
+            <Alert type={VariantType.ERROR}>
+              The server could not process the file. Please try again.
+            </Alert>,
+          );
+          resolve(false);
+          return;
+        }
+        const newInvitations: InvitationType[] = [];
+        const newMembers: AccessType[] = [];
+        rows.forEach((row, index) => {
+          const id = `import-${Date.now()}-${index}`;
+          const user = {
+            id,
+            full_name: row.email.split("@")[0],
+            email: row.email,
+          };
+          if (Math.random() < 0.5) {
+            newInvitations.push({
+              id,
+              surname: "",
+              role: row.role,
+              email: row.email,
+              user,
+            });
+          } else {
+            newMembers.push({
+              id,
+              name: user.full_name,
+              role: row.role,
+              can_delete: true,
+              user,
+            });
+          }
+        });
+        setInvitations((prev) => [...prev, ...newInvitations]);
+        setMembers((prev) => [...prev, ...newMembers]);
+        resolve(true);
+      }, 1000);
+    });
+  };
+
   return (
     <ShareModal
       isOpen={true}
@@ -167,6 +233,10 @@ export const ShareModalExample = (props: {
       }}
       canUpdate={props.canUpdate ?? true}
       canView={props.canView ?? true}
+      allowFileImport={props.allowFileImport}
+      onImportContacts={onImportContacts}
+      importModalChildren={importModalChildren}
+      onImportFileChange={() => setImportModalChildren(undefined)}
       hasNextInvitations={true}
       onLoadNextInvitations={() => {
         console.log("LOAD NEXT INVITATIONS");

@@ -1,0 +1,243 @@
+import { Meta, Canvas, ArgTypes, Markdown } from "@storybook/blocks";
+import * as ShareModalStories from "./share-modal.stories";
+
+<Meta title="Components/Share/Docs" />
+
+# ShareModal
+
+**ShareModal** is the sharing dialog of la Suite: it lets a user search people
+and invite them, review and change who already has access, manage pending
+invitations, configure the share link, and mass-import contacts from a file.
+Every capability is optional and driven by props — you enable the sections you
+need and provide callbacks, the modal owns all the UI in between.
+
+Here it is with everything enabled — search for a user (try typing an email),
+change a role, open the "..." menu on the members title:
+
+<Canvas of={ShareModalStories.Default} />
+
+## Installation
+
+```tsx
+import { ShareModal } from "@gouvfr-lasuite/ui-kit";
+```
+
+Labels are translated via Cunningham (`useCunningham`), so the modal must live
+under a `CunninghamProvider`.
+
+## Anatomy
+
+From top to bottom the modal shows:
+
+1. **A search input** (`onSearchUsers` / `searchUsersResult`) to find users to
+   invite. Hidden when `canUpdate` is `false`.
+2. **Pending selection** — users picked from the results stack up with a role
+   dropdown (`invitationRoles`) and a share button that fires `onInviteUser`.
+3. **Invitations** (`invitations`) — pending invitations, each with a role
+   dropdown and a delete action.
+4. **Members** (`accesses`) — people who already have access, with role
+   management and the optional "Import contacts" menu.
+5. **Footer** — link settings (`linkSettings`) and/or your own
+   `outsideSearchContent` (e.g. a copy-link button).
+
+## Providing the data
+
+The component is generic: your own user/invitation/access types flow through as
+long as they contain the minimal shape below.
+
+### UserData
+
+<Markdown>
+  {`
+| Property | Type | Description |
+|----------|------|-------------|
+| \`id\` | \`string\` | Unique identifier |
+| \`full_name\` | \`string\` | Full name |
+| \`email\` | \`string\` | Email address |
+`}
+</Markdown>
+
+### AccessData
+
+<Markdown>
+  {`
+| Property | Type | Description |
+|----------|------|-------------|
+| \`id\` | \`string\` | Access identifier |
+| \`role\` | \`string\` | Assigned role (key configurable via \`accessRoleKey\`) |
+| \`user\` | \`UserData\` | Related user |
+| \`is_explicit\` | \`boolean?\` | If \`false\`, inherited access (no deletion) |
+| \`can_delete\` | \`boolean?\` | If \`false\`, prevents deletion |
+`}
+</Markdown>
+
+### InvitationData
+
+<Markdown>
+  {`
+| Property | Type | Description |
+|----------|------|-------------|
+| \`id\` | \`string\` | Invitation identifier |
+| \`role\` | \`string\` | Proposed role |
+| \`email\` | \`string\` | Invitee email |
+| \`user\` | \`UserData\` | User data |
+`}
+</Markdown>
+
+## Searching and inviting
+
+Type in the search input and the modal calls `onSearchUsers` (debounced by
+300 ms); render results by feeding them back through `searchUsersResult`.
+Selecting a result adds it to the pending list; the share button then calls
+`onInviteUser(users, role)` with the chosen role from `invitationRoles`.
+
+If the query looks like an email address that matches no result, the modal
+offers to invite that address directly — useful for people who don't have an
+account yet.
+
+```tsx
+<ShareModal
+  isOpen={isOpen}
+  onClose={() => setOpen(false)}
+  onSearchUsers={(query) => setSearchQuery(query)}
+  searchUsersResult={searchResults}
+  invitationRoles={[
+    { label: "Admin", value: "admin" },
+    { label: "Reader", value: "reader" },
+  ]}
+  onInviteUser={(users, role) => invite(users, role)}
+/>
+```
+
+## Managing members and invitations
+
+Role changes and removals go through `onUpdateAccess` / `onDeleteAccess` and
+`onUpdateInvitation` / `onDeleteInvitation`. Per-member role choices can be
+computed with `getAccessRoles(access)` (falls back to `invitationRoles`).
+Paginate long lists with `hasNextMembers` / `onLoadNextMembers` (and the
+invitation equivalents).
+
+Whether a member's access can be deleted is data-driven:
+
+<Markdown>
+  {`
+| \`is_explicit\` | \`can_delete\` | Deletion allowed |
+|---------------|--------------|------------------|
+| \`false\` | - | No (implicit access) |
+| \`true\`/\`undefined\` | \`false\` | No |
+| \`true\`/\`undefined\` | \`true\`/\`undefined\` | Yes |
+`}
+</Markdown>
+
+For example, to prevent deletion of the last admin:
+
+```tsx
+const accesses = rawAccesses.map((access, _, all) => ({
+  ...access,
+  can_delete: all.length > 1 || access.user.id !== currentUserId,
+}));
+```
+
+## Importing contacts from a file
+
+With `allowFileImport={true}` (and `canUpdate`), a "..." menu appears on the
+members title with an "Import contacts" option. It opens the
+[ShareImportModal](?path=/docs/components-share-importmodal--docs), which
+parses a two-column CSV/XLSX file (email, role) and hands you the result:
+
+```tsx
+const [importModalChildren, setImportModalChildren] = useState<ReactNode>();
+
+<ShareModal
+  allowFileImport={true}
+  onImportContacts={async (rows) => {
+    // rows: { email, role }[]
+    try {
+      await inviteContacts(rows);
+      return true; // closes the import modal
+    } catch {
+      setImportModalChildren(
+        <Alert type={VariantType.ERROR}>Import failed, please try again.</Alert>,
+      );
+      return false; // keeps it open
+    }
+  }}
+  importModalChildren={importModalChildren}
+  onImportFileChange={() => setImportModalChildren(undefined)}
+/>;
+```
+
+`onImportContacts` is asynchronous: while its promise is pending the import
+modal cannot be closed (no ESC, no close button, cancel disabled) and the
+import button is disabled with a spinner. Resolve `true` to close the modal;
+resolving `false` (or throwing) keeps it open so you can surface the error —
+`importModalChildren` renders below the modal content, which is the natural
+spot for an error `Alert`. Use `onImportFileChange` to clear it when another
+file is selected, so a stale error does not stick to the new attempt.
+
+At most 100 rows can be imported by default; use `maxImportRows` to change the
+limit (it is forwarded to the import modal as `maxRows`).
+
+Try it below: download the template from the import modal (or bring any
+two-column CSV), import it, and watch the lists refresh — this example mocks a
+backend that processes the file, then randomly registers each row
+as a pending invitation or as a member:
+
+<Canvas of={ShareModalStories.ImportContacts} />
+
+And here the mocked backend always rejects the file — the modal stays open and
+the error is displayed through `importModalChildren`:
+
+<Canvas of={ShareModalStories.ImportContactsFailure} />
+
+## Read-only and restricted views
+
+Two props control what the viewer may do:
+
+- `canUpdate={false}` — read-only: no search input, no role dropdowns, no
+  deletions, no import menu.
+- `canView={false}` — the viewer may not even see who has access: the lists are
+  replaced with a message (`cannotViewMessage`, `cannotViewChildren`). Note
+  that `canUpdate` must also be `false` in that case, otherwise the component
+  throws.
+
+<Canvas of={ShareModalStories.DefaultReadOnly} />
+
+<Canvas of={ShareModalStories.DefaultCannotView} />
+
+## Link settings
+
+Enable the footer with `linkSettings={true}`: a link-reach dropdown
+(`linkReachChoices`, `onUpdateLinkReach`) and optionally a link-role dropdown
+(`showLinkRole`, `linkRoleChoices`, `onUpdateLinkRole`). Use `hideInvitations`
+and `hideMembers` to reduce the modal to the link settings alone:
+
+<Canvas of={ShareModalStories.LinkSettingsOnly} />
+
+Without the role selector, only the reach can be changed:
+
+<Canvas of={ShareModalStories.LinkSettingsOnlyWithoutRole} />
+
+Read-only variants of both are available in the sidebar
+(`LinkSettingsOnlyReadOnly`, `LinkSettingsOnlyWithoutRoleReadOnly`), and
+`WithoutLinkSettings` shows the opposite: people management with no footer.
+
+## Customizing texts
+
+Built-in texts can be overridden per-key with `customTranslations` — here the
+description of the "public" reach choice:
+
+<Canvas of={ShareModalStories.LinkSettingsCustomTexts} />
+
+## Requirements and validation
+
+The component throws at render time when a configuration cannot work:
+
+- `invitationRoles` and `onSearchUsers` are required unless both
+  `hideInvitations` and `hideMembers` are set.
+- `onInviteUser` is required unless `hideInvitations` is set.
+- `canView={false}` requires `canUpdate={false}`.
+
+## Props
+
+<ArgTypes of={ShareModalStories} />

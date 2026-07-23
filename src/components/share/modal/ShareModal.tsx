@@ -1,8 +1,14 @@
 import {
+  DropdownMenu,
   DropdownMenuOption,
   DropdownMenuProps,
+  useDropdownMenu,
 } from ":/components/dropdown-menu";
 import { ShareSearchField } from "./ShareSearchField";
+import {
+  ShareImportModal,
+  ShareImportRow,
+} from ":/components/share/import-modal/ShareImportModal";
 import {
   useState,
   useRef,
@@ -33,6 +39,8 @@ import { ShareInvitationItem } from "./items/ShareInvitationItem";
 import { useResponsive } from ":/hooks/useResponsive";
 import { ShareLinkSettings } from "./items/ShareLinkSettings";
 import { CustomTranslations } from ":/hooks/useCustomTranslations";
+import { More } from ":/icons";
+import { IconSize } from ":/components/icon";
 
 enum ViewMode {
   CANNOT_VIEW = "cannot_view",
@@ -45,15 +53,15 @@ type ShareModalInvitationProps<UserType, InvitationType> = {
   invitations?: InvitationData<UserType, InvitationType>[];
   onUpdateInvitation?: (
     invitation: InvitationData<UserType, InvitationType>,
-    role: string
+    role: string,
   ) => void;
   onDeleteInvitation?: (
-    invitation: InvitationData<UserType, InvitationType>
+    invitation: InvitationData<UserType, InvitationType>,
   ) => void;
   hasNextInvitations?: boolean;
   onLoadNextInvitations?: () => void;
   invitationRoleTopMessage?: (
-    invitation: InvitationData<UserType, InvitationType>
+    invitation: InvitationData<UserType, InvitationType>,
   ) => string;
 };
 
@@ -66,10 +74,10 @@ type ShareModalAccessProps<UserType, AccessType> = {
   onDeleteAccess?: (access: AccessData<UserType, AccessType>) => void;
   onUpdateAccess?: (
     access: AccessData<UserType, AccessType>,
-    role: string
+    role: string,
   ) => void;
   accessRoleTopMessage?: (
-    access: AccessData<UserType, AccessType>
+    access: AccessData<UserType, AccessType>,
   ) => string | ReactNode | undefined;
 };
 
@@ -110,11 +118,16 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   onClose: () => void;
   invitationRoles?: DropdownMenuOption[];
   getAccessRoles?: (
-    access: AccessData<UserType, AccessType>
+    access: AccessData<UserType, AccessType>,
   ) => DropdownMenuOption[];
   outsideSearchContent?: ReactNode;
   hideInvitations?: boolean;
   hideMembers?: boolean;
+  allowFileImport?: boolean;
+  maxImportRows?: number;
+  onImportContacts?: (rows: ShareImportRow[]) => Promise<boolean> | boolean;
+  onImportFileChange?: (file?: File) => void;
+  importModalChildren?: ReactNode;
   customTranslations?: CustomTranslations;
 } & ShareModalInvitationProps<UserType, InvitationType> &
   ShareModalAccessProps<UserType, AccessType> &
@@ -133,6 +146,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   hasNextInvitations = false,
   hideInvitations = false,
   hideMembers = false,
+  allowFileImport = false,
   cannotViewChildren,
   customTranslations,
   ...props
@@ -166,8 +180,12 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     UserData<UserType>[]
   >([]);
   const [selectedInvitationRole, setSelectedInvitationRole] = useState<string>(
-    props.invitationRoles?.[0]?.value ?? ""
+    props.invitationRoles?.[0]?.value ?? "",
   );
+  const importMenu = useDropdownMenu();
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const showFileImport = allowFileImport && canUpdate;
 
   /**
    * The height of the modal content
@@ -209,7 +227,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       setSearchQuery("");
       props.onSearchUsers!("");
     },
-    [props]
+    [props],
   );
 
   const onRemoveUser = (user: UserData<UserType>) => {
@@ -218,7 +236,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
 
   const usersData: QuickSearchData<UserData<UserType>> = useMemo(() => {
     const searchMemberResult = searchUsersResult?.filter(
-      (user) => !pendingInvitationUsers.includes(user)
+      (user) => !pendingInvitationUsers.includes(user),
     );
     let emptyString: string | undefined =
       searchQuery !== ""
@@ -227,7 +245,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
 
     const isValidEmail = (email: string) => {
       return !!email.match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,}))$/,
       );
     };
 
@@ -307,178 +325,238 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const viewMode = getViewMode();
 
   return (
-    <Modal
-      title={props.modalTitle ?? t("components.share.modalTitle")}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      aria-label={t("components.share.modalAriaLabel")}
-      closeOnClickOutside
-      size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
-    >
-      <div className="c__share-modal no-padding">
-        {viewMode === ViewMode.CANNOT_VIEW && (
-          <div
-            className="c__share-modal__cannot-view"
-            style={{
-              height: listHeight,
-            }}
-          >
-            <div className="c__share-modal__cannot-view__content">
-              <p>
-                {props.cannotViewMessage ??
-                  t("components.share.cannot_view.message")}
-              </p>
-            </div>
-            {cannotViewChildren}
-          </div>
-        )}
-
-        {viewMode === ViewMode.SEARCH && (
-          <QuickSearch
-            onFilter={onInputChange}
-            inputValue={inputValue}
-            showInput={canUpdate}
-            loading={props.loading}
-            placeholder={t("components.share.user.placeholder")}
-            inputContent={
-              <div ref={selectedUsersRef}>
-                <ShareSearchField
-                  selectedUsers={pendingInvitationUsers}
-                  onRemoveUser={onRemoveUser}
-                  inputValue={inputValue}
-                  onInputChange={onInputChange}
-                  placeholder={t("components.share.user.placeholder")}
-                  loading={props.loading}
-                  roles={props.invitationRoles!}
-                  selectedRole={selectedInvitationRole}
-                  onSelectRole={setSelectedInvitationRole}
-                  onShare={() => {
-                    props.onInviteUser!(
-                      pendingInvitationUsers,
-                      selectedInvitationRole,
-                    );
-                    setPendingInvitationUsers([]);
-                  }}
-                />
-              </div>
-            }
-          >
+    <>
+      <Modal
+        title={props.modalTitle ?? t("components.share.modalTitle")}
+        isOpen={props.isOpen}
+        onClose={props.onClose}
+        aria-label={t("components.share.modalAriaLabel")}
+        closeOnClickOutside
+        size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
+      >
+        <div className="c__share-modal no-padding">
+          {viewMode === ViewMode.CANNOT_VIEW && (
             <div
+              className="c__share-modal__cannot-view"
               style={{
                 height: listHeight,
-                overflowY: "auto",
               }}
             >
-              {showSearchUsers && (
-                <div
-                  className="c__share-modal__search-users"
-                  data-testid="search-users-list"
-                >
-                  <QuickSearchGroup
-                    group={usersData}
-                    onSelect={(user) => {
-                      onSelect(user);
-                    }}
-                    renderElement={(user) => <SearchUserItem user={user} />}
-                  />
-                </div>
-              )}
-
-              {!showSearchUsers && children}
-
-              {/* Invitations list */}
-              {showInvitations && (
-                <div
-                  className="c__share-modal__invitations"
-                  data-testid="invitations-list"
-                >
-                  <span className="c__share-modal__invitations-title">
-                    {t("components.share.invitations.title")}
-                  </span>
-                  {invitations.map((invitation) => (
-                    <ShareInvitationItem
-                      key={invitation.id}
-                      invitation={invitation}
-                      roles={props.invitationRoles!}
-                      updateRole={props.onUpdateInvitation}
-                      deleteInvitation={props.onDeleteInvitation}
-                      canUpdate={canUpdate}
-                      roleTopMessage={props.invitationRoleTopMessage?.(
-                        invitation
-                      )}
-                    />
-                  ))}
-                  <ShowMoreButton
-                    show={hasNextInvitations}
-                    onShowMore={props.onLoadNextInvitations}
-                  />
-                </div>
-              )}
-
-              {/* Members list */}
-              {showMembers && (
-                <div
-                  className="c__share-modal__members"
-                  data-testid="members-list"
-                >
-                  <span className="c__share-modal__members-title">
-                    {t(
-                      members.length > 1
-                        ? "components.share.members.title_plural"
-                        : "components.share.members.title_singular",
-                      {
-                        count: members.length,
-                      }
-                    )}
-                  </span>
-                  {members.map((member) => (
-                    <ShareMemberItem
-                      key={member.id}
-                      accessData={member}
-                      accessRoleKey={props.accessRoleKey ?? "role"}
-                      canUpdate={canUpdate}
-                      roleTopMessage={props.accessRoleTopMessage?.(member)}
-                      roles={
-                        props.getAccessRoles?.(member) ?? props.invitationRoles!
-                      }
-                      updateRole={props.onUpdateAccess}
-                      deleteAccess={props.onDeleteAccess}
-                    />
-                  ))}
-                  <ShowMoreButton
-                    show={hasNextMembers}
-                    onShowMore={props.onLoadNextMembers}
-                  />
-                </div>
-              )}
-            </div>
-          </QuickSearch>
-        )}
-
-        <div ref={handleRef}>
-          {!showSearchUsers && (
-            <div className="c__share-modal__footer">
-              {props.linkSettings && (
-                <ShareLinkSettings
-                  linkReachChoices={props.linkReachChoices}
-                  canUpdate={canUpdate}
-                  onUpdateLinkReach={props.onUpdateLinkReach!}
-                  linkReach={props.linkReach}
-                  linkRoleChoices={props.linkRoleChoices}
-                  linkRole={props.linkRole}
-                  onUpdateLinkRole={props.onUpdateLinkRole!}
-                  showLinkRole={props.showLinkRole}
-                  customTranslations={customTranslations}
-                  topLinkReachMessage={props.topLinkReachMessage}
-                  topLinkRoleMessage={props.topLinkRoleMessage}
-                />
-              )}
-              {outsideSearchContent}
+              <div className="c__share-modal__cannot-view__content">
+                <p>
+                  {props.cannotViewMessage ??
+                    t("components.share.cannot_view.message")}
+                </p>
+              </div>
+              {cannotViewChildren}
             </div>
           )}
+
+          {viewMode === ViewMode.SEARCH && (
+            <QuickSearch
+              onFilter={onInputChange}
+              inputValue={inputValue}
+              showInput={canUpdate}
+              loading={props.loading}
+              placeholder={t("components.share.user.placeholder")}
+              inputContent={
+                <div ref={selectedUsersRef}>
+                  <ShareSearchField
+                    selectedUsers={pendingInvitationUsers}
+                    onRemoveUser={onRemoveUser}
+                    inputValue={inputValue}
+                    onInputChange={onInputChange}
+                    placeholder={t("components.share.user.placeholder")}
+                    loading={props.loading}
+                    roles={props.invitationRoles!}
+                    selectedRole={selectedInvitationRole}
+                    onSelectRole={setSelectedInvitationRole}
+                    onShare={() => {
+                      props.onInviteUser!(
+                        pendingInvitationUsers,
+                        selectedInvitationRole,
+                      );
+                      setPendingInvitationUsers([]);
+                    }}
+                  />
+                </div>
+              }
+            >
+              <div
+                style={{
+                  height: listHeight,
+                  overflowY: "auto",
+                }}
+              >
+                {showSearchUsers && (
+                  <div
+                    className="c__share-modal__search-users"
+                    data-testid="search-users-list"
+                  >
+                    <QuickSearchGroup
+                      group={usersData}
+                      onSelect={(user) => {
+                        onSelect(user);
+                      }}
+                      renderElement={(user) => <SearchUserItem user={user} />}
+                    />
+                  </div>
+                )}
+
+                {!showSearchUsers && children}
+
+                {/* Invitations list */}
+                {showInvitations && (
+                  <div
+                    className="c__share-modal__invitations"
+                    data-testid="invitations-list"
+                  >
+                    <span className="c__share-modal__invitations-title">
+                      {t("components.share.invitations.title")}
+                    </span>
+                    {invitations.map((invitation) => (
+                      <ShareInvitationItem
+                        key={invitation.id}
+                        invitation={invitation}
+                        roles={props.invitationRoles!}
+                        updateRole={props.onUpdateInvitation}
+                        deleteInvitation={props.onDeleteInvitation}
+                        canUpdate={canUpdate}
+                        roleTopMessage={props.invitationRoleTopMessage?.(
+                          invitation,
+                        )}
+                      />
+                    ))}
+                    <ShowMoreButton
+                      show={hasNextInvitations}
+                      onShowMore={props.onLoadNextInvitations}
+                    />
+                  </div>
+                )}
+
+                {/* Members list */}
+                {showMembers && (
+                  <div
+                    className="c__share-modal__members"
+                    data-testid="members-list"
+                  >
+                    <div className="c__share-modal__members-title">
+                      <span>
+                        {t(
+                          members.length > 1
+                            ? "components.share.members.title_plural"
+                            : "components.share.members.title_singular",
+                          {
+                            count: members.length,
+                          },
+                        )}
+                      </span>
+                      {showFileImport && (
+                        <DropdownMenu
+                          options={[
+                            {
+                              label: t("components.share.import.title"),
+                              icon: (
+                                <span className="material-icons">
+                                  upload_file
+                                </span>
+                              ),
+                              callback: () => setIsImportModalOpen(true),
+                            },
+                          ]}
+                          isOpen={importMenu.isOpen}
+                          onOpenChange={importMenu.setIsOpen}
+                        >
+                          <Button
+                            variant="tertiary"
+                            color="neutral"
+                            size="small"
+                            icon={<More size={IconSize.SMALL} />}
+                            onClick={() =>
+                              importMenu.setIsOpen(!importMenu.isOpen)
+                            }
+                            aria-label={t("components.share.import.title")}
+                          />
+                        </DropdownMenu>
+                      )}
+                    </div>
+                    {members.map((member) => (
+                      <ShareMemberItem
+                        key={member.id}
+                        accessData={member}
+                        accessRoleKey={props.accessRoleKey ?? "role"}
+                        canUpdate={canUpdate}
+                        roleTopMessage={props.accessRoleTopMessage?.(member)}
+                        roles={
+                          props.getAccessRoles?.(member) ??
+                          props.invitationRoles!
+                        }
+                        updateRole={props.onUpdateAccess}
+                        deleteAccess={props.onDeleteAccess}
+                      />
+                    ))}
+                    <ShowMoreButton
+                      show={hasNextMembers}
+                      onShowMore={props.onLoadNextMembers}
+                    />
+                  </div>
+                )}
+              </div>
+            </QuickSearch>
+          )}
+
+          <div ref={handleRef}>
+            {!showSearchUsers && (
+              <div className="c__share-modal__footer">
+                {props.linkSettings && (
+                  <ShareLinkSettings
+                    linkReachChoices={props.linkReachChoices}
+                    canUpdate={canUpdate}
+                    onUpdateLinkReach={props.onUpdateLinkReach!}
+                    linkReach={props.linkReach}
+                    linkRoleChoices={props.linkRoleChoices}
+                    linkRole={props.linkRole}
+                    onUpdateLinkRole={props.onUpdateLinkRole!}
+                    showLinkRole={props.showLinkRole}
+                    customTranslations={customTranslations}
+                    topLinkReachMessage={props.topLinkReachMessage}
+                    topLinkRoleMessage={props.topLinkRoleMessage}
+                  />
+                )}
+                {outsideSearchContent}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+      {showFileImport && (
+        <ShareImportModal
+          isOpen={isImportModalOpen}
+          onClose={() => setIsImportModalOpen(false)}
+          maxRows={props.maxImportRows}
+          isImporting={isImporting}
+          onFileChange={props.onImportFileChange}
+          onImport={async (rows) => {
+            if (!props.onImportContacts) {
+              setIsImportModalOpen(false);
+              return;
+            }
+            setIsImporting(true);
+            try {
+              if (await props.onImportContacts(rows)) {
+                setIsImportModalOpen(false);
+              }
+            } catch {
+              // A rejected import behaves like `false`: the modal stays open.
+            } finally {
+              setIsImporting(false);
+            }
+          }}
+        >
+          {props.importModalChildren}
+        </ShareImportModal>
+      )}
+    </>
   );
 };
 
