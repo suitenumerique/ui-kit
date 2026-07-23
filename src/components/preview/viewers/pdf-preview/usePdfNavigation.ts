@@ -35,8 +35,8 @@ export const usePdfNavigation = ({
     setPageInputValue(e.target.value);
   };
 
-  const handlePageInputSubmit = () => {
-    const parsed = parseInt(pageInputValue, 10);
+  const submitPageInput = (value: string) => {
+    const parsed = parseInt(value, 10);
     if (isNaN(parsed)) {
       setPageInputValue(String(currentPage));
       return;
@@ -44,9 +44,13 @@ export const usePdfNavigation = ({
     goToPage(parsed);
   };
 
+  const handlePageInputSubmit = (e: React.FocusEvent<HTMLInputElement>) => {
+    submitPageInput(e.currentTarget.value);
+  };
+
   const handlePageInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handlePageInputSubmit();
+      submitPageInput(e.currentTarget.value);
     }
   };
 

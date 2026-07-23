@@ -7,7 +7,7 @@ interface PdfControlsProps {
   pageInputValue: string;
   onToggleSidebar: () => void;
   onPageInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onPageInputSubmit: () => void;
+  onPageInputSubmit: (e: React.FocusEvent<HTMLInputElement>) => void;
   onPageInputKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onZoomIn: () => void;
   onZoomReset: () => void;
