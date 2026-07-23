@@ -27,6 +27,11 @@ export const commonTokenOverrides = {
       "body--background-color-hover":
         "ref(contextuals.background.semantic.neutral.tertiary)",
     },
+    "forms-fileuploader": {
+      "border-style": "solid",
+      "border-radius": "4px",
+      "border-width": "1px",
+    },
     "forms-checkbox": {
       "font-size": "ref(globals.font.sizes.sm)",
     },
@@ -487,7 +492,7 @@ export const whiteLabelGlobals = {
     "white-850": "#F8F8F9D9",
     "white-900": "#F8F8F9E5",
     "white-950": "#F8F8F9F2",
-    "white-975": "#F8F8F9F9"
+    "white-975": "#F8F8F9F9",
   },
   ...commonGlobals,
   font: {
@@ -496,7 +501,7 @@ export const whiteLabelGlobals = {
       base: "Hanken Grotesk, Inter, Roboto Flex Variable, sans-serif",
       accent: "Hanken Grotesk, Inter, Roboto Flex Variable, sans-serif",
     },
-  }
+  },
 };
 
 export const dsfrGlobals = {
@@ -830,7 +835,7 @@ export const dsfrGlobals = {
     "white-850": "#F6F8F9D9",
     "white-900": "#F6F8F9E5",
     "white-950": "#F6F8F9F2",
-    "white-975": "#F6F8F9F9"
+    "white-975": "#F6F8F9F9",
   },
   ...commonGlobals,
 };
