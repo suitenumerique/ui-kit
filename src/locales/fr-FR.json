@@ -13,6 +13,23 @@
       "modalTitle": "Partage",
       "modalAriaLabel": "Modale de partage",
       "shareButton": "Partager",
+      "import": {
+        "title": "Importer des contacts",
+        "description": "Téléversez un fichier CSV ou XLS avec vos contacts, ou partez de notre modèle.",
+        "download_template": "Télécharger le modèle",
+        "cancel": "Annuler",
+        "import": "Importer",
+        "invalid_file_type": "Seuls les fichiers CSV ou XLSX sont acceptés.",
+        "parsed_rows_singular": "{count} ligne prête à être importée.",
+        "parsed_rows_plural": "{count} lignes prêtes à être importées.",
+        "errors": {
+          "file_too_large": "Le fichier dépasse la taille maximale de 200 Ko.",
+          "unreadable": "Le fichier n'a pas pu être lu. Vérifiez qu'il s'agit d'un fichier CSV ou XLSX valide.",
+          "empty": "Le fichier ne contient aucune ligne.",
+          "invalid_row": "La ligne {row} est invalide : deux colonnes sont attendues (email, rôle).",
+          "too_many_rows": "Le fichier dépasse le maximum de {max} lignes."
+        }
+      },
       "access": {
         "delete": "Retirer l'accès"
       },

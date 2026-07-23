@@ -13,7 +13,23 @@
       "shareButton": "Share",
       "modalTitle": "Share folder",
       "modalAriaLabel": "Share modal",
-
+      "import": {
+        "title": "Import contacts",
+        "description": "Upload a CSV or XLS file with your contacts, or start from our template.",
+        "download_template": "Download template",
+        "cancel": "Cancel",
+        "import": "Import",
+        "invalid_file_type": "Only CSV or XLSX files are allowed.",
+        "parsed_rows_singular": "{count} row ready to be imported.",
+        "parsed_rows_plural": "{count} rows ready to be imported.",
+        "errors": {
+          "file_too_large": "The file exceeds the maximum size of 200 KB.",
+          "unreadable": "The file could not be read. Please check that it is a valid CSV or XLSX file.",
+          "empty": "The file contains no rows.",
+          "invalid_row": "Row {row} is invalid: two columns are expected (email, role).",
+          "too_many_rows": "The file exceeds the maximum of {max} rows."
+        }
+      },
       "access": {
         "delete": "Remove access"
       },

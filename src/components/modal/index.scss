@@ -9,6 +9,12 @@
   margin-bottom: var(--c--globals--spacings--2xs);
 }
 
+.c__modal__content__text--light {
+  color: var(--c--contextuals--content--semantic--neutral--secondary);
+  font-size: 14px;
+  font-weight: 400;
+}
+
 .c__modal__close .c__button--tertiary-text:hover,
 .c__modal__close .c__button--tertiary-text:focus-visible {
   box-shadow: none;

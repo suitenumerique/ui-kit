@@ -59,15 +59,16 @@
     "cmdk": "1.0.4",
     "react-arborist": "3.4.3",
     "react-aria-components": "1.16.0",
+    "react-pdf": "10.1.0",
     "react-resizable-panels": "2.1.7",
     "react-stately": "3.37.0",
     "react-virtualized": "9.22.6",
-    "react-pdf": "10.1.0"
+    "read-excel-file": "9.3.1"
   },
   "peerDependencies": {
+    "@tanstack/react-query": "^5",
     "react": "^19.1.2",
-    "react-dom": "^19.1.2",
-    "@tanstack/react-query": "^5"
+    "react-dom": "^19.1.2"
   },
   "devDependencies": {
     "@babel/core": "7.26.0",
@@ -76,6 +77,8 @@
     "@babel/preset-typescript": "7.26.0",
     "@chromatic-com/storybook": "3.2.4",
     "@eslint/js": "9.17.0",
+    "@playwright/experimental-ct-react": "1.52.0",
+    "@playwright/test": "1.52.0",
     "@storybook/addon-a11y": "8.5.2",
     "@storybook/addon-essentials": "8.5.2",
     "@storybook/addon-interactions": "8.5.2",
@@ -104,6 +107,7 @@
     "glob": "11.0.0",
     "globals": "15.14.0",
     "jsdom": "25.0.1",
+    "pdf-lib": "1.17.1",
     "react": "19.1.2",
     "react-dom": "19.1.2",
     "react-hook-form": "7.54.2",
@@ -122,10 +126,7 @@
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "2.1.8",
     "vitest-fetch-mock": "0.4.3",
-    "yup": "1.6.1",
-    "@playwright/experimental-ct-react": "1.52.0",
-    "@playwright/test": "1.52.0",
-    "pdf-lib": "1.17.1"
+    "yup": "1.6.1"
   },
   "eslintConfig": {
     "extends": [
