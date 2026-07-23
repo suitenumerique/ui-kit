@@ -59,7 +59,11 @@ const createSimulatedUploadFiles = (): SimulatedUploadFile[] => [
   },
   {
     id: "simulated-error",
-    originalFile: createFileFixture("Flower wallpaper.jpg", 8 * MB, "image/jpeg"),
+    originalFile: createFileFixture(
+      "Flower wallpaper.jpg",
+      8 * MB,
+      "image/jpeg",
+    ),
     status: "error",
     error: "The upload failed",
     errorDetails: "The file could not be uploaded. Please try again.",
@@ -100,7 +104,7 @@ const SimulatedUploader = (props: FileUploaderProps) => {
           return { ...file, progress };
         }),
       );
-    }, 1000);
+    }, 100);
 
     return () => window.clearInterval(intervalId);
   }, []);
@@ -137,7 +141,8 @@ const SimulatedUploader = (props: FileUploaderProps) => {
                 ...file,
                 status: "uploading" as const,
                 progress: 0,
-                outcome: index % 2 === 0 ? ("done" as const) : ("error" as const),
+                outcome:
+                  index % 2 === 0 ? ("done" as const) : ("error" as const),
               };
             });
           });
@@ -160,9 +165,8 @@ const SimulatedUploader = (props: FileUploaderProps) => {
 };
 
 const meta: Meta<typeof FileUploader> = {
-  title: "Components/Upload",
+  title: "Components/Forms/FileUploader",
   component: FileUploader,
-  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {

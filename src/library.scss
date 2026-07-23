@@ -1,6 +1,7 @@
 @use "@gouvfr-lasuite/cunningham-react/style";
 @use "cunningham-custom-style";
 @use "./components/alert";
+@use "./components/form/file-uploader";
 @use "./components/button";
 @use "./components/dropdown-menu";
 @use "./components/footer";
@@ -44,7 +45,6 @@
 @use "./components/feedback-form";
 @use "./components/onboarding-modal";
 @use "./components/storage-gauge";
-@use "./components/upload";
 @use "./components/preview/preview";
 @use "react-pdf/dist/Page/AnnotationLayer.css";
 @use "react-pdf/dist/Page/TextLayer.css";

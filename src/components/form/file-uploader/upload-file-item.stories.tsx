@@ -91,7 +91,7 @@ const RowPreview = ({
 );
 
 const meta = {
-  title: "Components/Upload/Rows",
+  title: "Components/Forms/FileUploader/Rows",
   component: UploadFileItem,
   tags: ["autodocs"],
   parameters: {
