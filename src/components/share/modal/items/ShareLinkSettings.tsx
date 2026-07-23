@@ -16,6 +16,8 @@ import {
   PublicIcon,
   RestrictedIcon,
 } from "./share-modal-icons";
+import { IconSize } from ":/components/icon";
+import { ChevronDown, ChevronUp } from ":/icons";
 
 const getIcon = (value: string | undefined) => {
   switch (value) {
@@ -137,6 +139,7 @@ export const ShareLinkSettings = ({
           >
             <Button
               variant="tertiary"
+              size="nano"
               icon={getIcon(selectedLinkReach)}
               iconPosition="left"
               data-testid="share-link-reach-dropdown-button"
@@ -182,13 +185,14 @@ export const ShareLinkSettings = ({
           >
             <Button
               variant="tertiary"
+              color="neutral"
               data-testid="share-link-role-dropdown-button"
               icon={
-                <span className="material-icons">
-                  {linkRoleDropdown.isOpen
-                    ? "arrow_drop_up"
-                    : "arrow_drop_down"}
-                </span>
+                linkRoleDropdown.isOpen ? (
+                  <ChevronUp size={IconSize.SMALL} />
+                ) : (
+                  <ChevronDown size={IconSize.SMALL} />
+                )
               }
               iconPosition="right"
               onClick={() => {
@@ -196,7 +200,7 @@ export const ShareLinkSettings = ({
                   linkRoleDropdown.setIsOpen(!linkRoleDropdown.isOpen);
                 }
               }}
-              size="small"
+              size="nano"
             >
               {selectedLinkRoleChoice?.label}
             </Button>

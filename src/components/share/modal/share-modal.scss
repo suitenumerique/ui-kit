@@ -7,7 +7,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 .c__share-modal__members {
   display: flex;
   flex-direction: column;
-  gap: var(--c--globals--spacings--xs);
+  gap: 4px;
   padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   padding-top: 0;
 }
@@ -25,11 +25,24 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 }
 
 .c__share-modal__members-title,
-.c__share-modal__invitations-title {
-  font-size: var(--c--globals--font--sizes--sm);
-  font-weight: 700;
-  margin-bottom: var(--c--globals--spacings--4xs);
-  color: var(--c--contextuals--content--semantic--neutral--primary);
+.c__share-modal__invitations-title,
+.c__share-modal__link-settings__title {
+  font-size: var(--c--globals--font--sizes--xs);
+  font-weight: 500;
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+}
+
+.c__share-modal__members-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.c__share-member-item {
+  .c__quick-search-item-template {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .c__share-modal__copy-link-footer {
@@ -115,17 +128,10 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 }
 
 .c__share-modal__link-settings {
-  padding: var(--c--globals--spacings--base);
+  padding: 12px 16px;
   gap: 8px;
   display: flex;
   flex-direction: column;
-
-  &__title {
-    font-size: var(--c--globals--font--sizes--sm);
-    font-weight: 700;
-    margin-bottom: var(--c--globals--spacings--4xs);
-    color: var(--c--contextuals--content--semantic--neutral--primary);
-  }
 
   &__content {
     display: flex;

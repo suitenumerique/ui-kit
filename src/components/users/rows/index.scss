@@ -3,10 +3,15 @@
   align-items: center;
   gap: var(--c--globals--spacings--xs);
 
+  .c__avatar {
+    flex-shrink: 0;
+  }
+
   &__name {
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
+    word-break: break-all;
     color: var(--c--contextuals--content--semantic--neutral--primary);
   }
 
@@ -19,6 +24,7 @@
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
     font-size: 12px;
     line-height: 16px;
+    word-break: break-all;
 
     &.has-only-email {
       font-weight: 500;

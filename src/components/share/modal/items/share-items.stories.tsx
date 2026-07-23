@@ -16,7 +16,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 const roles = [
   { label: "Admin", value: "admin" },
   { label: "Editor", value: "editor" },
-  { label: "Viewer", value: "viewer" },
+  { label: "Reader", value: "reader" },
 ];
 
 export const InvitationItem = {

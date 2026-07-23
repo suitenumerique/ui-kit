@@ -6,6 +6,8 @@ import {
   DropdownMenuOption,
   DropdownMenuProps,
 } from ":/components/dropdown-menu";
+import { ChevronDown, ChevronUp } from ":/icons";
+import { IconSize } from ":/components/icon";
 
 type AccessRoleDropdownProps = {
   selectedRole: string;
@@ -79,13 +81,15 @@ export const AccessRoleDropdown = ({
       <Button
         className="c__access-role-dropdown"
         data-testid="access-role-dropdown-button"
-        size="small"
-        color="brand"
+        size="nano"
+        color="neutral"
         variant="tertiary"
         icon={
-          <span className="material-icons">
-            {isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-          </span>
+          isOpen ? (
+            <ChevronUp size={IconSize.SMALL} />
+          ) : (
+            <ChevronDown size={IconSize.SMALL} />
+          )
         }
         iconPosition="right"
         onClick={() => {
