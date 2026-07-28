@@ -35,6 +35,8 @@ export default defineConfig({
         /^pdfjs-dist\//,
         "react-virtualized",
         /^react-virtualized\//,
+        "read-excel-file",
+        /^read-excel-file\//,
       ],
       output: {
         globals: {

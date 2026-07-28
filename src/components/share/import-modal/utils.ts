@@ -1,4 +1,4 @@
-import { readSheet } from "read-excel-file/universal";
+import { readSheet } from "read-excel-file/browser";
 
 export const ACCEPTED_FILE_EXTENSIONS = [".csv", ".xlsx"];
 export const MAX_IMPORT_FILE_SIZE = 200 * 1024; // 200 KB
