@@ -112,6 +112,27 @@ test.describe("ShareModal import contacts seam", () => {
     await expect(importModalDescription(page)).toBeVisible();
   });
 
+  test("resets the import modal state after a successful import", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal allowFileImport />);
+
+    await openImportModalAndUpload(page);
+
+    await page.getByRole("button", { name: "Import", exact: true }).click();
+    await expect(importModalDescription(page)).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Import contacts" }).click();
+    await page.getByRole("menuitem", { name: "Import contacts" }).click();
+
+    await expect(importModalDescription(page)).toBeVisible();
+    await expect(page.locator(".c__alert--info")).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Import", exact: true }),
+    ).toBeDisabled();
+  });
+
   test("forwards importModalChildren into the import modal", async ({
     mount,
     page,

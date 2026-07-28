@@ -535,7 +535,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
           </div>
         </div>
       </Modal>
-      {showFileImport && (
+      {showFileImport && isImportModalOpen && (
         <ShareImportModal
           isOpen={isImportModalOpen}
           onClose={() => setIsImportModalOpen(false)}
