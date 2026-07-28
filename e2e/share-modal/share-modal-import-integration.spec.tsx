@@ -99,6 +99,19 @@ test.describe("ShareModal import contacts seam", () => {
     await expect(importModalDescription(page)).toHaveCount(0);
   });
 
+  test("keeps the import action reachable when there are no members", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal allowFileImport membersCount={0} />);
+
+    await expect(page.getByTestId("share-member-item")).toHaveCount(0);
+    await page.getByRole("button", { name: "Import contacts" }).click();
+    await page.getByRole("menuitem", { name: "Import contacts" }).click();
+
+    await expect(importModalDescription(page)).toBeVisible();
+  });
+
   test("forwards importModalChildren into the import modal", async ({
     mount,
     page,

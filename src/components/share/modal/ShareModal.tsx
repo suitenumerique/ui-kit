@@ -309,6 +309,11 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const showMembers =
     !hideMembers && !showSearchUsers && !props.loading && members.length > 0;
 
+  // The import action lives in the members header, but it must stay
+  // reachable when the item has no members yet.
+  const showImportAction =
+    showFileImport && !hideMembers && !showSearchUsers && !props.loading;
+
   const getViewMode = () => {
     if (!canView) {
       return ViewMode.CANNOT_VIEW;
@@ -435,23 +440,24 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                 )}
 
                 {/* Members list */}
-                {showMembers && (
+                {(showMembers || showImportAction) && (
                   <div
                     className="c__share-modal__members"
                     data-testid="members-list"
                   >
                     <div className="c__share-modal__members-title">
                       <span>
-                        {t(
-                          members.length > 1
-                            ? "components.share.members.title_plural"
-                            : "components.share.members.title_singular",
-                          {
-                            count: members.length,
-                          },
-                        )}
+                        {members.length > 0 &&
+                          t(
+                            members.length > 1
+                              ? "components.share.members.title_plural"
+                              : "components.share.members.title_singular",
+                            {
+                              count: members.length,
+                            },
+                          )}
                       </span>
-                      {showFileImport && (
+                      {showImportAction && (
                         <DropdownMenu
                           options={[
                             {
