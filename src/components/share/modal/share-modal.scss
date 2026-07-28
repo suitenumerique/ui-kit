@@ -7,7 +7,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 .c__share-modal__members {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--c--globals--spacings--3xs);
   padding: var(--c--globals--spacings--xs) var(--c--globals--spacings--base);
   padding-top: 0;
 }
@@ -128,7 +128,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 }
 
 .c__share-modal__link-settings {
-  padding: 12px 16px;
+  padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--base);
   gap: 8px;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 .c__share__import__modal {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--c--globals--spacings--base);
 }
