@@ -7,7 +7,7 @@ const calls = (page: Page) =>
 
 const importModalDescription = (page: Page) =>
   page.getByText(
-    "Upload a CSV or XLS file with your contacts, or start from our template.",
+    "Upload a CSV or XLSX file with your contacts, or start from our template.",
   );
 
 const openImportModalAndUpload = async (page: Page) => {

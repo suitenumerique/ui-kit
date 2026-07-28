@@ -28,7 +28,7 @@ test.describe("ShareImportModal", () => {
     await expect(page.getByText("Import contacts")).toBeVisible();
     await expect(
       page.getByText(
-        "Upload a CSV or XLS file with your contacts, or start from our template.",
+        "Upload a CSV or XLSX file with your contacts, or start from our template.",
       ),
     ).toBeVisible();
     await expect(

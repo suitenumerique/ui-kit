@@ -15,7 +15,7 @@
       "shareButton": "Partager",
       "import": {
         "title": "Importer des contacts",
-        "description": "Téléversez un fichier CSV ou XLS avec vos contacts, ou partez de notre modèle.",
+        "description": "Téléversez un fichier CSV ou XLSX avec vos contacts, ou partez de notre modèle.",
         "download_template": "Télécharger le modèle",
         "cancel": "Annuler",
         "import": "Importer",

@@ -15,7 +15,7 @@
       "modalAriaLabel": "Share modal",
       "import": {
         "title": "Import contacts",
-        "description": "Upload a CSV or XLS file with your contacts, or start from our template.",
+        "description": "Upload a CSV or XLSX file with your contacts, or start from our template.",
         "download_template": "Download template",
         "cancel": "Cancel",
         "import": "Import",

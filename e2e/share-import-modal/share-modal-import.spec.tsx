@@ -21,7 +21,7 @@ test.describe("ShareModal import menu", () => {
 
     await expect(
       page.getByText(
-        "Upload a CSV or XLS file with your contacts, or start from our template.",
+        "Upload a CSV or XLSX file with your contacts, or start from our template.",
       ),
     ).toBeVisible();
   });
