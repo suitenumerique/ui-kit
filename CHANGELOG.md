@@ -2,6 +2,20 @@
 
 ## [UNRELEASED]
 
+### Minor Changes
+
+- ✨(front) add file upload component family
+- ✨(front) unify ShareModal invitation search field
+- ♻️(front) refresh UserMenu layout and actions
+- ✨(front) add Alert component with custom icons
+- ✨(front) add ShareImportModal for importing contacts
+
+### Patch Changes
+
+- 🔧(tooling) stabilize Storybook component testing
+- 💄(UserAvatar) add linear-gradient
+- 💄(front) refresh share modal styling
+
 ## 0.27.0
 
 ### Minor Changes
