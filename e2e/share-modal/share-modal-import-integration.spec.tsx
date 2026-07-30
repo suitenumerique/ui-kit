@@ -21,7 +21,7 @@ const openImportModalAndUpload = async (page: Page) => {
     mimeType: "text/csv",
     buffer: Buffer.from("alice@example.com,admin"),
   });
-  await expect(page.locator(".c__alert--info")).toContainText(
+  await expect(page.locator(".c__file-uploader__dropzone__description")).toContainText(
     "1 row ready to be imported.",
   );
 };
@@ -64,6 +64,76 @@ test.describe("ShareModal import contacts seam", () => {
       rows: [{ email: "alice@example.com", role: "admin" }],
     });
     await expect(importModalDescription(page)).toBeVisible();
+    // The failure is reported through the uploader description, in error tone.
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description--error"),
+    ).toContainText("The import failed. Please try again.");
+
+    // Selecting a new file clears the import failure.
+    await page.locator('input[type="file"]').setInputFiles({
+      name: "contacts.csv",
+      mimeType: "text/csv",
+      buffer: Buffer.from("bob@example.com,viewer"),
+    });
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description--error"),
+    ).toHaveCount(0);
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description"),
+    ).toContainText("1 row ready to be imported.");
+  });
+
+  test("reports a failed import with the consumer's importErrorMessage", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestShareModal
+        allowFileImport
+        importResult={false}
+        importErrorMessage="Some of these contacts could not be imported."
+      />,
+    );
+
+    await openImportModalAndUpload(page);
+
+    await page.getByRole("button", { name: "Import", exact: true }).click();
+
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description--error"),
+    ).toContainText("Some of these contacts could not be imported.");
+  });
+
+  test("shows an importErrorMessage set by onImportContacts on the failing attempt", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestShareModal
+        allowFileImport
+        importResult={false}
+        dynamicImportErrorMessage="This import is not valid."
+      />,
+    );
+
+    await openImportModalAndUpload(page);
+
+    // The consumer only learns the message while the import runs, so the
+    // very first failed attempt must already display it.
+    await page.getByRole("button", { name: "Import", exact: true }).click();
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description--error"),
+    ).toContainText("This import is not valid.");
+
+    // Selecting a new file clears the import failure.
+    await page.locator('input[type="file"]').setInputFiles({
+      name: "contacts.csv",
+      mimeType: "text/csv",
+      buffer: Buffer.from("bob@example.com,viewer"),
+    });
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description--error"),
+    ).toHaveCount(0);
   });
 
   test("locks the import modal while onImportContacts is pending", async ({
@@ -127,7 +197,7 @@ test.describe("ShareModal import contacts seam", () => {
     await page.getByRole("menuitem", { name: "Import contacts" }).click();
 
     await expect(importModalDescription(page)).toBeVisible();
-    await expect(page.locator(".c__alert--info")).toHaveCount(0);
+    await expect(page.locator(".c__file-uploader__dropzone__description")).toHaveCount(0);
     await expect(
       page.getByRole("button", { name: "Import", exact: true }),
     ).toBeDisabled();

@@ -199,8 +199,8 @@ export const ImportContacts = {
 /**
  * Failing import: the mock server resolves `false` after a delay, so the
  * import modal stays open (non-closable while pending, import button showing
- * a spinner) and the consumer surfaces the error as an Alert through
- * `importModalChildren`.
+ * a spinner) and the consumer's `importErrorMessage` is displayed on the
+ * uploader, in error tone, under the file name.
  */
 export const ImportContactsFailure = {
   render: () => <ShareModalExample allowFileImport={true} importFails={true} />,

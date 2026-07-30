@@ -4,7 +4,9 @@ import { fileURLToPath } from "url";
 import { TestShareImportModal } from "../helpers/mount-share-import-modal";
 
 const fileInput = (page: Page) => page.locator('input[type="file"]');
-const infoAlert = (page: Page) => page.locator(".c__alert--info");
+// Parsed-rows feedback is displayed as the uploader description.
+const parsedRowsInfo = (page: Page) =>
+  page.locator(".c__file-uploader__dropzone__description");
 // Parse errors are displayed inline on the file, in the uploader dropzone.
 const fileError = (page: Page) =>
   page.locator(".c__file-uploader__dropzone__error");
@@ -64,7 +66,7 @@ test.describe("ShareImportModal", () => {
       "alice@example.com,admin\nbob@example.com,viewer",
     );
 
-    await expect(infoAlert(page)).toContainText(
+    await expect(parsedRowsInfo(page)).toContainText(
       "2 rows ready to be imported.",
     );
     await expect(importButton(page)).toBeEnabled();
@@ -89,16 +91,16 @@ test.describe("ShareImportModal", () => {
     await mount(<TestShareImportModal />);
 
     await uploadCsv(page, "alice@example.com,admin");
-    await expect(infoAlert(page)).toBeVisible();
+    await expect(parsedRowsInfo(page)).toBeVisible();
 
     await importButton(page).click();
 
-    await expect(infoAlert(page)).toHaveCount(0);
+    await expect(parsedRowsInfo(page)).toHaveCount(0);
     await expect(fileError(page)).toHaveCount(0);
 
     // Selecting a new file resets the import attempt and its alerts.
     await uploadCsv(page, "bob@example.com,viewer");
-    await expect(infoAlert(page)).toContainText("1 row ready to be imported.");
+    await expect(parsedRowsInfo(page)).toContainText("1 row ready to be imported.");
   });
 
   test("parses a semicolon-separated CSV", async ({ mount, page }) => {
@@ -106,7 +108,7 @@ test.describe("ShareImportModal", () => {
 
     await uploadCsv(page, "alice@example.com;admin");
 
-    await expect(infoAlert(page)).toContainText("1 row ready to be imported.");
+    await expect(parsedRowsInfo(page)).toContainText("1 row ready to be imported.");
   });
 
   test("parses an XLSX file", async ({ mount, page }) => {
@@ -116,7 +118,7 @@ test.describe("ShareImportModal", () => {
       fileURLToPath(new URL("./fixtures/contacts.xlsx", import.meta.url)),
     );
 
-    await expect(infoAlert(page)).toContainText(
+    await expect(parsedRowsInfo(page)).toContainText(
       "2 rows ready to be imported.",
     );
   });
@@ -211,7 +213,7 @@ test.describe("ShareImportModal", () => {
     await mount(<TestShareImportModal />);
 
     await uploadCsv(page, "alice@example.com,admin");
-    await expect(infoAlert(page)).toBeVisible();
+    await expect(parsedRowsInfo(page)).toBeVisible();
 
     // The dropzone is itself a button whose name contains "Delete", so
     // scope the locator to the inner control.
@@ -220,7 +222,7 @@ test.describe("ShareImportModal", () => {
       .getByRole("button", { name: "Delete" })
       .click();
 
-    await expect(infoAlert(page)).toHaveCount(0);
+    await expect(parsedRowsInfo(page)).toHaveCount(0);
     await expect(fileError(page)).toHaveCount(0);
     await expect(importButton(page)).toBeDisabled();
   });

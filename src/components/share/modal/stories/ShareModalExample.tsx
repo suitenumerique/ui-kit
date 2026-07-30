@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ShareModal } from "../ShareModal";
 
 import {
@@ -9,8 +9,6 @@ import {
 import { ShareModalCopyLinkFooter } from "../../utils/ShareModalCopyLinkFooter";
 import { DropdownMenuOption } from ":/components/dropdown-menu";
 import { ShareImportRow } from "../../import-modal/ShareImportModal";
-import { Alert } from ":/components/alert/Alert";
-import { VariantType } from "@gouvfr-lasuite/cunningham-react";
 
 type UserType = UserData<{
   short_name?: string;
@@ -150,25 +148,18 @@ export const ShareModalExample = ({
     setInvitations(invitations.filter((invit) => invit.id !== invitation.id));
   };
 
-  const [importModalChildren, setImportModalChildren] = useState<ReactNode>();
-
   /**
    * Mock backend for the contacts import: after 1s of "processing", each
    * imported row is randomly registered as a pending invitation or as a
    * member, and the lists refresh with the emails and roles from the file.
    * When `importFails` is set, the "server" rejects the file instead: the
    * promise resolves false so the import modal stays open and the error is
-   * surfaced through `importModalChildren`.
+   * displayed on the uploader through `importErrorMessage`.
    */
   const onImportContacts = (rows: ShareImportRow[]): Promise<boolean> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         if (importFails) {
-          setImportModalChildren(
-            <Alert type={VariantType.ERROR}>
-              The server could not process the file. Please try again.
-            </Alert>,
-          );
           resolve(false);
           return;
         }
@@ -235,8 +226,11 @@ export const ShareModalExample = ({
       canView={props.canView ?? true}
       allowFileImport={props.allowFileImport}
       onImportContacts={onImportContacts}
-      importModalChildren={importModalChildren}
-      onImportFileChange={() => setImportModalChildren(undefined)}
+      importErrorMessage={
+        importFails
+          ? "The server could not process the file :(. Please try again."
+          : undefined
+      }
       hasNextInvitations={true}
       onLoadNextInvitations={() => {
         console.log("LOAD NEXT INVITATIONS");

@@ -127,6 +127,10 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   maxImportRows?: number;
   onImportContacts?: (rows: ShareImportRow[]) => Promise<boolean> | boolean;
   onImportFileChange?: (file?: File) => void;
+  /**
+   * Message displayed on the uploader when the import fails.
+   */
+  importErrorMessage?: string;
   importModalChildren?: ReactNode;
   customTranslations?: CustomTranslations;
 } & ShareModalInvitationProps<UserType, InvitationType> &
@@ -185,6 +189,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   const importMenu = useDropdownMenu();
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [importFailed, setImportFailed] = useState(false);
   const showFileImport = allowFileImport && canUpdate;
 
   /**
@@ -538,22 +543,40 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       {showFileImport && isImportModalOpen && (
         <ShareImportModal
           isOpen={isImportModalOpen}
-          onClose={() => setIsImportModalOpen(false)}
+          onClose={() => {
+            setIsImportModalOpen(false);
+            setImportFailed(false);
+          }}
           maxRows={props.maxImportRows}
           isImporting={isImporting}
-          onFileChange={props.onImportFileChange}
+          importError={
+            // Resolved at render time so a message set asynchronously by
+            // onImportContacts is displayed on the failing attempt.
+            importFailed
+              ? props.importErrorMessage ??
+                t("components.share.import.import_failed")
+              : undefined
+          }
+          onFileChange={(file) => {
+            setImportFailed(false);
+            props.onImportFileChange?.(file);
+          }}
           onImport={async (rows) => {
             if (!props.onImportContacts) {
               setIsImportModalOpen(false);
               return;
             }
             setIsImporting(true);
+            setImportFailed(false);
             try {
               if (await props.onImportContacts(rows)) {
                 setIsImportModalOpen(false);
+              } else {
+                setImportFailed(true);
               }
             } catch {
               // A rejected import behaves like `false`: the modal stays open.
+              setImportFailed(true);
             } finally {
               setIsImporting(false);
             }

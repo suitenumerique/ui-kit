@@ -1,13 +1,11 @@
 import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Spinner } from ":/components/loader/Spinner";
-import { Alert } from ":/components/alert/Alert";
 import {
   Button,
   Modal,
   ModalProps,
   ModalSize,
   useCunningham,
-  VariantType,
 } from "@gouvfr-lasuite/cunningham-react";
 import { PropsWithChildren, useRef, useState } from "react";
 import {
@@ -36,6 +34,8 @@ type ShareImportModalProps = Pick<ModalProps, "isOpen" | "onClose"> &
     onImport?: (rows: ShareImportRow[]) => void;
     isImporting?: boolean;
     onFileChange?: (file?: File) => void;
+    /** Displayed on the uploader when the import itself fails. */
+    importError?: string;
   };
 
 export const ShareImportModal = (props: ShareImportModalProps) => {
@@ -76,6 +76,16 @@ export const ShareImportModal = (props: ShareImportModalProps) => {
   const fileErrorMessage = isInvalidFile
     ? t("components.share.import.invalid_file_type")
     : parseErrorMessage;
+
+  const parsedRowsMessage =
+    rows && !importRequested
+      ? t(
+          rows.length === 1
+            ? "components.share.import.parsed_rows_singular"
+            : "components.share.import.parsed_rows_plural",
+          { count: rows.length },
+        )
+      : undefined;
 
   // The uploader is controlled: the file status reflects the parse lifecycle.
   const uploaderFiles: UploadFile[] = file
@@ -169,17 +179,9 @@ export const ShareImportModal = (props: ShareImportModalProps) => {
           }}
           onRemoveFile={resetFile}
           onCancelFile={resetFile}
+          description={props.importError ?? parsedRowsMessage}
+          descriptionMode={props.importError ? "error" : "default"}
         />
-        {rows && !importRequested && (
-          <Alert type={VariantType.INFO}>
-            {t(
-              rows.length === 1
-                ? "components.share.import.parsed_rows_singular"
-                : "components.share.import.parsed_rows_plural",
-              { count: rows.length },
-            )}
-          </Alert>
-        )}
         {props.children}
       </div>
     </Modal>

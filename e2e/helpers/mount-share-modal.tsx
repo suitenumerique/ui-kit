@@ -116,6 +116,13 @@ interface TestShareModalProps {
   importResult?: boolean;
   /** Import stays pending until the test calls window.__resolveImport(value). */
   holdImport?: boolean;
+  importErrorMessage?: string;
+  /**
+   * Set as importErrorMessage from inside onImportContacts, right before it
+   * resolves, mirroring consumers that surface the server error of a failed
+   * import.
+   */
+  dynamicImportErrorMessage?: string;
   withImportModalChildren?: boolean;
   hideMembers?: boolean;
   hideInvitations?: boolean;
@@ -147,6 +154,8 @@ export const TestShareModal = ({
   maxImportRows,
   importResult = true,
   holdImport = false,
+  importErrorMessage,
+  dynamicImportErrorMessage,
   withImportModalChildren = false,
   hideMembers = false,
   hideInvitations = false,
@@ -174,6 +183,7 @@ export const TestShareModal = ({
   );
   const [searchUsersResult, setSearchUsersResult] = useState<TestUser[]>([]);
   const [loading, setLoading] = useState(false);
+  const [asyncImportError, setAsyncImportError] = useState<string>();
 
   const onSearchUsers = (query: string) => {
     record({ name: "search", query });
@@ -277,6 +287,7 @@ export const TestShareModal = ({
         onLoadNextInvitations={() => record({ name: "load-next-invitations" })}
         allowFileImport={allowFileImport}
         maxImportRows={maxImportRows}
+        importErrorMessage={asyncImportError ?? importErrorMessage}
         onImportContacts={(rows) => {
           record({ name: "import-contacts", rows });
           if (holdImport) {
@@ -284,8 +295,12 @@ export const TestShareModal = ({
               window.__resolveImport = resolve;
             });
           }
+          if (dynamicImportErrorMessage && !importResult) {
+            setAsyncImportError(dynamicImportErrorMessage);
+          }
           return importResult;
         }}
+        onImportFileChange={() => setAsyncImportError(undefined)}
         importModalChildren={
           withImportModalChildren ? (
             <p data-testid="import-modal-children">Import failed</p>

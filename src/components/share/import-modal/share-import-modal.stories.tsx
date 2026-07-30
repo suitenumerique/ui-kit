@@ -67,7 +67,8 @@ import { ShareImportModal } from "./ShareImportModal";
  * | Invalid row | A row doesn't have exactly two non-empty columns (the row number is reported) |
  * | Too many rows | The file has more rows than `maxRows` (100 by default) |
  *
- * On success, an info `Alert` tells how many rows are ready to be imported.
+ * On success, the uploader description tells how many rows are ready to be
+ * imported.
  */
 const meta: Meta<typeof ShareImportModal> = {
   title: "Components/Share/ImportModal",
