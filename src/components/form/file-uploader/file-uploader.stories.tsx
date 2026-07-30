@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from "@storybook/react";
+import { fireEvent, within } from "@storybook/test";
 import { useEffect, useRef, useState } from "react";
 import { Button, Modal, ModalSize } from "@gouvfr-lasuite/cunningham-react";
 import { FileUploader, FileUploaderProps } from "./FileUploader";
@@ -221,6 +222,16 @@ const meta: Meta<typeof FileUploader> = {
       control: "text",
       description: "Additional class applied to the uploader root.",
     },
+    description: {
+      control: "text",
+      description:
+        "Text displayed under the file name when a file is selected.",
+    },
+    descriptionMode: {
+      control: "radio",
+      options: ["default", "error"],
+      description: "Visual tone of the description text.",
+    },
   },
   args: {
     maxSize: 5 * GB,
@@ -242,6 +253,20 @@ export const Empty: Story = {
   render: (args) => <InteractiveUploader {...args} />,
 };
 
+/**
+ * Dropzone while a file is dragged over it: the illustration switches to its
+ * colored variant and the drop label is displayed.
+ */
+export const Dragging: Story = {
+  render: (args) => <InteractiveUploader {...args} />,
+  play: async ({ canvasElement }) => {
+    const dropzone = within(canvasElement).getByTestId(
+      "file-uploader-dropzone",
+    );
+    fireEvent.dragOver(dropzone);
+  },
+};
+
 export const SingleUploading: Story = {
   args: {
     files: [
@@ -257,6 +282,37 @@ export const SingleUploading: Story = {
 
 export const SingleDone: Story = {
   args: {
+    files: [
+      {
+        id: "1",
+        originalFile: createFileFixture("my_outline_export.zip", 248 * MB),
+        status: "done",
+      },
+    ],
+    onRemoveFile: () => undefined,
+  },
+};
+
+/** Selected file with a custom description displayed under the file name. */
+export const SingleWithDescription: Story = {
+  args: {
+    description: "The import can take a few minutes.",
+    files: [
+      {
+        id: "1",
+        originalFile: createFileFixture("my_outline_export.zip", 248 * MB),
+        status: "done",
+      },
+    ],
+    onRemoveFile: () => undefined,
+  },
+};
+
+/** Selected file whose description uses the error tone. */
+export const SingleWithErrorDescription: Story = {
+  args: {
+    description: "This export looks incomplete, the import may fail.",
+    descriptionMode: "error",
     files: [
       {
         id: "1",
