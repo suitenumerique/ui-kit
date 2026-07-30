@@ -13,6 +13,24 @@
       "shareButton": "Teilen",
       "modalTitle": "Ordner teilen",
       "modalAriaLabel": "Teilen-Dialog",
+      "import": {
+        "title": "Kontakte importieren",
+        "description": "Laden Sie eine CSV- oder XLSX-Datei mit Ihren Kontakten hoch, oder starten Sie mit unserer Vorlage.",
+        "download_template": "Vorlage herunterladen",
+        "cancel": "Abbrechen",
+        "import": "Importieren",
+        "invalid_file_type": "Nur CSV- oder XLSX-Dateien sind erlaubt.",
+        "parsed_rows_singular": "{count} Zeile bereit zum Import.",
+        "parsed_rows_plural": "{count} Zeilen bereit zum Import.",
+        "import_failed": "Der Import ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        "errors": {
+          "file_too_large": "Die Datei überschreitet die maximale Größe von 200 KB.",
+          "unreadable": "Die Datei konnte nicht gelesen werden. Prüfen Sie, ob es sich um eine gültige CSV- oder XLSX-Datei handelt.",
+          "empty": "Die Datei enthält keine Zeilen.",
+          "invalid_row": "Zeile {row} ist ungültig: Es werden zwei Spalten erwartet (E-Mail, Rolle).",
+          "too_many_rows": "Die Datei überschreitet das Maximum von {max} Zeilen."
+        }
+      },
       "access": {
         "delete": "Zugriff entziehen"
       },
@@ -86,6 +104,17 @@
       "accountSettings": "Kontoeinstellungen",
       "logout": "Abmelden",
       "dialogTitle": "Benutzermenü"
+    },
+    "upload": {
+      "noFileYet": "Noch keine Datei",
+      "clickToUpload": "Zum Hochladen klicken",
+      "dragAndDrop": "oder per Drag-and-drop ablegen",
+      "addFile": "Datei hinzufügen",
+      "maxSize": "Max. {size}",
+      "uploading": "Wird hochgeladen",
+      "cancel": "Hochladen abbrechen",
+      "remove": "Löschen",
+      "genericError": "Ein Fehler ist aufgetreten"
     },
     "treeView": {
       "viewMore": "Weitere Elemente laden"

@@ -13,6 +13,24 @@
       "shareButton": "Delen",
       "modalTitle": "Map delen",
       "modalAriaLabel": "Deelvenster",
+      "import": {
+        "title": "Contacten importeren",
+        "description": "Upload een CSV- of XLSX-bestand met uw contacten, of begin met ons sjabloon.",
+        "download_template": "Sjabloon downloaden",
+        "cancel": "Annuleren",
+        "import": "Importeren",
+        "invalid_file_type": "Alleen CSV- of XLSX-bestanden zijn toegestaan.",
+        "parsed_rows_singular": "{count} rij klaar om te importeren.",
+        "parsed_rows_plural": "{count} rijen klaar om te importeren.",
+        "import_failed": "Het importeren is mislukt. Probeer het opnieuw.",
+        "errors": {
+          "file_too_large": "Het bestand overschrijdt de maximale grootte van 200 KB.",
+          "unreadable": "Het bestand kon niet worden gelezen. Controleer of het een geldig CSV- of XLSX-bestand is.",
+          "empty": "Het bestand bevat geen rijen.",
+          "invalid_row": "Rij {row} is ongeldig: er worden twee kolommen verwacht (e-mail, rol).",
+          "too_many_rows": "Het bestand overschrijdt het maximum van {max} rijen."
+        }
+      },
       "access": {
         "delete": "Toegang intrekken"
       },

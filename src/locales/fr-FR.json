@@ -22,6 +22,7 @@
         "invalid_file_type": "Seuls les fichiers CSV ou XLSX sont acceptés.",
         "parsed_rows_singular": "{count} ligne prête à être importée.",
         "parsed_rows_plural": "{count} lignes prêtes à être importées.",
+        "import_failed": "L'importation a échoué. Veuillez réessayer.",
         "errors": {
           "file_too_large": "Le fichier dépasse la taille maximale de 200 Ko.",
           "unreadable": "Le fichier n'a pas pu être lu. Vérifiez qu'il s'agit d'un fichier CSV ou XLSX valide.",

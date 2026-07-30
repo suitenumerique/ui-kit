@@ -13,6 +13,24 @@
       "shareButton": "Compartir",
       "modalTitle": "Compartir carpeta",
       "modalAriaLabel": "Ventana de compartir",
+      "import": {
+        "title": "Importar contactos",
+        "description": "Suba un archivo CSV o XLSX con sus contactos, o parta de nuestra plantilla.",
+        "download_template": "Descargar plantilla",
+        "cancel": "Cancelar",
+        "import": "Importar",
+        "invalid_file_type": "Solo se aceptan archivos CSV o XLSX.",
+        "parsed_rows_singular": "{count} fila lista para importar.",
+        "parsed_rows_plural": "{count} filas listas para importar.",
+        "import_failed": "La importación ha fallado. Inténtelo de nuevo.",
+        "errors": {
+          "file_too_large": "El archivo supera el tamaño máximo de 200 KB.",
+          "unreadable": "No se ha podido leer el archivo. Compruebe que es un archivo CSV o XLSX válido.",
+          "empty": "El archivo no contiene filas.",
+          "invalid_row": "La fila {row} no es válida: se esperan dos columnas (email, rol).",
+          "too_many_rows": "El archivo supera el máximo de {max} filas."
+        }
+      },
       "access": {
         "delete": "Retirar acceso"
       },
@@ -86,6 +104,17 @@
       "accountSettings": "Configuración de la cuenta",
       "logout": "Cerrar sesión",
       "dialogTitle": "Menú de usuario"
+    },
+    "upload": {
+      "noFileYet": "Aún no hay archivo",
+      "clickToUpload": "Haga clic para subir",
+      "dragAndDrop": "o arrastre y suelte",
+      "addFile": "Añadir archivo",
+      "maxSize": "Máx. {size}",
+      "uploading": "Subiendo",
+      "cancel": "Cancelar subida",
+      "remove": "Eliminar",
+      "genericError": "Se ha producido un error"
     },
     "treeView": {
       "viewMore": "Cargar más elementos"
