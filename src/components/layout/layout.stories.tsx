@@ -114,7 +114,7 @@ export const FullLayoutWithFooter: StoryObj = {
   },
 };
 
-// --- Story pour le Layout Complet ---
+// --- Story for the full layout ---
 export const FullLayout: StoryObj = {
   parameters: {
     layout: "fullscreen",

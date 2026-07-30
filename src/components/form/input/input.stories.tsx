@@ -90,7 +90,7 @@ export const FullWidth = {
     defaultValue: "Hello world",
     label: "Your name",
     fullWidth: true,
-    text: "This is a text, you can display anything you want here like warnings, informations or errors.",
+    text: "This is a text, you can display anything you want here like warnings, information or errors.",
     rightText: "0/300",
   },
 };

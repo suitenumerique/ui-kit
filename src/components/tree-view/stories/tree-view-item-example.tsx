@@ -46,8 +46,8 @@ export const TreeViewItemExample = ({ ...props }: TreeViewItemExampleProps) => {
   const options = [
     {
       icon: <span className="material-icons">info</span>,
-      label: "Informations",
-      callback: () => alert("Informations"),
+      label: "Information",
+      callback: () => alert("Information"),
     },
     {
       icon: <span className="material-icons">group</span>,

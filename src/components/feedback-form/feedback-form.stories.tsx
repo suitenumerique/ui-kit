@@ -119,19 +119,19 @@ export const CustomLabels: Story = {
       onSend={(data) => console.log("Envoi:", data)}
       emailPrivacyUrl="#"
       labels={{
-        title: "Contacter l'\u00e9quipe",
+        title: "Contact the team",
         subtitle:
-          "Bug, id\u00e9e, question ou compliment \u2014 l'\u00e9quipe lit tout et reviendra vers vous si n\u00e9cessaire.",
-        subject: "Sujet",
-        message: "Votre message",
-        uploadFile: "Joindre un fichier",
-        emailCheckbox: "Je souhaite recevoir une r\u00e9ponse par e-mail",
+          "Bug, idea, question, or compliment — the team reads everything and will get back to you if needed.",
+        subject: "Subject",
+        message: "Your message",
+        uploadFile: "Attach a file",
+        emailCheckbox: "I want to receive a reply by email",
         emailLabel: "E-mail",
-        emailPrivacy: "Voir comment votre e-mail est utilis\u00e9",
-        emailError: "Veuillez saisir une adresse e-mail valide.",
-        cancel: "Annuler",
-        send: "Envoyer",
-        category: "Cat\u00e9gorie",
+        emailPrivacy: "See how your email is used",
+        emailError: "Please enter a valid email address.",
+        cancel: "Cancel",
+        send: "Send",
+        category: "Category",
       }}
     />
   ),

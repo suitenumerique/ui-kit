@@ -45,12 +45,17 @@
 - 📱(user-menu) add withMobileView prop to hide mobile view rendering #264
 - ♿️(user-menu) add accessibility to user menu item #265
 
+### Minor Changes
+
+- 🧑‍💻(CI) add basic pull request template #268
+- 🧑‍💻(CI) add a check changelog and spell mistake job #268
+
 ## 0.24.0
 
 ### Minor Changes
 
 - ♿️(menu) add opensInNewWindow for external link aria-label #246
-- 🚸(LaGaufreV2) automatic positionning #260
+- 🚸(LaGaufreV2) automatic positioning #260
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
 - ✨(front) add SmartScroller component
@@ -219,7 +224,7 @@
 
 ### Minor Changes
 
-- Update ShareModal and dropdown to show more informations
+- Update ShareModal and dropdown to show more information
 
 ### Patch Changes
 
@@ -454,7 +459,7 @@
 - add ShareModal component and utils components
 - add topMessage for DropdownMenu
 - add Avatar component
-- add UserRow commponent
+- add UserRow component
 
 ### Patch changes
 

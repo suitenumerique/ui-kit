@@ -21,9 +21,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: "Stockage et partage faciles.",
+    title: "Easy storage and sharing.",
     subtitle:
-      "Stockez et partagez vos fichiers simplement dans un espace cloud collaboratif synchronisé.",
+      "Store and share your files simply in a synchronized collaborative cloud space.",
     logo: <img src="/storybook/logo-fichiers.svg" alt="DocLogo" width={64} />,
     banner: "/storybook/hero-image.png",
   },

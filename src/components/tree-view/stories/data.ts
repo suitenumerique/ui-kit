@@ -3,13 +3,13 @@ import { TreeViewExampleData } from "./tree-view-example";
 
 export const complexTreeData: TreeViewExampleData[] = [
     {
-      id: "Espace personnel",
+      id: "Personal Space",
       nodeType: TreeViewNodeTypeEnum.TITLE,
-      headerTitle: "Espace personnel",
+      headerTitle: "Personal Space",
     },
     {
       id: "1",
-      name: "Je suis ",
+      name: "I am ",
       childrenCount: 0,
       nodeType: TreeViewNodeTypeEnum.NODE,
       children: [],
@@ -21,9 +21,9 @@ export const complexTreeData: TreeViewExampleData[] = [
       nodeType: TreeViewNodeTypeEnum.SEPARATOR,
     },
     {
-      id: "Espace partagé",
+      id: "Shared Space",
       nodeType: TreeViewNodeTypeEnum.TITLE,
-      headerTitle: "Espace partagé",
+      headerTitle: "Shared Space",
     },
     {
       id: "3",
@@ -151,7 +151,7 @@ export const complexTreeData: TreeViewExampleData[] = [
   ];
 
 export const treeDataWithViewMore: TreeViewExampleData[] = [
-  { id: "1", name: "Premier élément", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
+  { id: "1", name: "First element", childrenCount: 0, nodeType: TreeViewNodeTypeEnum.NODE, children: [] },
   { id: "2", label: "simple node", childrenCount: 15, nodeType: TreeViewNodeTypeEnum.SIMPLE_NODE, children: [] },
   
 ];
