@@ -2,6 +2,15 @@
 
 ## [UNRELEASED]
 
+### Minor Changes
+
+- ✨(front) rework file uploader dropzone states
+- ♻️(front) surface import feedback through the uploader description
+
+### Patch Changes
+
+- 🌐(front) complete upload and import translations
+
 ## 0.28.0
 
 ### Minor Changes
