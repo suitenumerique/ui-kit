@@ -48,7 +48,7 @@ export const ShareModalExample = ({
     return ids.map((id) => ({
       id: id.toString(),
       surname: "Doe",
-      role: "admin",
+      role: "administrator",
       email: "john.doe.invitation@example.com " + id,
       user: {
         id: id.toString(),
@@ -63,7 +63,7 @@ export const ShareModalExample = ({
       id: id.toString(),
       name: "John Doe " + id,
       email: "john.doe@example.com " + id,
-      role: id === 1 ? "reader" : "admin",
+      role: id === 1 ? "reader" : "administrator",
       // Example: the first member cannot be deleted (e.g., last admin or current user)
       can_delete: id !== 1,
       user: {
@@ -76,15 +76,15 @@ export const ShareModalExample = ({
 
   const invitationRoles = [
     { label: "Owner", value: "owner" },
-    { label: "Admin", value: "admin" },
+    { label: "Admin", value: "administrator" },
     { label: "Editor", value: "editor" },
     { label: "Reader", value: "reader" },
   ];
 
   const getAccessRoles = (access: AccessType): DropdownMenuOption[] => {
-    const isAdmin = access.role === "admin";
+    const isAdmin = access.role === "administrator";
     return [
-      { label: "Admin", value: "admin", isDisabled: false },
+      { label: "Admin", value: "administrator", isDisabled: false },
       {
         label: "Editor",
         value: "editor",
@@ -207,7 +207,7 @@ export const ShareModalExample = ({
       onInviteUser={console.log}
       onUpdateAccess={onUpdateAccess}
       accessRoleTopMessage={(access) => {
-        if (access.role === "admin") {
+        if (access.role === "administrator") {
           return "Vous ne pouvez pas modifier le rôle d'un administrateur";
         }
         return undefined;

@@ -152,7 +152,7 @@ const SelectableShareModal = () => {
       isOpen={true}
       onClose={() => {}}
       invitationRoles={[
-        { label: "Admin", value: "admin" },
+        { label: "Admin", value: "administrator" },
         { label: "Editor", value: "editor" },
         { label: "Viewer", value: "viewer" },
       ]}
