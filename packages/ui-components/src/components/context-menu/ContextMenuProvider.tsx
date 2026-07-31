@@ -16,7 +16,7 @@ import {
   ContextMenuState,
 } from "./types";
 import { MenuItemBody } from "../menu/MenuItemBody";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
 

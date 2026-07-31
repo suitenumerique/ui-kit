@@ -1,8 +1,8 @@
 import { FileUploader, UploadFile } from ":/components/form/file-uploader";
-import { Spinner } from ":/components/Loader/Spinner";
-import { Button } from ":/components/Button";
-import { Modal, ModalProps, ModalSize } from ":/components/Modal";
-import { useCunningham } from ":/components/Provider";
+import { Spinner } from ":/components/loader/Spinner";
+import { Button } from ":/components/button";
+import { Modal, ModalProps, ModalSize } from ":/components/modal";
+import { useCunningham } from ":/components/provider";
 import { PropsWithChildren, useRef, useState } from "react";
 import {
   ACCEPTED_FILE_EXTENSIONS,

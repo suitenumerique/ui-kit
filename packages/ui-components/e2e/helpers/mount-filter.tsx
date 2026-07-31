@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Key } from "react-aria-components";
 import { Button, CalendarRange } from ":/cunningham";
 import { DateValue } from "@internationalized/date";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { Filter, FilterOption } from "../../src/components/filter/Filter";
 
 // Playwright CT bridges function props as one-way dispatchers whose return

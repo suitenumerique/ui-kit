@@ -6,7 +6,7 @@ import {
   Checkbox,
   TextArea,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
 import { DropdownMenuOption } from "../dropdown-menu/types";

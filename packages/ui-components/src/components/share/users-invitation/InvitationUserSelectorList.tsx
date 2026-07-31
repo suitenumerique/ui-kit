@@ -1,5 +1,5 @@
 import { Button } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { ReactNode, useState } from "react";
 import { DropdownMenuOption } from "../../dropdown-menu";
 import { AccessRoleDropdown } from "../access/AccessRoleDropdown";

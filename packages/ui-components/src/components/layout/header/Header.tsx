@@ -2,7 +2,7 @@ import { DropdownMenuOption } from ":/components/dropdown-menu/types";
 import { LanguagePicker } from ":/components/language/language-picker";
 
 import { Button } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 
 export type HeaderProps = {
   leftIcon?: React.ReactNode;

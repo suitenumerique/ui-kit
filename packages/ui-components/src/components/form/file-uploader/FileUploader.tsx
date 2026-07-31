@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { DragEvent, useRef, useState } from "react";
-import { Button } from ":/components/Button";
-import { useCunningham } from ":/components/Provider";
-import { Spinner } from ":/components/Loader/Spinner";
+import { Button } from ":/components/button";
+import { useCunningham } from ":/components/provider";
+import { Spinner } from ":/components/loader/Spinner";
 import { FileIcon as PreviewFileIcon } from ":/components/preview/icons/FileIcon";
 import filesColor from "./assets/files_color.svg";
 import filesGray from "./assets/files_gray.svg";

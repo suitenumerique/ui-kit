@@ -1,5 +1,5 @@
 import { Button } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { useStorageGauge } from "../hooks";
 import { StorageGaugeBar } from "../storage-gauge-bar/StorageGaugeBar";
 import { StorageGaugeProps } from "../types";

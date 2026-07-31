@@ -1,5 +1,5 @@
 import { Button } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { useMemo } from "react";
 import {
   DropdownMenu,

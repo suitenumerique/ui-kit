@@ -1,4 +1,4 @@
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import IconLink from "./assets/external-link.svg";
 import LogoGouv from ":/assets/logo-gouv.svg";
 

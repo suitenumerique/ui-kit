@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Filter, FilterOption } from "./Filter";
 import { useRef, useState } from "react";
 import { Key } from "react-aria-components";
-import { Button } from ":/components/Button";
-import { CalendarRange } from ":/components/Calendar/CalendarAux";
+import { Button } from ":/components/button";
+import { CalendarRange } from ":/components/calendar/CalendarAux";
 import { DateValue } from "@internationalized/date";
 
 /**

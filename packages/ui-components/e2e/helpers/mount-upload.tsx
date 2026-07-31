@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal, ModalSize } from ":/cunningham";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { FileUploader } from "../../src/components/form/file-uploader/FileUploader";
 import { UploadFile } from "../../src/components/form/file-uploader/types";
 

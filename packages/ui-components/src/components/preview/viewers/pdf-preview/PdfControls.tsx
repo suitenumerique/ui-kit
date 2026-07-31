@@ -1,6 +1,6 @@
 import { Button, Input } from ":/cunningham";
 import { LeftSidebarIcon } from "../../icons/LeftSidebarIcon";
-import { ZoomControls } from "../../components/ZoomControls/ZoomControls";
+import { ZoomControls } from "../../components/zoom-controls/ZoomControls";
 
 interface PdfControlsProps {
   numPages: number;

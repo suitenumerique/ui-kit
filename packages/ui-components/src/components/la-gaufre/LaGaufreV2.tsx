@@ -6,7 +6,7 @@ import {
   Button,
   ButtonElement,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { useResponsive } from ":/hooks/useResponsive";
 
 export type Service = {

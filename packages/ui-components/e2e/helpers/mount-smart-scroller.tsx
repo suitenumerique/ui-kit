@@ -1,4 +1,4 @@
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { SmartScroller } from "../../src/components/smart-scroller/SmartScroller";
 
 // Playwright CT bridges function props one-way, so tests declare scenarios via

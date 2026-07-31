@@ -7,7 +7,7 @@ import {
   Primary,
   ArgTypes,
 } from "@storybook/blocks";
-import { Button } from ":/components/Button";
+import { Button } from ":/components/button";
 import { ShareImportModal } from "./ShareImportModal";
 
 /**

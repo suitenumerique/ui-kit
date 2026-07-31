@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { FilePreview } from "../../src/components/preview/FilePreview";
 import type { FilePreviewType } from "../../src/components/preview/types";
 import { MenuItemAction } from ":/index";

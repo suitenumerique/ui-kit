@@ -1,41 +1,41 @@
 import { PartialExtendableNested, PartialNested } from ":/types";
 import { tokens } from "./cunningham-tokens";
 
-export * from "./components/Alert";
-export * from "./components/Button";
-export * from "./components/DataGrid";
-export * from "./components/DataGrid/DataList";
-export * from "./components/DataGrid/SimpleDataGrid";
-export * from "./components/Forms/Checkbox";
-export * from "./components/Forms/DatePicker";
-export * from "./components/Forms/Field";
-export * from "./components/Forms/Input";
-export * from "./components/Forms/Input/InputPassword";
-export * from "./components/Forms/LabelledBox";
-export * from "./components/Forms/Radio";
-export * from "./components/Forms/Select";
-export * from "./components/Forms/Switch";
-export * from "./components/Forms/TextArea";
-export type { FieldVariant } from "./components/Forms/types";
-export * from "./components/Calendar";
-export * from "./components/Loader";
-export * from "./components/Modal";
-export * from "./components/Modal/ConfirmationModal";
-export * from "./components/Modal/DeleteConfirmationModal";
-export * from "./components/Modal/MessageModal";
-export * from "./components/Modal/ModalProvider";
-export * from "./components/Pagination";
-export * from "./components/Popover";
+export * from "./components/alert";
+export * from "./components/button";
+export * from "./components/data-grid";
+export * from "./components/data-grid/DataList";
+export * from "./components/data-grid/SimpleDataGrid";
+export * from "./components/forms/checkbox";
+export * from "./components/forms/date-picker";
+export * from "./components/forms/field";
+export * from "./components/forms/input";
+export * from "./components/forms/input/InputPassword";
+export * from "./components/forms/labelled-box";
+export * from "./components/forms/radio";
+export * from "./components/forms/select";
+export * from "./components/forms/switch";
+export * from "./components/forms/text-area";
+export type { FieldVariant } from "./components/forms/types";
+export * from "./components/calendar";
+export * from "./components/loader";
+export * from "./components/modal";
+export * from "./components/modal/ConfirmationModal";
+export * from "./components/modal/DeleteConfirmationModal";
+export * from "./components/modal/MessageModal";
+export * from "./components/modal/ModalProvider";
+export * from "./components/pagination";
+export * from "./components/popover";
 export {
   DEFAULT_LOCALE,
   DEFAULT_THEME,
   SUPPORTED_LOCALES,
   useCunningham,
-} from "./components/Provider";
-export { Locales } from "./components/Provider/Locales";
-export * from "./components/Toast";
-export * from "./components/Toast/ToastProvider";
-export * from "./components/Tooltip";
+} from "./components/provider";
+export { Locales } from "./components/provider/Locales";
+export * from "./components/toast";
+export * from "./components/toast/ToastProvider";
+export * from "./components/tooltip";
 export * from "./utils/VariantUtils";
 
 export type DefaultTokens = PartialNested<typeof tokens.themes.default>;

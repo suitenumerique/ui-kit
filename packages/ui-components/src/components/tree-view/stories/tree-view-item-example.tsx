@@ -15,7 +15,7 @@ import {
   ModalSize,
   useModal,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { useTreeContext } from "../providers/TreeContext";
 import { useArrowRoving } from ":/hooks/useArrowRoving";
 import { useRef } from "react";

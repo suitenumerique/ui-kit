@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/experimental-ct-react";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { ShareModalExample } from "../../src/components/share/modal/stories/ShareModalExample";
 
 test.describe("ShareModal import menu", () => {
