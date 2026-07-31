@@ -5,7 +5,7 @@ import { Input } from ":/components/Forms/Input";
 import { Checkbox } from ":/components/Forms/Checkbox";
 import { Button } from ":/components/Button";
 import { Select } from ":/components/Forms/Select";
-import { FileUploader } from ":/components/Forms/FileUploader";
+import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Switch } from ":/components/Forms/Switch";
 import { Radio } from ":/components/Forms/Radio";
 import { TextArea } from ":/components/Forms/TextArea";
@@ -57,6 +57,7 @@ export const Login = () => {
 };
 
 export const Application = () => {
+  const [files, setFiles] = useState<UploadFile[]>([]);
   return (
     <form
       style={{
@@ -109,9 +110,15 @@ export const Application = () => {
           Your curriculum vitae
         </div>
         <FileUploader
-          fullWidth={true}
-          text="pdf only ( 4mb maximum )"
           accept="application/pdf"
+          maxSize={4 * 1000 * 1000}
+          files={files}
+          onAddFiles={setFiles}
+          onRemoveFile={(file) =>
+            setFiles((previousFiles) =>
+              previousFiles.filter((item) => item.id !== file.id),
+            )
+          }
         />
       </div>
       <Select

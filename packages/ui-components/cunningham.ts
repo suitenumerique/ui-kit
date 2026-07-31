@@ -8,7 +8,6 @@ import { tokens as calendarTokens } from "./src/components/Calendar/tokens";
 import { tokens as checkboxTokens } from "./src/components/Forms/Checkbox/tokens";
 import { tokens as datePickerTokens } from "./src/components/Forms/DatePicker/tokens";
 import { tokens as fieldTokens } from "./src/components/Forms/Field/tokens";
-import { tokens as fileUploaderTokens } from "./src/components/Forms/FileUploader/tokens";
 import { tokens as inputTokens } from "./src/components/Forms/Input/tokens";
 import { tokens as labelledBoxTokens } from "./src/components/Forms/LabelledBox/tokens";
 import { tokens as radioTokens } from "./src/components/Forms/Radio/tokens";
@@ -27,7 +26,6 @@ const componentTokenDefaults = {
   "forms-checkbox": checkboxTokens(defaultTokenRefs),
   "forms-datepicker": datePickerTokens(defaultTokenRefs),
   "forms-field": fieldTokens(defaultTokenRefs),
-  "forms-fileuploader": fileUploaderTokens(defaultTokenRefs),
   "forms-input": inputTokens(defaultTokenRefs),
   "forms-labelledbox": labelledBoxTokens(defaultTokenRefs),
   "forms-radio": radioTokens(),
@@ -65,11 +63,6 @@ const suiteComponentTokenOverrides = {
       "header--weight": "500",
       "body--background-color-hover":
         "ref(contextuals.background.semantic.neutral.tertiary)",
-    },
-    "forms-fileuploader": {
-      "border-style": "solid",
-      "border-radius": "4px",
-      "border-width": "1px",
     },
     "forms-checkbox": {
       "font-size": "ref(globals.font.sizes.sm)",
