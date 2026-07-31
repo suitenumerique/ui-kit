@@ -42,7 +42,7 @@ const config: StorybookConfig = {
     { from: "../../../node_modules/pdfjs-dist/build", to: "/" },
   ],
   docs: {
-    autodocs: false,
+    autodocs: "tag",
   },
   async viteFinal(viteConfig, { configType }) {
     viteConfig.base =
