@@ -1110,7 +1110,7 @@ describe("<DateRangePicker/>", () => {
   });
 
   it("submits forms data", async () => {
-    let formData: any;
+    let formData: Record<string, FormDataEntryValue | null> | undefined;
     const Wrapper = () => {
       const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

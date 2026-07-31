@@ -1,6 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect, useState } from "react";
-import { Modal, ModalSize, ModalTab, useModal } from ":/components/modal/index";
+import {
+  Modal,
+  ModalSize,
+  ModalTab,
+  ModalTabVariantProps,
+  useModal,
+} from ":/components/modal/index";
 import { Button } from ":/components/button";
 import { CunninghamProvider } from ":/components/provider";
 import longLorem from ":/components/modal/resources/longLorem.json";
@@ -335,7 +341,7 @@ export const TabVariant: Story = {
     size: ModalSize.MEDIUM,
     sidebarTitle: "Settings",
     tabs: sampleTabs,
-  } as any,
+  } as ModalTabVariantProps,
 };
 
 export const TabVariantWithActions: Story = {
@@ -351,7 +357,7 @@ export const TabVariantWithActions: Story = {
         <Button variant="primary">OK</Button>
       </>
     ),
-  } as any,
+  } as ModalTabVariantProps,
 };
 
 export const TabVariantStickyFooter: Story = {
@@ -372,7 +378,7 @@ export const TabVariantStickyFooter: Story = {
         <Button variant="primary">OK</Button>
       </>
     ),
-  } as any,
+  } as ModalTabVariantProps,
   parameters: {
     docs: {
       story: {
@@ -395,7 +401,7 @@ export const TabVariantLarge: Story = {
         <Button variant="primary">OK</Button>
       </>
     ),
-  } as any,
+  } as ModalTabVariantProps,
 };
 
 export const TabVariantControlled: Story = {
@@ -468,7 +474,7 @@ export const TabVariantPreferredHeight: Story = {
         <Button variant="primary">OK</Button>
       </>
     ),
-  } as any,
+  } as ModalTabVariantProps,
 };
 
 export const TabVariantMinMaxHeight: Story = {
@@ -478,5 +484,5 @@ export const TabVariantMinMaxHeight: Story = {
     sidebarTitle: "Settings",
     tabs: sampleTabs,
     constraints: { minHeight: "300px", maxHeight: "600px" },
-  } as any,
+  } as ModalTabVariantProps,
 };

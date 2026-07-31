@@ -629,7 +629,7 @@ describe("<DatePicker/>", () => {
   });
 
   it("submits forms data", async () => {
-    let formData: any;
+    let formData: Record<string, FormDataEntryValue | null> | undefined;
     const Wrapper = () => {
       const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -708,7 +708,7 @@ describe("<DatePicker/>", () => {
   });
 
   it("submits forms data with a default value", async () => {
-    let formData: any;
+    let formData: Record<string, FormDataEntryValue | null> | undefined;
     const Wrapper = () => {
       const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -1004,9 +1004,9 @@ describe("<DatePicker/>", () => {
         } else {
           expect(button).not.toBeDisabled();
         }
-      } catch (e: any) {
+      } catch (e) {
         // Make sure outside grid-cells render any button element, even disabled.
-        expect(e.message).contains(
+        expect((e as Error).message).contains(
           'Unable to find an accessible element with the role "button"',
         );
       }
@@ -1035,9 +1035,9 @@ describe("<DatePicker/>", () => {
         } else {
           expect(button).not.toBeDisabled();
         }
-      } catch (e: any) {
+      } catch (e) {
         // Make sure outside grid-cells render any button element, even disabled.
-        expect(e.message).contains(
+        expect((e as Error).message).contains(
           'Unable to find an accessible element with the role "button"',
         );
       }
@@ -1169,9 +1169,9 @@ describe("<DatePicker/>", () => {
         expect(button).not.toBeDisabled();
         expect(defaultValue.getMonth() === value.getMonth());
         visibleValues = [value, ...visibleValues];
-      } catch (e: any) {
+      } catch (e) {
         // Make sure outside grid-cells render any button element, even disabled.
-        expect(e.message).contains(
+        expect((e as Error).message).contains(
           'Unable to find an accessible element with the role "button"',
         );
       }

@@ -179,7 +179,7 @@ describe("<Select/>", () => {
               ]}
               searchable={true}
               value={value}
-              onChange={(e) => setValue(e.target.value as any)}
+              onChange={(e) => setValue(e.target.value as string | number | undefined)}
             />
             <Input name="Something else" />
           </CunninghamProvider>
@@ -256,7 +256,7 @@ describe("<Select/>", () => {
               ]}
               searchable={true}
               value={value}
-              onChange={(e) => setValue(e.target.value as any)}
+              onChange={(e) => setValue(e.target.value as string | number | undefined)}
             />
             <Input name="Something else" />
           </CunninghamProvider>
@@ -591,7 +591,7 @@ describe("<Select/>", () => {
       expectMenuToBeClosed(menu);
     });
     it("submits form data", async () => {
-      let formData: any;
+      let formData: Record<string, FormDataEntryValue | null> | undefined;
       const Wrapper = () => {
         const onSubmit = (e: FormEvent<HTMLFormElement>) => {
           e.preventDefault();
@@ -1479,7 +1479,7 @@ describe("<Select/>", () => {
       ).toBeInTheDocument();
     });
     it("submits form data", async () => {
-      let formData: any;
+      let formData: Record<string, FormDataEntryValue | null> | undefined;
       const Wrapper = () => {
         const onSubmit = (e: FormEvent<HTMLFormElement>) => {
           e.preventDefault();

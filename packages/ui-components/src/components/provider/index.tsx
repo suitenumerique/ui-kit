@@ -47,10 +47,11 @@ const findTranslation = (
   locale: TranslationSet,
 ): string | undefined => {
   const [namespace, ...keys] = key.split(".");
-  return keys.reduce(
-    (acc, subKey) => acc?.[subKey],
-    (locale as any)[namespace],
-  );
+  let node: unknown = (locale as Record<string, unknown>)[namespace];
+  for (const subKey of keys) {
+    node = (node as Record<string, unknown> | undefined)?.[subKey];
+  }
+  return node as string | undefined;
 };
 
 export const CunninghamProvider = ({

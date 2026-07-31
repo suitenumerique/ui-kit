@@ -17,7 +17,7 @@ export const Default: Story = {
       tokens.themes.default.globals.spacings,
     ).sort((a, b) => {
       // On retire les éventuelles unités pour comparer numériquement
-      const parse = (v: any) =>
+      const parse = (v: unknown) =>
         parseFloat(typeof v === "string" ? v : String(v));
       return parse(a[1]) - parse(b[1]);
     });

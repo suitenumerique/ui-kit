@@ -173,6 +173,6 @@ describe("isValidTimeZone", () => {
     const result = isValidTimeZone("Europe/Paris");
     expect(result).toBe(false);
     // Restore the original implementation after the test
-    (Intl as any).DateTimeFormat = originalDateTimeFormat;
+    Object.assign(Intl, { DateTimeFormat: originalDateTimeFormat });
   });
 });

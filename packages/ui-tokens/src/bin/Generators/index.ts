@@ -25,17 +25,17 @@ export const resolveRefs = (
   let resolved = tokens;
 
   // Each time we encounter a leaf with a value matching ref(...) we replacing it with the return value of callback(..).
-  const resolveRefsAux = (toResolve_: any) => {
+  const resolveRefsAux = (toResolve_: unknown): unknown => {
     if (typeof toResolve_ !== "object") {
-      const matches = /^ref\((.+)\)$/gm.exec(toResolve_);
+      const matches = /^ref\((.+)\)$/gm.exec(String(toResolve_));
       if (!matches) {
         return toResolve_;
       }
       refsCount++;
       return callback(matches[1], resolved);
     }
-    const resolvedSub: any = {};
-    Object.entries(toResolve_).forEach(([key, value]) => {
+    const resolvedSub: Record<string, unknown> = {};
+    Object.entries(toResolve_ as object).forEach(([key, value]) => {
       resolvedSub[key] = resolveRefsAux(value);
     });
     return resolvedSub;
@@ -75,7 +75,7 @@ export const resolveRefs = (
       );
     }
     refsCount = 0;
-    resolved = resolveRefsAux(resolved);
+    resolved = resolveRefsAux(resolved) as Tokens;
     iterations++;
   } while (refsCount > 0);
 
@@ -91,5 +91,5 @@ export const resolveRefs = (
  * @param resolvingTokens
  */
 export const resolveRefValue = (ref: string, resolvingTokens: Tokens) => {
-  return resolve(resolvingTokens.themes.default, ref);
+  return resolve(resolvingTokens.themes.default, ref) as string;
 };

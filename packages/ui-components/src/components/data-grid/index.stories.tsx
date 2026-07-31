@@ -187,9 +187,11 @@ export const FullServerSide = () => {
     const sortKey = sortModel.length > 0 ? sortModel[0].field : "id";
     const sortPolarity =
       sortModel.length > 0 && sortModel[0].sort === "asc" ? 1 : -1;
-    const sortedDatabase = [...database].sort((a: any, b: any) => {
-      if (a[sortKey] < b[sortKey]) return -sortPolarity;
-      if (a[sortKey] > b[sortKey]) return sortPolarity;
+    const sortedDatabase = [...database].sort((a, b) => {
+      const left = (a as Record<string, unknown>)[sortKey] as number;
+      const right = (b as Record<string, unknown>)[sortKey] as number;
+      if (left < right) return -sortPolarity;
+      if (left > right) return sortPolarity;
       return 0;
     });
 

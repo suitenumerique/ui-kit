@@ -13,8 +13,8 @@ export interface ToastProviderContext {
   ) => void;
 }
 
-const ToastContext = React.createContext<ToastProviderContext>(
-  undefined as any,
+const ToastContext = React.createContext<ToastProviderContext | undefined>(
+  undefined,
 );
 
 export const useToastProvider = () => {

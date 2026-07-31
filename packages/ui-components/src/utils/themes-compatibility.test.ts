@@ -13,7 +13,10 @@ describe("UI Kit theme compatibility", () => {
   });
 
   it("includes Cunningham defaults and UI Kit overrides in one token tree", () => {
-    const defaultTheme = cunninghamConfig.themes.default;
+    const defaultTheme = cunninghamConfig.themes.default as Record<
+      string,
+      Record<string, Record<string, unknown>>
+    >;
     expect(defaultTheme.components.button["medium-height"]).toBe("40px");
     expect(defaultTheme.components.alert).toBeDefined();
     expect(defaultTheme.components["resize-handle"]["hover--color"]).toBe(

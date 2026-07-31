@@ -42,8 +42,10 @@ export const SimpleDataGrid = <T extends Row>({
     const sortPolarity =
       sortModel.length > 0 && sortModel[0].sort === "asc" ? 1 : -1;
     const sortedRows = [...rows].sort((a, b) => {
-      if (a[sortKey] < b[sortKey]) return -sortPolarity;
-      if (a[sortKey] > b[sortKey]) return sortPolarity;
+      const left = a[sortKey] as number;
+      const right = b[sortKey] as number;
+      if (left < right) return -sortPolarity;
+      if (left > right) return sortPolarity;
       return 0;
     });
 

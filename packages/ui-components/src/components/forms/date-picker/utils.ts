@@ -104,6 +104,9 @@ export const convertDateValueToString = (
   }
 };
 
+// The options are spread into both useDatePickerState and
+// useDateRangePickerState, whose option shapes are incompatible.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getDefaultPickerOptions = (props: DatePickerAuxSubProps): any => ({
   minValue: parseDateValue(props.minValue, props.timezone),
   maxValue: parseDateValue(props.maxValue, props.timezone),

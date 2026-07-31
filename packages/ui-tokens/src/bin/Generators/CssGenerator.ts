@@ -10,7 +10,7 @@ import { Tokens } from "TokensGenerator";
  */
 interface PathValueObject {
   path: string[];
-  value: any;
+  value: unknown;
 }
 
 export const THEME_CLASSNAME_PREFIX = "cunningham-theme--";
@@ -22,7 +22,7 @@ export const THEME_CLASSNAME_PREFIX = "cunningham-theme--";
  * @returns Array of objects with 'path' (array of keys) and 'value' (leaf value) properties
  */
 export function createPathValueArray(
-  obj: any,
+  obj: object,
   currentPath: string[] = [],
 ): PathValueObject[] {
   const result: PathValueObject[] = [];

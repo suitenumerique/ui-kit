@@ -38,6 +38,7 @@ export type DecisionModalProps = WithOptional<
   onDecide: (decision?: Decision) => void;
 };
 // TODO: I don't really like this "& any", but it's the only way I found to make it work for MessageModal.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DecisionModalComponent = FunctionComponent<DecisionModalProps & any>;
 
 interface ModalContextType {

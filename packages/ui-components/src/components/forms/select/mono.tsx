@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { UseSelectStateChange } from "downshift";
 import { optionToValue, SubProps } from ":/components/forms/select/mono-common";
 import { SelectMonoSearchable } from ":/components/forms/select/mono-searchable";
 import { SelectMonoSimple } from ":/components/forms/select/mono-simple";
@@ -28,7 +27,7 @@ export const SelectMono = (props: SelectProps) => {
 
   const commonDownshiftProps: SubProps["downshiftProps"] = {
     initialSelectedItem: defaultSelectedItem,
-    onSelectedItemChange: (e: UseSelectStateChange<Option>) => {
+    onSelectedItemChange: (e) => {
       const eventCmp = e.selectedItem ? optionToValue(e.selectedItem) : null;
       const valueCmp = value ?? null;
       // We make sure to not trigger a onChange event if the value are not different.

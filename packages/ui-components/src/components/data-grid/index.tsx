@@ -21,7 +21,7 @@ import {
 import emptyImageUrl from ":/components/data-grid/empty.svg";
 import { Checkbox } from ":/components/forms/checkbox";
 
-export interface Row extends Record<string, any> {
+export interface Row extends Record<string, unknown> {
   id: string;
 }
 

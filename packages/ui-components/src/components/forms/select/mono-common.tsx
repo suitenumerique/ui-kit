@@ -46,7 +46,9 @@ export interface SubProps extends SelectProps {
   defaultSelectedItem?: Option;
   downshiftProps: {
     initialSelectedItem?: Option;
-    onSelectedItemChange?: any;
+    // Shared by useSelect and useCombobox, whose change objects only have
+    // the selectedItem property in common.
+    onSelectedItemChange?: (changes: { selectedItem?: Option | null }) => void;
     isItemDisabled?: (item: Option) => boolean;
   };
 }
@@ -58,10 +60,14 @@ export interface SelectAuxProps extends SubProps {
     isOpen: boolean;
     wrapperProps?: HTMLAttributes<HTMLDivElement>;
     selectedItem?: Option | null;
+    // The prop getters come from either useSelect or useCombobox depending on
+    // the select variant, and their downshift signatures are incompatible.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     getLabelProps: any;
     toggleButtonProps: any;
     getMenuProps: any;
     getItemProps: any;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     highlightedIndex: number;
     selectItem: UseSelectReturnValue<Option>["selectItem"];
   };

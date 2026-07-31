@@ -377,7 +377,7 @@ export const SearchableRef = () => {
 export const FormExample = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData(e.target as any);
+    const data = new FormData(e.target as HTMLFormElement);
     // eslint-disable-next-line no-console
     console.log(data.getAll("cities"));
     // eslint-disable-next-line no-console
