@@ -1,6 +1,7 @@
 # `@gouvfr-lasuite/ui-codemod`
 
-One-off migration CLI for applications using UI Kit or Cunningham. It is
+One-off migration CLI for applications using UI Kit or Cunningham (both the
+`@gouvfr-lasuite/cunningham-*` and legacy `@openfun/cunningham-*` packages). It is
 distributed on npm only so that it can be executed with `npx`; it is not a
 JavaScript library or an application dependency.
 

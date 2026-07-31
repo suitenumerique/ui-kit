@@ -1,5 +1,5 @@
 import jscodeshift from "jscodeshift";
-import { mapSpecifier, PACKAGES, sourceIsEnabled } from "./mappings.js";
+import { mapSpecifier, PACKAGES, PACKAGE_MAPPINGS, sourceIsEnabled } from "./mappings.js";
 
 const parsers = {
   ".js": "babel",
@@ -156,7 +156,7 @@ export function transformJavaScript(sourceText, filePath, options) {
     if (!argument) return;
     if (argument.type !== "StringLiteral" && argument.type !== "Literal") {
       const rawArgument = j(argument).toSource();
-      if (/gouvfr-lasuite\/(?:ui-kit|cunningham)/.test(rawArgument)) {
+      if (/(?:gouvfr-lasuite\/(?:ui-kit|cunningham)|openfun\/cunningham)/.test(rawArgument)) {
         issue(issues, filePath, "Dynamic package expression left unchanged.", path.node);
       }
       return;
@@ -181,7 +181,7 @@ export function transformStyles(sourceText, filePath, options = {}) {
   const source = options.source ?? "all";
   let changed = false;
   const output = sourceText.replace(
-    /(@(?:use|import)\s+(?:url\()?\s*["'])(@gouvfr-lasuite\/(?:ui-kit|cunningham-react|cunningham-tokens)(?:\/[^"')\s;]+)?)(["'])/g,
+    /(@(?:use|import)\s+(?:url\()?\s*["'])(@(?:gouvfr-lasuite\/(?:ui-kit|cunningham-react|cunningham-tokens)|openfun\/cunningham-(?:react|tokens))(?:\/[^"')\s;]+)?)(["'])/g,
     (match, prefix, specifier, suffix, offset) => {
       const mapped = mapSpecifier(specifier, source);
       if (mapped.kind === "mapped") {
@@ -211,11 +211,7 @@ export function transformPackageJson(sourceText, filePath, options = {}) {
   for (const section of ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies", "resolutions"]) {
     const dependencies = json[section];
     if (!dependencies || typeof dependencies !== "object") continue;
-    for (const [oldName, newName] of Object.entries({
-      "@gouvfr-lasuite/cunningham-react": PACKAGES.components,
-      "@gouvfr-lasuite/cunningham-tokens": PACKAGES.tokens,
-      "@gouvfr-lasuite/ui-kit": PACKAGES.components,
-    })) {
+    for (const [oldName, newName] of Object.entries(PACKAGE_MAPPINGS)) {
       if (!sourceIsEnabled(oldName, source) || !(oldName in dependencies)) continue;
       if (!(newName in dependencies)) dependencies[newName] = "^1.0.0";
       delete dependencies[oldName];

@@ -6,6 +6,8 @@ export const PACKAGES = {
 export const PACKAGE_MAPPINGS = {
   "@gouvfr-lasuite/cunningham-react": PACKAGES.components,
   "@gouvfr-lasuite/cunningham-tokens": PACKAGES.tokens,
+  "@openfun/cunningham-react": PACKAGES.components,
+  "@openfun/cunningham-tokens": PACKAGES.tokens,
   "@gouvfr-lasuite/ui-kit": PACKAGES.components,
 };
 
@@ -18,6 +20,14 @@ const EXACT_SPECIFIER_MAPPINGS = new Map([
   ["@gouvfr-lasuite/cunningham-react/sass/icons", `${PACKAGES.components}/sass/material-icons`],
   ["@gouvfr-lasuite/cunningham-tokens", PACKAGES.tokens],
   ["@gouvfr-lasuite/cunningham-tokens/default-tokens", `${PACKAGES.tokens}/default-tokens`],
+  ["@openfun/cunningham-react", PACKAGES.components],
+  ["@openfun/cunningham-react/style", `${PACKAGES.components}/style`],
+  ["@openfun/cunningham-react/fonts", `${PACKAGES.components}/fonts/roboto`],
+  ["@openfun/cunningham-react/sass/fonts", `${PACKAGES.components}/sass/fonts/roboto`],
+  ["@openfun/cunningham-react/icons", `${PACKAGES.components}/material-icons`],
+  ["@openfun/cunningham-react/sass/icons", `${PACKAGES.components}/sass/material-icons`],
+  ["@openfun/cunningham-tokens", PACKAGES.tokens],
+  ["@openfun/cunningham-tokens/default-tokens", `${PACKAGES.tokens}/default-tokens`],
   ["@gouvfr-lasuite/ui-kit", PACKAGES.components],
   ["@gouvfr-lasuite/ui-kit/icons", `${PACKAGES.components}/icons`],
   ["@gouvfr-lasuite/ui-kit/style", `${PACKAGES.components}/style`],
@@ -25,17 +35,22 @@ const EXACT_SPECIFIER_MAPPINGS = new Map([
   ["@gouvfr-lasuite/ui-kit/fonts/Marianne", `${PACKAGES.components}/fonts/marianne`],
 ]);
 
+const CUNNINGHAM_PACKAGES = [
+  "@gouvfr-lasuite/cunningham-react",
+  "@gouvfr-lasuite/cunningham-tokens",
+  "@openfun/cunningham-react",
+  "@openfun/cunningham-tokens",
+];
+
+const belongsTo = (specifier, name) =>
+  specifier === name || specifier.startsWith(`${name}/`);
+
 export function sourceIsEnabled(specifier, source) {
   if (source === "all") return true;
   if (source === "ui-kit") {
-    return specifier === "@gouvfr-lasuite/ui-kit" || specifier.startsWith("@gouvfr-lasuite/ui-kit/");
+    return belongsTo(specifier, "@gouvfr-lasuite/ui-kit");
   }
-  return (
-    specifier === "@gouvfr-lasuite/cunningham-react" ||
-    specifier.startsWith("@gouvfr-lasuite/cunningham-react/") ||
-    specifier === "@gouvfr-lasuite/cunningham-tokens" ||
-    specifier.startsWith("@gouvfr-lasuite/cunningham-tokens/")
-  );
+  return CUNNINGHAM_PACKAGES.some((name) => belongsTo(specifier, name));
 }
 
 export function mapSpecifier(specifier, source = "all") {

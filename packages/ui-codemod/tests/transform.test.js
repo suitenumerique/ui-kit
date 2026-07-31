@@ -52,6 +52,28 @@ test("merges package dependencies and is idempotent", () => {
   assert.equal(second.changed, false);
 });
 
+test("rewrites legacy @openfun/cunningham-* packages", () => {
+  const input = `import { Button } from "@openfun/cunningham-react";\nimport "@openfun/cunningham-react/style";\nconst tokens = require("@openfun/cunningham-tokens");\n`;
+  const result = transformJavaScript(input, "example.tsx", { source: "cunningham", iconNames });
+  assert.match(result.output, /from "@gouvfr-lasuite\/ui-components"/);
+  assert.match(result.output, /"@gouvfr-lasuite\/ui-components\/style"/);
+  assert.match(result.output, /"@gouvfr-lasuite\/ui-tokens"/);
+  assert.equal(result.issues.length, 0);
+});
+
+test("rewrites legacy @openfun styles and package.json dependencies", () => {
+  const styles = transformStyles(`@use "@openfun/cunningham-react/sass/icons";\n`, "theme.scss", { source: "all" });
+  assert.match(styles.output, /ui-components\/sass\/material-icons/);
+  const pkg = transformPackageJson(`${JSON.stringify({ dependencies: {
+    "@openfun/cunningham-react": "^3.0.0",
+    "@openfun/cunningham-tokens": "^2.0.0",
+  } }, null, 2)}\n`, "package.json", { source: "all" });
+  const dependencies = JSON.parse(pkg.output).dependencies;
+  assert.equal(dependencies["@gouvfr-lasuite/ui-components"], "^1.0.0");
+  assert.equal(dependencies["@gouvfr-lasuite/ui-tokens"], "^1.0.0");
+  assert.equal("@openfun/cunningham-react" in dependencies, false);
+});
+
 test("JavaScript transforms are idempotent", () => {
   const input = `import { Button, ArrowDown } from "@gouvfr-lasuite/ui-kit";\n`;
   const first = transformJavaScript(input, "example.tsx", { source: "all", iconNames });
