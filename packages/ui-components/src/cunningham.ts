@@ -9,7 +9,6 @@ export * from "./components/DataGrid/SimpleDataGrid";
 export * from "./components/Forms/Checkbox";
 export * from "./components/Forms/DatePicker";
 export * from "./components/Forms/Field";
-export * from "./components/Forms/FileUploader";
 export * from "./components/Forms/Input";
 export * from "./components/Forms/Input/InputPassword";
 export * from "./components/Forms/LabelledBox";

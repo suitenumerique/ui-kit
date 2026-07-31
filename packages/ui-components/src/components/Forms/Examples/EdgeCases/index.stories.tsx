@@ -1,11 +1,11 @@
 import { Meta } from "@storybook/react";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from ":/components/Forms/Input";
 import { Checkbox } from ":/components/Forms/Checkbox";
 import { Button } from ":/components/Button";
 import { Select } from ":/components/Forms/Select";
 import { CunninghamProvider } from ":/components/Provider";
-import { FileUploader } from ":/components/Forms/FileUploader";
+import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Switch } from ":/components/Forms/Switch";
 
 export default {
@@ -14,6 +14,7 @@ export default {
 
 export const OverflowLabels = () => {
   const overflow = " and some very long overflowing text";
+  const [files, setFiles] = useState<UploadFile[]>([]);
   return (
     <CunninghamProvider>
       <form
@@ -68,9 +69,15 @@ export const OverflowLabels = () => {
             Your curriculum vitae
           </div>
           <FileUploader
-            fullWidth={true}
-            text="pdf only ( 4mb maximum )"
             accept="application/pdf"
+            maxSize={4 * 1000 * 1000}
+            files={files}
+            onAddFiles={setFiles}
+            onRemoveFile={(file) =>
+              setFiles((previousFiles) =>
+                previousFiles.filter((item) => item.id !== file.id),
+              )
+            }
           />
         </div>
         <div>
