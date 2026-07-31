@@ -2,7 +2,7 @@ import { RefObject, useEffect } from "react";
 
 export const useHandleClickOutside = (
   ref: RefObject<HTMLDivElement | null>,
-  onClickOutside: any,
+  onClickOutside: () => void,
 ) => {
   useEffect(() => {
     const outsideListenerEvent = (event: MouseEvent) => {

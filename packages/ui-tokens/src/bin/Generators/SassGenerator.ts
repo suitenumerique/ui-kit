@@ -19,17 +19,17 @@ const generateSassMaps = (tokens: Tokens) => {
     .join("\n");
 };
 
-function toSassVariable(varName: string, value: any, isDefault = true) {
+function toSassVariable(varName: string, value: unknown, isDefault = true) {
   const out = `${varName}: `;
-  if (typeof value === "object") {
+  if (value !== null && typeof value === "object") {
     return out + JSONToSassMap(value, isDefault);
   }
-  return out + value;
+  return `${out}${value}`;
 }
 
 function JSONToSassMap(json: Object, isDefault = true) {
-  function toSassValue(value: any) {
-    if (typeof value === "object") {
+  function toSassValue(value: unknown) {
+    if (value !== null && typeof value === "object") {
       return deepQuoteObjectKeys(value);
     }
     if (typeof value === "string") {
@@ -42,7 +42,7 @@ function JSONToSassMap(json: Object, isDefault = true) {
   }
   function deepQuoteObjectKeys(object: Object) {
     return Object.entries(object).reduce(
-      (acc, [key, value]): Record<string, any> => ({
+      (acc, [key, value]): Record<string, unknown> => ({
         ...acc,
         [`'${key}'`]: toSassValue(value),
       }),

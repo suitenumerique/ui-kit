@@ -1,14 +1,15 @@
 export class Queue {
-  private lastJob?: Promise<any>;
+  private lastJob?: Promise<unknown>;
 
-  push(job: () => Promise<any>): Promise<any> {
+  push<T>(job: () => Promise<T>): Promise<T> {
     const work = async () => {
       if (this.lastJob) {
         await this.lastJob;
       }
       return job();
     };
-    this.lastJob = work();
-    return this.lastJob;
+    const result = work();
+    this.lastJob = result;
+    return result;
   }
 }

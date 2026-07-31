@@ -92,7 +92,7 @@ const MenuItemCheckbox = ({ option, index, ...props }: MenuItemProps) => {
       })}
     >
       <Checkbox
-        label={renderOption(option) as any}
+        label={renderOption(option)}
         checked={option.highlighted}
         fullWidth={true}
       />

@@ -2,6 +2,7 @@ import {
   CellContext,
   ColumnDef,
   createColumnHelper,
+  DeepKeys,
   PaginationState,
   SortingState,
 } from "@tanstack/react-table";
@@ -22,10 +23,10 @@ export const useHeadlessColumns = <T extends Row>({
 }: {
   columns: Column<T>[];
   enableRowSelection?: BaseProps<T>["enableRowSelection"];
-}): ColumnDef<T, any>[] => {
+}): ColumnDef<T, unknown>[] => {
   const { t } = useCunningham();
   const columnHelper = createColumnHelper<T>();
-  let headlessColumns = columns.map((column) => {
+  let headlessColumns: ColumnDef<T, unknown>[] = columns.map((column) => {
     // Based on types we can assume that at least one of both is defined.
     const id = (column.id ?? column.field) as string;
     const opts = {
@@ -34,7 +35,7 @@ export const useHeadlessColumns = <T extends Row>({
         column.enableSorting === undefined ? true : column.enableSorting,
       header: column.headerName,
       size: column.size,
-      cell: (info: CellContext<any, any>) => {
+      cell: (info: CellContext<T, unknown>) => {
         if (column.renderCell) {
           return column.renderCell({ row: info.row.original });
         }
@@ -42,10 +43,10 @@ export const useHeadlessColumns = <T extends Row>({
       },
     };
     if (column.field) {
-      return columnHelper.accessor(column.field as any, opts);
+      return columnHelper.accessor(column.field as DeepKeys<T>, opts);
     }
     return columnHelper.display(opts);
-  });
+  }) as ColumnDef<T, unknown>[];
   if (enableRowSelection) {
     headlessColumns = [
       columnHelper.display({

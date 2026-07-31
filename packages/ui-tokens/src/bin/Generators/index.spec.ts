@@ -11,7 +11,7 @@ describe("resolveRefs", () => {
     const res = resolveRefs(
       tokens as unknown as Tokens,
       (ref, resolvingTokens) => {
-        return resolve(resolvingTokens, ref);
+        return resolve(resolvingTokens, ref) as string;
       },
     );
     expect(res).toEqual({
@@ -50,7 +50,7 @@ describe("resolveRefs", () => {
     const res = resolveRefs(
       tokens as unknown as Tokens,
       (ref, resolvingTokens) => {
-        return resolve(resolvingTokens, ref);
+        return resolve(resolvingTokens, ref) as string;
       },
     );
     expect(res).toEqual({
@@ -76,7 +76,7 @@ describe("resolveRefs", () => {
     const res = resolveRefs(
       tokens as unknown as Tokens,
       (ref, resolvingTokens) => {
-        return resolve(resolvingTokens, ref);
+        return resolve(resolvingTokens, ref) as string;
       },
     );
     expect(res).toEqual({

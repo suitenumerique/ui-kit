@@ -51,10 +51,14 @@ export interface SelectMultiAuxProps extends SubProps {
   clearable?: boolean;
   downshiftReturn: {
     isOpen: boolean;
+    // The prop getters come from either useSelect or useCombobox depending on
+    // the select variant, and their downshift signatures are incompatible.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     getLabelProps: any;
     toggleButtonProps: any;
     getMenuProps: any;
     getItemProps: any;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     highlightedIndex: number;
     wrapperProps?: HTMLAttributes<HTMLDivElement>;
   };

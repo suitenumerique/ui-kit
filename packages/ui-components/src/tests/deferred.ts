@@ -4,7 +4,7 @@
  */
 export class Deferred<T> {
   promise: Promise<T>;
-  reject!: (reason?: any) => void;
+  reject!: (reason?: unknown) => void;
   resolve!: (value: T | PromiseLike<T>) => void;
 
   constructor() {
@@ -15,8 +15,8 @@ export class Deferred<T> {
     this.promise = this._init();
   }
 
-  private _init(): Promise<any> {
-    return new Promise((resolve, reject) => {
+  private _init(): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       this.reject = reject;
       this.resolve = resolve;
     });

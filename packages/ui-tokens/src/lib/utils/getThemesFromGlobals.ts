@@ -8,7 +8,7 @@ import {
 type GlobalTokens = typeof defaultGlobals;
 type PartialExtendableNested<T> = {
   [K in keyof T]?: T[K] extends object ? PartialExtendableNested<T[K]> : T[K];
-} & Record<PropertyKey, any>;
+} & Record<PropertyKey, unknown>;
 
 const THEME_VARIANTS = ["light", "dark"] as const;
 type ThemeVariant = (typeof THEME_VARIANTS)[number];
@@ -55,6 +55,6 @@ export const getThemesFromGlobals = (
 
       return themes;
     },
-    {} as Record<string, any>,
+    {} as Record<string, unknown>,
   );
 };

@@ -1,9 +1,9 @@
 export const resolve = (
-  object: Record<string, any>,
+  object: Record<string, unknown>,
   path: string,
   separator: string = ".",
-): any => {
-  return path.split(separator).reduce((acc, cur) => {
-    return acc[cur];
+): unknown => {
+  return path.split(separator).reduce<unknown>((acc, cur) => {
+    return (acc as Record<string, unknown>)[cur];
   }, object);
 };

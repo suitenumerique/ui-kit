@@ -57,14 +57,14 @@ describe("<Popover />", () => {
 
   it("checks popover position top with parent not as origin", async () => {
     // by default window.innerHeight === 768
-    const ref = React.createRef<HTMLDivElement>() as any;
+    const ref = React.createRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     ref.current = {
       offsetTop: 400,
       clientHeight: 100,
       getBoundingClientRect: () => ({
         top: 700,
       }),
-    };
+    } as unknown as HTMLDivElement;
 
     render(<Popover onClickOutside={() => {}} parentRef={ref} />);
 
@@ -80,14 +80,14 @@ describe("<Popover />", () => {
 
   it("checks popover position top with parent as origin", async () => {
     // by default window.innerHeight === 768
-    const ref = React.createRef<HTMLDivElement>() as any;
+    const ref = React.createRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     ref.current = {
       offsetTop: 400,
       clientHeight: 0,
       getBoundingClientRect: () => ({
         top: 800,
       }),
-    };
+    } as unknown as HTMLDivElement;
 
     render(<Popover onClickOutside={() => {}} parentRef={ref} />);
 
@@ -103,14 +103,14 @@ describe("<Popover />", () => {
 
   it("checks popover position bottom", async () => {
     // by default window.innerHeight === 768
-    const ref = React.createRef<HTMLDivElement>() as any;
+    const ref = React.createRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     ref.current = {
       offsetTop: 500,
       clientHeight: 100,
       getBoundingClientRect: () => ({
         top: 200,
       }),
-    };
+    } as unknown as HTMLDivElement;
 
     render(<Popover onClickOutside={() => {}} parentRef={ref} />);
 

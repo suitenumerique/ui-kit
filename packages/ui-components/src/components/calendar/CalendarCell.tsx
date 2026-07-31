@@ -17,8 +17,8 @@ interface CalendarCellProps {
 
 const preventDefaultHandler = (e: React.KeyboardEvent) => e.preventDefault();
 
-const isRangeCalendar = (object: any): object is RangeCalendarState => {
-  return Boolean(object?.highlightedRange);
+const isRangeCalendar = (object: unknown): object is RangeCalendarState => {
+  return Boolean((object as RangeCalendarState | undefined)?.highlightedRange);
 };
 
 export const CalendarCell = ({ state, date }: CalendarCellProps) => {

@@ -481,7 +481,9 @@ describe("<Select multi={true} />", () => {
     });
 
     it("submits form data", async () => {
-      let formData: any;
+      let formData:
+        | Record<string, FormDataEntryValue[] | FormDataEntryValue | null>
+        | undefined;
       const Wrapper = () => {
         const onSubmit = (e: FormEvent<HTMLFormElement>) => {
           e.preventDefault();

@@ -4,7 +4,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import { getAllByRole, getByRole, queryAllByRole } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { usePagination } from ":/components/pagination";
-import { DataGrid, SortModel } from ":/components/data-grid/index";
+import { DataGrid, Row, SortModel } from ":/components/data-grid/index";
 import { CunninghamProvider } from ":/components/provider";
 import { Deferred } from ":/tests/deferred";
 import { expectPaginationList } from ":/components/pagination/utils";
@@ -31,18 +31,18 @@ describe("<DataGrid/>", () => {
           sort: "desc",
         },
       ]);
-      const [rows, setRows] = useState<any[]>([]);
+      const [rows, setRows] = useState<Row[]>([]);
 
       useEffect(() => {
         setIsLoading(true);
 
         const fetchData = async () => {
-          const query: any = {
-            page: pagination.page,
+          const query: Record<string, string> = {
+            page: String(pagination.page),
           };
           if (sortModel.length > 0) {
-            query.sort = sortModel[0].field;
-            query.sortOrder = sortModel[0].sort;
+            query.sort = String(sortModel[0].field);
+            query.sortOrder = String(sortModel[0].sort);
           }
 
           // Simulate HTTP request.

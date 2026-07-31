@@ -1,5 +1,11 @@
 import { buildRefs, getThemesFromGlobals } from "./index";
 
+// The generated themes are plain nested token trees; give the assertions a
+// recursive shape so property access stays typed without any.
+type TokenTree = { [key: string]: TokenTree };
+const themesAsTrees = (themes: ReturnType<typeof getThemesFromGlobals>) =>
+  themes as unknown as Record<string, TokenTree>;
+
 describe("buildRefs", () => {
   it("should replace raw values by ref keys", () => {
     expect(
@@ -28,12 +34,12 @@ describe("getThemesFromGlobals", () => {
     });
 
     expect(Object.keys(themes)).toEqual(["light", "dark"]);
-    expect(themes.light.globals.colors["brand-500"]).toEqual("blue");
-    expect(themes.dark.globals.colors["brand-500"]).toEqual("blue");
-    expect(themes.light.globals.font.families.base).toEqual("Comic Sans MS");
-    expect(themes.dark.globals.font.families.base).toEqual("Comic Sans MS");
-    expect(themes.light.contextuals).toBeDefined();
-    expect(themes.dark.contextuals).toBeDefined();
+    expect(themesAsTrees(themes).light.globals.colors["brand-500"]).toEqual("blue");
+    expect(themesAsTrees(themes).dark.globals.colors["brand-500"]).toEqual("blue");
+    expect(themesAsTrees(themes).light.globals.font.families.base).toEqual("Comic Sans MS");
+    expect(themesAsTrees(themes).dark.globals.font.families.base).toEqual("Comic Sans MS");
+    expect(themesAsTrees(themes).light.contextuals).toBeDefined();
+    expect(themesAsTrees(themes).dark.contextuals).toBeDefined();
   });
 
   it("should allow to prefix the theme names", () => {
@@ -62,6 +68,6 @@ describe("getThemesFromGlobals", () => {
       },
     );
 
-    expect(themes.light.components.button["font-family"]).toEqual("Papyrus");
+    expect(themesAsTrees(themes).light.components.button["font-family"]).toEqual("Papyrus");
   });
 });

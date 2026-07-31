@@ -12,13 +12,12 @@ type Breakpoints = {
   tablet: number;
 };
 
+const defaultTheme = config.themes.default as {
+  globals: { breakpoints: { mobile: string; tablet: string } };
+};
 const breakpoints = {
-  mobile: parseInt(
-    config.themes.default.globals.breakpoints.mobile.replace("px", "")
-  ),
-  tablet: parseInt(
-    config.themes.default.globals.breakpoints.tablet.replace("px", "")
-  ),
+  mobile: parseInt(defaultTheme.globals.breakpoints.mobile.replace("px", "")),
+  tablet: parseInt(defaultTheme.globals.breakpoints.tablet.replace("px", "")),
 };
 
 const getResponsiveStates = (
