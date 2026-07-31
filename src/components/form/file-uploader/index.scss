@@ -155,37 +155,6 @@
       }
     }
 
-    &__error-badge {
-      position: absolute;
-      left: 0%;
-      bottom: 0%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      width: 40%;
-      height: 40%;
-      overflow: hidden;
-      border: 0.7px solid
-        var(
-          --c--contextuals--border--semantic--overlay--primary,
-          rgba(246, 248, 249, 0.2)
-        );
-      border-radius: var(--c--globals--spacings--3xs, 4px);
-      background: linear-gradient(
-          180deg,
-          transparent 6.25%,
-          rgba(255, 255, 255, 0.15) 100%
-        ),
-        var(--c--contextuals--background--semantic--error--primary, #cf202d);
-
-      img {
-        display: block;
-        width: 16.25%;
-        height: 69.5%;
-      }
-    }
-
     &__hint {
       margin: 0;
       display: flex;
