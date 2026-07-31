@@ -2,6 +2,8 @@
 
 ## [UNRELEASED]
 
+## 0.28.1
+
 ### Minor Changes
 
 - ✨(front) rework file uploader dropzone states
@@ -10,6 +12,7 @@
 ### Patch Changes
 
 - 🌐(front) complete upload and import translations
+- 🐛(front) keep dropzone size stable while dragging
 
 ## 0.28.0
 
@@ -570,7 +573,8 @@
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.28.0...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v0.28.1...main
+[0.28.1]: https://github.com/suitenumerique/ui-kit/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/suitenumerique/ui-kit/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/suitenumerique/ui-kit/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/suitenumerique/ui-kit/compare/v0.25.0...v0.26.0
