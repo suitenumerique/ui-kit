@@ -1,6 +1,6 @@
 # `@gouvfr-lasuite/ui-tokens`
 
-The Cunningham design-token engine, now maintained in the La Suite numérique UI
+The UI Kit design-token engine, now maintained in the La Suite numérique UI
 monorepo. Existing runtime conventions remain stable:
 
 - the binary is still named `cunningham`;
