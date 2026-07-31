@@ -2,8 +2,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fireEvent, within } from "@storybook/test";
 import { useEffect, useRef, useState } from "react";
-import { Button } from ":/components/Button";
-import { Modal, ModalSize } from ":/components/Modal";
+import { Button } from ":/components/button";
+import { Modal, ModalSize } from ":/components/modal";
 import { FileUploader, FileUploaderProps } from "./FileUploader";
 import { UploadFile } from "./types";
 

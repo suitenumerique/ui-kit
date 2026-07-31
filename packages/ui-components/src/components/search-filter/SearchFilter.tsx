@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ListBox, ListBoxItem, Popover } from "react-aria-components";
 import clsx from "clsx";
 import { HorizontalSeparator } from ":/components/separator/HorizontalSeparator";
-import { Spinner } from ":/components/Loader/Spinner";
+import { Spinner } from ":/components/loader/Spinner";
 import { SearchFilterItem, SearchFilterProps } from "./types";
 import { FilterResetRow } from "../filter/FilterResetRow";
 import { Zoom } from ":/icons";

@@ -1,4 +1,4 @@
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import type { TranslationKey } from "../types/translations";
 
 /**

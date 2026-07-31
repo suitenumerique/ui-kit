@@ -1,4 +1,4 @@
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { Warning } from ":/icons";
 import { StorageGaugeProps } from "../types";
 import { IconSize } from ":/components/icon";

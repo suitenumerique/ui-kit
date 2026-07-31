@@ -22,7 +22,7 @@ import {
   Modal,
   ModalSize,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import {
   QuickSearch,
   QuickSearchData,

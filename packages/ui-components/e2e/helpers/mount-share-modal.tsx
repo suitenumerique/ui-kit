@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { ShareModal } from "../../src/components/share/modal/ShareModal";
 import { ShareModalCopyLinkFooter } from "../../src/components/share/utils/ShareModalCopyLinkFooter";
 import {

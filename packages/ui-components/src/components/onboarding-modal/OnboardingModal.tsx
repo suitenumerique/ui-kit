@@ -4,7 +4,7 @@ import {
   ModalSize,
   Button,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import clsx from "clsx";
 import { useResponsive } from ":/hooks/useResponsive";
 import { OnboardingStep } from "./types";

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { SearchFilter } from "../../src/components/search-filter/SearchFilter";
 import { UserSearchFilter } from "../../src/components/search-filter/UserSearchFilter";
 import {

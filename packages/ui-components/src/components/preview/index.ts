@@ -9,7 +9,7 @@ export * from "./components/preview-message/PreviewMessage";
 export * from "./components/volume-bar/VolumeBar";
 export * from "./components/duration-bar/DurationBar";
 export * from "./components/controls/PreviewControls";
-export * from "./components/ZoomControls/ZoomControls";
+export * from "./components/zoom-controls/ZoomControls";
 export * from "./viewers/image-viewer/ImageViewer";
 export * from "./viewers/video-player/VideoPlayer";
 export * from "./viewers/audio-player/AudioPlayer";

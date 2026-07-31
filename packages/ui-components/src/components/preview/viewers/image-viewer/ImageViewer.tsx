@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
-import { ZoomControls } from "../../components/ZoomControls/ZoomControls";
+import { ZoomControls } from "../../components/zoom-controls/ZoomControls";
 
 interface ImageViewerProps {
   src: string;

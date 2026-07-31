@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useControllableState } from ":/hooks/useControllableState";
-import { Button } from ":/components/Button";
+import { Button } from ":/components/button";
 
 describe("useControllableState", () => {
   const TestComponent = (props: {

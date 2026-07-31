@@ -2,21 +2,21 @@ import {
   defaultTokenRefs,
   getThemesFromGlobals,
 } from "@gouvfr-lasuite/ui-tokens";
-import { tokens as alertTokens } from "./src/components/Alert/tokens";
-import { tokens as buttonTokens } from "./src/components/Button/tokens";
-import { tokens as calendarTokens } from "./src/components/Calendar/tokens";
-import { tokens as checkboxTokens } from "./src/components/Forms/Checkbox/tokens";
-import { tokens as datePickerTokens } from "./src/components/Forms/DatePicker/tokens";
-import { tokens as fieldTokens } from "./src/components/Forms/Field/tokens";
-import { tokens as inputTokens } from "./src/components/Forms/Input/tokens";
-import { tokens as labelledBoxTokens } from "./src/components/Forms/LabelledBox/tokens";
-import { tokens as radioTokens } from "./src/components/Forms/Radio/tokens";
-import { tokens as selectTokens } from "./src/components/Forms/Select/tokens";
-import { tokens as switchTokens } from "./src/components/Forms/Switch/tokens";
-import { tokens as textAreaTokens } from "./src/components/Forms/TextArea/tokens";
-import { tokens as modalTokens } from "./src/components/Modal/tokens";
-import { tokens as toastTokens } from "./src/components/Toast/tokens";
-import { tokens as tooltipTokens } from "./src/components/Tooltip/tokens";
+import { tokens as alertTokens } from "./src/components/alert/tokens";
+import { tokens as buttonTokens } from "./src/components/button/tokens";
+import { tokens as calendarTokens } from "./src/components/calendar/tokens";
+import { tokens as checkboxTokens } from "./src/components/forms/checkbox/tokens";
+import { tokens as datePickerTokens } from "./src/components/forms/date-picker/tokens";
+import { tokens as fieldTokens } from "./src/components/forms/field/tokens";
+import { tokens as inputTokens } from "./src/components/forms/input/tokens";
+import { tokens as labelledBoxTokens } from "./src/components/forms/labelled-box/tokens";
+import { tokens as radioTokens } from "./src/components/forms/radio/tokens";
+import { tokens as selectTokens } from "./src/components/forms/select/tokens";
+import { tokens as switchTokens } from "./src/components/forms/switch/tokens";
+import { tokens as textAreaTokens } from "./src/components/forms/text-area/tokens";
+import { tokens as modalTokens } from "./src/components/modal/tokens";
+import { tokens as toastTokens } from "./src/components/toast/tokens";
+import { tokens as tooltipTokens } from "./src/components/tooltip/tokens";
 import { deepMerge } from "./src/utils/objects";
 
 const componentTokenDefaults = {

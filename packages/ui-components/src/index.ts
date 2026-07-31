@@ -124,7 +124,7 @@ export type {
 
 export {
   CunninghamProvider,
-} from "./components/Provider/Provider";
+} from "./components/provider/Provider";
 
 export {
   locales,
@@ -483,7 +483,7 @@ export {
   getUIKitThemesFromGlobals,
 } from "./utils/get-ui-kit-themes-from-globals";
 
-export { Alert } from "./components/Alert/Alert";
+export { Alert } from "./components/alert/Alert";
 
 export {
   FileUploader,

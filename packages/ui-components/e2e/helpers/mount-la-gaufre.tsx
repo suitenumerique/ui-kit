@@ -1,5 +1,5 @@
 import React from "react";
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import {
   LaGaufreV2,
   LaGaufreV2Props,

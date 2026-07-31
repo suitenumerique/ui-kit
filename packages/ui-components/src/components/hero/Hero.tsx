@@ -1,4 +1,4 @@
-import { ProConnectButton } from "../Button/ProConnectButton";
+import { ProConnectButton } from "../button/ProConnectButton";
 
 export const Hero = ({
   logo,

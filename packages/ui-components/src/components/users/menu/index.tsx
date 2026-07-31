@@ -13,7 +13,7 @@ import {
   Modal,
   ModalSize,
 } from ":/cunningham";
-import { useCunningham } from ":/components/Provider";
+import { useCunningham } from ":/components/provider";
 import { UserAvatar } from ":/components/users/avatar/UserAvatar";
 import { GearRounded, Logout, User, XMark } from ":/icons";
 import { useResponsive } from ":/hooks/useResponsive";

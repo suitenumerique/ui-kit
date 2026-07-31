@@ -1,4 +1,4 @@
-import { CunninghamProvider } from "../../src/components/Provider/Provider";
+import { CunninghamProvider } from "../../src/components/provider/Provider";
 import {
   HelpMenu,
   HelpMenuProps,
