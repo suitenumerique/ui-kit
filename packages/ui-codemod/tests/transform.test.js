@@ -9,6 +9,7 @@ import { transformJavaScript, transformPackageJson, transformStyles } from "../d
 
 const root = dirname(fileURLToPath(import.meta.url));
 const iconNames = JSON.parse(await readFile(resolve(root, "../dist/icon-manifest.json"), "utf8"));
+const rootNames = JSON.parse(await readFile(resolve(root, "../dist/root-manifest.json"), "utf8"));
 
 test("splits mixed UI Kit component and SVG icon imports while preserving aliases and types", () => {
   const input = `import { Button as Action, ArrowDown, type ButtonProps } from "@gouvfr-lasuite/ui-kit";\n`;
@@ -50,6 +51,27 @@ test("merges package dependencies and is idempotent", () => {
   assert.equal(JSON.parse(first.output).dependencies["@gouvfr-lasuite/ui-components"], "^1.0.0");
   assert.equal(JSON.parse(first.output).dependencies["@gouvfr-lasuite/ui-tokens"], "^1.0.0");
   assert.equal(second.changed, false);
+});
+
+test("keeps root components whose name is also an SVG icon on the package root", () => {
+  const input = `import { Filter, ArrowRight } from "@gouvfr-lasuite/ui-kit";\n`;
+  const result = transformJavaScript(input, "example.tsx", { source: "all", iconNames, rootNames });
+  assert.match(result.output, /import \{ Filter \} from "@gouvfr-lasuite\/ui-components"/);
+  assert.match(result.output, /import \{ ArrowRight \} from "@gouvfr-lasuite\/ui-components\/icons"/);
+  assert.equal(result.issues.length, 0);
+});
+
+test("keeps colliding names on the root in re-exports too", () => {
+  const input = `export { Calendar, Loader, ArrowDown } from "@gouvfr-lasuite/ui-kit";\n`;
+  const result = transformJavaScript(input, "example.ts", { source: "all", iconNames, rootNames });
+  assert.match(result.output, /export \{ Calendar, Loader \} from "@gouvfr-lasuite\/ui-components"/);
+  assert.match(result.output, /export \{ ArrowDown \} from "@gouvfr-lasuite\/ui-components\/icons"/);
+});
+
+test("still maps explicit /icons imports of colliding names to /icons", () => {
+  const input = `import { Filter } from "@gouvfr-lasuite/ui-kit/icons";\n`;
+  const result = transformJavaScript(input, "example.tsx", { source: "all", iconNames, rootNames });
+  assert.match(result.output, /import \{ Filter \} from "@gouvfr-lasuite\/ui-components\/icons"/);
 });
 
 test("rewrites legacy @openfun/cunningham-* packages", () => {

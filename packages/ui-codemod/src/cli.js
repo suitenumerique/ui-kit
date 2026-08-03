@@ -64,6 +64,7 @@ async function main() {
   const target = resolve(process.cwd(), options.path);
   const packageRoot = dirname(fileURLToPath(import.meta.url));
   const iconNames = JSON.parse(await readFile(resolve(packageRoot, "icon-manifest.json"), "utf8"));
+  const rootNames = JSON.parse(await readFile(resolve(packageRoot, "root-manifest.json"), "utf8"));
   const files = await collectFiles(target);
   const changes = [];
   const issues = [];
@@ -76,7 +77,7 @@ async function main() {
     } else if (/\.(?:css|scss|sass)$/.test(filePath)) {
       result = transformStyles(input, filePath, options);
     } else {
-      result = transformJavaScript(input, filePath, { ...options, iconNames });
+      result = transformJavaScript(input, filePath, { ...options, iconNames, rootNames });
     }
     issues.push(...result.issues);
     if (!result.changed) continue;

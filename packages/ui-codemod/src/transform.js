@@ -28,7 +28,13 @@ const importedName = (specifier) => {
     : specifier.imported.value;
 };
 
-function splitUiKitImports(j, path, iconNames, issues, filePath) {
+// Some names exist both as a root component and as an SVG icon (Filter,
+// Calendar, Loader, ...). A root import always targets the component on
+// supported ui-kit versions, so the root export wins over the icon.
+const isIconOnlyName = (name, iconNames, rootNames) =>
+  iconNames.has(name) && !rootNames.has(name);
+
+function splitUiKitImports(j, path, iconNames, rootNames, issues, filePath) {
   const node = path.node;
   if (node.source.value !== "@gouvfr-lasuite/ui-kit") return false;
   if (node.specifiers.some((specifier) => specifier.type === "ImportNamespaceSpecifier")) {
@@ -39,8 +45,9 @@ function splitUiKitImports(j, path, iconNames, issues, filePath) {
   const iconSpecifiers = [];
   const componentSpecifiers = [];
   for (const specifier of node.specifiers) {
-    if (iconNames.has(importedName(specifier))) iconSpecifiers.push(specifier);
-    else componentSpecifiers.push(specifier);
+    if (isIconOnlyName(importedName(specifier), iconNames, rootNames)) {
+      iconSpecifiers.push(specifier);
+    } else componentSpecifiers.push(specifier);
   }
 
   if (iconSpecifiers.length === 0) {
@@ -62,14 +69,14 @@ function splitUiKitImports(j, path, iconNames, issues, filePath) {
   return true;
 }
 
-function splitUiKitReExports(j, path, iconNames) {
+function splitUiKitReExports(j, path, iconNames, rootNames) {
   const node = path.node;
   if (node.source?.value !== "@gouvfr-lasuite/ui-kit" || !node.specifiers) return false;
   const icons = [];
   const components = [];
   for (const specifier of node.specifiers) {
     const name = specifier.local?.name ?? specifier.local?.value;
-    if (iconNames.has(name)) icons.push(specifier);
+    if (isIconOnlyName(name, iconNames, rootNames)) icons.push(specifier);
     else components.push(specifier);
   }
   if (icons.length === 0) {
@@ -93,6 +100,7 @@ function splitUiKitReExports(j, path, iconNames) {
 export function transformJavaScript(sourceText, filePath, options) {
   const source = options.source ?? "all";
   const iconNames = new Set(options.iconNames ?? []);
+  const rootNames = new Set(options.rootNames ?? []);
   const issues = [];
   let changed = false;
   const parser = parsers[getExtension(filePath)] ?? "babel";
@@ -103,7 +111,7 @@ export function transformJavaScript(sourceText, filePath, options) {
     const specifier = path.node.source.value;
     if (typeof specifier !== "string" || !sourceIsEnabled(specifier, source)) return;
     if (specifier === "@gouvfr-lasuite/ui-kit") {
-      if (splitUiKitImports(j, path, iconNames, issues, filePath)) changed = true;
+      if (splitUiKitImports(j, path, iconNames, rootNames, issues, filePath)) changed = true;
       return;
     }
     const mapped = mapSpecifier(specifier, source);
@@ -122,7 +130,7 @@ export function transformJavaScript(sourceText, filePath, options) {
   root.find(j.ExportNamedDeclaration).forEach((path) => {
     const specifier = path.node.source?.value;
     if (typeof specifier !== "string" || !sourceIsEnabled(specifier, source)) return;
-    if (splitUiKitReExports(j, path, iconNames)) {
+    if (splitUiKitReExports(j, path, iconNames, rootNames)) {
       changed = true;
       return;
     }
