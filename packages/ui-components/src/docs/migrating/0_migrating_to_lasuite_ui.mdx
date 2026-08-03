@@ -79,6 +79,29 @@ package root and `/icons`.
 Sass variants are available through `/sass/material-icons` and
 `/sass/fonts/*`.
 
+## Material Icons must be imported explicitly
+
+The former `@gouvfr-lasuite/ui-kit/sass/fonts` bundle carried the Material
+Icons fonts alongside the text fonts. Its replacement,
+`/sass/fonts/lasuite`, only contains the text fonts: without an extra
+import, every icon rendered by the components shows up as a blank glyph.
+
+Add the dedicated entry once in your application:
+
+```ts
+import "@gouvfr-lasuite/ui-components/material-icons";
+```
+
+or, from Sass:
+
+```scss
+@use "@gouvfr-lasuite/ui-components/sass/material-icons";
+```
+
+The import is deliberately explicit so that applications loading Material
+Icons another way — through a CDN, for example — can keep doing so without
+shipping the fonts twice.
+
 ## Token compatibility
 
 The token engine moved to `@gouvfr-lasuite/ui-tokens`, while these historical
