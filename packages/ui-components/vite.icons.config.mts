@@ -15,7 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: "src/icons.scss",
       output: {
-        assetFileNames: "material-icons.css",
+        assetFileNames: "fonts/material-icons.css",
       },
     },
   },

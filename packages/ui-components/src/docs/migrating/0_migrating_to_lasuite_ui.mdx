@@ -71,31 +71,30 @@ package root and `/icons`.
 | ---------------------------------------- | -------------------------------------------------- |
 | `@gouvfr-lasuite/cunningham-react/style` | `@gouvfr-lasuite/ui-components/style`              |
 | `@gouvfr-lasuite/cunningham-react/fonts` | `@gouvfr-lasuite/ui-components/fonts/roboto`       |
-| `@gouvfr-lasuite/cunningham-react/icons` | `@gouvfr-lasuite/ui-components/material-icons`     |
+| `@gouvfr-lasuite/cunningham-react/icons` | `@gouvfr-lasuite/ui-components/fonts/material-icons` |
 | `@gouvfr-lasuite/ui-kit/style`           | `@gouvfr-lasuite/ui-components/style`              |
 | `@gouvfr-lasuite/ui-kit/fonts/Marianne`  | `@gouvfr-lasuite/ui-components/fonts/marianne`     |
-| `@gouvfr-lasuite/ui-kit/sass/fonts`      | `@gouvfr-lasuite/ui-components/sass/fonts/lasuite` |
+| `@gouvfr-lasuite/ui-kit/sass/fonts`      | `@gouvfr-lasuite/ui-components/sass/fonts/marianne` |
 
-Sass variants are available through `/sass/material-icons` and
-`/sass/fonts/*`.
+Sass variants are available through the matching `/sass/fonts/*` entries.
 
 ## Material Icons must be imported explicitly
 
 The former `@gouvfr-lasuite/ui-kit/sass/fonts` bundle carried the Material
 Icons fonts alongside the text fonts. Its replacement,
-`/sass/fonts/lasuite`, only contains the text fonts: without an extra
+`/sass/fonts/marianne`, only contains the text fonts: without an extra
 import, every icon rendered by the components shows up as a blank glyph.
 
 Add the dedicated entry once in your application:
 
 ```ts
-import "@gouvfr-lasuite/ui-components/material-icons";
+import "@gouvfr-lasuite/ui-components/fonts/material-icons";
 ```
 
 or, from Sass:
 
 ```scss
-@use "@gouvfr-lasuite/ui-components/sass/material-icons";
+@use "@gouvfr-lasuite/ui-components/sass/fonts/material-icons";
 ```
 
 The import is deliberately explicit so that applications loading Material

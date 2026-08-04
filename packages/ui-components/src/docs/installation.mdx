@@ -28,21 +28,22 @@ application entry point:
   dark
   format={false}
   code={`import "@gouvfr-lasuite/ui-components/style";
-import "@gouvfr-lasuite/ui-components/fonts/lasuite";
-import "@gouvfr-lasuite/ui-components/material-icons";`}
+import "@gouvfr-lasuite/ui-components/fonts/roboto";
+import "@gouvfr-lasuite/ui-components/fonts/marianne";
+import "@gouvfr-lasuite/ui-components/fonts/material-icons";`}
 />
 
 The Material Icons stylesheet is required by components that use the Material
 Icons font. If your application does not use any of them, this last import can
 be omitted.
 
-Roboto, Marianne and the combined La Suite font entry points are also
-available separately:
+Each font entry can be imported independently, so applications only ship
+the fonts they use:
 
 ```text
 @gouvfr-lasuite/ui-components/fonts/roboto
 @gouvfr-lasuite/ui-components/fonts/marianne
-@gouvfr-lasuite/ui-components/fonts/lasuite
+@gouvfr-lasuite/ui-components/fonts/material-icons
 ```
 
 ## SVG icons
