@@ -45,10 +45,14 @@ const config: StorybookConfig = {
     autodocs: "tag",
   },
   async viteFinal(viteConfig, { configType }) {
-    viteConfig.base =
-      configType === "PRODUCTION"
-        ? normalizeBasePath(process.env.STORYBOOK_BASE_PATH)
-        : "/";
+    if (configType === "PRODUCTION") {
+      const basePath = normalizeBasePath(process.env.STORYBOOK_BASE_PATH);
+      // Without a configured base path, keep the builder's relative default
+      // ("./") so the static build works from any subdirectory.
+      if (basePath !== "/") {
+        viteConfig.base = basePath;
+      }
+    }
     viteConfig.plugins = viteConfig.plugins?.filter((plugin) => {
       return !(
         typeof plugin === "object" &&

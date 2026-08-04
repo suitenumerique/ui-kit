@@ -31,6 +31,7 @@
     "build-storybook": {
       "cache": false,
       "dependsOn": ["build"],
+      "env": ["STORYBOOK_BASE_PATH"],
       "outputs": []
     }
   }
