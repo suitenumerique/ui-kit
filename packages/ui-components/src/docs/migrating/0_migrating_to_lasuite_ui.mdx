@@ -74,15 +74,16 @@ package root and `/icons`.
 | `@gouvfr-lasuite/cunningham-react/icons` | `@gouvfr-lasuite/ui-components/fonts/material-icons` |
 | `@gouvfr-lasuite/ui-kit/style`           | `@gouvfr-lasuite/ui-components/style`              |
 | `@gouvfr-lasuite/ui-kit/fonts/Marianne`  | `@gouvfr-lasuite/ui-components/fonts/marianne`     |
-| `@gouvfr-lasuite/ui-kit/sass/fonts`      | `@gouvfr-lasuite/ui-components/sass/fonts/marianne` |
+| `@gouvfr-lasuite/ui-kit/sass/fonts`      | `@gouvfr-lasuite/ui-components/fonts/marianne`     |
 
-Sass variants are available through the matching `/sass/fonts/*` entries.
+Roboto and Material Icons also have Sass variants under `/sass/fonts/*`;
+Marianne is plain CSS and can be `@use`d directly from `/fonts/marianne`.
 
 ## Material Icons must be imported explicitly
 
 The former `@gouvfr-lasuite/ui-kit/sass/fonts` bundle carried the Material
 Icons fonts alongside the text fonts. Its replacement,
-`/sass/fonts/marianne`, only contains the text fonts: without an extra
+`/fonts/marianne`, only contains the text fonts: without an extra
 import, every icon rendered by the components shows up as a blank glyph.
 
 Add the dedicated entry once in your application:

@@ -47,7 +47,7 @@ export function App() {
 | `/fonts/material-icons` | Material Icons font CSS                  |
 | `/fonts/roboto`        | Roboto Flex CSS                           |
 | `/fonts/marianne`      | Marianne CSS and bundled font files       |
-| `/sass/fonts/*`        | Equivalent Sass entries                   |
+| `/sass/fonts/*`        | Sass entries for Roboto and Material Icons |
 
 The package root deliberately does not export named SVG icons. Import them from
 `@gouvfr-lasuite/ui-components/icons` so icon bundles stay explicit.

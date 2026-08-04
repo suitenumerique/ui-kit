@@ -33,8 +33,7 @@
     "./sass/fonts/material-icons": "./dist/sass/material-icons.scss",
     "./fonts/roboto": "./dist/fonts/roboto.css",
     "./sass/fonts/roboto": "./dist/sass/roboto.scss",
-    "./fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css",
-    "./sass/fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css"
+    "./fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css"
   },
   "scripts": {
     "dev": "yarn storybook",
