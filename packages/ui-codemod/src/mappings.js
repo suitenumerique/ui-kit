@@ -31,7 +31,7 @@ const EXACT_SPECIFIER_MAPPINGS = new Map([
   ["@gouvfr-lasuite/ui-kit", PACKAGES.components],
   ["@gouvfr-lasuite/ui-kit/icons", `${PACKAGES.components}/icons`],
   ["@gouvfr-lasuite/ui-kit/style", `${PACKAGES.components}/style`],
-  ["@gouvfr-lasuite/ui-kit/sass/fonts", `${PACKAGES.components}/sass/fonts/marianne`],
+  ["@gouvfr-lasuite/ui-kit/sass/fonts", `${PACKAGES.components}/fonts/marianne`],
   ["@gouvfr-lasuite/ui-kit/fonts/Marianne", `${PACKAGES.components}/fonts/marianne`],
 ]);
 
