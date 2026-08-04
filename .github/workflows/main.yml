@@ -60,6 +60,29 @@ jobs:
       - name: Check linting
         run: yarn lint
 
+  # Runs on its own so a locale diverging from the reference one is reported
+  # as an annotation on the offending file, with the list of keys at fault.
+  check-locales:
+    runs-on: ubuntu-latest
+    needs: install-front
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20.x"
+      - name: Restore the frontend cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: front-node_modules-${{ hashFiles('yarn.lock') }}
+          fail-on-cache-miss: true
+      - name: Check locales consistency
+        run: yarn check-locales
+
   test:
     runs-on: ubuntu-latest
     needs: install-front
@@ -195,6 +218,7 @@ jobs:
     needs:
       - storybook
       - lint
+      - check-locales
       - test
       - build
       - e2e

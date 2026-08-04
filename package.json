@@ -21,6 +21,7 @@
     "build-storybook": "turbo run build-storybook --filter=@gouvfr-lasuite/ui-components",
     "changeset": "changeset",
     "version-packages": "changeset version",
+    "check-locales": "yarn workspace @gouvfr-lasuite/ui-components check-locales",
     "generate-icons": "yarn workspace @gouvfr-lasuite/ui-components generate-icons",
     "generate-test-pdfs": "yarn workspace @gouvfr-lasuite/ui-components generate-test-pdfs",
     "scalingo-postbuild": "yarn build && yarn build-storybook"
