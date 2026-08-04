@@ -564,6 +564,8 @@ describe("Cunningham Bin", () => {
 	--c--contextuals--background--surface--tertiary: var(--c--globals--colors--gray-025);
 	--c--contextuals--background--semantic--overlay--primary: var(--c--globals--colors--black-050);
 	--c--contextuals--background--semantic--overlay--primary-hover: var(--c--globals--colors--black-100);
+	--c--contextuals--background--semantic--overlay--on-surface: var(--c--globals--colors--white-650);
+	--c--contextuals--background--semantic--overlay--transparent: var(--c--globals--colors--white-000);
 	--c--contextuals--background--semantic--contextual--primary: var(--c--globals--colors--black-050);
 	--c--contextuals--background--semantic--contextual--primary-hover: var(--c--globals--colors--black-100);
 	--c--contextuals--background--semantic--brand--primary: var(--c--globals--colors--brand-550);
@@ -641,6 +643,7 @@ describe("Cunningham Bin", () => {
 	--c--contextuals--content--logo2: var(--c--globals--colors--logo-2-light);
 	--c--contextuals--content--semantic--contextual--primary: var(--c--globals--colors--white-950);
 	--c--contextuals--content--semantic--overlay--primary: var(--c--globals--colors--white-950);
+	--c--contextuals--content--semantic--overlay--secondary: var(--c--globals--colors--white-800);
 	--c--contextuals--content--semantic--brand--primary: var(--c--globals--colors--brand-700);
 	--c--contextuals--content--semantic--brand--secondary: var(--c--globals--colors--brand-600);
 	--c--contextuals--content--semantic--brand--tertiary: var(--c--globals--colors--brand-550);
@@ -1106,6 +1109,8 @@ describe("Cunningham Bin", () => {
 	--c--contextuals--background--semantic--contextual--primary-hover: var(--c--globals--colors--white-100);
 	--c--contextuals--background--semantic--overlay--primary: var(--c--globals--colors--white-050);
 	--c--contextuals--background--semantic--overlay--primary-hover: var(--c--globals--colors--white-100);
+	--c--contextuals--background--semantic--overlay--on-surface: var(--c--globals--colors--black-650);
+	--c--contextuals--background--semantic--overlay--transparent: var(--c--globals--colors--black-000);
 	--c--contextuals--background--semantic--brand--primary: var(--c--globals--colors--brand-550);
 	--c--contextuals--background--semantic--brand--primary-hover: var(--c--globals--colors--brand-650);
 	--c--contextuals--background--semantic--brand--secondary: var(--c--globals--colors--brand-700);
@@ -1181,6 +1186,7 @@ describe("Cunningham Bin", () => {
 	--c--contextuals--content--logo2: var(--c--globals--colors--logo-2-dark);
 	--c--contextuals--content--semantic--contextual--primary: var(--c--globals--colors--black-850);
 	--c--contextuals--content--semantic--overlay--primary: var(--c--globals--colors--black-850);
+	--c--contextuals--content--semantic--overlay--secondary: var(--c--globals--colors--black-700);
 	--c--contextuals--content--semantic--brand--primary: var(--c--globals--colors--brand-050);
 	--c--contextuals--content--semantic--brand--secondary: var(--c--globals--colors--brand-100);
 	--c--contextuals--content--semantic--brand--tertiary: var(--c--globals--colors--brand-250);
