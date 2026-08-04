@@ -214,75 +214,75 @@
       }
     },
     "alert": {
-      "close_aria_label": "Delete alert",
-      "expand_aria_label": "Expand alert",
-      "shrink_aria_label": "Shrink alert"
+      "close_aria_label": "Eliminar la alerta",
+      "expand_aria_label": "Desplegar la alerta",
+      "shrink_aria_label": "Plegar la alerta"
     },
     "pagination": {
-      "goto_label": "Go to page",
-      "goto_label_aria": "Go to any page",
-      "next_aria": "Go to next page",
-      "previous_aria": "Go to previous page",
-      "goto_page_aria": "Go to page {page}",
-      "current_page_aria": "You are currently on page {page}"
+      "goto_label": "Ir a la página",
+      "goto_label_aria": "Ir a cualquier página",
+      "next_aria": "Ir a la página siguiente",
+      "previous_aria": "Ir a la página anterior",
+      "goto_page_aria": "Ir a la página {page}",
+      "current_page_aria": "Actualmente está en la página {page}"
     },
     "datagrid": {
-      "empty": "This table is empty",
-      "empty_alt": "Illustration of an empty table",
-      "loader_aria": "Loading data",
-      "rows_selection_aria": "All rows selection",
-      "row_selection_aria": "Row selection"
+      "empty": "Esta tabla está vacía",
+      "empty_alt": "Ilustración de una tabla vacía",
+      "loader_aria": "Cargando datos",
+      "rows_selection_aria": "Seleccionar todas las filas",
+      "row_selection_aria": "Seleccionar la fila"
     },
     "provider": {
-      "test": "This is a test: {name}"
+      "test": "Esto es una prueba: {name}"
     },
     "forms": {
       "input": {
         "password": {
-          "show_password": "Show password",
-          "hide_password": "Hide password"
+          "show_password": "Mostrar la contraseña",
+          "hide_password": "Ocultar la contraseña"
         }
       },
       "select": {
-        "toggle_button_aria_label": "Toggle dropdown",
-        "clear_button_aria_label": "Clear selection",
-        "clear_all_button_aria_label": "Clear all selections",
-        "menu_empty_placeholder": "No options available"
+        "toggle_button_aria_label": "Abrir la lista desplegable",
+        "clear_button_aria_label": "Borrar la selección",
+        "clear_all_button_aria_label": "Borrar todas las selecciones",
+        "menu_empty_placeholder": "No hay opciones disponibles"
       },
       "date_picker": {
-        "toggle_button_aria_label_open": "Open calendar",
-        "toggle_button_aria_label_close": "Close calendar",
-        "clear_button_aria_label": "Clear date",
-        "next_month_button_aria_label": "Next month",
-        "next_year_button_aria_label": "Next year",
-        "previous_month_button_aria_label": "Previous month",
-        "previous_year_button_aria_label": "Previous year",
-        "year_select_button_aria_label": "Select a year",
-        "month_select_button_aria_label": "Select a month"
+        "toggle_button_aria_label_open": "Abrir el calendario",
+        "toggle_button_aria_label_close": "Cerrar el calendario",
+        "clear_button_aria_label": "Borrar la fecha",
+        "next_month_button_aria_label": "Mes siguiente",
+        "next_year_button_aria_label": "Año siguiente",
+        "previous_month_button_aria_label": "Mes anterior",
+        "previous_year_button_aria_label": "Año anterior",
+        "year_select_button_aria_label": "Seleccionar un año",
+        "month_select_button_aria_label": "Seleccionar un mes"
       }
     },
     "calendar": {
-      "reset": "Reset",
-      "cancel": "Cancel",
+      "reset": "Restablecer",
+      "cancel": "Cancelar",
       "ok": "OK"
     },
     "modals": {
       "helpers": {
         "delete_confirmation": {
-          "title": "Are you sure?",
-          "children": "Are you sure to delete this item?",
-          "cancel": "Cancel",
-          "delete": "Delete"
+          "title": "¿Está seguro?",
+          "children": "¿Seguro que desea eliminar este elemento?",
+          "cancel": "Cancelar",
+          "delete": "Eliminar"
         },
         "confirmation": {
-          "title": "Are you sure?",
-          "children": "Are you sure you want to do that?",
-          "cancel": "Cancel",
-          "yes": "Yes"
+          "title": "¿Está seguro?",
+          "children": "¿Seguro que desea hacer esto?",
+          "cancel": "Cancelar",
+          "yes": "Sí"
         },
         "disclaimer": {
-          "title": "Disclaimer",
-          "children": "This is a disclaimer",
+          "title": "Aviso legal",
+          "children": "Esto es un aviso legal",
           "ok": "Ok"
         }
       }

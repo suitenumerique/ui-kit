@@ -69,7 +69,7 @@
               "description": "Seules les personnes avec accès peuvent l'ouvrir à l'aide du lien"
             },
             "authenticated": {
-              "title": "Authenticated",
+              "title": "Authentifié",
               "description": "Seuls les utilisateurs authentifiés peuvent accéder au document"
             }
           }
