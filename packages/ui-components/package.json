@@ -38,6 +38,7 @@
   "scripts": {
     "dev": "yarn storybook",
     "build": "yarn build-theme && tsc && vite build && yarn build-assets",
+    "check-locales": "tsx scripts/check-locales.ts",
     "build-theme": "cunningham -g css,scss,ts -o src --utility-classes && shx cp src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
     "build-assets": "yarn build-fonts && yarn build-material-icons",
     "build-fonts": "vite build -c vite.fonts.config.mts && shx mkdir -p dist/sass && shx mkdir -p dist/assets && shx cp src/fonts.scss dist/sass/roboto.scss && shx cp -R src/assets/fonts dist/assets/fonts",
