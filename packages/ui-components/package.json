@@ -29,21 +29,19 @@
       "require": "./dist/icons.cjs"
     },
     "./style": "./dist/style.css",
-    "./material-icons": "./dist/material-icons.css",
-    "./sass/material-icons": "./dist/sass/material-icons.scss",
+    "./fonts/material-icons": "./dist/fonts/material-icons.css",
+    "./sass/fonts/material-icons": "./dist/sass/material-icons.scss",
     "./fonts/roboto": "./dist/fonts/roboto.css",
     "./sass/fonts/roboto": "./dist/sass/roboto.scss",
     "./fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css",
-    "./sass/fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css",
-    "./fonts/lasuite": "./dist/fonts/lasuite.css",
-    "./sass/fonts/lasuite": "./dist/sass/lasuite.scss"
+    "./sass/fonts/marianne": "./dist/assets/fonts/Marianne/Marianne-font.css"
   },
   "scripts": {
     "dev": "yarn storybook",
     "build": "yarn build-theme && tsc && vite build && yarn build-assets",
     "build-theme": "cunningham -g css,scss,ts -o src --utility-classes && shx cp src/cunningham-tokens.scss src/cunningham-tokens-sass.scss",
     "build-assets": "yarn build-fonts && yarn build-material-icons",
-    "build-fonts": "vite build -c vite.fonts.config.mts && vite build -c vite.lasuite-fonts.config.mts && shx mkdir -p dist/sass && shx mkdir -p dist/assets && shx cp src/fonts.scss dist/sass/roboto.scss && shx cp src/sass/lasuite.scss dist/sass/lasuite.scss && shx cp -R src/assets/fonts dist/assets/fonts && shx cp src/assets/fonts/Marianne/*.woff dist/fonts && shx cp src/assets/fonts/Marianne/*.woff2 dist/fonts",
+    "build-fonts": "vite build -c vite.fonts.config.mts && shx mkdir -p dist/sass && shx mkdir -p dist/assets && shx cp src/fonts.scss dist/sass/roboto.scss && shx cp -R src/assets/fonts dist/assets/fonts",
     "build-material-icons": "vite build -c vite.icons.config.mts && shx mkdir -p dist/sass && shx cp src/icons.scss dist/sass/material-icons.scss",
     "lint": "eslint .",
     "test": "vitest run",

@@ -36,7 +36,7 @@ test("reports namespace and internal imports without changing them", () => {
 test("rewrites Sass and CSS public subpaths", () => {
   const input = `@use "@gouvfr-lasuite/cunningham-react/sass/icons";\n@import "@gouvfr-lasuite/ui-kit/fonts/Marianne";\n`;
   const result = transformStyles(input, "theme.scss", { source: "all" });
-  assert.match(result.output, /ui-components\/sass\/material-icons/);
+  assert.match(result.output, /ui-components\/sass\/fonts\/material-icons/);
   assert.match(result.output, /ui-components\/fonts\/marianne/);
 });
 
@@ -85,7 +85,7 @@ test("rewrites legacy @openfun/cunningham-* packages", () => {
 
 test("rewrites legacy @openfun styles and package.json dependencies", () => {
   const styles = transformStyles(`@use "@openfun/cunningham-react/sass/icons";\n`, "theme.scss", { source: "all" });
-  assert.match(styles.output, /ui-components\/sass\/material-icons/);
+  assert.match(styles.output, /ui-components\/sass\/fonts\/material-icons/);
   const pkg = transformPackageJson(`${JSON.stringify({ dependencies: {
     "@openfun/cunningham-react": "^3.0.0",
     "@openfun/cunningham-tokens": "^2.0.0",

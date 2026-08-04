@@ -48,12 +48,12 @@ part of the former public exports are intentionally left unchanged and reported.
 | `@gouvfr-lasuite/ui-kit/icons`                     | `@gouvfr-lasuite/ui-components/icons`               |
 | `@gouvfr-lasuite/ui-kit/style`                     | `@gouvfr-lasuite/ui-components/style`               |
 | `@gouvfr-lasuite/ui-kit/fonts/Marianne`            | `@gouvfr-lasuite/ui-components/fonts/marianne`      |
-| `@gouvfr-lasuite/ui-kit/sass/fonts`                | `@gouvfr-lasuite/ui-components/sass/fonts/lasuite`  |
+| `@gouvfr-lasuite/ui-kit/sass/fonts`                | `@gouvfr-lasuite/ui-components/sass/fonts/marianne` |
 | `@gouvfr-lasuite/cunningham-react/style`           | `@gouvfr-lasuite/ui-components/style`               |
 | `@gouvfr-lasuite/cunningham-react/fonts`           | `@gouvfr-lasuite/ui-components/fonts/roboto`        |
-| `@gouvfr-lasuite/cunningham-react/icons`           | `@gouvfr-lasuite/ui-components/material-icons`      |
+| `@gouvfr-lasuite/cunningham-react/icons`           | `@gouvfr-lasuite/ui-components/fonts/material-icons` |
 | `@gouvfr-lasuite/cunningham-react/sass/fonts`      | `@gouvfr-lasuite/ui-components/sass/fonts/roboto`   |
-| `@gouvfr-lasuite/cunningham-react/sass/icons`      | `@gouvfr-lasuite/ui-components/sass/material-icons` |
+| `@gouvfr-lasuite/cunningham-react/sass/icons`      | `@gouvfr-lasuite/ui-components/sass/fonts/material-icons` |
 | `@gouvfr-lasuite/cunningham-tokens/default-tokens` | `@gouvfr-lasuite/ui-tokens/default-tokens`          |
 
 Named SVG imports from the former UI Kit root are split automatically between

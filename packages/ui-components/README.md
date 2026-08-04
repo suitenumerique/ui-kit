@@ -16,8 +16,9 @@ dependency only when generating an application-specific theme.
 
 ```tsx
 import "@gouvfr-lasuite/ui-components/style";
-import "@gouvfr-lasuite/ui-components/fonts/lasuite";
-import "@gouvfr-lasuite/ui-components/material-icons";
+import "@gouvfr-lasuite/ui-components/fonts/roboto";
+import "@gouvfr-lasuite/ui-components/fonts/marianne";
+import "@gouvfr-lasuite/ui-components/fonts/material-icons";
 
 import {
   Button,
@@ -43,11 +44,9 @@ export function App() {
 | ---------------------- | ----------------------------------------- |
 | `/style`               | Component styles and all generated themes |
 | `/icons`               | Named React SVG components                |
-| `/material-icons`      | Material Icons font CSS                   |
-| `/sass/material-icons` | Material Icons Sass entry                 |
+| `/fonts/material-icons` | Material Icons font CSS                  |
 | `/fonts/roboto`        | Roboto Flex CSS                           |
 | `/fonts/marianne`      | Marianne CSS and bundled font files       |
-| `/fonts/lasuite`       | Roboto Flex and Marianne CSS              |
 | `/sass/fonts/*`        | Equivalent Sass entries                   |
 
 The package root deliberately does not export named SVG icons. Import them from
