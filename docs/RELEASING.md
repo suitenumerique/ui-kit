@@ -35,7 +35,8 @@ the documented `npx @gouvfr-lasuite/ui-codemod@<version>` commands.
 
 ## Prerequisites
 
-- Node 20 and Yarn 1.22.22;
+- Node 24 (the version pinned in `.nvmrc`) and Yarn 1.22.22 — `changeset` needs
+  a Node release that can `require()` an ESM module;
 - a clean checkout with an up-to-date `origin/main`;
 - an npm account allowed to publish the `@gouvfr-lasuite` scope;
 - npm two-factor authentication in `auth-and-writes` mode;

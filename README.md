@@ -33,7 +33,7 @@ does not modify the target project's `package.json`, lockfile or `node_modules`.
 
 ## Development
 
-Node 20 and Yarn 1.22.22 are required.
+Node 24 (the version pinned in `.nvmrc`) and Yarn 1.22.22 are required.
 
 ```bash
 yarn install --frozen-lockfile
