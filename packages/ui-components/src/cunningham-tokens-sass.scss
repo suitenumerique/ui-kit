@@ -779,7 +779,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -799,7 +808,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,
@@ -1738,7 +1753,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -1758,7 +1782,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,
@@ -2670,7 +2700,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -2690,7 +2729,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,
@@ -3602,7 +3647,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -3622,7 +3676,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,
@@ -4537,7 +4597,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -4557,7 +4626,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,
@@ -5472,7 +5547,16 @@ $themes: (
         'color': #5D5D70,
         'color--error': #C00100,
         'color--success': #016D31,
-        'color--disabled': #A9A9BF
+        'color--disabled': #A9A9BF,
+        'inline-label-width': max-content,
+        'inline-column-gap': 0.5rem,
+        'inline-row-gap': 0.25rem,
+        'label-description-gap': 0.125rem,
+        'label-description-font-size': 0.75rem,
+        'label-description-font-weight': 400,
+        'label-description-line-height': 1rem,
+        'label-description-color': #5D5D70,
+        'label-description-color--disabled': #A9A9BF
       ),
       'forms-input': (
         'font-weight': 400,
@@ -5492,7 +5576,13 @@ $themes: (
         'label-color--focus': #3E3B98,
         'background-color': #FFFFFF,
         'value-color': #25252F,
-        'value-color--disabled': #A9A9BF
+        'value-color--disabled': #A9A9BF,
+        'inline-min-height': 40px,
+        'inline-border-radius': 0.25rem,
+        'inline-padding-block': 0.375rem,
+        'inline-padding-inline': 0.5rem,
+        'inline-background-color--disabled': #F0F0F3,
+        'inline-border-color--disabled': #E2E2EA
       ),
       'forms-labelledbox': (
         'label-color--small': #69697D,

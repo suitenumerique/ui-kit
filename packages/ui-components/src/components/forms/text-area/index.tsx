@@ -16,6 +16,11 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
   RefAttributes<HTMLTextAreaElement> &
   FieldProps & {
     label?: string;
+    /**
+     * Secondary text displayed under the label. Only rendered by the "classic" and
+     * "inline" variants: the floating label is an overlay with no room for a second line.
+     */
+    labelDescription?: string;
     variant?: FieldVariant;
     hideLabel?: boolean;
     charCounter?: boolean;
@@ -24,6 +29,7 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
 
 export const TextArea = ({
   label,
+  labelDescription,
   variant = "floating",
   hideLabel,
   id,
@@ -34,11 +40,17 @@ export const TextArea = ({
   ...props
 }: TextAreaProps) => {
   const isClassic = variant === "classic";
+  const isInline = variant === "inline";
+  // Both variants render the label outside the box and rely on the native placeholder.
+  const isStatic = isClassic || isInline;
   const areaRef = useRef<HTMLTextAreaElement | null>(null);
   const [inputFocus, setInputFocus] = useState(false);
   const [value, setValue] = useState(defaultValue || props.value || "");
   const [labelAsPlaceholder, setLabelAsPlaceholder] = useState(!value);
   const idToUse = useRef(id || randomString());
+  const descriptionId = labelDescription
+    ? `${idToUse.current}-description`
+    : undefined;
   const rightTextToUse = charCounter
     ? `${value.toString().length}/${charCounterMax}`
     : props.rightText;
@@ -59,14 +71,26 @@ export const TextArea = ({
     setValue(props.value || "");
   }, [props.value]);
 
-  const { fullWidth, rightText, text, textItems, className, ...areaProps } =
-    props;
+  const {
+    fullWidth,
+    labelWidth,
+    rightText,
+    text,
+    textItems,
+    className,
+    ...areaProps
+  } = props;
 
   const textareaElement = (
     <textarea
       className="c__textarea"
       {...areaProps}
-      placeholder={isClassic ? props.placeholder : undefined}
+      aria-describedby={
+        [areaProps["aria-describedby"], descriptionId]
+          .filter(Boolean)
+          .join(" ") || undefined
+      }
+      placeholder={isStatic ? props.placeholder : undefined}
       id={idToUse.current}
       onFocus={(e) => {
         setInputFocus(true);
@@ -97,12 +121,19 @@ export const TextArea = ({
   return (
     <Field
       {...props}
-      className={classNames("c__field--textarea", className)}
+      className={classNames(
+        "c__field--textarea",
+        { "c__field--inline": isInline },
+        className,
+      )}
       rightText={rightTextToUse}
     >
-      {isClassic && (
+      {isStatic && (
         <ClassicLabel
           label={label}
+          description={labelDescription}
+          descriptionId={descriptionId}
+          withContainer={isInline}
           hideLabel={hideLabel}
           disabled={props.disabled}
           className="c__textarea__label"
@@ -116,15 +147,16 @@ export const TextArea = ({
         className={classNames("c__textarea__wrapper", {
           "c__textarea__wrapper--disabled": props.disabled,
           "c__textarea__wrapper--classic": isClassic,
+          "c__textarea__wrapper--inline": isInline,
         })}
         onClick={() => areaRef.current?.focus()}
       >
-        {isClassic ? (
+        {isStatic ? (
           textareaElement
         ) : (
           <LabelledBox
             label={label}
-            variant={variant}
+            variant="floating"
             hideLabel={hideLabel}
             htmlFor={idToUse.current}
             labelAsPlaceholder={labelAsPlaceholder}

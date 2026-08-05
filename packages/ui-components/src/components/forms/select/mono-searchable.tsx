@@ -100,6 +100,11 @@ export const SelectMonoSearchable = ({
   const inputProps = downshiftReturn.getInputProps({
     ref: inputRef,
     disabled: props.disabled,
+    // The input is rendered as a child of SelectMonoAux, which cannot reach it to wire
+    // the label description, so the association is made here.
+    "aria-describedby": props.labelDescription
+      ? `${downshiftReturn.getLabelProps().htmlFor}-description`
+      : undefined,
   });
 
   const renderCustomSelectedOption = !showLabelWhenSelected;

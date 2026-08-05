@@ -16,7 +16,10 @@ export * from "./components/forms/radio";
 export * from "./components/forms/select";
 export * from "./components/forms/switch";
 export * from "./components/forms/text-area";
-export type { FieldVariant } from "./components/forms/types";
+export type {
+  FieldVariant,
+  StackedFieldVariant,
+} from "./components/forms/types";
 export * from "./components/calendar";
 export * from "./components/loader";
 export * from "./components/modal";

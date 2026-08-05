@@ -83,6 +83,7 @@ export const SelectMonoAux = ({
   options,
   name,
   label,
+  labelDescription,
   hideLabel,
   variant = "floating",
   placeholder,
@@ -99,8 +100,14 @@ export const SelectMonoAux = ({
   const labelProps = downshiftReturn.getLabelProps();
   const ref = useRef<HTMLDivElement>(null);
   const isClassic = variant === "classic";
+  const isInline = variant === "inline";
+  // Both variants render the label outside the box and rely on the placeholder.
+  const isStatic = isClassic || isInline;
+  const descriptionId = labelDescription
+    ? `${labelProps.htmlFor}-description`
+    : undefined;
   const showPlaceholder =
-    isClassic && !downshiftReturn.selectedItem && placeholder;
+    isStatic && !downshiftReturn.selectedItem && placeholder;
 
   const selectInner = (
     <div className="c__select__inner">
@@ -162,7 +169,30 @@ export const SelectMonoAux = ({
 
   return (
     <>
-      <Field state={state} {...props}>
+      <Field
+        state={state}
+        {...props}
+        className={classNames(
+          { "c__field--inline": isInline },
+          props.className,
+        )}
+      >
+        {/* The label is a sibling of `.c__select`, like in Input and TextArea, so */}
+        {/* that every field component exposes the same `.c__field` children. */}
+        {isStatic && (
+          <ClassicLabel
+            label={label}
+            description={labelDescription}
+            descriptionId={descriptionId}
+            withContainer={isInline}
+            hideLabel={hideLabel}
+            disabled={disabled}
+            className="c__select__label"
+            disabledClassName="c__select__label--disabled"
+            htmlFor={labelProps.htmlFor}
+            id={labelProps.id}
+          />
+        )}
         <div
           ref={ref}
           className={classNames(
@@ -172,23 +202,13 @@ export const SelectMonoAux = ({
             {
               "c__select--disabled": disabled,
               "c__select--classic": isClassic,
+              "c__select--inline": isInline,
             },
           )}
           onBlur={() =>
             onBlur?.({ target: { value: downshiftReturn.selectedItem?.value } })
           }
         >
-          {isClassic && (
-            <ClassicLabel
-              label={label}
-              hideLabel={hideLabel}
-              disabled={disabled}
-              className="c__select__label"
-              disabledClassName="c__select__label--disabled"
-              htmlFor={labelProps.htmlFor}
-              id={labelProps.id}
-            />
-          )}
           {/* We disabled linting for this specific line because we consider that the onClick props is only used for */}
           {/* mouse users, so this do not engender any issue for accessibility. */}
           <div
@@ -196,6 +216,14 @@ export const SelectMonoAux = ({
               "c__select__wrapper--focus": downshiftReturn.isOpen && !disabled,
             })}
             {...downshiftReturn.wrapperProps}
+            aria-describedby={
+              [
+                downshiftReturn.wrapperProps?.["aria-describedby"],
+                descriptionId,
+              ]
+                .filter(Boolean)
+                .join(" ") || undefined
+            }
           >
             {downshiftReturn.selectedItem && (
               <input
@@ -205,13 +233,13 @@ export const SelectMonoAux = ({
               />
             )}
 
-            {isClassic ? (
+            {isStatic ? (
               selectInner
             ) : (
               <LabelledBox
                 label={label}
                 hideLabel={hideLabel}
-                variant={variant}
+                variant="floating"
                 labelAsPlaceholder={labelAsPlaceholder}
                 htmlFor={labelProps.htmlFor}
                 labelId={labelProps.id}

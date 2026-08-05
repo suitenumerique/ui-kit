@@ -235,6 +235,8 @@ describe("<Input/>", () => {
       disabled: false,
       variant: "floating",
       hideLabel: false,
+      labelDescription: "my label description",
+      labelWidth: "10rem",
     };
 
     render(<Input {...propsInput} />);
@@ -346,6 +348,132 @@ describe("<Input/>", () => {
       expect(input.placeholder).toEqual("");
       expect(
         document.querySelector(".c__input__label"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("does not wrap the label when no description is given", () => {
+      render(<Input label="First name" variant="classic" />);
+      expect(
+        document.querySelector(".c__field__label-block"),
+      ).not.toBeInTheDocument();
+      // The label stays a direct child of the field, as it has always been.
+      expect(
+        document.querySelector(".c__input__label")?.parentElement,
+      ).toHaveClass("c__field");
+    });
+  });
+
+  describe("inline variant", () => {
+    it("renders the label in a label block beside the field", () => {
+      render(<Input label="First name" variant="inline" />);
+      expect(document.querySelector(".c__field--inline")).toBeInTheDocument();
+      const block = document.querySelector(".c__field__label-block");
+      expect(block).toBeInTheDocument();
+      expect(block?.parentElement).toHaveClass("c__field");
+      expect(screen.getByText("First name")).toHaveClass("c__input__label");
+    });
+
+    it("applies the inline wrapper modifier and not the classic one", () => {
+      render(<Input label="First name" variant="inline" />);
+      expect(
+        document.querySelector(".c__input__wrapper--inline"),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector(".c__input__wrapper--classic"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("uses the native placeholder like the classic variant", () => {
+      render(
+        <Input
+          label="First name"
+          variant="inline"
+          placeholder="Enter your first name"
+        />,
+      );
+      const input: HTMLInputElement = screen.getByRole("textbox", {
+        name: "First name",
+      });
+      expect(input.placeholder).toEqual("Enter your first name");
+    });
+
+    it("renders labelDescription and points aria-describedby at it", () => {
+      render(
+        <Input
+          label="First name"
+          labelDescription="As shown on your ID"
+          variant="inline"
+        />,
+      );
+      const input = screen.getByRole("textbox", { name: "First name" });
+      const description = screen.getByText("As shown on your ID");
+      expect(description).toHaveClass("c__field__label-description");
+      expect(description.id).not.toEqual("");
+      expect(input.getAttribute("aria-describedby")).toEqual(description.id);
+    });
+
+    it("adds no aria-describedby without a labelDescription", () => {
+      render(<Input label="First name" variant="inline" />);
+      expect(
+        screen.getByRole("textbox", { name: "First name" }),
+      ).not.toHaveAttribute("aria-describedby");
+    });
+
+    it("preserves a caller-supplied aria-describedby", () => {
+      render(
+        <Input
+          label="First name"
+          labelDescription="As shown on your ID"
+          variant="inline"
+          aria-describedby="external-hint"
+        />,
+      );
+      const input = screen.getByRole("textbox", { name: "First name" });
+      const description = screen.getByText("As shown on your ID");
+      expect(input.getAttribute("aria-describedby")).toEqual(
+        `external-hint ${description.id}`,
+      );
+    });
+
+    it("greys out the label block when disabled", () => {
+      render(
+        <Input
+          label="First name"
+          labelDescription="As shown on your ID"
+          variant="inline"
+          disabled
+        />,
+      );
+      expect(
+        document.querySelector(".c__field__label-block--disabled"),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector(".c__field__label-description--disabled"),
+      ).toBeInTheDocument();
+    });
+
+    it("exposes labelWidth as a custom property on the field", () => {
+      render(<Input label="First name" variant="inline" labelWidth="10rem" />);
+      const field = document.querySelector(".c__field") as HTMLElement;
+      expect(
+        field.style.getPropertyValue(
+          "--c--components--forms-field--inline-label-width",
+        ),
+      ).toEqual("10rem");
+    });
+
+    it("keeps the label accessible and drops the block with hideLabel", () => {
+      render(
+        <Input
+          label="First name"
+          labelDescription="As shown on your ID"
+          variant="inline"
+          hideLabel
+        />,
+      );
+      expect(screen.getByText("First name")).toHaveClass("c__offscreen");
+      expect(
+        document.querySelector(".c__field__label-block"),
       ).not.toBeInTheDocument();
     });
   });

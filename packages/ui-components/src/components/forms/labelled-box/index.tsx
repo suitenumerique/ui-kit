@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from "react";
 import classNames from "classnames";
-import type { FieldVariant } from ":/components/forms/types";
+import type { StackedFieldVariant } from ":/components/forms/types";
 
 export interface Props extends PropsWithChildren {
   label?: string;
-  variant?: FieldVariant;
+  variant?: StackedFieldVariant;
   labelAsPlaceholder?: boolean;
   htmlFor?: string;
   labelId?: string;

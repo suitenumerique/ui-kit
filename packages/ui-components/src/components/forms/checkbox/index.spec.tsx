@@ -131,6 +131,7 @@ describe("<Checkbox/>", () => {
       rightText: "my right text",
       indeterminate: true,
       disabled: false,
+      labelWidth: "10rem",
     };
 
     render(<Checkbox {...propsInput} />);

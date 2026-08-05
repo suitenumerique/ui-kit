@@ -1997,5 +1997,51 @@ describe("<Select multi={true} />", () => {
       // Label should still have the same class
       expect(label.classList.contains("c__select__label")).toBe(true);
     });
+
+    it("renders the label as a sibling of .c__select, like Input does", () => {
+      render(
+        <CunninghamProvider>
+          <Select
+            label="Cities"
+            multi={true}
+            variant="classic"
+            options={[
+              { label: "Paris", value: "paris" },
+              { label: "London", value: "london" },
+            ]}
+          />
+        </CunninghamProvider>,
+      );
+      const label = document.querySelector(".c__select__label");
+      expect(label?.closest(".c__select")).toBeNull();
+      expect(label?.parentElement).toHaveClass("c__field");
+    });
+  });
+
+  describe("inline variant", () => {
+    it("renders the label in a label block outside .c__select", () => {
+      render(
+        <CunninghamProvider>
+          <Select
+            label="Cities"
+            multi={true}
+            labelDescription="Pick as many as you need"
+            variant="inline"
+            options={[
+              { label: "Paris", value: "paris" },
+              { label: "London", value: "london" },
+            ]}
+          />
+        </CunninghamProvider>,
+      );
+      expect(document.querySelector(".c__field--inline")).toBeInTheDocument();
+      expect(document.querySelector(".c__select--inline")).toBeInTheDocument();
+      const label = document.querySelector(".c__select__label");
+      expect(label?.closest(".c__select")).toBeNull();
+      expect(label?.closest(".c__field__label-block")).toBeInTheDocument();
+      expect(screen.getByText("Pick as many as you need")).toHaveClass(
+        "c__field__label-description",
+      );
+    });
   });
 });

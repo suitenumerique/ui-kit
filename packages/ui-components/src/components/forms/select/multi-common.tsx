@@ -71,8 +71,14 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const variant = props.variant ?? "floating";
   const isClassic = variant === "classic";
+  const isInline = variant === "inline";
+  // Both variants render the label outside the box and rely on the placeholder.
+  const isStatic = isClassic || isInline;
+  const descriptionId = props.labelDescription
+    ? `${labelProps.htmlFor}-description`
+    : undefined;
   const showPlaceholder =
-    isClassic && props.selectedItems.length === 0 && props.placeholder;
+    isStatic && props.selectedItems.length === 0 && props.placeholder;
 
   // We need to remove onBlur from toggleButtonProps because it triggers a menu closing each time
   // we tick a checkbox using the monoline style.
@@ -143,7 +149,29 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
 
   return (
     <>
-      <Field {...props}>
+      <Field
+        {...props}
+        className={classNames(
+          { "c__field--inline": isInline },
+          props.className,
+        )}
+      >
+        {/* The label is a sibling of `.c__select`, like in Input and TextArea, so */}
+        {/* that every field component exposes the same `.c__field` children. */}
+        {isStatic && (
+          <ClassicLabel
+            label={props.label}
+            description={props.labelDescription}
+            descriptionId={descriptionId}
+            withContainer={isInline}
+            hideLabel={props.hideLabel}
+            disabled={props.disabled}
+            className="c__select__label"
+            disabledClassName="c__select__label--disabled"
+            htmlFor={labelProps.htmlFor}
+            id={labelProps.id}
+          />
+        )}
         <div
           ref={ref}
           className={classNames(
@@ -157,20 +185,10 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
               "c__select--monoline": props.monoline,
               "c__select--multiline": !props.monoline,
               "c__select--classic": isClassic,
+              "c__select--inline": isInline,
             },
           )}
         >
-          {isClassic && (
-            <ClassicLabel
-              label={props.label}
-              hideLabel={props.hideLabel}
-              disabled={props.disabled}
-              className="c__select__label"
-              disabledClassName="c__select__label--disabled"
-              htmlFor={labelProps.htmlFor}
-              id={labelProps.id}
-            />
-          )}
           <div
             className={classNames("c__select__wrapper", {
               "c__select__wrapper--focus":
@@ -178,6 +196,15 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
             })}
             {...props.downshiftReturn.wrapperProps}
             {...toggleProps}
+            aria-describedby={
+              [
+                toggleProps?.["aria-describedby"],
+                props.downshiftReturn.wrapperProps?.["aria-describedby"],
+                descriptionId,
+              ]
+                .filter(Boolean)
+                .join(" ") || undefined
+            }
           >
             {props.selectedItems.map((selectedItem, index) => (
               <input
@@ -187,12 +214,12 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
                 value={optionToValue(selectedItem)}
               />
             ))}
-            {isClassic ? (
+            {isStatic ? (
               selectInner
             ) : (
               <LabelledBox
                 label={props.label}
-                variant={variant}
+                variant="floating"
                 labelAsPlaceholder={props.labelAsPlaceholder}
                 htmlFor={labelProps.htmlFor}
                 labelId={labelProps.id}

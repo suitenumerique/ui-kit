@@ -13,7 +13,7 @@ export default {
   argTypes: {
     variant: {
       control: "select",
-      options: ["floating", "classic"],
+      options: ["floating", "classic", "inline"],
     },
   },
 } as Meta<typeof TextArea>;
@@ -215,6 +215,33 @@ export const ClassicVariantError = {
     defaultValue: "Too short",
     state: "error",
     text: "Description must be at least 50 characters",
+  },
+};
+
+export const InlineVariant = {
+  args: {
+    label: "Description",
+    variant: "inline",
+    placeholder: "Enter a description...",
+  },
+};
+
+export const InlineVariantWithDescription = {
+  args: {
+    label: "Description",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Enter a description...",
+  },
+};
+
+export const InlineVariantDisabled = {
+  args: {
+    label: "Description",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Enter a description...",
+    disabled: true,
   },
 };
 

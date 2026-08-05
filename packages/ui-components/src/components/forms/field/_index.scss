@@ -60,4 +60,82 @@
     align-items: flex-start;
     width: auto;
   }
+
+  /**
+   * Label block: pairs a label with its description. Introduced by ClassicLabel as soon
+   * as a description is given, and always in the "inline" variant so that the grid below
+   * has a single item to place in the label column.
+   */
+  &__label-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--c--components--forms-field--label-description-gap);
+    min-width: 0;
+  }
+
+  &__label-description {
+    font-family: var(--c--globals--font--families--base);
+    font-size: var(--c--components--forms-field--label-description-font-size);
+    font-weight: var(
+      --c--components--forms-field--label-description-font-weight
+    );
+    line-height: var(
+      --c--components--forms-field--label-description-line-height
+    );
+    color: var(--c--components--forms-field--label-description-color);
+
+    &--disabled {
+      color: var(
+        --c--components--forms-field--label-description-color--disabled
+      );
+    }
+  }
+
+  &__label-block--disabled label {
+    color: var(
+      --c--components--forms-labelledbox--label-color--small--disabled
+    );
+  }
+
+  &--inline {
+    display: grid;
+    grid-template-columns:
+      var(--c--components--forms-field--inline-label-width)
+      minmax(0, var(--c--components--forms-field--width));
+    align-items: center;
+    column-gap: var(--c--components--forms-field--inline-column-gap);
+    row-gap: var(--c--components--forms-field--inline-row-gap);
+    width: auto;
+
+    /* The control, the footer and anything else belong to the field column… */
+    > * {
+      grid-column: 2;
+    }
+
+    /* …only the label sits in the label column, on the control's row. */
+    > .c__field__label-block,
+    > label {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    /* The label is beside the control, not above it: drop the classic spacing. */
+    .c__field__label-block label,
+    > label {
+      margin-bottom: 0;
+    }
+
+    /* The footer is already aligned with the control by the grid. */
+    .c__field__footer {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &.c__field--full-width {
+      width: 100%;
+      grid-template-columns:
+        var(--c--components--forms-field--inline-label-width)
+        minmax(0, 1fr);
+    }
+  }
 }

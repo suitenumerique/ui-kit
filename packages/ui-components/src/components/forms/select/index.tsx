@@ -32,6 +32,11 @@ export type SelectProps = PropsWithChildren &
   RefAttributes<SelectHandle> &
   FieldProps & {
     label: string;
+    /**
+     * Secondary text displayed under the label. Only rendered by the "classic" and
+     * "inline" variants: the floating label is an overlay with no room for a second line.
+     */
+    labelDescription?: string;
     hideLabel?: boolean;
     variant?: FieldVariant;
     placeholder?: string;
