@@ -44,6 +44,7 @@ export const Checkbox = ({
   const {
     compact,
     fullWidth,
+    labelWidth,
     rightText,
     state,
     text,

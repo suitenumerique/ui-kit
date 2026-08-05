@@ -18,11 +18,11 @@ import { ClassicLabel } from ":/components/forms/classic-label";
 import { useCunningham } from ":/components/provider";
 import { Calendar, CalendarRange } from ":/components/calendar";
 import { convertDateValueToString } from ":/components/forms/date-picker/utils";
-import type { FieldVariant } from ":/components/forms/types";
+import type { StackedFieldVariant } from ":/components/forms/types";
 
 export type DatePickerAuxSubProps = FieldProps & {
   label?: string;
-  variant?: FieldVariant;
+  variant?: StackedFieldVariant;
   hideLabel?: boolean;
   minValue?: string;
   maxValue?: string;

@@ -22,6 +22,7 @@ export const Switch = ({
     compact,
     className,
     fullWidth,
+    labelWidth,
     rightText,
     state,
     text,

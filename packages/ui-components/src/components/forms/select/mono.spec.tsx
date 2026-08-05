@@ -179,7 +179,9 @@ describe("<Select/>", () => {
               ]}
               searchable={true}
               value={value}
-              onChange={(e) => setValue(e.target.value as string | number | undefined)}
+              onChange={(e) =>
+                setValue(e.target.value as string | number | undefined)
+              }
             />
             <Input name="Something else" />
           </CunninghamProvider>
@@ -256,7 +258,9 @@ describe("<Select/>", () => {
               ]}
               searchable={true}
               value={value}
-              onChange={(e) => setValue(e.target.value as string | number | undefined)}
+              onChange={(e) =>
+                setValue(e.target.value as string | number | undefined)
+              }
             />
             <Input name="Something else" />
           </CunninghamProvider>
@@ -2249,6 +2253,77 @@ describe("<Select/>", () => {
       expect(
         document.querySelector(".c__select--classic"),
       ).not.toBeInTheDocument();
+    });
+
+    it("renders the label as a sibling of .c__select, like Input does", () => {
+      render(
+        <CunninghamProvider>
+          <Select
+            label="City"
+            variant="classic"
+            options={[
+              { label: "Paris", value: "paris" },
+              { label: "London", value: "london" },
+            ]}
+          />
+        </CunninghamProvider>,
+      );
+      const label = document.querySelector(".c__select__label");
+      expect(label?.closest(".c__select")).toBeNull();
+      expect(label?.parentElement).toHaveClass("c__field");
+    });
+  });
+
+  describe("inline variant", () => {
+    const OPTIONS = [
+      { label: "Paris", value: "paris" },
+      { label: "London", value: "london" },
+    ];
+
+    it("renders the label in a label block outside .c__select", () => {
+      render(
+        <CunninghamProvider>
+          <Select label="City" variant="inline" options={OPTIONS} />
+        </CunninghamProvider>,
+      );
+      expect(document.querySelector(".c__field--inline")).toBeInTheDocument();
+      expect(document.querySelector(".c__select--inline")).toBeInTheDocument();
+      const label = document.querySelector(".c__select__label");
+      expect(label?.closest(".c__select")).toBeNull();
+      expect(label?.closest(".c__field__label-block")).toBeInTheDocument();
+    });
+
+    it("shows the placeholder when there is no selection", () => {
+      render(
+        <CunninghamProvider>
+          <Select
+            label="City"
+            variant="inline"
+            placeholder="Select a city..."
+            options={OPTIONS}
+          />
+        </CunninghamProvider>,
+      );
+      expect(screen.getByText("Select a city...")).toBeInTheDocument();
+    });
+
+    it("wires labelDescription to the combobox via aria-describedby", () => {
+      render(
+        <CunninghamProvider>
+          <Select
+            label="City"
+            labelDescription="Where you currently live"
+            variant="inline"
+            options={OPTIONS}
+          />
+        </CunninghamProvider>,
+      );
+      const combobox = screen.getByRole("combobox", { name: "City" });
+      const description = screen.getByText("Where you currently live");
+      expect(description).toHaveClass("c__field__label-description");
+      expect(combobox.getAttribute("aria-describedby")).toContain(
+        description.id,
+      );
     });
   });
 });

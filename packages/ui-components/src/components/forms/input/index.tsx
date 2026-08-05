@@ -15,6 +15,11 @@ import type { FieldVariant } from ":/components/forms/types";
 
 export type InputOnlyProps = {
   label?: string;
+  /**
+   * Secondary text displayed under the label. Only rendered by the "classic" and
+   * "inline" variants: the floating label is an overlay with no room for a second line.
+   */
+  labelDescription?: string;
   variant?: FieldVariant;
   hideLabel?: boolean;
   icon?: ReactNode;
@@ -32,6 +37,7 @@ export const Input = ({
   className,
   defaultValue,
   label,
+  labelDescription,
   variant = "floating",
   hideLabel,
   id,
@@ -43,12 +49,18 @@ export const Input = ({
   ...props
 }: InputProps) => {
   const isClassic = variant === "classic";
+  const isInline = variant === "inline";
+  // Both variants render the label outside the box and rely on the native placeholder.
+  const isStatic = isClassic || isInline;
   const classes = ["c__input"];
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [inputFocus, setInputFocus] = useState(false);
   const [value, setValue] = useState(defaultValue || props.value || "");
   const [labelAsPlaceholder, setLabelAsPlaceholder] = useState(!value);
   const idToUse = useRef(id || randomString());
+  const descriptionId = labelDescription
+    ? `${idToUse.current}-description`
+    : undefined;
   const rightTextToUse = charCounter
     ? `${value.toString().length}/${charCounterMax}`
     : props.rightText;
@@ -72,6 +84,7 @@ export const Input = ({
   const {
     compact,
     fullWidth,
+    labelWidth,
     rightText,
     state,
     text,
@@ -84,7 +97,12 @@ export const Input = ({
       type="text"
       className={classes.join(" ")}
       {...inputProps}
-      placeholder={isClassic ? props.placeholder : undefined}
+      aria-describedby={
+        [inputProps["aria-describedby"], descriptionId]
+          .filter(Boolean)
+          .join(" ") || undefined
+      }
+      placeholder={isStatic ? props.placeholder : undefined}
       id={idToUse.current}
       value={value}
       onFocus={(e) => {
@@ -113,10 +131,17 @@ export const Input = ({
   );
 
   return (
-    <Field {...props} rightText={rightTextToUse} className={className}>
-      {isClassic && (
+    <Field
+      {...props}
+      rightText={rightTextToUse}
+      className={classNames({ "c__field--inline": isInline }, className)}
+    >
+      {isStatic && (
         <ClassicLabel
           label={label}
+          description={labelDescription}
+          descriptionId={descriptionId}
+          withContainer={isInline}
           hideLabel={hideLabel}
           disabled={props.disabled}
           className="c__input__label"
@@ -133,6 +158,7 @@ export const Input = ({
           {
             "c__input__wrapper--disabled": props.disabled,
             "c__input__wrapper--classic": isClassic,
+            "c__input__wrapper--inline": isInline,
           },
         )}
         onClick={() => {
@@ -140,12 +166,12 @@ export const Input = ({
         }}
       >
         {!!icon && <div className="c__input__icon-left">{icon}</div>}
-        {isClassic ? (
+        {isStatic ? (
           inputElement
         ) : (
           <LabelledBox
             label={label}
-            variant={variant}
+            variant="floating"
             hideLabel={hideLabel}
             htmlFor={idToUse.current}
             labelAsPlaceholder={labelAsPlaceholder}

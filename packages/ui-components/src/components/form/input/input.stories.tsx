@@ -85,6 +85,25 @@ export const IconRight = {
   },
 };
 
+export const Inline = {
+  args: {
+    label: "Label",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Text input",
+  },
+};
+
+export const InlineDisabled = {
+  args: {
+    label: "Label",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Text input",
+    disabled: true,
+  },
+};
+
 export const FullWidth = {
   args: {
     defaultValue: "Hello world",

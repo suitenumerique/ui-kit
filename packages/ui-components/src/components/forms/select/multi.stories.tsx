@@ -19,7 +19,7 @@ export default {
   argTypes: {
     variant: {
       control: "select",
-      options: ["floating", "classic"],
+      options: ["floating", "classic", "inline"],
     },
   },
 } as Meta<typeof Select>;
@@ -86,6 +86,28 @@ export const ClassicVariant = {
     variant: "classic",
     placeholder: "Choose cities...",
     options: OPTIONS,
+  },
+};
+
+export const InlineVariant = {
+  render: Template,
+  args: {
+    label: "Cities",
+    variant: "inline",
+    placeholder: "Choose cities...",
+    options: OPTIONS,
+  },
+};
+
+export const InlineVariantWithDescription = {
+  render: Template,
+  args: {
+    label: "Cities",
+    labelDescription: "Pick as many as you need",
+    variant: "inline",
+    placeholder: "Choose cities...",
+    options: OPTIONS,
+    defaultValue: [OPTIONS[4].value, OPTIONS[2].value, OPTIONS[0].value],
   },
 };
 

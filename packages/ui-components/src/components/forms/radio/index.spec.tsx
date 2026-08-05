@@ -135,6 +135,7 @@ describe("<Radio/>", () => {
       textItems: ["my text item 1", "my text item 2"],
       rightText: "my right text",
       disabled: false,
+      labelWidth: "10rem",
     };
 
     render(<Radio {...propsInput} />);

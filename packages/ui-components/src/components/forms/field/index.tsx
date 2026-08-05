@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { CSSProperties, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export type FieldState = "success" | "error" | "default";
@@ -12,6 +12,13 @@ export type FieldProps = {
   compact?: boolean | undefined;
   className?: string | undefined;
   disabled?: boolean | undefined;
+  /**
+   * Width of the label column of the "inline" variant. Accepts any CSS length or sizing
+   * keyword ("12rem", "30%", "max-content"). Defaults to the forms-field
+   * `inline-label-width` token. Set the same value on several fields of a form to align
+   * their controls.
+   */
+  labelWidth?: string | undefined;
 };
 
 type Props = FieldProps & PropsWithChildren;
@@ -26,6 +33,7 @@ export const Field = ({
   compact,
   className,
   disabled,
+  labelWidth,
 }: Props) => {
   return (
     <div
@@ -34,6 +42,13 @@ export const Field = ({
         "c__field--compact": compact && !fullWidth,
         "c__field--disabled": disabled,
       })}
+      style={
+        labelWidth
+          ? ({
+              "--c--components--forms-field--inline-label-width": labelWidth,
+            } as CSSProperties)
+          : undefined
+      }
     >
       {children}
       {(text || rightText || textItems) && (

@@ -22,6 +22,26 @@
   &.c__field--full-width {
     min-width: 100%;
   }
+
+  /**
+   * This file is loaded after field/_index.scss, so the sizing rules above would win over
+   * the inline grid. Reset them explicitly. A textarea is also several rows tall: align
+   * the label with its first row rather than with its middle.
+   */
+  &.c__field--inline {
+    width: auto;
+    min-width: 0;
+    align-items: start;
+
+    &.c__field--full-width {
+      min-width: 100%;
+    }
+
+    .c__field__label-block,
+    > label {
+      padding-top: 0.6rem;
+    }
+  }
 }
 
 .c__textarea__wrapper {
@@ -99,7 +119,8 @@
     }
   }
 
-  &--classic {
+  &--classic,
+  &--inline {
     .c__textarea {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;

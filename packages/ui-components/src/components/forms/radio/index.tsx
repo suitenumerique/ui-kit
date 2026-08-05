@@ -20,6 +20,7 @@ export const Radio = ({ className, label, ref, ...props }: RadioProps) => {
   const {
     compact,
     fullWidth,
+    labelWidth,
     rightText,
     state,
     text,

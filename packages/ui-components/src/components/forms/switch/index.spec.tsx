@@ -152,6 +152,7 @@ describe("<Switch/>", () => {
       rightText: "my right text",
       labelSide: "right",
       disabled: false,
+      labelWidth: "10rem",
     };
 
     render(<Switch {...propsInput} />);

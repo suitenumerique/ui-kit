@@ -114,6 +114,7 @@ export type {
   SelectMultiProps,
   SelectProps,
   SortModel,
+  StackedFieldVariant,
   SwitchOnlyProps,
   SwitchProps,
   TextAreaProps,

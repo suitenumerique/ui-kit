@@ -13,7 +13,7 @@ import {
 import { createCalendar, DateValue } from "@internationalized/date";
 import classNames from "classnames";
 import { LabelledBox, Props } from ":/components/forms/labelled-box";
-import type { FieldVariant } from ":/components/forms/types";
+import type { StackedFieldVariant } from ":/components/forms/types";
 
 interface DateSegmentProps {
   currentSegment: DateSegment;
@@ -70,7 +70,7 @@ const DateField = (props: AriaDatePickerProps<DateValue>) => {
 interface DateFieldBoxProps
   extends Props,
     Omit<AriaDatePickerProps<DateValue>, "label"> {
-  variant?: FieldVariant;
+  variant?: StackedFieldVariant;
 }
 
 const DateFieldBox = ({

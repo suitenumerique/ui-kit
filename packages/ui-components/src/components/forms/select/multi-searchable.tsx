@@ -100,6 +100,11 @@ export const SelectMultiSearchable = ({ ref, ...props }: SubProps) => {
       disabled: props.disabled,
     }),
     value: inputValue,
+    // The input is rendered as a child of SelectMultiAux, which cannot reach it to wire
+    // the label description, so the association is made here.
+    "aria-describedby": props.labelDescription
+      ? `${downshiftReturn.getLabelProps().htmlFor}-description`
+      : undefined,
   });
   // We want to extend the default behavior of the input onKeyDown.
   const { onKeyDown } = inputProps;

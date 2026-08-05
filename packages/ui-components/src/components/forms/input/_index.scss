@@ -151,6 +151,35 @@
     align-items: center;
     height: 2.75rem;
   }
+
+  &--inline {
+    align-items: center;
+    height: auto;
+    min-height: var(--c--components--forms-input--inline-min-height);
+    border-radius: var(--c--components--forms-input--inline-border-radius);
+    padding: var(--c--components--forms-input--inline-padding-block)
+      var(--c--components--forms-input--inline-padding-inline);
+
+    &:hover:not(.c__input__wrapper--disabled),
+    &:focus-within {
+      border-radius: var(--c--components--forms-input--inline-border-radius);
+    }
+
+    &.c__input__wrapper--disabled {
+      background-color: var(
+        --c--components--forms-input--inline-background-color--disabled
+      );
+      border-color: var(
+        --c--components--forms-input--inline-border-color--disabled
+      );
+
+      &:hover {
+        border-color: var(
+          --c--components--forms-input--inline-border-color--disabled
+        );
+      }
+    }
+  }
 }
 
 .c__input--password {

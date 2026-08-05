@@ -276,6 +276,47 @@ describe("<TextArea/>", () => {
     });
   });
 
+  describe("inline variant", () => {
+    it("renders the label in a label block beside the field", () => {
+      render(<TextArea label="Description" variant="inline" />);
+      expect(
+        document.querySelector(".c__field--textarea.c__field--inline"),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector(".c__textarea__wrapper--inline"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Description")).toHaveClass("c__textarea__label");
+    });
+
+    it("uses the native placeholder like the classic variant", () => {
+      render(
+        <TextArea
+          label="Description"
+          variant="inline"
+          placeholder="Enter a description"
+        />,
+      );
+      const textarea: HTMLTextAreaElement = screen.getByRole("textbox", {
+        name: "Description",
+      });
+      expect(textarea.placeholder).toEqual("Enter a description");
+    });
+
+    it("renders labelDescription and points aria-describedby at it", () => {
+      render(
+        <TextArea
+          label="Description"
+          labelDescription="Text info"
+          variant="inline"
+        />,
+      );
+      const textarea = screen.getByRole("textbox", { name: "Description" });
+      const description = screen.getByText("Text info");
+      expect(description).toHaveClass("c__field__label-description");
+      expect(textarea.getAttribute("aria-describedby")).toEqual(description.id);
+    });
+  });
+
   describe("hideLabel", () => {
     it("hides label visually but keeps it accessible in floating variant", () => {
       render(<TextArea label="Description" hideLabel />);

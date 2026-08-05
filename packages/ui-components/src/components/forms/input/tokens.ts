@@ -20,4 +20,14 @@ export const tokens = (defaults: DefaultTokens) => ({
   "value-color": defaults.contextuals.content.semantic.neutral.primary,
   "value-color--disabled":
     defaults.contextuals.content.semantic.disabled.primary,
+
+  // Inline variant tokens
+  "inline-min-height": "40px",
+  "inline-border-radius": defaults.globals.spacings.xxxs,
+  "inline-padding-block": defaults.globals.spacings.xxs,
+  "inline-padding-inline": defaults.globals.spacings.xs,
+  "inline-background-color--disabled":
+    defaults.contextuals.background.semantic.disabled.secondary,
+  "inline-border-color--disabled":
+    defaults.contextuals.border.semantic.disabled.primary,
 });

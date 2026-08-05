@@ -24,7 +24,7 @@ export default {
     },
     variant: {
       control: "select",
-      options: ["floating", "classic"],
+      options: ["floating", "classic", "inline"],
     },
   },
 } as Meta<typeof Input>;
@@ -301,6 +301,108 @@ export const ClassicVariantError = {
     state: "error",
     text: "Please enter a valid email address",
   },
+};
+
+export const InlineVariant = {
+  args: {
+    label: "Label",
+    variant: "inline",
+    placeholder: "Text input",
+  },
+};
+
+export const InlineVariantWithDescription = {
+  args: {
+    label: "Label",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Text input",
+  },
+};
+
+export const InlineVariantDisabled = {
+  args: {
+    label: "Label",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Text input",
+    disabled: true,
+  },
+};
+
+export const InlineVariantError = {
+  args: {
+    label: "Your email",
+    labelDescription: "We will never share it",
+    variant: "inline",
+    placeholder: "Enter your email",
+    defaultValue: "invalid-email",
+    state: "error",
+    text: "Please enter a valid email address",
+  },
+};
+
+export const InlineVariantWithIcon = {
+  args: {
+    label: "Your email",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Enter your email address",
+    icon: <span className="material-icons">email</span>,
+  },
+};
+
+export const InlineVariantFullWidth = {
+  args: {
+    label: "Label",
+    labelDescription: "Text info",
+    variant: "inline",
+    placeholder: "Text input",
+    fullWidth: true,
+  },
+};
+
+export const InlineVariantHiddenLabel = {
+  args: {
+    label: "Label",
+    variant: "inline",
+    hideLabel: true,
+    placeholder: "Text input",
+  },
+};
+
+/**
+ * `labelWidth` pins the label column so that fields of the same form share a common
+ * left edge, whatever the length of each label.
+ */
+export const InlineVariantAlignedLabels = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <Input
+        variant="inline"
+        labelWidth="10rem"
+        fullWidth
+        label="Name"
+        labelDescription="As shown on your ID"
+        placeholder="Text input"
+      />
+      <Input
+        variant="inline"
+        labelWidth="10rem"
+        fullWidth
+        label="Email address"
+        placeholder="Text input"
+      />
+      <Input
+        variant="inline"
+        labelWidth="10rem"
+        fullWidth
+        label="Organisation"
+        labelDescription="Optional"
+        placeholder="Text input"
+      />
+    </div>
+  ),
 };
 
 export const HiddenLabel = {

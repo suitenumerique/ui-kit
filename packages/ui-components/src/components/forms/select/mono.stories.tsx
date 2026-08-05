@@ -19,7 +19,7 @@ export default {
   argTypes: {
     variant: {
       control: "select",
-      options: ["floating", "classic"],
+      options: ["floating", "classic", "inline"],
     },
   },
 } as Meta<typeof Select>;
@@ -366,6 +366,55 @@ export const ClassicVariantError = {
     options: OPTIONS,
     state: "error",
     text: "Please select a city",
+  },
+};
+
+export const InlineVariant = {
+  render: Template,
+
+  args: {
+    label: "City",
+    variant: "inline",
+    placeholder: "Choose a city...",
+    options: OPTIONS,
+  },
+};
+
+export const InlineVariantWithDescription = {
+  render: Template,
+
+  args: {
+    label: "City",
+    labelDescription: "Where you currently live",
+    variant: "inline",
+    placeholder: "Choose a city...",
+    options: OPTIONS,
+  },
+};
+
+export const InlineVariantSearchable = {
+  render: Template,
+
+  args: {
+    label: "City",
+    labelDescription: "Where you currently live",
+    variant: "inline",
+    placeholder: "Search for a city...",
+    options: OPTIONS,
+    searchable: true,
+  },
+};
+
+export const InlineVariantDisabled = {
+  render: Template,
+
+  args: {
+    label: "City",
+    labelDescription: "Where you currently live",
+    variant: "inline",
+    placeholder: "Choose a city...",
+    options: OPTIONS,
+    disabled: true,
   },
 };
 
