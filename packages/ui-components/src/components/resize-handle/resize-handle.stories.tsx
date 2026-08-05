@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Group, Panel, Separator } from "react-resizable-panels";
 
-// Reusable styling for a `react-resizable-panels` resize handle.
+// Reusable styling for a `react-resizable-panels` separator.
 // See ResizeHandle.mdx for the full documentation.
 const meta: Meta = {
   title: "Components/ResizeHandle",
@@ -27,15 +27,15 @@ const frameStyle: React.CSSProperties = {
 export const Interactive: StoryObj = {
   render: () => (
     <div style={frameStyle}>
-      <PanelGroup direction="horizontal">
-        <Panel defaultSize={50} minSize={20}>
+      <Group orientation="horizontal">
+        <Panel defaultSize="50%" minSize="20%">
           <div style={panelStyle}>Left</div>
         </Panel>
-        <PanelResizeHandle className="c__resize-handle c__resize-handle--interactive" />
-        <Panel minSize={20}>
+        <Separator className="c__resize-handle c__resize-handle--interactive" />
+        <Panel minSize="20%">
           <div style={panelStyle}>Right</div>
         </Panel>
-      </PanelGroup>
+      </Group>
     </div>
   ),
 };
@@ -44,15 +44,15 @@ export const Interactive: StoryObj = {
 export const InteractiveVertical: StoryObj = {
   render: () => (
     <div style={frameStyle}>
-      <PanelGroup direction="vertical">
-        <Panel defaultSize={50} minSize={20}>
+      <Group orientation="vertical">
+        <Panel defaultSize="50%" minSize="20%">
           <div style={panelStyle}>Top</div>
         </Panel>
-        <PanelResizeHandle className="c__resize-handle c__resize-handle--interactive" />
-        <Panel minSize={20}>
+        <Separator className="c__resize-handle c__resize-handle--interactive" />
+        <Panel minSize="20%">
           <div style={panelStyle}>Bottom</div>
         </Panel>
-      </PanelGroup>
+      </Group>
     </div>
   ),
 };
@@ -61,15 +61,15 @@ export const InteractiveVertical: StoryObj = {
 export const Static: StoryObj = {
   render: () => (
     <div style={frameStyle}>
-      <PanelGroup direction="horizontal">
-        <Panel defaultSize={50}>
+      <Group orientation="horizontal">
+        <Panel defaultSize="50%">
           <div style={panelStyle}>Left</div>
         </Panel>
-        <PanelResizeHandle className="c__resize-handle" disabled />
+        <Separator className="c__resize-handle" disabled />
         <Panel>
           <div style={panelStyle}>Right</div>
         </Panel>
-      </PanelGroup>
+      </Group>
     </div>
   ),
 };

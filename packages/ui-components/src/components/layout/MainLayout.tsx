@@ -1,18 +1,39 @@
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Header } from "./header/Header";
 import { LeftPanel } from "./left-panel/LeftPanel";
 import clsx from "clsx";
 
+// Left panel constraints, in pixels: react-resizable-panels v4 reads bare
+// numbers as pixels, so they can be handed to `Panel` as-is.
 const MIN_LEFT_PANEL_PX = 300;
 const MAX_LEFT_PANEL_PX = 450;
-const MAX_LEFT_PANEL_PERCENT = 40;
+// ...except the upper bound, which is also capped to a share of the viewport so
+// the panel never dominates a narrow desktop window. This is the only
+// constraint that depends on the window size, hence the only one recomputed on
+// resize.
+const MAX_LEFT_PANEL_VIEWPORT_RATIO = 0.4;
+
+const cappedMaxLeftPanelPx = () =>
+  Math.min(MAX_LEFT_PANEL_PX, window.innerWidth * MAX_LEFT_PANEL_VIEWPORT_RATIO);
+
+// Panels are identified explicitly so the persisted layout survives the left
+// panel being conditionally mounted (react-resizable-panels v4 keys stored
+// layouts by panel id, where v2 used the `order` prop).
+const LEFT_PANEL_ID = "left";
+const CENTER_PANEL_ID = "center";
 
 import { useResponsive } from ":/hooks/useResponsive";
 import {
-  ImperativePanelHandle,
+  Group,
   Panel,
-  PanelGroup,
-  PanelResizeHandle,
+  Separator,
+  useDefaultLayout,
 } from "react-resizable-panels";
 import { DropdownMenuOption } from "../dropdown-menu/types";
 import { RightPanel } from "./right-panel/RightPanel";
@@ -56,7 +77,6 @@ export const MainLayout = ({
 
   const { isDesktop } = useResponsive();
 
-  const ref = useRef<ImperativePanelHandle>(null);
   const [isResizing, setIsResizing] = useState(false);
   const resizeTimeoutRef = useRef<number | undefined>(undefined);
 
@@ -68,28 +88,37 @@ export const MainLayout = ({
   const mountLeftPanel = isDesktop ? !hideLeftPanelOnDesktop : true;
   const showLeftPanel = isDesktop ? !hideLeftPanelOnDesktop : isLeftPanelOpen;
 
-  const [minPanelSize, setMinPanelSize] = useState(
-    calculateDefaultSize(MIN_LEFT_PANEL_PX, isDesktop)
+  const [maxResizablePanelSize, setMaxResizablePanelSize] = useState(
+    cappedMaxLeftPanelPx
   );
-  const [maxPanelSize, setMaxPanelSize] = useState(
-    calculateDefaultSize(MAX_LEFT_PANEL_PX, isDesktop)
+
+  // The left panel is collapsed to nothing on mobile, where it is displayed as
+  // an overlay rather than as a panel of the group.
+  const minPanelSize = isDesktop ? MIN_LEFT_PANEL_PX : 0;
+  const maxPanelSize =
+    isDesktop && enableResize ? maxResizablePanelSize : minPanelSize;
+
+  const panelIds = useMemo(
+    () =>
+      mountLeftPanel ? [LEFT_PANEL_ID, CENTER_PANEL_ID] : [CENTER_PANEL_ID],
+    [mountLeftPanel]
   );
+
+  // Replaces the `autoSaveId` prop dropped in react-resizable-panels v4.
+  // `panelIds` keeps a separate stored layout per panel combination, so the
+  // width saved with the left panel mounted is not applied without it.
+  const { defaultLayout, onLayoutChanged } = useDefaultLayout({
+    id: "persistance",
+    panelIds,
+  });
 
   const onTogglePanel = () => {
     setIsLeftPanelOpen(!isLeftPanelOpen);
   };
 
-  // Combined resize listener: disable transitions during window resize + update panel sizes
+  // Combined resize listener: disable transitions during window resize + keep
+  // the viewport-capped upper bound in sync.
   useEffect(() => {
-    const updatePanelSizes = () => {
-      const min = Math.round(calculateDefaultSize(MIN_LEFT_PANEL_PX, isDesktop));
-      const max = Math.round(
-        Math.min(calculateDefaultSize(MAX_LEFT_PANEL_PX, isDesktop), MAX_LEFT_PANEL_PERCENT)
-      );
-      setMinPanelSize(isDesktop ? min : 0);
-      setMaxPanelSize(enableResize ? max : min);
-    };
-
     const handleResize = () => {
       setIsResizing(true);
       if (resizeTimeoutRef.current) {
@@ -98,10 +127,9 @@ export const MainLayout = ({
       resizeTimeoutRef.current = window.setTimeout(() => {
         setIsResizing(false);
       }, 150);
-      updatePanelSizes();
+      setMaxResizablePanelSize(cappedMaxLeftPanelPx());
     };
 
-    updatePanelSizes();
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -110,7 +138,7 @@ export const MainLayout = ({
         clearTimeout(resizeTimeoutRef.current);
       }
     };
-  }, [isDesktop, enableResize]);
+  }, []);
 
   return (
     <div className={clsx("c__main-layout", { resizing: isResizing })}>
@@ -124,12 +152,15 @@ export const MainLayout = ({
         />
       </div>
       <div className="c__main-layout__content">
-        <PanelGroup autoSaveId={"persistance"} direction="horizontal">
+        <Group
+          orientation="horizontal"
+          defaultLayout={defaultLayout}
+          onLayoutChanged={onLayoutChanged}
+        >
           {mountLeftPanel && (
             <>
               <Panel
-                ref={ref}
-                order={0}
+                id={LEFT_PANEL_ID}
                 defaultSize={minPanelSize}
                 minSize={minPanelSize}
                 maxSize={maxPanelSize}
@@ -139,7 +170,7 @@ export const MainLayout = ({
                 </LeftPanel>
               </Panel>
               {isDesktop && (
-                <PanelResizeHandle
+                <Separator
                   className={clsx("c__resize-handle", {
                     "c__resize-handle--interactive": enableResize,
                   })}
@@ -147,7 +178,7 @@ export const MainLayout = ({
               )}
             </>
           )}
-          <Panel order={1}>
+          <Panel id={CENTER_PANEL_ID}>
             <div className="c__main-layout__content__center">
               <div className="c__main-layout__content__center__children">
                 {children}
@@ -158,18 +189,8 @@ export const MainLayout = ({
               </RightPanel>
             </div>
           </Panel>
-        </PanelGroup>
+        </Group>
       </div>
     </div>
   );
-};
-
-const calculateDefaultSize = (targetWidth: number, isDesktop: boolean) => {
-  if (!isDesktop) {
-    return 0;
-  }
-
-  const windowWidth = window.innerWidth;
-
-  return (targetWidth / windowWidth) * 100;
 };
