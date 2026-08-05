@@ -13,3 +13,8 @@ As a prerequisite, the `Select` label is now rendered as a sibling of `.c__selec
 of one of its children, so that every field component exposes the same `.c__field`
 structure. Styling that targets `.c__select__label` is unaffected; only stylesheets
 relying on the descendant selector `.c__select .c__select__label` need updating.
+
+Disabled labels also change colour across **every** variant: the
+`forms-labelledbox--label-color--{small,big}--disabled` tokens resolved to
+`content.semantic.neutral.secondary`, a regular text colour, and now resolve to
+`content.semantic.disabled.primary` as the design requires.

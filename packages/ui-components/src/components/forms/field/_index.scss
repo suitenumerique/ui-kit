@@ -91,6 +91,7 @@
     }
   }
 
+  /* Same token as every other disabled label, so all variants stay in sync. */
   &__label-block--disabled label {
     color: var(
       --c--components--forms-labelledbox--label-color--small--disabled

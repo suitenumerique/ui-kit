@@ -664,8 +664,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
@@ -1451,8 +1451,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
@@ -2213,8 +2213,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
@@ -2975,8 +2975,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
@@ -3740,8 +3740,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
@@ -4505,8 +4505,8 @@
 	--c--components--forms-input--inline-border-color--disabled: var(--c--contextuals--border--semantic--disabled--primary);
 	--c--components--forms-labelledbox--label-color--small: var(--c--contextuals--content--semantic--neutral--tertiary);
 	--c--components--forms-labelledbox--label-color--big: var(--c--contextuals--content--semantic--neutral--primary);
-	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
-	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--neutral--secondary);
+	--c--components--forms-labelledbox--label-color--small--disabled: var(--c--contextuals--content--semantic--disabled--primary);
+	--c--components--forms-labelledbox--label-color--big--disabled: var(--c--contextuals--content--semantic--disabled--primary);
 	--c--components--forms-labelledbox--classic-label-margin-bottom: var(--c--globals--spacings--xs);
 	--c--components--forms-labelledbox--classic-label-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--forms-labelledbox--classic-label-color: var(--c--contextuals--content--semantic--neutral--primary);
