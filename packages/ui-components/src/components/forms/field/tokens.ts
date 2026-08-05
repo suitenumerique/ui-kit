@@ -13,7 +13,7 @@ export const tokens = (defaults: DefaultTokens) => ({
   "inline-column-gap": defaults.globals.spacings.xs,
   "inline-row-gap": defaults.globals.spacings["3xs"],
 
-  // Label description tokens, shared by the "classic" and "inline" variants
+  // Label block tokens, shared by the "classic" and "inline" variants
   "label-description-gap": defaults.globals.spacings["4xs"],
   "label-description-font-size": defaults.globals.font.sizes.s,
   "label-description-font-weight": defaults.globals.font.weights.regular,
