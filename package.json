@@ -27,16 +27,16 @@
     "scalingo-postbuild": "yarn build && yarn build-storybook"
   },
   "devDependencies": {
-    "@changesets/cli": "2.29.2",
+    "@changesets/cli": "2.31.1",
     "prettier": "3.5.3",
     "turbo": "2.5.2"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "yarn@1.22.22",
   "volta": {
-    "node": "20.16.0",
+    "node": "24.19.0",
     "yarn": "1.22.22"
   }
 }
