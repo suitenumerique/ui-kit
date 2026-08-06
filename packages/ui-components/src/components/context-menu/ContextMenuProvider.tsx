@@ -11,6 +11,9 @@ import {
 import { Menu, MenuItem as AriaMenuItem, Popover, Separator } from "react-aria-components";
 import {
   ContextMenuContextValue,
+  ContextMenuControls,
+  ContextMenuOpenConfig,
+  ContextMenuSession,
   MenuItem,
   MenuItemAction,
   ContextMenuState,
@@ -20,14 +23,32 @@ import { useCunningham } from ":/components/provider";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
 
-export const useContextMenuContext = () => {
+export const useContextMenuContext = (): ContextMenuControls => {
   const context = useContext(ContextMenuContext);
   if (!context) {
     throw new Error(
       "ContextMenu must be used within a ContextMenuProvider"
     );
   }
-  return context;
+
+  // One session per hook instance: set when this caller opens the menu, stale
+  // as soon as the menu closes or another caller opens it. That is what lets
+  // `updateItems` stay safe without the caller having to identify itself.
+  const sessionRef = useRef<ContextMenuSession | null>(null);
+  const { open, close } = context;
+
+  return useMemo(
+    () => ({
+      open: (config: ContextMenuOpenConfig) => {
+        sessionRef.current = open(config);
+      },
+      close,
+      updateItems: (items: MenuItem[]) => {
+        sessionRef.current?.update(items);
+      },
+    }),
+    [open, close]
+  );
 };
 
 const isActionItem = (item: MenuItem): item is MenuItemAction => {
@@ -52,6 +73,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const isOpenRef = useRef(false);
   const onBlurRef = useRef<(() => void) | undefined>(undefined);
+  const activeSessionRef = useRef<ContextMenuSession | null>(null);
   const isNested = existingContext !== null;
 
   // Keep ref in sync with state for use in event handlers
@@ -79,6 +101,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
         // Call onBlur before closing
         onBlurRef.current?.();
         onBlurRef.current = undefined;
+        activeSessionRef.current = null;
         setState((prev) => ({ ...prev, isOpen: false }));
       }
     };
@@ -91,20 +114,35 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   }, [isNested]);
 
   const open = useCallback(
-    (config: {
-      position: { x: number; y: number };
-      items: MenuItem[];
-      onBlur?: () => void;
-    }) => {
+    (config: ContextMenuOpenConfig) => {
+      // The menu is rendered here, above the trigger, so the items given to
+      // `open` cannot follow the trigger's later re-renders. The session lets
+      // the trigger push fresh ones — needed for items whose rendering depends
+      // on state the menu itself changes (an `isChecked` option toggled through
+      // `keepOpen`, a label reflecting a selection...). Ownership is the
+      // session identity, so a trigger re-rendering next to the open menu
+      // updates nothing.
+      const session: ContextMenuSession = {
+        update: (items) => {
+          if (activeSessionRef.current !== session) {
+            return;
+          }
+          setState((prev) => (prev.isOpen ? { ...prev, items } : prev));
+        },
+      };
+
       // Call previous trigger's onBlur before opening for new trigger
       onBlurRef.current?.();
       onBlurRef.current = config.onBlur;
+      activeSessionRef.current = session;
 
       setState({
         isOpen: true,
         position: config.position,
         items: config.items,
       });
+
+      return session;
     },
     []
   );
@@ -112,6 +150,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   const close = useCallback(() => {
     onBlurRef.current?.();
     onBlurRef.current = undefined;
+    activeSessionRef.current = null;
     setState((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
@@ -198,6 +237,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
                   icon={item.icon}
                   label={item.label}
                   subText={item.subText}
+                  isChecked={item.isChecked}
                 />
               </AriaMenuItem>
             );

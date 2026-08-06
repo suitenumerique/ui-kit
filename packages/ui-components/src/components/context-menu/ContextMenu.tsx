@@ -4,6 +4,7 @@ import {
   MouseEvent,
   ReactElement,
   ReactNode,
+  useEffect,
 } from "react";
 import { useContextMenuContext } from "./ContextMenuProvider";
 import { MenuItem } from "./types";
@@ -34,7 +35,10 @@ export const ContextMenu = <T,>({
   onFocus,
   onBlur,
 }: ContextMenuProps<T>) => {
-  const { open } = useContextMenuContext();
+  const { open, updateItems } = useContextMenuContext();
+
+  const resolveItems = (): MenuItem[] =>
+    typeof options === "function" ? options(context as T) : options;
 
   const handleContextMenu = (event: MouseEvent) => {
     if (disabled) {
@@ -49,18 +53,24 @@ export const ContextMenu = <T,>({
     event.preventDefault();
     event.stopPropagation();
 
-    const items: MenuItem[] =
-      typeof options === "function" ? options(context as T) : options;
-
     // Call onFocus immediately when menu opens on this trigger
     onFocus?.();
 
     open({
       position: { x: event.clientX, y: event.clientY },
-      items,
+      items: resolveItems(),
       onBlur,
     });
   };
+
+  // The provider renders the menu above this trigger, so it cannot see the
+  // trigger re-render. Push the freshly resolved items on every render, so an
+  // open menu stays in sync with the state its own items drive (an `isChecked`
+  // option toggled through `keepOpen`, for instance). Once the menu closes or
+  // another trigger opens it, the call goes stale and does nothing.
+  useEffect(() => {
+    updateItems(resolveItems());
+  });
 
   if (asChild) {
     if (!isValidElement(children)) {
