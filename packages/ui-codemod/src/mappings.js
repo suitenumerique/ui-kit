@@ -11,6 +11,11 @@ export const PACKAGE_MAPPINGS = {
   "@gouvfr-lasuite/ui-kit": PACKAGES.components,
 };
 
+export const PACKAGE_RANGES = {
+  [PACKAGES.components]: "^1.0.0",
+  [PACKAGES.tokens]: "^3.1.0",
+};
+
 const EXACT_SPECIFIER_MAPPINGS = new Map([
   ["@gouvfr-lasuite/cunningham-react", PACKAGES.components],
   ["@gouvfr-lasuite/cunningham-react/style", `${PACKAGES.components}/style`],
