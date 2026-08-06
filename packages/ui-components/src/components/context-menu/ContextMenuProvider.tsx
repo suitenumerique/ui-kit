@@ -198,6 +198,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
                   icon={item.icon}
                   label={item.label}
                   subText={item.subText}
+                  isChecked={item.isChecked}
                 />
               </AriaMenuItem>
             );
