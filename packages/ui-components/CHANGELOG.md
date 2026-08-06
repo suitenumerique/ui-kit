@@ -11,6 +11,7 @@
 - Expose SVG components from `/icons` and provide explicit public paths for
   component styles, Material Icons and the Roboto, Marianne and La Suite fonts.
 - Use the enriched UI Kit provider as the single public `CunninghamProvider`.
+- Publish the unified component library as the stable 1.0.0 release.
 
 ### Historical UI Kit releases
 
