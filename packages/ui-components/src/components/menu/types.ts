@@ -11,6 +11,8 @@ export type MenuItemAction = {
   callback?: () => void | Promise<unknown>;
   isDisabled?: boolean;
   isHidden?: boolean;
+  /** Renders a trailing checkmark to mark the item as selected/active. */
+  isChecked?: boolean;
   variant?: "default" | "danger";
   keepOpen?: boolean;
   testId?: string;
