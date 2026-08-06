@@ -1,5 +1,5 @@
 import jscodeshift from "jscodeshift";
-import { mapSpecifier, PACKAGES, PACKAGE_MAPPINGS, sourceIsEnabled } from "./mappings.js";
+import { mapSpecifier, PACKAGES, PACKAGE_MAPPINGS, PACKAGE_RANGES, sourceIsEnabled } from "./mappings.js";
 
 const parsers = {
   ".js": "babel",
@@ -221,7 +221,7 @@ export function transformPackageJson(sourceText, filePath, options = {}) {
     if (!dependencies || typeof dependencies !== "object") continue;
     for (const [oldName, newName] of Object.entries(PACKAGE_MAPPINGS)) {
       if (!sourceIsEnabled(oldName, source) || !(oldName in dependencies)) continue;
-      if (!(newName in dependencies)) dependencies[newName] = "^1.0.0";
+      if (!(newName in dependencies)) dependencies[newName] = PACKAGE_RANGES[newName];
       delete dependencies[oldName];
       changed = true;
     }
