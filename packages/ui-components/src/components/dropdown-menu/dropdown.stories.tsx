@@ -501,26 +501,24 @@ export const OpensInNewWindow: Story = {
   },
 };
 
-export const WithTopMessage: Story = {
+export const WithTopBottomMessage: Story = {
   args: {
     options: [
       {
         label: "Administrator",
         value: "admin",
-        isDisabled: true,
       },
       {
         label: "Editor",
         value: "editor",
-        isDisabled: true,
       },
       {
         label: "Viewer",
         value: "viewer",
-        isDisabled: true,
       },
     ],
     topMessage: "You don't have permission to modify these roles",
+    bottomMessage: "Contact your administrator for access",
   },
   render: (args) => {
     const { isOpen, setIsOpen } = useDropdownMenu();

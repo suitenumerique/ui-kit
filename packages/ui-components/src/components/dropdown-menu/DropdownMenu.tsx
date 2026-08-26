@@ -1,5 +1,4 @@
 import {
-  Header,
   Menu,
   MenuItem,
   Popover,
@@ -27,7 +26,8 @@ export type DropdownMenuProps = {
   selectedValues?: string[];
   onSelectValue?: (value: string) => void;
   isOpen?: boolean;
-  topMessage?: string | ReactNode;
+  bottomMessage?: ReactNode;
+  topMessage?: ReactNode;
   shouldCloseOnInteractOutside?: (element: Element) => boolean;
   variant?: "default" | "tiny";
 };
@@ -40,6 +40,7 @@ export const DropdownMenu = ({
   selectedValues = [],
   onSelectValue,
   topMessage,
+  bottomMessage,
   shouldCloseOnInteractOutside,
   variant = "default",
 }: PropsWithChildren<DropdownMenuProps>) => {
@@ -159,17 +160,25 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <Menu className={menuClassName} aria-labelledby={id} autoFocus="first">
+        <div className={menuClassName}>
           {topMessage && (
-            <Header
-              className="c__dropdown-menu-item-top-message"
-              role="presentation"
-            >
+            <div className="c__dropdown-menu-item-top-message">
               {topMessage}
-            </Header>
+            </div>
           )}
-          {renderMenuItems(options)}
-        </Menu>
+          <Menu
+            className="c__dropdown-menu__list"
+            aria-labelledby={id}
+            autoFocus="first"
+          >
+            {renderMenuItems(options)}
+          </Menu>
+          {bottomMessage && (
+            <div className="c__dropdown-menu-item-bottom-message">
+              {bottomMessage}
+            </div>
+          )}
+        </div>
       </Popover>
     </>
   );
