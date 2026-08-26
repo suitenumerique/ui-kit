@@ -18,14 +18,16 @@
   z-index: 1000;
   max-width: min(320px, calc(100vw - 32px));
   max-height: inherit;
-  box-sizing: border-box;
-  overflow: auto;
   min-width: 150px;
   box-sizing: border-box;
-  outline: none;
   border-radius: 8px;
   border: 1px solid var(--c--contextuals--border--surface--primary);
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 145, 0.1);
+}
+
+.c__dropdown-menu__list {
+  overflow: auto;
+  outline: none;
 
   .react-aria-Separator {
     height: 1px;
@@ -33,7 +35,8 @@
   }
 }
 
-.c__dropdown-menu-item-top-message {
+.c__dropdown-menu-item-top-message,
+.c__dropdown-menu-item-bottom-message {
   display: flex;
   align-items: center;
 
