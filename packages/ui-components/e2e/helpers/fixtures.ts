@@ -59,6 +59,12 @@ export const pdfJsLinkFile = file(
   "application/pdf",
 );
 
+export const pdfScannedFile = file(
+  "pdf-scanned",
+  "pdf_scanned_jpx_jbig2.pdf",
+  "application/pdf",
+);
+
 export const pdfCorruptedFile = file(
   "pdf-corrupted",
   "pdf_corrupted.pdf",

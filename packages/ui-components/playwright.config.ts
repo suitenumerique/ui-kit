@@ -24,5 +24,9 @@ export default defineConfig({
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
     { name: "firefox", use: { ...devices["Desktop Firefox"] } },
   ],
+  // Goldens are keyed by browser only: the visual specs check bitmaps that
+  // pdfjs produces itself, so the same golden serves macOS and the Linux CI.
+  snapshotPathTemplate:
+    "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}",
   reporter: [["html", { outputFolder: "./e2e/report" }]],
 });
