@@ -39,6 +39,7 @@ export const pdfFiles: FilePreviewType[] = [
   file("pdf-cm", "CR Conseil municipal vfvdef_maireok.pdf", "application/pdf"),
   file("pdf-mixed", "mixed_page_sizes.pdf", "application/pdf"),
   file("large-pdf", "XFA-3_3.pdf", "application/pdf"),
+  file("pdf-scanned", "pdf_scanned_jpx_jbig2.pdf", "application/pdf"),
 ];
 
 export const heicFile: FilePreviewType = file(
