@@ -40,6 +40,15 @@ const config: StorybookConfig = {
     { from: "../src/assets/fonts/Marianne", to: "/assets" },
     // FilePreviewExample points to this worker through import.meta.env.BASE_URL.
     { from: "../../../node_modules/pdfjs-dist/build", to: "/" },
+    // pdfjs-dist fetches these lazily: wasm decoders (JPEG 2000 images, ICC
+    // profiles), fallback fonts and CJK cmaps. FilePreviewExample points at
+    // them through `pdfAssetsUrl`.
+    { from: "../../../node_modules/pdfjs-dist/wasm", to: "/wasm" },
+    {
+      from: "../../../node_modules/pdfjs-dist/standard_fonts",
+      to: "/standard_fonts",
+    },
+    { from: "../../../node_modules/pdfjs-dist/cmaps", to: "/cmaps" },
   ],
   docs: {
     autodocs: "tag",

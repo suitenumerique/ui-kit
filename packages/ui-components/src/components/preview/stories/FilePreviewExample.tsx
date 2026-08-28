@@ -43,6 +43,7 @@ export const FilePreviewExample = ({
           openedFileId={openedFileId}
           files={files}
           pdfWorkerSrc={`${import.meta.env.BASE_URL}pdf.worker.mjs`}
+          pdfAssetsUrl={import.meta.env.BASE_URL}
           onClose={() => setOpenedFileId(undefined)}
           onChangeFile={(file) => setOpenedFileId(file?.id)}
           handleDownloadFile={(file) =>
