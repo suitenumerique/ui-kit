@@ -3,6 +3,10 @@
 
 ## [UNRELEASED]
 
+### Patch Changes
+
+- 🐛(components) locate the pdfjs wasm, fonts and cmaps assets
+
 ## 1.1.0
 
 ### Minor Changes

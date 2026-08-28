@@ -78,6 +78,7 @@ interface FilePreviewProps {
   handleDownloadFile?: (file?: FilePreviewType) => void;
   hideCloseButton?: boolean;
   pdfWorkerSrc?: string;
+  pdfAssetsUrl?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
 }
 
@@ -96,6 +97,7 @@ export const FilePreview = ({
   handleDownloadFile,
   hideCloseButton,
   pdfWorkerSrc,
+  pdfAssetsUrl,
   onOpenInEditor,
 }: FilePreviewProps) => {
   const { t } = useCustomTranslations();
@@ -224,6 +226,7 @@ export const FilePreview = ({
             <PreviewPdf
               src={currentFile.url_preview}
               pdfWorkerSrc={pdfWorkerSrc}
+              pdfAssetsUrl={pdfAssetsUrl}
               onThumbailSidebarOpen={(isOpen) => {
                 setPdfThumbnailSidebarOpen(isOpen);
               }}

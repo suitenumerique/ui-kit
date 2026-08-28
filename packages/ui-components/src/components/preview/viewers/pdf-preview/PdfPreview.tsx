@@ -1,5 +1,5 @@
 import "./pdfPolyfills";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Document, pdfjs } from "react-pdf";
 import type { PDFDocumentProxy } from "pdfjs-dist";
@@ -14,24 +14,30 @@ import { PdfPageViewer } from "./PdfPageViewer";
 import type { PdfPageViewerHandle } from "./PdfPageViewer";
 import { useRedirectDisclaimer } from "./useRedirectDisclaimer";
 import { OutdatedBrowserPreview } from "./OutdatedBrowserPreview";
-import { pdfOptions } from "./pdfOptions";
+import { getPdfOptions } from "./pdfOptions";
 import { usePdfPageDimensions } from "./usePdfPageDimensions";
-import { DEFAULT_PDF_WORKER_SRC } from "./pdfConsts";
+import { DEFAULT_PDF_ASSETS_URL, DEFAULT_PDF_WORKER_SRC } from "./pdfConsts";
 
 interface PdfPreviewProps {
   src: string;
   onThumbailSidebarOpen?: (isOpen: boolean) => void;
   pdfWorkerSrc?: string;
+  pdfAssetsUrl?: string;
 }
 
 export function PdfPreview({
   src,
   onThumbailSidebarOpen,
   pdfWorkerSrc = DEFAULT_PDF_WORKER_SRC,
+  pdfAssetsUrl = DEFAULT_PDF_ASSETS_URL,
 }: PdfPreviewProps) {
   // Set the worker source once per render — pdfjs reads this when loading
   // the next document. Last-write-wins if multiple consumers configure it.
   pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
+
+  // react-pdf reloads the document whenever the options object identity
+  // changes, so it must stay stable across renders.
+  const pdfOptions = useMemo(() => getPdfOptions(pdfAssetsUrl), [pdfAssetsUrl]);
 
   const { t } = useCustomTranslations();
   const [numPages, setNumPages] = useState<number>(1);

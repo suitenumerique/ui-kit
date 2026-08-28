@@ -132,6 +132,7 @@ import { Button } from ":/cunningham";
  * | `sidebarContent` | `ReactNode` | Content of the right-side info panel (toggled with the `info` button) |
  * | `hideCloseButton` | `boolean?` | Remove the top-left close button |
  * | `pdfWorkerSrc` | `string?` | Override the `pdf.worker.mjs` URL passed to `pdfjs-dist` |
+ * | `pdfAssetsUrl` | `string?` | Base URL where the `pdfjs-dist` `wasm/`, `standard_fonts/` and `cmaps/` folders are served (defaults to `/`) |
  *
  * ## Keyboard shortcuts
  *
@@ -236,6 +237,11 @@ const meta: Meta<typeof FilePreview> = {
       description: "Override the `pdf.worker.mjs` URL passed to `pdfjs-dist`",
       control: "text",
     },
+    pdfAssetsUrl: {
+      description:
+        "Base URL where the `pdfjs-dist` `wasm/`, `standard_fonts/` and `cmaps/` folders are served",
+      control: "text",
+    },
   },
   tags: ["autodocs"],
 };
@@ -300,6 +306,14 @@ export const Audio: Story = {
  *
  * `pdfWorkerSrc` defaults to `/pdf.worker.mjs`. Override it if you serve
  * the worker from a different path (CDN, sub-path deployment).
+ *
+ * pdfjs-dist also fetches assets on demand: the `wasm/` decoders (needed for
+ * JPEG 2000 images, common in scanned PDFs, and ICC colour profiles),
+ * `standard_fonts/` (fallbacks for non-embedded fonts) and `cmaps/` (CJK
+ * encodings). Copy those folders from `pdfjs-dist` next to the worker and set
+ * `pdfAssetsUrl` to their base URL (defaults to `/`). When they are missing,
+ * pdfjs skips the affected content instead of failing — a scanned PDF then
+ * shows barely readable text.
  */
 export const Pdf: Story = {
   render: () => <FilePreviewExample files={pdfFiles} />,

@@ -1,4 +1,5 @@
 export const DEFAULT_PDF_WORKER_SRC = "/pdf.worker.mjs";
+export const DEFAULT_PDF_ASSETS_URL = "/";
 export const TRANSITION_DELAY = 300;
 export const THUMBNAIL_WIDTH = 105;
 export const THUMBNAIL_GAP = 12;
