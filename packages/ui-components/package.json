@@ -54,7 +54,7 @@
     "prebuild-storybook": "yarn prepare-test-assets",
     "build-storybook": "storybook build -o ../../storybook-static",
     "prepare-test-assets": "yarn copy-pdf-worker && yarn generate-test-pdfs",
-    "copy-pdf-worker": "shx cp ../../node_modules/pdfjs-dist/build/pdf.worker.mjs public/pdf.worker.mjs",
+    "copy-pdf-worker": "shx cp ../../node_modules/pdfjs-dist/build/pdf.worker.mjs public/pdf.worker.mjs && shx rm -rf public/wasm public/standard_fonts public/cmaps && shx cp -r ../../node_modules/pdfjs-dist/wasm ../../node_modules/pdfjs-dist/standard_fonts ../../node_modules/pdfjs-dist/cmaps public/",
     "generate-icons": "tsx scripts/generate-icons.ts",
     "generate-test-pdfs": "node scripts/generate-test-pdfs.mjs"
   },
