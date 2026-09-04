@@ -77,6 +77,7 @@ import { MenuItem } from "./types";
  * | `callback` | `() => void` | Callback on click |
  * | `isDisabled` | `boolean` | Disables the item |
  * | `isHidden` | `boolean` | Hides the item |
+ * | `isChecked` | `boolean` | Shows a trailing checkmark (selected/active item) |
  * | `variant` | `"default" \| "danger"` | Item style |
  * | `keepOpen` | `boolean` | Prevents menu from closing on click |
  *
@@ -527,6 +528,72 @@ export const FocusHighlighting: Story = {
       ))}
     </div>
   ),
+};
+
+const SelectedOptionContent = () => {
+  const [sortBy, setSortBy] = useState("name");
+
+  const sortItems: MenuItem[] = [
+    { label: "Sort by", isDisabled: true },
+    {
+      label: "Name",
+      icon: <span className="material-icons">sort_by_alpha</span>,
+      isChecked: sortBy === "name",
+      callback: () => setSortBy("name"),
+    },
+    {
+      label: "Date modified",
+      icon: <span className="material-icons">schedule</span>,
+      isChecked: sortBy === "date",
+      callback: () => setSortBy("date"),
+    },
+    {
+      label: "Size",
+      icon: <span className="material-icons">data_usage</span>,
+      isChecked: sortBy === "size",
+      callback: () => setSortBy("size"),
+    },
+    { type: "separator" },
+    {
+      label: "Refresh",
+      icon: <span className="material-icons">refresh</span>,
+      callback: () => console.log("Refresh"),
+    },
+  ];
+
+  return (
+    <ContextMenu options={sortItems}>
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p>Right-click here to pick a sort order</p>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          Current sort: {sortBy}
+        </p>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Items with `isChecked: true` display a trailing checkmark, which marks the
+ * currently selected/active option (same rendering as `DropdownMenu`).
+ *
+ * Combine it with `keepOpen: true` if the user should be able to change the
+ * selection several times without reopening the menu.
+ */
+export const SelectedOption: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <SelectedOptionContent />,
 };
 
 const WithModalContent = () => {
