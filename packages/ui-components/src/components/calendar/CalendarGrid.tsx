@@ -6,7 +6,7 @@ import {
   startOfWeek,
   today,
 } from "@internationalized/date";
-import { useCalendarGrid } from "react-aria";
+import { useCalendarGrid } from "@react-aria/calendar";
 import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
 import classNames from "classnames";
 import { CalendarCell } from ":/components/calendar/CalendarCell";
