@@ -4631,7 +4631,7 @@
   dependencies:
     tinyrainbow "^2.0.0"
 
-"@vitest/pretty-format@^3.1.2":
+"@vitest/pretty-format@3.2.7", "@vitest/pretty-format@^3.1.2":
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-3.2.7.tgz#2a7b593f8e007e9d8ef7e7343aa30ec73fdeaf29"
   integrity sha512-KUHlwqVu0sRlhCdyPdQ/wBoTfRahjUky1MubOmYw9fWfIZy1gNoHpuaaQBPAaMaVYdQYHJLurzj8ECCj5OwTqA==
@@ -4669,17 +4669,17 @@
   dependencies:
     tinyspy "^3.0.2"
 
-"@vitest/ui@3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-3.1.2.tgz#e810029d0eb752981c479ef86909aa58c6f6c4c7"
-  integrity sha512-+YPgKiLpFEyBVJNHDkRcSDcLrrnr20lyU4HQoI9Jtq1MdvoX8usql9h38mQw82MBU1Zo5BPC6sw+sXZ6NS18CQ==
+"@vitest/ui@3.2.7":
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-3.2.7.tgz#14a7327b895264d5906ffb5b79f53b830dd6b3ec"
+  integrity sha512-eVtcpJXGhS0GjMuHROfbXLhlxooyUcuip8GNzzjDD5jzafZqzanJH4W3VGmUxHNx4fv6qQGUGJHRpGUdj+9D6Q==
   dependencies:
-    "@vitest/utils" "3.1.2"
+    "@vitest/utils" "3.2.7"
     fflate "^0.8.2"
     flatted "^3.3.3"
     pathe "^2.0.3"
     sirv "^3.0.1"
-    tinyglobby "^0.2.13"
+    tinyglobby "^0.2.14"
     tinyrainbow "^2.0.0"
 
 "@vitest/utils@2.0.5":
@@ -4699,6 +4699,15 @@
   dependencies:
     "@vitest/pretty-format" "3.1.2"
     loupe "^3.1.3"
+    tinyrainbow "^2.0.0"
+
+"@vitest/utils@3.2.7":
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/@vitest/utils/-/utils-3.2.7.tgz#302c8126211ac4dfea87b3b5085c098d6d22e89e"
+  integrity sha512-x6BDOd7dyo3PFLY3I9/HJ25X/6OurhGXk2/B9gOZNPF7XDVjeBK4k01lQE5uvDpbuheErh91qYuE1E2OEjK3Rw==
+  dependencies:
+    "@vitest/pretty-format" "3.2.7"
+    loupe "^3.1.4"
     tinyrainbow "^2.0.0"
 
 "@vitest/utils@^2.1.1":
@@ -7571,7 +7580,7 @@ loose-envify@^1.0.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-loupe@^3.1.0, loupe@^3.1.1, loupe@^3.1.2, loupe@^3.1.3:
+loupe@^3.1.0, loupe@^3.1.1, loupe@^3.1.2, loupe@^3.1.3, loupe@^3.1.4:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/loupe/-/loupe-3.2.1.tgz#0095cf56dc5b7a9a7c08ff5b1a8796ec8ad17e76"
   integrity sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==
@@ -9769,6 +9778,14 @@ tinyglobby@^0.2.13:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.16.tgz#1c3b7eb953fce42b226bc5a1ee06428281aff3d6"
   integrity sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==
+  dependencies:
+    fdir "^6.5.0"
+    picomatch "^4.0.4"
+
+tinyglobby@^0.2.14:
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.17.tgz#562a9a6c9eb2b3b123d39719f9af5bb44fcd7631"
+  integrity sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==
   dependencies:
     fdir "^6.5.0"
     picomatch "^4.0.4"
