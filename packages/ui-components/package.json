@@ -133,7 +133,7 @@
     "@types/react-virtualized": "9.22.3",
     "@vitejs/plugin-react": "4.4.1",
     "@vitest/coverage-c8": "0.33.0",
-    "@vitest/ui": "3.1.2",
+    "@vitest/ui": "3.2.7",
     "babel-loader": "10.0.0",
     "chromatic": "11.29.0",
     "css-loader": "7.1.2",
