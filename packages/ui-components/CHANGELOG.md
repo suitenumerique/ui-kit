@@ -3,6 +3,12 @@
 
 ## [UNRELEASED]
 
+## 1.1.2
+
+### Patch Changes
+
+- 🐛(components) resolve the calendar hooks to a single react-aria copy
+
 ## 1.1.1
 
 ### Patch Changes
