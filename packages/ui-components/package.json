@@ -148,7 +148,7 @@
     "react": "19.1.2",
     "react-dom": "19.1.2",
     "react-hook-form": "7.56.2",
-    "remark-gfm": "4.0.0",
+    "remark-gfm": "4.0.1",
     "sass": "1.87.0",
     "sass-loader": "16.0.5",
     "shx": "0.4.0",
