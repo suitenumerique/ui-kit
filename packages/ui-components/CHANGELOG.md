@@ -1,5 +1,30 @@
 # @gouvfr-lasuite/ui-components
 
+## 1.2.0
+
+### Minor Changes
+
+- 0d1aa1b: ✨(front) support checked items in ContextMenu
+
+  Move `isChecked` to the shared `MenuItemAction` type so a ContextMenu item can
+  display the trailing checkmark already available in DropdownMenu.
+
+- 8f77a1c: Upgrade react-resizable-panels to v4
+- eb0669c: Allow consumers to extend the ShareModal access rows
+
+  Some consumers need to attach their own actions and information to a member row.
+  `renderAccessRightExtras` adds content on the right of a row, inline with the role
+  dropdown, `renderAccessFooter` renders content directly below a row, and
+  `getAccessClassName` flags a row so CSS can decorate it. `membersTitle` overrides the
+  default "N members" heading and `searchGroupName` the search results heading.
+
+  Inviting by email does not always make sense, so `allowInvitation={false}` now restricts
+  the selection to the users returned by `onSearchUsers`.
+
+### Patch Changes
+
+- Updated dependencies [9bf3545]
+  - @gouvfr-lasuite/ui-tokens@3.2.0
 
 ## [UNRELEASED]
 
@@ -623,9 +648,11 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/v1.1.1...main
-[1.1.1]: https://github.com/suitenumerique/ui-kit/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/suitenumerique/ui-kit/compare/v1.0.0...v1.1.0
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.2.0...main
+[1.2.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.1.2...@gouvfr-lasuite/ui-components@1.2.0
+[1.1.2]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.1.1...@gouvfr-lasuite/ui-components@1.1.2
+[1.1.1]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@...@gouvfr-lasuite/ui-components@1.1.1
+[1.1.0]: https://github.com/suitenumerique/ui-kit/compare/v1.0.0...@gouvfr-lasuite/ui-components@1.1.0
 [1.0.0]: https://github.com/suitenumerique/ui-kit/compare/v0.28.1...v1.0.0
 [0.28.1]: https://github.com/suitenumerique/ui-kit/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/suitenumerique/ui-kit/compare/v0.27.0...v0.28.0
