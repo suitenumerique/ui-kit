@@ -26,8 +26,6 @@
 - Updated dependencies [9bf3545]
   - @gouvfr-lasuite/ui-tokens@3.2.0
 
-## [UNRELEASED]
-
 ## 1.1.2
 
 ### Patch Changes
