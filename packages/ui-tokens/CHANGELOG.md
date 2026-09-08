@@ -6,9 +6,7 @@
 
 - 9bf3545: Add missing overlay tokens
 
-## [UNRELEASED]
-
-## 1.0.0
+## 3.1.0
 
 ### Major Changes
 
@@ -25,7 +23,7 @@ The entries below were published under
 `@gouvfr-lasuite/cunningham-tokens`. Version numbers restart at `1.0.0` for the
 new package name.
 
-## 3.1.0
+## 3.1.0 (@openfun/cunningham-tokens)
 
 ### Minor Changes
 
