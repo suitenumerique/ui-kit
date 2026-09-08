@@ -16,6 +16,7 @@ import {
   PropsWithChildren,
   ReactNode,
   useCallback,
+  Fragment,
 } from "react";
 import {
   Button,
@@ -79,6 +80,30 @@ type ShareModalAccessProps<UserType, AccessType> = {
   accessRoleTopMessage?: (
     access: AccessData<UserType, AccessType>,
   ) => string | ReactNode | undefined;
+  /**
+   * Rendered directly below each access row inside the members list. Lets
+   * consumers attach extra content to an access (e.g. a per-access sub-list).
+   */
+  renderAccessFooter?: (access: AccessData<UserType, AccessType>) => ReactNode;
+  /**
+   * Rendered on the right side of each access row, inline with the role
+   * dropdown. Lets consumers surface a per-access action (e.g. an "Assign" CTA).
+   */
+  renderAccessRightExtras?: (
+    access: AccessData<UserType, AccessType>,
+  ) => ReactNode;
+  /**
+   * Extra class name applied to each access row wrapper. Lets consumers flag
+   * row-level state (e.g. assignment) so CSS can decorate the row.
+   */
+  getAccessClassName?: (
+    access: AccessData<UserType, AccessType>,
+  ) => string | undefined;
+  /**
+   * Overrides the default "N members" section heading (which otherwise comes
+   * from `useCunningham()` translations).
+   */
+  membersTitle?: (members: AccessData<UserType, AccessType>[]) => ReactNode;
 };
 
 // We separate the props into two types to make them lighter. Here are only the search-specific props
@@ -88,6 +113,17 @@ type ShareModalSearchProps<UserType> = {
   searchPlaceholder?: string;
   onInviteUser?: (users: UserData<UserType>[], role: string) => void;
   loading?: boolean;
+  /**
+   * Overrides the heading rendered above the search results group (defaults to
+   * Cunningham's `components.share.search.group_name`).
+   */
+  searchGroupName?: string;
+  /**
+   * When `false`, typing an email that does not match any search result will
+   * NOT surface an "invite" action: only users returned by `onSearchUsers` can
+   * be selected. Defaults to `true`.
+   */
+  allowInvitation?: boolean;
 };
 
 type ShareModalLinkSettingsProps = {
@@ -153,6 +189,11 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   allowFileImport = false,
   cannotViewChildren,
   customTranslations,
+  renderAccessFooter,
+  renderAccessRightExtras,
+  getAccessClassName,
+  membersTitle,
+  allowInvitation = true,
   ...props
 }: PropsWithChildren<
   ShareModalProps<UserType, InvitationType, AccessType>
@@ -240,8 +281,12 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   };
 
   const usersData: QuickSearchData<UserData<UserType>> = useMemo(() => {
+    // Filter pending users by id rather than reference: after a search refetch
+    // the server returns freshly allocated objects, so reference equality would
+    // let an already-pending user reappear and be picked twice.
+    const pendingIds = new Set(pendingInvitationUsers.map((u) => u.id));
     const searchMemberResult = searchUsersResult?.filter(
-      (user) => !pendingInvitationUsers.includes(user),
+      (user) => !pendingIds.has(user.id),
     );
     let emptyString: string | undefined =
       searchQuery !== ""
@@ -259,6 +304,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
      * then we consider that we need to invite this person
      */
     const isInvitationMode =
+      allowInvitation &&
       isValidEmail(searchQuery ?? "") &&
       !searchMemberResult?.some((user) => user.email === searchQuery);
 
@@ -277,7 +323,8 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     }
 
     const group: QuickSearchData<UserData<UserType>> = {
-      groupName: t("components.share.search.group_name"),
+      groupName:
+        props.searchGroupName ?? t("components.share.search.group_name"),
       elements: searchMemberResult ?? [],
       showWhenEmpty: true,
       emptyString,
@@ -291,7 +338,15 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
         : undefined,
     };
     return group;
-  }, [searchUsersResult, searchQuery, t, pendingInvitationUsers, onSelect]);
+  }, [
+    searchUsersResult,
+    searchQuery,
+    t,
+    pendingInvitationUsers,
+    onSelect,
+    allowInvitation,
+    props.searchGroupName,
+  ]);
 
   /**
    * Set the height of the list of the quick search content.
@@ -452,15 +507,17 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   >
                     <div className="c__share-modal__members-title">
                       <span>
-                        {members.length > 0 &&
-                          t(
-                            members.length > 1
-                              ? "components.share.members.title_plural"
-                              : "components.share.members.title_singular",
-                            {
-                              count: members.length,
-                            },
-                          )}
+                        {membersTitle
+                          ? membersTitle(members)
+                          : members.length > 0 &&
+                            t(
+                              members.length > 1
+                                ? "components.share.members.title_plural"
+                                : "components.share.members.title_singular",
+                              {
+                                count: members.length,
+                              },
+                            )}
                       </span>
                       {showImportAction && (
                         <DropdownMenu
@@ -492,19 +549,23 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                       )}
                     </div>
                     {members.map((member) => (
-                      <ShareMemberItem
-                        key={member.id}
-                        accessData={member}
-                        accessRoleKey={props.accessRoleKey ?? "role"}
-                        canUpdate={canUpdate}
-                        roleTopMessage={props.accessRoleTopMessage?.(member)}
-                        roles={
-                          props.getAccessRoles?.(member) ??
-                          props.invitationRoles!
-                        }
-                        updateRole={props.onUpdateAccess}
-                        deleteAccess={props.onDeleteAccess}
-                      />
+                      <Fragment key={member.id}>
+                        <ShareMemberItem
+                          accessData={member}
+                          accessRoleKey={props.accessRoleKey ?? "role"}
+                          canUpdate={canUpdate}
+                          roleTopMessage={props.accessRoleTopMessage?.(member)}
+                          roles={
+                            props.getAccessRoles?.(member) ??
+                            props.invitationRoles!
+                          }
+                          updateRole={props.onUpdateAccess}
+                          deleteAccess={props.onDeleteAccess}
+                          rightExtras={renderAccessRightExtras?.(member)}
+                          wrapperClassName={getAccessClassName?.(member)}
+                        />
+                        {renderAccessFooter?.(member)}
+                      </Fragment>
                     ))}
                     <ShowMoreButton
                       show={hasNextMembers}
