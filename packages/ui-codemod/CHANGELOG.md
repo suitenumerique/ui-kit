@@ -1,7 +1,5 @@
 # @gouvfr-lasuite/ui-codemod
 
-## [UNRELEASED]
-
 ## 1.0.0
 
 ### Major Changes
@@ -14,3 +12,6 @@
   `--check` for CI or scripted verification.
 - Split mixed UI Kit component and SVG imports while preserving aliases and
   type imports, and report cases that require a manual migration.
+
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-codemod@1.0.0...main
+[1.0.0]: https://github.com/suitenumerique/ui-kit/compare/c8d1f06c126dfa0a2a1244a23406d061989e944c...@gouvfr-lasuite/ui-codemod@1.0.0
