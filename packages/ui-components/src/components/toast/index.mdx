@@ -75,6 +75,68 @@ You can customize the appearance of the toast by passing `actions` when calling 
 
 <Canvas of={Stories.InfoCustom} />
 
+`actions` also accepts a list of `{ label, onClick }` descriptors, rendered as borderless
+buttons tinted to match the toast type.
+
+<Canvas of={Stories.WithActions} />
+
+## Progress
+
+Pass `progress` to display a completion percentage next to the message.
+
+<Canvas of={Stories.WithProgress} />
+
+## Stacking
+
+Toasts stack: several of them can be on screen at once, the newest at the bottom.
+
+<Canvas of={Stories.Stacked} />
+
+## Updating and dismissing
+
+`toast` returns an id you can use to update or dismiss a toast later. `useToastProvider`
+exposes `updateToast` and `dismissToast` for that.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const { toast, dismissToast } = useToastProvider();
+
+const id = toast("File moved", VariantType.SUCCESS, {
+  actions: [{ label: "Cancel", onClick: () => {
+    undoMove();
+    dismissToast(id);
+  }}],
+});
+`}/>
+
+## Extended toast
+
+`toastExtended` displays a collapsible list of items with a progress summary, for file
+transfers. It stays on screen until dismissed unless you pass `autoClose`.
+
+<Canvas of={Stories.Extended} />
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const { toastExtended, dismissToast } = useToastProvider();
+
+const id = toastExtended({
+  summary: "3 documents in transfer",
+  progress: 15,
+  items: [
+    { id: "1", title: "Presentation on Monet", size: "12 GB", mimetype: "application/vnd.ms-powerpoint", status: "completed" },
+    { id: "2", title: "Flower wallpaper", mimetype: "image/jpeg", status: "loading" },
+  ],
+  onClose: () => dismissToast(id),
+});
+`}/>
+
 ## Props
 
 These are the props of `Toast` component which you might not need to create by yourself as the `toast` function does all
@@ -88,10 +150,12 @@ Here a the custom design tokens defined by the Toast.
 
 | Token        	| Description                 	|
 |---------------	|-----------------------------	|
-| slide-in-duration   | Time the toast takes to slide in 	|
-| slide-out-duration 	| Time the toast takes to slide out	|
-| background-color 	| Default background color 	|
-| color 	| Color of the content	|
-| font-weight 	| Font weight of the content 	|
 | icon-size 	| Size of the left icon	|
 | progress-bar-height 	| Height of the progress bar	|
+
+The toast now takes its colors and typography from the semantic tokens
+(`contextuals.background.surface`, `contextuals.content.semantic.*`) like the rest of the
+recent components, so `background-color`, `color` and `font-weight` are no longer read.
+Slide durations are handled by the transition and no longer read from
+`slide-in-duration` / `slide-out-duration`. Those four tokens are still defined, so
+overriding them stays valid, but it has no effect.
