@@ -118,8 +118,16 @@ export type {
   SwitchOnlyProps,
   SwitchProps,
   TextAreaProps,
+  ToastAction,
+  ToastDismissParams,
+  ToastExtendedItem,
+  ToastExtendedItemStatus,
+  ToastExtendedOptions,
+  ToastId,
   ToastProps,
   ToastProviderContext,
+  ToastProviderProps,
+  ToastUpdateOptions,
   TooltipProps,
 } from "./cunningham";
 
