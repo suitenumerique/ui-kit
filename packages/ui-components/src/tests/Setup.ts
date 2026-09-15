@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import createFetchMock from "vitest-fetch-mock";
 import { vi } from "vitest";
 import "./AnimateMock";
+import "./CssAnimationMock";
 import "./FileReadMethodsMock";
 import "./HTMLDialogElementMock";
 import "./ResizeObserverMock";

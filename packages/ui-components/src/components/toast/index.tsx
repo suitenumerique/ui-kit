@@ -1,4 +1,4 @@
-import React, {
+import {
   PropsWithChildren,
   ReactNode,
   useEffect,
@@ -9,6 +9,9 @@ import classNames from "classnames";
 import isChromatic from "chromatic/isChromatic";
 import { Button, ButtonProps } from ":/components/button";
 import { iconFromType, VariantType } from ":/utils/VariantUtils";
+import { ToastAction } from "./types";
+
+export * from "./types";
 
 export interface ToastProps extends PropsWithChildren {
   duration: number;
@@ -19,69 +22,96 @@ export interface ToastProps extends PropsWithChildren {
   primaryOnClick?: ButtonProps["onClick"];
   primaryProps?: ButtonProps;
   disableAnimate?: boolean;
-  actions?: ReactNode;
+  /**
+   * Either a ready-made node, or a list of `{ label, onClick }` rendered as
+   * borderless buttons matching the toast variant.
+   */
+  actions?: ReactNode | ToastAction[];
+  /** Completion percentage, displayed next to the message. */
+  progress?: number;
 }
 
-export const Toast = (props: ToastProps) => {
-  const [animateDisappear, setAnimateDisappear] = React.useState(false);
-  const container = useRef<HTMLDivElement>(null);
-  const disappearTimeout = useRef<NodeJS.Timeout>(null);
+// `actions` accepts both a node and a list of descriptors. React elements never
+// carry `label`/`onClick` as own keys, so they cannot be mistaken for one.
+const isActionList = (
+  actions: ReactNode | ToastAction[],
+): actions is ToastAction[] =>
+  Array.isArray(actions) &&
+  actions.every(
+    (action) =>
+      typeof action === "object" &&
+      action !== null &&
+      "label" in action &&
+      "onClick" in action,
+  );
 
-  // Register a timeout to remove the toast after the duration.
-  useEffect(() => {
-    if (props.disableAnimate) {
-      return;
-    }
-    disappearTimeout.current = setTimeout(async () => {
-      setAnimateDisappear(true);
-      disappearTimeout.current = null;
-    }, props.duration);
-    return () => {
-      if (disappearTimeout.current) {
-        clearTimeout(disappearTimeout.current);
-      }
-    };
-  }, []);
-
-  const removeAfterAnimation = async () => {
-    await Promise.allSettled(
-      container.current!.getAnimations().map((animation) => animation.finished),
-    );
-    props.onDelete?.();
-  };
-
-  // Remove the toast after the animation finishes.
-  useEffect(() => {
-    if (animateDisappear) {
-      removeAfterAnimation();
-    }
-  }, [animateDisappear]);
+const ToastActions = ({
+  actions,
+  primaryLabel,
+  primaryOnClick,
+  primaryProps,
+}: Pick<
+  ToastProps,
+  "actions" | "primaryLabel" | "primaryOnClick" | "primaryProps"
+>) => {
+  const hasActions = isActionList(actions) ? actions.length > 0 : !!actions;
+  if (!hasActions && !primaryLabel) {
+    return null;
+  }
 
   return (
+    <div className="c__toast__content__actions">
+      {isActionList(actions)
+        ? actions.map((action) => (
+            <button
+              key={action.label}
+              type="button"
+              className="c__toast__content__action"
+              onClick={(event) => {
+                event.stopPropagation();
+                action.onClick();
+              }}
+            >
+              {action.label}
+            </button>
+          ))
+        : actions}
+      {primaryLabel && (
+        <div className="c__toast__content__buttons">
+          {/* Still a Button so `primaryProps` keeps working, but wearing the
+              same borderless look as the action list. */}
+          <Button
+            variant="tertiary"
+            className="c__toast__content__action"
+            onClick={primaryOnClick}
+            {...primaryProps}
+          >
+            {primaryLabel}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const Toast = ({ type, ...props }: ToastProps) => {
+  return (
     <div
-      ref={container}
-      className={classNames("c__toast", "c__toast--" + props.type, {
-        "c__toast--disappear": animateDisappear,
+      className={classNames("c__toast", type && "c__toast--" + type, {
         "c__toast--no-animate": props.disableAnimate,
       })}
-      role="alert"
     >
-      <ProgressBar duration={props.duration} />
       <div className="c__toast__content">
-        {props.primaryLabel && (
-          <div className="c__toast__content__buttons">
-            <Button
-              variant="primary"
-              onClick={props.primaryOnClick}
-              {...props.primaryProps}
-            >
-              {props.primaryLabel}
-            </Button>
-          </div>
-        )}
-        {props.actions}
-        <div className="c__toast__content__children">{props.children}</div>
-        <ToastIcon {...props} />
+        <ToastIcon {...props} type={type} />
+        <div className="c__toast__content__children">
+          <span className="c__toast__content__message">{props.children}</span>
+          {props.progress !== undefined && (
+            <span className="c__toast__content__progress">
+              {props.progress}%
+            </span>
+          )}
+        </div>
+        <ToastActions {...props} />
       </div>
     </div>
   );
