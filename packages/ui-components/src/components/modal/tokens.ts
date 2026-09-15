@@ -14,6 +14,8 @@ export const tokens = (defaults: DefaultTokens) => {
     "content-font-size": defaults.globals.font.sizes.sm,
     "content-font-weight": defaults.globals.font.weights.regular,
     "content-color": defaults.contextuals.content.semantic.neutral.primary,
+    padding: defaults.globals.spacings.md,
+    "close-button-size": "28px",
     "width-small": "300px",
     "width-medium": "600px",
     "width-large": "800px",
@@ -28,7 +30,9 @@ export const tokens = (defaults: DefaultTokens) => {
     "tab-item-font-size": defaults.globals.font.sizes.sm,
     "tab-item-font-weight": defaults.globals.font.weights.medium,
     "tab-item-font-weight--active": defaults.globals.font.weights.bold,
-    "tab-item-active-background-color": "rgba(24, 27, 36, 0.05)",
-    "tab-item-hover-background-color": "rgba(24, 27, 36, 0.03)",
+    "tab-item-active-background-color":
+      defaults.contextuals.background.semantic.contextual["primary-hover"],
+    "tab-item-hover-background-color":
+      defaults.contextuals.background.semantic.contextual.primary,
   };
 };

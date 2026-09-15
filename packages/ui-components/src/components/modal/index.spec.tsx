@@ -901,6 +901,33 @@ describe("Modal constraints", () => {
     expect(dialog.style.maxHeight).toBe("700px");
   });
 
+  it("ignores height constraints for a full-size modal", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.FULL}
+            constraints={{
+              preferredHeight: "80vh",
+              minHeight: "300px",
+              maxHeight: "700px",
+            }}
+            {...modal}
+          >
+            <div>Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog.style.height).toBe("");
+    expect(dialog.style.minHeight).toBe("");
+    expect(dialog.style.maxHeight).toBe("");
+  });
+
   it("does not apply inline styles when constraints is not set", async () => {
     const Wrapper = () => {
       const modal = useModal({ isOpenDefault: true });

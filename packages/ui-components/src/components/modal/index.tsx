@@ -74,6 +74,7 @@ type ModalBaseProps = {
   closeOnClickOutside?: boolean;
   closeOnEsc?: boolean;
   preventClose?: boolean;
+  /** Height constraints, ignored when `size` is `ModalSize.FULL`. */
   constraints?: ModalConstraints;
   "aria-label"?: string;
 };
@@ -135,13 +136,17 @@ export const ModalInner = (props: ModalProps) => {
       ? (props as ModalTabVariantProps).sidebarTitle?.toString()
       : (props as ModalDefaultVariantProps).title?.toString());
 
+  // A full-screen modal always spans the viewport height: inline height
+  // constraints would take precedence over the stylesheet and shrink it.
+  const constraints =
+    props.size === ModalSize.FULL ? undefined : props.constraints;
   const constraintStyle: React.CSSProperties = {};
-  if (props.constraints?.minHeight !== undefined)
-    constraintStyle.minHeight = props.constraints.minHeight;
-  if (props.constraints?.maxHeight !== undefined)
-    constraintStyle.maxHeight = props.constraints.maxHeight;
-  if (props.constraints?.preferredHeight !== undefined)
-    constraintStyle.height = props.constraints.preferredHeight;
+  if (constraints?.minHeight !== undefined)
+    constraintStyle.minHeight = constraints.minHeight;
+  if (constraints?.maxHeight !== undefined)
+    constraintStyle.maxHeight = constraints.maxHeight;
+  if (constraints?.preferredHeight !== undefined)
+    constraintStyle.height = constraints.preferredHeight;
 
   return (
     <ReactModal

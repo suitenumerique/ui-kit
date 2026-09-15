@@ -291,6 +291,15 @@ export const StickyFooterFull: Story = {
   },
 };
 
+export const FullWithLongTitle: Story = {
+  args: {
+    size: ModalSize.FULL,
+    title:
+      "A very long full-screen modal title that must not slide under the close button on narrow viewports",
+    children: longLorem.text,
+  },
+};
+
 export const CustomParentSelect: Story = {
   render: () => {
     return (
@@ -340,6 +349,26 @@ export const TabVariant: Story = {
     variant: "tab",
     size: ModalSize.MEDIUM,
     sidebarTitle: "Settings",
+    tabs: sampleTabs,
+  } as ModalTabVariantProps,
+};
+
+export const TabVariantLongSidebarTitle: Story = {
+  args: {
+    variant: "tab",
+    size: ModalSize.MEDIUM,
+    sidebarTitle: (
+      <span
+        style={{
+          display: "block",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        support-technique-plateforme-numerique-interministerielle@sous-domaine.tres.long.example.gouv.fr
+      </span>
+    ),
     tabs: sampleTabs,
   } as ModalTabVariantProps,
 };
