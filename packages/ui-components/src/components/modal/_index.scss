@@ -15,13 +15,16 @@
   max-height: calc(100% - 2em - 6px);
   display: flex;
   flex-direction: column;
+  // Inner padding shared by the scroller and the close button offset, so the
+  // button stays inside the padding whatever its size in a given context.
+  --padding: var(--c--components--modal--padding);
 
   &__scroller {
-    padding: var(--c--globals--spacings--md);
+    padding: var(--padding);
     overflow: auto;
 
     &--compact {
-      padding: var(--c--globals--spacings--base);
+      --padding: var(--c--globals--spacings--base);
     }
   }
 
@@ -65,7 +68,7 @@
 
       .c__button {
         position: absolute;
-        right: -9px;
+        right: calc(var(--c--globals--spacings--2xs) - var(--padding));
         top: 50%;
         transform: translateY(-50%);
       }
@@ -73,25 +76,26 @@
   }
 
   &__title {
-    --font-size: 18px;
+    --font-size: var(--c--globals--font--sizes--lg);
     display: flex;
     align-items: center;
     gap: var(--c--globals--spacings--xs);
-    margin-bottom: var(--c--globals--spacings--base);
+    margin-bottom: var(--c--globals--spacings--2xs);
     color: var(--c--contextuals--content--semantic--neutral--primary);
     font-size: var(--font-size);
     font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
-    padding-right: 2rem;
+    font-weight: var(--c--components--modal--title-font-weight);
+    line-height: 1.5rem;
+    text-align: left;
+    // Reserve room for the close button, which overlaps the title row.
+    padding-right: var(--c--globals--spacings--lg);
 
     &:has(+ .c__modal__subtitle) {
       margin-bottom: var(--c--globals--spacings--xs);
     }
 
     &--compact {
-      --font-size: var(--c--components--modal--compact-title-font-size, 14px);
-      font-weight: var(--c--components--modal--title-font-weight);
+      --font-size: var(--c--components--modal--compact-title-font-size);
       margin-bottom: 0;
       padding-right: 0;
       line-height: normal;
@@ -100,10 +104,10 @@
 
   &__subtitle {
     color: var(--c--contextuals--content--semantic--neutral--secondary);
-    font-size: 14px;
+    font-size: var(--c--globals--font--sizes--sm);
     font-style: normal;
-    font-weight: 400;
-    line-height: var(--line-height-sm, 18px);
+    font-weight: var(--c--globals--font--weights--regular);
+    line-height: 1.125rem;
   }
 
   &__title-icon {
@@ -113,7 +117,7 @@
     --icon-size: 1.5rem;
 
     .delete-confirmation-icon {
-      color: var(--c--contextuals--content--semantic--netural--tertiary);
+      color: var(--c--contextuals--content--semantic--neutral--tertiary);
     }
 
     .modal-message-error-icon {
@@ -148,6 +152,12 @@
 
     &__text {
       text-align: left;
+
+      &--light {
+        color: var(--c--contextuals--content--semantic--neutral--secondary);
+        font-size: var(--c--globals--font--sizes--sm);
+        font-weight: var(--c--globals--font--weights--regular);
+      }
     }
   }
 
@@ -160,27 +170,36 @@
     height: 0;
 
     .c__button {
-      right: -1.1rem;
-      top: -1.1rem;
       position: relative;
+      // Pull the button into the padding area, a few pixels from the edge.
+      right: calc(var(--c--globals--spacings--2xs) - var(--padding));
+      top: calc(var(--c--globals--spacings--2xs) - var(--padding));
+      padding: 0;
+      // Beats `.c__button--small.c__button--icon-only`, which sets the width.
+      width: var(--c--components--modal--close-button-size) !important;
+      height: var(--c--components--modal--close-button-size);
     }
   }
 
   &__footer {
-    margin-top: 1.5rem;
+    margin-top: var(--c--globals--spacings--md);
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: var(--c--globals--spacings--base);
     background-color: var(--c--components--modal--background-color);
 
     @include media(sm) {
       flex-direction: column;
-      gap: 1rem;
+      gap: var(--c--globals--spacings--base);
       padding: var(--c--globals--spacings--sm);
       padding-bottom: 0;
 
       > div {
         width: 100%;
+      }
+
+      button {
+        justify-content: center;
       }
     }
 
@@ -201,7 +220,7 @@
     &__left,
     &__right {
       display: flex;
-      gap: 1rem;
+      gap: var(--c--globals--spacings--base);
 
       @include media(sm) {
         flex-direction: column;
@@ -217,7 +236,7 @@
     width: var(--c--components--modal--width-small);
 
     @include media(sm) {
-      width: calc(100vw - 1rem);
+      width: calc(100vw - var(--c--globals--spacings--base));
     }
   }
 
@@ -225,7 +244,7 @@
     width: var(--c--components--modal--width-medium);
 
     @include media(sm) {
-      width: calc(100vw - 1rem);
+      width: calc(100vw - var(--c--globals--spacings--base));
     }
   }
 
@@ -233,11 +252,11 @@
     width: var(--c--components--modal--width-large);
 
     @include media(lg) {
-      width: calc(100vw - 4rem);
+      width: calc(100vw - var(--c--globals--spacings--4xl));
     }
 
     @include media(md) {
-      width: calc(100vw - 2rem);
+      width: calc(100vw - var(--c--globals--spacings--lg));
     }
   }
 
@@ -245,11 +264,7 @@
     width: var(--c--components--modal--width-extra-large);
 
     @include media(md) {
-      width: calc(100vw - 1rem);
-    }
-
-    .c__modal__title {
-      --font-size: var(--c--globals--font--sizes--h1);
+      width: calc(100vw - var(--c--globals--spacings--base));
     }
   }
 
@@ -290,17 +305,21 @@
       }
 
       &__title {
-        font-size: 18px;
+        // As a flex item, the title would otherwise never shrink below its
+        // content min-width, pushing the close button out of the sidebar.
+        flex: 1;
+        min-width: 0;
+        font-size: var(--c--globals--font--sizes--lg);
         font-weight: var(--c--components--modal--title-font-weight);
         color: var(--c--contextuals--content--semantic--neutral--primary);
         padding: 0 var(--c--globals--spacings--xs);
-        line-height: 24px;
+        line-height: 1.5rem;
       }
 
       &__nav {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: var(--c--globals--spacings--3xs);
       }
 
       &__item {
@@ -452,7 +471,7 @@
         }
 
         &__item {
-          height: 44px;
+          height: 2.75rem;
 
           &-chevron {
             display: flex;
@@ -477,7 +496,6 @@
             margin-bottom: 0;
             padding-right: 0;
           }
-
         }
 
         .c__modal__subtitle {
@@ -491,8 +509,8 @@
           justify-content: center;
           cursor: pointer;
           flex-shrink: 0;
-          width: 32px;
-          height: 32px;
+          width: 2rem;
+          height: 2rem;
           color: var(--c--contextuals--content--semantic--neutral--primary);
 
           &:focus-visible {
@@ -537,18 +555,32 @@
     flex-direction: column;
     transform: none;
 
+    // The modal already fills the viewport: keep the same padding as the
+    // tab variant instead of the reduced one applied to small viewports.
+    --padding: var(--c--globals--spacings--base);
+
     .c__modal__scroller {
       flex: 1;
       min-height: 0;
     }
 
-    .c__modal__content {
-      flex-grow: 1;
-      overflow-y: scroll;
+    .c__modal__close .c__button {
+      // The negative offset is meant for a centered modal; full-screen it
+      // would push the button outside the viewport.
+      right: 0;
+      top: 0;
     }
 
-    .c__modal__title {
-      --font-size: var(--c--globals--font--sizes--h1);
+    .c__modal__content {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+  }
+
+  // Centered modals must fit narrow viewports; full-screen ones already do.
+  @include media(xs) {
+    &:not(.c__modal--full) .c__modal__scroller {
+      --padding: var(--c--globals--spacings--sm);
     }
   }
 }

@@ -739,6 +739,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -750,8 +752,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -1529,6 +1531,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -1540,8 +1544,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -2294,6 +2298,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -2305,8 +2311,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -3059,6 +3065,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -3070,8 +3078,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -3827,6 +3835,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -3838,8 +3848,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -4595,6 +4605,8 @@
 	--c--components--modal--content-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--content-font-weight: var(--c--globals--font--weights--regular);
 	--c--components--modal--content-color: var(--c--contextuals--content--semantic--neutral--primary);
+	--c--components--modal--padding: var(--c--globals--spacings--md);
+	--c--components--modal--close-button-size: 28px;
 	--c--components--modal--width-small: 342px;
 	--c--components--modal--width-medium: 600px;
 	--c--components--modal--width-large: 800px;
@@ -4606,8 +4618,8 @@
 	--c--components--modal--tab-item-font-size: var(--c--globals--font--sizes--sm);
 	--c--components--modal--tab-item-font-weight: var(--c--globals--font--weights--medium);
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
-	--c--components--modal--tab-item-active-background-color: rgba(24, 27, 36, 0.05);
-	--c--components--modal--tab-item-hover-background-color: rgba(24, 27, 36, 0.03);
+	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
+	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
