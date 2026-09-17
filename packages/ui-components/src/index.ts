@@ -30,7 +30,6 @@ export {
   Pagination,
   Popover,
   ProConnectButton,
-  ProgressBar,
   Radio,
   RadioGroup,
   SUPPORTED_LOCALES,

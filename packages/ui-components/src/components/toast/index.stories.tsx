@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";
-import { ProgressBar, Toast } from ":/components/toast/index";
+import { Toast } from ":/components/toast/index";
 import { CircleCheckFilled } from ":/components/icon/icons/CircleCheckFilled";
 import { Button } from ":/components/button";
 import { ToastProvider, useToastProvider } from ":/components/toast/ToastProvider";
@@ -123,16 +123,6 @@ export const HiddenIcon: Story = {
     type: VariantType.INFO,
     hideIcon: true,
     children: "Document 1 moved to Document 2",
-  },
-};
-
-export const ProgressBarExample: Story = {
-  render: () => {
-    return (
-      <div>
-        <ProgressBar duration={6000} />
-      </div>
-    );
   },
 };
 

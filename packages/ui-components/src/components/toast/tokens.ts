@@ -9,6 +9,5 @@ export const tokens = (defaults: DefaultTokens) => {
     color: defaults.contextuals.content.semantic.neutral.primary,
     "font-weight": defaults.globals.font.weights.regular,
     "icon-size": "24px",
-    "progress-bar-height": "3px",
   };
 };

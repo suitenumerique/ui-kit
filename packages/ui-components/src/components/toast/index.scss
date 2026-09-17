@@ -24,12 +24,6 @@
       );
     }
   }
-
-  .c__progress-bar {
-    --c--progress--color: var(
-      --c--contextuals--background--semantic--#{$context}--primary
-    );
-  }
 }
 
 .c__toast__container {
@@ -236,29 +230,11 @@
       flex-shrink: 0;
     }
   }
-
-  .c__progress-bar {
-    --c--progress--color: var(
-      --c--contextuals--background--semantic--neutral--primary
-    );
-  }
 }
 
 @include media(sm) {
   .c__toast__container {
     width: 100%;
-  }
-}
-
-.c__progress-bar {
-  height: var(--c--components--toast--progress-bar-height);
-  --c--progress--color: var(
-    --c--contextuals--background--semantic--brand--primary
-  );
-
-  &__content {
-    height: 100%;
-    background-color: var(--c--progress--color);
   }
 }
 

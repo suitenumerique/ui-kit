@@ -1,6 +1,5 @@
-import { PropsWithChildren, ReactNode, useEffect, useRef } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import classNames from "classnames";
-import isChromatic from "chromatic/isChromatic";
 import { Button, ButtonProps } from ":/components/button";
 import { ArrowRight } from ":/components/icon/icons/ArrowRight";
 import { VariantType } from ":/utils/VariantUtils";
@@ -124,25 +123,6 @@ export const ToastIcon = ({
   return (
     <div className="c__toast__icon" aria-hidden="true">
       {icon ?? <ArrowRight size={24} />}
-    </div>
-  );
-};
-export const ProgressBar = ({ duration }: { duration: number }) => {
-  const content = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isChromatic()) {
-      return;
-    }
-    content.current!.animate([{ width: "0%" }, { width: "100%" }], {
-      duration,
-      easing: "linear",
-    });
-  }, []);
-
-  return (
-    <div className="c__progress-bar">
-      <div className="c__progress-bar__content" ref={content} />
     </div>
   );
 };
