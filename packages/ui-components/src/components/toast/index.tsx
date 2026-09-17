@@ -78,6 +78,7 @@ const ToastActions = ({
               same borderless look as the action list. */}
           <Button
             variant="tertiary"
+            size="small"
             className="c__toast__content__action"
             onClick={primaryOnClick}
             {...primaryProps}

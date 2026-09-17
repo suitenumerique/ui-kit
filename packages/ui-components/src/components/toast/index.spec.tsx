@@ -83,6 +83,7 @@ describe("<Toast />", () => {
     expect(toast).toHaveTextContent("Toast content");
     // Toast has a button.
     const $button = within(toast).getByRole("button", { name: "Action" });
+    expect($button).toHaveClass("c__button--small");
 
     // Button is not clicked yet.
     expect(flag).toBe(false);
