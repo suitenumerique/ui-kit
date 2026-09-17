@@ -163,4 +163,32 @@ describe("<ToastProvider />", () => {
     expect(toast).toHaveTextContent("2 documents in transfer");
     expect(toast).toHaveTextContent("15%");
   });
+
+  it("sits on the right and slides in from that side", async () => {
+    const Inner = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button onClick={() => toast("Hello", VariantType.INFO)}>
+          Create toast
+        </Button>
+      );
+    };
+
+    render(
+      <CunninghamProvider toastPosition="bottom-right">
+        <Inner />
+      </CunninghamProvider>,
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Create toast"));
+    await screen.findByRole("alert");
+
+    expect(
+      document.querySelector(".Toastify__toast-container--bottom-right"),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector(".c__toast__container--slide-right"),
+    ).toBeInTheDocument();
+  });
 });

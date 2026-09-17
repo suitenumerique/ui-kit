@@ -31,6 +31,22 @@ const App = () => (
   `}
 />
 
+Pass `toastPosition` on `CunninghamProvider` to choose the corner. The toast
+slides in from that same side: `bottom-left` (default) arrives from the left,
+`bottom-right` sits on the right and arrives from the right.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+<CunninghamProvider toastPosition="bottom-right">
+  <InnerApp />
+</CunninghamProvider>
+`}/>
+
+You can also wrap a subtree in `ToastProvider` with `position`.
+
 And then simply use the `toast` function from `useToastProvider` hook.
 
 <Source
@@ -52,6 +68,16 @@ const InnerApp = () => {
 You can also customize the appearance of the toast with the `toast` function. See the API.
 
 <ArgTypes of={toast} />
+
+## Position
+
+`toastPosition` is one of `top-left`, `top-center`, `top-right`, `bottom-left`
+(default), `bottom-center`, `bottom-right`. The slide follows the side: a toast
+on the right arrives from the right.
+
+<Canvas of={Stories.PositionBottomRight} />
+<Canvas of={Stories.PositionTopRight} />
+<Canvas of={Stories.SlideFromRight} />
 
 ## Type
 

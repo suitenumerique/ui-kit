@@ -124,6 +124,7 @@ export type {
   ToastExtendedItemStatus,
   ToastExtendedOptions,
   ToastId,
+  ToastPosition,
   ToastProps,
   ToastProviderContext,
   ToastProviderProps,
