@@ -90,6 +90,10 @@
     @include toast-variant("error");
   }
 
+  &--neutral {
+    @include toast-variant("neutral");
+  }
+
   &__icon {
     display: flex;
     align-items: center;
