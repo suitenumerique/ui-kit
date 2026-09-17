@@ -178,6 +178,69 @@ describe("<Toast />", () => {
     expect(toast.querySelector(".c__toast__icon svg")).not.toBeInTheDocument();
   });
 
+  it("renders the labelled buttons with the shared borderless look", async () => {
+    const Inner = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button
+          onClick={() =>
+            toast("Toast content", VariantType.NEUTRAL, {
+              primaryLabel: "Primary",
+              tertiaryLabel: "Tertiary",
+            })
+          }
+        >
+          Create toast
+        </Button>
+      );
+    };
+
+    render(<Inner />, { wrapper: Wrapper });
+    await userEvent.setup().click(screen.getByText("Create toast"));
+
+    const toast = await screen.findByRole("alert");
+    expect(within(toast).getByRole("button", { name: "Primary" })).toHaveClass(
+      "c__toast__action",
+      "c__button--small",
+    );
+    expect(within(toast).getByRole("button", { name: "Tertiary" })).toHaveClass(
+      "c__toast__action",
+      "c__button--small",
+    );
+  });
+
+  it("dismisses the toast from the close button when canClose is set", async () => {
+    const onDelete = vi.fn();
+    const Inner = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button
+          onClick={() =>
+            toast("Toast content", VariantType.NEUTRAL, {
+              canClose: true,
+              disableAnimate: true,
+              onDelete,
+            })
+          }
+        >
+          Create toast
+        </Button>
+      );
+    };
+
+    render(<Inner />, { wrapper: Wrapper });
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Create toast"));
+
+    const toast = await screen.findByRole("alert");
+    await user.click(
+      within(toast).getByRole("button", { name: "Delete alert" }),
+    );
+
+    await waitForElementToBeRemoved(toast);
+    expect(onDelete).toHaveBeenCalledTimes(1);
+  });
+
   it("hides the icon when hideIcon is set", async () => {
     const Inner = () => {
       const { toast } = useToastProvider();

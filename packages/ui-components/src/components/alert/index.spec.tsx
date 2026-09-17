@@ -71,6 +71,53 @@ describe("<Alert/>", () => {
     screen.getByRole("button", { name: "Primary" });
     screen.getByRole("button", { name: "Tertiary" });
   });
+  it("renders the labelled buttons with the shared borderless look", () => {
+    render(
+      <CunninghamProvider>
+        <Alert
+          type={VariantType.INFO}
+          primaryLabel="Primary"
+          tertiaryLabel="Tertiary"
+        >
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+    expect(screen.getByRole("button", { name: "Primary" })).toHaveClass(
+      "c__alert__action",
+      "c__button--small",
+    );
+    expect(screen.getByRole("button", { name: "Tertiary" })).toHaveClass(
+      "c__alert__action",
+      "c__button--small",
+    );
+  });
+  it("renders actions given as a list of descriptors", async () => {
+    const onClick = vi.fn();
+    render(
+      <CunninghamProvider>
+        <Alert type={VariantType.INFO} actions={[{ label: "Undo", onClick }]}>
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+
+    const $action = screen.getByRole("button", { name: "Undo" });
+    expect($action).toHaveClass("c__alert__action");
+
+    await userEvent.click($action);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+  it("hides the icon when hideIcon is set", () => {
+    render(
+      <CunninghamProvider>
+        <Alert type={VariantType.INFO} hideIcon>
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+    expect(document.querySelector(".c__alert__icon")).toBeNull();
+  });
   it("renders custom buttons via buttons props", () => {
     render(
       <CunninghamProvider>
