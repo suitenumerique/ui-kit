@@ -1,32 +1,21 @@
 import React from "react";
 import { AlertProps } from ":/components/alert/index";
 import {
-  AlertButtons,
-  AlertClose,
-  AlertIcon,
+  alertActionProps,
+  alertContentProps,
   AlertWrapper,
 } from ":/components/alert/Utils";
+import { NotificationContent } from ":/components/notification/NotificationContent";
 
 export const AlertOneLine = (props: AlertProps) => {
-  const hasActions =
-    props.canClose ||
-    props.primaryLabel ||
-    props.tertiaryLabel ||
-    props.buttons;
   return (
     <AlertWrapper {...props}>
-      <div className="c__alert__content">
-        <div className="c__alert__content__left">
-          {props.children}
-          <AlertIcon {...props} />
-        </div>
-        {hasActions && (
-          <div className="c__alert__actions">
-            <AlertButtons {...props} />
-            <AlertClose {...props} />
-          </div>
-        )}
-      </div>
+      <NotificationContent
+        {...alertContentProps(props)}
+        {...alertActionProps(props)}
+      >
+        {props.children}
+      </NotificationContent>
     </AlertWrapper>
   );
 };

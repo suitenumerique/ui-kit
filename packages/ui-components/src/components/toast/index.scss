@@ -1,4 +1,7 @@
 @use "../../utils/responsive" as *;
+@use "../notification/content" as notification;
+
+@include notification.notification-content("c__toast");
 
 @mixin toast-variant($context) {
   border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
@@ -15,7 +18,7 @@
     color: var(--c--contextuals--content--semantic--#{$context}--secondary);
   }
 
-  .c__toast__content__actions .c__toast__content__action {
+  .c__toast__actions .c__toast__action {
     color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
 
     &:hover {
@@ -169,20 +172,14 @@
     }
   }
 
+  // Structure comes from the shared notification mixin included above; only the
+  // toast-specific metrics and colours live here.
   &__content {
-    display: flex;
-    align-items: center;
     flex: 1;
-    min-width: 0;
     min-height: 32px;
-    gap: 10px;
     padding: 0 var(--c--globals--spacings--3xs, 4px);
 
     &__children {
-      display: flex;
-      align-items: center;
-      flex: 1 1 auto;
-      min-width: 0;
       font-size: var(--c--globals--font--sizes--sm, 14px);
     }
 
@@ -197,51 +194,13 @@
       white-space: nowrap;
       color: var(--c--contextuals--content--semantic--brand--secondary);
     }
+  }
 
-    &__actions {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      gap: 7px;
-      margin-inline-start: auto;
+  &__actions &__action {
+    color: var(--c--contextuals--content--semantic--brand--tertiary);
 
-      // Deliberately two classes: `primaryLabel` renders through Button, so
-      // these have to win over the `.c__button` base styles.
-      .c__toast__content__action,
-      .c__button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 32px;
-        min-height: 32px;
-        min-width: 32px;
-        padding: 0 var(--c--globals--spacings--xs, 8px);
-        border: 1px solid transparent;
-        border-radius: var(--c--globals--spacings--3xs, 4px);
-        background: transparent;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: var(--c--globals--font--sizes--base, 16px);
-        font-weight: 500;
-        line-height: var(--c--globals--line-heights--md, 22px);
-        color: var(--c--contextuals--content--semantic--brand--tertiary);
-
-        &:hover {
-          background: var(
-            --c--contextuals--background--semantic--brand--tertiary
-          );
-        }
-
-        &:focus-visible {
-          outline: 2px solid
-            var(--c--contextuals--border--semantic--brand--primary);
-          outline-offset: 2px;
-        }
-      }
-    }
-
-    &__buttons {
-      flex-shrink: 0;
+    &:hover {
+      background: var(--c--contextuals--background--semantic--brand--tertiary);
     }
   }
 }

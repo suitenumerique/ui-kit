@@ -1,0 +1,52 @@
+// Layout shared by `Alert` and `Toast`, mirroring `NotificationContent`.
+// Colours stay in each component's own variant mixin: only the structure and
+// the button metrics are unified here.
+@mixin notification-content($block) {
+  .#{$block}__content {
+    display: flex;
+    align-items: center;
+    gap: var(--c--globals--spacings--xs, 8px);
+    min-width: 0;
+
+    &__children {
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .#{$block}__actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--c--globals--spacings--xs, 8px);
+    margin-inline-start: auto;
+  }
+
+  // Deliberately two classes: `primaryLabel` and `tertiaryLabel` render through
+  // Button, so these have to win over the `.c__button` base styles. Nodes given
+  // through `actions` or `buttons` are left alone, they carry their own look.
+  .#{$block}__actions .#{$block}__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    padding: 0 var(--c--globals--spacings--xs, 8px);
+    border: 1px solid transparent;
+    border-radius: var(--c--globals--spacings--3xs, 4px);
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--c--globals--font--sizes--base, 16px);
+    font-weight: 500;
+    line-height: var(--c--globals--line-heights--md, 22px);
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+}

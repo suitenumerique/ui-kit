@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import type { Id, UpdateOptions } from "react-toastify";
+import { NotificationAction } from ":/components/notification/types";
 
 export type ToastId = Id;
 
@@ -20,10 +21,7 @@ export type ToastDismissParams = {
   containerId: ToastId;
 };
 
-export type ToastAction = {
-  label: string;
-  onClick: () => void;
-};
+export type ToastAction = NotificationAction;
 
 export type ToastExtendedItemStatus = "completed" | "loading";
 

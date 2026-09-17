@@ -1,9 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import classNames from "classnames";
-import { Button } from ":/components/button";
 import { AlertProps } from ":/components/alert/index";
-import { useCunningham } from ":/components/provider";
-import { iconFromType } from ":/utils/VariantUtils";
+import { iconFromType, VariantType } from ":/utils/VariantUtils";
 
 export const AlertWrapper = (props: AlertProps) => {
   return (
@@ -22,63 +20,34 @@ export const AlertWrapper = (props: AlertProps) => {
   );
 };
 
-export const AlertIcon = ({ type, ...props }: AlertProps) => {
-  const icon = useMemo(() => iconFromType(type), [type]);
-  if (props.icon) {
-    return props.icon;
-  }
-  if (!icon) {
-    return null;
-  }
-  return (
-    <div className="c__alert__icon">
-      <span className="material-icons">{icon}</span>
-    </div>
-  );
+// `neutral` has no icon of its own, hence the undefined.
+export const alertDefaultIcon = (type?: VariantType) => {
+  const icon = iconFromType(type);
+  return icon ? <span className="material-icons">{icon}</span> : undefined;
 };
 
-export const AlertClose = (props: AlertProps) => {
-  const { t } = useCunningham();
-  return (
-    props.canClose && (
-      <Button
-        color={props.type}
-        variant="tertiary"
-        size="small"
-        icon={<span className="material-icons">close</span>}
-        aria-label={t("components.alert.close_aria_label")}
-        onClick={() => {
-          props.onClose?.(true);
-        }}
-      />
-    )
-  );
-};
+export const alertContentProps = (props: AlertProps) => ({
+  block: "c__alert" as const,
+  type: props.type,
+  icon: props.icon,
+  defaultIcon: alertDefaultIcon(props.type),
+  hideIcon: props.hideIcon,
+  // The expandable variant routes its toggle button through `icon`, and hiding
+  // it would take an interactive control away from assistive technologies.
+  iconAriaHidden: props.expandable ? undefined : true,
+  canClose: props.canClose,
+  onClose: props.onClose,
+});
 
-export const AlertButtons = (props: AlertProps) => {
-  return (
-    <>
-      {props.tertiaryLabel && (
-        <Button
-          variant="tertiary"
-          color={props.type}
-          onClick={props.tertiaryOnClick}
-          {...props.tertiaryProps}
-        >
-          {props.tertiaryLabel}
-        </Button>
-      )}
-      {props.primaryLabel && (
-        <Button
-          color={props.type}
-          variant="secondary"
-          onClick={props.primaryOnClick}
-          {...props.primaryProps}
-        >
-          {props.primaryLabel}
-        </Button>
-      )}
-      {props.buttons}
-    </>
-  );
-};
+export const alertActionProps = (props: AlertProps) => ({
+  block: "c__alert" as const,
+  type: props.type,
+  actions: props.actions,
+  buttons: props.buttons,
+  primaryLabel: props.primaryLabel,
+  primaryOnClick: props.primaryOnClick,
+  primaryProps: props.primaryProps,
+  tertiaryLabel: props.tertiaryLabel,
+  tertiaryOnClick: props.tertiaryOnClick,
+  tertiaryProps: props.tertiaryProps,
+});

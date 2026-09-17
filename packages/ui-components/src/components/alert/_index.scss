@@ -1,3 +1,7 @@
+@use "../notification/content" as notification;
+
+@include notification.notification-content("c__alert");
+
 @mixin alert-variant($context) {
   background-color: color-mix(
     in srgb,
@@ -10,6 +14,16 @@
   color: var(--c--contextuals--content--semantic--#{$context}--primary) !important;
   .c__alert__icon {
     color: var(--c--contextuals--content--semantic--#{$context}--primary);
+  }
+
+  .c__alert__actions .c__alert__action {
+    color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
+
+    &:hover {
+      background: var(
+        --c--contextuals--background--semantic--#{$context}--secondary
+      );
+    }
   }
 
   .c__alert__additional {
@@ -43,27 +57,25 @@
     }
   }
 
+  // Structure comes from the shared notification mixin included above.
   &__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     // We want to maintain the same height as when a button is present.
     min-height: 2.25rem;
+  }
 
-    &__left {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      // For accessibility reasons, we want to make sure that the text is the first thing that is read.
-      flex-direction: row-reverse;
+  &__actions &__action {
+    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+
+    &:hover {
+      background: var(
+        --c--contextuals--background--semantic--neutral--secondary
+      );
     }
   }
 
   &-additional {
     &__buttons {
-      display: flex;
       justify-content: flex-end;
-      gap: 0.5rem;
     }
   }
 
@@ -72,12 +84,6 @@
     .c__alert__additional {
       padding-left: 2rem;
     }
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
   &--info {
