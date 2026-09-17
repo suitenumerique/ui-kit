@@ -10,6 +10,7 @@ import * as frFR from ":/locales/fr-FR.json";
 import { PartialNested } from ":/types";
 import { Locales } from ":/components/provider/Locales";
 import { ToastProvider } from ":/components/toast/ToastProvider";
+import { ToastPosition } from ":/components/toast/types";
 import { ModalProvider } from ":/components/modal/ModalProvider";
 
 type TranslationSet = PartialNested<typeof enUS>;
@@ -35,6 +36,8 @@ interface Props extends PropsWithChildren {
   currentLocale?: string;
   theme?: string;
   modalParentSelector?: () => HTMLElement;
+  /** Corner toasts sit in. The slide follows that side. Defaults to `bottom-left`. */
+  toastPosition?: ToastPosition;
 }
 
 export const DEFAULT_LOCALE = Locales.enUS;
@@ -59,6 +62,7 @@ export const CunninghamProvider = ({
   customLocales,
   theme = DEFAULT_THEME,
   modalParentSelector,
+  toastPosition,
   children,
 }: Props) => {
   const locales: Record<string, TranslationSet> = useMemo(
@@ -110,7 +114,9 @@ export const CunninghamProvider = ({
     <CunninghamContext.Provider value={context}>
       <ModalProvider modalParentSelector={modalParentSelector}>
         <div className="c__app">
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider position={toastPosition}>
+            {children}
+          </ToastProvider>
         </div>
       </ModalProvider>
     </CunninghamContext.Provider>

@@ -1,16 +1,34 @@
-import React, { PropsWithChildren, useContext, useMemo, useRef } from "react";
-import isChromatic from "chromatic/isChromatic";
+import React, { PropsWithChildren, useContext, useId, useMemo } from "react";
+import { ToastContainer, cssTransition, toast as notify } from "react-toastify";
 import { Toast, ToastProps } from ":/components/toast/index";
-import { tokens } from ":/cunningham-tokens";
-import { Queue } from ":/utils/Queue";
+import { ToastExtendedContent } from ":/components/toast/ToastExtendedContent";
 import { VariantType } from ":/utils/VariantUtils";
+import {
+  ToastDismissParams,
+  ToastExtendedOptions,
+  ToastId,
+  ToastPosition,
+  ToastUpdateOptions,
+} from "./types";
+
+const ToastSlide = cssTransition({
+  enter: "c__toast__wrapper--slide-in",
+  exit: "c__toast__wrapper--slide-out",
+});
+
+const slideSideFromPosition = (position: ToastPosition) =>
+  position.includes("right") ? "right" : "left";
 
 export interface ToastProviderContext {
   toast: (
     message: string,
     type?: VariantType,
     options?: Partial<Omit<ToastInterface, "message" | "type">>,
-  ) => void;
+  ) => ToastId;
+  /** Collapsible list of items with a progress summary, for file transfers. */
+  toastExtended: (options: ToastExtendedOptions) => ToastId;
+  updateToast: (id: ToastId, options?: ToastUpdateOptions) => void;
+  dismissToast: (params?: ToastId | ToastDismissParams) => void;
 }
 
 const ToastContext = React.createContext<ToastProviderContext | undefined>(
@@ -30,116 +48,98 @@ type ToastInterface = ToastProps & {
   message: string;
 };
 
-let toastsCounter = 1;
 const DEFAULT_TOAST_DURATION = 6000;
 
-const getSlideInDuration = (): number => {
-  return parseInt(
-    tokens.themes.default.components.toast["slide-in-duration"].replace(
-      "ms",
-      "",
-    ),
-    10,
-  );
-};
+// `neutral` is our name for what react-toastify calls the untyped toast.
+const toastifyType = (type: VariantType) =>
+  type === VariantType.NEUTRAL ? "default" : type;
 
-export const ToastProvider = ({ children }: PropsWithChildren) => {
-  const container = useRef<HTMLDivElement>(null);
-  const previousContainerHeight = useRef(0);
-  const [list, setList] = React.useState<ToastInterface[]>([]);
-  const queue = useRef(new Queue());
+export interface ToastProviderProps extends PropsWithChildren {
+  /** Corner the toast sits in. The slide follows that side. Defaults to `bottom-left`. */
+  position?: ToastPosition;
+  /**
+   * Pins the container to a known id. Each provider is already isolated with a
+   * generated one, so this is only needed to target it from somewhere else.
+   */
+  containerId?: string;
+}
+
+export const ToastProvider = ({
+  children,
+  position = "bottom-left",
+  containerId,
+}: ToastProviderProps) => {
+  // `toast()` dispatches globally, so without an id every container would
+  // compete for the default one and the last mounted would win. Scoping each
+  // provider to its own container keeps notifications where they were raised,
+  // which is what resolving the provider through context used to guarantee.
+  const ownId = useId();
+  const target = containerId ?? ownId;
 
   const context: ToastProviderContext = useMemo(
     () => ({
       toast: (message, type = VariantType.NEUTRAL, options = {}) => {
-        // We want to wait for the previous toast to be added ( taking into account the animation )
-        // before adding a new one, that's why we use a queue.
-        queue.current?.push(
-          () =>
-            new Promise<void>((resolve) => {
-              // We need to snapshot the value as the setList execution is async.
-              const currentIndex = toastsCounter;
-              toastsCounter += 1;
-              previousContainerHeight.current = container.current!.offsetHeight;
-              setList((currentList) => {
-                return [
-                  ...currentList,
-                  {
-                    ...options,
-                    message,
-                    i: currentIndex,
-                    type,
-                    duration: options?.duration ?? DEFAULT_TOAST_DURATION,
-                  },
-                ];
-              });
-
-              setTimeout(() => {
-                // We consider that the toast is added when its animation is done.
-                resolve();
-              }, getSlideInDuration());
-            }),
+        const duration = options.duration ?? DEFAULT_TOAST_DURATION;
+        return notify(
+          <Toast {...options} type={type} duration={duration}>
+            {message}
+          </Toast>,
+          {
+            type: toastifyType(type),
+            // `disableAnimate` used to opt out of the dismissal timer.
+            autoClose: options.disableAnimate ? false : duration,
+            icon: false,
+            onClose: options.onDelete,
+            containerId: target,
+          },
         );
       },
+      toastExtended: ({
+        autoClose = false,
+        containerId: override,
+        ...options
+      }) =>
+        notify(
+          <div className="c__toast c__toast--extended">
+            <ToastExtendedContent {...options} />
+          </div>,
+          {
+            type: "default",
+            autoClose,
+            icon: false,
+            containerId: override ?? target,
+          },
+        ),
+      updateToast: (id, options) =>
+        notify.update(id, { containerId: target, ...options }),
+      dismissToast: (params) =>
+        notify.dismiss(
+          typeof params === "object"
+            ? params
+            : { id: params, containerId: target },
+        ),
     }),
-    [container, previousContainerHeight, list],
+    [target],
   );
-
-  const animateContainer = async () => {
-    if (!container.current) {
-      return;
-    }
-    // FLIP pattern: https://aerotwist.com/blog/flip-your-animations/
-    // FIRST
-    const first = previousContainerHeight.current;
-
-    // LAST
-    const last = container.current.offsetHeight;
-
-    // INVERT
-    const invert = last - first;
-
-    // PLAY
-    // We need to check if the animate function exists because it's not available in some testing environments ( like jest-dom )
-    if (typeof container.current.animate === "function" && !isChromatic()) {
-      container.current.animate(
-        [
-          { transform: `translateY(${invert}px)` },
-          { transform: "translateY(0)" },
-        ],
-        {
-          duration: getSlideInDuration(),
-          easing: "ease",
-        },
-      );
-    }
-  };
-
-  // We only want this to be triggered when an item gets ADDED to the list, not when
-  // it gets removed, that's why we use toastsCounter as a dependency and not only
-  // list.
-  React.useEffect(() => {
-    animateContainer();
-  }, [toastsCounter]);
 
   return (
     <ToastContext.Provider value={context}>
       {children}
-      <div className="c__toast__container" ref={container}>
-        {list.map((toast) => (
-          <Toast
-            key={toast.i}
-            onDelete={() => {
-              setList((value) => {
-                return value.filter((t) => t.i !== toast.i);
-              });
-            }}
-            {...toast}
-          >
-            {toast.message}
-          </Toast>
-        ))}
-      </div>
+      <ToastContainer
+        className={`c__toast__container c__toast__container--slide-${slideSideFromPosition(position)}`}
+        toastClassName="c__toast__wrapper"
+        position={position}
+        containerId={target}
+        autoClose={DEFAULT_TOAST_DURATION}
+        hideProgressBar
+        // The dismissal timer used to be a plain timeout, so it kept running
+        // when the window lost focus. Keep it that way.
+        pauseOnFocusLoss={false}
+        closeOnClick={false}
+        closeButton={false}
+        draggable={false}
+        transition={ToastSlide}
+      />
     </ToastContext.Provider>
   );
 };

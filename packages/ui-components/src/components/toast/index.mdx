@@ -31,6 +31,22 @@ const App = () => (
   `}
 />
 
+Pass `toastPosition` on `CunninghamProvider` to choose the corner. The toast
+slides in from that same side: `bottom-left` (default) arrives from the left,
+`bottom-right` sits on the right and arrives from the right.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+<CunninghamProvider toastPosition="bottom-right">
+  <InnerApp />
+</CunninghamProvider>
+`}/>
+
+You can also wrap a subtree in `ToastProvider` with `position`.
+
 And then simply use the `toast` function from `useToastProvider` hook.
 
 <Source
@@ -53,15 +69,34 @@ You can also customize the appearance of the toast with the `toast` function. Se
 
 <ArgTypes of={toast} />
 
+## Position
+
+`toastPosition` is one of `top-left`, `top-center`, `top-right`, `bottom-left`
+(default), `bottom-center`, `bottom-right`. The slide follows the side: a toast
+on the right arrives from the right.
+
+<Canvas of={Stories.PositionBottomRight} />
+<Canvas of={Stories.PositionTopRight} />
+<Canvas of={Stories.SlideFromRight} />
+
 ## Type
 
-Toast can be of different types, each type has a different color and icon.
+Toast can be of different types; each type has a different color. The leading
+icon is an arrow by default. Pass `icon` to replace it, or `hideIcon` to hide it.
 
 <Canvas of={Stories.Info} />
 <Canvas of={Stories.Success} />
 <Canvas of={Stories.Warning} />
 <Canvas of={Stories.Error} />
 <Canvas of={Stories.Neutral} />
+
+Pass `icon` to replace the default arrow.
+
+<Canvas of={Stories.CustomIcon} />
+
+Pass `hideIcon` to show no leading icon.
+
+<Canvas of={Stories.HiddenIcon} />
 
 ## Actions
 
@@ -74,6 +109,68 @@ You can quickly add an action to your toast by passing `primaryLabel` and `prima
 You can customize the appearance of the toast by passing `actions` when calling `toast` function.
 
 <Canvas of={Stories.InfoCustom} />
+
+`actions` also accepts a list of `{ label, onClick }` descriptors, rendered as borderless
+buttons tinted to match the toast type.
+
+<Canvas of={Stories.WithActions} />
+
+## Progress
+
+Pass `progress` to display a completion percentage next to the message.
+
+<Canvas of={Stories.WithProgress} />
+
+## Stacking
+
+Toasts stack: several of them can be on screen at once, the newest at the bottom.
+
+<Canvas of={Stories.Stacked} />
+
+## Updating and dismissing
+
+`toast` returns an id you can use to update or dismiss a toast later. `useToastProvider`
+exposes `updateToast` and `dismissToast` for that.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const { toast, dismissToast } = useToastProvider();
+
+const id = toast("File moved", VariantType.SUCCESS, {
+  actions: [{ label: "Cancel", onClick: () => {
+    undoMove();
+    dismissToast(id);
+  }}],
+});
+`}/>
+
+## Extended toast
+
+`toastExtended` displays a collapsible list of items with a progress summary, for file
+transfers. It stays on screen until dismissed unless you pass `autoClose`.
+
+<Canvas of={Stories.Extended} />
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const { toastExtended, dismissToast } = useToastProvider();
+
+const id = toastExtended({
+  summary: "3 documents in transfer",
+  progress: 15,
+  items: [
+    { id: "1", title: "Presentation on Monet", size: "12 GB", mimetype: "application/vnd.ms-powerpoint", status: "completed" },
+    { id: "2", title: "Flower wallpaper", mimetype: "image/jpeg", status: "loading" },
+  ],
+  onClose: () => dismissToast(id),
+});
+`}/>
 
 ## Props
 
@@ -88,10 +185,12 @@ Here a the custom design tokens defined by the Toast.
 
 | Token        	| Description                 	|
 |---------------	|-----------------------------	|
-| slide-in-duration   | Time the toast takes to slide in 	|
-| slide-out-duration 	| Time the toast takes to slide out	|
-| background-color 	| Default background color 	|
-| color 	| Color of the content	|
-| font-weight 	| Font weight of the content 	|
 | icon-size 	| Size of the left icon	|
 | progress-bar-height 	| Height of the progress bar	|
+
+The toast now takes its colors and typography from the semantic tokens
+(`contextuals.background.surface`, `contextuals.content.semantic.*`) like the rest of the
+recent components, so `background-color`, `color` and `font-weight` are no longer read.
+Slide durations are handled by the transition and no longer read from
+`slide-in-duration` / `slide-out-duration`. Those four tokens are still defined, so
+overriding them stays valid, but it has no effect.
