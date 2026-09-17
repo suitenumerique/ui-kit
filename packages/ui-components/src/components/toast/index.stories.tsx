@@ -74,6 +74,14 @@ export const InfoWithButton: Story = {
   },
 };
 
+export const WithLabelledButtons: Story = {
+  args: {
+    type: VariantType.INFO,
+    tertiaryLabel: "Later",
+    primaryLabel: "Retry",
+  },
+};
+
 export const InfoCustom: Story = {
   args: {
     type: VariantType.INFO,
@@ -171,6 +179,25 @@ export const WithActions: Story = {
           }}
         >
           Create toast with actions
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const Closable: Story = {
+  render: () => {
+    const { toast } = useToastProvider();
+    return (
+      <div style={{ height: "300px" }}>
+        <Button
+          onClick={() =>
+            toast("Document 1 moved to Document 2", VariantType.INFO, {
+              canClose: true,
+            })
+          }
+        >
+          Create closable toast
         </Button>
       </div>
     );

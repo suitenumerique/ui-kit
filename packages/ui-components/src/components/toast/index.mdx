@@ -101,19 +101,26 @@ Pass `hideIcon` to show no leading icon.
 ## Actions
 
 You can quickly add an action to your toast by passing `primaryLabel` and `primaryOnClick` props to the `toast` function.
+`tertiaryLabel`, `tertiaryOnClick`, `primaryProps` and `tertiaryProps` are available too.
 
 <Canvas of={Stories.InfoWithButton} />
-
-## Customize
-
-You can customize the appearance of the toast by passing `actions` when calling `toast` function.
-
-<Canvas of={Stories.InfoCustom} />
+<Canvas of={Stories.WithLabelledButtons} />
 
 `actions` also accepts a list of `{ label, onClick }` descriptors, rendered as borderless
 buttons tinted to match the toast type.
 
 <Canvas of={Stories.WithActions} />
+
+Pass `canClose` to append a close button that dismisses the toast.
+
+<Canvas of={Stories.Closable} />
+
+## Customize
+
+You can customize the appearance of the toast by passing a node as `actions` when calling
+the `toast` function. Unlike the descriptors above, a node keeps whatever look you give it.
+
+<Canvas of={Stories.InfoCustom} />
 
 ## Progress
 
@@ -171,6 +178,14 @@ const id = toastExtended({
   onClose: () => dismissToast(id),
 });
 `}/>
+
+## Shared content with `Alert`
+
+`Toast` and [`Alert`](?path=/docs/components-alert--docs) render their message row
+through the same internal component, so the structure, the button placement and the
+props match: `icon`, `hideIcon`, `actions`, `primaryLabel`, `tertiaryLabel` and
+`canClose` behave the same on both. Only the surrounding chrome differs, each keeping
+its own background, border and spacing.
 
 ## Props
 
