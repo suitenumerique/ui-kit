@@ -37,6 +37,7 @@ export const ShareModalExample = ({
   canUpdate?: boolean;
   canView?: boolean;
   allowFileImport?: boolean;
+  isRestricted?: boolean;
   importFails?: boolean;
 }) => {
   const [userQuery, setUserQuery] = useState("");
