@@ -2,7 +2,9 @@
 
 @mixin toast-variant($context) {
   border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
-  background: var(--c--contextuals--background--semantic--#{$context}--tertiary);
+  background: var(
+    --c--contextuals--background--semantic--#{$context}--tertiary
+  );
 
   .c__toast__icon,
   .c__toast__content__message {
@@ -73,7 +75,7 @@
   word-break: normal;
 
   &--info {
-    @include toast-variant("info");
+    @include toast-variant("brand");
   }
 
   &--success {
@@ -182,7 +184,9 @@
   }
 
   .c__progress-bar {
-    --c--progress--color: var(--c--contextuals--background--semantic--neutral--primary);
+    --c--progress--color: var(
+      --c--contextuals--background--semantic--neutral--primary
+    );
   }
 }
 
@@ -194,7 +198,9 @@
 
 .c__progress-bar {
   height: var(--c--components--toast--progress-bar-height);
-  --c--progress--color: var(--c--contextuals--background--semantic--brand--primary);
+  --c--progress--color: var(
+    --c--contextuals--background--semantic--brand--primary
+  );
 
   &__content {
     height: 100%;
