@@ -124,12 +124,12 @@ describe("<Toast />", () => {
   });
 
   it.each([
-    [VariantType.INFO, "info"],
-    [VariantType.SUCCESS, "check_circle"],
-    [VariantType.WARNING, "error_outline"],
-    [VariantType.ERROR, "cancel"],
-    [VariantType.NEUTRAL, undefined],
-  ])("shows a %s toast", async (type, iconName) => {
+    VariantType.INFO,
+    VariantType.SUCCESS,
+    VariantType.WARNING,
+    VariantType.ERROR,
+    VariantType.NEUTRAL,
+  ])("shows a %s toast with the default arrow icon", async (type) => {
     const Inner = () => {
       const { toast } = useToastProvider();
       return (
@@ -144,20 +144,57 @@ describe("<Toast />", () => {
     const user = userEvent.setup();
     const button = screen.getByText("Create toast");
 
-    // No toast displayed.
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
 
     await user.click(button);
 
-    // Toast displayed.
     const toast = await screen.findByRole("alert");
     expect(toast).toHaveTextContent("Toast content");
-    if (iconName === undefined) {
-      const icon = document.querySelector(".c__toast__icon");
-      expect(icon).not.toBeInTheDocument();
-    } else {
-      const icon = document.querySelector(".c__toast__icon");
-      expect(icon).toHaveTextContent(iconName);
-    }
+    expect(toast.querySelector(".c__toast__icon svg")).toBeInTheDocument();
+  });
+
+  it("lets icon replace the default arrow", async () => {
+    const Inner = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button
+          onClick={() =>
+            toast("Toast content", VariantType.INFO, {
+              icon: <span data-testid="custom-icon">!</span>,
+            })
+          }
+        >
+          Create toast
+        </Button>
+      );
+    };
+
+    render(<Inner />, { wrapper: Wrapper });
+    await userEvent.setup().click(screen.getByText("Create toast"));
+
+    const toast = await screen.findByRole("alert");
+    expect(within(toast).getByTestId("custom-icon")).toBeInTheDocument();
+    expect(toast.querySelector(".c__toast__icon svg")).not.toBeInTheDocument();
+  });
+
+  it("hides the icon when hideIcon is set", async () => {
+    const Inner = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button
+          onClick={() =>
+            toast("Toast content", VariantType.INFO, { hideIcon: true })
+          }
+        >
+          Create toast
+        </Button>
+      );
+    };
+
+    render(<Inner />, { wrapper: Wrapper });
+    await userEvent.setup().click(screen.getByText("Create toast"));
+
+    const toast = await screen.findByRole("alert");
+    expect(toast.querySelector(".c__toast__icon")).not.toBeInTheDocument();
   });
 });

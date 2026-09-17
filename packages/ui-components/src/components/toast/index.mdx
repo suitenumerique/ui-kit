@@ -55,13 +55,22 @@ You can also customize the appearance of the toast with the `toast` function. Se
 
 ## Type
 
-Toast can be of different types, each type has a different color and icon.
+Toast can be of different types; each type has a different color. The leading
+icon is an arrow by default. Pass `icon` to replace it, or `hideIcon` to hide it.
 
 <Canvas of={Stories.Info} />
 <Canvas of={Stories.Success} />
 <Canvas of={Stories.Warning} />
 <Canvas of={Stories.Error} />
 <Canvas of={Stories.Neutral} />
+
+Pass `icon` to replace the default arrow.
+
+<Canvas of={Stories.CustomIcon} />
+
+Pass `hideIcon` to show no leading icon.
+
+<Canvas of={Stories.HiddenIcon} />
 
 ## Actions
 

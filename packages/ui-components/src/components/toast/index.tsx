@@ -1,14 +1,9 @@
-import {
-  PropsWithChildren,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { PropsWithChildren, ReactNode, useEffect, useRef } from "react";
 import classNames from "classnames";
 import isChromatic from "chromatic/isChromatic";
 import { Button, ButtonProps } from ":/components/button";
-import { iconFromType, VariantType } from ":/utils/VariantUtils";
+import { ArrowRight } from ":/components/icon/icons/ArrowRight";
+import { VariantType } from ":/utils/VariantUtils";
 import { ToastAction } from "./types";
 
 export * from "./types";
@@ -18,6 +13,8 @@ export interface ToastProps extends PropsWithChildren {
   type: VariantType;
   onDelete?: () => void;
   icon?: ReactNode;
+  /** Hides the leading icon. The default is an arrow; pass `icon` to replace it. */
+  hideIcon?: boolean;
   primaryLabel?: string;
   primaryOnClick?: ButtonProps["onClick"];
   primaryProps?: ButtonProps;
@@ -102,7 +99,7 @@ export const Toast = ({ type, ...props }: ToastProps) => {
       })}
     >
       <div className="c__toast__content">
-        <ToastIcon {...props} type={type} />
+        <ToastIcon icon={props.icon} hideIcon={props.hideIcon} />
         <div className="c__toast__content__children">
           <span className="c__toast__content__message">{props.children}</span>
           {props.progress !== undefined && (
@@ -117,21 +114,16 @@ export const Toast = ({ type, ...props }: ToastProps) => {
   );
 };
 
-export const ToastIcon = ({ type, ...props }: ToastProps) => {
-  const icon = useMemo(() => iconFromType(type), [type]);
-  if (props.icon) {
-    return (
-      <div className="c__toast__icon" aria-hidden="true">
-        {props.icon}
-      </div>
-    );
-  }
-  if (!icon) {
+export const ToastIcon = ({
+  icon,
+  hideIcon,
+}: Pick<ToastProps, "icon" | "hideIcon">) => {
+  if (hideIcon) {
     return null;
   }
   return (
     <div className="c__toast__icon" aria-hidden="true">
-      <span className="material-icons">{icon}</span>
+      {icon ?? <ArrowRight size={24} />}
     </div>
   );
 };
