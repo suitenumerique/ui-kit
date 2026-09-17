@@ -54,10 +54,60 @@
   background: transparent;
   color: inherit;
   margin-bottom: var(--c--globals--spacings--xs, 8px);
+}
 
-  &:has(.c__toast--no-animate) {
-    animation: none;
+@keyframes c__toast-slide-in-left {
+  from {
+    transform: translate3d(-100vw, 0, 0);
   }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-in-right {
+  from {
+    transform: translate3d(100vw, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-out-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    transform: translate3d(-100vw, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-out-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+.c__toast__container--slide-left .c__toast__wrapper--slide-in {
+  animation: c__toast-slide-in-left 0.5s both;
+}
+
+.c__toast__container--slide-left .c__toast__wrapper--slide-out {
+  animation: c__toast-slide-out-left 0.3s ease-in both;
+}
+
+.c__toast__container--slide-right .c__toast__wrapper--slide-in {
+  animation: c__toast-slide-in-right 0.5s both;
+}
+
+.c__toast__container--slide-right .c__toast__wrapper--slide-out {
+  animation: c__toast-slide-out-right 0.3s ease-in both;
 }
 
 .c__toast {
@@ -136,7 +186,7 @@
     }
 
     &__progress {
-      margin-left: 10px;
+      margin-inline-start: 10px;
       font-weight: 400;
       white-space: nowrap;
       color: var(--c--contextuals--content--semantic--brand--secondary);
@@ -147,7 +197,7 @@
       align-items: center;
       flex-shrink: 0;
       gap: 7px;
-      margin-left: auto;
+      margin-inline-start: auto;
 
       // Deliberately two classes: `primaryLabel` renders through Button, so
       // these have to win over the `.c__button` base styles.
@@ -320,7 +370,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--c--contextuals--content--semantic--brand--tertiary);
 }
 
@@ -348,7 +398,7 @@
   gap: var(--c--globals--spacings--3xs, 4px);
   flex: 0 1 auto;
   min-width: 0;
-  padding-left: var(--c--globals--spacings--3xs, 4px);
+  padding-inline-start: var(--c--globals--spacings--3xs, 4px);
   font-size: var(--c--globals--font--sizes--sm, 14px);
   line-height: var(--c--globals--line-heights--sm, 18px);
 }
@@ -385,7 +435,7 @@
   align-items: center;
   gap: var(--c--globals--spacings--3xs, 4px);
   flex-shrink: 0;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .c__toast-extended__footer-action {

@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useContext, useId, useMemo } from "react";
-import { Slide, ToastContainer, toast as notify } from "react-toastify";
-import type { ToastPosition } from "react-toastify";
+import { ToastContainer, cssTransition, toast as notify } from "react-toastify";
 import { Toast, ToastProps } from ":/components/toast/index";
 import { ToastExtendedContent } from ":/components/toast/ToastExtendedContent";
 import { VariantType } from ":/utils/VariantUtils";
@@ -8,8 +7,17 @@ import {
   ToastDismissParams,
   ToastExtendedOptions,
   ToastId,
+  ToastPosition,
   ToastUpdateOptions,
 } from "./types";
+
+const ToastSlide = cssTransition({
+  enter: "c__toast__wrapper--slide-in",
+  exit: "c__toast__wrapper--slide-out",
+});
+
+const slideSideFromPosition = (position: ToastPosition) =>
+  position.includes("right") ? "right" : "left";
 
 export interface ToastProviderContext {
   toast: (
@@ -47,7 +55,7 @@ const toastifyType = (type: VariantType) =>
   type === VariantType.NEUTRAL ? "default" : type;
 
 export interface ToastProviderProps extends PropsWithChildren {
-  /** Where the container is anchored. Defaults to `bottom-left`. */
+  /** Corner the toast sits in. The slide follows that side. Defaults to `bottom-left`. */
   position?: ToastPosition;
   /**
    * Pins the container to a known id. Each provider is already isolated with a
@@ -118,7 +126,7 @@ export const ToastProvider = ({
     <ToastContext.Provider value={context}>
       {children}
       <ToastContainer
-        className="c__toast__container"
+        className={`c__toast__container c__toast__container--slide-${slideSideFromPosition(position)}`}
         toastClassName="c__toast__wrapper"
         position={position}
         containerId={target}
@@ -130,7 +138,7 @@ export const ToastProvider = ({
         closeOnClick={false}
         closeButton={false}
         draggable={false}
-        transition={Slide}
+        transition={ToastSlide}
       />
     </ToastContext.Provider>
   );

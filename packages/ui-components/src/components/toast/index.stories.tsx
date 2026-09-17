@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { ProgressBar, Toast } from ":/components/toast/index";
 import { CircleCheckFilled } from ":/components/icon/icons/CircleCheckFilled";
 import { Button } from ":/components/button";
-import { useToastProvider } from ":/components/toast/ToastProvider";
+import { ToastProvider, useToastProvider } from ":/components/toast/ToastProvider";
 import { VariantType } from ":/utils/VariantUtils";
 
 const meta: Meta<typeof Toast> = {
@@ -249,3 +249,46 @@ export const Extended: Story = {
     );
   },
 };
+
+const PositionTrigger = ({ label }: { label: string }) => {
+  const { toast } = useToastProvider();
+  return (
+    <div style={{ height: "300px" }}>
+      <Button
+        onClick={() =>
+          toast("Document moved", VariantType.INFO, {
+            disableAnimate: true,
+            progress: 15,
+          })
+        }
+      >
+        {label}
+      </Button>
+    </div>
+  );
+};
+
+export const PositionBottomRight: Story = {
+  render: () => (
+    <ToastProvider position="bottom-right">
+      <PositionTrigger label="Create toast (bottom-right)" />
+    </ToastProvider>
+  ),
+};
+
+export const PositionTopRight: Story = {
+  render: () => (
+    <ToastProvider position="top-right">
+      <PositionTrigger label="Create toast (top-right)" />
+    </ToastProvider>
+  ),
+};
+
+export const SlideFromRight: Story = {
+  render: () => (
+    <ToastProvider position="bottom-right">
+      <PositionTrigger label="Create toast (right, slides from the right)" />
+    </ToastProvider>
+  ),
+};
+

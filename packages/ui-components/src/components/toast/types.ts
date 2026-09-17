@@ -3,6 +3,14 @@ import type { Id, UpdateOptions } from "react-toastify";
 
 export type ToastId = Id;
 
+export type ToastPosition =
+  | "top-left"
+  | "top-right"
+  | "top-center"
+  | "bottom-left"
+  | "bottom-right"
+  | "bottom-center";
+
 export type ToastUpdateOptions = UpdateOptions;
 
 // react-toastify keeps the object form of `dismiss` params internal, so its type
