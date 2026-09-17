@@ -754,7 +754,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -1541,7 +1541,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -2303,7 +2303,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -3065,7 +3065,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -3830,7 +3830,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
@@ -4595,7 +4595,7 @@
 	--c--components--toast--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--color: var(--c--contextuals--content--semantic--neutral--primary);
 	--c--components--toast--font-weight: var(--c--globals--font--weights--regular);
-	--c--components--toast--icon-size: 19px;
+	--c--components--toast--icon-size: 24px;
 	--c--components--toast--progress-bar-height: 3px;
 	--c--components--tooltip--border-radius: 0.5rem;
 	--c--components--tooltip--background-color: var(--c--contextuals--background--semantic--neutral--tertiary);

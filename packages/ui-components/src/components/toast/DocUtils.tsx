@@ -22,6 +22,8 @@ export const toast = ({
   options?: {
     duration: number;
     icon?: ReactNode;
+    /** Hides the leading arrow. Pass `icon` to show something else instead. */
+    hideIcon?: boolean;
     primaryLabel?: string;
     primaryOnClick?: ButtonProps["onClick"];
     primaryProps?: ButtonProps;

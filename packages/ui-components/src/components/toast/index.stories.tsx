@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";
 import { ProgressBar, Toast } from ":/components/toast/index";
+import { CircleCheckFilled } from ":/components/icon/icons/CircleCheckFilled";
 import { Button } from ":/components/button";
 import { useToastProvider } from ":/components/toast/ToastProvider";
 import { VariantType } from ":/utils/VariantUtils";
@@ -106,6 +107,22 @@ export const Error: Story = {
 export const Neutral: Story = {
   args: {
     type: VariantType.NEUTRAL,
+  },
+};
+
+export const CustomIcon: Story = {
+  args: {
+    type: VariantType.SUCCESS,
+    icon: <CircleCheckFilled size={24} />,
+    children: "Document uploaded",
+  },
+};
+
+export const HiddenIcon: Story = {
+  args: {
+    type: VariantType.INFO,
+    hideIcon: true,
+    children: "Document 1 moved to Document 2",
   },
 };
 
