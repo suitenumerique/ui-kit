@@ -4,7 +4,6 @@ import { Input } from ":/components/forms/input";
 import { Checkbox } from ":/components/forms/checkbox";
 import { Button } from ":/components/button";
 import { Select } from ":/components/forms/select";
-import { CunninghamProvider } from ":/components/provider";
 import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Switch } from ":/components/forms/switch";
 
@@ -16,7 +15,7 @@ export const OverflowLabels = () => {
   const overflow = " and some very long overflowing text";
   const [files, setFiles] = useState<UploadFile[]>([]);
   return (
-    <CunninghamProvider>
+    <>
       <form
         style={{
           display: "flex",
@@ -94,6 +93,6 @@ export const OverflowLabels = () => {
           Need help ?
         </a>
       </form>
-    </CunninghamProvider>
+    </>
   );
 };
