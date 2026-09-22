@@ -181,6 +181,11 @@
     },
     "filePreview": {
       "title": "Dateivorschau",
+      "folderAccessDenied": {
+        "description": "Sie haben nicht die erforderlichen Berechtigungen, um diesen Ordner zu öffnen.",
+        "close": "Schließen",
+        "requestAccess": "Zugriff anfordern"
+      },
       "unsupported": {
         "title": "Nicht unterstützte Datei",
         "disclaimer": "Format nicht unterstützt.",

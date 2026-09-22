@@ -1,3 +1,4 @@
+import folderMini from ":/assets/files/icons/mime-folder-mini.svg";
 import { FilePreviewType } from "../types";
 import { getMimeCategory, ICONS } from "../utils/mimeTypes";
 import { getExtensionFromName } from "../utils/getExtensionFromName";
@@ -23,7 +24,8 @@ export const FileIcon = ({
     file.mimetype,
     getExtensionFromName(file.title),
   );
-  const icon = ICONS[type][category];
+  const specialIcon = getSpecial({file, size, type});
+  const icon = specialIcon ?? ICONS[type][category];
   return <FileIconContent icon={icon} size={size} />;
 };
 
@@ -46,4 +48,11 @@ export const FileIconContent = ({
         : {})}
     />
   );
+};
+
+const getSpecial = ({file, type}: FileIconProps) => {
+  if (file.isFolderAccessDenied && type == "mini") {
+    return folderMini;
+  }
+  return null;
 };
