@@ -273,7 +273,7 @@ export type {
 } from "./components/smart-scroller";
 
 export {
-  CustomTabs,
+  Tabs,
 } from "./components/tabs";
 
 export type {

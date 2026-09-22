@@ -1,0 +1,118 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as TabsStories from "./tabs.stories";
+
+<Meta of={TabsStories} name="Docs" />
+
+# Tabs
+
+`Tabs` switches between related panels without navigating away from the page.
+It follows the [horizontal tabs design in Figma](https://www.figma.com/design/hPwxE24MEaX3mBQ0KXNTSY/UI-kit?node-id=13516-883)
+and uses React Aria for selection, keyboard navigation, and tab/panel relationships.
+
+## Usage
+
+```tsx
+import { Tabs } from "@gouvfr-lasuite/ui-components";
+
+<Tabs
+  aria-label="Project"
+  tabs={[
+    { id: "overview", label: "Overview", content: <Overview /> },
+    { id: "activity", label: "Activity", content: <Activity /> },
+  ]}
+/>;
+```
+
+Import `@gouvfr-lasuite/ui-components/style` once and use the kit's
+`CunninghamProvider` to apply your theme. Typography and colors follow the active
+theme, including DSFR and dark themes.
+
+<Canvas of={TabsStories.Default} />
+
+## Variants
+
+The default variant uses a subtle background for hovered and selected tabs.
+The `line` variant uses a rounded underline for selection and a text color change
+on hover. The underline slides and resizes between selected tabs using the kit's
+animation timing. It moves instantly when reduced motion is enabled.
+Both use neutral colors. Default tabs are 26px high and line tabs are
+30px high with the standard spacing tokens.
+
+<Canvas of={TabsStories.Line} />
+
+## Icons
+
+Pass an icon element through `TabData.icon`. The component sizes it to 18px and
+hides it from assistive technology because the label names the tab. Existing
+Material Icon strings are also supported.
+
+```tsx
+import { Calendar2 } from "@gouvfr-lasuite/ui-components/icons";
+
+const tabs = [
+  {
+    id: "calendar",
+    label: "Calendar",
+    icon: <Calendar2 />,
+    content: <CalendarView />,
+  },
+];
+```
+
+<Canvas of={TabsStories.WithIcons} />
+<Canvas of={TabsStories.LineWithIcons} />
+
+Use `iconOnly: true` with an icon to hide the visible text. The required `label`
+remains the tab's accessible name. Prefer visible labels when icons are ambiguous.
+
+<Canvas of={TabsStories.IconOnly} />
+
+## Selection
+
+Without selection props, the first enabled tab is selected. Use
+`defaultSelectedTab` to choose the initial tab, or `selectedTab` and
+`onSelectionChange` to control selection. Tab IDs must be unique, stable strings.
+Inactive panels are unmounted; keep state that must survive tab changes in the
+parent component.
+
+<Canvas of={TabsStories.DefaultSelection} />
+<Canvas of={TabsStories.Controlled} />
+
+## Keyboard and accessibility
+
+Provide a meaningful `aria-label` describing the tab group, such as "Project"
+or "Account settings". Each panel is labelled by its tab.
+
+- Tab moves focus into the selected tab, then into its panel or focusable content.
+- Left and Right arrows move between enabled tabs and wrap at the ends.
+- Home and End move to the first and last enabled tabs.
+- Selection follows focus by default. With `keyboardActivation="manual"`, use
+  Enter or Space to activate the focused tab. This is useful for expensive panels.
+- Disabled tabs cannot be selected and are skipped during keyboard navigation.
+- Keyboard focus has a visible outline, including in forced-colors mode.
+
+<Canvas of={TabsStories.ManualActivation} />
+<Canvas of={TabsStories.Disabled} />
+
+## Width and overflow
+
+Tabs size to their labels by default. `fullWidth` distributes them equally across
+the available space. When labels cannot fit, the tab list scrolls horizontally
+without shrinking icons or wrapping labels. Panel width follows its container.
+
+<Canvas of={TabsStories.FullWidth} />
+<Canvas of={TabsStories.FullWidthLine} />
+<Canvas of={TabsStories.Overflow} />
+
+## Migration from the previous Tabs
+
+Rename existing `CustomTabs` imports and usages to `Tabs`. The `TabsProps` and
+`TabData` exports remain available, along with
+`tabs`, `defaultSelectedTab`, `fullWidth`, and Material Icon names. Add the now
+required `aria-label` to existing usages. The default appearance is now filled;
+use `variant="line"` for underlined tabs. Panels no longer add their own padding;
+put any desired content spacing inside the panel content.
+
+## Props
+
+<ArgTypes of={TabsStories} />
