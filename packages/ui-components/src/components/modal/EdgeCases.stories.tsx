@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Meta } from "@storybook/react";
 import { Button } from ":/components/button";
-import { CunninghamProvider } from ":/components/provider";
 import { Modal, ModalSize, useModal } from ":/components/modal/index";
 import longLorem from ":/components/modal/resources/longLorem.json";
 
@@ -41,7 +40,7 @@ export const StackedModals = {
     const array = Array.from({ length: 1000 }, (_, i) => i);
 
     return (
-      <CunninghamProvider>
+      <>
         <div
           style={{
             minHeight: "3000px",
@@ -99,7 +98,7 @@ export const StackedModals = {
             <div key={i}>{i}</div>
           ))}
         </div>
-      </CunninghamProvider>
+      </>
     );
   },
 };
