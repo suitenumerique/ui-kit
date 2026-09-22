@@ -15,6 +15,10 @@ interface TestFilePreviewProps {
   initialIndexFile?: number;
   handleDownloadFile?: (file?: FilePreviewType) => void;
   onClose?: () => void;
+  onRequestAccess?: (file: FilePreviewType) => void;
+  onOpenInEditor?: (file: FilePreviewType) => void;
+  hideCloseButton?: boolean;
+  currentLocale?: string;
   customHeaderActionsMode?: CustomHeaderActionsMode;
   extraMenuOptions?: MenuItemAction[];
 }
@@ -24,6 +28,10 @@ export const TestFilePreview = ({
   initialIndexFile = 0,
   handleDownloadFile,
   onClose,
+  onRequestAccess,
+  onOpenInEditor,
+  hideCloseButton,
+  currentLocale = "en-US",
   customHeaderActionsMode,
   extraMenuOptions,
 }: TestFilePreviewProps) => {
@@ -51,7 +59,7 @@ export const TestFilePreview = ({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CunninghamProvider currentLocale="en-US">
+      <CunninghamProvider currentLocale={currentLocale}>
         <FilePreview
           isOpen={true}
           files={files}
@@ -59,6 +67,9 @@ export const TestFilePreview = ({
           pdfWorkerSrc="/pdf.worker.mjs"
           handleDownloadFile={handleDownloadFile}
           onClose={onClose}
+          onRequestAccess={onRequestAccess}
+          onOpenInEditor={onOpenInEditor}
+          hideCloseButton={hideCloseButton}
           customHeaderActions={customHeaderActions}
           headerActionsMenuOptions={headerActionsMenuOptions}
         />

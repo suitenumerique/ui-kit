@@ -26,6 +26,8 @@ import mimeSQLiteMini from ":/assets/files/icons/mime-sqlite-mini.svg";
 import mimeGristMini from ":/assets/files/icons/mime-grist-mini.svg";
 
 import mimeArchive from ":/assets/files/icons/mime-archive.svg";
+import mimeFolderDenied from ":/assets/files/icons/mime-folder-restricted.svg";
+import mimeFolderDeniedMini from ":/assets/files/icons/mime-folder-mini.svg";
 import { getExtensionFromName } from "./getExtensionFromName";
 
 export enum MimeCategory {
@@ -42,6 +44,7 @@ export enum MimeCategory {
   SUSPICIOUS = "suspicious",
   SQLITE = "sqlite",
   GRIST = "grist",
+  DENIED = "denied",
 }
 
 export const ICONS = {
@@ -59,6 +62,7 @@ export const ICONS = {
     [MimeCategory.SUSPICIOUS]: mimeSuspicious,
     [MimeCategory.SQLITE]: mimeSQLiteMini,
     [MimeCategory.GRIST]: mimeGristMini,
+    [MimeCategory.DENIED]: mimeFolderDeniedMini,
   },
   normal: {
     [MimeCategory.DOCS]: mimeDocs,
@@ -74,6 +78,7 @@ export const ICONS = {
     [MimeCategory.SUSPICIOUS]: mimeSuspicious,
     [MimeCategory.SQLITE]: mimeSQLite,
     [MimeCategory.GRIST]: mimeGrist,
+    [MimeCategory.DENIED]: mimeFolderDenied,
   },
 };
 

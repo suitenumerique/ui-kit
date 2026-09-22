@@ -10,6 +10,8 @@ const queryClient = new QueryClient();
 interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
+  onRequestAccess?: (file: FilePreviewType) => void;
+  hideCloseButton?: boolean;
   customHeaderActions?: (headerActions: ReactNode) => ReactNode;
   headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
 }
@@ -17,6 +19,8 @@ interface FilePreviewExampleProps {
 export const FilePreviewExample = ({
   files,
   initialFileId,
+  onRequestAccess,
+  hideCloseButton,
   customHeaderActions,
   headerActionsMenuOptions,
 }: FilePreviewExampleProps) => {
@@ -42,6 +46,8 @@ export const FilePreviewExample = ({
           isOpen={!!openedFileId}
           openedFileId={openedFileId}
           files={files}
+          onRequestAccess={onRequestAccess}
+          hideCloseButton={hideCloseButton}
           pdfWorkerSrc={`${import.meta.env.BASE_URL}pdf.worker.mjs`}
           pdfAssetsUrl={import.meta.env.BASE_URL}
           onClose={() => setOpenedFileId(undefined)}

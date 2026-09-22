@@ -1,3 +1,4 @@
+import { fn } from "@storybook/test";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Title,
@@ -13,6 +14,7 @@ import {
   audioFiles,
   heicFile,
   imageFiles,
+  inaccessibleFolder,
   pdfFiles,
   suspiciousFile,
   unsupportedFiles,
@@ -38,6 +40,7 @@ import { Button } from ":/cunningham";
  * | PDF      | `PdfPreview`    | Virtualized pages, zoom, page input, thumbnail sidebar (lazy-loaded) |
  * | HEIC     | `NotSupportedPreview` | Fallback with download CTA (no native browser support) |
  * | Unknown  | `NotSupportedPreview` | Fallback with download CTA |
+ * | Inaccessible folder | `NoAccessPreview` | `isFolderAccessDenied: true` takes priority over all other viewers; no content is loaded |
  * | Flagged  | `SuspiciousPreview`   | Warning screen when `isSuspicious: true` |
  * | WOPI     | `WopiOpenInEditor`    | "Open in editor" CTA when `is_wopi_supported: true` and `onOpenInEditor` is provided |
  *
@@ -105,12 +108,13 @@ import { Button } from ":/cunningham";
  * | Property | Type | Description |
  * |----------|------|-------------|
  * | `id` | `string` | Stable identifier — used for `openedFileId` and React keys |
- * | `title` | `string` | Filename shown in the header (extension is stripped) |
+ * | `title` | `string` | Filename shown in the header (extension is stripped, except for inaccessible folders) |
  * | `mimetype` | `string` | Drives viewer selection (e.g. `image/jpeg`, `application/pdf`) |
  * | `size` | `number` | File size in bytes |
  * | `url` | `string` | Canonical URL of the file (used for download) |
  * | `url_preview` | `string` | URL passed to the viewer — can be a signed/short-lived variant |
  * | `is_wopi_supported` | `boolean?` | Show the "Open in editor" CTA instead of an inline viewer |
+ * | `isFolderAccessDenied` | `boolean?` | Defaults to false. The user cannot open this folder; do not set for restricted folders they can access |
  * | `isSuspicious` | `boolean?` | Show the suspicious-file warning screen |
  *
  * ## `FilePreviewProps`
@@ -126,11 +130,12 @@ import { Button } from ":/cunningham";
  * | `onChangeFile` | `(file?: FilePreviewType) => void` | Fires on prev/next — sync your `openedFileId` here |
  * | `onFileOpen` | `(file: FilePreviewType) => void` | Fires once per file when it becomes visible |
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
+ * | `onRequestAccess` | `(file: FilePreviewType) => void` | Enables Request access for inaccessible folders; the app owns processing and feedback. Leaves the preview open |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
  * | `customHeaderActions` | `(headerActions: ReactNode) => ReactNode` | Wraps the built-in header actions — receives them as a node so you can add nodes around them or replace the group entirely |
  * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_horiz`) menu with extra entries — appended after Download / Print on PDF and image files |
  * | `sidebarContent` | `ReactNode` | Content of the right-side info panel (toggled with the `info` button) |
- * | `hideCloseButton` | `boolean?` | Remove the top-left close button |
+ * | `hideCloseButton` | `boolean?` | Remove the header and inaccessible-folder close buttons |
  * | `pdfWorkerSrc` | `string?` | Override the `pdf.worker.mjs` URL passed to `pdfjs-dist` |
  * | `pdfAssetsUrl` | `string?` | Base URL where the `pdfjs-dist` `wasm/`, `standard_fonts/` and `cmaps/` folders are served (defaults to `/`) |
  *
@@ -146,6 +151,9 @@ import { Button } from ":/cunningham";
  * - `url_preview` is intentionally separate from `url` so you can serve a
  *   short-lived signed URL to the viewer while keeping the canonical URL for
  *   downloads.
+ * - Inaccessible folders keep the required fields: supply empty `mimetype`,
+ *   `url`, and `url_preview`, and `size: 0`. Their names are preserved verbatim.
+ *   Header actions remain under the consuming app's control.
  * - PDF rendering is code-split. The first PDF open triggers the chunk
  *   download; subsequent opens are instant.
  */
@@ -211,6 +219,11 @@ const meta: Meta<typeof FilePreview> = {
       description: "Enables the download button + menu entry",
       control: false,
     },
+    onRequestAccess: {
+      description:
+        "Request folder access without closing; the app owns feedback",
+      control: false,
+    },
     onOpenInEditor: {
       description: 'Required to render the WOPI "Open in editor" CTA',
       control: false,
@@ -230,7 +243,7 @@ const meta: Meta<typeof FilePreview> = {
       control: false,
     },
     hideCloseButton: {
-      description: "Remove the top-left close button",
+      description: "Remove the header and inaccessible-folder close buttons",
       control: "boolean",
     },
     pdfWorkerSrc: {
@@ -406,4 +419,50 @@ export const CustomHeaderActions: Story = {
  */
 export const AllFiles: Story = {
   render: () => <FilePreviewExample files={allFiles} />,
+};
+
+/** Request access emits the current folder in the Actions panel and stays open. */
+export const FolderAccessDenied: Story = {
+  args: {
+    files: [inaccessibleFolder],
+    hideCloseButton: false,
+    onRequestAccess: fn(),
+  },
+  render: (args) => (
+    <FilePreviewExample
+      files={args.files!}
+      onRequestAccess={args.onRequestAccess}
+      hideCloseButton={args.hideCloseButton}
+    />
+  ),
+};
+
+/** Without a handler, the only central action is Close. */
+export const FolderAccessDeniedWithoutRequest: Story = {
+  ...FolderAccessDenied,
+  args: { ...FolderAccessDenied.args, onRequestAccess: undefined },
+};
+
+/** Folder names, including dots and long unbroken segments, stay intact. */
+export const FolderAccessDeniedLongName: Story = {
+  ...FolderAccessDenied,
+  args: {
+    ...FolderAccessDenied.args,
+    files: [
+      {
+        ...inaccessibleFolder,
+        title:
+          "Top.secret.Project.documentation.and.confidential.archives.2026",
+      },
+    ],
+  },
+};
+
+/** Navigate between a regular image and an inaccessible folder. */
+export const FolderAccessDeniedNavigation: Story = {
+  ...FolderAccessDenied,
+  args: {
+    ...FolderAccessDenied.args,
+    files: [imageFiles[0], inaccessibleFolder],
+  },
 };

@@ -166,6 +166,14 @@ const SAMPLES: Array<{ category: MimeCategory; file: FilePreviewType }> = [
     category: MimeCategory.OTHER,
     file: fixture("other", "thing.xyz", "text/plain"),
   },
+  // Resolves from `isFolderAccessDenied`, whatever the mimetype is.
+  {
+    category: MimeCategory.DENIED,
+    file: {
+      ...fixture("denied", "Private folder", "application/x-directory"),
+      isFolderAccessDenied: true,
+    },
+  },
 ];
 
 const SIZES = [

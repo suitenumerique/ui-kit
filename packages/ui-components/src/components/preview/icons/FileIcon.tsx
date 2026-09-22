@@ -1,5 +1,5 @@
 import { FilePreviewType } from "../types";
-import { getMimeCategory, ICONS } from "../utils/mimeTypes";
+import { getMimeCategory, ICONS, MimeCategory } from "../utils/mimeTypes";
 import { getExtensionFromName } from "../utils/getExtensionFromName";
 import { IconSize } from ":/components/icon/types";
 
@@ -19,10 +19,9 @@ export const FileIcon = ({
   size = IconSize.MEDIUM,
   type = "normal",
 }: FileIconProps) => {
-  const category = getMimeCategory(
-    file.mimetype,
-    getExtensionFromName(file.title),
-  );
+  const category = file.isFolderAccessDenied
+    ? MimeCategory.DENIED
+    : getMimeCategory(file.mimetype, getExtensionFromName(file.title));
   const icon = ICONS[type][category];
   return <FileIconContent icon={icon} size={size} />;
 };

@@ -79,3 +79,13 @@ export const allFiles: FilePreviewType[] = [
   suspiciousFile,
   wopiFile,
 ];
+
+export const inaccessibleFolder: FilePreviewType = {
+  id: "folder-no-access",
+  title: "Top secret",
+  mimetype: "",
+  size: 0,
+  url: "",
+  url_preview: "",
+  isFolderAccessDenied: true,
+};
