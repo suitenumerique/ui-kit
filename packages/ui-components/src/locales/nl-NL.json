@@ -181,6 +181,11 @@
     },
     "filePreview": {
       "title": "Bestandsvoorbeeld",
+      "folderAccessDenied": {
+        "description": "Je hebt niet de benodigde rechten om deze map te openen.",
+        "close": "Sluiten",
+        "requestAccess": "Toegang aanvragen"
+      },
       "unsupported": {
         "title": "Niet-ondersteund bestand",
         "disclaimer": "Format niet ondersteund.",

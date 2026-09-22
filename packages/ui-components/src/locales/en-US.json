@@ -181,6 +181,11 @@
     },
     "filePreview": {
       "title": "File Preview",
+      "folderAccessDenied": {
+        "description": "You do not have the necessary permissions to open this folder.",
+        "close": "Close",
+        "requestAccess": "Request access"
+      },
       "unsupported": {
         "title": "Unsupported file",
         "disclaimer": "Unsupported format.",
