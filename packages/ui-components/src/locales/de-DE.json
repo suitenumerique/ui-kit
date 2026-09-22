@@ -37,6 +37,21 @@
       "cannot_view": {
         "message": "Sie können dieses Element ansehen, benötigen jedoch zusätzlichen Zugriff, um seine Mitglieder zu sehen oder die Einstellungen zu ändern."
       },
+      "restricted": {
+        "message": "Der Zugriff auf diesen Ordner ist eingeschränkt"
+      },
+      "restrict": {
+        "title": "Zugriff einschränken",
+        "description": "Zugriff auf ausdrücklich hinzugefügte Personen beschränken",
+        "hint": "Sie können ihnen jederzeit wieder Zugriff gewähren.",
+        "confirmation": "Personen mit Zugriff über den übergeordneten Ordner verlieren diesen. Nur direkt hinzugefügte Personen behalten den Zugriff."
+      },
+      "unrestrict": {
+        "title": "Zugriff öffnen",
+        "description": "Alle Personen mit Zugriff auf den übergeordneten Ordner erhalten Zugriff auf diesen Ordner",
+        "confirmation": "Alle Personen mit Zugriff auf den übergeordneten Ordner erhalten Zugriff auf diesen Ordner. Direkt hinzugefügte Personen behalten ihren Zugriff.",
+        "hint": "Sie können den Zugriff jederzeit wieder einschränken."
+      },
       "invitations": {
         "title": "Ausstehende Einladungen"
       },

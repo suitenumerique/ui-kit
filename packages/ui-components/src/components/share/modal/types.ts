@@ -119,6 +119,11 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   onImportContacts?: (rows: ShareImportRow[]) => Promise<boolean> | boolean;
   onImportFileChange?: (file?: File) => void;
   isRestricted?: boolean;
+  canRestrict?: boolean;
+  /** Called only after confirming the restriction. Update isRestricted on success. */
+  onRestrict?: () => void;
+  /** Called only after confirming open access. Set isRestricted to false on success. */
+  onUnrestrict?: () => void;
   /**
    * Message displayed on the uploader when the import fails.
    */

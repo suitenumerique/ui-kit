@@ -18,6 +18,8 @@ import {
   ShareModalVisibilityMode,
 } from "./visibility";
 import type { ShareModalProps } from "./types";
+import { FolderRestricted } from ":/icons";
+import { IconSize } from ":/components/icon";
 
 export type { ShareModalProps } from "./types";
 
@@ -68,6 +70,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     hideMembers,
     hideInvitations,
     allowFileImport,
+    canRestrict: props.canRestrict,
     isSearching: search.isSearching,
     loading: props.loading,
     membersCount: accesses.length,
@@ -136,11 +139,16 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     onSelect={search.selectUser}
                   />
                 )}
-                {!search.isSearching && children}
-                {props.isRestricted && (
-                  <div className="c__share-modal__restricted">
-                    <p>{t("components.share.restricted.message")}</p>
-                  </div>
+                {!search.isSearching && (
+                  <>
+                    {children}
+                    {props.isRestricted && (
+                      <div className="c__share-modal__restricted">
+                        <FolderRestricted size={IconSize.SMALL} />
+                        {t("components.share.restricted.message")}
+                      </div>
+                    )}
+                  </>
                 )}
                 {visibility.showInvitations && (
                   <ShareInvitationsSection
@@ -172,7 +180,14 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     onLoadNextMembers={props.onLoadNextMembers}
                     headerAction={
                       visibility.showImportAction && (
-                        <ShareImportAction onOpen={contactImport.open} />
+                        <ShareImportAction
+                          onOpen={contactImport.open}
+                          allowFileImport={visibility.allowImport}
+                          canRestrict={props.canRestrict}
+                          isRestricted={props.isRestricted}
+                          onRestrict={props.onRestrict}
+                          onUnrestrict={props.onUnrestrict}
+                        />
                       )
                     }
                   />

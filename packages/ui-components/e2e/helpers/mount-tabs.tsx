@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CunninghamProvider } from "../../src/components/provider/Provider";
-import { CustomTabs, TabsProps } from "../../src/components/tabs/Tabs";
+import { Tabs, TabsProps } from "../../src/components/tabs/Tabs";
 import { TabData } from "../../src/components/tabs/types";
 import { Calendar2 } from "../../src/components/icon/icons/Calendar2";
 
@@ -37,7 +37,7 @@ export const TestTabs = ({
     <CunninghamProvider theme={theme}>
       <div style={{ width, maxWidth: "100%" }}>
         <button>Before tabs</button>
-        <CustomTabs
+        <Tabs
           aria-label="Project"
           tabs={tabs.map((tab) => ({
             ...tab,

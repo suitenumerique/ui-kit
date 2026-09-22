@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {
-  Tabs,
+  Tabs as AriaTabs,
   TabList,
   Tab,
   TabPanel,
@@ -30,7 +30,7 @@ export type TabsProps = {
   id?: string;
 };
 
-export const CustomTabs = ({
+export const Tabs = ({
   tabs,
   "aria-label": ariaLabel,
   defaultSelectedTab,
@@ -47,7 +47,7 @@ export const CustomTabs = ({
   }
 
   return (
-    <Tabs
+    <AriaTabs
       id={id}
       className={clsx("c__tabs", `c__tabs--${variant}`, className, {
         "c__tabs--full-width": fullWidth,
@@ -90,6 +90,6 @@ export const CustomTabs = ({
           {tab.content}
         </TabPanel>
       ))}
-    </Tabs>
+    </AriaTabs>
   );
 };

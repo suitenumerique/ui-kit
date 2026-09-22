@@ -11,6 +11,7 @@ type ShareModalVisibilityOptions = {
   hideMembers: boolean;
   hideInvitations: boolean;
   allowFileImport: boolean;
+  canRestrict?: boolean;
   isSearching: boolean;
   loading?: boolean;
   membersCount: number;
@@ -23,6 +24,7 @@ export const getShareModalVisibility = ({
   hideMembers,
   hideInvitations,
   allowFileImport,
+  canRestrict = false,
   isSearching,
   loading,
   membersCount,
@@ -36,7 +38,8 @@ export const getShareModalVisibility = ({
   const showLists =
     mode === ShareModalVisibilityMode.SHARING && !isSearching && !loading;
   const allowImport = allowFileImport && canUpdate;
-  const showImportAction = showLists && !hideMembers && allowImport;
+  const showImportAction =
+    showLists && !hideMembers && canUpdate && (allowImport || canRestrict);
 
   return {
     mode,

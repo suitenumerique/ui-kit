@@ -175,7 +175,14 @@ export const DefaultRestricted = {
       linkSettings={true}
       allowFileImport={true}
       isRestricted={true}
+      canRestrict={true}
     />
+  ),
+};
+
+export const RestrictAccess = {
+  render: () => (
+    <ShareModalExample linkSettings allowFileImport canRestrict />
   ),
 };
 

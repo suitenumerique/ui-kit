@@ -37,6 +37,21 @@
       "cannot_view": {
         "message": "Puede ver este elemento, pero necesita acceso adicional para ver sus miembros o modificar la configuración."
       },
+      "restricted": {
+        "message": "El acceso a esta carpeta está restringido"
+      },
+      "restrict": {
+        "title": "Restringir el acceso",
+        "description": "Limitar el acceso a las personas añadidas explícitamente",
+        "hint": "Puede volver a darles acceso en cualquier momento.",
+        "confirmation": "Las personas con acceso a través de la carpeta principal lo perderán. Solo las personas añadidas directamente conservarán el acceso."
+      },
+      "unrestrict": {
+        "title": "Abrir el acceso",
+        "description": "Todas las personas con acceso a la carpeta superior tendrán acceso a esta carpeta",
+        "confirmation": "Todas las personas con acceso a la carpeta principal tendrán acceso a esta carpeta. Las personas añadidas directamente conservarán su acceso.",
+        "hint": "Puede volver a restringir el acceso en cualquier momento."
+      },
       "invitations": {
         "title": "Invitaciones pendientes"
       },

@@ -31,6 +31,7 @@ type AccessType = AccessData<
 
 export const ShareModalExample = ({
   importFails,
+  isRestricted: initiallyRestricted = false,
   ...props
 }: {
   linkSettings?: boolean;
@@ -38,11 +39,13 @@ export const ShareModalExample = ({
   canView?: boolean;
   allowFileImport?: boolean;
   isRestricted?: boolean;
+  canRestrict?: boolean;
   importFails?: boolean;
 }) => {
   const [userQuery, setUserQuery] = useState("");
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isRestricted, setIsRestricted] = useState(initiallyRestricted);
 
   const [invitations, setInvitations] = useState<InvitationType[]>(() => {
     const ids = [1];
@@ -248,6 +251,9 @@ export const ShareModalExample = ({
         />
       }
       {...props}
+      isRestricted={isRestricted}
+      onRestrict={() => setIsRestricted(true)}
+      onUnrestrict={() => setIsRestricted(false)}
       linkReachChoices={[
         {
           value: "public",

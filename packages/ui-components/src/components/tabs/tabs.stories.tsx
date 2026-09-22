@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Calendar2 } from "../icon/icons/Calendar2";
-import { CustomTabs, TabsProps } from "./Tabs";
+import { Tabs, TabsProps } from "./Tabs";
 import { TabData } from "./types";
 
 const tabs: TabData[] = [
@@ -12,7 +12,7 @@ const tabs: TabData[] = [
 
 const meta = {
   title: "Components/Tabs",
-  component: CustomTabs,
+  component: Tabs,
   args: { "aria-label": "Project", tabs },
   argTypes: {
     variant: { control: "select", options: ["default", "line"] },
@@ -29,7 +29,7 @@ const meta = {
       url: "https://www.figma.com/design/hPwxE24MEaX3mBQ0KXNTSY/UI-kit?node-id=13516-883",
     },
   },
-} satisfies Meta<typeof CustomTabs>;
+} satisfies Meta<typeof Tabs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -72,7 +72,7 @@ const ControlledExample = (args: TabsProps) => {
   const [selectedTab, setSelectedTab] = useState("overview");
   return (
     <div>
-      <CustomTabs
+      <Tabs
         {...args}
         selectedTab={selectedTab}
         onSelectionChange={(id) => {

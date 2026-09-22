@@ -103,6 +103,8 @@ export const ADMIN_TOP_MESSAGE =
   "You cannot change the role of an administrator";
 
 interface TestShareModalProps {
+  isRestricted?: boolean;
+  canRestrict?: boolean;
   allowInvitation?: boolean;
   searchPlaceholder?: string;
   searchGroupName?: string;
@@ -150,6 +152,8 @@ interface TestShareModalProps {
 }
 
 export const TestShareModal = ({
+  isRestricted: initiallyRestricted = false,
+  canRestrict = false,
   allowInvitation = true,
   searchPlaceholder,
   searchGroupName,
@@ -190,6 +194,7 @@ export const TestShareModal = ({
   const [members, setMembers] = useState<TestAccess[]>(() =>
     makeMembers(membersCount),
   );
+  const [isRestricted, setIsRestricted] = useState(initiallyRestricted);
   const [invitations, setInvitations] = useState<TestInvitation[]>(() =>
     makeInvitations(invitationsCount),
   );
@@ -331,6 +336,16 @@ export const TestShareModal = ({
         hasNextInvitations={hasNextInvitations}
         onLoadNextInvitations={() => record({ name: "load-next-invitations" })}
         allowFileImport={allowFileImport}
+        canRestrict={canRestrict}
+        isRestricted={isRestricted}
+        onRestrict={() => {
+          record({ name: "restrict" });
+          setIsRestricted(true);
+        }}
+        onUnrestrict={() => {
+          record({ name: "unrestrict" });
+          setIsRestricted(false);
+        }}
         maxImportRows={maxImportRows}
         importErrorMessage={asyncImportError ?? importErrorMessage}
         onImportContacts={(rows) => {

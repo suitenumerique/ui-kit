@@ -5,16 +5,16 @@ import * as TabsStories from "./tabs.stories";
 
 # Tabs
 
-`CustomTabs` switches between related panels without navigating away from the page.
+`Tabs` switches between related panels without navigating away from the page.
 It follows the [horizontal tabs design in Figma](https://www.figma.com/design/hPwxE24MEaX3mBQ0KXNTSY/UI-kit?node-id=13516-883)
 and uses React Aria for selection, keyboard navigation, and tab/panel relationships.
 
 ## Usage
 
 ```tsx
-import { CustomTabs } from "@gouvfr-lasuite/ui-components";
+import { Tabs } from "@gouvfr-lasuite/ui-components";
 
-<CustomTabs
+<Tabs
   aria-label="Project"
   tabs={[
     { id: "overview", label: "Overview", content: <Overview /> },
@@ -106,7 +106,8 @@ without shrinking icons or wrapping labels. Panel width follows its container.
 
 ## Migration from the previous Tabs
 
-The `CustomTabs`, `TabsProps`, and `TabData` exports remain available, along with
+Rename existing `CustomTabs` imports and usages to `Tabs`. The `TabsProps` and
+`TabData` exports remain available, along with
 `tabs`, `defaultSelectedTab`, `fullWidth`, and Material Icon names. Add the now
 required `aria-label` to existing usages. The default appearance is now filled;
 use `variant="line"` for underlined tabs. Panels no longer add their own padding;
