@@ -37,6 +37,21 @@
       "cannot_view": {
         "message": "Vous pouvez voir cet élément mais vous avez besoin d'un accès supplémentaire pour voir ses membres ou modifier les paramètres."
       },
+      "restricted": {
+        "message": "L'accès à ce dossier est restreint"
+      },
+      "restrict": {
+        "title": "Restreindre l'accès",
+        "description": "Limiter l'accès aux personnes explicitement ajoutées",
+        "hint": "Vous pouvez leur redonner accès à tout moment.",
+        "confirmation": "Les personnes qui ont accès via le dossier parent le perdront. Seules les personnes ajoutées directement conserveront leur accès."
+      },
+      "unrestrict": {
+        "title": "Ouvrir l'accès",
+        "description": "Toutes les personnes ayant accès au dossier parent auront accès à ce dossier",
+        "confirmation": "Toutes les personnes ayant accès au dossier parent auront accès à ce dossier. Les personnes ajoutées directement conserveront leur accès.",
+        "hint": "Vous pouvez à nouveau restreindre l’accès à tout moment."
+      },
       "invitations": {
         "title": "Invitations en attente"
       },

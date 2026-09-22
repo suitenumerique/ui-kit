@@ -84,6 +84,28 @@ long as they contain the minimal shape below.
 `}
 </Markdown>
 
+## Changing inherited access
+
+With `allowFileImport` and `canRestrict` enabled, the members menu includes
+**Restrict access** when `isRestricted` is false. Selecting it opens a
+confirmation dialog. Cancel, close, and Escape dismiss it without changing
+access; confirming calls `onRestrict` and dismisses the dialog. The consumer
+applies the change and updates `isRestricted` on success.
+
+The warning explains that people with access through the parent folder will
+lose it, while people added directly will keep access. No access count is
+required.
+
+When `isRestricted` is true, the menu instead offers **Open access**. Its
+confirmation explains that everyone with access to the parent folder will
+have access to this folder, while people added directly keep their access.
+Confirming calls `onUnrestrict`; the consumer applies the change and sets
+`isRestricted` to false on success. Cancel, close, and Escape make no change.
+
+<Canvas of={ShareModalStories.RestrictAccess} />
+
+<Canvas of={ShareModalStories.DefaultRestricted} />
+
 ## Searching and inviting
 
 Type in the search input and the modal calls `onSearchUsers` (debounced by
