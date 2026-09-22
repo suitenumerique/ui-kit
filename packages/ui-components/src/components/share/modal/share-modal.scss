@@ -217,3 +217,44 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
     margin: 0;
   }
 }
+
+.c__share-modal__restricted {
+  font-size: var(--c--globals--font--sizes--xs);
+  color: var(--c--contextuals--content--semantic--neutral--tertiary);
+  padding: 8px var(--c--globals--spacings--sm);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--c--globals--spacings--3xs);
+  font-weight: 700;
+}
+
+.c__modal:has(.c__share-access-confirmation-modal) {
+  --c--components--modal--width-small: 350px;
+
+  .c__modal__title {
+    margin-bottom: var(--c--globals--spacings--3xs);
+  }
+
+  .c__modal__footer {
+    margin-top: var(--c--globals--spacings--base);
+  }
+
+  .c__modal__footer__right {
+    gap: var(--c--globals--spacings--xs);
+  }
+}
+
+.c__share-access-confirmation-modal {
+  color: var(--c--contextuals--content--semantic--neutral--secondary);
+  line-height: 18px;
+
+  p {
+    margin: 0;
+  }
+
+  p.c__share-access-confirmation-modal__hint {
+    margin-top: var(--c--globals--spacings--base);
+    font-size: var(--c--globals--font--sizes--xs);
+  }
+}

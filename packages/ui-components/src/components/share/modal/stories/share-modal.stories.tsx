@@ -164,7 +164,26 @@ export default meta;
  * `ShareImportModal`.
  */
 export const Default = {
-  render: () => <ShareModalExample linkSettings={true} allowFileImport={true} />,
+  render: () => (
+    <ShareModalExample linkSettings={true} allowFileImport={true} />
+  ),
+};
+
+export const DefaultRestricted = {
+  render: () => (
+    <ShareModalExample
+      linkSettings={true}
+      allowFileImport={true}
+      isRestricted={true}
+      canRestrict={true}
+    />
+  ),
+};
+
+export const RestrictAccess = {
+  render: () => (
+    <ShareModalExample linkSettings allowFileImport canRestrict />
+  ),
 };
 
 const SELECTABLE_USERS: UserData<unknown>[] = [

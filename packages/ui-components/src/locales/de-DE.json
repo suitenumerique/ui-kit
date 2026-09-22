@@ -34,8 +34,26 @@
       "access": {
         "delete": "Zugriff entziehen"
       },
+      "actions": {
+        "label": "Weitere Aktionen"
+      },
       "cannot_view": {
         "message": "Sie können dieses Element ansehen, benötigen jedoch zusätzlichen Zugriff, um seine Mitglieder zu sehen oder die Einstellungen zu ändern."
+      },
+      "restricted": {
+        "message": "Der Zugriff auf dieses Element ist eingeschränkt"
+      },
+      "restrict": {
+        "title": "Zugriff einschränken",
+        "description": "Zugriff auf ausdrücklich hinzugefügte Personen beschränken",
+        "hint": "Sie können ihnen jederzeit wieder Zugriff gewähren.",
+        "confirmation": "Personen mit Zugriff über das übergeordnete Element verlieren diesen. Nur direkt hinzugefügte Personen behalten den Zugriff."
+      },
+      "unrestrict": {
+        "title": "Zugriff öffnen",
+        "description": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff auf dieses Element",
+        "confirmation": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff auf dieses Element. Direkt hinzugefügte Personen behalten ihren Zugriff.",
+        "hint": "Sie können den Zugriff jederzeit wieder einschränken."
       },
       "invitations": {
         "title": "Ausstehende Einladungen"

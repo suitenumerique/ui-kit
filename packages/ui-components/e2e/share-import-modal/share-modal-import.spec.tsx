@@ -13,7 +13,7 @@ test.describe("ShareModal import menu", () => {
       </CunninghamProvider>,
     );
 
-    const kebab = page.getByRole("button", { name: "Import contacts" });
+    const kebab = page.getByRole("button", { name: "More actions" });
     await expect(kebab).toBeVisible();
     await kebab.click();
 
@@ -38,7 +38,7 @@ test.describe("ShareModal import menu", () => {
 
     await expect(page.getByTestId("members-list")).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Import contacts" }),
+      page.getByRole("button", { name: "More actions" }),
     ).toHaveCount(0);
   });
 
@@ -54,7 +54,7 @@ test.describe("ShareModal import menu", () => {
 
     await expect(page.getByTestId("members-list")).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Import contacts" }),
+      page.getByRole("button", { name: "More actions" }),
     ).toHaveCount(0);
   });
 });
