@@ -16,7 +16,17 @@
         monospace;
     }
 
-    .cunningham-theme--dark {
+    /* Follow the theme selected in the toolbar. */
+    body {
+      background-color: var(--c--contextuals--background--surface--primary);
+      color: var(--c--contextuals--content--semantic--neutral--primary);
+    }
+
+    .cunningham-theme--dark,
+    .cunningham-theme--dsfr-dark,
+    .cunningham-theme--anct-dark {
+      color-scheme: dark;
+
       .prismjs {
         background-color: var(--c--globals--colors--gray-800) !important;
       }

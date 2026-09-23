@@ -8,7 +8,7 @@ import {
   useModal,
 } from ":/components/modal/index";
 import { Button } from ":/components/button";
-import { CunninghamProvider } from ":/components/provider";
+import { ModalProvider } from ":/components/modal/ModalProvider";
 import longLorem from ":/components/modal/resources/longLorem.json";
 
 const meta: Meta<typeof Modal> = {
@@ -294,7 +294,7 @@ export const StickyFooterFull: Story = {
 export const CustomParentSelect: Story = {
   render: () => {
     return (
-      <CunninghamProvider
+      <ModalProvider
         modalParentSelector={() =>
           document.querySelector("#my-custom-modal-parent")!
         }
@@ -303,7 +303,7 @@ export const CustomParentSelect: Story = {
           I am rendered inside #my-custom-modal-parent
         </Modal>
         <div id="my-custom-modal-parent" />
-      </CunninghamProvider>
+      </ModalProvider>
     );
   },
 };

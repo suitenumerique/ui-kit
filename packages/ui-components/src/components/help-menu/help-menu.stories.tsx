@@ -128,9 +128,6 @@ export const WithoutRelease: Story = {
 export const InLayoutFooter: Story = {
   parameters: {
     layout: "fullscreen",
-    backgrounds: {
-      default: "Gray",
-    },
   },
   render: () => {
     const { isDesktop } = useResponsive();

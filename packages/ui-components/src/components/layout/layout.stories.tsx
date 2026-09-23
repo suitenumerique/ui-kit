@@ -37,10 +37,6 @@ export const HeaderOnly: StoryObj = {
 export const LeftPanelOnly: StoryObj = {
   parameters: {
     layout: "fullscreen",
-    backgrounds: {
-      // 👇 Override default background value for this story
-      default: "Gray",
-    },
   },
   render: () => {
     return (
@@ -57,9 +53,6 @@ export const LeftPanelOnly: StoryObj = {
 export const FullLayoutWithFooter: StoryObj = {
   parameters: {
     layout: "fullscreen",
-    backgrounds: {
-      default: "Gray",
-    },
   },
   render: () => {
     const { isDesktop } = useResponsive();
@@ -118,10 +111,6 @@ export const FullLayoutWithFooter: StoryObj = {
 export const FullLayout: StoryObj = {
   parameters: {
     layout: "fullscreen",
-    backgrounds: {
-      // 👇 Override default background value for this story
-      default: "Gray",
-    },
   },
   render: () => {
     const { isDesktop } = useResponsive();

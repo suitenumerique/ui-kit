@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CunninghamProvider } from ":/components/provider";
 import { Button } from ":/components/button";
 import { DateRangePicker } from ":/components/forms/date-picker/DateRangePicker";
 import { DatePicker } from ":/components/forms/date-picker/DatePicker";
@@ -117,12 +116,10 @@ export const CustomLocale = () => (
 
 export const CunninghamLocale = () => (
   <div style={{ minHeight: "400px" }}>
-    <CunninghamProvider currentLocale="fr-FR">
-      <DatePicker
-        label="Pick a date"
-        defaultValue="2023-06-25T00:00:00.000+00:00"
-      />
-    </CunninghamProvider>
+    <DatePicker
+      label="Pick a date"
+      defaultValue="2023-06-25T00:00:00.000+00:00"
+    />
   </div>
 );
 

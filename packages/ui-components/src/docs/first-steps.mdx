@@ -29,3 +29,22 @@ component library.
 The `CunninghamProvider` name is kept for compatibility with existing
 applications, but it is the single provider for all Cunningham and former UI
 Kit components now distributed by `@gouvfr-lasuite/ui-components`.
+
+## Previewing themes
+
+Use the paintbrush menu in the Storybook toolbar to choose a theme: DSFR, White
+label (`default` and `dark`) or ANCT, each in light and dark. The selected
+theme applies to stories, documentation examples and the Storybook interface,
+and stays selected when navigating. See [Theming](?path=/docs/getting-started-theming--docs)
+for the theme names to pass to `CunninghamProvider`.
+
+## Previewing translations
+
+Use the globe menu in the Storybook toolbar to choose English, Français,
+Nederlands, Deutsch, or Español. The selected language applies to component
+translations and date formatting, and stays selected when navigating between
+stories and documentation examples.
+
+Text supplied directly by a story (such as example names and custom button
+labels) stays as written. Components with an explicit locale prop keep that
+override.
