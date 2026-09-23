@@ -37,6 +37,21 @@
       "cannot_view": {
         "message": "U kunt dit item bekijken, maar u heeft aanvullende toegang nodig om de leden te zien of de instellingen te wijzigen."
       },
+      "restricted": {
+        "message": "De toegang tot deze map is beperkt"
+      },
+      "restrict": {
+        "title": "Toegang beperken",
+        "description": "Toegang beperken tot expliciet toegevoegde personen",
+        "hint": "U kunt ze op elk moment opnieuw toegang geven.",
+        "confirmation": "Personen met toegang via de bovenliggende map verliezen die toegang. Alleen rechtstreeks toegevoegde personen behouden toegang."
+      },
+      "unrestrict": {
+        "title": "Toegang openstellen",
+        "description": "Iedereen met toegang tot de bovenliggende map krijgt toegang tot deze map",
+        "confirmation": "Iedereen met toegang tot de bovenliggende map krijgt toegang tot deze map. Rechtstreeks toegevoegde personen behouden hun toegang.",
+        "hint": "U kunt de toegang op elk moment opnieuw beperken."
+      },
       "invitations": {
         "title": "Openstaande uitnodigingen"
       },
@@ -166,6 +181,11 @@
     },
     "filePreview": {
       "title": "Bestandsvoorbeeld",
+      "folderAccessDenied": {
+        "description": "Je hebt niet de benodigde rechten om deze map te openen.",
+        "close": "Sluiten",
+        "requestAccess": "Toegang aanvragen"
+      },
       "unsupported": {
         "title": "Niet-ondersteund bestand",
         "disclaimer": "Format niet ondersteund.",

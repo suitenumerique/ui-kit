@@ -22,6 +22,7 @@ import { VideoPlayer } from "./viewers/video-player/VideoPlayer";
 import { AudioPlayer } from "./viewers/audio-player/AudioPlayer";
 import { ImageViewer } from "./viewers/image-viewer/ImageViewer";
 import { SuspiciousPreview } from "./viewers/suspicious/SuspiciousPreview";
+import { NoAccessPreview } from "./viewers/no-access/NoAccessPreview";
 import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview";
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
@@ -80,6 +81,8 @@ interface FilePreviewProps {
   pdfWorkerSrc?: string;
   pdfAssetsUrl?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
+  /** The consuming app handles the access request and its feedback. */
+  onRequestAccess?: (file: FilePreviewType) => void;
 }
 
 export const FilePreview = ({
@@ -99,6 +102,7 @@ export const FilePreview = ({
   pdfWorkerSrc,
   pdfAssetsUrl,
   onOpenInEditor,
+  onRequestAccess,
 }: FilePreviewProps) => {
   const { t } = useCustomTranslations();
   const [currentIndex, setCurrentIndex] = useState(initialIndexFile);
@@ -157,6 +161,17 @@ export const FilePreview = ({
   const renderViewer = () => {
     if (!currentFile) {
       return <div>{t("components.filePreview.unsupported.title")}</div>;
+    }
+
+    if (currentFile.isFolderAccessDenied) {
+      return (
+        <NoAccessPreview
+          file={currentFile}
+          onClose={onClose}
+          hideCloseButton={hideCloseButton}
+          onRequestAccess={onRequestAccess}
+        />
+      );
     }
 
     if (currentFile.isSuspicious) {
@@ -409,7 +424,9 @@ export const FilePreview = ({
                     size={IconSize.SMALL}
                   />
                   <h1 className="file-preview__title">
-                    {removeFileExtension(currentFile?.title || title)}
+                    {currentFile.isFolderAccessDenied
+                      ? currentFile.title
+                      : removeFileExtension(currentFile?.title || title)}
                   </h1>
                 </div>
               </div>

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { CunninghamProvider } from ":/components/provider/Provider";
 import { SearchFilter } from "./SearchFilter";
 import { UserSearchFilter } from "./UserSearchFilter";
 import { SearchFilterItem, UserSearchFilterItem } from "./types";
@@ -87,13 +86,6 @@ const meta: Meta<typeof SearchFilter> = {
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <CunninghamProvider>
-        <Story />
-      </CunninghamProvider>
-    ),
-  ],
 };
 
 export default meta;

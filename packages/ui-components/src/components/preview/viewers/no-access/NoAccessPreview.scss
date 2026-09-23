@@ -1,0 +1,40 @@
+.file-preview-no-access {
+  height: 100%;
+  overflow: auto;
+  padding: var(--c--globals--spacings--base);
+  box-sizing: border-box;
+
+  .preview-message {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .preview-message__title,
+  .preview-message__description {
+    width: 228px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  &__illustration {
+    position: relative;
+    width: 64px;
+    height: 64px;
+
+    img {
+      position: absolute;
+      // Preserve the exported illustration's placement in its Figma frame.
+      top: 12.5%;
+      left: 6.25%;
+      width: 90.87%;
+      height: 71.875%;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--c--globals--spacings--xs);
+  }
+}

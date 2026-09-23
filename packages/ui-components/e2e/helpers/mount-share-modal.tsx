@@ -38,8 +38,7 @@ type TestUser = UserData<object>;
 type TestInvitation = InvitationData<object, object>;
 type TestAccess = AccessData<object, object>;
 
-// Search results must keep stable object references: ShareModal excludes
-// pending users from the results with an identity-based `includes`.
+// Each search below returns fresh objects to exercise selection filtering by ID.
 const directory: TestUser[] = [
   { id: "u1", full_name: "Alice Martin", email: "alice@example.com" },
   { id: "u2", full_name: "Bob Martin", email: "bob@example.com" },
@@ -104,6 +103,14 @@ export const ADMIN_TOP_MESSAGE =
   "You cannot change the role of an administrator";
 
 interface TestShareModalProps {
+  isRestricted?: boolean;
+  canRestrict?: boolean;
+  allowInvitation?: boolean;
+  searchPlaceholder?: string;
+  searchGroupName?: string;
+  withAccessExtensions?: boolean;
+  withChildren?: boolean;
+  rejectImport?: boolean;
   canUpdate?: boolean;
   canView?: boolean;
   linkSettings?: boolean;
@@ -145,6 +152,14 @@ interface TestShareModalProps {
 }
 
 export const TestShareModal = ({
+  isRestricted: initiallyRestricted = false,
+  canRestrict = false,
+  allowInvitation = true,
+  searchPlaceholder,
+  searchGroupName,
+  withAccessExtensions = false,
+  withChildren = false,
+  rejectImport = false,
   canUpdate = true,
   canView = true,
   linkSettings = false,
@@ -175,9 +190,11 @@ export const TestShareModal = ({
   customTranslations,
 }: TestShareModalProps) => {
   const record = useCallRecorder();
+  const [assignedId, setAssignedId] = useState<string>();
   const [members, setMembers] = useState<TestAccess[]>(() =>
     makeMembers(membersCount),
   );
+  const [isRestricted, setIsRestricted] = useState(initiallyRestricted);
   const [invitations, setInvitations] = useState<TestInvitation[]>(() =>
     makeInvitations(invitationsCount),
   );
@@ -202,11 +219,13 @@ export const TestShareModal = ({
     }
     const lowered = query.toLowerCase();
     setSearchUsersResult(
-      directory.filter(
-        (user) =>
-          user.full_name.toLowerCase().includes(lowered) ||
-          user.email.toLowerCase().includes(lowered),
-      ),
+      directory
+        .filter(
+          (user) =>
+            user.full_name.toLowerCase().includes(lowered) ||
+            user.email.toLowerCase().includes(lowered),
+        )
+        .map((user) => ({ ...user })),
     );
   };
 
@@ -249,6 +268,37 @@ export const TestShareModal = ({
                 access.role === "admin" ? ADMIN_TOP_MESSAGE : undefined
             : undefined
         }
+        allowInvitation={allowInvitation}
+        searchPlaceholder={searchPlaceholder}
+        searchGroupName={searchGroupName}
+        membersTitle={
+          withAccessExtensions ? (items) => `Team (${items.length})` : undefined
+        }
+        renderAccessRightExtras={
+          withAccessExtensions
+            ? (access) => (
+                <button onClick={() => setAssignedId(access.id)}>
+                  Assign {access.user.full_name}
+                </button>
+              )
+            : undefined
+        }
+        getAccessClassName={
+          withAccessExtensions
+            ? (access) =>
+                assignedId === access.id ? "test-assigned" : undefined
+            : undefined
+        }
+        renderAccessFooter={
+          withAccessExtensions
+            ? (access) =>
+                assignedId === access.id ? (
+                  <p data-testid="access-footer">
+                    Assigned: {access.user.full_name}
+                  </p>
+                ) : null
+            : undefined
+        }
         onSearchUsers={onSearchUsers}
         searchUsersResult={searchUsersResult}
         loading={loading}
@@ -286,10 +336,21 @@ export const TestShareModal = ({
         hasNextInvitations={hasNextInvitations}
         onLoadNextInvitations={() => record({ name: "load-next-invitations" })}
         allowFileImport={allowFileImport}
+        canRestrict={canRestrict}
+        isRestricted={isRestricted}
+        onRestrict={() => {
+          record({ name: "restrict" });
+          setIsRestricted(true);
+        }}
+        onUnrestrict={() => {
+          record({ name: "unrestrict" });
+          setIsRestricted(false);
+        }}
         maxImportRows={maxImportRows}
         importErrorMessage={asyncImportError ?? importErrorMessage}
         onImportContacts={(rows) => {
           record({ name: "import-contacts", rows });
+          if (rejectImport) return Promise.reject(new Error("Import failed"));
           if (holdImport) {
             return new Promise<boolean>((resolve) => {
               window.__resolveImport = resolve;
@@ -317,7 +378,9 @@ export const TestShareModal = ({
         linkRoleChoices={
           withLinkRoleChoices ? [{ value: "reader" }, { value: "editor" }] : []
         }
-        onUpdateLinkRole={(value) => record({ name: "update-link-role", value })}
+        onUpdateLinkRole={(value) =>
+          record({ name: "update-link-role", value })
+        }
         topLinkReachMessage={
           withTopLinkMessages ? <span>Top link reach message</span> : undefined
         }
@@ -333,7 +396,11 @@ export const TestShareModal = ({
             />
           ) : undefined
         }
-      />
+      >
+        {withChildren && (
+          <p data-testid="share-children">Custom sharing content</p>
+        )}
+      </ShareModal>
     </CunninghamProvider>
   );
 };

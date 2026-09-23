@@ -21,9 +21,9 @@ const openImportModalAndUpload = async (page: Page) => {
     mimeType: "text/csv",
     buffer: Buffer.from("alice@example.com,admin"),
   });
-  await expect(page.locator(".c__file-uploader__dropzone__description")).toContainText(
-    "1 row ready to be imported.",
-  );
+  await expect(
+    page.locator(".c__file-uploader__dropzone__description"),
+  ).toContainText("1 row ready to be imported.");
 };
 
 // The kebab-visibility cases (allowFileImport on/off, canUpdate false) are
@@ -32,6 +32,30 @@ const openImportModalAndUpload = async (page: Page) => {
 // seam those files cannot assert: the rows reaching onImportContacts and the
 // close/lock behavior driven by its resolved value.
 test.describe("ShareModal import contacts seam", () => {
+  test("a rejected import allows retry and closing resets the error", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal allowFileImport rejectImport />);
+    await openImportModalAndUpload(page);
+    const submit = page.getByRole("button", { name: "Import", exact: true });
+    await submit.click();
+    await expect(
+      page.getByText("The import failed. Please try again."),
+    ).toBeVisible();
+    await expect(submit).toBeEnabled();
+    await submit.click();
+    await expect(submit).toBeEnabled();
+    expect(
+      (await calls(page)).filter(({ name }) => name === "import-contacts"),
+    ).toHaveLength(2);
+    await page.getByRole("button", { name: "Cancel", exact: true }).click();
+    await openImportModalAndUpload(page);
+    await expect(
+      page.getByText("The import failed. Please try again."),
+    ).toHaveCount(0);
+  });
+
   test("imported rows flow to onImportContacts and the import modal closes when it resolves true", async ({
     mount,
     page,
@@ -197,7 +221,9 @@ test.describe("ShareModal import contacts seam", () => {
     await page.getByRole("menuitem", { name: "Import contacts" }).click();
 
     await expect(importModalDescription(page)).toBeVisible();
-    await expect(page.locator(".c__file-uploader__dropzone__description")).toHaveCount(0);
+    await expect(
+      page.locator(".c__file-uploader__dropzone__description"),
+    ).toHaveCount(0);
     await expect(
       page.getByRole("button", { name: "Import", exact: true }),
     ).toBeDisabled();
