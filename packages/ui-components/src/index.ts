@@ -227,7 +227,6 @@ export {
   Header,
   LeftPanel,
   MainLayout,
-  headerHeight,
 } from "./components/layout";
 
 export type {

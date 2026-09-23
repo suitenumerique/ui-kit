@@ -29,7 +29,8 @@
 }
 
 .file-preview__header {
-  height: 52px;
+  box-sizing: border-box;
+  height: 48px;
   border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
   flex-shrink: 0;
   z-index: 10000;
@@ -114,7 +115,7 @@
   right: -300px; // Start off-screen
   width: 300px;
   max-width: 300px;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 48px);
 
   border-left: 1px solid var(--c--contextuals--border--surface--primary);
   transition: transform 0.3s;

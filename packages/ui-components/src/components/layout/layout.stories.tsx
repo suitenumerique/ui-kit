@@ -45,7 +45,7 @@ export const LeftPanelOnly: StoryObj = {
   render: () => {
     return (
       <div className="left-panel-story">
-        <LeftPanel hasHeader={false}>
+        <LeftPanel>
           <div className="p-s">LeftPanel</div>
         </LeftPanel>
       </div>

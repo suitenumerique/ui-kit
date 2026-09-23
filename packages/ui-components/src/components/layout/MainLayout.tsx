@@ -41,6 +41,11 @@ import { useControllableState } from ":/hooks/useControllableState";
 
 export type MainLayoutProps = {
   icon?: React.ReactNode;
+  /**
+   * Optional banner rendered above the whole layout (header included), pushing
+   * everything down by its height. Typically a `HeaderBanner`.
+   */
+  topBanner?: React.ReactNode;
   leftPanelContent?: React.ReactNode;
   leftPanelFooter?: React.ReactNode;
   rightPanelContent?: React.ReactNode;
@@ -57,6 +62,7 @@ export type MainLayoutProps = {
 export const MainLayout = ({
   icon,
   children,
+  topBanner,
   hideLeftPanelOnDesktop = false,
   leftPanelContent,
   leftPanelFooter,
@@ -79,6 +85,8 @@ export const MainLayout = ({
 
   const [isResizing, setIsResizing] = useState(false);
   const resizeTimeoutRef = useRef<number | undefined>(undefined);
+
+  const hasTopBanner = Boolean(topBanner);
 
   // We need to have two different states for the left panel, we want to always keep the
   // left panel mounted on mobile in order to show the animation when it opens or closes, instead
@@ -142,6 +150,9 @@ export const MainLayout = ({
 
   return (
     <div className={clsx("c__main-layout", { resizing: isResizing })}>
+      {hasTopBanner && (
+        <div className="c__main-layout__banner">{topBanner}</div>
+      )}
       <div className="c__main-layout__header">
         <Header
           onTogglePanel={onTogglePanel}
