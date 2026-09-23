@@ -286,6 +286,11 @@
           "ok": "Ok"
         }
       }
+    },
+    "headerBanner": {
+      "region": "Announcement",
+      "close": "Close",
+      "newWindow": "(opens in a new window)"
     }
   }
 }

@@ -322,6 +322,15 @@ export {
 } from "./components/badge";
 
 export {
+  HeaderBanner,
+} from "./components/header-banner";
+
+export type {
+  HeaderBannerProps,
+  HeaderBannerVariant,
+} from "./components/header-banner";
+
+export {
   Icon,
   IconSize,
   IconSvg,

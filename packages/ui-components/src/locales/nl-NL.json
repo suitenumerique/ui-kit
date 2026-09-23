@@ -286,6 +286,11 @@
           "ok": "Ok"
         }
       }
+    },
+    "headerBanner": {
+      "region": "Mededeling",
+      "close": "Sluit",
+      "newWindow": "(opent in een nieuw venster)"
     }
   }
 }

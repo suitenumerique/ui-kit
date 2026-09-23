@@ -286,6 +286,11 @@
           "ok": "Ok"
         }
       }
+    },
+    "headerBanner": {
+      "region": "Hinweis",
+      "close": "Schließen",
+      "newWindow": "(öffnet in einem neuen Fenster)"
     }
   }
 }
