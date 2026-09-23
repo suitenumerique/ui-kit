@@ -12,7 +12,11 @@ const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     "@storybook/addon-onboarding",
-    "@storybook/addon-essentials",
+    {
+      name: "@storybook/addon-essentials",
+      // The theme toolbar menu sets the canvas background.
+      options: { backgrounds: false },
+    },
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
@@ -87,7 +91,6 @@ const config: StorybookConfig = {
           "@storybook/addon-a11y/preview",
           "@storybook/addon-essentials/actions/preview",
           "@storybook/addon-essentials/docs/preview",
-          "@storybook/addon-essentials/backgrounds/preview",
           "@storybook/addon-essentials/viewport/preview",
           "@storybook/addon-essentials/measure/preview",
           "@storybook/addon-essentials/outline/preview",

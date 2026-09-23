@@ -8,10 +8,10 @@ import { DocsContainer } from "@storybook/blocks";
 import { I18nProvider } from "@react-aria/i18n";
 import React from "react";
 import {
-  BACKGROUND_COLOR_TO_THEME,
+  DEFAULT_THEME,
+  getStorybookTheme,
   getThemeFromGlobals,
-  Themes,
-  themes,
+  THEMES,
 } from "./theme";
 
 const DocsWithTheme = (props) => {
@@ -23,7 +23,7 @@ const DocsWithTheme = (props) => {
       theme={theme}
     >
       <I18nProvider locale={globals.locale ?? Locales.enUS}>
-        <DocsContainer {...props} theme={themes[theme]} />
+        <DocsContainer {...props} theme={getStorybookTheme(theme)} />
       </I18nProvider>
     </CunninghamProvider>
   );
@@ -31,6 +31,15 @@ const DocsWithTheme = (props) => {
 
 const preview: Preview = {
   globalTypes: {
+    theme: {
+      description: "Component theme",
+      toolbar: {
+        title: "Theme",
+        icon: "paintbrush",
+        dynamicTitle: true,
+        items: THEMES.map(({ value, title }) => ({ value, title })),
+      },
+    },
     locale: {
       description: "Component language",
       toolbar: {
@@ -48,6 +57,7 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
+    theme: DEFAULT_THEME,
     locale: Locales.enUS,
   },
   decorators: [
@@ -83,13 +93,6 @@ const preview: Preview = {
           "Misc",
         ],
       },
-    },
-    backgrounds: {
-      default: null,
-      values: Object.entries(BACKGROUND_COLOR_TO_THEME).map(([key, value]) => ({
-        name: Themes[value][1],
-        value: key,
-      })),
     },
     controls: {
       matchers: {

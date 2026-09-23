@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { addons, types, useStorybookApi } from '@storybook/manager-api';
-import { getThemeFromGlobals, themes } from './theme';
+import { getStorybookTheme, getThemeFromGlobals, themes } from './theme';
 import { useEffect } from 'react';
 import { useGlobals } from '@storybook/manager-api';
 
@@ -26,7 +26,7 @@ addons.register('theme-synchronizer', () => {
             const theme = getThemeFromGlobals(globals);
             useEffect(() => {
                 api.setOptions({
-                    theme: themes[theme]
+                    theme: getStorybookTheme(theme)
                 })
             }, [theme, api]);
             return null;

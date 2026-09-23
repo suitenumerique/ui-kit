@@ -59,25 +59,24 @@ export const themes = {
   }),
 };
 
-export const Themes = {
-  'dsfr-light': ['dsfr-light', 'DSFR light'],
-  'dsfr-dark': ['dsfr-dark', 'DSFR dark'],
-  'white-label-light': ['default', 'White label light'],
-  'white-label-dark': ['dark', 'White label dark'],
-  'anct-light': ['anct-light', 'ANCT light'],
-  'anct-dark': ['anct-dark', 'ANCT dark'],
-}
+export const THEMES = [
+  { value: "anct-light", title: "ANCT light", isDark: false },
+  { value: "anct-dark", title: "ANCT dark", isDark: true },
+  { value: "dsfr-light", title: "DSFR light", isDark: false },
+  { value: "dsfr-dark", title: "DSFR dark", isDark: true },
+  { value: "default", title: "White label light", isDark: false },
+  { value: "dark", title: "White label dark", isDark: true },
+];
 
-export const BACKGROUND_COLOR_TO_THEME = {
-  "#FEFFFF": 'dsfr-light',
-  "#2B303D": 'dsfr-dark',
-  "#FFFEFF": 'anct-light',
-  "#283044": 'anct-dark',
-  "#FFFFFF": 'white-label-light',
-  "#2F2F40": 'white-label-dark',
-};
+export const DEFAULT_THEME = "dsfr-light";
 
-export const getThemeFromGlobals = (globals): string => {
-  const themeKey = BACKGROUND_COLOR_TO_THEME[globals.backgrounds?.value] ?? 'dsfr-light';
-  return Themes[themeKey][0];
-};
+const findTheme = (value?: string) =>
+  THEMES.find((theme) => theme.value === value) ??
+  THEMES.find((theme) => theme.value === DEFAULT_THEME)!;
+
+export const getThemeFromGlobals = (globals): string =>
+  findTheme(globals.theme).value;
+
+/** Storybook UI theme (manager and docs) matching a Cunningham theme. */
+export const getStorybookTheme = (theme: string) =>
+  findTheme(theme).isDark ? themes.dark : themes.default;
