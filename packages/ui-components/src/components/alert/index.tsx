@@ -1,30 +1,26 @@
-import React, { PropsWithChildren, ReactNode } from "react";
-import { ButtonProps } from ":/components/button";
+import React, { ReactNode } from "react";
 import { useControllableState } from ":/hooks/useControllableState";
 import { AlertAdditionalExpandable } from ":/components/alert/AlertAdditionalExpandable";
 import { AlertAdditional } from ":/components/alert/AlertAdditional";
 import { AlertOneLine } from ":/components/alert/AlertOneLine";
+import { NotificationProps } from ":/components/notification/types";
 import { VariantType } from ":/utils/VariantUtils";
 
-export interface AlertProps extends PropsWithChildren {
-  additional?: React.ReactNode;
-  buttons?: React.ReactNode;
-  canClose?: boolean;
+/**
+ * `NotificationProps` carries everything the alert shares with the toast: the
+ * variant, the icon and the action row. What follows is specific to the alert.
+ */
+export interface AlertProps extends NotificationProps {
+  additional?: ReactNode;
+  /** Free-form node appended after the labelled buttons. */
+  buttons?: ReactNode;
   className?: string;
   closed?: boolean;
   expandable?: boolean;
   expanded?: boolean;
   hide?: boolean;
-  icon?: ReactNode;
   onClose?: (value: boolean) => void;
   onExpand?: (value: boolean) => void;
-  primaryLabel?: string;
-  primaryOnClick?: ButtonProps["onClick"];
-  primaryProps?: ButtonProps;
-  tertiaryLabel?: string;
-  tertiaryOnClick?: ButtonProps["onClick"];
-  tertiaryProps?: ButtonProps;
-  type?: VariantType;
 }
 
 export const Alert = (props: AlertProps) => {

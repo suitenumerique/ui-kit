@@ -34,6 +34,30 @@ export const CustomButtons: Story = {
   },
 };
 
+export const LabelledButtons: Story = {
+  args: {
+    children: "Alert component info",
+    tertiaryLabel: "Later",
+    primaryLabel: "Retry",
+    canClose: true,
+  },
+};
+
+export const Actions: Story = {
+  args: {
+    children: "Document moved",
+    actions: [{ label: "Undo", onClick: () => {} }],
+    canClose: true,
+  },
+};
+
+export const WithoutIcon: Story = {
+  args: {
+    children: "Alert component without icon",
+    hideIcon: true,
+  },
+};
+
 export const Success: Story = {
   args: {
     children: "Alert component Success",

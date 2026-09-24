@@ -28,11 +28,52 @@ The visual variant, from Cunningham's `VariantType` enum: `info`, `success`,
 
 ### `canClose`
 
-When `true`, a close button is rendered on the right side of the alert,
-letting the user dismiss it.
+When `true`, a close button is rendered at the end of the action row, letting
+the user dismiss the alert.
+
+### `primaryLabel` and `tertiaryLabel`
+
+Labelled buttons rendered in the action row. They wear the same borderless
+32px look as the [`Toast`](?path=/docs/components-toast--docs) ones, tinted
+with the alert variant. `primaryOnClick`, `primaryProps`, `tertiaryOnClick`
+and `tertiaryProps` let you wire and customise them.
+
+<Canvas of={AlertStories.LabelledButtons} />
+
+### `actions`
+
+Either a ready-made React node, or a list of `{ label, onClick }` descriptors
+rendered as borderless buttons matching the variant. Same prop, same shape as
+on the `Toast`.
+
+<Canvas of={AlertStories.Actions} />
 
 ### `buttons`
 
-A React node rendered next to the alert message.
+A React node appended after the labelled buttons. Unlike `actions` descriptors,
+a node keeps whatever look you give it.
 
 <Canvas of={AlertStories.CustomButtons} />
+
+### `icon` and `hideIcon`
+
+`icon` replaces the leading icon, `hideIcon` removes it altogether.
+
+<Canvas of={AlertStories.WithoutIcon} />
+
+## Shared content with `Toast`
+
+`Alert` and `Toast` render their message row through the same internal
+component, so the structure and the button placement match. The props they
+share are declared once in the exported `NotificationProps` interface, which
+both `AlertProps` and `ToastProps` extend: `type`, `icon`, `hideIcon`,
+`actions`, `primaryLabel`, `primaryOnClick`, `primaryProps`, `tertiaryLabel`,
+`tertiaryOnClick`, `tertiaryProps` and `canClose`.
+
+`AlertProps` adds what only the alert does: `additional`, `buttons`,
+`expandable`, `expanded`, `closed`, `hide`, `className`, `onClose` and
+`onExpand`. `ToastProps` adds `duration`, `progress`, `disableAnimate`,
+`onDelete` and `closeToast`.
+
+Both also share the same variant colors. What still differs is the chrome: the
+toast floats with an elevation and slides in, the alert sits inline in the page.

@@ -100,6 +100,8 @@ export type {
   ModalProps,
   ModalTab,
   ModalTabVariantProps,
+  NotificationAction,
+  NotificationProps,
   Option,
   OptionWithRender,
   OptionWithoutRender,

@@ -1,0 +1,93 @@
+@use "../../utils/responsive" as *;
+
+// Shared structure for Alert and Toast. Colors are set in each component.
+@mixin notification-content($block) {
+  .#{$block}__content {
+    display: flex;
+    align-items: center;
+    gap: var(--c--globals--spacings--xs, 8px);
+    min-width: 0;
+
+    &__children {
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  // Interactive icon placed before text for screen readers.
+  .#{$block}__icon--after-message {
+    order: -1;
+  }
+
+  .#{$block}__actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--c--globals--spacings--xs, 8px);
+    margin-inline-start: auto;
+  }
+
+  // Custom styles for action buttons
+  .#{$block}__actions .#{$block}__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    padding: 0 var(--c--globals--spacings--xs, 8px);
+    border: 1px solid transparent;
+    border-radius: var(--c--globals--spacings--3xs, 4px);
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--c--globals--font--sizes--base, 16px);
+    font-weight: 500;
+    line-height: var(--c--globals--line-heights--md, 22px);
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+
+  // On mobile, message takes full width and buttons are stacked.
+  @include media(xs) {
+    .#{$block}__content {
+      position: relative;
+      flex-wrap: wrap;
+    }
+
+    // Text stays on the first line, actions wrap below.
+    .#{$block}__content__children {
+      flex: 1 1 0;
+    }
+
+    .#{$block}__actions {
+      flex: 1 0 100%;
+      flex-direction: column;
+      align-items: center;
+      margin-inline-start: 0;
+    }
+
+    // In column, the primary action is above the tertiary.
+    .#{$block}__actions .#{$block}__action--tertiary {
+      order: 1;
+    }
+
+    // Close button stays at top-right above message.
+    .#{$block}__actions .#{$block}__action--close {
+      position: absolute;
+      top: 0;
+      inset-inline-end: 0;
+    }
+
+    // Space for close button.
+    .#{$block}__content:has(.#{$block}__action--close)
+      .#{$block}__content__children {
+      padding-inline-end: 40px;
+    }
+  }
+}

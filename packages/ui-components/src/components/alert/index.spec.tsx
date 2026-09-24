@@ -26,6 +26,31 @@ describe("<Alert/>", () => {
       expect($icon).toBeNull();
     }
   });
+  it("reads the message before the expandable toggle", () => {
+    render(
+      <CunninghamProvider>
+        <Alert
+          type={VariantType.INFO}
+          additional="Additional information"
+          expandable={true}
+        >
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+
+    // The toggle is interactive, so it stays announced. Coming after the
+    // message in the DOM is what keeps it from being read first.
+    const $content = document.querySelector(".c__alert__content")!;
+    const $message = $content.querySelector(".c__alert__content__message")!;
+    const $icon = $content.querySelector(".c__alert__icon")!;
+
+    expect($icon).not.toHaveAttribute("aria-hidden");
+    expect(
+      $message.compareDocumentPosition($icon) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
   it("renders additional information", () => {
     render(
       <CunninghamProvider>
@@ -70,6 +95,53 @@ describe("<Alert/>", () => {
     );
     screen.getByRole("button", { name: "Primary" });
     screen.getByRole("button", { name: "Tertiary" });
+  });
+  it("renders the labelled buttons with the shared borderless look", () => {
+    render(
+      <CunninghamProvider>
+        <Alert
+          type={VariantType.INFO}
+          primaryLabel="Primary"
+          tertiaryLabel="Tertiary"
+        >
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+    expect(screen.getByRole("button", { name: "Primary" })).toHaveClass(
+      "c__alert__action",
+      "c__button--small",
+    );
+    expect(screen.getByRole("button", { name: "Tertiary" })).toHaveClass(
+      "c__alert__action",
+      "c__button--small",
+    );
+  });
+  it("renders actions given as a list of descriptors", async () => {
+    const onClick = vi.fn();
+    render(
+      <CunninghamProvider>
+        <Alert type={VariantType.INFO} actions={[{ label: "Undo", onClick }]}>
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+
+    const $action = screen.getByRole("button", { name: "Undo" });
+    expect($action).toHaveClass("c__alert__action");
+
+    await userEvent.click($action);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+  it("hides the icon when hideIcon is set", () => {
+    render(
+      <CunninghamProvider>
+        <Alert type={VariantType.INFO} hideIcon>
+          Alert component
+        </Alert>
+      </CunninghamProvider>,
+    );
+    expect(document.querySelector(".c__alert__icon")).toBeNull();
   });
   it("renders custom buttons via buttons props", () => {
     render(
