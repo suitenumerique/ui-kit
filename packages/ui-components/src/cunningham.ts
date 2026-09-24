@@ -29,6 +29,7 @@ export * from "./components/modal/MessageModal";
 export * from "./components/modal/ModalProvider";
 export * from "./components/pagination";
 export * from "./components/popover";
+export * from "./components/progress-bar";
 export {
   DEFAULT_LOCALE,
   DEFAULT_THEME,

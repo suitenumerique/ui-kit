@@ -8,7 +8,6 @@ export const tokens = (defaults: DefaultTokens) => {
       defaults.contextuals.background.semantic.neutral.tertiary,
     color: defaults.contextuals.content.semantic.neutral.primary,
     "font-weight": defaults.globals.font.weights.regular,
-    "icon-size": "19px",
-    "progress-bar-height": "3px",
+    "icon-size": "24px",
   };
 };

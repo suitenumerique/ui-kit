@@ -1,16 +1,16 @@
-import { Canvas, Meta, Story, Source, ArgTypes } from '@storybook/blocks';
-import * as Stories from './index.stories';
-import { toast } from './DocUtils';
-import { ToastProvider } from './ToastProvider';
-import { Toast } from './index';
+import { Canvas, Meta, Story, Source, ArgTypes } from "@storybook/blocks";
+import * as Stories from "./index.stories";
+import { toast } from "./DocUtils";
+import { ToastProvider } from "./ToastProvider";
+import { Toast } from "./index";
 
-<Meta of={Stories}/>
+<Meta of={Stories} />
 
 # Toast
 
 Cunningham provides a powerful Toast component for displaying any kind of information for a defined amount of time.
 
-<Canvas of={Stories.Demo} sourceState="none"/>
+<Canvas of={Stories.Demo} sourceState="none" />
 
 ## Usage
 
@@ -24,12 +24,28 @@ Toasts are really simple to use, you need to wrap your app inside `CunninghamPro
 import { CunninghamProvider } from "@gouvfr-lasuite/ui-components";
 
 const App = () => (
-  <CunninghamProvider>
-    <InnerApp />
-  </CunninghamProvider>
-);
-  `}
+
+<CunninghamProvider>
+  <InnerApp />
+</CunninghamProvider>
+); `} />
+
+Pass `toastPosition` on `CunninghamProvider` to choose the corner. The toast
+slides in from that same side: `bottom-left` (default) arrives from the left,
+`bottom-right` sits on the right and arrives from the right.
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`
+<CunninghamProvider toastPosition="bottom-right">
+  <InnerApp />
+</CunninghamProvider>
+`}
 />
+
+You can also wrap a subtree in `ToastProvider` with `position`.
 
 And then simply use the `toast` function from `useToastProvider` hook.
 
@@ -41,11 +57,11 @@ And then simply use the `toast` function from `useToastProvider` hook.
 const InnerApp = () => {
   const { toast } = useToastProvider();
 
-  return (
-    <button onClick={() => toast("Hello world!")}>
-      Create toast
-    </button>
-  );
+return (
+<button onClick={() => toast("Hello world!")}>
+Create toast
+</button>
+);
 };
 `}/>
 
@@ -53,9 +69,20 @@ You can also customize the appearance of the toast with the `toast` function. Se
 
 <ArgTypes of={toast} />
 
+## Position
+
+`toastPosition` is one of `top-left`, `top-center`, `top-right`, `bottom-left`
+(default), `bottom-center`, `bottom-right`. The slide follows the side: a toast
+on the right arrives from the right.
+
+<Canvas of={Stories.PositionBottomRight} />
+<Canvas of={Stories.PositionTopRight} />
+<Canvas of={Stories.SlideFromRight} />
+
 ## Type
 
-Toast can be of different types, each type has a different color and icon.
+Toast can be of different types; each type has a different color. The leading
+icon is an arrow by default. Pass `icon` to replace it, or `hideIcon` to hide it.
 
 <Canvas of={Stories.Info} />
 <Canvas of={Stories.Success} />
@@ -63,17 +90,128 @@ Toast can be of different types, each type has a different color and icon.
 <Canvas of={Stories.Error} />
 <Canvas of={Stories.Neutral} />
 
+Pass `icon` to replace the default arrow.
+
+<Canvas of={Stories.CustomIcon} />
+
+Pass `hideIcon` to show no leading icon.
+
+<Canvas of={Stories.HiddenIcon} />
+
 ## Actions
 
 You can quickly add an action to your toast by passing `primaryLabel` and `primaryOnClick` props to the `toast` function.
+`tertiaryLabel`, `tertiaryOnClick`, `primaryProps` and `tertiaryProps` are available too.
 
 <Canvas of={Stories.InfoWithButton} />
+<Canvas of={Stories.WithLabelledButtons} />
+
+`actions` also accepts a list of `{ label, onClick }` descriptors, rendered as borderless
+buttons tinted to match the toast type.
+
+<Canvas of={Stories.WithActions} />
+
+Pass `canClose` to append a close button that dismisses the toast.
+
+<Canvas of={Stories.Closable} />
 
 ## Customize
 
-You can customize the appearance of the toast by passing `actions` when calling `toast` function.
+You can customize the appearance of the toast by passing a node as `actions` when calling
+the `toast` function. Unlike the descriptors above, a node keeps whatever look you give it.
 
 <Canvas of={Stories.InfoCustom} />
+
+## Progress
+
+Pass `progress` to display a completion percentage next to the message.
+
+<Canvas of={Stories.WithProgress} />
+
+## Stacking
+
+Toasts stack: several of them can be on screen at once, the newest at the bottom.
+
+<Canvas of={Stories.Stacked} />
+
+## Updating and dismissing
+
+`toast` returns an id you can use to update or dismiss a toast later. `useToastProvider`
+exposes `updateToast` and `dismissToast` for that.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const { toast, dismissToast } = useToastProvider();
+
+const id = toast("File moved", VariantType.SUCCESS, {
+actions: [{ label: "Cancel", onClick: () => {
+undoMove();
+dismissToast(id);
+}}],
+});
+`}/>
+
+`updateToast` takes the toast's own props, not the underlying library's options. It
+re-renders the toast with them merged over the ones it was raised with, so the wrapper
+and everything you leave out are preserved. Pass `message` to replace the text.
+
+<Source
+  language='tsx'
+  dark
+  format={false}
+  code={`
+const id = toast("Uploading", VariantType.INFO, { progress: 15 });
+
+// Only the progress moves: the message, the variant and the buttons stay.
+updateToast(id, { progress: 60 });
+
+// Then switch the whole thing over to the success variant.
+updateToast(id, { message: "Uploaded", type: VariantType.SUCCESS, progress: 100 });
+`}/>
+
+Passing `duration` to `updateToast` restarts the dismissal timer; leaving it out keeps
+the one the toast was raised with.
+
+## Using `Toast` on its own
+
+`toast()` covers the usual case, but `Toast` is exported and can be mounted directly,
+for instance to pin a notification inside a page. It then owns its own lifecycle: give
+it a `duration` and it dismisses itself after that delay, fading out before calling
+`onDelete`. Without a `duration` it simply stays.
+
+<Source
+  language="tsx"
+  dark
+  format={false}
+  code={`
+<Toast type={VariantType.SUCCESS} duration={6000} onDelete={() => setShown(false)}>
+  File moved
+</Toast>
+`}
+/>
+
+Raised through `ToastProvider`, the timer belongs to the provider instead, so it does
+not hand `duration` down and the two never compete to remove the same toast. The
+component carries `role="alert"` in both cases.
+
+## Shared content with `Alert`
+
+`Toast` and [`Alert`](?path=/docs/components-alert--docs) render their message row
+through the same internal component, so the structure and the button placement match.
+The props they share are declared once in the exported `NotificationProps` interface,
+which both `ToastProps` and `AlertProps` extend: `type`, `icon`, `hideIcon`, `actions`,
+`primaryLabel`, `primaryOnClick`, `primaryProps`, `tertiaryLabel`, `tertiaryOnClick`,
+`tertiaryProps` and `canClose`.
+
+`ToastProps` adds what only the toast does: `duration`, `progress`, `disableAnimate`,
+`onDelete` and `closeToast`. `AlertProps` adds `additional`, `buttons`, `expandable`,
+`expanded`, `closed`, `hide`, `className`, `onClose` and `onExpand`.
+
+Both also share the same variant colors. What still differs is the chrome: the toast
+floats with an elevation and slides in, the alert sits inline in the page.
 
 ## Props
 
@@ -86,12 +224,12 @@ the heavy lifting for you.
 
 Here a the custom design tokens defined by the Toast.
 
-| Token        	| Description                 	|
-|---------------	|-----------------------------	|
-| slide-in-duration   | Time the toast takes to slide in 	|
-| slide-out-duration 	| Time the toast takes to slide out	|
-| background-color 	| Default background color 	|
-| color 	| Color of the content	|
-| font-weight 	| Font weight of the content 	|
-| icon-size 	| Size of the left icon	|
-| progress-bar-height 	| Height of the progress bar	|
+| Token     | Description           |
+| --------- | --------------------- |
+| icon-size | Size of the left icon |
+
+The toast now takes its colors and typography from the semantic tokens
+(`contextuals.background.surface`, `contextuals.content.semantic.*`) like the rest of the
+recent components, so `background-color`, `color` and `font-weight` are no longer read.
+Slide durations are handled by the transition, so `slide-in-duration` is no longer
+read. `slide-out-duration` still is, for the fade-out of a toast mounted on its own.

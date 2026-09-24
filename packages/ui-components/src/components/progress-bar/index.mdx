@@ -1,0 +1,58 @@
+import { Canvas, Meta } from '@storybook/addon-docs';
+import { ArgTypes } from '@storybook/blocks';
+import { ProgressBar } from './index';
+import * as Stories from './index.stories';
+
+<Meta of={Stories}/>
+
+# ProgressBar
+
+A horizontal bar showing how far a task has gone. It renders nothing but the
+bar: the label, the percentage and the layout around it are up to the caller.
+
+<Canvas of={Stories.Default}/>
+
+## `value`
+
+A number from 0 to 100. Values outside the range are clamped, so a computed
+ratio can be passed straight through without guarding it.
+
+<Canvas of={Stories.Empty}/>
+
+<Canvas of={Stories.Complete}/>
+
+## Indeterminate
+
+Leave `value` out when the length of the task is not known yet. The bar then
+sweeps a short segment across the track instead of filling up.
+
+Note that `0` and "unknown" are different things: `value={0}` is a determinate
+bar that has not started, while omitting `value` is an indeterminate one.
+
+<Canvas of={Stories.Indeterminate}/>
+
+## Colour
+
+The bar always uses the brand colour. Retint it, globally or on a subtree, by
+overriding the `--c--components--progress-bar--color` custom property.
+
+## Accessibility
+
+The bar carries `role="progressbar"` along with `aria-valuemin`,
+`aria-valuemax` and, when determinate, `aria-valuenow`. In the indeterminate
+case `aria-valuenow` is deliberately left out: that absence is what tells a
+screen reader the completion is unknown.
+
+It has no label of its own, so pass `aria-label`, or `aria-labelledby` when a
+visible label already exists:
+
+```tsx
+<ProgressBar value={42} aria-label="Uploading the document" />
+```
+
+Users who ask for reduced motion get a still, filled bar rather than the
+sweeping animation.
+
+## Props
+
+<ArgTypes of={ProgressBar}/>

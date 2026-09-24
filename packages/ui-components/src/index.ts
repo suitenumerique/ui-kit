@@ -106,6 +106,7 @@ export type {
   PaginationProps,
   PopoverProps,
   ProConnectButtonProps,
+  ProgressBarProps,
   Props,
   RadioOnlyProps,
   RadioProps,
@@ -118,8 +119,14 @@ export type {
   SwitchOnlyProps,
   SwitchProps,
   TextAreaProps,
+  ToastAction,
+  ToastDismissParams,
+  ToastId,
+  ToastPosition,
   ToastProps,
   ToastProviderContext,
+  ToastProviderProps,
+  ToastUpdateOptions,
   TooltipProps,
 } from "./cunningham";
 

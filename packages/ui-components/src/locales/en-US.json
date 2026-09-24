@@ -218,6 +218,9 @@
       "expand_aria_label": "Expand alert",
       "shrink_aria_label": "Shrink alert"
     },
+    "toast": {
+      "close_aria_label": "Close notification"
+    },
     "pagination": {
       "goto_label": "Go to page",
       "goto_label_aria": "Go to any page",

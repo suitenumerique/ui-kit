@@ -218,6 +218,9 @@
       "expand_aria_label": "Meldung ausklappen",
       "shrink_aria_label": "Meldung einklappen"
     },
+    "toast": {
+      "close_aria_label": "Benachrichtigung schließen"
+    },
     "pagination": {
       "goto_label": "Gehe zu Seite",
       "goto_label_aria": "Zu einer beliebigen Seite gehen",
