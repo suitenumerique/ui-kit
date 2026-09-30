@@ -35,6 +35,22 @@
   }
 }
 
+// DropdownMenu wraps its list with optional top/bottom messages. The popover
+// caps the wrapper `max-height`, so the wrapper is laid out as a column in which
+// the messages keep their size while the list shrinks and scrolls.
+// The list never shrinks below about one item: when even the messages lack
+// room, the whole wrapper scrolls instead so that nothing gets out of reach.
+.c__dropdown-menu--with-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  > .c__dropdown-menu__list {
+    flex: 1 1 auto;
+    min-height: 54px;
+  }
+}
+
 .c__dropdown-menu-item-top-message,
 .c__dropdown-menu-item-bottom-message {
   display: flex;
