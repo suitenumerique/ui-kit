@@ -11,6 +11,7 @@ import { DropdownMenuItem } from "./types";
 import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
 import clsx from "clsx";
 import { useCunningham } from ":/components/provider";
+import { useSingleScroll } from "./useSingleScroll";
 
 const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
   return "type" in item && item.type === "separator";
@@ -47,9 +48,10 @@ export const DropdownMenu = ({
   const id = useId();
   const triggerRef = useRef(null);
   const { t } = useCunningham();
-  const menuClassName = `c__dropdown-menu${
-    variant === "tiny" ? " c__dropdown-menu--tiny" : ""
-  }`;
+  const { isSingleScroll, rootRef, onFocus } = useSingleScroll();
+  const menuClassName = clsx("c__dropdown-menu", {
+    "c__dropdown-menu--tiny": variant === "tiny",
+  });
   const onOpenChangeHandler = (isOpen: boolean) => {
     onOpenChange?.(isOpen);
   };
@@ -92,7 +94,8 @@ export const DropdownMenu = ({
               />
             </MenuItem>
             <Popover offset={-4} shouldFlip containerPadding={16}>
-              <Menu className={menuClassName}>
+              {/* Submenus have no top/bottom messages: the menu is the list itself. */}
+              <Menu className={clsx(menuClassName, "c__dropdown-menu__list")}>
                 {renderMenuItems(option.children!)}
               </Menu>
             </Popover>
@@ -160,7 +163,13 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <div className={menuClassName}>
+        <div
+          ref={rootRef}
+          onFocus={onFocus}
+          className={clsx(menuClassName, "c__dropdown-menu--root", {
+            "c__dropdown-menu--single-scroll": isSingleScroll,
+          })}
+        >
           {topMessage && (
             <div className="c__dropdown-menu-item-top-message">
               {topMessage}

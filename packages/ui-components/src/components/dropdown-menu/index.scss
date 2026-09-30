@@ -35,6 +35,34 @@
   }
 }
 
+// The root DropdownMenu (unlike submenus) wraps its list with optional
+// top/bottom messages. The popover caps the wrapper `max-height`, so the
+// wrapper is laid out as a column in which the messages keep their size while
+// the list shrinks and scrolls.
+// The list never shrinks below one item, a floor matching a single item exactly
+// so that short menus get no blank space below their items. When even the
+// messages and that item lack room, DropdownMenu sets `--single-scroll`: the
+// list grows to its content and only the wrapper scrolls, so that nothing gets
+// out of reach without nesting two scrolls.
+.c__dropdown-menu--root {
+  // One item: vertical padding + line height + bottom border.
+  --item-height: calc(2 * 8px + 19px + 1px);
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  > .c__dropdown-menu__list {
+    flex: 1 1 auto;
+    min-height: var(--item-height);
+  }
+
+  &.c__dropdown-menu--single-scroll > .c__dropdown-menu__list {
+    flex: none;
+    overflow: visible;
+  }
+}
+
 .c__dropdown-menu-item-top-message,
 .c__dropdown-menu-item-bottom-message {
   display: flex;
@@ -144,6 +172,9 @@ button.c__dropdown-menu-item {
 }
 
 .c__dropdown-menu--tiny {
+  // Overrides the root list floor with the tiny item height.
+  --item-height: calc(16px + 2 * var(--c--globals--spacings--xs, 8px) + 1px);
+
   border-radius: var(--c--globals--spacings--xs, 8px);
   background-color: var(--c--contextuals--background--surface--secondary);
 

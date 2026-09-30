@@ -198,7 +198,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
         shouldFlip
       >
         <Menu
-          className="c__dropdown-menu"
+          className="c__dropdown-menu c__dropdown-menu__list"
           aria-label="Context menu"
           data-testid="context-menu"
           onAction={(key) => {
