@@ -248,6 +248,20 @@ export const DisabledOptions = {
   },
 };
 
+export const MenuMaxHeight = {
+  render: ((args) => (
+    <div style={{ paddingBottom: "360px", position: "relative" }}>
+      <Select {...args} />
+    </div>
+  )) as StoryFn<typeof Select>,
+
+  args: {
+    label: "Select a city",
+    options: OPTIONS,
+    menuMaxHeight: 320,
+  },
+};
+
 export const Success = {
   render: Template,
 

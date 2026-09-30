@@ -268,6 +268,19 @@ export const NotClearable = {
   },
 };
 
+export const MenuMaxHeight = {
+  render: ((args) => (
+    <div style={{ paddingBottom: "360px" }}>
+      <Select {...args} multi={true} />
+    </div>
+  )) as StoryFn<typeof Select>,
+  args: {
+    label: "Select cities",
+    options: OPTIONS,
+    menuMaxHeight: 320,
+  },
+};
+
 export const DisabledOptions = {
   render: Template,
   args: {
