@@ -1,13 +1,20 @@
-@mixin alert-variant($context) {
-  background-color: color-mix(
-    in srgb,
-    var(--c--contextuals--background--semantic--#{$context}--tertiary),
-    transparent 70%
-  );
+@use "src/utils" as *;
 
+@mixin alert-variant($context) {
+  // Fallback for browsers without color-mix() support.
+  background-color: var(--c--contextuals--background--semantic--#{$context}--tertiary);
   border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
   border-left-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
   color: var(--c--contextuals--content--semantic--#{$context}--primary) !important;
+
+  @include supports-color-mix {
+    background-color: color-mix(
+      in srgb,
+      var(--c--contextuals--background--semantic--#{$context}--tertiary),
+      transparent 70%
+    );
+  }
+
   .c__alert__icon {
     color: var(--c--contextuals--content--semantic--#{$context}--primary);
   }
