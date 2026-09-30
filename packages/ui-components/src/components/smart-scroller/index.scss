@@ -1,3 +1,5 @@
+@use "src/utils" as *;
+
 // The native scrollbar is hidden so the arrows are the primary affordance;
 // the content still scrolls with the wheel/trackpad and the arrow buttons.
 // An arrow (and its gradient fade) is only rendered by the component on the
@@ -61,8 +63,8 @@ $fade-width: 64px;
       left: 0;
       background: linear-gradient(
         to right,
-        rgb(255, 255, 255) 0%,
-        rgba(255, 255, 255, 0) 100%
+        var(--c--contextuals--background--surface--primary) 0%,
+        transparent 100%
       );
 
       mask-image: linear-gradient(to right, black 50%, transparent 100%);
@@ -72,8 +74,8 @@ $fade-width: 64px;
       right: 0;
       background: linear-gradient(
         to left,
-        rgb(255, 255, 255) 0%,
-        rgba(255, 255, 255, 0) 100%
+        var(--c--contextuals--background--surface--primary) 0%,
+        transparent 100%
       );
       mask-image: linear-gradient(to left, black 50%, transparent 100%);
     }
@@ -110,11 +112,18 @@ $fade-width: 64px;
     }
 
     &:hover {
-      background-color: color-mix(
-        in srgb,
-        var(--c--contextuals--background--semantic--neutral--secondary),
-        white 70%
+      // Fallback for browsers without color-mix() support.
+      background-color: var(
+        --c--contextuals--background--semantic--neutral--tertiary
       );
+
+      @include supports-color-mix {
+        background-color: color-mix(
+          in srgb,
+          var(--c--contextuals--background--semantic--neutral--secondary),
+          var(--c--contextuals--background--surface--primary) 70%
+        );
+      }
     }
 
     &--left {

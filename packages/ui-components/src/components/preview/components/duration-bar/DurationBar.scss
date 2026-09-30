@@ -1,3 +1,5 @@
+@use "src/utils" as *;
+
 .suite-progress-bar {
   display: flex;
   align-items: center;
@@ -22,24 +24,25 @@
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
+    // Color of the unfilled part of the track, with a fallback for browsers
+    // without color-mix() support.
+    --track-color: var(--c--contextuals--border--semantic--neutral--tertiary);
     background: linear-gradient(
       to right,
       var(--c--contextuals--content--semantic--neutral--tertiary) 0%,
       var(--c--contextuals--content--semantic--neutral--tertiary)
         var(--progress-percentage, 100%),
-      color-mix(
-          in srgb,
-          var(--c--contextuals--content--semantic--neutral--tertiary) 25%,
-          transparent
-        )
-        var(--progress-percentage, 0%),
-      color-mix(
-          in srgb,
-          var(--c--contextuals--content--semantic--neutral--tertiary) 25%,
-          transparent
-        )
-        100%
+      var(--track-color) var(--progress-percentage, 0%),
+      var(--track-color) 100%
     );
+
+    @include supports-color-mix {
+      --track-color: color-mix(
+        in srgb,
+        var(--c--contextuals--content--semantic--neutral--tertiary) 25%,
+        transparent
+      );
+    }
 
     &:focus-visible {
       outline: 2px solid
@@ -53,18 +56,8 @@
         var(--c--contextuals--content--semantic--brand--primary) 0%,
         var(--c--contextuals--content--semantic--brand--primary)
           var(--progress-percentage, 100%),
-        color-mix(
-            in srgb,
-            var(--c--contextuals--content--semantic--neutral--tertiary) 25%,
-            transparent
-          )
-          var(--progress-percentage, 0%),
-        color-mix(
-            in srgb,
-            var(--c--contextuals--content--semantic--neutral--tertiary) 25%,
-            transparent
-          )
-          100%
+        var(--track-color) var(--progress-percentage, 0%),
+        var(--track-color) 100%
       );
 
       &::-webkit-slider-thumb {

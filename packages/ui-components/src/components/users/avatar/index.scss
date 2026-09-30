@@ -1,20 +1,27 @@
+@use "src/utils" as *;
+
 .c__avatar {
   --border-width: 1px;
-  --overlay-color: color-mix(in srgb,var(--c--contextuals--background--surface--primary) 20%, transparent 80%); 
+  // Fallback for browsers without color-mix() support: the overlay (bottom
+  // gradient and border) is simply not rendered.
+  --overlay-color: transparent;
   --background-size: calc(100% + var(--border-width) * 2);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--background-color);
   background: var(--background-color) linear-gradient(0deg, var(--overlay-color) 0%, transparent 100%);
   background-size: var(--background-size) calc(var(--background-size) * 0.5);
   background-repeat: no-repeat;
   background-position: center calc(100% + var(--border-width));
   color: var(--c--contextuals--background--surface--tertiary);
-  color: color-mix(in srgb,var(--c--contextuals--background--surface--tertiary) 80%, transparent 20%); 
   border: var(--border-width) solid var(--overlay-color);
   box-sizing: border-box;
+
+  @include supports-color-mix {
+    --overlay-color: color-mix(in srgb, var(--c--contextuals--background--surface--primary) 20%, transparent 80%);
+    color: color-mix(in srgb, var(--c--contextuals--background--surface--tertiary) 80%, transparent 20%);
+  }
 
   &__initials {
     display: flex;
