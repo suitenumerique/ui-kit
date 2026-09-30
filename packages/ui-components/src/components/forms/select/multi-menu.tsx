@@ -22,6 +22,7 @@ export const SelectMultiMenu = (
       selectRef={props.selectRef}
       downshiftReturn={props.downshiftReturn}
       menuOptionsStyle={props.menuOptionsStyle}
+      maxHeight={props.menuMaxHeight}
     >
       <ul>
         {props.downshiftReturn.isOpen && (

@@ -5,10 +5,13 @@ import { SelectProps } from ":/components/forms/select/index";
 import { SelectAuxProps } from ":/components/forms/select/mono-common";
 import { SelectMultiAuxProps } from ":/components/forms/select/multi-common";
 
+const DEFAULT_MENU_MAX_HEIGHT = 160;
+
 export interface SelectDropdownProps extends PropsWithChildren {
   isOpen: boolean;
   selectRef: React.RefObject<HTMLDivElement | null>;
   menuOptionsStyle?: SelectProps["menuOptionsStyle"];
+  maxHeight?: SelectProps["menuMaxHeight"];
   downshiftReturn:
     | SelectAuxProps["downshiftReturn"]
     | SelectMultiAuxProps["downshiftReturn"];
@@ -19,6 +22,7 @@ export const SelectMenu = ({
   selectRef,
   downshiftReturn,
   menuOptionsStyle,
+  maxHeight = DEFAULT_MENU_MAX_HEIGHT,
   children,
 }: SelectDropdownProps) => {
   const menuRef = React.useRef<HTMLElement | null>(null);
@@ -27,7 +31,7 @@ export const SelectMenu = ({
     overlayRef: menuRef,
     placement: "bottom",
     isOpen,
-    maxHeight: 160,
+    maxHeight,
     shouldUpdatePosition: true,
   });
   const menuProps = downshiftReturn.getMenuProps({
