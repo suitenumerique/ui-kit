@@ -9,6 +9,7 @@ export interface SelectDropdownProps extends PropsWithChildren {
   isOpen: boolean;
   selectRef: React.RefObject<HTMLDivElement | null>;
   menuOptionsStyle?: SelectProps["menuOptionsStyle"];
+  maxHeight?: SelectProps["menuMaxHeight"];
   downshiftReturn:
     | SelectAuxProps["downshiftReturn"]
     | SelectMultiAuxProps["downshiftReturn"];
@@ -19,6 +20,7 @@ export const SelectMenu = ({
   selectRef,
   downshiftReturn,
   menuOptionsStyle,
+  maxHeight = 160,
   children,
 }: SelectDropdownProps) => {
   const menuRef = React.useRef<HTMLElement | null>(null);
@@ -27,7 +29,7 @@ export const SelectMenu = ({
     overlayRef: menuRef,
     placement: "bottom",
     isOpen,
-    maxHeight: 160,
+    maxHeight,
     shouldUpdatePosition: true,
   });
   const menuProps = downshiftReturn.getMenuProps({

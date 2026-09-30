@@ -58,6 +58,11 @@ export type SelectProps = PropsWithChildren &
     monoline?: boolean;
     selectedItemsStyle?: "pills" | "text";
     menuOptionsStyle?: "plain" | "checkbox";
+    /**
+     * Maximum height of the options menu, in pixels. The menu is still capped to
+     * the space available in the viewport. Defaults to 160.
+     */
+    menuMaxHeight?: number;
     onSearchInputChange?: (event: {
       target: { value: string | undefined };
     }) => void;

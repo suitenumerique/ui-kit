@@ -255,6 +255,7 @@ export const SelectMonoAux = ({
         isOpen={downshiftReturn.isOpen}
         selectRef={ref}
         downshiftReturn={downshiftReturn}
+        maxHeight={props.menuMaxHeight}
       >
         <ul>
           {options.map((item, index) => {
