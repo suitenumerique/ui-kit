@@ -152,7 +152,7 @@
     "sass": "1.87.0",
     "sass-loader": "16.0.5",
     "shx": "0.4.0",
-    "storybook": "8.6.12",
+    "storybook": "8.6.17",
     "style-loader": "4.0.0",
     "tsx": "4.21.0",
     "typescript": "5.8.3",
