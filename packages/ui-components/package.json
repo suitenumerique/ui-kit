@@ -132,7 +132,7 @@
     "@types/react-modal": "3.16.3",
     "@types/react-virtualized": "9.22.3",
     "@vitejs/plugin-react": "4.4.1",
-    "@vitest/coverage-c8": "0.33.0",
+    "@vitest/coverage-v8": "0.33.0",
     "@vitest/ui": "3.1.2",
     "babel-loader": "10.0.0",
     "chromatic": "11.29.0",
