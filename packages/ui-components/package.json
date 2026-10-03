@@ -87,7 +87,7 @@
     "react-stately": "3.45.0",
     "react-virtualized": "9.22.6",
     "react-pdf": "10.1.0",
-    "read-excel-file": "9.3.1",
+    "read-excel-file": "9.3.10",
     "use-resize-observer": "9.1.0"
   },
   "peerDependencies": {
