@@ -150,7 +150,7 @@
     "react-hook-form": "7.56.2",
     "remark-gfm": "4.0.0",
     "sass": "1.87.0",
-    "sass-loader": "16.0.5",
+    "sass-loader": "16.0.8",
     "shx": "0.4.0",
     "storybook": "8.6.12",
     "style-loader": "4.0.0",
