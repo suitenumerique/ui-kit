@@ -158,7 +158,7 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.18.2",
     "vite": "6.4.1",
-    "vite-plugin-dts": "4.5.3",
+    "vite-plugin-dts": "4.5.4",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.1.2",
     "vitest-fetch-mock": "0.4.5",
