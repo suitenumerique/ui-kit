@@ -33,7 +33,7 @@ const componentTokenDefaults = {
   "forms-switch": switchTokens(defaultTokenRefs),
   "forms-textarea": textAreaTokens(defaultTokenRefs),
   modal: modalTokens(defaultTokenRefs),
-  toast: toastTokens(defaultTokenRefs),
+  toast: toastTokens(),
   tooltip: tooltipTokens(defaultTokenRefs),
 };
 

@@ -1,140 +1,197 @@
 @use "../../utils/responsive" as *;
-
-@mixin toast-variant($context) {
-  .c__progress-bar {
-    --c--progress--color: var(
-      --c--contextuals--background--semantic--#{$context}--primary
-    );
-  }
-
-  .c__toast__icon {
-    color: var(--c--contextuals--content--semantic--#{$context}--primary);
-  }
-}
+@use "../notification/content";
 
 .c__toast__container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-left: 3rem;
-  padding-bottom: 3rem;
+  --toastify-toast-width: var(--c--globals--breakpoints--sm);
+  --toastify-container-width: var(--c--globals--breakpoints--sm);
+
+  width: var(--c--globals--breakpoints--sm);
+  max-width: calc(100vw - var(--c--components--button--small-height));
 }
 
-@include media(sm) {
-  .c__toast__container {
-    padding: 0.5rem;
-    right: 0;
+// Reset the library toast chrome. Scoped under our container so it wins over
+// `.Toastify__toast`. `.c__toast` below is the appearance.
+.c__toast__container .c__toast__wrapper {
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: inherit;
+  margin-bottom: var(--c--globals--spacings--xs, 8px);
+}
 
-    .c__toast {
-      width: 100%;
-      min-width: auto;
-      max-width: none;
-    }
+@keyframes c__toast-fade-out {
+  to {
+    transform: translateY(8px);
+    opacity: 0;
   }
+}
+
+@keyframes c__toast-slide-in-left {
+  from {
+    transform: translate3d(-100vw, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-in-right {
+  from {
+    transform: translate3d(100vw, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-out-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    transform: translate3d(-100vw, 0, 0);
+  }
+}
+
+@keyframes c__toast-slide-out-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+.c__toast__container--slide-left .c__toast__wrapper--slide-in {
+  animation: c__toast-slide-in-left
+    var(--c--components--toast--slide-in-duration) both;
+}
+
+.c__toast__container--slide-left .c__toast__wrapper--slide-out {
+  animation: c__toast-slide-out-left
+    var(--c--components--toast--slide-out-duration) ease-in both;
+}
+
+.c__toast__container--slide-right .c__toast__wrapper--slide-in {
+  animation: c__toast-slide-in-right
+    var(--c--components--toast--slide-in-duration) both;
+}
+
+.c__toast__container--slide-right .c__toast__wrapper--slide-out {
+  animation: c__toast-slide-out-right
+    var(--c--components--toast--slide-out-duration) ease-in both;
 }
 
 .c__toast {
-  border-radius: 4px;
-  box-shadow: 0 2px 6px 2px #0c1a2b26;
-  background-color: var(--c--components--toast--background-color);
-  min-width: 18rem;
-  max-width: 27rem;
-  overflow: hidden;
-  will-change: transform;
-  color: var(--c--components--toast--color);
-  font-weight: var(--c--components--toast--font-weight);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--c--globals--breakpoints--sm);
+  min-height: var(--c--globals--spacings--xxl);
+  padding: var(--c--globals--spacings--xs, 8px);
+  border: 1px solid
+    var(
+      --c__notification--border,
+      var(--c--contextuals--border--semantic--neutral--tertiary)
+    );
+  border-radius: var(--c--globals--spacings--xs, 8px);
+  background: var(
+    --c__notification--background,
+    var(--c--contextuals--background--surface--primary)
+  );
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 145, 0.05);
+  font-family: var(--c--globals--font--families--base);
+  word-break: normal;
 
-  &:not(.c__toast--no-animate) {
-    animation: slide-in var(--c--components--toast--slide-in-duration) ease;
+  // Keeps a medium button from growing the toast. Wins over `.c__button--medium`
+  // on specificity, so no !important is needed.
+  .c__button {
+    height: var(--c--components--button--small-height);
+    min-height: var(--c--components--button--small-height);
   }
 
+  // A toast raised through the provider is animated by the transition on its
+  // wrapper. This is the fade-out of a toast mounted on its own, which runs its
+  // dismissal itself.
   &--disappear:not(.c__toast--no-animate) {
-    animation: slide-out var(--c--components--toast--slide-out-duration) ease
-      forwards;
+    animation: c__toast-fade-out var(--c--components--toast--slide-out-duration)
+      ease forwards;
   }
 
-  &__icon {
+  .c__notification__icon {
     display: flex;
     align-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
     justify-content: center;
+    box-sizing: border-box;
     flex-shrink: 0;
+    width: 24px;
+    height: 24px;
 
     span {
       font-size: var(--c--components--toast--icon-size);
     }
-  }
 
-  &__content {
-    padding: 1rem;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 0.5rem;
-
-    &__buttons {
-      flex-shrink: 0;
-    }
-
-    &__children {
-      flex-grow: 1;
+    svg {
+      display: block;
+      width: 24px;
+      height: 24px;
     }
   }
 
-  .c__progress-bar {
-    --c--progress--color: var(--c--contextuals--background--semantic--neutral--primary);
+  // Structure and variant colors come from the shared notification stylesheet.
+  .c__notification__content {
+    flex: 1;
+    min-height: var(--c--components--button--small-height);
+    padding: 0 var(--c--globals--spacings--3xs, 4px);
   }
 
-  &--info {
-    @include toast-variant("info");
+  .c__notification__content__children {
+    font-size: var(--c--globals--font--sizes--sm, 14px);
   }
 
-  &--success {
-    @include toast-variant("success");
+  .c__notification__content__message {
+    font-weight: 500;
+    line-height: var(--c--globals--line-heights--sm, 18px);
   }
 
-  &--warning {
-    @include toast-variant("warning");
+  &__progress {
+    margin-inline-start: 10px;
+    font-weight: 400;
+    line-height: var(--c--globals--line-heights--sm, 18px);
+    white-space: nowrap;
+    color: var(--c__notification--secondary);
   }
 
-  &--error {
-    @include toast-variant("error");
-  }
-}
-
-@keyframes slide-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-    opacity: 0;
+  .c__notification__actions {
+    gap: 1px;
   }
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  .c__toast__container--slide-left .c__toast__wrapper--slide-in,
+  .c__toast__container--slide-left .c__toast__wrapper--slide-out,
+  .c__toast__container--slide-right .c__toast__wrapper--slide-in,
+  .c__toast__container--slide-right .c__toast__wrapper--slide-out,
+  .c__toast--disappear:not(.c__toast--no-animate) {
+    animation: none;
   }
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateY(200px);
-  }
-}
-
-.c__progress-bar {
-  height: var(--c--components--toast--progress-bar-height);
-  --c--progress--color: var(--c--contextuals--background--semantic--brand--primary);
-
-  &__content {
-    height: 100%;
-    background-color: var(--c--progress--color);
+@include media(sm) {
+  // react-toastify pins every container to the left below 480px. Center it.
+  .c__toast__container {
+    left: 50%;
+    right: auto;
+    width: min(
+      var(--c--globals--breakpoints--sm),
+      calc(100vw - var(--c--components--button--small-height))
+    );
+    transform: translateX(-50%);
   }
 }

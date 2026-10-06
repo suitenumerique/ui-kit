@@ -1,3 +1,4 @@
+@use "react-toastify/dist/ReactToastify.css";
 @use "./cunningham";
 @use "cunningham-custom-style";
 @use "./components/form/file-uploader";
@@ -41,6 +42,7 @@
 @use "./components/modal";
 @use "./components/badge";
 @use "./components/header-banner";
+@use "./components/toast";
 @use "./components/icon";
 @use "./components/help-menu";
 @use "./components/feedback-form";
