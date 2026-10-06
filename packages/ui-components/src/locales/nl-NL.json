@@ -219,7 +219,8 @@
       "shrink_aria_label": "Melding inklappen"
     },
     "toast": {
-      "close_aria_label": "Melding sluiten"
+      "close_aria_label": "Melding sluiten",
+      "region_aria_label": "Meldingen"
     },
     "pagination": {
       "goto_label": "Ga naar pagina",

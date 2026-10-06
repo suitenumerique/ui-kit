@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
 import { TestStandaloneToast, TestToast } from "../helpers/mount-toast";
 
-const toastOf = (page: Page) => page.getByRole("alert");
+const toastOf = (page: Page) => page.getByRole("status");
 
 const callsOf = (page: Page) => page.evaluate(() => window.__toastCalls ?? []);
 

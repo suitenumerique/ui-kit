@@ -9,6 +9,12 @@ export * from "./types";
 
 const toastDefaultIcon = <ArrowRight size={24} />;
 
+// `alert` interrupts the screen reader. Reserve it for the types that need it.
+const toastRole = (type?: VariantType) =>
+  type === VariantType.WARNING || type === VariantType.ERROR
+    ? "alert"
+    : "status";
+
 export const Toast = ({
   type,
   duration,
@@ -62,7 +68,7 @@ export const Toast = ({
         "c__toast--disappear": disappear,
         "c__toast--no-animate": disableAnimate,
       })}
-      role="alert"
+      role={toastRole(type)}
     >
       <NotificationContent
         block="c__toast"
@@ -85,7 +91,7 @@ export const Toast = ({
         }
         trailing={
           props.progress !== undefined && (
-            <span className="c__toast__content__progress">
+            <span className="c__toast__content__progress" aria-hidden="true">
               {props.progress}%
             </span>
           )

@@ -219,7 +219,8 @@
       "shrink_aria_label": "Meldung einklappen"
     },
     "toast": {
-      "close_aria_label": "Benachrichtigung schließen"
+      "close_aria_label": "Benachrichtigung schließen",
+      "region_aria_label": "Benachrichtigungen"
     },
     "pagination": {
       "goto_label": "Gehe zu Seite",

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { ToastContainer, cssTransition, toast as notify } from "react-toastify";
 import { Toast, ToastProps } from ":/components/toast/index";
+import { useCunningham } from ":/components/provider";
 import { VariantType } from ":/utils/VariantUtils";
 import {
   ToastDismissParams,
@@ -96,6 +97,7 @@ export const ToastProvider = ({
   // which is what resolving the provider through context used to guarantee.
   const ownId = useId();
   const target = containerId ?? ownId;
+  const { t } = useCunningham();
 
   // Updating a toast means rebuilding the component with merged props, so keep
   // track of what each live toast was last rendered with.
@@ -164,9 +166,12 @@ export const ToastProvider = ({
         position={position}
         containerId={target}
         autoClose={DEFAULT_TOAST_DURATION}
-        // `Toast` carries the alert role itself, so that a standalone one is
-        // announced too. Leaving the default here would nest two of them.
+        // `Toast` carries `status` or `alert` itself, so a standalone one is
+        // announced too. Leaving the default here would nest a second one.
         role="presentation"
+        aria-label={t("components.toast.region_aria_label")}
+        // Alt+T is react-toastify's default, and it listens on the whole page.
+        hotKeys={() => false}
         hideProgressBar
         // The dismissal timer used to be a plain timeout, so it kept running
         // when the window lost focus. Keep it that way.

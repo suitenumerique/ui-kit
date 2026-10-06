@@ -37,7 +37,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("first"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast.closest(".c__app")).toBe(
       screen.getByTestId("first").closest(".c__app"),
     );
@@ -60,8 +60,12 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("45%");
+    expect(toast.querySelector(".c__toast__content__progress")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
   });
 
   it("renders actions given as a list of descriptors", async () => {
@@ -89,7 +93,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     within(toast).getByRole("button", { name: "See" });
 
     await user.click(within(toast).getByRole("button", { name: "Undo" }));
@@ -135,7 +139,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("Uploading");
     expect(toast).toHaveTextContent("15%");
     expect(toast).toHaveClass("c__toast", "c__toast--info");
@@ -143,9 +147,9 @@ describe("<ToastProvider />", () => {
     await user.click(screen.getByText("Update toast"));
 
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent("Uploaded"),
+      expect(screen.getByRole("status")).toHaveTextContent("Uploaded"),
     );
-    const updated = screen.getByRole("alert");
+    const updated = screen.getByRole("status");
     expect(updated).toHaveTextContent("100%");
     // The kit wrapper survives the update, restyled for the new variant.
     expect(updated).toHaveClass("c__toast", "c__toast--success");
@@ -180,13 +184,13 @@ describe("<ToastProvider />", () => {
 
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
-    await screen.findByRole("alert");
+    await screen.findByRole("status");
     await user.click(screen.getByText("Update toast"));
 
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent("60%"),
+      expect(screen.getByRole("status")).toHaveTextContent("60%"),
     );
-    const updated = screen.getByRole("alert");
+    const updated = screen.getByRole("status");
     expect(updated).toHaveTextContent("Uploading");
     expect(updated).toHaveClass("c__toast--info");
     expect(
@@ -194,7 +198,7 @@ describe("<ToastProvider />", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders a single alert element per toast", async () => {
+  it("renders a single status element per info toast", async () => {
     const Inner = () => {
       const { toast } = useToastProvider();
       return (
@@ -211,8 +215,13 @@ describe("<ToastProvider />", () => {
     render(<Inner />, { wrapper: CunninghamProvider });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    await screen.findByRole("alert");
-    expect(screen.getAllByRole("alert")).toHaveLength(1);
+    await screen.findByRole("status");
+    expect(screen.getAllByRole("status")).toHaveLength(1);
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(document.querySelector(".Toastify")).toHaveAttribute(
+      "aria-label",
+      "Notifications",
+    );
   });
 
   it("sits on the right and slides in from that side", async () => {
@@ -233,7 +242,7 @@ describe("<ToastProvider />", () => {
 
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
-    await screen.findByRole("alert");
+    await screen.findByRole("status");
 
     expect(
       document.querySelector(".Toastify__toast-container--bottom-right"),

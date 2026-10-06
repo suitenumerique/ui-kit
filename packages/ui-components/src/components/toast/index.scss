@@ -218,6 +218,16 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .c__toast__container--slide-left .c__toast__wrapper--slide-in,
+  .c__toast__container--slide-left .c__toast__wrapper--slide-out,
+  .c__toast__container--slide-right .c__toast__wrapper--slide-in,
+  .c__toast__container--slide-right .c__toast__wrapper--slide-out,
+  .c__toast--disappear:not(.c__toast--no-animate) {
+    animation: none;
+  }
+}
+
 @include media(sm) {
   // react-toastify pins every container to the left below 480px, whichever
   // corner it was raised from. Center it instead. Two classes so this wins

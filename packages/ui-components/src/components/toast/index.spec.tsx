@@ -31,12 +31,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("Toast content");
   });
 
@@ -66,12 +66,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("Toast content");
     // Toast has a button.
     const $button = within(toast).getByRole("button", { name: "Action" });
@@ -105,12 +105,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("Toast content");
     // Toast has custom button.
     within(toast).getByRole("button", { name: "Tertiary" });
@@ -137,11 +137,16 @@ describe("<Toast />", () => {
     const user = userEvent.setup();
     const button = screen.getByText("Create toast");
 
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    const role =
+      type === VariantType.WARNING || type === VariantType.ERROR
+        ? "alert"
+        : "status";
+
+    expect(screen.queryByRole(role)).not.toBeInTheDocument();
 
     await user.click(button);
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole(role);
     expect(toast).toHaveTextContent("Toast content");
     expect(toast.querySelector(".c__toast__icon svg")).toBeInTheDocument();
   });
@@ -165,7 +170,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(within(toast).getByTestId("custom-icon")).toBeInTheDocument();
     expect(toast.querySelector(".c__toast__icon svg")).not.toBeInTheDocument();
   });
@@ -190,7 +195,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(within(toast).getByRole("button", { name: "Primary" })).toHaveClass(
       "c__toast__action",
       "c__button--small",
@@ -224,7 +229,7 @@ describe("<Toast />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     await user.click(
       within(toast).getByRole("button", { name: "Close notification" }),
     );
@@ -249,7 +254,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("alert");
+    const toast = await screen.findByRole("status");
     expect(toast.querySelector(".c__toast__icon")).not.toBeInTheDocument();
   });
 
@@ -264,9 +269,9 @@ describe("<Toast />", () => {
         { wrapper: Wrapper },
       );
 
-    it("is announced as an alert", () => {
+    it("is announced as a status", () => {
       standalone();
-      expect(screen.getByRole("alert")).toHaveTextContent("Standalone");
+      expect(screen.getByRole("status")).toHaveTextContent("Standalone");
     });
 
     it("fades out and calls onDelete once its duration has elapsed", async () => {
@@ -275,7 +280,7 @@ describe("<Toast />", () => {
 
       expect(onDelete).not.toHaveBeenCalled();
       await waitFor(() => expect(onDelete).toHaveBeenCalledTimes(1));
-      expect(screen.getByRole("alert")).toHaveClass("c__toast--disappear");
+      expect(screen.getByRole("status")).toHaveClass("c__toast--disappear");
     });
 
     it("dismisses itself from the close button when canClose is set", async () => {
@@ -287,7 +292,7 @@ describe("<Toast />", () => {
       );
 
       await waitFor(() => expect(onDelete).toHaveBeenCalledTimes(1));
-      expect(screen.getByRole("alert")).toHaveClass("c__toast--disappear");
+      expect(screen.getByRole("status")).toHaveClass("c__toast--disappear");
     });
 
     it("never schedules a dismissal without a duration", async () => {
@@ -296,7 +301,7 @@ describe("<Toast />", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 80));
       expect(onDelete).not.toHaveBeenCalled();
-      expect(screen.getByRole("alert")).not.toHaveClass("c__toast--disappear");
+      expect(screen.getByRole("status")).not.toHaveClass("c__toast--disappear");
     });
 
     it("opts out of the timer when disableAnimate is set", async () => {
