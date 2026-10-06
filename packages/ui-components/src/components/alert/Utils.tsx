@@ -26,18 +26,29 @@ export const alertDefaultIcon = (type?: VariantType) => {
   return icon ? <span className="material-icons">{icon}</span> : undefined;
 };
 
-export const alertContentProps = (props: AlertProps) => ({
-  block: "c__alert" as const,
-  type: props.type,
-  icon: props.icon,
-  defaultIcon: alertDefaultIcon(props.type),
-  canClose: props.canClose,
-  onClose: props.onClose,
-});
+export const alertContentProps = (props: AlertProps) => {
+  // The expandable variant routes its toggle button through `icon`. Hiding it
+  // would take an interactive control away from assistive technologies, so it
+  // stays announced and moves after the message instead.
+  const interactiveIcon = !!props.expandable;
+
+  return {
+    block: "c__alert" as const,
+    type: props.type,
+    icon: props.icon,
+    defaultIcon: alertDefaultIcon(props.type),
+    hideIcon: props.hideIcon,
+    iconAriaHidden: interactiveIcon ? undefined : true,
+    iconAfterMessage: interactiveIcon,
+    canClose: props.canClose,
+    onClose: props.onClose,
+  };
+};
 
 export const alertActionProps = (props: AlertProps) => ({
   block: "c__alert" as const,
   type: props.type,
+  actions: props.actions,
   buttons: props.buttons,
   primaryLabel: props.primaryLabel,
   primaryOnClick: props.primaryOnClick,
