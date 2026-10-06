@@ -18,6 +18,8 @@ export const Toast = ({
 }: ToastProps) => {
   const container = useRef<HTMLDivElement>(null);
   const [disappear, setDisappear] = useState(false);
+  const onDeleteRef = useRef(onDelete);
+  onDeleteRef.current = onDelete;
 
   // Only a toast mounted on its own schedules its dismissal. Inside
   // `ToastProvider`, react-toastify owns the timer and withholds `duration`,
@@ -44,14 +46,14 @@ export const Toast = ({
         animations.map((animation) => animation.finished),
       );
       if (!dropped) {
-        onDelete?.();
+        onDeleteRef.current?.();
       }
     };
     void removeAfterAnimation();
     return () => {
       dropped = true;
     };
-  }, [disappear, onDelete]);
+  }, [disappear]);
 
   return (
     <div
