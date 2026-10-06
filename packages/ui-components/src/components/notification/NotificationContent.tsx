@@ -115,9 +115,12 @@ export const NotificationActions = (props: NotificationActionsProps) => {
     <div className={classNames(`${block}__actions`, className)}>
       {isActionList(actions)
         ? actions.map((action, index) => (
-            <button
+            <Button
               key={`${index}-${action.label}`}
               type="button"
+              color={type}
+              variant="tertiary"
+              size="small"
               className={`${block}__action`}
               onClick={(event) => {
                 event.stopPropagation();
@@ -125,7 +128,7 @@ export const NotificationActions = (props: NotificationActionsProps) => {
               }}
             >
               {action.label}
-            </button>
+            </Button>
           ))
         : actions}
       {tertiaryLabel && (
