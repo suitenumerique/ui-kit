@@ -37,11 +37,8 @@
   max-width: calc(100vw - 32px);
 }
 
-// react-toastify injects its own look through a runtime <style> tag. That tag
-// lands after this stylesheet, so it wins on equal specificity: nesting under
-// the container we own is what puts these resets back on top. The element is
-// then a bare positioning shell and `.c__toast` below stays the single source
-// of truth for the appearance.
+// Reset the library toast chrome. Scoped under our container so it wins over
+// `.Toastify__toast`. `.c__toast` below is the appearance.
 .c__toast__container .c__toast__wrapper {
   width: 100%;
   min-height: 0;
@@ -229,10 +226,8 @@
 }
 
 @include media(sm) {
-  // react-toastify pins every container to the left below 480px, whichever
-  // corner it was raised from. Center it instead. Two classes so this wins
-  // over the library's runtime stylesheet.
-  .c__toast__container.Toastify__toast-container {
+  // react-toastify pins every container to the left below 480px. Center it.
+  .c__toast__container {
     left: 50%;
     right: auto;
     width: min(576px, calc(100vw - 32px));

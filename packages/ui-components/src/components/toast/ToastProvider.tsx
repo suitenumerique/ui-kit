@@ -5,7 +5,11 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { ToastContainer, cssTransition, toast as notify } from "react-toastify";
+import {
+  ToastContainer,
+  cssTransition,
+  toast as notify,
+} from "react-toastify/unstyled";
 import { Toast, ToastProps } from ":/components/toast/index";
 import { useCunningham } from ":/components/provider";
 import { VariantType } from ":/utils/VariantUtils";

@@ -1,4 +1,4 @@
-import type { Id } from "react-toastify";
+import type { Id } from "react-toastify/unstyled";
 import {
   NotificationAction,
   NotificationProps,
