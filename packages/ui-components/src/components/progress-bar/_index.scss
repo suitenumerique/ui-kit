@@ -1,0 +1,44 @@
+.c__progress-bar {
+  overflow: hidden;
+  width: 100%;
+  height: var(--c--components--progress-bar--height);
+  border-radius: var(--c--components--progress-bar--border-radius);
+  background-color: var(--c--components--progress-bar--track-color);
+
+  &__fill {
+    height: 100%;
+    border-radius: inherit;
+    background-color: var(--c--components--progress-bar--color);
+    transition: width 0.2s ease;
+  }
+
+  // Unknown completion: a short segment sweeping across the track.
+  &--indeterminate &__fill {
+    width: 30%;
+    transition: none;
+    animation: c__progress-bar-sweep 1.4s ease-in-out infinite;
+  }
+}
+
+// translateX is a share of the element's own width, and the segment is 30% of
+// the track: 333% is what it takes to cross the whole track and leave.
+@keyframes c__progress-bar-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(333%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c__progress-bar--indeterminate .c__progress-bar__fill {
+    animation: none;
+    // Without the sweep, a filled track still says "something is running".
+    width: 100%;
+  }
+
+  .c__progress-bar__fill {
+    transition: none;
+  }
+}

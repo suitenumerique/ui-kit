@@ -15,6 +15,7 @@ import { tokens as selectTokens } from "./src/components/forms/select/tokens";
 import { tokens as switchTokens } from "./src/components/forms/switch/tokens";
 import { tokens as textAreaTokens } from "./src/components/forms/text-area/tokens";
 import { tokens as modalTokens } from "./src/components/modal/tokens";
+import { tokens as progressBarTokens } from "./src/components/progress-bar/tokens";
 import { tokens as toastTokens } from "./src/components/toast/tokens";
 import { tokens as tooltipTokens } from "./src/components/tooltip/tokens";
 import { deepMerge } from "./src/utils/objects";
@@ -33,6 +34,7 @@ const componentTokenDefaults = {
   "forms-switch": switchTokens(defaultTokenRefs),
   "forms-textarea": textAreaTokens(defaultTokenRefs),
   modal: modalTokens(defaultTokenRefs),
+  "progress-bar": progressBarTokens(defaultTokenRefs),
   toast: toastTokens(defaultTokenRefs),
   tooltip: tooltipTokens(defaultTokenRefs),
 };
