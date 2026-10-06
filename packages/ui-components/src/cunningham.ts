@@ -27,6 +27,7 @@ export * from "./components/modal/ConfirmationModal";
 export * from "./components/modal/DeleteConfirmationModal";
 export * from "./components/modal/MessageModal";
 export * from "./components/modal/ModalProvider";
+export * from "./components/notification/types";
 export * from "./components/pagination";
 export * from "./components/popover";
 export {
