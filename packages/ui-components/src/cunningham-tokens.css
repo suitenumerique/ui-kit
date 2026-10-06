@@ -754,6 +754,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
@@ -1542,6 +1546,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
@@ -2305,6 +2313,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
@@ -3068,6 +3080,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
@@ -3834,6 +3850,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
@@ -4600,6 +4620,10 @@
 	--c--components--modal--tab-item-font-weight--active: var(--c--globals--font--weights--bold);
 	--c--components--modal--tab-item-active-background-color: var(--c--contextuals--background--semantic--contextual--primary-hover);
 	--c--components--modal--tab-item-hover-background-color: var(--c--contextuals--background--semantic--contextual--primary);
+	--c--components--progress-bar--height: 4px;
+	--c--components--progress-bar--border-radius: 50vw;
+	--c--components--progress-bar--color: var(--c--contextuals--background--semantic--brand--primary);
+	--c--components--progress-bar--track-color: var(--c--contextuals--background--semantic--neutral--tertiary);
 	--c--components--toast--slide-in-duration: 1000ms;
 	--c--components--toast--slide-out-duration: 300ms;
 	--c--components--toast--icon-size: 24px;
