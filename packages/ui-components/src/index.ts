@@ -30,7 +30,6 @@ export {
   Pagination,
   Popover,
   ProConnectButton,
-  ProgressBar,
   Radio,
   RadioGroup,
   SUPPORTED_LOCALES,
@@ -120,8 +119,14 @@ export type {
   SwitchOnlyProps,
   SwitchProps,
   TextAreaProps,
+  ToastAction,
+  ToastDismissParams,
+  ToastId,
+  ToastPosition,
   ToastProps,
   ToastProviderContext,
+  ToastProviderProps,
+  ToastUpdateOptions,
   TooltipProps,
 } from "./cunningham";
 

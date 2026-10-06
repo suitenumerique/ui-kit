@@ -218,6 +218,9 @@
       "expand_aria_label": "Desplegar la alerta",
       "shrink_aria_label": "Plegar la alerta"
     },
+    "toast": {
+      "close_aria_label": "Cerrar la notificación"
+    },
     "pagination": {
       "goto_label": "Ir a la página",
       "goto_label_aria": "Ir a cualquier página",

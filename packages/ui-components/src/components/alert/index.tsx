@@ -7,8 +7,8 @@ import { NotificationProps } from ":/components/notification/types";
 import { VariantType } from ":/utils/VariantUtils";
 
 /**
- * `NotificationProps` carries the message row: the variant, the icon and the
- * action row. What follows is specific to the alert.
+ * `NotificationProps` carries everything the alert shares with the toast: the
+ * variant, the icon and the action row. What follows is specific to the alert.
  */
 export interface AlertProps extends NotificationProps {
   additional?: ReactNode;

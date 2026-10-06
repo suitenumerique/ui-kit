@@ -1,6 +1,6 @@
 @use "../../utils/responsive" as *;
 
-// Structure of the notification content row. Colors are set in each component.
+// Shared structure for Alert and Toast. Colors are set in each component.
 @mixin notification-content($block) {
   .#{$block}__content {
     display: flex;

@@ -6,9 +6,10 @@ import { NotificationAction, NotificationProps } from "./types";
 
 /**
  * BEM root of the component embedding the content. Every class emitted here is
- * prefixed with it, so the markup stays styled by that component's stylesheet.
+ * prefixed with it, so `Alert` and `Toast` share the markup while keeping their
+ * own stylesheet.
  */
-export type NotificationBlock = "c__alert";
+export type NotificationBlock = "c__alert" | "c__toast";
 
 export interface NotificationActionsProps
   extends Omit<NotificationProps, "children" | "icon" | "hideIcon"> {
@@ -66,7 +67,11 @@ const NotificationClose = ({
       size="small"
       className={`${block}__action ${block}__action--close`}
       icon={<span className="material-icons">close</span>}
-      aria-label={t("components.alert.close_aria_label")}
+      aria-label={t(
+        block === "c__toast"
+          ? "components.toast.close_aria_label"
+          : "components.alert.close_aria_label",
+      )}
       onClick={() => onClose?.(true)}
     />
   );
