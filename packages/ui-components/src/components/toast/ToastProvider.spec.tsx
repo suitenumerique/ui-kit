@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { within } from "@testing-library/dom";
 import { CunninghamProvider } from ":/components/provider";
-import { useToastProvider } from ":/components/toast/ToastProvider";
+import {
+  ToastProvider,
+  useToastProvider,
+} from ":/components/toast/ToastProvider";
 import { Button } from ":/components/button";
 import { VariantType } from ":/utils/VariantUtils";
 import { ToastId } from "./types";
@@ -41,6 +44,40 @@ describe("<ToastProvider />", () => {
     expect(toast.closest(".c__app")).toBe(
       screen.getByTestId("first").closest(".c__app"),
     );
+  });
+
+  // The root container is already mounted. A toast raised in the nested
+  // page's mount effect must still land in the nested container.
+  it("keeps a toast raised on mount inside a nested provider", async () => {
+    const Page = () => {
+      const { toast } = useToastProvider();
+      useEffect(() => {
+        toast("Saved", VariantType.INFO, { disableAnimate: true });
+      }, [toast]);
+      return null;
+    };
+
+    const App = () => {
+      const [showNested, setShowNested] = useState(false);
+      useEffect(() => {
+        setShowNested(true);
+      }, []);
+      return (
+        <CunninghamProvider>
+          {showNested && (
+            <ToastProvider containerId="nested">
+              <Page />
+            </ToastProvider>
+          )}
+        </CunninghamProvider>
+      );
+    };
+
+    render(<App />);
+
+    const toast = await screen.findByRole("status");
+    expect(toast).toHaveTextContent("Saved");
+    expect(document.getElementById("nested")).toContainElement(toast);
   });
 
   it("shows the progress next to the message", async () => {

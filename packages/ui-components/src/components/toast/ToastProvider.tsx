@@ -163,7 +163,6 @@ export const ToastProvider = ({
 
   return (
     <ToastContext.Provider value={context}>
-      {children}
       <ToastContainer
         className={`c__toast__container c__toast__container--slide-${slideSideFromPosition(position)}`}
         toastClassName="c__toast__wrapper"
@@ -185,6 +184,7 @@ export const ToastProvider = ({
         draggable={false}
         transition={ToastSlide}
       />
+      {children}
     </ToastContext.Provider>
   );
 };
