@@ -77,7 +77,10 @@ export const Toast = ({
         tertiaryOnClick={props.tertiaryOnClick}
         tertiaryProps={props.tertiaryProps}
         canClose={props.canClose}
-        onClose={() => props.closeToast?.()}
+        // `closeToast` is only injected by react-toastify inside the provider.
+        onClose={() =>
+          props.closeToast ? props.closeToast() : setDisappear(true)
+        }
         trailing={
           props.progress !== undefined && (
             <span className="c__toast__content__progress">

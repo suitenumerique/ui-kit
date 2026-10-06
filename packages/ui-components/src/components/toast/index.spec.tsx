@@ -278,6 +278,18 @@ describe("<Toast />", () => {
       expect(screen.getByRole("alert")).toHaveClass("c__toast--disappear");
     });
 
+    it("dismisses itself from the close button when canClose is set", async () => {
+      const onDelete = vi.fn();
+      standalone({ canClose: true, onDelete });
+
+      await userEvent.click(
+        screen.getByRole("button", { name: "Close notification" }),
+      );
+
+      await waitFor(() => expect(onDelete).toHaveBeenCalledTimes(1));
+      expect(screen.getByRole("alert")).toHaveClass("c__toast--disappear");
+    });
+
     it("never schedules a dismissal without a duration", async () => {
       const onDelete = vi.fn();
       standalone({ onDelete });
