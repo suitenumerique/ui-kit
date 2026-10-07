@@ -39,4 +39,6 @@ export interface NotificationProps extends PropsWithChildren {
   tertiaryProps?: ButtonProps;
   /** Adds a close button at the end of the action row. */
   canClose?: boolean;
+  /** Accessible name of the close button. Defaults to a translated "Close". */
+  closeLabel?: string;
 }

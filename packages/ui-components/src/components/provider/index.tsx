@@ -15,7 +15,7 @@ import { ModalProvider } from ":/components/modal/ModalProvider";
 
 type TranslationSet = PartialNested<typeof enUS>;
 
-const CunninghamContext = createContext<
+export const CunninghamContext = createContext<
   | undefined
   | {
       t: (key: string, vars?: Record<string, string | number>) => string;

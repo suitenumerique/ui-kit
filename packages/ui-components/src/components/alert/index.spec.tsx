@@ -19,7 +19,7 @@ describe("<Alert/>", () => {
         <Alert type={type}>Alert component</Alert>
       </CunninghamProvider>,
     );
-    const $icon = document.querySelector(".c__alert__icon");
+    const $icon = document.querySelector(".c__notification__icon");
     if (icon) {
       expect($icon).toHaveTextContent(icon!);
     } else {
@@ -41,9 +41,11 @@ describe("<Alert/>", () => {
 
     // The toggle is interactive, so it stays announced. Coming after the
     // message in the DOM is what keeps it from being read first.
-    const $content = document.querySelector(".c__alert__content")!;
-    const $message = $content.querySelector(".c__alert__content__message")!;
-    const $icon = $content.querySelector(".c__alert__icon")!;
+    const $content = document.querySelector(".c__notification__content")!;
+    const $message = $content.querySelector(
+      ".c__notification__content__message",
+    )!;
+    const $icon = $content.querySelector(".c__notification__icon")!;
 
     expect($icon).not.toHaveAttribute("aria-hidden");
     expect(
@@ -109,11 +111,11 @@ describe("<Alert/>", () => {
       </CunninghamProvider>,
     );
     expect(screen.getByRole("button", { name: "Primary" })).toHaveClass(
-      "c__alert__action",
+      "c__notification__action",
       "c__button--small",
     );
     expect(screen.getByRole("button", { name: "Tertiary" })).toHaveClass(
-      "c__alert__action",
+      "c__notification__action",
       "c__button--small",
     );
   });
@@ -128,7 +130,7 @@ describe("<Alert/>", () => {
     );
 
     const $action = screen.getByRole("button", { name: "Undo" });
-    expect($action).toHaveClass("c__alert__action");
+    expect($action).toHaveClass("c__notification__action");
 
     await userEvent.click($action);
     expect(onClick).toHaveBeenCalledTimes(1);
@@ -141,7 +143,7 @@ describe("<Alert/>", () => {
         </Alert>
       </CunninghamProvider>,
     );
-    expect(document.querySelector(".c__alert__icon")).toBeNull();
+    expect(document.querySelector(".c__notification__icon")).toBeNull();
   });
   it("renders custom buttons via buttons props", () => {
     render(

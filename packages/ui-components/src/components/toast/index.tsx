@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { ArrowRight } from ":/components/icon/icons/ArrowRight";
 import { NotificationContent } from ":/components/notification/NotificationContent";
+import { CunninghamContext } from ":/components/provider";
 import { VariantType } from ":/utils/VariantUtils";
 import { ToastProps } from "./types";
 
@@ -21,10 +22,19 @@ export const Toast = ({
   onDelete,
   disableAnimate,
   closeToast,
-  ...props
+  progress,
+  children,
+  ...shared
 }: ToastProps & {
   closeToast?: () => void;
 }) => {
+  // `use` may sit behind the condition: a toast without a close button still
+  // renders outside `CunninghamProvider`.
+  const closeLabel =
+    shared.closeLabel ??
+    (shared.canClose
+      ? use(CunninghamContext)?.t("components.toast.close_aria_label")
+      : undefined);
   const container = useRef<HTMLDivElement>(null);
   const [disappear, setDisappear] = useState(false);
   const onDeleteRef = useRef(onDelete);
@@ -74,30 +84,21 @@ export const Toast = ({
       role={toastRole(type)}
     >
       <NotificationContent
-        block="c__toast"
+        {...shared}
         type={type}
-        icon={props.icon}
+        closeLabel={closeLabel}
         defaultIcon={toastDefaultIcon}
-        hideIcon={props.hideIcon}
         iconAriaHidden
-        actions={props.actions}
-        primaryLabel={props.primaryLabel}
-        primaryOnClick={props.primaryOnClick}
-        primaryProps={props.primaryProps}
-        tertiaryLabel={props.tertiaryLabel}
-        tertiaryOnClick={props.tertiaryOnClick}
-        tertiaryProps={props.tertiaryProps}
-        canClose={props.canClose}
         onClose={() => (closeToast ? closeToast() : setDisappear(true))}
         trailing={
-          props.progress !== undefined && (
-            <span className="c__toast__content__progress" aria-hidden="true">
-              {props.progress}%
+          progress !== undefined && (
+            <span className="c__toast__progress" aria-hidden="true">
+              {progress}%
             </span>
           )
         }
       >
-        {props.children}
+        {children}
       </NotificationContent>
     </div>
   );

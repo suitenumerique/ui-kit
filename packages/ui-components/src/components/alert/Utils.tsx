@@ -1,6 +1,7 @@
-import React from "react";
+import React, { use } from "react";
 import classNames from "classnames";
 import { AlertProps } from ":/components/alert/index";
+import { CunninghamContext } from ":/components/provider";
 import { iconFromType, VariantType } from ":/utils/VariantUtils";
 
 export const AlertWrapper = (props: AlertProps) => {
@@ -26,34 +27,39 @@ export const alertDefaultIcon = (type?: VariantType) => {
   return icon ? <span className="material-icons">{icon}</span> : undefined;
 };
 
-export const alertContentProps = (props: AlertProps) => {
+/**
+ * Everything the alert hands to the shared content, in one object: what is
+ * specific to the alert is left out, the rest goes through untouched, so a new
+ * shared prop needs no change here.
+ */
+export const useAlertContentProps = ({
+  additional: _additional,
+  className: _className,
+  closed: _closed,
+  expandable,
+  expanded: _expanded,
+  hide: _hide,
+  onExpand: _onExpand,
+  children: _children,
+  ...shared
+}: AlertProps) => {
+  // `use` may sit behind the condition: an alert without a close button still
+  // renders outside `CunninghamProvider`.
+  const closeLabel =
+    shared.closeLabel ??
+    (shared.canClose
+      ? use(CunninghamContext)?.t("components.alert.close_aria_label")
+      : undefined);
   // The expandable variant routes its toggle button through `icon`. Hiding it
   // would take an interactive control away from assistive technologies, so it
   // stays announced and moves after the message instead.
-  const interactiveIcon = !!props.expandable;
+  const interactiveIcon = !!expandable;
 
   return {
-    block: "c__alert" as const,
-    type: props.type,
-    icon: props.icon,
-    defaultIcon: alertDefaultIcon(props.type),
-    hideIcon: props.hideIcon,
+    ...shared,
+    closeLabel,
+    defaultIcon: alertDefaultIcon(shared.type),
     iconAriaHidden: interactiveIcon ? undefined : true,
     iconAfterMessage: interactiveIcon,
-    canClose: props.canClose,
-    onClose: props.onClose,
   };
 };
-
-export const alertActionProps = (props: AlertProps) => ({
-  block: "c__alert" as const,
-  type: props.type,
-  actions: props.actions,
-  buttons: props.buttons,
-  primaryLabel: props.primaryLabel,
-  primaryOnClick: props.primaryOnClick,
-  primaryProps: props.primaryProps,
-  tertiaryLabel: props.tertiaryLabel,
-  tertiaryOnClick: props.tertiaryOnClick,
-  tertiaryProps: props.tertiaryProps,
-});

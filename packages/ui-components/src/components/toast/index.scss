@@ -1,7 +1,5 @@
 @use "../../utils/responsive" as *;
-@use "../notification/content" as notification;
-
-@include notification.notification-content("c__toast");
+@use "../notification/content";
 
 @mixin toast-variant($context) {
   border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
@@ -9,16 +7,16 @@
     --c--contextuals--background--semantic--#{$context}--tertiary
   );
 
-  .c__toast__icon,
-  .c__toast__content__message {
+  .c__notification__icon,
+  .c__notification__content__message {
     color: var(--c--contextuals--content--semantic--#{$context}--primary);
   }
 
-  .c__toast__content__progress {
+  .c__toast__progress {
     color: var(--c--contextuals--content--semantic--#{$context}--secondary);
   }
 
-  .c__toast__actions .c__toast__action {
+  .c__notification__actions .c__notification__action {
     color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
 
     &:hover {
@@ -145,27 +143,7 @@
       ease forwards;
   }
 
-  &--info {
-    @include toast-variant("brand");
-  }
-
-  &--success {
-    @include toast-variant("success");
-  }
-
-  &--warning {
-    @include toast-variant("warning");
-  }
-
-  &--error {
-    @include toast-variant("error");
-  }
-
-  &--neutral {
-    @include toast-variant("neutral");
-  }
-
-  &__icon {
+  .c__notification__icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,42 +164,63 @@
     }
   }
 
-  // Structure comes from the shared notification mixin included above; only the
+  // Structure comes from the shared notification stylesheet; only the
   // toast-specific metrics and colours live here.
-  &__content {
+  .c__notification__content {
     flex: 1;
     min-height: var(--c--components--button--small-height);
     padding: 0 var(--c--globals--spacings--3xs, 4px);
-
-    &__children {
-      font-size: var(--c--globals--font--sizes--sm, 14px);
-    }
-
-    &__message {
-      font-weight: 500;
-      line-height: var(--c--globals--line-heights--sm, 18px);
-      color: var(--c--contextuals--content--semantic--brand--primary);
-    }
-
-    &__progress {
-      margin-inline-start: 10px;
-      font-weight: 400;
-      line-height: var(--c--globals--line-heights--sm, 18px);
-      white-space: nowrap;
-      color: var(--c--contextuals--content--semantic--brand--secondary);
-    }
   }
 
-  &__actions {
+  .c__notification__content__children {
+    font-size: var(--c--globals--font--sizes--sm, 14px);
+  }
+
+  .c__notification__content__message {
+    font-weight: 500;
+    line-height: var(--c--globals--line-heights--sm, 18px);
+    color: var(--c--contextuals--content--semantic--brand--primary);
+  }
+
+  &__progress {
+    margin-inline-start: 10px;
+    font-weight: 400;
+    line-height: var(--c--globals--line-heights--sm, 18px);
+    white-space: nowrap;
+    color: var(--c--contextuals--content--semantic--brand--secondary);
+  }
+
+  .c__notification__actions {
     gap: 1px;
   }
 
-  &__actions &__action {
+  .c__notification__actions .c__notification__action {
     color: var(--c--contextuals--content--semantic--brand--tertiary);
 
     &:hover {
       background: var(--c--contextuals--background--semantic--brand--tertiary);
     }
+  }
+
+  // After the base rules above: both sit at the same specificity.
+  &--info {
+    @include toast-variant("brand");
+  }
+
+  &--success {
+    @include toast-variant("success");
+  }
+
+  &--warning {
+    @include toast-variant("warning");
+  }
+
+  &--error {
+    @include toast-variant("error");
+  }
+
+  &--neutral {
+    @include toast-variant("neutral");
   }
 }
 

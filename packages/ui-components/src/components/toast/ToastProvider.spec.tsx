@@ -99,7 +99,7 @@ describe("<ToastProvider />", () => {
 
     const toast = await screen.findByRole("status");
     expect(toast).toHaveTextContent("45%");
-    expect(toast.querySelector(".c__toast__content__progress")).toHaveAttribute(
+    expect(toast.querySelector(".c__toast__progress")).toHaveAttribute(
       "aria-hidden",
       "true",
     );

@@ -29,7 +29,7 @@ The visual variant, from Cunningham's `VariantType` enum: `info`, `success`,
 ### `canClose`
 
 When `true`, a close button is rendered at the end of the action row, letting
-the user dismiss the alert.
+the user dismiss the alert. `closeLabel` replaces its translated accessible name.
 
 ### `primaryLabel` and `tertiaryLabel`
 
@@ -68,7 +68,8 @@ component, so the structure and the button placement match. The props they
 share are declared once in the exported `NotificationProps` interface, which
 both `AlertProps` and `ToastProps` extend: `type`, `icon`, `hideIcon`,
 `actions`, `primaryLabel`, `primaryOnClick`, `primaryProps`, `tertiaryLabel`,
-`tertiaryOnClick`, `tertiaryProps` and `canClose`.
+`tertiaryOnClick`, `tertiaryProps`, `canClose` and `closeLabel`. The row is
+styled through the shared `c__notification__*` classes.
 
 `AlertProps` adds what only the alert does: `additional`, `buttons`,
 `expandable`, `expanded`, `closed`, `hide`, `className`, `onClose` and

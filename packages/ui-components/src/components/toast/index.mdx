@@ -111,7 +111,8 @@ buttons tinted to match the toast type.
 
 <Canvas of={Stories.WithActions} />
 
-Pass `canClose` to append a close button that dismisses the toast.
+Pass `canClose` to append a close button that dismisses the toast. `closeLabel`
+replaces its translated accessible name.
 
 <Canvas of={Stories.Closable} />
 
@@ -206,7 +207,8 @@ through the same internal component, so the structure and the button placement m
 The props they share are declared once in the exported `NotificationProps` interface,
 which both `ToastProps` and `AlertProps` extend: `type`, `icon`, `hideIcon`, `actions`,
 `primaryLabel`, `primaryOnClick`, `primaryProps`, `tertiaryLabel`, `tertiaryOnClick`,
-`tertiaryProps` and `canClose`.
+`tertiaryProps`, `canClose` and `closeLabel`. The row is styled through the shared
+`c__notification__*` classes.
 
 `ToastProps` adds what only the toast does: `duration`, `progress`, `disableAnimate`
 and `onDelete`. `AlertProps` adds `additional`, `buttons`, `expandable`,

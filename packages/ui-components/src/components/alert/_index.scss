@@ -1,6 +1,4 @@
-@use "../notification/content" as notification;
-
-@include notification.notification-content("c__alert");
+@use "../notification/content";
 
 @mixin alert-variant($context) {
   background-color: var(
@@ -10,11 +8,11 @@
   border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
   border-left-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
   color: var(--c--contextuals--content--semantic--#{$context}--primary) !important;
-  .c__alert__icon {
+  .c__notification__icon {
     color: var(--c--contextuals--content--semantic--#{$context}--primary);
   }
 
-  .c__alert__actions .c__alert__action {
+  .c__notification__actions .c__notification__action {
     color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
 
     &:hover {
@@ -45,7 +43,7 @@
   border-color: var(--c--components--alert--border-color);
   border-left-color: var(--c--components--alert--border-left-color);
 
-  &__icon {
+  .c__notification__icon {
     display: flex;
     align-items: center;
     width: 1.5rem;
@@ -57,21 +55,21 @@
     }
   }
 
-  // Structure comes from the shared notification mixin included above.
-  &__content {
+  // Structure comes from the shared notification stylesheet.
+  .c__notification__content {
     // Keeps the one-line alert at 48px, with or without a button.
     min-height: 32px;
+  }
 
-    &__children {
-      font-size: var(--c--globals--font--sizes--sm, 14px);
-    }
+  .c__notification__content__children {
+    font-size: var(--c--globals--font--sizes--sm, 14px);
   }
 
   &__additional {
     font-size: var(--c--globals--font--sizes--sm, 14px);
   }
 
-  &__actions &__action {
+  .c__notification__actions .c__notification__action {
     color: var(--c--contextuals--content--semantic--neutral--tertiary);
 
     &:hover {

@@ -148,7 +148,9 @@ describe("<Toast />", () => {
 
     const toast = await screen.findByRole(role);
     expect(toast).toHaveTextContent("Toast content");
-    expect(toast.querySelector(".c__toast__icon svg")).toBeInTheDocument();
+    expect(
+      toast.querySelector(".c__notification__icon svg"),
+    ).toBeInTheDocument();
   });
 
   it("lets icon replace the default arrow", async () => {
@@ -172,7 +174,9 @@ describe("<Toast />", () => {
 
     const toast = await screen.findByRole("status");
     expect(within(toast).getByTestId("custom-icon")).toBeInTheDocument();
-    expect(toast.querySelector(".c__toast__icon svg")).not.toBeInTheDocument();
+    expect(
+      toast.querySelector(".c__notification__icon svg"),
+    ).not.toBeInTheDocument();
   });
 
   it("renders the labelled buttons with the shared borderless look", async () => {
@@ -197,11 +201,11 @@ describe("<Toast />", () => {
 
     const toast = await screen.findByRole("status");
     expect(within(toast).getByRole("button", { name: "Primary" })).toHaveClass(
-      "c__toast__action",
+      "c__notification__action",
       "c__button--small",
     );
     expect(within(toast).getByRole("button", { name: "Tertiary" })).toHaveClass(
-      "c__toast__action",
+      "c__notification__action",
       "c__button--small",
     );
   });
@@ -255,7 +259,9 @@ describe("<Toast />", () => {
     await userEvent.setup().click(screen.getByText("Create toast"));
 
     const toast = await screen.findByRole("status");
-    expect(toast.querySelector(".c__toast__icon")).not.toBeInTheDocument();
+    expect(
+      toast.querySelector(".c__notification__icon"),
+    ).not.toBeInTheDocument();
   });
 
   // The provider raises toasts through react-toastify, but `Toast` is exported
