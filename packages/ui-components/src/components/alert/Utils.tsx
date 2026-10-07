@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { ReactNode, use } from "react";
 import classNames from "classnames";
 import { AlertProps } from ":/components/alert/index";
 import { CunninghamContext } from ":/components/provider";
@@ -37,13 +37,14 @@ export const useAlertContentProps = ({
   additional: _additional,
   className: _className,
   closed: _closed,
-  expandable,
+  expandable: _expandable,
   expanded: _expanded,
   hide: _hide,
   onExpand: _onExpand,
   children: _children,
+  toggle,
   ...shared
-}: AlertProps) => {
+}: AlertProps & { toggle?: ReactNode }) => {
   // `use` may sit behind the condition: an alert without a close button still
   // renders outside `CunninghamProvider`.
   const closeLabel =
@@ -51,16 +52,12 @@ export const useAlertContentProps = ({
     (shared.canClose
       ? use(CunninghamContext)?.t("components.alert.close_aria_label")
       : undefined);
-  // The expandable variant routes its toggle button through `icon`. Hiding it
-  // would take an interactive control away from assistive technologies, so it
-  // stays announced and moves after the message instead.
-  const interactiveIcon = !!expandable;
 
   return {
     ...shared,
     closeLabel,
+    toggle,
     defaultIcon: alertDefaultIcon(shared.type),
-    iconAriaHidden: interactiveIcon ? undefined : true,
-    iconAfterMessage: interactiveIcon,
+    iconAriaHidden: shared.icon === undefined,
   };
 };

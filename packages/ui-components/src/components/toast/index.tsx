@@ -92,7 +92,7 @@ export const Toast = ({
         type={type}
         closeLabel={closeLabel}
         defaultIcon={toastDefaultIcon}
-        iconAriaHidden
+        iconAriaHidden={shared.icon === undefined}
         onClose={() => (closeToast ? closeToast() : setDisappear(true))}
         trailing={
           progress !== undefined && (

@@ -17,14 +17,13 @@ export interface NotificationContentProps
     Pick<NotificationProps, "icon" | "hideIcon" | "children"> {
   /** Icon used when `icon` is omitted. */
   defaultIcon?: ReactNode;
-  /** Set it only when the icon is decorative: it hides interactive icons too. */
+  /** Hides the icon from assistive tech. Only for the decorative default icon. */
   iconAriaHidden?: boolean;
   /**
-   * Moves the icon after the message in the DOM, the stylesheet puts it back on
-   * the left. Needed when the icon is interactive: it would otherwise be read
-   * before the message it belongs to.
+   * Control rendered in the icon slot, after the message in the DOM so it is
+   * read second. `hideIcon` does not apply to it.
    */
-  iconAfterMessage?: boolean;
+  toggle?: ReactNode;
   /** Rendered right after the message, inside the same wrapper. */
   trailing?: ReactNode;
 }
@@ -152,31 +151,35 @@ export const NotificationContent = ({
   defaultIcon,
   hideIcon,
   iconAriaHidden,
-  iconAfterMessage,
+  toggle,
   children,
   trailing,
   ...actionProps
 }: NotificationContentProps) => {
-  const leadingIcon = hideIcon ? undefined : (icon ?? defaultIcon);
+  // The toggle takes the icon's place. `hideIcon` only drops the icon.
+  const leadingIcon = toggle || hideIcon ? undefined : (icon ?? defaultIcon);
   const $icon = leadingIcon && (
     <div
-      className={classNames("c__notification__icon", {
-        "c__notification__icon--after-message": iconAfterMessage,
-      })}
-      aria-hidden={iconAriaHidden}
+      className="c__notification__icon"
+      aria-hidden={iconAriaHidden || undefined}
     >
       {leadingIcon}
+    </div>
+  );
+  const $toggle = toggle && (
+    <div className="c__notification__icon c__notification__icon--after-message">
+      {toggle}
     </div>
   );
 
   return (
     <div className="c__notification__content">
-      {!iconAfterMessage && $icon}
+      {$icon}
       <div className="c__notification__content__children">
         <span className="c__notification__content__message">{children}</span>
         {trailing}
       </div>
-      {iconAfterMessage && $icon}
+      {$toggle}
       <NotificationActions {...actionProps} />
     </div>
   );

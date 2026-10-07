@@ -13,7 +13,7 @@ export const AlertAdditional = (props: AlertProps) => {
     icon,
     hideIcon,
     iconAriaHidden,
-    iconAfterMessage,
+    toggle,
     canClose,
     closeLabel,
     onClose,
@@ -30,7 +30,7 @@ export const AlertAdditional = (props: AlertProps) => {
         icon={icon}
         hideIcon={hideIcon}
         iconAriaHidden={iconAriaHidden}
-        iconAfterMessage={iconAfterMessage}
+        toggle={toggle}
         canClose={canClose}
         closeLabel={closeLabel}
         onClose={onClose}

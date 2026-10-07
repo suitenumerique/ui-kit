@@ -35,7 +35,7 @@ export const AlertAdditionalExpandable = (props: AlertProps) => {
 
   const customProps = {
     ...props,
-    icon: iconButton,
+    toggle: iconButton,
     className: "c__alert--expandable",
   };
 

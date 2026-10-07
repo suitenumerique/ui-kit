@@ -14,6 +14,9 @@ type Story = StoryObj<typeof meta>;
 export const Info: Story = {
   args: {
     children: "Alert component info",
+    hideIcon: true,
+    expandable: true,
+    additional: "Detail"
   },
 };
 
