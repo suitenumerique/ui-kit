@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { Alert } from ":/components/alert/index";
+import { Alert } from ":/components/alert/Alert";
 import { CunninghamProvider } from ":/components/provider";
 import { Toast } from ":/components/toast/index";
 import { VariantType } from ":/utils/VariantUtils";
