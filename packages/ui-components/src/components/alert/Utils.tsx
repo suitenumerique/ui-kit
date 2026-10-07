@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
+import React, { ReactNode, use } from "react";
 import classNames from "classnames";
-import { Button } from ":/components/button";
 import { AlertProps } from ":/components/alert/index";
-import { useCunningham } from ":/components/provider";
-import { iconFromType } from ":/utils/VariantUtils";
+import { CunninghamContext } from ":/components/provider";
+import { iconFromType, VariantType } from ":/utils/VariantUtils";
 
 export const AlertWrapper = (props: AlertProps) => {
   return (
@@ -11,6 +10,7 @@ export const AlertWrapper = (props: AlertProps) => {
       className={classNames(
         "c__alert",
         "c__alert--" + props.type,
+        props.type && "c__notification--" + props.type,
         props.className,
         {
           "c__alert--hide": props.hide,
@@ -22,63 +22,42 @@ export const AlertWrapper = (props: AlertProps) => {
   );
 };
 
-export const AlertIcon = ({ type, ...props }: AlertProps) => {
-  const icon = useMemo(() => iconFromType(type), [type]);
-  if (props.icon) {
-    return props.icon;
-  }
-  if (!icon) {
-    return null;
-  }
-  return (
-    <div className="c__alert__icon">
-      <span className="material-icons">{icon}</span>
-    </div>
-  );
+// `neutral` has no icon of its own, hence the undefined.
+export const alertDefaultIcon = (type?: VariantType) => {
+  const icon = iconFromType(type);
+  return icon ? <span className="material-icons">{icon}</span> : undefined;
 };
 
-export const AlertClose = (props: AlertProps) => {
-  const { t } = useCunningham();
-  return (
-    props.canClose && (
-      <Button
-        color={props.type}
-        variant="tertiary"
-        size="small"
-        icon={<span className="material-icons">close</span>}
-        aria-label={t("components.alert.close_aria_label")}
-        onClick={() => {
-          props.onClose?.(true);
-        }}
-      />
-    )
-  );
-};
+/**
+ * Everything the alert hands to the shared content, in one object: what is
+ * specific to the alert is left out, the rest goes through untouched, so a new
+ * shared prop needs no change here.
+ */
+export const useAlertContentProps = ({
+  additional: _additional,
+  className: _className,
+  closed: _closed,
+  expandable: _expandable,
+  expanded: _expanded,
+  hide: _hide,
+  onExpand: _onExpand,
+  children: _children,
+  toggle,
+  ...shared
+}: AlertProps & { toggle?: ReactNode }) => {
+  // `use` may sit behind the condition: an alert without a close button still
+  // renders outside `CunninghamProvider`.
+  const closeLabel =
+    shared.closeLabel ??
+    (shared.canClose
+      ? use(CunninghamContext)?.t("components.alert.close_aria_label")
+      : undefined);
 
-export const AlertButtons = (props: AlertProps) => {
-  return (
-    <>
-      {props.tertiaryLabel && (
-        <Button
-          variant="tertiary"
-          color={props.type}
-          onClick={props.tertiaryOnClick}
-          {...props.tertiaryProps}
-        >
-          {props.tertiaryLabel}
-        </Button>
-      )}
-      {props.primaryLabel && (
-        <Button
-          color={props.type}
-          variant="secondary"
-          onClick={props.primaryOnClick}
-          {...props.primaryProps}
-        >
-          {props.primaryLabel}
-        </Button>
-      )}
-      {props.buttons}
-    </>
-  );
+  return {
+    ...shared,
+    closeLabel,
+    toggle,
+    defaultIcon: alertDefaultIcon(shared.type),
+    iconAriaHidden: shared.icon === undefined,
+  };
 };

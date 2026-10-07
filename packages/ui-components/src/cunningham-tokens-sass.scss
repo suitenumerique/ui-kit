@@ -689,12 +689,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -903,6 +903,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -914,17 +916,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,
@@ -1666,12 +1670,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -1880,6 +1884,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -1891,17 +1897,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,
@@ -2616,12 +2624,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -2830,6 +2838,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -2841,17 +2851,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,
@@ -3566,12 +3578,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -3780,6 +3792,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -3791,17 +3805,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,
@@ -4519,12 +4535,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -4733,6 +4749,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -4744,17 +4762,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,
@@ -5472,12 +5492,12 @@ $themes: (
     'components': (
       'alert': (
         'background-color': #F0F0F3,
-        'border-radius': 4px,
+        'border-radius': 8px,
         'border-color': #69697D,
         'border-left-color': #69697D,
         'font-weight': 500,
         'color': #25252F,
-        'icon-size': 19px,
+        'icon-size': 24px,
         'additional-font-weight': 400,
         'additional-color': #25252F
       ),
@@ -5686,6 +5706,8 @@ $themes: (
         'content-font-size': 0.875rem,
         'content-font-weight': 400,
         'content-color': #25252F,
+        'padding': 1.5rem,
+        'close-button-size': 28px,
         'width-small': 342px,
         'width-medium': 600px,
         'width-large': 800px,
@@ -5697,17 +5719,19 @@ $themes: (
         'tab-item-font-size': 0.875rem,
         'tab-item-font-weight': 500,
         'tab-item-font-weight--active': 600,
-        'tab-item-active-background-color': #{rgba(24, 27, 36, 0.05)},
-        'tab-item-hover-background-color': #{rgba(24, 27, 36, 0.03)}
+        'tab-item-active-background-color': #1B1B231A,
+        'tab-item-hover-background-color': #1B1B230D
+      ),
+      'progress-bar': (
+        'height': 4px,
+        'border-radius': 50vw,
+        'color': #5E5CD0,
+        'track-color': #F0F0F3
       ),
       'toast': (
         'slide-in-duration': 1000ms,
         'slide-out-duration': 300ms,
-        'background-color': #F0F0F3,
-        'color': #25252F,
-        'font-weight': 400,
-        'icon-size': 19px,
-        'progress-bar-height': 3px
+        'icon-size': 24px
       ),
       'tooltip': (
         'border-radius': 0.5rem,

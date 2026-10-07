@@ -1,126 +1,109 @@
-import React, {
-  PropsWithChildren,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { use, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import isChromatic from "chromatic/isChromatic";
-import { Button, ButtonProps } from ":/components/button";
-import { iconFromType, VariantType } from ":/utils/VariantUtils";
+import { ArrowRight } from ":/components/icon/icons/ArrowRight";
+import { NotificationContent } from ":/components/notification/NotificationContent";
+import { CunninghamContext } from ":/components/provider";
+import { VariantType } from ":/utils/VariantUtils";
+import { ToastProps } from "./types";
 
-export interface ToastProps extends PropsWithChildren {
-  duration: number;
-  type: VariantType;
-  onDelete?: () => void;
-  icon?: ReactNode;
-  primaryLabel?: string;
-  primaryOnClick?: ButtonProps["onClick"];
-  primaryProps?: ButtonProps;
-  disableAnimate?: boolean;
-  actions?: ReactNode;
-}
+export * from "./types";
 
-export const Toast = (props: ToastProps) => {
-  const [animateDisappear, setAnimateDisappear] = React.useState(false);
+const toastDefaultIcon = <ArrowRight size={24} />;
+
+// `alert` interrupts the screen reader. Reserve it for the types that need it.
+const toastRole = (type?: VariantType) =>
+  type === VariantType.WARNING || type === VariantType.ERROR
+    ? "alert"
+    : "status";
+
+export const Toast = ({
+  type,
+  duration,
+  onDelete,
+  disableAnimate,
+  closeToast,
+  progress,
+  children,
+  ...shared
+}: ToastProps & {
+  closeToast?: () => void;
+}) => {
+  // `use` may sit behind the condition: a toast without a close button still
+  // renders outside `CunninghamProvider`.
+  const closeLabel =
+    shared.closeLabel ??
+    (shared.canClose
+      ? use(CunninghamContext)?.t("components.toast.close_aria_label")
+      : undefined);
   const container = useRef<HTMLDivElement>(null);
-  const disappearTimeout = useRef<NodeJS.Timeout>(null);
+  const [disappear, setDisappear] = useState(false);
+  const onDeleteRef = useRef(onDelete);
+  onDeleteRef.current = onDelete;
 
-  // Register a timeout to remove the toast after the duration.
+  // Only a toast mounted on its own schedules its dismissal. Inside
+  // `ToastProvider`, react-toastify owns the timer and withholds `duration`,
+  // so the two never race to remove the same toast.
+  const ownsTimer = duration !== undefined && !disableAnimate;
+
   useEffect(() => {
-    if (props.disableAnimate) {
+    if (!ownsTimer) {
       return;
     }
-    disappearTimeout.current = setTimeout(async () => {
-      setAnimateDisappear(true);
-      disappearTimeout.current = null;
-    }, props.duration);
-    return () => {
-      if (disappearTimeout.current) {
-        clearTimeout(disappearTimeout.current);
+    const timeout = setTimeout(() => setDisappear(true), duration);
+    return () => clearTimeout(timeout);
+  }, [ownsTimer, duration]);
+
+  useEffect(() => {
+    if (!disappear) {
+      return;
+    }
+    let dropped = false;
+    const removeAfterAnimation = async () => {
+      // `getAnimations` is missing in jsdom, where there is nothing to wait for.
+      const animations = container.current?.getAnimations?.() ?? [];
+      await Promise.allSettled(
+        animations.map((animation) => animation.finished),
+      );
+      if (!dropped) {
+        onDeleteRef.current?.();
       }
     };
-  }, []);
-
-  const removeAfterAnimation = async () => {
-    await Promise.allSettled(
-      container.current!.getAnimations().map((animation) => animation.finished),
-    );
-    props.onDelete?.();
-  };
-
-  // Remove the toast after the animation finishes.
-  useEffect(() => {
-    if (animateDisappear) {
-      removeAfterAnimation();
-    }
-  }, [animateDisappear]);
+    void removeAfterAnimation();
+    return () => {
+      dropped = true;
+    };
+  }, [disappear]);
 
   return (
     <div
       ref={container}
-      className={classNames("c__toast", "c__toast--" + props.type, {
-        "c__toast--disappear": animateDisappear,
-        "c__toast--no-animate": props.disableAnimate,
-      })}
-      role="alert"
+      className={classNames(
+        "c__toast",
+        type && ["c__toast--" + type, "c__notification--" + type],
+        {
+          "c__toast--disappear": disappear,
+          "c__toast--no-animate": disableAnimate,
+        },
+      )}
+      role={toastRole(type)}
     >
-      <ProgressBar duration={props.duration} />
-      <div className="c__toast__content">
-        {props.primaryLabel && (
-          <div className="c__toast__content__buttons">
-            <Button
-              variant="primary"
-              onClick={props.primaryOnClick}
-              {...props.primaryProps}
-            >
-              {props.primaryLabel}
-            </Button>
-          </div>
-        )}
-        {props.actions}
-        <div className="c__toast__content__children">{props.children}</div>
-        <ToastIcon {...props} />
-      </div>
-    </div>
-  );
-};
-
-export const ToastIcon = ({ type, ...props }: ToastProps) => {
-  const icon = useMemo(() => iconFromType(type), [type]);
-  if (props.icon) {
-    return (
-      <div className="c__toast__icon" aria-hidden="true">
-        {props.icon}
-      </div>
-    );
-  }
-  if (!icon) {
-    return null;
-  }
-  return (
-    <div className="c__toast__icon" aria-hidden="true">
-      <span className="material-icons">{icon}</span>
-    </div>
-  );
-};
-export const ProgressBar = ({ duration }: { duration: number }) => {
-  const content = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isChromatic()) {
-      return;
-    }
-    content.current!.animate([{ width: "0%" }, { width: "100%" }], {
-      duration,
-      easing: "linear",
-    });
-  }, []);
-
-  return (
-    <div className="c__progress-bar">
-      <div className="c__progress-bar__content" ref={content} />
+      <NotificationContent
+        {...shared}
+        type={type}
+        closeLabel={closeLabel}
+        defaultIcon={toastDefaultIcon}
+        iconAriaHidden={shared.icon === undefined}
+        onClose={() => (closeToast ? closeToast() : setDisappear(true))}
+        trailing={
+          progress !== undefined && (
+            <span className="c__toast__progress" aria-hidden="true">
+              {progress}%
+            </span>
+          )
+        }
+      >
+        {children}
+      </NotificationContent>
     </div>
   );
 };

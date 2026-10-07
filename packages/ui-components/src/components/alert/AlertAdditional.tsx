@@ -1,26 +1,47 @@
 import React from "react";
 import { AlertProps } from ":/components/alert/index";
+import { AlertWrapper, useAlertContentProps } from ":/components/alert/Utils";
 import {
-  AlertButtons,
-  AlertClose,
-  AlertIcon,
-  AlertWrapper,
-} from ":/components/alert/Utils";
+  NotificationActions,
+  NotificationContent,
+} from ":/components/notification/NotificationContent";
 
 export const AlertAdditional = (props: AlertProps) => {
+  const contentProps = useAlertContentProps(props);
+  const {
+    defaultIcon,
+    icon,
+    hideIcon,
+    iconAriaHidden,
+    toggle,
+    canClose,
+    closeLabel,
+    onClose,
+    ...actionProps
+  } = contentProps;
+
   return (
     <AlertWrapper {...props}>
-      <div className="c__alert__content">
-        <div className="c__alert__content__left">
-          {props.children}
-          <AlertIcon {...props} />
-        </div>
-        <AlertClose {...props} />
-      </div>
+      {/* Only the close button rides along the message here: the buttons get
+          their own row below the additional text. */}
+      <NotificationContent
+        type={props.type}
+        defaultIcon={defaultIcon}
+        icon={icon}
+        hideIcon={hideIcon}
+        iconAriaHidden={iconAriaHidden}
+        toggle={toggle}
+        canClose={canClose}
+        closeLabel={closeLabel}
+        onClose={onClose}
+      >
+        {props.children}
+      </NotificationContent>
       <div className="c__alert__additional">{props.additional}</div>
-      <div className="c__alert-additional__buttons">
-        <AlertButtons {...props} />
-      </div>
+      <NotificationActions
+        {...actionProps}
+        className="c__alert-additional__buttons"
+      />
     </AlertWrapper>
   );
 };

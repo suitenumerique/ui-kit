@@ -241,6 +241,10 @@
       "expand_aria_label": "Ouvrir l'alerte",
       "shrink_aria_label": "Fermer l'alerte"
     },
+    "toast": {
+      "close_aria_label": "Fermer la notification",
+      "region_aria_label": "Notifications"
+    },
     "pagination": {
       "goto_label": "Aller à",
       "goto_label_aria": "Aller à la page",

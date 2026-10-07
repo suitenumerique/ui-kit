@@ -8,7 +8,10 @@ export const Alert = (props: AlertProps) => {
   return (
     <AlertCunningham
       {...props}
-      icon={Icon ? <Icon size={IconSize.SMALL} /> : undefined}
+      icon={
+        props.icon ??
+        (Icon ? <Icon size={IconSize.MEDIUM} aria-hidden /> : undefined)
+      }
     />
   );
 };
