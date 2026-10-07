@@ -135,24 +135,32 @@ export const NotificationActions = (props: NotificationActionsProps) => {
         // Still a Button so `tertiaryProps` keeps working, but wearing the same
         // borderless look as the action list.
         <Button
+          {...tertiaryProps}
           color={type}
           variant="tertiary"
           size="small"
-          className={`${block}__action ${block}__action--tertiary`}
-          onClick={tertiaryOnClick}
-          {...tertiaryProps}
+          className={classNames(
+            `${block}__action`,
+            `${block}__action--tertiary`,
+            tertiaryProps?.className,
+          )}
+          onClick={tertiaryOnClick ?? tertiaryProps?.onClick}
         >
           {tertiaryLabel}
         </Button>
       )}
       {primaryLabel && (
         <Button
+          {...primaryProps}
           color={type}
           variant="tertiary"
           size="small"
-          className={`${block}__action ${block}__action--primary`}
-          onClick={primaryOnClick}
-          {...primaryProps}
+          className={classNames(
+            `${block}__action`,
+            `${block}__action--primary`,
+            primaryProps?.className,
+          )}
+          onClick={primaryOnClick ?? primaryProps?.onClick}
         >
           {primaryLabel}
         </Button>
