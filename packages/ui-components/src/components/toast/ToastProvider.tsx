@@ -65,14 +65,23 @@ const toastifyType = (type: VariantType) =>
 type ToastState = {
   message: string;
   type: VariantType;
-  props: Partial<Omit<ToastProps, "type">>;
+  /** Kept off `props` so an update can rebuild the timer from it. */
+  duration?: number;
+  props: Partial<Omit<ToastProps, "type" | "duration">>;
 };
 
+// `disableAnimate` opts out of the timer. Otherwise the toast's own duration
+// wins, and a toast raised without one uses the default.
+const autoCloseOf = (state: ToastState): number | false =>
+  state.props.disableAnimate
+    ? false
+    : (state.duration ?? DEFAULT_TOAST_DURATION);
+
 // The provider owns the dismissal here, so the component must not run its own
-// timer: `duration` and `onDelete` are consumed as react-toastify options and
-// deliberately kept out of the rendered element.
+// timer: `onDelete` is consumed as a react-toastify option and deliberately
+// kept out of the rendered element.
 const renderToast = ({ message, type, props }: ToastState) => {
-  const { duration: _duration, onDelete: _onDelete, ...presentation } = props;
+  const { onDelete: _onDelete, ...presentation } = props;
   return (
     <Toast {...presentation} type={type}>
       {message}
@@ -111,21 +120,20 @@ export const ToastProvider = ({
   const context: ToastProviderContext = useMemo(
     () => ({
       toast: (message, type = VariantType.NEUTRAL, options = {}) => {
-        const duration = options.duration ?? DEFAULT_TOAST_DURATION;
+        const { duration, ...props } = options;
         // Minting the id up front lets `onClose` release the entry it created.
         const id = `${target}-${(counter.current += 1)}`;
-        const state: ToastState = { message, type, props: options };
+        const state: ToastState = { message, type, duration, props };
         live.current.set(id, state);
 
         return notify(renderToast(state), {
           toastId: id,
           type: toastifyType(type),
-          // `disableAnimate` used to opt out of the dismissal timer.
-          autoClose: options.disableAnimate ? false : duration,
+          autoClose: autoCloseOf(state),
           icon: false,
           onClose: () => {
             live.current.delete(id);
-            options.onDelete?.();
+            props.onDelete?.();
           },
           containerId: target,
         });
@@ -139,6 +147,7 @@ export const ToastProvider = ({
         const next: ToastState = {
           message: message ?? current.message,
           type: type ?? current.type,
+          duration: duration ?? current.duration,
           props: { ...current.props, ...props },
         };
         live.current.set(id, next);
@@ -147,8 +156,7 @@ export const ToastProvider = ({
           containerId: target,
           type: toastifyType(next.type),
           render: renderToast(next),
-          // Leaving `autoClose` out keeps the timer the toast was raised with.
-          ...(duration === undefined ? {} : { autoClose: duration }),
+          autoClose: autoCloseOf(next),
         });
       },
       dismissToast: (params) =>

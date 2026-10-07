@@ -173,7 +173,8 @@ updateToast(id, { message: "Uploaded", type: VariantType.SUCCESS, progress: 100 
 `}/>
 
 Passing `duration` to `updateToast` restarts the dismissal timer; leaving it out keeps
-the one the toast was raised with.
+the one the toast was raised with. `disableAnimate` belongs to that timer: passing
+`false` starts it (the toast's duration, or the default), and `true` stops it.
 
 ## Using `Toast` on its own
 
