@@ -42,7 +42,6 @@ export {
   Switch,
   TextArea,
   Toast,
-  ToastIcon,
   ToastProvider,
   Tooltip,
   VariantType,

@@ -25,7 +25,6 @@ export interface ToastProps extends NotificationProps {
   onDelete?: () => void;
   disableAnimate?: boolean;
   progress?: number;
-  closeToast?: () => void;
 }
 
 /**
@@ -34,7 +33,7 @@ export interface ToastProps extends NotificationProps {
  * across an update, and the message is replaced through `message`.
  */
 export type ToastUpdateOptions = Partial<
-  Omit<ToastProps, "children" | "closeToast" | "onDelete">
+  Omit<ToastProps, "children" | "onDelete">
 > & {
   /** Replaces the message the toast was raised with. */
   message?: string;

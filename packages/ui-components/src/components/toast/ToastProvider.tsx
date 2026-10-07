@@ -32,7 +32,7 @@ export interface ToastProviderContext {
   toast: (
     message: string,
     type?: VariantType,
-    options?: Partial<Omit<ToastInterface, "message" | "type">>,
+    options?: Partial<Omit<ToastProps, "type">>,
   ) => ToastId;
   updateToast: (id: ToastId, options?: ToastUpdateOptions) => void;
   dismissToast: (params?: ToastId | ToastDismissParams) => void;
@@ -48,11 +48,6 @@ export const useToastProvider = () => {
     throw new Error("useToastProvider must be used within a ToastProvider.");
   }
   return context;
-};
-
-type ToastInterface = ToastProps & {
-  i: number;
-  message: string;
 };
 
 const DEFAULT_TOAST_DURATION = 6000;

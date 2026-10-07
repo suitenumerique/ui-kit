@@ -35,7 +35,7 @@ const componentTokenDefaults = {
   "forms-textarea": textAreaTokens(defaultTokenRefs),
   modal: modalTokens(defaultTokenRefs),
   "progress-bar": progressBarTokens(defaultTokenRefs),
-  toast: toastTokens(defaultTokenRefs),
+  toast: toastTokens(),
   tooltip: tooltipTokens(defaultTokenRefs),
 };
 

@@ -20,8 +20,11 @@ export const Toast = ({
   duration,
   onDelete,
   disableAnimate,
+  closeToast,
   ...props
-}: ToastProps) => {
+}: ToastProps & {
+  closeToast?: () => void;
+}) => {
   const container = useRef<HTMLDivElement>(null);
   const [disappear, setDisappear] = useState(false);
   const onDeleteRef = useRef(onDelete);
@@ -85,10 +88,7 @@ export const Toast = ({
         tertiaryOnClick={props.tertiaryOnClick}
         tertiaryProps={props.tertiaryProps}
         canClose={props.canClose}
-        // `closeToast` is only injected by react-toastify inside the provider.
-        onClose={() =>
-          props.closeToast ? props.closeToast() : setDisappear(true)
-        }
+        onClose={() => (closeToast ? closeToast() : setDisappear(true))}
         trailing={
           props.progress !== undefined && (
             <span className="c__toast__content__progress" aria-hidden="true">
@@ -99,20 +99,6 @@ export const Toast = ({
       >
         {props.children}
       </NotificationContent>
-    </div>
-  );
-};
-
-export const ToastIcon = ({
-  icon,
-  hideIcon,
-}: Pick<ToastProps, "icon" | "hideIcon">) => {
-  if (hideIcon) {
-    return null;
-  }
-  return (
-    <div className="c__toast__icon" aria-hidden="true">
-      {icon ?? toastDefaultIcon}
     </div>
   );
 };
