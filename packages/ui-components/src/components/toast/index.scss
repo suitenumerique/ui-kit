@@ -30,11 +30,11 @@
 }
 
 .c__toast__container {
-  --toastify-toast-width: 576px;
-  --toastify-container-width: 576px;
+  --toastify-toast-width: var(--c--globals--breakpoints--sm);
+  --toastify-container-width: var(--c--globals--breakpoints--sm);
 
-  width: 576px;
-  max-width: calc(100vw - 32px);
+  width: var(--c--globals--breakpoints--sm);
+  max-width: calc(100vw - var(--c--components--button--small-height));
 }
 
 // Reset the library toast chrome. Scoped under our container so it wins over
@@ -96,19 +96,23 @@
 }
 
 .c__toast__container--slide-left .c__toast__wrapper--slide-in {
-  animation: c__toast-slide-in-left 0.5s both;
+  animation: c__toast-slide-in-left
+    var(--c--components--toast--slide-in-duration) both;
 }
 
 .c__toast__container--slide-left .c__toast__wrapper--slide-out {
-  animation: c__toast-slide-out-left 0.3s ease-in both;
+  animation: c__toast-slide-out-left
+    var(--c--components--toast--slide-out-duration) ease-in both;
 }
 
 .c__toast__container--slide-right .c__toast__wrapper--slide-in {
-  animation: c__toast-slide-in-right 0.5s both;
+  animation: c__toast-slide-in-right
+    var(--c--components--toast--slide-in-duration) both;
 }
 
 .c__toast__container--slide-right .c__toast__wrapper--slide-out {
-  animation: c__toast-slide-out-right 0.3s ease-in both;
+  animation: c__toast-slide-out-right
+    var(--c--components--toast--slide-out-duration) ease-in both;
 }
 
 .c__toast {
@@ -116,21 +120,21 @@
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  max-width: 576px;
-  min-height: 48px;
+  max-width: var(--c--globals--breakpoints--sm);
+  min-height: var(--c--globals--spacings--xxl);
   padding: var(--c--globals--spacings--xs, 8px);
   border: 1px solid var(--c--contextuals--border--semantic--neutral--tertiary);
   border-radius: var(--c--globals--spacings--xs, 8px);
   background: var(--c--contextuals--background--surface--primary);
-  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 145, 0.05);
   font-family: var(--c--globals--font--families--base);
   word-break: normal;
 
   // Keeps a medium button from growing the toast. Wins over `.c__button--medium`
   // on specificity, so no !important is needed.
   .c__button {
-    height: 32px;
-    min-height: 32px;
+    height: var(--c--components--button--small-height);
+    min-height: var(--c--components--button--small-height);
   }
 
   // A toast raised through the provider is animated by the transition on its
@@ -186,7 +190,7 @@
   // toast-specific metrics and colours live here.
   &__content {
     flex: 1;
-    min-height: 32px;
+    min-height: var(--c--components--button--small-height);
     padding: 0 var(--c--globals--spacings--3xs, 4px);
 
     &__children {
@@ -195,15 +199,21 @@
 
     &__message {
       font-weight: 500;
+      line-height: var(--c--globals--line-heights--sm, 18px);
       color: var(--c--contextuals--content--semantic--brand--primary);
     }
 
     &__progress {
       margin-inline-start: 10px;
       font-weight: 400;
+      line-height: var(--c--globals--line-heights--sm, 18px);
       white-space: nowrap;
       color: var(--c--contextuals--content--semantic--brand--secondary);
     }
+  }
+
+  &__actions {
+    gap: 1px;
   }
 
   &__actions &__action {
@@ -230,7 +240,10 @@
   .c__toast__container {
     left: 50%;
     right: auto;
-    width: min(576px, calc(100vw - 32px));
+    width: min(
+      var(--c--globals--breakpoints--sm),
+      calc(100vw - var(--c--components--button--small-height))
+    );
     transform: translateX(-50%);
   }
 }

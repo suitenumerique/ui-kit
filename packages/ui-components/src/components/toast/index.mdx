@@ -226,12 +226,11 @@ the heavy lifting for you.
 
 Here a the custom design tokens defined by the Toast.
 
-| Token     | Description           |
-| --------- | --------------------- |
-| icon-size | Size of the left icon |
+| Token              | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| slide-in-duration  | Duration of the slide-in                                 |
+| slide-out-duration | Duration of the slide-out and of the standalone fade-out |
+| icon-size          | Size of the left icon                                    |
 
-The toast now takes its colors and typography from the semantic tokens
-(`contextuals.background.surface`, `contextuals.content.semantic.*`) like the rest of the
-recent components, so `background-color`, `color` and `font-weight` are no longer read.
-Slide durations are handled by the transition, so `slide-in-duration` is no longer
-read. `slide-out-duration` still is, for the fade-out of a toast mounted on its own.
+Colors and typography come from the semantic tokens
+(`contextuals.background.surface`, `contextuals.content.semantic.*`).
