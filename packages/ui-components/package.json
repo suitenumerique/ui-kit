@@ -102,7 +102,7 @@
     "@babel/preset-typescript": "7.27.1",
     "@chromatic-com/storybook": "3.2.6",
     "@faker-js/faker": "9.7.0",
-    "@hookform/resolvers": "5.0.1",
+    "@hookform/resolvers": "5.9.1",
     "@playwright/experimental-ct-react": "1.61.1",
     "@playwright/test": "1.61.1",
     "@storybook/addon-a11y": "8.6.12",
