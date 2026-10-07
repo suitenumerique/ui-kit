@@ -1,32 +1,6 @@
 @use "../../utils/responsive" as *;
 @use "../notification/content";
 
-@mixin toast-variant($context) {
-  border-color: var(--c--contextuals--border--semantic--#{$context}--tertiary);
-  background: var(
-    --c--contextuals--background--semantic--#{$context}--tertiary
-  );
-
-  .c__notification__icon,
-  .c__notification__content__message {
-    color: var(--c--contextuals--content--semantic--#{$context}--primary);
-  }
-
-  .c__toast__progress {
-    color: var(--c--contextuals--content--semantic--#{$context}--secondary);
-  }
-
-  .c__notification__actions .c__notification__action {
-    color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
-
-    &:hover {
-      background: var(
-        --c--contextuals--background--semantic--#{$context}--secondary
-      );
-    }
-  }
-}
-
 .c__toast__container {
   --toastify-toast-width: var(--c--globals--breakpoints--sm);
   --toastify-container-width: var(--c--globals--breakpoints--sm);
@@ -121,9 +95,16 @@
   max-width: var(--c--globals--breakpoints--sm);
   min-height: var(--c--globals--spacings--xxl);
   padding: var(--c--globals--spacings--xs, 8px);
-  border: 1px solid var(--c--contextuals--border--semantic--neutral--tertiary);
+  border: 1px solid
+    var(
+      --c__notification--border,
+      var(--c--contextuals--border--semantic--neutral--tertiary)
+    );
   border-radius: var(--c--globals--spacings--xs, 8px);
-  background: var(--c--contextuals--background--surface--primary);
+  background: var(
+    --c__notification--background,
+    var(--c--contextuals--background--surface--primary)
+  );
   box-shadow: 0 6px 18px 0 rgba(0, 0, 145, 0.05);
   font-family: var(--c--globals--font--families--base);
   word-break: normal;
@@ -151,7 +132,6 @@
     flex-shrink: 0;
     width: 24px;
     height: 24px;
-    color: var(--c--contextuals--content--semantic--brand--primary);
 
     span {
       font-size: var(--c--components--toast--icon-size);
@@ -164,8 +144,7 @@
     }
   }
 
-  // Structure comes from the shared notification stylesheet; only the
-  // toast-specific metrics and colours live here.
+  // Structure and variant colors come from the shared notification stylesheet.
   .c__notification__content {
     flex: 1;
     min-height: var(--c--components--button--small-height);
@@ -179,7 +158,6 @@
   .c__notification__content__message {
     font-weight: 500;
     line-height: var(--c--globals--line-heights--sm, 18px);
-    color: var(--c--contextuals--content--semantic--brand--primary);
   }
 
   &__progress {
@@ -187,40 +165,11 @@
     font-weight: 400;
     line-height: var(--c--globals--line-heights--sm, 18px);
     white-space: nowrap;
-    color: var(--c--contextuals--content--semantic--brand--secondary);
+    color: var(--c__notification--secondary);
   }
 
   .c__notification__actions {
     gap: 1px;
-  }
-
-  .c__notification__actions .c__notification__action {
-    color: var(--c--contextuals--content--semantic--brand--tertiary);
-
-    &:hover {
-      background: var(--c--contextuals--background--semantic--brand--tertiary);
-    }
-  }
-
-  // After the base rules above: both sit at the same specificity.
-  &--info {
-    @include toast-variant("brand");
-  }
-
-  &--success {
-    @include toast-variant("success");
-  }
-
-  &--warning {
-    @include toast-variant("warning");
-  }
-
-  &--error {
-    @include toast-variant("error");
-  }
-
-  &--neutral {
-    @include toast-variant("neutral");
   }
 }
 

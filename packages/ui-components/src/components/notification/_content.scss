@@ -1,7 +1,71 @@
 @use "../../utils/responsive" as *;
 
-// Shared structure for Alert and Toast. Colors are set in each component.
-// Sass emits a module once, however many stylesheets `@use` it.
+// Shared structure and variant colors for Alert and Toast. Sass emits this
+// module once, however many stylesheets `@use` it. Each component only sets
+// the variables' fallback and its own container (the alert border, the toast
+// shadow). `info` uses the brand palette on purpose.
+@mixin notification-palette($context) {
+  --c__notification--background: var(
+    --c--contextuals--background--semantic--#{$context}--tertiary
+  );
+  --c__notification--border: var(
+    --c--contextuals--border--semantic--#{$context}--tertiary
+  );
+  --c__notification--border-left: var(
+    --c--contextuals--border--semantic--#{$context}--tertiary
+  );
+  --c__notification--primary: var(
+    --c--contextuals--content--semantic--#{$context}--primary
+  );
+  --c__notification--secondary: var(
+    --c--contextuals--content--semantic--#{$context}--secondary
+  );
+  --c__notification--tertiary: var(
+    --c--contextuals--content--semantic--#{$context}--tertiary
+  );
+  --c__notification--action-hover: var(
+    --c--contextuals--background--semantic--#{$context}--secondary
+  );
+}
+
+.c__notification--info {
+  @include notification-palette(brand);
+}
+
+.c__notification--neutral {
+  @include notification-palette(neutral);
+}
+
+.c__notification--success {
+  @include notification-palette(success);
+}
+
+.c__notification--warning {
+  @include notification-palette(warning);
+}
+
+.c__notification--error {
+  @include notification-palette(error);
+}
+
+.c__notification--info,
+.c__notification--neutral,
+.c__notification--success,
+.c__notification--warning,
+.c__notification--error {
+  .c__notification__icon,
+  .c__notification__content__message {
+    color: var(--c__notification--primary);
+  }
+
+  .c__notification__actions .c__notification__action {
+    color: var(--c__notification--tertiary);
+
+    &:hover {
+      background: var(--c__notification--action-hover);
+    }
+  }
+}
 .c__notification__content {
   display: flex;
   align-items: center;

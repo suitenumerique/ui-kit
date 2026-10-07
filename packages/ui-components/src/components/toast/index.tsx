@@ -77,10 +77,14 @@ export const Toast = ({
   return (
     <div
       ref={container}
-      className={classNames("c__toast", type && "c__toast--" + type, {
-        "c__toast--disappear": disappear,
-        "c__toast--no-animate": disableAnimate,
-      })}
+      className={classNames(
+        "c__toast",
+        type && ["c__toast--" + type, "c__notification--" + type],
+        {
+          "c__toast--disappear": disappear,
+          "c__toast--no-animate": disableAnimate,
+        },
+      )}
       role={toastRole(type)}
     >
       <NotificationContent

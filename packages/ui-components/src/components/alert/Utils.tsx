@@ -10,6 +10,7 @@ export const AlertWrapper = (props: AlertProps) => {
       className={classNames(
         "c__alert",
         "c__alert--" + props.type,
+        props.type && "c__notification--" + props.type,
         props.className,
         {
           "c__alert--hide": props.hide,

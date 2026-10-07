@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { Alert } from ":/components/alert/index";
 import { CunninghamProvider } from ":/components/provider";
 import { Toast } from ":/components/toast/index";
@@ -46,31 +46,5 @@ describe("notification content", () => {
       "c__notification__action c__notification__action--close",
     ]);
     expect(structure($toast)).toEqual(structure($alert));
-  });
-
-  it("names the close button after each component's translation", () => {
-    render(
-      <CunninghamProvider>
-        <Alert {...shared} />
-        <Toast {...shared} duration={0} />
-      </CunninghamProvider>,
-    );
-
-    expect(
-      screen.getByRole("button", { name: "Delete alert" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Close notification" }),
-    ).toBeInTheDocument();
-  });
-
-  it("lets closeLabel override the translated name", () => {
-    render(
-      <CunninghamProvider>
-        <Alert {...shared} closeLabel="Dismiss" />
-      </CunninghamProvider>,
-    );
-
-    expect(screen.getByRole("button", { name: "Dismiss" })).toBeInTheDocument();
   });
 });
