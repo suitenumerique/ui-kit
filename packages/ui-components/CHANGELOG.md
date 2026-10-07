@@ -1,5 +1,22 @@
 # @gouvfr-lasuite/ui-components
 
+## 1.3.0
+
+### Minor Changes
+
+- 484849f: Fix Modal layout issues: close button overlap with long titles, full-screen close button position, compact title tokens, dark theme tab item backgrounds
+- Add accessible Tabs variants, folder access confirmation and denied preview
+
+  Tabs supports keyboard navigation, disabled and icon-only tabs, controlled selection and
+  responsive layouts. The `CustomTabs` export is renamed `Tabs` and each tab group requires an
+  accessible label.
+
+  ShareModal explains inherited-access changes before applying restrictions, and separates
+  search, import and section state so custom renderers and pending searches stay reliable.
+
+  The file preview keeps inaccessible folders in the flow and lets consuming apps offer access
+  requests without closing the preview.
+
 ## 1.2.0
 
 ### Minor Changes
