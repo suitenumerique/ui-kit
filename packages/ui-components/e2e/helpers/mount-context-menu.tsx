@@ -88,3 +88,20 @@ export const TestTwoContextMenus = () => {
     </CunninghamProvider>
   );
 };
+
+// A menu longer than the short viewport of the overflow tests.
+export const TestLongContextMenu = ({ itemCount }: { itemCount: number }) => {
+  const options: MenuItem[] = Array.from({ length: itemCount }, (_, index) => ({
+    label: `Item ${index + 1}`,
+  }));
+
+  return (
+    <CunninghamProvider currentLocale="en-US">
+      <ContextMenuProvider>
+        <ContextMenu options={options}>
+          <div style={{ padding: "20px" }}>Right-click here</div>
+        </ContextMenu>
+      </ContextMenuProvider>
+    </CunninghamProvider>
+  );
+};

@@ -540,3 +540,82 @@ export const WithTopBottomMessage: Story = {
     );
   },
 };
+
+const longOptions: DropdownMenuItem[] = Array.from(
+  { length: 30 },
+  (_, index) => ({
+    label: `Folder ${index + 1}`,
+    value: `folder-${index + 1}`,
+  }),
+);
+
+// Viewports short enough for the menu popover to lack room. Switch between
+// them, or resize the browser, from the toolbar viewport menu.
+const shortViewports = {
+  constrained: {
+    name: "Constrained height (400px)",
+    styles: { width: "1024px", height: "400px" },
+    type: "desktop",
+  },
+  veryConstrained: {
+    name: "Very constrained height (200px)",
+    styles: { width: "1024px", height: "200px" },
+    type: "desktop",
+  },
+};
+
+const renderCenteredTrigger: Story["render"] = (args) => {
+  const { isOpen, setIsOpen } = useDropdownMenu();
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  // The trigger sits mid-height so the popover has no better side to flip to.
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <DropdownMenu
+        {...args}
+        onSelectValue={(value) => setSelectedValues([value])}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        selectedValues={selectedValues}
+      >
+        <Button onClick={() => setIsOpen(!isOpen)}>Move to</Button>
+      </DropdownMenu>
+    </div>
+  );
+};
+
+/**
+ * When the popover lacks room, the menu is capped to the available height:
+ * the top and bottom messages keep their place while the list scrolls.
+ * Use the toolbar viewport menu to try other heights.
+ */
+export const ConstrainedHeight: Story = {
+  args: {
+    options: longOptions,
+    topMessage: "Pick the destination folder",
+    bottomMessage: "30 folders available",
+  },
+  parameters: {
+    layout: "fullscreen",
+    viewport: { viewports: shortViewports, defaultViewport: "constrained" },
+  },
+  render: renderCenteredTrigger,
+};
+
+/**
+ * When even the top and bottom messages lack room, the list keeps about one
+ * item and the whole menu scrolls instead, so nothing gets out of reach.
+ */
+export const VeryConstrainedHeight: Story = {
+  ...ConstrainedHeight,
+  parameters: {
+    layout: "fullscreen",
+    viewport: { viewports: shortViewports, defaultViewport: "veryConstrained" },
+  },
+};

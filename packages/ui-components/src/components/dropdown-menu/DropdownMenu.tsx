@@ -92,7 +92,8 @@ export const DropdownMenu = ({
               />
             </MenuItem>
             <Popover offset={-4} shouldFlip containerPadding={16}>
-              <Menu className={menuClassName}>
+              {/* Submenus have no top/bottom messages: the menu is the list itself. */}
+              <Menu className={clsx(menuClassName, "c__dropdown-menu__list")}>
                 {renderMenuItems(option.children!)}
               </Menu>
             </Popover>
@@ -160,7 +161,7 @@ export const DropdownMenu = ({
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
         onOpenChange={onOpenChangeHandler}
       >
-        <div className={menuClassName}>
+        <div className={clsx(menuClassName, "c__dropdown-menu--with-list")}>
           {topMessage && (
             <div className="c__dropdown-menu-item-top-message">
               {topMessage}

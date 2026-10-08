@@ -20,3 +20,17 @@
 %shadow {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
+
+// Wraps declarations relying on `color-mix()`, which is not supported by
+// Chromium < 111 and Safari < 16.2. Declare a fallback value outside of it.
+//
+// A "fallback then color-mix()" pair of declarations in the same rule is not
+// enough: the build minifier only keeps the last declaration of a property, and
+// a custom property holding an unsupported `color-mix()` is only invalid at
+// computed-value time, which silently resets every declaration relying on it
+// (e.g. a whole `background` shorthand).
+@mixin supports-color-mix {
+  @supports (color: color-mix(in srgb, red, blue)) {
+    @content;
+  }
+}
