@@ -38,12 +38,14 @@ test.describe("PDF Preview — scanned document", () => {
     );
     await expect(canvas).toBeVisible({ timeout: 10_000 });
 
-    // toHaveScreenshot keeps capturing until the canvas matches the golden,
-    // which also absorbs the slow decode. A missing JPX layer changes far
-    // more than the tolerance below (text body, grey highlights, background).
+    // toHaveScreenshot keeps capturing until the canvas stops changing,
+    // which also absorbs the slow decode. Allow small platform-dependent
+    // differences in pdfjs's canvas rasterization: the regression this test
+    // guards against changes roughly 4% of the pixels (text body, grey
+    // highlights and background), which remains well above this tolerance.
     await expect(canvas).toHaveScreenshot("scanned-page-1.png", {
       timeout: 90_000,
-      maxDiffPixelRatio: 0.002,
+      maxDiffPixelRatio: 0.01,
     });
   });
 });
