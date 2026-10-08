@@ -50,7 +50,7 @@
     "test:ct": "playwright test -c playwright.config.ts",
     "test:ct:ui": "playwright test -c playwright.config.ts --ui",
     "prestorybook": "yarn prepare-test-assets",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "prebuild-storybook": "yarn prepare-test-assets",
     "build-storybook": "storybook build -o ../../storybook-static",
     "prepare-test-assets": "yarn copy-pdf-worker && yarn generate-test-pdfs",

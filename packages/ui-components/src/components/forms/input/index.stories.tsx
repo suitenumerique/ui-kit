@@ -260,6 +260,7 @@ export const FormExample = () => {
 export const ClassicVariant = {
   args: {
     label: "Your name",
+    labelDescription: "Text info",
     variant: "classic",
     placeholder: "Enter your name",
   },

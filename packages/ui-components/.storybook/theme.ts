@@ -15,7 +15,8 @@ const buildTheme = (
 
     //
     colorPrimary: contextuals.content.semantic.brand.primary, // content.brand.primary
-    colorSecondary: contextuals.content.semantic.brand.primary, // content.brand.secondary
+    // Used as the background of the selected sidebar item, with a white text.
+    colorSecondary: contextuals.background.semantic.brand.primary, // background.brand.primary
 
     fontBase: globals.font.families.base,
 
