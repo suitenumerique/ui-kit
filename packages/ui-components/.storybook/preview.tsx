@@ -6,7 +6,7 @@ import "./../src/style-stories.scss";
 import type { Preview } from "@storybook/react";
 import { DocsContainer } from "@storybook/blocks";
 import { I18nProvider } from "@react-aria/i18n";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DEFAULT_THEME,
   getStorybookTheme,
@@ -17,12 +17,17 @@ import {
 const DocsWithTheme = (props) => {
   const globals = props.context.store.userGlobals.globals;
   const theme = getThemeFromGlobals(globals);
+  const locale = globals.locale ?? Locales.enUS;
+
+  // Exposed to the stories rendered in iframes, see the decorator below.
+  useEffect(() => {
+    document.documentElement.dataset.docsTheme = theme;
+    document.documentElement.dataset.docsLocale = locale;
+  }, [theme, locale]);
+
   return (
-    <CunninghamProvider
-      currentLocale={globals.locale ?? Locales.enUS}
-      theme={theme}
-    >
-      <I18nProvider locale={globals.locale ?? Locales.enUS}>
+    <CunninghamProvider currentLocale={locale} theme={theme}>
+      <I18nProvider locale={locale}>
         <DocsContainer {...props} theme={getStorybookTheme(theme)} />
       </I18nProvider>
     </CunninghamProvider>
@@ -61,18 +66,25 @@ const preview: Preview = {
     locale: Locales.enUS,
   },
   decorators: [
-    (Story, context) => (
-      <CunninghamProvider
-        currentLocale={context.globals.locale ?? Locales.enUS}
-        theme={getThemeFromGlobals(context.globals)}
-      >
-        <I18nProvider locale={context.globals.locale ?? Locales.enUS}>
-          <div>
-            <Story />
-          </div>
-        </I18nProvider>
-      </CunninghamProvider>
-    ),
+    (Story, context) => {
+      // Docs stories rendered with `inline: false` (Modal, ShareModal...) live
+      // in a nested iframe that does not receive the toolbar globals: follow
+      // the docs page instead.
+      const docsRoot = window.frameElement?.ownerDocument.documentElement;
+      const theme =
+        docsRoot?.dataset.docsTheme ?? getThemeFromGlobals(context.globals);
+      const locale =
+        docsRoot?.dataset.docsLocale ?? context.globals.locale ?? Locales.enUS;
+      return (
+        <CunninghamProvider currentLocale={locale} theme={theme}>
+          <I18nProvider locale={locale}>
+            <div>
+              <Story />
+            </div>
+          </I18nProvider>
+        </CunninghamProvider>
+      );
+    },
   ],
   parameters: {
     options: {
