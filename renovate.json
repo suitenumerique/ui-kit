@@ -1,6 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "github>numerique-gouv/renovate-configuration",
+    ":approveMajorUpdates"
+  ],
+  "dependencyDashboard": true,
+  "separateMajorMinor": true,
+  "prConcurrentLimit": 4,
+  "packageRules": [
+    {
+      "description": "Dependencies shipped to consumers: pair the PR with a changeset",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "groupName": "published js dependencies"
+    }
   ]
 }
