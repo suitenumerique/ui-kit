@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Modal, ModalSize, ModalTab, useModal } from ":/components/modal/index";
 import { CunninghamProvider } from ":/components/provider";
@@ -69,6 +69,99 @@ describe("<Modal/>", () => {
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
     expect(app).toHaveAttribute("aria-hidden", "true");
   });
+  it("names the dialog with its title heading", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.SMALL}
+            title="My Dialog Title"
+            titleIcon={<span>icon</span>}
+            aria-label="Ignored label"
+            {...modal}
+          >
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", {
+      name: "My Dialog Title",
+    });
+    const heading = screen.getByRole("heading", { name: "My Dialog Title" });
+    expect(heading.tagName).toBe("H2");
+    expect(dialog).toHaveAttribute("aria-labelledby", heading.id);
+    expect(dialog).toHaveAttribute("aria-modal", "true");
+    expect(dialog).not.toHaveAttribute("aria-label");
+    expect(screen.getByText("icon").parentElement).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+  it("describes the dialog with its subtitle", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.SMALL}
+            title="Title"
+            subtitle="Description text"
+            {...modal}
+          >
+            <div>Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog");
+    const subtitle = screen.getByText("Description text");
+    expect(dialog).toHaveAttribute("aria-describedby", subtitle.id);
+  });
+  it("falls back to aria-label without a visible title", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.SMALL}
+            titleIcon={<span>icon</span>}
+            aria-label="Custom label"
+            {...modal}
+          >
+            <div>Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Custom label" });
+    expect(dialog).not.toHaveAttribute("aria-labelledby");
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+  });
+  it("translates the close button", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider currentLocale="fr-FR">
+          <Modal size={ModalSize.SMALL} title="Titre" {...modal}>
+            <div>Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    expect(
+      await screen.findByRole("button", { name: "Fermer" }),
+    ).toBeInTheDocument();
+  });
   it("use modalParentSelector to change the modal portal", async () => {
     const Wrapper = () => {
       const modal = useModal();
@@ -128,7 +221,7 @@ describe("<Modal/>", () => {
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
 
     const closeButton = screen.getByRole("button", {
-      name: "close",
+      name: "Close",
     });
     await user.click(closeButton);
     expect(screen.queryByText("Modal Content")).not.toBeInTheDocument();
@@ -155,7 +248,7 @@ describe("<Modal/>", () => {
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
 
     const closeButton = screen.queryByRole("button", {
-      name: "close",
+      name: "Close",
     });
     expect(closeButton).not.toBeInTheDocument();
   });
@@ -284,7 +377,7 @@ describe("<Modal/>", () => {
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
 
     const closeButton = screen.queryByRole("button", {
-      name: "close",
+      name: "Close",
     });
     expect(closeButton).not.toBeInTheDocument();
   });
@@ -357,7 +450,7 @@ describe("<Modal/>", () => {
 
     // Close the modal.
     const closeButton = screen.getByRole("button", {
-      name: "close",
+      name: "Close",
     });
     await user.click(closeButton);
 
@@ -436,7 +529,7 @@ describe("<Modal/>", () => {
 
     // Close the modal.
     const closeButton = screen.getByRole("button", {
-      name: "close",
+      name: "Close",
     });
     await user.click(closeButton);
 
@@ -522,7 +615,7 @@ describe("<Modal/>", () => {
 
     // Close the modal.
     const closeButton = screen.getByRole("button", {
-      name: "close",
+      name: "Close",
     });
     await user.click(closeButton);
 
@@ -556,7 +649,7 @@ describe("<Modal/>", () => {
     expect(document.body.classList.contains(NOSCROLL_CLASS)).toBeTruthy();
 
     const closeButton = screen.getByRole("button", {
-      name: "close",
+      name: "Close",
     });
     await user.click(closeButton);
     expect(document.body.classList.contains(NOSCROLL_CLASS)).toBeFalsy();
@@ -602,7 +695,7 @@ describe("<Modal/>", () => {
     expect(document.body.classList.contains(NOSCROLL_CLASS)).toBeTruthy();
 
     const closeButtons = screen.getAllByRole("button", {
-      name: "close",
+      name: "Close",
     });
     expect(closeButtons).toHaveLength(3);
 
@@ -811,6 +904,154 @@ describe("<Modal variant='tab' />", () => {
     // Other tabs are not selected
     const secondTab = screen.getByRole("tab", { name: "Privacy" });
     expect(secondTab).toHaveAttribute("aria-selected", "false");
+
+    // The dialog and the tab list are named by the sidebar heading
+    const dialog = screen.getByRole("dialog");
+    const heading = screen.getByRole("heading", { name: "Settings" });
+    expect(heading.tagName).toBe("H2");
+    expect(dialog).toHaveAttribute("aria-labelledby", heading.id);
+    expect(screen.getByRole("tablist")).toHaveAttribute(
+      "aria-labelledby",
+      heading.id,
+    );
+
+    // The panel is linked to the selected tab
+    const panel = screen.getByRole("tabpanel");
+    expect(firstTab).toHaveAttribute("aria-controls", panel.id);
+    expect(panel).toHaveAttribute("aria-labelledby", firstTab.id);
+    expect(screen.getByRole("heading", { name: "General" }).tagName).toBe(
+      "H3",
+    );
+
+    // Only the selected tab is in the tab sequence
+    expect(firstTab).toHaveAttribute("tabindex", "0");
+    expect(secondTab).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("moves the focus between tabs with the keyboard", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            variant="tab"
+            size={ModalSize.MEDIUM}
+            tabs={testTabs}
+            sidebarTitle="Settings"
+            {...modal}
+          />
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+    const user = userEvent.setup();
+
+    const general = await screen.findByRole("tab", { name: "General" });
+    const privacy = screen.getByRole("tab", { name: "Privacy" });
+    const notifications = screen.getByRole("tab", { name: "Notifications" });
+    act(() => general.focus());
+
+    // Arrows move the focus without changing the selection
+    await user.keyboard("{ArrowDown}");
+    expect(privacy).toHaveFocus();
+    expect(general).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByText("General content")).toBeInTheDocument();
+
+    await user.keyboard("{End}");
+    expect(notifications).toHaveFocus();
+    await user.keyboard("{ArrowDown}");
+    expect(general).toHaveFocus();
+    await user.keyboard("{ArrowUp}");
+    expect(notifications).toHaveFocus();
+    await user.keyboard("{Home}");
+    expect(general).toHaveFocus();
+
+    // Enter selects the focused tab
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(privacy).toHaveAttribute("aria-selected", "true");
+    expect(privacy).toHaveAttribute("tabindex", "0");
+    expect(screen.getByText("Privacy content")).toBeInTheDocument();
+  });
+
+  describe("on small screens", () => {
+    const originalMatchMedia = window.matchMedia;
+    beforeEach(() => {
+      window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: true,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }));
+    });
+    afterEach(() => {
+      window.matchMedia = originalMatchMedia;
+    });
+
+    it("keeps the hidden half out of reach and moves the focus", async () => {
+      const Wrapper = () => {
+        const modal = useModal({ isOpenDefault: true });
+        return (
+          <CunninghamProvider>
+            <Modal
+              variant="tab"
+              size={ModalSize.MEDIUM}
+              tabs={testTabs}
+              sidebarTitle="Settings"
+              rightActions={<button>OK</button>}
+              {...modal}
+            />
+          </CunninghamProvider>
+        );
+      };
+      render(<Wrapper />);
+      const user = userEvent.setup();
+
+      const sidebar = document.querySelector(".c__modal__tab-sidebar")!;
+      const content = document.querySelector(".c__modal__tab-content")!;
+      expect(sidebar).not.toHaveAttribute("inert");
+      expect(content).toHaveAttribute("inert");
+
+      // Opening a tab shows the content and focuses the back button
+      await user.click(await screen.findByRole("tab", { name: "Privacy" }));
+      const back = screen.getByRole("button", { name: "Back to tabs" });
+      expect(sidebar).toHaveAttribute("inert");
+      expect(content).not.toHaveAttribute("inert");
+      expect(back).toHaveFocus();
+
+      // The focus wraps inside the visible half
+      await user.tab({ shift: true });
+      expect(screen.getByRole("button", { name: "OK" })).toHaveFocus();
+      await user.tab();
+      expect(back).toHaveFocus();
+
+      // Going back focuses the selected tab
+      await user.click(back);
+      expect(sidebar).not.toHaveAttribute("inert");
+      expect(screen.getByRole("tab", { name: "Privacy" })).toHaveFocus();
+    });
+  });
+
+  it("translates the back to tabs button", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider currentLocale="fr-FR">
+          <Modal
+            variant="tab"
+            size={ModalSize.MEDIUM}
+            tabs={testTabs}
+            sidebarTitle="Paramètres"
+            {...modal}
+          />
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    expect(
+      await screen.findByRole("button", { name: "Retour aux onglets" }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Fermer" })).toHaveLength(2);
   });
 
   it("closes the tab modal when clicking the close button", async () => {
