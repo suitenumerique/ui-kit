@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>numerique-gouv/renovate-configuration",
+    "github>suitenumerique/ci//renovate/default",
     ":approveMajorUpdates"
   ],
   "dependencyDashboard": true,
