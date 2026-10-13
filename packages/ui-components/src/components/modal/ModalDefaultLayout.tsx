@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { Button } from ":/components/button";
+import { useCunningham } from ":/components/provider";
 import { CloseIcon } from "./CloseIcon";
 import { ModalFooter } from "./ModalFooter";
 import { ModalDefaultVariantProps } from "./index";
@@ -8,9 +9,35 @@ import { ModalDefaultVariantProps } from "./index";
 export const ModalDefaultLayout = ({
   titleVariant = "default",
   showCloseButton,
+  titleId,
+  subtitleId,
   ...props
-}: ModalDefaultVariantProps & { showCloseButton: boolean }) => {
+}: ModalDefaultVariantProps & {
+  showCloseButton: boolean;
+  titleId: string;
+  subtitleId: string;
+}) => {
+  const { t } = useCunningham();
   const isCompact = titleVariant === "compact";
+  const closeLabel = t("components.modals.close_button_aria_label");
+
+  // An icon alone must not produce an empty heading.
+  const TitleTag = props.title ? "h2" : "div";
+  const title = (props.titleIcon || props.title) && (
+    <TitleTag
+      id={props.title ? titleId : undefined}
+      className={classNames("c__modal__title", {
+        "c__modal__title--compact": isCompact,
+      })}
+    >
+      {props.titleIcon && (
+        <span className="c__modal__title-icon" aria-hidden="true">
+          {props.titleIcon}
+        </span>
+      )}
+      {props.title}
+    </TitleTag>
+  );
 
   return (
     <>
@@ -21,21 +48,14 @@ export const ModalDefaultLayout = ({
       >
         {isCompact ? (
           <div className="c__modal__header c__modal__header--compact">
-            {(props.titleIcon || props.title) && (
-              <div className="c__modal__title c__modal__title--compact">
-                {props.titleIcon && (
-                  <div className="c__modal__title-icon">{props.titleIcon}</div>
-                )}
-                {props.title}
-              </div>
-            )}
+            {title}
             {showCloseButton && (
               <Button
                 icon={<CloseIcon />}
                 variant="tertiary"
                 color="neutral"
                 size="small"
-                aria-label="close"
+                aria-label={closeLabel}
                 onClick={props.onClose}
               />
             )}
@@ -49,21 +69,16 @@ export const ModalDefaultLayout = ({
                   variant="tertiary"
                   color="neutral"
                   size="small"
-                  aria-label="close"
+                  aria-label={closeLabel}
                   onClick={props.onClose}
                 />
               </div>
             )}
-            {(props.titleIcon || props.title) && (
-              <div className="c__modal__title">
-                {props.titleIcon && (
-                  <div className="c__modal__title-icon">{props.titleIcon}</div>
-                )}
-                {props.title}
-              </div>
-            )}
+            {title}
             {props.subtitle && (
-              <div className="c__modal__subtitle">{props.subtitle}</div>
+              <div id={subtitleId} className="c__modal__subtitle">
+                {props.subtitle}
+              </div>
             )}
           </>
         )}
