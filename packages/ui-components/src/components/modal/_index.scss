@@ -369,8 +369,9 @@
         }
 
         // Drawn outside the tab. An inset ring was clipped, so keyboard focus
-        // showed up only as the low-contrast gray fill.
-        &:focus-visible {
+        // showed up only as the low-contrast gray fill. Firefox does not match
+        // :focus-visible on this tab, while React Aria sets data-focus-visible.
+        &[data-focus-visible] {
           outline: 2px solid
             var(--c--contextuals--border--semantic--brand--primary);
           outline-offset: 2px;
