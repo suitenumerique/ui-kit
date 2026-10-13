@@ -106,7 +106,13 @@ export const Tooltip = ({
           {...mergeProps(props, tooltipProps2)}
         >
           <OverlayArrow {...arrowProps}>
-            <svg width={16} height={16} viewBox="0 0 16 16">
+            <svg
+              width={16}
+              height={16}
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path d="M0 0 L8 8 L16 0" />
             </svg>
           </OverlayArrow>

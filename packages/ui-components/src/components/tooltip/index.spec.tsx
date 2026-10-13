@@ -30,6 +30,29 @@ describe("<Tooltip />", () => {
     await user.unhover(button);
     await waitForElementToBeRemoved(screen.queryByText("Hi there"));
   });
+  it("describes the trigger with a tooltip and closes it on Escape", async () => {
+    render(
+      <Tooltip content="Hi there" closeDelay={0}>
+        <Button size="nano" variant="tertiary">
+          ⬅️
+        </Button>
+      </Tooltip>,
+    );
+
+    const user = userEvent.setup();
+    await user.tab();
+
+    const button = screen.getByRole("button");
+    const tooltip = await screen.findByRole("tooltip");
+    expect(tooltip).toHaveTextContent("Hi there");
+    expect(button).toHaveAttribute("aria-describedby", tooltip.id);
+    expect(tooltip.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+
+    await user.keyboard("{Escape}");
+    await waitForElementToBeRemoved(tooltip);
+    expect(button).toHaveFocus();
+    expect(button).not.toHaveAttribute("aria-describedby");
+  });
   it("appear on button focus and then disappear", async () => {
     render(
       <Tooltip content="Hi there" closeDelay={0}>
