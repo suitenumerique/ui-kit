@@ -285,7 +285,8 @@
         "previous_month_button_aria_label": "Vorheriger Monat",
         "previous_year_button_aria_label": "Vorheriges Jahr",
         "year_select_button_aria_label": "Jahr auswählen",
-        "month_select_button_aria_label": "Monat auswählen"
+        "month_select_button_aria_label": "Monat auswählen",
+        "calendar_popover_aria_label": "Datum auswählen"
       }
     },
     "calendar": {
@@ -294,6 +295,8 @@
       "ok": "OK"
     },
     "modals": {
+      "close_button_aria_label": "Schließen",
+      "back_to_tabs_aria_label": "Zurück zu den Tabs",
       "helpers": {
         "delete_confirmation": {
           "title": "Sind Sie sicher?",
