@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useEffect } from "react";
+import React, { PropsWithChildren, ReactNode, useEffect, useId } from "react";
 import classNames from "classnames";
 import ReactModal from "react-modal";
 import { NOSCROLL_CLASS, useModals } from ":/components/modal/ModalProvider";
@@ -122,6 +122,9 @@ export const Modal = (props: ModalProps) => {
 
 export const ModalInner = (props: ModalProps) => {
   const { modalParentSelector } = useModals();
+  const id = useId();
+  const titleId = `${id}-title`;
+  const subtitleId = `${id}-subtitle`;
   const showCloseButton = !props.hideCloseButton && !props.preventClose;
   const closeOnEsc = props.closeOnEsc ?? true;
   const variant = props.variant ?? "default";
@@ -130,11 +133,23 @@ export const ModalInner = (props: ModalProps) => {
     return null;
   }
 
-  const contentLabel =
-    props["aria-label"] ||
-    (variant === "tab"
-      ? (props as ModalTabVariantProps).sidebarTitle?.toString()
-      : (props as ModalDefaultVariantProps).title?.toString());
+  // The visible title names the dialog; `aria-label` only applies without one.
+  const hasVisibleTitle =
+    variant === "tab"
+      ? !!(props as ModalTabVariantProps).sidebarTitle
+      : !!(props as ModalDefaultVariantProps).title;
+  const hasSubtitle =
+    variant === "default" &&
+    (props as ModalDefaultVariantProps).titleVariant !== "compact" &&
+    !!(props as ModalDefaultVariantProps).subtitle;
+  const aria: ReactModal.Aria = {};
+  if (hasVisibleTitle) {
+    aria.labelledby = titleId;
+  }
+  if (hasSubtitle) {
+    aria.describedby = subtitleId;
+  }
+  const contentLabel = hasVisibleTitle ? undefined : props["aria-label"];
 
   // A full-screen modal always spans the viewport height: inline height
   // constraints would take precedence over the stylesheet and shrink it.
@@ -166,16 +181,20 @@ export const ModalInner = (props: ModalProps) => {
       shouldCloseOnEsc={closeOnEsc}
       bodyOpenClassName={classNames("c__modals--opened", NOSCROLL_CLASS)}
       contentLabel={contentLabel}
+      aria={aria}
     >
       {variant === "tab" ? (
         <ModalTabLayout
           {...(props as ModalTabVariantProps)}
           showCloseButton={showCloseButton}
+          titleId={titleId}
         />
       ) : (
         <ModalDefaultLayout
           {...(props as ModalDefaultVariantProps)}
           showCloseButton={showCloseButton}
+          titleId={titleId}
+          subtitleId={subtitleId}
         />
       )}
     </ReactModal>

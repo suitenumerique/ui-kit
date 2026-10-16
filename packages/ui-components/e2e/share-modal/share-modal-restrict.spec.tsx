@@ -78,7 +78,7 @@ for (const scenario of scenarios) {
           isRestricted={scenario.isRestricted}
         />,
       );
-      for (const action of ["Cancel", "close", "Escape"]) {
+      for (const action of ["Cancel", "Close", "Escape"]) {
         const modal = await openConfirmation(page, scenario.title);
         await expect(modal).toContainText(scenario.confirmation);
         if (action === "Escape") {
