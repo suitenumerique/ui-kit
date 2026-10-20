@@ -1,8 +1,9 @@
 import React, {
+  DOMAttributes,
   PropsWithChildren,
   ReactElement,
   ReactNode,
-  RefObject,
+  Ref,
 } from "react";
 import { OverlayArrow } from "react-aria-components";
 import {
@@ -13,6 +14,7 @@ import {
 } from "react-aria";
 import { useTooltipTriggerState } from "react-stately";
 import classNames from "classnames";
+import { mergeRefs } from ":/utils/mergeRefs";
 
 const ANIMATION_DURATION = 200;
 
@@ -23,13 +25,25 @@ export interface TooltipProps extends PropsWithChildren {
   className?: string;
 }
 
+/**
+ * Props a parent trigger (such as `DropdownMenuV2`) injects into the Tooltip.
+ * They are forwarded to the Tooltip's child, so it can be nested in a trigger.
+ */
+type TooltipForwardedProps = DOMAttributes<Element> & { ref?: Ref<Element> };
+
+type TooltipChild = ReactElement<
+  DOMAttributes<Element> & { ref?: Ref<Element> }
+>;
+
 export const Tooltip = ({
   placement = "bottom",
   content,
   closeDelay = 150,
   className,
-  ...props
-}: TooltipProps) => {
+  children,
+  ref: forwardedRef,
+  ...forwardedProps
+}: TooltipProps & TooltipForwardedProps) => {
   const ref = React.useRef(null);
   const overlayRef = React.useRef(null);
   const [isExiting, setIsExiting] = React.useState(false);
@@ -73,20 +87,18 @@ export const Tooltip = ({
   };
 
   const showTooltip = state.isOpen || isExiting;
+  const child = React.Children.toArray(children)[0] as TooltipChild;
 
   return (
     <>
-      {React.cloneElement(
-        React.Children.toArray(props.children)[0] as ReactElement<
-          typeof useTooltipTriggerRes.triggerProps & {
-            ref: RefObject<ReactElement | null>;
-          }
-        >,
-        {
-          ref,
-          ...useTooltipTriggerRes.triggerProps,
-        },
-      )}
+      {React.cloneElement(child, {
+        ...mergeProps(
+          child.props,
+          forwardedProps,
+          useTooltipTriggerRes.triggerProps,
+        ),
+        ref: mergeRefs(child.props.ref, forwardedRef, ref),
+      })}
 
       {showTooltip && (
         <span
@@ -103,7 +115,7 @@ export const Tooltip = ({
           style={{
             ...overlayPosition.overlayProps.style,
           }}
-          {...mergeProps(props, tooltipProps2)}
+          {...tooltipProps2}
         >
           <OverlayArrow {...arrowProps}>
             <svg width={16} height={16} viewBox="0 0 16 16">

@@ -162,6 +162,30 @@ export type {
 } from "./components/dropdown-menu";
 
 export {
+  DropdownMenuV2,
+  DropdownMenuV2Popover,
+  DropdownMenuV2Trigger,
+  MenuItemV2,
+  MenuSectionV2,
+  MenuSeparatorV2,
+  SubmenuTriggerV2,
+} from "./components/dropdown-menu-v2";
+
+export type {
+  DropdownMenuV2Entry,
+  DropdownMenuV2Option,
+  DropdownMenuV2PopoverProps,
+  DropdownMenuV2Props,
+  DropdownMenuV2SelectionMode,
+  DropdownMenuV2TriggerProps,
+  DropdownMenuV2Variant,
+  MenuItemV2Props,
+  MenuSectionV2Props,
+  MenuSeparatorV2Props,
+  SubmenuTriggerV2Props,
+} from "./components/dropdown-menu-v2";
+
+export {
   ContextMenu,
   ContextMenuProvider,
   useContextMenuContext,

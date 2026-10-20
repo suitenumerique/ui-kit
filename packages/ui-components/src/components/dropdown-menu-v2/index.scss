@@ -1,0 +1,263 @@
+// DropdownMenuV2 — every value comes from the `dropdown-menu` component tokens
+// (see ./tokens.ts) so themes can override them. Interactive states rely on
+// the data attributes React Aria sets on menu items.
+
+$token: "--c--components--dropdown-menu";
+
+.c__menu-v2-popover {
+  z-index: 1000;
+  outline: none;
+}
+
+.c__menu-v2 {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: var(#{$token}--min-width);
+  max-width: min(var(#{$token}--max-width), calc(100vw - 32px));
+  max-height: inherit;
+  overflow: hidden;
+  background-color: var(#{$token}--background-color);
+  border: 1px solid var(#{$token}--border-color);
+  border-radius: var(#{$token}--border-radius);
+  box-shadow: var(#{$token}--box-shadow);
+
+  &__viewport {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    // Overflow indicators: a fade on the edge the list can still scroll to.
+    // The gradient mask fades both the color and the blur, so they are
+    // strongest against the edge and vanish towards the items, without a hard
+    // line. The color itself stays solid: a color gradient under the mask
+    // would fade twice.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      height: var(#{$token}--overflow-indicator-size);
+      pointer-events: none;
+      opacity: 0;
+      background-color: var(#{$token}--overflow-indicator-color);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+      transition: opacity 150ms ease-out;
+    }
+
+    &::before {
+      top: 0;
+      -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+      mask-image: linear-gradient(to bottom, #000, transparent);
+    }
+
+    &::after {
+      bottom: 0;
+      -webkit-mask-image: linear-gradient(to top, #000, transparent);
+      mask-image: linear-gradient(to top, #000, transparent);
+    }
+
+    &[data-overflow-top]::before,
+    &[data-overflow-bottom]::after {
+      opacity: 1;
+    }
+  }
+
+  &__list {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    outline: none;
+    // Keeps the item focused by keyboard clear of the overflow indicators.
+    scroll-padding-block: var(#{$token}--overflow-indicator-size);
+  }
+
+  &__message {
+    padding: var(--c--globals--spacings--sm);
+    font-size: var(#{$token}--message-font-size);
+    font-weight: var(--c--globals--font--weights--medium);
+    color: var(#{$token}--message-color);
+  }
+}
+
+.c__menu-v2-separator {
+  flex: none;
+  height: 1px;
+  margin: 0;
+  border: none;
+  background-color: var(#{$token}--separator-color);
+}
+
+.c__menu-v2-section__title {
+  padding: var(#{$token}--item-padding) var(#{$token}--item-padding) 0;
+  font-size: var(#{$token}--item-description-font-size);
+  line-height: var(#{$token}--item-description-line-height);
+  font-weight: var(--c--globals--font--weights--medium);
+  color: var(#{$token}--section-title-color);
+}
+
+.c__menu-v2-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(#{$token}--item-gap);
+  box-sizing: border-box;
+  min-height: var(#{$token}--item-min-height);
+  padding: var(#{$token}--item-padding);
+  font-size: var(#{$token}--item-font-size);
+  line-height: var(#{$token}--item-line-height);
+  font-weight: var(#{$token}--item-font-weight);
+  color: var(#{$token}--item-color);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+
+  &__icon,
+  &__check,
+  &__chevron {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: var(#{$token}--item-icon-color);
+  }
+
+  &__icon {
+    width: var(#{$token}--item-icon-size);
+    height: var(#{$token}--item-icon-size);
+
+    svg,
+    .material-icons {
+      width: 100%;
+      height: 100%;
+      font-size: var(#{$token}--item-icon-size);
+    }
+  }
+
+  &__check svg {
+    width: var(#{$token}--item-check-size);
+    height: var(#{$token}--item-check-size);
+  }
+
+  &__chevron svg {
+    width: var(#{$token}--item-icon-size);
+    height: var(#{$token}--item-icon-size);
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  &__label {
+    overflow-wrap: anywhere;
+  }
+
+  &__description {
+    font-size: var(#{$token}--item-description-font-size);
+    line-height: var(#{$token}--item-description-line-height);
+    font-weight: var(--c--globals--font--weights--regular);
+    color: var(#{$token}--item-description-color);
+  }
+
+  &__shortcut {
+    flex: none;
+    font-family: inherit;
+    font-size: var(#{$token}--item-description-font-size);
+    line-height: var(#{$token}--item-description-line-height);
+    font-weight: var(--c--globals--font--weights--regular);
+    color: var(#{$token}--item-description-color);
+    white-space: nowrap;
+  }
+
+  // Pointer hover and keyboard focus share the same highlight.
+  &[data-hovered],
+  &[data-focused] {
+    background-color: var(#{$token}--item-background-color--hover);
+  }
+
+  &[data-selected] &__label {
+    font-weight: var(#{$token}--item-font-weight--selected);
+  }
+
+  &--danger,
+  &--danger &__icon {
+    color: var(#{$token}--item-color--danger);
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+
+    &,
+    .c__menu-v2-item__icon,
+    .c__menu-v2-item__description,
+    .c__menu-v2-item__shortcut,
+    .c__menu-v2-item__check,
+    .c__menu-v2-item__chevron {
+      color: var(#{$token}--item-color--disabled);
+    }
+  }
+}
+
+.c__menu-v2--tiny .c__menu-v2-item {
+  gap: var(#{$token}--tiny-item-gap);
+  min-height: var(#{$token}--tiny-item-height);
+  font-size: var(#{$token}--tiny-item-font-size);
+  line-height: var(#{$token}--tiny-item-line-height);
+
+  .c__menu-v2-item__icon {
+    width: var(#{$token}--tiny-item-icon-size);
+    height: var(#{$token}--tiny-item-icon-size);
+
+    .material-icons {
+      font-size: var(#{$token}--tiny-item-icon-size);
+    }
+  }
+
+  .c__menu-v2-item__check svg {
+    width: var(#{$token}--tiny-item-check-size);
+    height: var(#{$token}--tiny-item-check-size);
+  }
+
+  .c__menu-v2-item__chevron svg {
+    width: var(#{$token}--tiny-item-icon-size);
+    height: var(#{$token}--tiny-item-icon-size);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c__menu-v2__viewport::before,
+  .c__menu-v2__viewport::after {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .c__menu-v2-item[data-focused] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .c__menu-v2-item[data-disabled] {
+    &,
+    .c__menu-v2-item__icon,
+    .c__menu-v2-item__description,
+    .c__menu-v2-item__shortcut {
+      color: GrayText;
+    }
+  }
+
+  .c__menu-v2__viewport::before,
+  .c__menu-v2__viewport::after {
+    display: none;
+  }
+}

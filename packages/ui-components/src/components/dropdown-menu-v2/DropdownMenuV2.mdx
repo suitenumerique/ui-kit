@@ -1,0 +1,208 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as DropdownMenuV2Stories from "./DropdownMenuV2.stories";
+
+<Meta of={DropdownMenuV2Stories} name="Docs" />
+
+# DropdownMenuV2
+
+`DropdownMenuV2` opens a menu of actions or choices from a trigger element. It
+follows the [dropdown menu design in Figma](https://www.figma.com/design/hPwxE24MEaX3mBQ0KXNTSY/UI-kit?node-id=11926-1524)
+and uses React Aria for the menu button pattern: trigger semantics, focus
+management, keyboard navigation, typeahead, selection and submenus.
+
+It takes the same `options` as `DropdownMenu`, which stays available while
+consumers migrate.
+
+## Usage
+
+```tsx
+import { Button, DropdownMenuV2 } from "@gouvfr-lasuite/ui-components";
+
+<DropdownMenuV2
+  options={[
+    { label: "Rename", icon: <Edit />, callback: rename },
+    { label: "Share", icon: <Share />, callback: share },
+    { type: "separator" },
+    { label: "Delete", icon: <Trash />, variant: "danger", callback: remove },
+  ]}
+>
+  <Button variant="tertiary" icon={<More />} aria-label="More actions" />
+</DropdownMenuV2>;
+```
+
+Import `@gouvfr-lasuite/ui-components/style` once and use the kit's
+`CunninghamProvider` to apply your theme.
+
+The menu manages its open state: there is nothing to toggle. Pass `isOpen` and
+`onOpenChange` only to control it, or `defaultOpen` to open it on mount.
+
+<Canvas of={DropdownMenuV2Stories.Default} />
+
+## Triggers
+
+The trigger is the single child of `DropdownMenuV2`. It receives a ref, the
+press and keyboard handlers, an `id`, `aria-haspopup`, `aria-expanded` and
+`aria-controls`. Any element works as long as it:
+
+- forwards its `ref` and props to a DOM element, as `Button`, native elements
+  and `forwardRef` components do;
+- is focusable and has an interactive role: a `<button>`, a link, or an element
+  with `role="button"` and `tabIndex={0}`;
+- has an accessible name, such as visible text or an `aria-label`. The menu is
+  named after its trigger.
+
+Components that do not forward their props, such as `UserAvatar`, go inside a
+focusable element. A `Tooltip` can wrap the trigger. React Aria buttons and
+links are used as they are.
+
+Do not toggle the menu in the trigger's `onClick`: the trigger already opens
+it, and a second toggle would close it again.
+
+<Canvas of={DropdownMenuV2Stories.Triggers} />
+
+## Options
+
+| Field | Type | Description |
+|---|---|---|
+| `label` | `string` | Item name, also used for typeahead |
+| `subText` | `string` | Secondary text, announced as the item description |
+| `icon` | `ReactNode` | Decorative icon on the left |
+| `callback` | `() => void` | Called when the item is picked |
+| `value` | `string` | Makes the item selectable, see [Selection](#selection) |
+| `isChecked` | `boolean` | Makes the item selectable and sets its checked state |
+| `isDisabled` | `boolean` | Keeps the item visible, skips it in keyboard navigation |
+| `isHidden` | `boolean` | Removes the item, along with the separators it leaves orphaned |
+| `variant` | `"default" \| "danger"` | `danger` for destructive actions |
+| `keepOpen` | `boolean` | Keeps the menu open after the item is picked |
+| `children` | `options` | Entries of a submenu |
+| `href`, `target`, `rel` | `string` | Renders the item as a link |
+| `shortcut` | `string` | Keyboard shortcut displayed at the end of the row |
+| `opensInNewWindow` | `boolean` | Appends "(new window)" to the accessible name |
+| `testId` | `string` | `data-testid` of the item |
+| `id` | `string` | Unique key; defaults to `value`, then `label` |
+| `showSeparator` | `boolean` | Deprecated: use a `{ type: "separator" }` entry |
+
+<Canvas of={DropdownMenuV2Stories.WithDescriptions} />
+<Canvas of={DropdownMenuV2Stories.WithShortcuts} />
+<Canvas of={DropdownMenuV2Stories.Links} />
+
+## Selection
+
+Items with a `value` or an `isChecked` flag are selectable. They are checked
+when `isChecked` is true or their `value` is in `selectedValues`, and picking one
+calls `onSelectValue` with its value, then its `callback`.
+
+Selectable items are exposed as radio items (`selectionMode="single"`, the
+default) or checkbox items (`"multiple"`) with their checked state, so screen
+readers announce it. Other items stay plain menu items. A multiple selection
+menu stays open while items are toggled.
+
+<Canvas of={DropdownMenuV2Stories.SingleSelection} />
+<Canvas of={DropdownMenuV2Stories.MultipleSelection} />
+<Canvas of={DropdownMenuV2Stories.SelectionWithActions} />
+<Canvas of={DropdownMenuV2Stories.CheckedItems} />
+
+## Submenus
+
+Give an option `children` to open a submenu from it. Submenus open on hover,
+with the right arrow, Enter or Space, and close with the left arrow. They
+inherit the menu variant and flip to the other side when there is no room.
+
+<Canvas of={DropdownMenuV2Stories.WithSubmenus} />
+
+## Messages
+
+`topMessage` and `bottomMessage` display text above or below the items. They
+are the description of the menu, read by screen readers when it opens. Keep
+them free of interactive content: focus stays on the items.
+
+<Canvas of={DropdownMenuV2Stories.WithTopBottomMessage} />
+
+## Size
+
+The menu takes the width of its items, between 150px and 320px (the
+`min-width` and `max-width` tokens). Beyond the maximum, labels and descriptions
+wrap onto several lines instead of widening the menu. Long menus scroll, with a
+fade on the edge that still has content.
+
+<Canvas of={DropdownMenuV2Stories.LongLabels} />
+<Canvas of={DropdownMenuV2Stories.ScrollOverflow} />
+
+## Variants
+
+`variant="tiny"` reduces items to 32px, with 16px icons and 12px text, for dense
+interfaces. Long labels wrap the same way.
+
+<Canvas of={DropdownMenuV2Stories.Tiny} />
+<Canvas of={DropdownMenuV2Stories.TinyLongLabels} />
+
+## Composition
+
+For content the `options` array cannot describe, such as titled sections, use
+the parts `DropdownMenuV2` is built from. `DropdownMenuV2Trigger` takes the
+trigger and a `DropdownMenuV2Popover`, which takes `MenuItemV2`,
+`MenuSectionV2`, `MenuSeparatorV2` and `SubmenuTriggerV2`. They accept the
+React Aria props of `MenuTrigger`, `Menu`, `MenuItem` and `MenuSection`, such as
+`selectionMode`, `selectedKeys` and `onAction`.
+
+```tsx
+<DropdownMenuV2Trigger>
+  <Button>Account</Button>
+  <DropdownMenuV2Popover>
+    <MenuSectionV2 title="Account">
+      <MenuItemV2 icon={<User />} description="Name, email and avatar">
+        Profile
+      </MenuItemV2>
+    </MenuSectionV2>
+    <MenuSeparatorV2 />
+    <MenuItemV2 variant="danger" onAction={logout}>
+      Log out
+    </MenuItemV2>
+  </DropdownMenuV2Popover>
+</DropdownMenuV2Trigger>
+```
+
+<Canvas of={DropdownMenuV2Stories.Composition} />
+
+## Keyboard and accessibility
+
+- Enter, Space or the down arrow opens the menu on its first item; the up arrow
+  opens it on its last item. With `trigger="longPress"`, use Alt + down arrow.
+- Up and down arrows move between items and wrap. Home and End jump to the
+  first and last items. Typing a label moves to the matching item.
+- Disabled items are announced but skipped by the arrows.
+- Enter or Space picks the focused item. Escape, Tab and Shift + Tab close the
+  menu, submenus included, and focus returns to the trigger.
+- While the menu is open, the rest of the page is hidden from assistive
+  technologies and a click outside only closes the menu.
+- The trigger exposes `aria-haspopup` and `aria-expanded`; the menu is named
+  after the trigger and described by its messages.
+- Item descriptions and shortcuts are announced; icons are hidden.
+- The focused item is highlighted with the hover background, by keyboard as
+  by pointer. In forced-colors mode, it gets a system-colored outline.
+
+## Theming
+
+The menu reads the `dropdown-menu` component tokens: surface colors, border,
+radius, shadow, widths, item spacing, sizes, colors and the tiny variant
+sizes. Override them in your Cunningham configuration, under
+`components["dropdown-menu"]`.
+
+## Migration from DropdownMenu
+
+| DropdownMenu | DropdownMenuV2 |
+|---|---|
+| `children` wrapped in a `div` | `children` is the trigger element itself |
+| `isOpen` (required to open) + toggle in `onClick` | Optional `isOpen`, `onOpenChange`, `defaultOpen`; no toggle |
+| `options`, `selectedValues`, `onSelectValue` | Same; checked items are now announced |
+| `topMessage`, `bottomMessage` | Same; now part of the menu description |
+| `shouldCloseOnInteractOutside`, `variant` | Same |
+| — | `placement`, `offset`, `trigger`, `selectionMode`, `className` |
+
+Remove the `onClick` toggle from the trigger and the `useDropdownMenu` state
+when you do not need to control the menu. Styles target `c__menu-v2*` classes
+instead of `c__dropdown-menu*`.
+
+## Props
+
+<ArgTypes of={DropdownMenuV2Stories} />
