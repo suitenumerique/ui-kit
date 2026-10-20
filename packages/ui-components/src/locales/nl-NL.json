@@ -101,6 +101,15 @@
               "title": "Bewerker"
             }
           }
+        },
+        "expiration": {
+          "menu": "Link verloopt",
+          "never": "Nooit",
+          "days_singular": "{count} dag",
+          "days_plural": "{count} dagen",
+          "choose_date": "Datum kiezen",
+          "until": "{role} tot {date}",
+          "picker_aria_label": "Vervaldatum van de link"
         }
       }
     },

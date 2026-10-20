@@ -101,6 +101,15 @@
               "title": "Editor"
             }
           }
+        },
+        "expiration": {
+          "menu": "El enlace caduca",
+          "never": "Nunca",
+          "days_singular": "{count} día",
+          "days_plural": "{count} días",
+          "choose_date": "Elegir fecha",
+          "until": "{role} hasta el {date}",
+          "picker_aria_label": "Fecha de caducidad del enlace"
         }
       }
     },

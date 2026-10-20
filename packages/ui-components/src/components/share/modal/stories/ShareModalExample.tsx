@@ -32,6 +32,7 @@ type AccessType = AccessData<
 export const ShareModalExample = ({
   importFails,
   isRestricted: initiallyRestricted = false,
+  withLinkExpiration = false,
   ...props
 }: {
   linkSettings?: boolean;
@@ -41,11 +42,13 @@ export const ShareModalExample = ({
   isRestricted?: boolean;
   canRestrict?: boolean;
   importFails?: boolean;
+  withLinkExpiration?: boolean;
 }) => {
   const [userQuery, setUserQuery] = useState("");
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
   const [isRestricted, setIsRestricted] = useState(initiallyRestricted);
+  const [linkExpiresAt, setLinkExpiresAt] = useState<Date | null>(null);
 
   const [invitations, setInvitations] = useState<InvitationType[]>(() => {
     const ids = [1];
@@ -268,6 +271,8 @@ export const ShareModalExample = ({
       topLinkRoleMessage={<span>Top link role message</span>}
       linkRole="reader"
       showLinkRole={true}
+      linkExpiresAt={linkExpiresAt}
+      onUpdateLinkExpiresAt={withLinkExpiration ? setLinkExpiresAt : undefined}
       linkRoleChoices={[
         {
           value: "reader",
