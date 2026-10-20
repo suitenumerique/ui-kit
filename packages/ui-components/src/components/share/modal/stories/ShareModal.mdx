@@ -244,6 +244,50 @@ Read-only variants of both are available in the sidebar
 (`LinkSettingsOnlyReadOnly`, `LinkSettingsOnlyWithoutRoleReadOnly`), and
 `WithoutLinkSettings` shows the opposite: people management with no footer.
 
+### Link expiration
+
+A share link can stop granting access after a given date. Pass the current
+expiration with `linkExpiresAt` (`null` when the link never expires) and
+handle changes with `onUpdateLinkExpiresAt`:
+
+```tsx
+<ShareModal
+  linkSettings={true}
+  showLinkRole={true}
+  linkRoleChoices={[{ value: "reader" }, { value: "editor" }]}
+  linkExpiresAt={item.link_expires_at ? new Date(item.link_expires_at) : null}
+  onUpdateLinkExpiresAt={(value) =>
+    updateLink({ link_expires_at: value?.toISOString() ?? null })
+  }
+/>
+```
+
+When `onUpdateLinkExpiresAt` is provided and `canUpdate` is `true`, the link
+role dropdown gets a **Link expires** submenu below the roles:
+
+- **Never** removes the expiration: the callback receives `null`. It is
+  checked while the link has no expiration, and selecting it again does not
+  call the callback.
+- **1 day**, **7 days** and **30 days** set the expiration from today.
+- **Choose date** opens a calendar anchored to the dropdown. Past days are
+  disabled; **OK** confirms the selected day, **Cancel** or a click outside
+  closes it without change.
+
+The callback always receives a `Date` set to the **end of the chosen day**
+(23:59:59 in the user's time zone), so the link stays usable during the whole
+last day, whatever the time it was set at.
+
+Whenever `linkExpiresAt` is set, the role is displayed with its end date, e.g.
+_Reader until Oct 23, 2026_, formatted for the Cunningham locale. This label
+also shows in read-only mode, where the submenu is not available. The modal
+does not keep the date itself: update `linkExpiresAt` once your backend has
+saved the change.
+
+The submenu lives in the link role dropdown, so it requires a visible role
+selector (`showLinkRole` with non-empty `linkRoleChoices`).
+
+<Canvas of={ShareModalStories.LinkExpiration} />
+
 ## Customizing texts
 
 Built-in texts can be overridden per-key with `customTranslations` — here the
