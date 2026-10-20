@@ -90,6 +90,13 @@ export type ShareModalLinkSettingsProps = {
   linkRole?: "reader" | "editor";
   showLinkRole?: boolean;
   onUpdateLinkRole?: (value: string) => void;
+  /** Date after which the link no longer grants access, null when it never expires. */
+  linkExpiresAt?: Date | null;
+  /**
+   * Enables the "Link expires" submenu in the link role dropdown. Receives the
+   * end of the chosen day, or null when the link should never expire.
+   */
+  onUpdateLinkExpiresAt?: (value: Date | null) => void;
   topLinkReachMessage?: DropdownMenuProps["topMessage"];
   topLinkRoleMessage?: DropdownMenuProps["topMessage"];
 };

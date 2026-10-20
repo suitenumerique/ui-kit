@@ -4,8 +4,12 @@ import {
 } from ":/components/dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
 import { Button } from ":/cunningham";
-import { useEffect, useMemo, useState } from "react";
-import { DropdownMenuOption } from ":/components/dropdown-menu";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  DropdownMenuItem,
+  DropdownMenuOption,
+} from ":/components/dropdown-menu";
+import { useCunningham } from ":/components/provider";
 import {
   CustomTranslations,
   useCustomTranslations,
@@ -18,6 +22,10 @@ import {
 } from "./share-modal-icons";
 import { IconSize } from ":/components/icon";
 import { ChevronDown, ChevronUp } from ":/icons";
+import {
+  getLinkExpirationOption,
+  ShareLinkExpirationPicker,
+} from "./ShareLinkExpiration";
 
 const getIcon = (value: string | undefined) => {
   switch (value) {
@@ -43,6 +51,10 @@ export type ShareLinkSettingsProps = {
   topLinkReachMessage?: DropdownMenuProps["topMessage"];
   topLinkRoleMessage?: DropdownMenuProps["topMessage"];
   onUpdateLinkRole: (value: string) => void;
+  /** Date after which the link no longer grants access, null when it never expires. */
+  linkExpiresAt?: Date | null;
+  /** Enables the "Link expires" submenu in the link role dropdown. */
+  onUpdateLinkExpiresAt?: (value: Date | null) => void;
   customTranslations?: CustomTranslations;
 };
 
@@ -58,9 +70,13 @@ export const ShareLinkSettings = ({
   customTranslations,
   topLinkReachMessage,
   topLinkRoleMessage,
+  linkExpiresAt,
+  onUpdateLinkExpiresAt,
 }: ShareLinkSettingsProps) => {
   const linkReachDropdown = useDropdownMenu();
   const linkRoleDropdown = useDropdownMenu();
+  const linkRoleRef = useRef<HTMLDivElement>(null);
+  const [isExpirationPickerOpen, setIsExpirationPickerOpen] = useState(false);
   const [selectedLinkReachValues, setSelectedLinkReachValues] = useState<
     string[]
   >([linkReach]);
@@ -73,6 +89,7 @@ export const ShareLinkSettings = ({
 
   const selectedLinkRole = selectedLinkRoleValues[0];
   const { t } = useCustomTranslations(customTranslations);
+  const { currentLocale } = useCunningham();
 
   const reachChoices = useMemo(
     () =>
@@ -115,6 +132,37 @@ export const ShareLinkSettings = ({
   const selectedLinkRoleChoice = useMemo(() => {
     return roleChoices.find((choice) => choice.value === selectedLinkRole);
   }, [roleChoices, selectedLinkRole]);
+
+  const canUpdateExpiration = Boolean(canUpdate && onUpdateLinkExpiresAt);
+
+  const updateLinkExpiresAt = (value: Date | null) => {
+    if (value === null && !linkExpiresAt) {
+      return;
+    }
+    onUpdateLinkExpiresAt?.(value);
+  };
+
+  const roleOptions: DropdownMenuItem[] = canUpdateExpiration
+    ? [
+        ...roleChoices,
+        { type: "separator" },
+        getLinkExpirationOption({
+          t,
+          linkExpiresAt,
+          onSelect: updateLinkExpiresAt,
+          onChooseDate: () => setIsExpirationPickerOpen(true),
+        }),
+      ]
+    : roleChoices;
+
+  const linkRoleLabel = linkExpiresAt
+    ? t("components.share.linkSettings.expiration.until", {
+        role: selectedLinkRoleChoice?.label ?? "",
+        date: new Intl.DateTimeFormat(currentLocale, {
+          dateStyle: "medium",
+        }).format(linkExpiresAt),
+      })
+    : selectedLinkRoleChoice?.label;
 
   useEffect(() => {
     setSelectedLinkReachValues([linkReach]);
@@ -170,14 +218,17 @@ export const ShareLinkSettings = ({
       return null;
     }
     return (
-      <div className="c__share-modal__link-settings__content__select-role">
+      <div
+        className="c__share-modal__link-settings__content__select-role"
+        ref={linkRoleRef}
+      >
         {canUpdate ? (
           <DropdownMenu
             onSelectValue={(value) => {
               setSelectedLinkRoleValues([value]);
               onUpdateLinkRole?.(value);
             }}
-            options={roleChoices}
+            options={roleOptions}
             isOpen={linkRoleDropdown.isOpen}
             onOpenChange={linkRoleDropdown.setIsOpen}
             selectedValues={selectedLinkRoleValues}
@@ -202,14 +253,26 @@ export const ShareLinkSettings = ({
               }}
               size="nano"
             >
-              {selectedLinkRoleChoice?.label}
+              {linkRoleLabel}
             </Button>
           </DropdownMenu>
         ) : (
           <span className="c__share-modal__link-settings__content__select-role__value disabled">
             {getIcon(selectedLinkRole)}
-            {selectedLinkRoleChoice?.label}
+            {linkRoleLabel}
           </span>
+        )}
+        {canUpdateExpiration && (
+          <ShareLinkExpirationPicker
+            triggerRef={linkRoleRef}
+            isOpen={isExpirationPickerOpen}
+            onOpenChange={setIsExpirationPickerOpen}
+            linkExpiresAt={linkExpiresAt}
+            onConfirm={updateLinkExpiresAt}
+            ariaLabel={t(
+              "components.share.linkSettings.expiration.picker_aria_label",
+            )}
+          />
         )}
       </div>
     );

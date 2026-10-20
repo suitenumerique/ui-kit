@@ -101,6 +101,15 @@
               "title": "Édition"
             }
           }
+        },
+        "expiration": {
+          "menu": "Expiration du lien",
+          "never": "Jamais",
+          "days_singular": "{count} jour",
+          "days_plural": "{count} jours",
+          "choose_date": "Choisir une date",
+          "until": "{role} jusqu'au {date}",
+          "picker_aria_label": "Date d'expiration du lien"
         }
       }
     },

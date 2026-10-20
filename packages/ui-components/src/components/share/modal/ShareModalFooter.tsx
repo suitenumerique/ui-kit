@@ -19,6 +19,8 @@ export const ShareModalFooter = ({
   linkRoleChoices,
   linkRole,
   onUpdateLinkRole,
+  linkExpiresAt,
+  onUpdateLinkExpiresAt,
   showLinkRole,
   customTranslations,
   topLinkReachMessage,
@@ -35,6 +37,8 @@ export const ShareModalFooter = ({
         linkRoleChoices={linkRoleChoices}
         linkRole={linkRole}
         onUpdateLinkRole={onUpdateLinkRole!}
+        linkExpiresAt={linkExpiresAt}
+        onUpdateLinkExpiresAt={onUpdateLinkExpiresAt}
         showLinkRole={showLinkRole}
         customTranslations={customTranslations}
         topLinkReachMessage={topLinkReachMessage}

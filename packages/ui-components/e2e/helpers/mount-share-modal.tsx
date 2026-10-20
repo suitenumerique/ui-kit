@@ -117,6 +117,10 @@ interface TestShareModalProps {
   showLinkRole?: boolean;
   /** false renders empty linkRoleChoices to hide the role dropdown. */
   withLinkRoleChoices?: boolean;
+  /** ISO string of the initial link expiration date. */
+  linkExpiresAt?: string;
+  /** Passes onUpdateLinkExpiresAt to enable the "Link expires" submenu. */
+  withLinkExpiration?: boolean;
   allowFileImport?: boolean;
   maxImportRows?: number;
   /** Value onImportContacts resolves with (defaults to true: close). */
@@ -165,6 +169,8 @@ export const TestShareModal = ({
   linkSettings = false,
   showLinkRole = true,
   withLinkRoleChoices = true,
+  linkExpiresAt: initialLinkExpiresAt,
+  withLinkExpiration = false,
   allowFileImport = false,
   maxImportRows,
   importResult = true,
@@ -201,6 +207,9 @@ export const TestShareModal = ({
   const [searchUsersResult, setSearchUsersResult] = useState<TestUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [asyncImportError, setAsyncImportError] = useState<string>();
+  const [linkExpiresAt, setLinkExpiresAt] = useState<Date | null>(
+    initialLinkExpiresAt ? new Date(initialLinkExpiresAt) : null,
+  );
 
   const onSearchUsers = (query: string) => {
     record({ name: "search", query });
@@ -380,6 +389,18 @@ export const TestShareModal = ({
         }
         onUpdateLinkRole={(value) =>
           record({ name: "update-link-role", value })
+        }
+        linkExpiresAt={linkExpiresAt}
+        onUpdateLinkExpiresAt={
+          withLinkExpiration
+            ? (value) => {
+                record({
+                  name: "update-link-expires-at",
+                  value: value?.toISOString() ?? null,
+                });
+                setLinkExpiresAt(value);
+              }
+            : undefined
         }
         topLinkReachMessage={
           withTopLinkMessages ? <span>Top link reach message</span> : undefined
