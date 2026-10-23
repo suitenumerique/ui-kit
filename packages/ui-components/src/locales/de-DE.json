@@ -101,6 +101,15 @@
               "title": "Bearbeiter"
             }
           }
+        },
+        "expiration": {
+          "menu": "Link läuft ab",
+          "never": "Nie",
+          "days_singular": "{count} Tag",
+          "days_plural": "{count} Tage",
+          "choose_date": "Datum wählen",
+          "until": "{role} bis {date}",
+          "picker_aria_label": "Ablaufdatum des Links"
         }
       }
     },

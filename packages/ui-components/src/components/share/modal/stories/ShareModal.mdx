@@ -25,6 +25,119 @@ import { ShareModal } from "@gouvfr-lasuite/ui-components";
 Labels are translated via Cunningham (`useCunningham`), so the modal must live
 under a `CunninghamProvider`.
 
+## Basic usage
+
+A minimal sharing dialog: search users, invite them, manage members and
+pending invitations, set the share link and copy it. The modal only renders
+what you give it: each callback is the place to call your backend, then you
+feed the updated lists back through the props.
+
+```tsx
+import { useState } from "react";
+import {
+  AccessData,
+  InvitationData,
+  ShareModal,
+  ShareModalCopyLinkFooter,
+  UserData,
+} from "@gouvfr-lasuite/ui-components";
+
+type User = UserData<object>;
+type Access = AccessData<object, object>;
+type Invitation = InvitationData<object, object>;
+
+const ROLES = [
+  { label: "Editor", value: "editor" },
+  { label: "Reader", value: "reader" },
+];
+
+export const ShareDialog = ({
+  isOpen,
+  onClose,
+  shareUrl,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  shareUrl: string;
+}) => {
+  const [searchResults, setSearchResults] = useState<User[]>([]);
+  const [accesses, setAccesses] = useState<Access[]>([]);
+  const [invitations, setInvitations] = useState<Invitation[]>([]);
+  const [linkReach, setLinkReach] = useState("restricted");
+  const [linkRole, setLinkRole] = useState<"reader" | "editor">("reader");
+
+  return (
+    <ShareModal
+      isOpen={isOpen}
+      onClose={onClose}
+      invitationRoles={ROLES}
+      // Search: called with the typed query, results come back through
+      // searchUsersResult. An empty query means the search was cleared.
+      onSearchUsers={async (query) =>
+        setSearchResults(query ? await api.searchUsers(query) : [])
+      }
+      searchUsersResult={searchResults}
+      // Invite: users found by the search get an access, unknown emails an
+      // invitation (their id is the typed email).
+      onInviteUser={async (users, role) => {
+        const { accesses, invitations } = await api.share(users, role);
+        setAccesses((prev) => [...prev, ...accesses]);
+        setInvitations((prev) => [...prev, ...invitations]);
+      }}
+      // Members
+      accesses={accesses}
+      onUpdateAccess={async (access, role) => {
+        await api.updateAccess(access.id, role);
+        setAccesses((prev) =>
+          prev.map((a) => (a.id === access.id ? { ...a, role } : a)),
+        );
+      }}
+      onDeleteAccess={async (access) => {
+        await api.deleteAccess(access.id);
+        setAccesses((prev) => prev.filter((a) => a.id !== access.id));
+      }}
+      // Pending invitations
+      invitations={invitations}
+      onUpdateInvitation={async (invitation, role) => {
+        await api.updateInvitation(invitation.id, role);
+        setInvitations((prev) =>
+          prev.map((i) => (i.id === invitation.id ? { ...i, role } : i)),
+        );
+      }}
+      onDeleteInvitation={async (invitation) => {
+        await api.deleteInvitation(invitation.id);
+        setInvitations((prev) => prev.filter((i) => i.id !== invitation.id));
+      }}
+      // Share link: who can open it, and with which role.
+      linkSettings={true}
+      linkReachChoices={[
+        { value: "restricted" },
+        { value: "authenticated" },
+        { value: "public" },
+      ]}
+      linkReach={linkReach}
+      onUpdateLinkReach={setLinkReach}
+      showLinkRole={linkReach !== "restricted"}
+      linkRoleChoices={[{ value: "reader" }, { value: "editor" }]}
+      linkRole={linkRole}
+      onUpdateLinkRole={(value) => setLinkRole(value as "reader" | "editor")}
+      // Footer below the link settings.
+      outsideSearchContent={
+        <ShareModalCopyLinkFooter
+          onCopyLink={() => navigator.clipboard.writeText(shareUrl)}
+          onOk={onClose}
+        />
+      }
+    />
+  );
+};
+```
+
+`api` stands for your own backend calls. `invitationRoles`, `onSearchUsers`
+and `onInviteUser` are required as soon as invitations or members are shown
+(see "Requirements and validation" below); every other prop is optional and
+each section below details one of them.
+
 ## Anatomy
 
 From top to bottom the modal shows:
@@ -243,6 +356,50 @@ Without the role selector, only the reach can be changed:
 Read-only variants of both are available in the sidebar
 (`LinkSettingsOnlyReadOnly`, `LinkSettingsOnlyWithoutRoleReadOnly`), and
 `WithoutLinkSettings` shows the opposite: people management with no footer.
+
+### Link expiration
+
+A share link can stop granting access after a given date. Pass the current
+expiration with `linkExpiresAt` (`null` when the link never expires) and
+handle changes with `onUpdateLinkExpiresAt`:
+
+```tsx
+<ShareModal
+  linkSettings={true}
+  showLinkRole={true}
+  linkRoleChoices={[{ value: "reader" }, { value: "editor" }]}
+  linkExpiresAt={item.link_expires_at ? new Date(item.link_expires_at) : null}
+  onUpdateLinkExpiresAt={(value) =>
+    updateLink({ link_expires_at: value?.toISOString() ?? null })
+  }
+/>
+```
+
+When `onUpdateLinkExpiresAt` is provided and `canUpdate` is `true`, the link
+role dropdown gets a **Link expires** submenu below the roles:
+
+- **Never** removes the expiration: the callback receives `null`. It is
+  checked while the link has no expiration, and selecting it again does not
+  call the callback.
+- **1 day**, **7 days** and **30 days** set the expiration from today.
+- **Choose date** opens a calendar anchored to the dropdown. Past days are
+  disabled; **OK** confirms the selected day, **Cancel** or a click outside
+  closes it without change.
+
+The callback always receives a `Date` set to the **end of the chosen day**
+(23:59:59 in the user's time zone), so the link stays usable during the whole
+last day, whatever the time it was set at.
+
+Whenever `linkExpiresAt` is set, the role is displayed with its end date, e.g.
+_Reader until Oct 23, 2026_, formatted for the Cunningham locale. This label
+also shows in read-only mode, where the submenu is not available. The modal
+does not keep the date itself: update `linkExpiresAt` once your backend has
+saved the change.
+
+The submenu lives in the link role dropdown, so it requires a visible role
+selector (`showLinkRole` with non-empty `linkRoleChoices`).
+
+<Canvas of={ShareModalStories.LinkExpiration} />
 
 ## Customizing texts
 

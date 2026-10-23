@@ -186,6 +186,15 @@ export const RestrictAccess = {
   ),
 };
 
+/**
+ * Link expiration (`onUpdateLinkExpiresAt`): the link role dropdown gets a
+ * "Link expires" submenu with presets and a calendar, and the expiration date
+ * is shown next to the link role.
+ */
+export const LinkExpiration = {
+  render: () => <ShareModalExample linkSettings withLinkExpiration />,
+};
+
 const SELECTABLE_USERS: UserData<unknown>[] = [
   { id: "u1", full_name: "Amandine Salambo", email: "amandine@example.com" },
   { id: "u2", full_name: "Jakob Philips", email: "jakob@example.com" },

@@ -101,6 +101,15 @@
               "title": "Editor"
             }
           }
+        },
+        "expiration": {
+          "menu": "Link expires",
+          "never": "Never",
+          "days_singular": "{count} day",
+          "days_plural": "{count} days",
+          "choose_date": "Choose date",
+          "until": "{role} until {date}",
+          "picker_aria_label": "Link expiration date"
         }
       }
     },
