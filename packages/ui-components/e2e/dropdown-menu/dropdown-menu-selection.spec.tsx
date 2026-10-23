@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
-import { TestDropdownMenuV2 } from "../helpers/mount-dropdown-menu-v2";
+import { TestDropdownMenu } from "../helpers/mount-dropdown-menu";
 
 const open = (page: Page) =>
   page.getByRole("button", { name: "Actions" }).click();
@@ -10,13 +10,13 @@ const radio = (page: Page, name: string) =>
 const checkbox = (page: Page, name: string) =>
   page.getByRole("menuitemcheckbox", { name });
 
-test.describe("DropdownMenuV2 - selection", () => {
+test.describe("DropdownMenu - selection", () => {
   test("exposes selectable items as checked radio items", async ({
     mount,
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2 scenario="selection" initialValues={["commenter"]} />,
+      <TestDropdownMenu scenario="selection" initialValues={["commenter"]} />,
     );
     await open(page);
 
@@ -43,7 +43,7 @@ test.describe("DropdownMenuV2 - selection", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2 scenario="selection" initialValues={["reader"]} />,
+      <TestDropdownMenu scenario="selection" initialValues={["reader"]} />,
     );
     await open(page);
     await radio(page, "Editor").click();
@@ -65,7 +65,7 @@ test.describe("DropdownMenuV2 - selection", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2 scenario="selection" initialValues={["reader"]} />,
+      <TestDropdownMenu scenario="selection" initialValues={["reader"]} />,
     );
     await open(page);
     await radio(page, "Reader").click();
@@ -79,7 +79,7 @@ test.describe("DropdownMenuV2 - selection", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2 scenario="mixed" initialValues={["reader"]} />,
+      <TestDropdownMenu scenario="mixed" initialValues={["reader"]} />,
     );
     await open(page);
 
@@ -98,7 +98,7 @@ test.describe("DropdownMenuV2 - selection", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2
+      <TestDropdownMenu
         scenario="selection"
         multiple
         initialValues={["reader"]}
@@ -125,7 +125,7 @@ test.describe("DropdownMenuV2 - selection", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 scenario="checked" />);
+    await mount(<TestDropdownMenu scenario="checked" />);
     await open(page);
 
     await expect(radio(page, "Name")).toHaveAttribute("aria-checked", "true");
@@ -142,17 +142,17 @@ test.describe("DropdownMenuV2 - selection", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenuV2 scenario="selection" initialValues={["editor"]} />,
+      <TestDropdownMenu scenario="selection" initialValues={["editor"]} />,
     );
     await open(page);
 
     const editor = radio(page, "Editor");
-    await expect(editor.locator(".c__menu-v2-item__check")).toHaveCount(1);
-    await expect(page.locator(".c__menu-v2-item__check")).toHaveCount(1);
+    await expect(editor.locator(".c__dropdown-menu-item__check")).toHaveCount(1);
+    await expect(page.locator(".c__dropdown-menu-item__check")).toHaveCount(1);
 
     const weightOf = (name: string) =>
       radio(page, name)
-        .locator(".c__menu-v2-item__label")
+        .locator(".c__dropdown-menu-item__label")
         .evaluate((label) => Number(getComputedStyle(label).fontWeight));
     expect(await weightOf("Editor")).toBeGreaterThan(await weightOf("Reader"));
   });

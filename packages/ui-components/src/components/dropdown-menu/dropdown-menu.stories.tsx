@@ -2,7 +2,6 @@ import { forwardRef, HTMLAttributes, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button as AriaButton } from "react-aria-components";
 import { Button } from ":/components/button";
-import { DropdownMenu } from ":/components/dropdown-menu";
 import { Tooltip } from ":/components/tooltip";
 import { UserAvatar } from ":/components/users/avatar";
 import {
@@ -17,29 +16,23 @@ import {
   Trash,
   User,
 } from ":/icons";
-import { DropdownMenuV2 } from "./DropdownMenuV2";
-import { DropdownMenuV2Popover } from "./DropdownMenuV2Popover";
-import { DropdownMenuV2Trigger } from "./DropdownMenuV2Trigger";
-import { MenuItemV2 } from "./MenuItemV2";
-import { MenuSectionV2 } from "./MenuSectionV2";
-import { MenuSeparatorV2 } from "./MenuSeparatorV2";
-import { SubmenuTriggerV2 } from "./SubmenuTriggerV2";
-import { DropdownMenuV2Entry, DropdownMenuV2Props } from "./types";
+import { DropdownMenu } from "./DropdownMenu";
+import { DropdownMenuItem, DropdownMenuProps } from "./types";
 
-const actions: DropdownMenuV2Entry[] = [
+const actions: DropdownMenuItem[] = [
   { icon: <Edit />, label: "Rename", callback: () => {} },
   { icon: <Copy />, label: "Duplicate", callback: () => {} },
   { icon: <Download />, label: "Download", callback: () => {} },
   { icon: <Share />, label: "Share", callback: () => {} },
 ];
 
-const actionsWithDanger: DropdownMenuV2Entry[] = [
+const actionsWithDanger: DropdownMenuItem[] = [
   ...actions,
   { type: "separator" },
   { icon: <Trash />, label: "Delete", variant: "danger", callback: () => {} },
 ];
 
-const roles: DropdownMenuV2Entry[] = [
+const roles: DropdownMenuItem[] = [
   { label: "Reader", value: "reader", subText: "Can view" },
   { label: "Commenter", value: "commenter", subText: "Can view and comment" },
   { label: "Editor", value: "editor", subText: "Can view and edit" },
@@ -51,7 +44,7 @@ const roles: DropdownMenuV2Entry[] = [
   },
 ];
 
-const submenus: DropdownMenuV2Entry[] = [
+const submenus: DropdownMenuItem[] = [
   { icon: <Edit />, label: "Rename", callback: () => {} },
   {
     icon: <Share />,
@@ -73,8 +66,8 @@ const submenus: DropdownMenuV2Entry[] = [
 ];
 
 const meta = {
-  title: "Components/DropdownMenuV2",
-  component: DropdownMenuV2,
+  title: "Components/DropdownMenu",
+  component: DropdownMenu,
   args: {
     options: actions,
     children: <Button variant="tertiary">Actions</Button>,
@@ -97,7 +90,7 @@ const meta = {
       url: "https://www.figma.com/design/hPwxE24MEaX3mBQ0KXNTSY/UI-kit?node-id=11926-1524",
     },
   },
-} satisfies Meta<typeof DropdownMenuV2>;
+} satisfies Meta<typeof DropdownMenu>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -131,10 +124,10 @@ const SelectionExample = ({
   initialValues = [],
   multiple = false,
   ...args
-}: DropdownMenuV2Props & { initialValues?: string[]; multiple?: boolean }) => {
+}: DropdownMenuProps & { initialValues?: string[]; multiple?: boolean }) => {
   const [selectedValues, setSelectedValues] = useState(initialValues);
   return (
-    <DropdownMenuV2
+    <DropdownMenu
       {...args}
       selectedValues={selectedValues}
       onSelectValue={(value) => {
@@ -204,7 +197,7 @@ export const SelectionWithActions: Story = {
   render: (args) => <SelectionExample {...args} initialValues={["reader"]} />,
 };
 
-const SortExample = (args: DropdownMenuV2Props) => {
+const SortExample = (args: DropdownMenuProps) => {
   const [sort, setSort] = useState("name");
   const option = (id: string, label: string) => ({
     label,
@@ -213,7 +206,7 @@ const SortExample = (args: DropdownMenuV2Props) => {
     callback: () => setSort(id),
   });
   return (
-    <DropdownMenuV2
+    <DropdownMenu
       {...args}
       options={[
         option("name", "Name"),
@@ -222,7 +215,7 @@ const SortExample = (args: DropdownMenuV2Props) => {
       ]}
     >
       <Button variant="tertiary">Sort by</Button>
-    </DropdownMenuV2>
+    </DropdownMenu>
   );
 };
 
@@ -392,16 +385,16 @@ CustomTrigger.displayName = "CustomTrigger";
 export const Triggers: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-      <DropdownMenuV2 {...args}>
+      <DropdownMenu {...args}>
         <Button>Button</Button>
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <Button variant="tertiary" icon={<More />} aria-label="More actions" />
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <button>Native button</button>
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <div
           role="button"
           tabIndex={0}
@@ -410,11 +403,11 @@ export const Triggers: Story = {
         >
           <UserAvatar fullName="Jeanne Martin" />
         </div>
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <CustomTrigger />
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <Tooltip content="More actions">
           <Button
             variant="tertiary"
@@ -423,23 +416,23 @@ export const Triggers: Story = {
             aria-label="More actions"
           />
         </Tooltip>
-      </DropdownMenuV2>
-      <DropdownMenuV2 {...args}>
+      </DropdownMenu>
+      <DropdownMenu {...args}>
         <AriaButton className="c__button c__button--neutral c__button--neutral--secondary c__button--medium">
           React Aria Button
         </AriaButton>
-      </DropdownMenuV2>
+      </DropdownMenu>
     </div>
   ),
 };
 
-const ControlledExample = (args: DropdownMenuV2Props) => {
+const ControlledExample = (args: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-      <DropdownMenuV2 {...args} isOpen={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu {...args} isOpen={isOpen} onOpenChange={setIsOpen}>
         <Button variant="tertiary">Actions</Button>
-      </DropdownMenuV2>
+      </DropdownMenu>
       <span>The menu is {isOpen ? "open" : "closed"}.</span>
     </div>
   );
@@ -466,7 +459,7 @@ export const ScrollOverflow: Story = {
 /** The composable parts, for content the `options` array cannot describe. */
 export const Composition: Story = {
   render: () => (
-    <DropdownMenuV2Trigger>
+    <DropdownMenu.Trigger>
       <div
         role="button"
         tabIndex={0}
@@ -475,71 +468,28 @@ export const Composition: Story = {
       >
         <UserAvatar fullName="Jeanne Martin" />
       </div>
-      <DropdownMenuV2Popover topMessage="jeanne.martin@example.com">
-        <MenuSectionV2 title="Account">
-          <MenuItemV2 icon={<User />} description="Name, email and avatar">
+      <DropdownMenu.Popover topMessage="jeanne.martin@example.com">
+        <DropdownMenu.Section title="Account">
+          <DropdownMenu.Item icon={<User />} description="Name, email and avatar">
             Profile
-          </MenuItemV2>
-          <MenuItemV2 icon={<Settings />} shortcut="⌘,">
+          </DropdownMenu.Item>
+          <DropdownMenu.Item icon={<Settings />} shortcut="⌘,">
             Settings
-          </MenuItemV2>
-        </MenuSectionV2>
-        <MenuSeparatorV2 />
-        <SubmenuTriggerV2>
-          <MenuItemV2>Language</MenuItemV2>
-          <DropdownMenuV2Popover selectionMode="single" selectedKeys={["fr"]}>
-            <MenuItemV2 id="fr">Français</MenuItemV2>
-            <MenuItemV2 id="en">English</MenuItemV2>
-          </DropdownMenuV2Popover>
-        </SubmenuTriggerV2>
-        <MenuSeparatorV2 />
-        <MenuItemV2 icon={<Logout />} variant="danger">
+          </DropdownMenu.Item>
+        </DropdownMenu.Section>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Submenu>
+          <DropdownMenu.Item>Language</DropdownMenu.Item>
+          <DropdownMenu.Popover selectionMode="single" selectedKeys={["fr"]}>
+            <DropdownMenu.Item id="fr">Français</DropdownMenu.Item>
+            <DropdownMenu.Item id="en">English</DropdownMenu.Item>
+          </DropdownMenu.Popover>
+        </DropdownMenu.Submenu>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item icon={<Logout />} variant="danger">
           Log out
-        </MenuItemV2>
-      </DropdownMenuV2Popover>
-    </DropdownMenuV2Trigger>
+        </DropdownMenu.Item>
+      </DropdownMenu.Popover>
+    </DropdownMenu.Trigger>
   ),
-};
-
-const ComparisonExample = ({ options, variant }: DropdownMenuV2Props) => {
-  const [isV1Open, setIsV1Open] = useState(false);
-  const [selectedValues, setSelectedValues] = useState(["reader"]);
-  return (
-    <div style={{ display: "flex", gap: 160 }}>
-      <div>
-        <p>V1</p>
-        <DropdownMenu
-          options={options}
-          isOpen={isV1Open}
-          onOpenChange={setIsV1Open}
-          selectedValues={selectedValues}
-          onSelectValue={(value) => setSelectedValues([value])}
-          variant={variant}
-        >
-          <Button variant="tertiary" onClick={() => setIsV1Open(!isV1Open)}>
-            Open V1
-          </Button>
-        </DropdownMenu>
-      </div>
-      <div>
-        <p>V2</p>
-        <DropdownMenuV2
-          options={options}
-          selectedValues={selectedValues}
-          onSelectValue={(value) => setSelectedValues([value])}
-          variant={variant}
-        >
-          <Button variant="tertiary">Open V2</Button>
-        </DropdownMenuV2>
-      </div>
-    </div>
-  );
-};
-
-/** DropdownMenu (V1) and DropdownMenuV2 with the same options. */
-export const ComparisonWithV1: Story = {
-  args: {
-    options: [...roles, { type: "separator" }, ...actionsWithDanger],
-  },
-  render: (args) => <ComparisonExample {...args} />,
 };

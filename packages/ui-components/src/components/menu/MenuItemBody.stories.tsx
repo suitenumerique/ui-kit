@@ -6,10 +6,11 @@ import { Icon, IconSize } from "../icon";
 
 /**
  * `MenuItemBody` is the presentational inner content shared by every menu row:
- * `DropdownMenu`, `ContextMenu` and `Filter`. It is **role-agnostic** — it emits
- * only children (icon, label, optional subtext and a trailing check/chevron) and
- * is meant to be rendered *inside* a react-aria `MenuItem` or `ListBoxItem`, both
- * of which already carry the `c__dropdown-menu-item` class that styles it.
+ * `DropdownMenu`, `ContextMenu`, `Filter` and `SearchFilter`. It is
+ * **role-agnostic** — it emits only children (icon, label, optional sub text,
+ * shortcut and a trailing check/chevron) and is meant to be rendered *inside* a
+ * react-aria `MenuItem` or `ListBoxItem`, or a plain element, carrying the
+ * `c__dropdown-menu-item` class that styles it.
  *
  * You normally never render it directly — the menu components do that for you.
  * These stories wrap it in the `c__dropdown-menu` / `c__dropdown-menu-item`
@@ -19,11 +20,14 @@ import { Icon, IconSize } from "../icon";
  *
  * | Prop | Type | Description |
  * |------|------|-------------|
- * | `icon` | `ReactNode` | Icon displayed on the left (wrapped in `__icon`) |
+ * | `icon` | `ReactNode` | Decorative icon on the left, hidden from assistive technologies |
  * | `label` | `ReactNode` | Main label content |
  * | `subText` | `ReactNode` | Secondary text rendered below the label |
+ * | `shortcut` | `string` | Keyboard shortcut displayed at the end of the row |
  * | `isChecked` | `boolean` | Renders the trailing check icon |
  * | `hasSubmenu` | `boolean` | Renders the trailing chevron (takes precedence over the check) |
+ * | `opensInNewWindow` | `boolean` | Appends a visually hidden "(new window)" hint to the label |
+ * | `withSlots` | `boolean` | Inside a `MenuItem` / `ListBoxItem`: names the item by the label and describes it by the sub text |
  */
 const meta = {
   title: "Components/MenuItemBody",
@@ -33,6 +37,10 @@ const meta = {
     icon: { control: false, description: "Icon displayed on the left" },
     label: { control: "text", description: "Main label content" },
     subText: { control: "text", description: "Secondary text below the label" },
+    shortcut: {
+      control: "text",
+      description: "Keyboard shortcut displayed at the end of the row",
+    },
     isChecked: {
       control: "boolean",
       description: "Renders the trailing check icon",
@@ -169,7 +177,7 @@ export const Gallery: Story = {
         />
       </MenuRow>
       <MenuRow>
-        <MenuItemBody label="Rename" />
+        <MenuItemBody label="Rename" shortcut="F2" />
       </MenuRow>
       <MenuRow danger>
         <MenuItemBody icon={icon("delete")} label="Delete" />

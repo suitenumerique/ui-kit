@@ -7,9 +7,7 @@ import {
   TextArea,
 } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
-import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
-import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
-import { DropdownMenuOption } from "../dropdown-menu/types";
+import { DropdownMenu, DropdownMenuOption } from "../dropdown-menu";
 import { FeedbackFormLabels, FeedbackFormProps } from "./types";
 
 const isValidEmail = (email: string) => {
@@ -83,8 +81,6 @@ export const FeedbackForm = ({
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
     defaultCategory,
   );
-
-  const categoryMenu = useDropdownMenu();
 
   const selectedCategoryItem = useMemo(() => {
     if (!categories || !selectedCategory) return undefined;
@@ -204,15 +200,12 @@ export const FeedbackForm = ({
                 </span>
                 <DropdownMenu
                   options={categories}
-                  isOpen={categoryMenu.isOpen}
-                  onOpenChange={categoryMenu.setIsOpen}
                   selectedValues={selectedCategory ? [selectedCategory] : []}
                   onSelectValue={(value) => setSelectedCategory(value)}
                 >
                   <button
                     type="button"
                     className="c__feedback-form__category__trigger"
-                    onClick={() => categoryMenu.setIsOpen(!categoryMenu.isOpen)}
                   >
                     {selectedCategoryItem?.icon && (
                       <span className="c__feedback-form__category__trigger__icon">
@@ -222,7 +215,10 @@ export const FeedbackForm = ({
                     <span className="c__feedback-form__category__trigger__label">
                       {selectedCategoryItem?.label || labels.category}
                     </span>
-                    <span className="material-icons c__feedback-form__category__trigger__chevron">
+                    <span
+                      className="material-icons c__feedback-form__category__trigger__chevron"
+                      aria-hidden="true"
+                    >
                       arrow_drop_down
                     </span>
                   </button>

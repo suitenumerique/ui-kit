@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
 import {
-  TestDropdownMenuV2,
+  TestDropdownMenu,
   TriggerKind,
-} from "../helpers/mount-dropdown-menu-v2";
+} from "../helpers/mount-dropdown-menu";
 
 const TRIGGERS: TriggerKind[] = [
   "button",
@@ -28,9 +28,9 @@ const tabToTrigger = async (page: Page) => {
 };
 
 for (const triggerKind of TRIGGERS) {
-  test.describe(`DropdownMenuV2 - ${triggerKind} trigger`, () => {
+  test.describe(`DropdownMenu - ${triggerKind} trigger`, () => {
     test("exposes the menu button semantics", async ({ mount, page }) => {
-      await mount(<TestDropdownMenuV2 triggerKind={triggerKind} />);
+      await mount(<TestDropdownMenu triggerKind={triggerKind} />);
 
       await expect(trigger(page)).toHaveAttribute("aria-haspopup", "true");
       await expect(trigger(page)).toHaveAttribute("aria-expanded", "false");
@@ -50,7 +50,7 @@ for (const triggerKind of TRIGGERS) {
       mount,
       page,
     }) => {
-      await mount(<TestDropdownMenuV2 triggerKind={triggerKind} />);
+      await mount(<TestDropdownMenu triggerKind={triggerKind} />);
       const box = (await trigger(page).boundingBox())!;
 
       await trigger(page).click();
@@ -68,7 +68,7 @@ for (const triggerKind of TRIGGERS) {
       mount,
       page,
     }) => {
-      await mount(<TestDropdownMenuV2 triggerKind={triggerKind} />);
+      await mount(<TestDropdownMenu triggerKind={triggerKind} />);
 
       await tabToTrigger(page);
       await page.keyboard.press("Enter");
@@ -95,7 +95,7 @@ for (const triggerKind of TRIGGERS) {
       mount,
       page,
     }) => {
-      await mount(<TestDropdownMenuV2 triggerKind={triggerKind} />);
+      await mount(<TestDropdownMenu triggerKind={triggerKind} />);
 
       await trigger(page).click();
       await item(page, "Download").click();
@@ -107,13 +107,13 @@ for (const triggerKind of TRIGGERS) {
   });
 }
 
-test.describe("DropdownMenuV2 - trigger", () => {
+test.describe("DropdownMenu - trigger", () => {
   test("keeps its events from reaching a clickable parent", async ({
     mount,
     page,
   }) => {
     // A menu button inside a clickable row or card must not activate it.
-    await mount(<TestDropdownMenuV2 inClickableParent />);
+    await mount(<TestDropdownMenu inClickableParent />);
 
     await trigger(page).click();
     await item(page, "Download").click();
@@ -133,7 +133,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
 
     await trigger(page).click();
     await item(page, "Duplicate").hover();
@@ -151,7 +151,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
 
     await tabToTrigger(page);
     await page.keyboard.press("Enter");
@@ -168,7 +168,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
   test("does not submit the form it sits in", async ({ mount, page }) => {
     for (const triggerKind of ["button", "native"] as const) {
       const component = await mount(
-        <TestDropdownMenuV2 triggerKind={triggerKind} inForm />,
+        <TestDropdownMenu triggerKind={triggerKind} inForm />,
       );
       await trigger(page).click();
       await expect(menu(page)).toBeVisible();
@@ -182,7 +182,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 triggerKind="tooltip" />);
+    await mount(<TestDropdownMenu triggerKind="tooltip" />);
 
     // React Aria shows tooltips on hover once it has seen the pointer move.
     await page.mouse.move(0, 0);
@@ -196,7 +196,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
   });
 
   test("follows a controlled open state", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 controlled />);
+    await mount(<TestDropdownMenu controlled />);
 
     await page.getByRole("button", { name: "Open from outside" }).click();
     await expect(menu(page)).toBeVisible();
@@ -207,7 +207,7 @@ test.describe("DropdownMenuV2 - trigger", () => {
   });
 
   test("opens on mount with defaultOpen", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 defaultOpen />);
+    await mount(<TestDropdownMenu defaultOpen />);
     await expect(menu(page)).toBeVisible();
   });
 
@@ -215,13 +215,13 @@ test.describe("DropdownMenuV2 - trigger", () => {
     mount,
     page,
   }) => {
-    const component = await mount(<TestDropdownMenuV2 />);
+    const component = await mount(<TestDropdownMenu />);
     await trigger(page).click();
     await page.mouse.click(600, 400);
     await expect(menu(page)).toHaveCount(0);
     await component.unmount();
 
-    await mount(<TestDropdownMenuV2 keepOpenOnOutsideClick />);
+    await mount(<TestDropdownMenu keepOpenOnOutsideClick />);
     await trigger(page).click();
     await page.mouse.click(600, 400);
     await expect(menu(page)).toBeVisible();

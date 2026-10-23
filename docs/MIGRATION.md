@@ -59,6 +59,36 @@ part of the former public exports are intentionally left unchanged and reported.
 Named SVG imports from the former UI Kit root are split automatically between
 the new package root and `/icons`. Aliases and type imports are preserved.
 
+## DropdownMenu and menus
+
+`DropdownMenu` is rebuilt on the React Aria menu button pattern. Its props,
+`options`, types (`DropdownMenuOption`, `DropdownMenuItem`,
+`DropdownMenuProps`) and `useDropdownMenu` keep their names. `ContextMenu`
+renders its items the same way, and `Filter` and `SearchFilter` share the row
+look (`MenuItemBody`).
+
+What may need an update:
+
+- **Trigger**: `children` is the trigger element itself, no longer wrapped in a
+  `div`. Pass a single element that forwards its `ref` and props to a focusable
+  element with an interactive role (`Button`, `<button>`, a link, or an element
+  with `role="button"` and `tabIndex={0}`). Do not wrap it in a `div`, and give
+  icon-only triggers an `aria-label`.
+- **Open state**: the menu opens by itself. The `onClick` toggle and the
+  `useDropdownMenu` state can go; keep `isOpen` / `onOpenChange` only to
+  control the menu. A leftover toggle is harmless.
+- **Roles**: items with a `value` or `isChecked` are `menuitemradio` (or
+  `menuitemcheckbox` with `selectionMode="multiple"`) with `aria-checked`, also
+  in `ContextMenu`. Tests using `getByRole("menuitem")` on them need the new
+  role. Do not give a `value` to plain actions.
+- **Markup**: rows use `c__dropdown-menu-item__content` and
+  `__description` instead of `__label-container` and `__label-subtext`; menus
+  follow the new look and its `dropdown-menu` tokens.
+- **Events**: clicks and keys in the menu no longer reach the trigger's
+  ancestors, and Tab closes the menu.
+
+See the DropdownMenu documentation in Storybook for the full API.
+
 ## Repository deprecation checklist
 
 After the three new packages have been published and verified in a real

@@ -1,10 +1,10 @@
 import { MenuItemSeparator } from "../menu/types";
-import { DropdownMenuV2Entry, DropdownMenuV2Option } from "./types";
+import { DropdownMenuItem, DropdownMenuOption } from "./types";
 
 export type MenuModelItem = {
   kind: "item";
   key: string;
-  option: DropdownMenuV2Option;
+  option: DropdownMenuOption;
   isSelectable: boolean;
   isSelected: boolean;
   submenu?: MenuModelLevel;
@@ -33,14 +33,14 @@ export type MenuModelLevel = {
 };
 
 export const isSeparatorEntry = (
-  entry: DropdownMenuV2Entry,
+  entry: DropdownMenuItem,
 ): entry is MenuItemSeparator => "type" in entry && entry.type === "separator";
 
 const SEPARATOR = "separator" as const;
 
 /** Drops hidden items, then leading, trailing and doubled separators. */
-const visibleEntries = (entries: DropdownMenuV2Entry[]) => {
-  const result: (DropdownMenuV2Option | typeof SEPARATOR)[] = [];
+const visibleEntries = (entries: DropdownMenuItem[]) => {
+  const result: (DropdownMenuOption | typeof SEPARATOR)[] = [];
   const pushSeparator = () => {
     if (result.length > 0 && result[result.length - 1] !== SEPARATOR) {
       result.push(SEPARATOR);
@@ -68,12 +68,12 @@ const visibleEntries = (entries: DropdownMenuV2Entry[]) => {
 };
 
 /**
- * Turns the `options` of a DropdownMenuV2 into the tree it renders: visible
+ * Turns the `options` of a DropdownMenu into the tree it renders: visible
  * items with unique keys, their selection state, and the selection scope of
  * each menu level.
  */
 export const buildMenuModel = (
-  entries: DropdownMenuV2Entry[],
+  entries: DropdownMenuItem[],
   selectedValues: string[] = [],
 ): MenuModelLevel => {
   const usedKeys = new Set<string>();

@@ -39,7 +39,7 @@ test.describe("ShareModal invitations list", () => {
     await mount(<TestShareModal />);
 
     await invitationRoleButton(page).click();
-    await page.getByRole("menuitem", { name: "Reader" }).click();
+    await page.getByRole("menuitemradio", { name: "Reader" }).click();
 
     expect(await calls(page)).toContainEqual({
       name: "update-invitation",

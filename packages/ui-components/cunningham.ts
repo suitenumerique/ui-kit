@@ -7,7 +7,7 @@ import { tokens as buttonTokens } from "./src/components/button/tokens";
 import { tokens as calendarTokens } from "./src/components/calendar/tokens";
 import { tokens as checkboxTokens } from "./src/components/forms/checkbox/tokens";
 import { tokens as datePickerTokens } from "./src/components/forms/date-picker/tokens";
-import { tokens as dropdownMenuTokens } from "./src/components/dropdown-menu-v2/tokens";
+import { tokens as dropdownMenuTokens } from "./src/components/dropdown-menu/tokens";
 import { tokens as fieldTokens } from "./src/components/forms/field/tokens";
 import { tokens as inputTokens } from "./src/components/forms/input/tokens";
 import { tokens as labelledBoxTokens } from "./src/components/forms/labelled-box/tokens";

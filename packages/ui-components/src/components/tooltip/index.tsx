@@ -26,7 +26,7 @@ export interface TooltipProps extends PropsWithChildren {
 }
 
 /**
- * Props a parent trigger (such as `DropdownMenuV2`) injects into the Tooltip.
+ * Props a parent trigger (such as `DropdownMenu`) injects into the Tooltip.
  * They are forwarded to the Tooltip's child, so it can be nested in a trigger.
  */
 type TooltipForwardedProps = DOMAttributes<Element> & { ref?: Ref<Element> };

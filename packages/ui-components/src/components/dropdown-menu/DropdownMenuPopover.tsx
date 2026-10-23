@@ -15,28 +15,32 @@ import {
   useSlottedContext,
 } from "react-aria-components";
 import {
-  DropdownMenuV2PopoverProps,
-  DropdownMenuV2Variant,
+  DropdownMenuPopoverProps,
+  DropdownMenuVariant,
 } from "./types";
 import { useScrollOverflow } from "./useScrollOverflow";
 
 /** Lets submenus, rendered in their own popover, inherit the root density. */
-const VariantContext = createContext<DropdownMenuV2Variant | undefined>(
+const VariantContext = createContext<DropdownMenuVariant | undefined>(
   undefined,
 );
 
 /**
- * The surface of a DropdownMenuV2: a React Aria `Popover` holding a `Menu`.
- * Use it as the second child of `DropdownMenuV2Trigger`, or of
- * `SubmenuTriggerV2` for a submenu.
+ * The surface of a DropdownMenu: a React Aria `Popover` holding a `Menu`.
+ * Use it as the second child of `DropdownMenu.Trigger`, or of
+ * `DropdownMenu.Submenu` for a submenu. Outside a trigger, give it a
+ * `triggerRef`, `isOpen` and `onOpenChange`.
  */
-export const DropdownMenuV2Popover = <T extends object>({
+export const DropdownMenuPopover = <T extends object>({
   variant,
   placement,
   offset,
   shouldCloseOnInteractOutside,
+  triggerRef,
+  isOpen,
+  onOpenChange,
   ...props
-}: DropdownMenuV2PopoverProps<T>) => {
+}: DropdownMenuPopoverProps<T>) => {
   const isSubmenu =
     useSlottedContext(PopoverContext)?.trigger === "SubmenuTrigger";
   const inheritedVariant = useContext(VariantContext);
@@ -44,15 +48,22 @@ export const DropdownMenuV2Popover = <T extends object>({
 
   return (
     <Popover
-      className="c__menu-v2-popover"
+      className="c__dropdown-menu-popover"
       placement={placement}
       offset={offset ?? (isSubmenu ? -4 : undefined)}
       shouldFlip
       containerPadding={16}
       shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
+      triggerRef={triggerRef}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
     >
       <VariantContext.Provider value={resolvedVariant}>
-        <MenuSurface {...props} variant={resolvedVariant} />
+        <MenuSurface
+          {...props}
+          variant={resolvedVariant}
+          onCloseRequest={() => onOpenChange?.(false)}
+        />
       </VariantContext.Provider>
     </Popover>
   );
@@ -65,11 +76,20 @@ const MenuSurface = <T extends object>({
   bottomMessage,
   className,
   children,
+  onCloseRequest,
   ...menuProps
 }: Omit<
-  DropdownMenuV2PopoverProps<T>,
-  "placement" | "offset" | "shouldCloseOnInteractOutside"
->) => {
+  DropdownMenuPopoverProps<T>,
+  | "placement"
+  | "offset"
+  | "shouldCloseOnInteractOutside"
+  | "triggerRef"
+  | "isOpen"
+  | "onOpenChange"
+> & {
+  /** Closes a popover that is not driven by a menu trigger. */
+  onCloseRequest: () => void;
+}) => {
   const topMessageId = useId();
   const bottomMessageId = useId();
   const listRef = useRef<HTMLDivElement>(null);
@@ -100,17 +120,21 @@ const MenuSurface = <T extends object>({
   return (
     <div
       className={clsx(
-        "c__menu-v2",
-        { "c__menu-v2--tiny": variant === "tiny" },
+        "c__dropdown-menu",
+        { "c__dropdown-menu--tiny": variant === "tiny" },
         className,
       )}
       // Tab leaves the menu (WAI-ARIA menu button pattern): close every open
       // level, focus then returns to the trigger. React Aria keeps focus
       // trapped in the popover otherwise.
       onKeyDownCapture={(event) => {
-        if (event.key === "Tab" && rootMenuState) {
+        if (event.key === "Tab") {
           event.preventDefault();
-          rootMenuState.close();
+          if (rootMenuState) {
+            rootMenuState.close();
+          } else {
+            onCloseRequest();
+          }
         }
       }}
       onKeyDown={stopKeyPropagation}
@@ -124,16 +148,16 @@ const MenuSurface = <T extends object>({
       {topMessage && (
         <div
           id={topMessageId}
-          className="c__menu-v2__message c__menu-v2__message--top"
+          className="c__dropdown-menu__message c__dropdown-menu__message--top"
         >
           {topMessage}
         </div>
       )}
-      <div ref={viewportRef} className="c__menu-v2__viewport">
+      <div ref={viewportRef} className="c__dropdown-menu__viewport">
         <Menu
           {...menuProps}
           ref={listRef}
-          className="c__menu-v2__list"
+          className="c__dropdown-menu__list"
           aria-describedby={describedBy}
         >
           {children}
@@ -142,7 +166,7 @@ const MenuSurface = <T extends object>({
       {bottomMessage && (
         <div
           id={bottomMessageId}
-          className="c__menu-v2__message c__menu-v2__message--bottom"
+          className="c__dropdown-menu__message c__dropdown-menu__message--bottom"
         >
           {bottomMessage}
         </div>

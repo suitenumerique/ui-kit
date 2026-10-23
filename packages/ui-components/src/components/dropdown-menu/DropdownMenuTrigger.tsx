@@ -14,7 +14,7 @@ import {
   ToggleButton as AriaToggleButton,
 } from "react-aria-components";
 import { Button } from ":/components/button";
-import { DropdownMenuV2TriggerProps } from "./types";
+import { DropdownMenuTriggerProps } from "./types";
 
 /**
  * React Aria components that already consume the menu trigger press context.
@@ -43,7 +43,7 @@ const toPressable = (trigger: ReactNode) => {
   if (!isValidElement<TriggerElementProps>(trigger)) {
     if (process.env.NODE_ENV !== "production") {
       console.warn(
-        "DropdownMenuV2: the trigger must be a single element forwarding its ref and props to a focusable DOM element.",
+        "DropdownMenu: the trigger must be a single element forwarding its ref and props to a focusable DOM element.",
       );
     }
     return trigger;
@@ -66,13 +66,13 @@ const toPressable = (trigger: ReactNode) => {
 /**
  * Wires any trigger element to a menu. Its first child is the trigger, which
  * receives `aria-haspopup`, `aria-expanded`, `aria-controls`, the press and
- * keyboard handlers and a ref; the second child is a `DropdownMenuV2Popover`.
+ * keyboard handlers and a ref; the second child is a `DropdownMenu.Popover`.
  * The open state is uncontrolled unless `isOpen` is set.
  */
-export const DropdownMenuV2Trigger = ({
+export const DropdownMenuTrigger = ({
   children,
   ...props
-}: DropdownMenuV2TriggerProps) => {
+}: DropdownMenuTriggerProps) => {
   const [trigger, ...rest] = Children.toArray(children);
   return (
     <MenuTrigger {...props}>

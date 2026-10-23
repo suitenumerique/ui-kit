@@ -8,7 +8,8 @@ import {
   useState,
   useEffect,
 } from "react";
-import { Menu, MenuItem as AriaMenuItem, Popover, Separator } from "react-aria-components";
+import { RootMenuTriggerStateContext } from "react-aria-components";
+import { useMenuTriggerState } from "react-stately";
 import {
   ContextMenuContextValue,
   ContextMenuControls,
@@ -18,8 +19,8 @@ import {
   MenuItemAction,
   ContextMenuState,
 } from "./types";
-import { MenuItemBody } from "../menu/MenuItemBody";
-import { useCunningham } from ":/components/provider";
+import { buildMenuModel } from "../dropdown-menu/buildMenuModel";
+import { renderMenuLevel } from "../dropdown-menu/renderMenu";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
 
@@ -62,7 +63,6 @@ const getItemKey = (item: MenuItemAction, index: number): string => {
 export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   // Check for nested providers first (but after hook declarations for Rules of Hooks)
   const existingContext = useContext(ContextMenuContext);
-  const { t } = useCunningham();
 
   const [state, setState] = useState<ContextMenuState>({
     isOpen: false,
@@ -159,6 +159,38 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
     [open, close]
   );
 
+  // Same rendering as DropdownMenu. Keys and test ids keep their previous
+  // defaults (`label-index`, `context-menu-item-<key>`).
+  const model = useMemo(
+    () =>
+      buildMenuModel(
+        state.items.map((item, index) => {
+          if (!isActionItem(item)) {
+            return item;
+          }
+          const itemKey = getItemKey(item, index);
+          return {
+            ...item,
+            id: itemKey,
+            testId: item.testId || `context-menu-item-${itemKey}`,
+          };
+        })
+      ),
+    [state.items]
+  );
+
+  // A root menu state lets submenus open and Tab close the menu, as in a
+  // DropdownMenu.
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      close();
+    }
+  };
+  const menuState = useMenuTriggerState({
+    isOpen: state.isOpen,
+    onOpenChange: handleOpenChange,
+  });
+
   // Warn and skip rendering if nested inside another provider
   if (isNested) {
     if (process.env.NODE_ENV !== "production") {
@@ -186,64 +218,21 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
           pointerEvents: "none",
         }}
       />
-      <Popover
-        triggerRef={triggerRef}
-        isOpen={state.isOpen}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            close();
+      <RootMenuTriggerStateContext.Provider value={menuState}>
+        {renderMenuLevel(
+          model,
+          { selectionMode: "single" },
+          {
+            triggerRef,
+            isOpen: state.isOpen,
+            onOpenChange: handleOpenChange,
+            placement: "bottom start",
+            onClose: close,
+            "aria-label": "Context menu",
+            "data-testid": "context-menu",
           }
-        }}
-        placement="bottom start"
-        shouldFlip
-      >
-        <Menu
-          className="c__dropdown-menu"
-          aria-label="Context menu"
-          data-testid="context-menu"
-          onAction={(key) => {
-            const item = state.items.find(
-              (i, idx) => isActionItem(i) && getItemKey(i, idx) === key
-            );
-            if (item && isActionItem(item) && !item.isDisabled) {
-              item.callback?.();
-              if (!item.keepOpen) {
-                close();
-              }
-            }
-          }}
-        >
-          {state.items.map((item, index) => {
-            if (!isActionItem(item)) {
-              return <Separator key={`separator-${index}`} />;
-            }
-
-            if (item.isHidden) {
-              return null;
-            }
-
-            const itemKey = getItemKey(item, index);
-
-            return (
-              <AriaMenuItem
-                key={itemKey}
-                id={itemKey}
-                className={`c__dropdown-menu-item${item.variant === "danger" ? " c__dropdown-menu-item--danger" : ""}`}
-                aria-label={item.opensInNewWindow ? item.label + t("components.menu.newWindowLabelSuffix") : item.label}
-                isDisabled={item.isDisabled}
-                data-testid={item.testId || `context-menu-item-${itemKey}`}
-              >
-                <MenuItemBody
-                  icon={item.icon}
-                  label={item.label}
-                  subText={item.subText}
-                  isChecked={item.isChecked}
-                />
-              </AriaMenuItem>
-            );
-          })}
-        </Menu>
-      </Popover>
+        )}
+      </RootMenuTriggerStateContext.Provider>
     </ContextMenuContext.Provider>
   );
 };

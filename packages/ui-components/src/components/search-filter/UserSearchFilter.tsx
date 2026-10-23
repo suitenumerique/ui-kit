@@ -15,6 +15,7 @@ export const UserSearchFilter = (props: UserSearchFilterProps) => {
       renderItem={(item) => (
         <div className="c__dropdown-menu-item">
           <MenuItemBody
+            withSlots
             label={item.fullName}
             icon={<UserAvatar fullName={item.fullName} size="xsmall" />}
           />

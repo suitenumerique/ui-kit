@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
-import { TestDropdownMenuV2 } from "../helpers/mount-dropdown-menu-v2";
+import { TestDropdownMenu } from "../helpers/mount-dropdown-menu";
 
 const trigger = (page: Page) => page.getByRole("button", { name: "Actions" });
 const menu = (page: Page) => page.getByRole("menu");
@@ -14,12 +14,12 @@ const openWithKeyboard = async (page: Page) => {
   await expect(menu(page)).toBeVisible();
 };
 
-test.describe("DropdownMenuV2 - keyboard", () => {
+test.describe("DropdownMenu - keyboard", () => {
   test("moves between items, wraps and skips disabled ones", async ({
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     await expect(item(page, "Rename")).toBeFocused();
@@ -43,7 +43,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
   });
 
   test("moves to an item by typing its label", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     await page.keyboard.type("dow");
@@ -51,7 +51,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
   });
 
   test("picks the focused item with Enter", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     await page.keyboard.press("End");
@@ -66,7 +66,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     await page.keyboard.press("Tab");
@@ -78,7 +78,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 scenario="submenus" />);
+    await mount(<TestDropdownMenu scenario="submenus" />);
     await openWithKeyboard(page);
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowRight");
@@ -93,7 +93,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 scenario="submenus" />);
+    await mount(<TestDropdownMenu scenario="submenus" />);
     await openWithKeyboard(page);
 
     await page.keyboard.press("ArrowDown");
@@ -120,7 +120,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 scenario="submenus" />);
+    await mount(<TestDropdownMenu scenario="submenus" />);
     await openWithKeyboard(page);
 
     await page.keyboard.press("ArrowDown");
@@ -136,7 +136,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     const rename = item(page, "Rename");
@@ -154,7 +154,7 @@ test.describe("DropdownMenuV2 - keyboard", () => {
     page,
   }) => {
     await page.emulateMedia({ forcedColors: "active" });
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await openWithKeyboard(page);
 
     await expect(item(page, "Rename")).toHaveCSS("outline-style", "solid");

@@ -225,7 +225,8 @@
       },
       "actions": {
         "download": "Download",
-        "print": "Print"
+        "print": "Print",
+        "more": "More actions"
       }
     },
     "storage-gauge": {

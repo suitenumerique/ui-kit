@@ -266,6 +266,7 @@ const FilterInner = (props: FilterInnerProps) => {
           <FilterResetRow onReset={() => state?.setValue(null)} />
         )}
         <div
+          className="c__dropdown-menu__list"
           onKeyDownCapture={(event) => {
             if (
               event.key !== "Enter" &&
@@ -331,6 +332,7 @@ const FilterInner = (props: FilterInnerProps) => {
                      */}
                     {({ isSelected }) => (
                       <MenuItemBody
+                        withSlots
                         label={option.render ? option.render() : option.label}
                         isChecked={isSelected || option.isChecked}
                         hasSubmenu={hasSubContent}

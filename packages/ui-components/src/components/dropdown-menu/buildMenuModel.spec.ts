@@ -4,7 +4,7 @@ import {
   MenuModelItem,
   MenuModelNode,
 } from "./buildMenuModel";
-import { DropdownMenuV2Entry } from "./types";
+import { DropdownMenuItem } from "./types";
 
 const kinds = (nodes: MenuModelNode[]) => nodes.map((node) => node.kind);
 const keys = (nodes: MenuModelNode[]) => nodes.map((node) => node.key);
@@ -15,7 +15,7 @@ const itemKeys = (nodes: MenuModelNode[]) =>
 
 describe("buildMenuModel", () => {
   it("drops hidden items and the separators they leave orphaned", () => {
-    const entries: DropdownMenuV2Entry[] = [
+    const entries: DropdownMenuItem[] = [
       { type: "separator" },
       { label: "Open" },
       { type: "separator" },

@@ -42,13 +42,21 @@
     box-sizing: border-box;
     outline: none;
 
-    // react-aria sets `data-focused` on the ListBoxItem itself; consumers
-    // render `.c__dropdown-menu-item` *inside* it, so its `[data-focused]`
-    // style never matches and keyboard navigation was invisible.
+    // react-aria sets `data-hovered` / `data-focused` on the ListBoxItem
+    // itself; consumers render `.c__dropdown-menu-item` *inside* it, so the
+    // menu row highlight is applied here, with the same token.
+    &[data-hovered],
     &[data-focused] {
-      background: var(
-        --c--contextuals--background--semantic--contextual--primary
+      background-color: var(
+        --c--components--dropdown-menu--item-background-color--hover
       );
+    }
+
+    @media (forced-colors: active) {
+      &[data-focused] {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+      }
     }
   }
 

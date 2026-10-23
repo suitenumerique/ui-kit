@@ -3,11 +3,11 @@ import { Button as AriaButton } from "react-aria-components";
 import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { Button } from "../../src/components/button";
 import { Tooltip } from "../../src/components/tooltip";
-import { DropdownMenuV2 } from "../../src/components/dropdown-menu-v2/DropdownMenuV2";
+import { DropdownMenu } from "../../src/components/dropdown-menu/DropdownMenu";
 import {
-  DropdownMenuV2Entry,
-  DropdownMenuV2Props,
-} from "../../src/components/dropdown-menu-v2/types";
+  DropdownMenuItem,
+  DropdownMenuProps,
+} from "../../src/components/dropdown-menu/types";
 import { Edit } from "../../src/components/icon/icons/Edit";
 import { Trash } from "../../src/components/icon/icons/Trash";
 
@@ -82,8 +82,8 @@ const buildOptions = (
   scenario: Scenario,
   act: (name: string) => () => void,
   sort: { value: string; set: (value: string) => void },
-): DropdownMenuV2Entry[] => {
-  const roles: DropdownMenuV2Entry[] = [
+): DropdownMenuItem[] => {
+  const roles: DropdownMenuItem[] = [
     { label: "Reader", value: "reader", subText: "Can view" },
     { label: "Commenter", value: "commenter" },
     { label: "Editor", value: "editor", callback: act("editor callback") },
@@ -178,7 +178,7 @@ const buildOptions = (
   }
 };
 
-export const TestDropdownMenuV2 = ({
+export const TestDropdownMenu = ({
   scenario = "actions",
   triggerKind = "button",
   controlled = false,
@@ -190,14 +190,14 @@ export const TestDropdownMenuV2 = ({
   keepOpenOnOutsideClick = false,
   ...props
 }: Partial<
-  Omit<DropdownMenuV2Props, "children" | "options" | "onSelectValue">
+  Omit<DropdownMenuProps, "children" | "options" | "onSelectValue">
 > & {
   scenario?: Scenario;
   triggerKind?: TriggerKind;
   controlled?: boolean;
   /**
-   * V1 migration case: the trigger still toggles the controlled state in its
-   * own onClick, as DropdownMenu (V1) required.
+   * Migration case: the trigger still toggles the controlled state in its
+   * own onClick, as the previous DropdownMenu required.
    */
   legacyToggle?: boolean;
   /** Renders the menu inside a parent that logs the events reaching it. */
@@ -223,7 +223,7 @@ export const TestDropdownMenuV2 = ({
   const options = buildOptions(scenario, act, { value: sort, set: setSort });
 
   const menu = (
-    <DropdownMenuV2
+    <DropdownMenu
       {...props}
       options={options}
       selectionMode={multiple ? "multiple" : props.selectionMode}
@@ -252,7 +252,7 @@ export const TestDropdownMenuV2 = ({
       ) : (
         renderTrigger(triggerKind)
       )}
-    </DropdownMenuV2>
+    </DropdownMenu>
   );
 
   return (

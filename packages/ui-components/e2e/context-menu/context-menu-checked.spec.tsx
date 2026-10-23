@@ -12,11 +12,19 @@ const CHECK_ICON = ".c__dropdown-menu-item__check";
 const openMenu = (page: Page) =>
   page.getByTestId("context-menu-trigger").click({ button: "right" });
 
+/** Items with `isChecked` are radio items; the others plain menu items. */
 const menuItem = (page: Page, name: string) =>
-  page.getByRole("menuitem", { name });
+  page
+    .getByRole("menuitemradio", { name })
+    .or(page.getByRole("menuitem", { name }));
 
-const expectChecked = (item: Locator, isChecked: boolean) =>
-  expect(item.locator(CHECK_ICON)).toHaveCount(isChecked ? 1 : 0);
+const expectChecked = async (item: Locator, isChecked: boolean) => {
+  await expect(item.locator(CHECK_ICON)).toHaveCount(isChecked ? 1 : 0);
+  if (isChecked) {
+    // The checked state is announced, not only drawn.
+    await expect(item).toHaveAttribute("aria-checked", "true");
+  }
+};
 
 test.describe("ContextMenu - checked item", () => {
   test("Marks only the checked item with a checkmark", async ({

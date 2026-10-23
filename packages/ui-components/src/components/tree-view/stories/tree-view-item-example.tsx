@@ -5,9 +5,7 @@ import {
 } from ":/components/tree-view";
 import { TreeViewExampleData, ExampleData } from "./tree-view-example";
 
-import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
-
-import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
+import { DropdownMenu, useDropdownMenu } from ":/components/dropdown-menu";
 import {
   Button,
   Input,
@@ -92,11 +90,6 @@ export const TreeViewItemExample = ({ ...props }: TreeViewItemExampleProps) => {
     },
   ];
 
-  const handleOpenMenu: React.MouseEventHandler<HTMLElement> = (e) => {
-    e.stopPropagation();
-    setIsOpen((prev) => !prev);
-  };
-
   return (
     <>
       <TreeViewItem {...props}>
@@ -120,9 +113,7 @@ export const TreeViewItemExample = ({ ...props }: TreeViewItemExampleProps) => {
                     isOpen={isOpen}
                     options={options}
                   >
-                    <Button size="nano" onClick={(e) => handleOpenMenu(e)}>
-                      Open
-                    </Button>
+                    <Button size="nano">Open</Button>
                   </DropdownMenu>
                 </div>
               </div>

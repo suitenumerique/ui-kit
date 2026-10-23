@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
-import { TestDropdownMenuV2 } from "../helpers/mount-dropdown-menu-v2";
+import { TestDropdownMenu } from "../helpers/mount-dropdown-menu";
 
 const open = (page: Page) =>
   page.getByRole("button", { name: "Actions" }).click();
@@ -8,18 +8,18 @@ const menu = (page: Page) => page.getByRole("menu");
 const item = (page: Page, name: string) =>
   page.getByRole("menuitem", { name });
 
-test.describe("DropdownMenuV2 - options", () => {
+test.describe("DropdownMenu - options", () => {
   test("renders the danger variant, test ids and decorative icons", async ({
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await open(page);
 
     const remove = page.getByTestId("delete-item");
     await expect(remove).toHaveAccessibleName("Delete");
-    await expect(remove).toHaveClass(/c__menu-v2-item--danger/);
-    await expect(remove.locator(".c__menu-v2-item__icon")).toHaveAttribute(
+    await expect(remove).toHaveClass(/c__dropdown-menu-item--danger/);
+    await expect(remove.locator(".c__dropdown-menu-item__icon")).toHaveAttribute(
       "aria-hidden",
       "true",
     );
@@ -29,7 +29,7 @@ test.describe("DropdownMenuV2 - options", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 />);
+    await mount(<TestDropdownMenu />);
     await open(page);
 
     await expect(item(page, "Duplicate")).toHaveAccessibleDescription(
@@ -41,7 +41,7 @@ test.describe("DropdownMenuV2 - options", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenuV2 scenario="options" />);
+    await mount(<TestDropdownMenu scenario="options" />);
     await open(page);
 
     await expect(page.getByRole("menuitem", { name: "Restore" })).toHaveCount(
@@ -52,7 +52,7 @@ test.describe("DropdownMenuV2 - options", () => {
   });
 
   test("names new window items and renders links", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 scenario="options" />);
+    await mount(<TestDropdownMenu scenario="options" />);
     await open(page);
 
     await expect(item(page, "Help (new window)")).toBeVisible();
@@ -63,7 +63,7 @@ test.describe("DropdownMenuV2 - options", () => {
 
   test("describes the menu with its messages", async ({ mount, page }) => {
     await mount(
-      <TestDropdownMenuV2
+      <TestDropdownMenu
         topMessage="Shared folder"
         bottomMessage="Read only"
       />,
@@ -79,15 +79,15 @@ test.describe("DropdownMenuV2 - options", () => {
     mount,
     page,
   }) => {
-    const component = await mount(<TestDropdownMenuV2 />);
+    const component = await mount(<TestDropdownMenu />);
     await open(page);
     expect((await item(page, "Rename").boundingBox())?.height).toBe(40);
     await component.unmount();
 
-    await mount(<TestDropdownMenuV2 variant="tiny" />);
+    await mount(<TestDropdownMenu variant="tiny" />);
     await open(page);
     expect((await item(page, "Rename").boundingBox())?.height).toBe(32);
-    await expect(page.locator(".c__menu-v2")).toHaveClass(/c__menu-v2--tiny/);
+    await expect(page.locator(".c__dropdown-menu")).toHaveClass(/c__dropdown-menu--tiny/);
   });
 
   for (const variant of ["default", "tiny"] as const) {
@@ -96,18 +96,18 @@ test.describe("DropdownMenuV2 - options", () => {
       page,
     }) => {
       await mount(
-        <TestDropdownMenuV2 scenario="long-labels" variant={variant} />,
+        <TestDropdownMenu scenario="long-labels" variant={variant} />,
       );
       await open(page);
 
-      const surface = (await page.locator(".c__menu-v2").boundingBox())!;
+      const surface = (await page.locator(".c__dropdown-menu").boundingBox())!;
       expect(surface.width).toBeLessThanOrEqual(320);
 
       const share = item(
         page,
         "Share with every member of the workspace and their guests",
       );
-      const label = share.locator(".c__menu-v2-item__label");
+      const label = share.locator(".c__dropdown-menu-item__label");
       const lineHeight = await label.evaluate((element) =>
         parseFloat(getComputedStyle(element).lineHeight),
       );
@@ -122,10 +122,10 @@ test.describe("DropdownMenuV2 - options", () => {
   }
 
   test("keeps the minimum width for short labels", async ({ mount, page }) => {
-    await mount(<TestDropdownMenuV2 scenario="checked" />);
+    await mount(<TestDropdownMenu scenario="checked" />);
     await open(page);
 
-    const surface = (await page.locator(".c__menu-v2").boundingBox())!;
+    const surface = (await page.locator(".c__dropdown-menu").boundingBox())!;
     expect(surface.width).toBeGreaterThanOrEqual(150);
   });
 
@@ -134,10 +134,10 @@ test.describe("DropdownMenuV2 - options", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 800, height: 400 });
-    await mount(<TestDropdownMenuV2 scenario="long" />);
+    await mount(<TestDropdownMenu scenario="long" />);
     await open(page);
 
-    const viewport = page.locator(".c__menu-v2__viewport");
+    const viewport = page.locator(".c__dropdown-menu__viewport");
     await expect(viewport).toHaveAttribute("data-overflow-bottom", "");
     await expect(viewport).not.toHaveAttribute("data-overflow-top");
 
@@ -152,18 +152,18 @@ test.describe("DropdownMenuV2 - options", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 800, height: 400 });
-    await mount(<TestDropdownMenuV2 scenario="long" />);
+    await mount(<TestDropdownMenu scenario="long" />);
     await page.getByRole("button", { name: "Before" }).focus();
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowDown");
 
-    const list = page.locator(".c__menu-v2__list");
-    const focused = page.locator(".c__menu-v2-item[data-focused]");
+    const list = page.locator(".c__dropdown-menu__list");
+    const focused = page.locator(".c__dropdown-menu-item[data-focused]");
     const indicatorSize = 24;
     // React Aria scrolls the focused item on the next animation frame.
     const gaps = () =>
       focused.evaluate((item) => {
-        const listBox = item.closest(".c__menu-v2__list")!.getBoundingClientRect();
+        const listBox = item.closest(".c__dropdown-menu__list")!.getBoundingClientRect();
         const itemBox = item.getBoundingClientRect();
         return {
           top: Math.round(itemBox.top - listBox.top),
