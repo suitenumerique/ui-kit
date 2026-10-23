@@ -8,6 +8,8 @@ export const ChevronRightIcon = () => {
       height="16"
       viewBox="0 0 16 16"
       fill="none"
+      aria-hidden="true"
+      focusable="false"
     >
       <path
         d="M5.72 12.94L10.14 8.52C10.46 8.2 10.46 7.68 10.14 7.36L5.72 2.94"

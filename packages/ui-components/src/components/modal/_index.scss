@@ -80,6 +80,7 @@
     display: flex;
     align-items: center;
     gap: var(--c--globals--spacings--xs);
+    margin-top: 0;
     margin-bottom: var(--c--globals--spacings--2xs);
     color: var(--c--contextuals--content--semantic--neutral--primary);
     font-size: var(--font-size);
@@ -314,6 +315,7 @@
         color: var(--c--contextuals--content--semantic--neutral--primary);
         padding: 0 var(--c--globals--spacings--xs);
         line-height: 1.5rem;
+        margin: 0;
       }
 
       &__nav {
@@ -336,8 +338,6 @@
         font-weight: var(--c--components--modal--tab-item-font-weight);
         color: var(--c--contextuals--content--semantic--neutral--primary);
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
 
         &-label {
           display: flex;
@@ -368,10 +368,13 @@
           );
         }
 
-        &:focus-visible {
+        // Drawn outside the tab. An inset ring was clipped, so keyboard focus
+        // showed up only as the low-contrast gray fill. Firefox does not match
+        // :focus-visible on this tab, while React Aria sets data-focus-visible.
+        &[data-focus-visible] {
           outline: 2px solid
             var(--c--contextuals--border--semantic--brand--primary);
-          outline-offset: -2px;
+          outline-offset: 2px;
         }
       }
     }
@@ -422,6 +425,13 @@
         overflow-y: auto;
         padding: var(--c--globals--spacings--base);
         padding-bottom: 0;
+
+        // The panel is focusable when its content has no focusable element.
+        &[data-focus-visible] {
+          outline: 2px solid
+            var(--c--contextuals--border--semantic--brand--primary);
+          outline-offset: -2px;
+        }
       }
 
       .c__modal__footer {

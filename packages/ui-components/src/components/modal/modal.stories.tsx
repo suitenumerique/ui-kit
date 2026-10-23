@@ -1,10 +1,4 @@
-import {
-  Button,
-  Input,
-  Modal,
-  ModalSize,
-  useModal,
-} from ":/cunningham";
+import { Button, Input, Modal, ModalSize, useModal } from ":/cunningham";
 import type { ModalDefaultVariantProps } from ":/cunningham";
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";

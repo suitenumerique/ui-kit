@@ -256,6 +256,14 @@ You can control the active tab externally using `activeTab` and `onTabChange`.
 
 <Canvas of={Stories.TabVariantControlled} story={{inline: false}}/>
 
+## Accessibility
+
+- The `title` (or `sidebarTitle` for the tab variant) is rendered as an `h2` and names the dialog. Prefer a visible title: `aria-label` is only used when there is none.
+- The `subtitle` describes the dialog to screen readers.
+- `titleIcon` is decorative and hidden from assistive technologies: do not rely on it to convey information.
+- In the tab variant, arrow keys, `Home` and `End` move the focus between tabs, `Enter` or `Space` selects the focused tab. Tab titles are `h3` headings.
+- On small screens, the tab variant shows either the tab list or the content. The hidden half cannot be reached, the focus moves to the back button when a tab opens and returns to the tab when going back.
+
 ## Props
 
 These are the props of `Modal`.

@@ -183,7 +183,7 @@ test.describe("ShareModal import contacts seam", () => {
     // preventClose removes the import modal's own close button (the parent
     // ShareModal keeps its X, hence the scoping to the medium modal).
     await expect(
-      importModal.getByRole("button", { name: "close" }),
+      importModal.getByRole("button", { name: "Close" }),
     ).toHaveCount(0);
 
     await page.keyboard.press("Escape");

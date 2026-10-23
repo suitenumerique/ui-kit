@@ -285,7 +285,8 @@
         "previous_month_button_aria_label": "Vorige maand",
         "previous_year_button_aria_label": "Vorig jaar",
         "year_select_button_aria_label": "Een jaar selecteren",
-        "month_select_button_aria_label": "Een maand selecteren"
+        "month_select_button_aria_label": "Een maand selecteren",
+        "calendar_popover_aria_label": "Een datum kiezen"
       }
     },
     "calendar": {
@@ -294,6 +295,8 @@
       "ok": "OK"
     },
     "modals": {
+      "close_button_aria_label": "Sluiten",
+      "back_to_tabs_aria_label": "Terug naar de tabbladen",
       "helpers": {
         "delete_confirmation": {
           "title": "Weet u het zeker?",
