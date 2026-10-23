@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { UserData } from "../types";
+import { isSameUser } from "./searchResults";
 import type { ShareModalSearchProps } from "./types";
 
 type ShareSearchOptions<UserType> = Pick<
@@ -47,7 +48,12 @@ export const useShareSearch = <UserType>({
 
   const selectUser = (user: UserData<UserType>) => {
     cancelSearch();
-    setSelectedUsers((users) => [...users, user]);
+    // A stale result list can offer someone who is already pending.
+    setSelectedUsers((users) =>
+      users.some((selected) => isSameUser(selected, user))
+        ? users
+        : [...users, user],
+    );
     setInputValue("");
     setSearchQuery("");
     onSearchUsers?.("");
