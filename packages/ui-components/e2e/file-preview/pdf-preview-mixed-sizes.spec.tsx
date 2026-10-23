@@ -140,15 +140,20 @@ test.describe("PDF Preview — mixed page sizes", () => {
   }) => {
     const pageInput = getPageInput(page);
     for (const target of [13, 5, 17, 2, 11]) {
-      await pageInput.fill(String(target));
       // Wait for React to commit the new pageInputValue before pressing Enter.
       // Without this, on slow CI runners the keydown handler can fire while its
       // closure still holds the previous pageInputValue.
-      await expect(pageInput).toHaveAttribute(
-        "size",
-        String(String(target).length),
-        { timeout: 10000 },
-      );
+      // The previous jump's scroll can also sync the input back to the previous
+      // page while we type: React batches both updates and keeps the previous
+      // value, so we type again until the new value is committed.
+      await expect(async () => {
+        await pageInput.fill(String(target));
+        await expect(pageInput).toHaveAttribute(
+          "size",
+          String(String(target).length),
+          { timeout: 1000 },
+        );
+      }).toPass({ timeout: 10000 });
       await pageInput.press("Enter");
       await expect(getRenderedPage(page, target)).toBeVisible({
         timeout: 10000,
