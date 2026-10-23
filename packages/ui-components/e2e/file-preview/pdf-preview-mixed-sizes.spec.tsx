@@ -163,6 +163,12 @@ test.describe("PDF Preview — mixed page sizes", () => {
     for (const p of [2, 5, 8, 11, 13, 15, 17, 1]) {
       await pageInput.fill(String(p));
       await pageInput.press("Enter");
+      // The input shows the target page as soon as Enter is pressed, but the
+      // scroll only happens once the page dimensions are loaded. Wait for the
+      // target page to be in the viewport so the jump has landed; otherwise
+      // the previous jump's scroll lands during the next iteration and resets
+      // the input to the previous page.
+      await expect(getRenderedPage(page, p)).toBeInViewport({ timeout: 10000 });
       await expect(pageInput).toHaveValue(String(p), { timeout: 5000 });
     }
 
