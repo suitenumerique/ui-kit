@@ -58,3 +58,33 @@ describe("useShareSearch lifecycle", () => {
     expect(result.current.selectedUsers).toEqual([user]);
   });
 });
+
+describe("useShareSearch selection", () => {
+  it("keeps one chip when the same user is selected again", () => {
+    const { result } = renderHook(() =>
+      useShareSearch({ initialRole: "reader" }),
+    );
+    act(() => result.current.selectUser(user));
+    act(() => result.current.selectUser({ ...user }));
+    act(() =>
+      result.current.selectUser({
+        id: "ALICE@example.com",
+        full_name: "",
+        email: "ALICE@example.com",
+      }),
+    );
+    expect(result.current.selectedUsers).toEqual([user]);
+    expect(result.current.inputValue).toBe("");
+  });
+
+  it("keeps distinct users that have no email", () => {
+    const { result } = renderHook(() =>
+      useShareSearch({ initialRole: "reader" }),
+    );
+    const first = { id: "1", full_name: "First", email: "" };
+    const second = { id: "2", full_name: "Second", email: "" };
+    act(() => result.current.selectUser(first));
+    act(() => result.current.selectUser(second));
+    expect(result.current.selectedUsers).toEqual([first, second]);
+  });
+});
