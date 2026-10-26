@@ -131,10 +131,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
       - name: Restore the frontend cache
         uses: actions/cache@v5
         with:
@@ -143,29 +139,20 @@ jobs:
             packages/*/node_modules
           key: front-node_modules-${{ hashFiles('yarn.lock') }}
           fail-on-cache-miss: true
-      # Playwright browsers live outside node_modules and weigh hundreds of
-      # MB; cache them by the @playwright/test version so we only re-download
-      # when the version bumps.
-      - name: Restore Playwright browsers cache
-        id: playwright-cache
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn playwright install --with-deps chromium webkit firefox
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn playwright install-deps chromium webkit firefox
-      # The PDF viewer loads pdfjs's worker from /pdf.worker.mjs at runtime;
-      # copy it from the installed pdfjs-dist so the served public/ has it.
-      - name: Provision PDF worker
-        run: yarn workspace @gouvfr-lasuite/ui-components copy-pdf-worker
-      - name: Generate test PDFs
-        run: yarn generate-test-pdfs
+      # Run the tests in the official Playwright image: it ships the browsers
+      # and their system libraries. Installing those libraries with apt
+      # depends on the Ubuntu mirror, which is sometimes slow enough to stall
+      # the job for 40+ minutes. The image tag follows the @playwright/test
+      # version so Renovate bumps keep both in sync.
+      # Run as the runner user so the files written in the workspace stay
+      # owned by it, with a writable HOME for yarn and the browsers.
       - name: Run component tests
-        run: yarn test:ct
+        run: |
+          version=$(jq -r '.devDependencies["@playwright/test"]' packages/ui-components/package.json)
+          docker run --rm --ipc=host \
+            --user "$(id -u):$(id -g)" -e HOME=/tmp -e CI \
+            -v "${PWD}:${PWD}" -w "${PWD}" \
+            "mcr.microsoft.com/playwright:v${version}-noble" yarn test:ct
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
