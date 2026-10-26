@@ -1,5 +1,19 @@
 # @gouvfr-lasuite/ui-components
 
+## 1.4.0
+
+### Minor Changes
+
+- 9d3611d: **Breaking:** `ProgressBar` takes `value` (0 to 100) instead of `duration`. `<ProgressBar duration={3000} />` no longer works. Leave `value` unset for the indeterminate animation.
+
+  **Breaking:** Alert and Toast now share their content classes. `c__alert__content*`, `c__alert__icon`, `c__alert__action*`, `c__toast__content*` and `c__toast__icon` become `c__notification__content*`, `c__notification__icon` and `c__notification__action*`. The toast progress is now `c__toast__progress`. Styles targeting the old names must be updated.
+
+  Refresh the Alert look. The info variant now uses the brand color. Alert and Toast accept `closeLabel` to name the close button.
+
+  Toast: `actions` accepts a list of `{ label, onClick }`, `useToastProvider` exposes `updateToast` and `dismissToast`, and `position` (or `toastPosition` on `CunninghamProvider`) chooses the corner.
+
+- 3a4e78d: ShareModal: `linkExpiresAt` and `onUpdateLinkExpiresAt` add a "Link expires" submenu to the link role dropdown, with 1, 7 and 30 days presets and a calendar to choose a date. The expiration date is shown next to the link role. `useCustomTranslations` now replaces variables.
+
 ## 1.3.0
 
 ### Minor Changes
@@ -663,7 +677,9 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.2.0...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.4.0...main
+[1.4.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.3.0...@gouvfr-lasuite/ui-components@1.4.0
+[1.3.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.2.0...@gouvfr-lasuite/ui-components@1.3.0
 [1.2.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.1.2...@gouvfr-lasuite/ui-components@1.2.0
 [1.1.2]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.1.1...@gouvfr-lasuite/ui-components@1.1.2
 [1.1.1]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@...@gouvfr-lasuite/ui-components@1.1.1
