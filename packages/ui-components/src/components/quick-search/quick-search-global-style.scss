@@ -12,7 +12,9 @@
     border: none;
     width: 100%;
     font-size: 17px;
-    background: var(--c--contextuals--background--surface--primary);
+    // Blend into the hosting surface (e.g. the modal, whose background differs
+    // from `surface--primary` in dark themes).
+    background: transparent;
     outline: none;
     color: var(--c--contextuals--content--semantic--neutral--primary);
     border-radius: 0;

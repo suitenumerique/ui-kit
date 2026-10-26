@@ -103,7 +103,6 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
     min-width: 0;
     border: none;
     outline: none;
-    background: transparent;
     font: inherit;
     font-size: var(--c--globals--font--sizes--md, 1rem);
     line-height: 22px;
