@@ -16,6 +16,7 @@
     "test:ct": {
       "cache": false,
       "dependsOn": ["build"],
+      "passThroughEnv": ["PLAYWRIGHT_BROWSERS_PATH"],
       "outputs": []
     },
     "dev": {
