@@ -64,7 +64,8 @@
         "load_more": "Show more "
       },
       "item": {
-        "add": "Add"
+        "add": "Add",
+        "remove": "Remove {name}"
       },
       "search": {
         "placeholder": "Search user",
@@ -234,7 +235,19 @@
       },
       "actions": {
         "download": "Download",
-        "print": "Print"
+        "print": "Print",
+        "close": "Close",
+        "information": "File information",
+        "hideInformation": "Hide file information",
+        "more": "More actions",
+        "previous": "Previous file",
+        "next": "Next file",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "zoomReset": "Reset zoom",
+        "toggleSidebar": "Toggle sidebar",
+        "currentPage": "Current page",
+        "goToPage": "Go to page {page}"
       }
     },
     "storage-gauge": {
@@ -322,6 +335,9 @@
           "ok": "Ok"
         }
       }
+    },
+    "languagePicker": {
+      "label": "Language: {language}"
     },
     "headerBanner": {
       "region": "Announcement",

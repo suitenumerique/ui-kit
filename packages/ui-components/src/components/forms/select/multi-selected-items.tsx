@@ -7,6 +7,7 @@ import {
 import { SelectedOption } from ":/components/forms/select/utils";
 import { Button } from ":/components/button";
 import { SelectMultiAuxProps } from ":/components/forms/select/multi-common";
+import { XMark } from ":/icons";
 
 export const SelectedItems = (props: SelectMultiAuxProps) => {
   if (props.selectedItemsStyle === "pills") {
@@ -52,11 +53,7 @@ const SelectedItemsChips = ({
               selectedItemForRender,
             );
           }}
-          icon={
-            <span className="material-icons" aria-hidden="true">
-              close
-            </span>
-          }
+          icon={<XMark aria-hidden />}
         />
       </div>
     );

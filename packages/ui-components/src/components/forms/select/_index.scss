@@ -6,10 +6,14 @@
   &__label {
     display: block;
     font-size: var(--c--components--forms-labelledbox--classic-label-font-size);
-    font-weight: var(--c--components--forms-labelledbox--classic-label-font-weight);
+    font-weight: var(
+      --c--components--forms-labelledbox--classic-label-font-weight
+    );
     font-family: var(--c--globals--font--families--base);
     font-style: normal;
-    line-height: var(--c--components--forms-labelledbox--classic-label-line-height);
+    line-height: var(
+      --c--components--forms-labelledbox--classic-label-line-height
+    );
     color: var(--c--components--forms-labelledbox--classic-label-color);
     margin-bottom: var(
       --c--components--forms-labelledbox--classic-label-margin-bottom
@@ -182,13 +186,20 @@
       // This is made to avoid this relative element to force its container height.
       height: 0;
 
-      span {
+      span,
+      svg {
         font-size: 1.25rem;
         transition: all var(--c--globals--transitions--duration)
           var(--c--globals--transitions--ease-out);
         &.opened {
           transform: rotate(180deg);
         }
+      }
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        flex: none;
       }
 
       &__clear {
@@ -430,6 +441,11 @@
 
             .material-icons {
               font-size: 1.125rem;
+            }
+
+            svg {
+              width: 1.125rem;
+              height: 1.125rem;
             }
           }
         }

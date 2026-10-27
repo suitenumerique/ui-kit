@@ -64,7 +64,8 @@
         "load_more": "Mostrar más"
       },
       "item": {
-        "add": "Añadir"
+        "add": "Añadir",
+        "remove": "Quitar {name}"
       },
       "search": {
         "placeholder": "Buscar usuario",
@@ -234,7 +235,19 @@
       },
       "actions": {
         "download": "Descargar",
-        "print": "Imprimir"
+        "print": "Imprimir",
+        "close": "Cerrar",
+        "information": "Información del archivo",
+        "hideInformation": "Ocultar la información del archivo",
+        "more": "Más acciones",
+        "previous": "Archivo anterior",
+        "next": "Archivo siguiente",
+        "zoomIn": "Acercar",
+        "zoomOut": "Alejar",
+        "zoomReset": "Restablecer el zoom",
+        "toggleSidebar": "Mostrar u ocultar el panel lateral",
+        "currentPage": "Página actual",
+        "goToPage": "Ir a la página {page}"
       }
     },
     "storage-gauge": {
@@ -322,6 +335,9 @@
           "ok": "Ok"
         }
       }
+    },
+    "languagePicker": {
+      "label": "Idioma: {language}"
     },
     "headerBanner": {
       "region": "Aviso",

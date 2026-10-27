@@ -1,5 +1,7 @@
 import { Button } from ":/cunningham";
+import { IconSize } from ":/components/icon";
 import { useCunningham } from ":/components/provider";
+import { ArrowDown } from ":/icons";
 
 type ShowMoreButtonProps = {
   show: boolean;
@@ -15,7 +17,7 @@ export const ShowMoreButton = ({ show, onShowMore }: ShowMoreButtonProps) => {
       <Button
         variant="tertiary"
         size="small"
-        icon={<span className="material-icons">arrow_downward</span>}
+        icon={<ArrowDown size={IconSize.SMALL} aria-hidden />}
         onClick={onShowMore}
       >
         {t("components.share.members.load_more")}

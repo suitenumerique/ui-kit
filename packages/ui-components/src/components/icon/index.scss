@@ -22,3 +22,13 @@
 .material-icons.icon--xlarge {
   font-size: 48px;
 }
+
+// Unsized SVG stand-in for a Material ligature. 1em tracks the font-size,
+// so a small or nano button still shrinks the glyph to 16px.
+.c__icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  font-size: 24px;
+}

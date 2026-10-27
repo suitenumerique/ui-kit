@@ -64,7 +64,8 @@
         "load_more": "Mehr anzeigen"
       },
       "item": {
-        "add": "Hinzufügen"
+        "add": "Hinzufügen",
+        "remove": "{name} entfernen"
       },
       "search": {
         "placeholder": "Benutzer suchen",
@@ -234,7 +235,19 @@
       },
       "actions": {
         "download": "Herunterladen",
-        "print": "Drucken"
+        "print": "Drucken",
+        "close": "Schließen",
+        "information": "Dateiinformationen",
+        "hideInformation": "Dateiinformationen ausblenden",
+        "more": "Weitere Aktionen",
+        "previous": "Vorherige Datei",
+        "next": "Nächste Datei",
+        "zoomIn": "Vergrößern",
+        "zoomOut": "Verkleinern",
+        "zoomReset": "Zoom zurücksetzen",
+        "toggleSidebar": "Seitenleiste umschalten",
+        "currentPage": "Aktuelle Seite",
+        "goToPage": "Zu Seite {page} gehen"
       }
     },
     "storage-gauge": {
@@ -322,6 +335,9 @@
           "ok": "Ok"
         }
       }
+    },
+    "languagePicker": {
+      "label": "Sprache: {language}"
     },
     "headerBanner": {
       "region": "Hinweis",

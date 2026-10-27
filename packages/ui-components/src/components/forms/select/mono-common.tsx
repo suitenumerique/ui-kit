@@ -9,6 +9,7 @@ import { Option, SelectProps } from ":/components/forms/select";
 import { ClassicLabel } from ":/components/forms/classic-label";
 import { isOptionWithRender } from ":/components/forms/select/utils";
 import { SelectMenu } from ":/components/forms/select/select-menu";
+import { ArrowDropDown, XMark } from ":/icons";
 
 export function getOptionsFilter(inputValue?: string) {
   return (option: Option) => {
@@ -131,11 +132,7 @@ export const SelectMonoAux = ({
                 downshiftReturn.selectItem(null);
                 e.stopPropagation();
               }}
-              icon={
-                <span className="material-icons" aria-hidden="true">
-                  close
-                </span>
-              }
+              icon={<XMark aria-hidden />}
               type="button"
             />
             <div className="c__select__inner__actions__separator" />
@@ -148,14 +145,10 @@ export const SelectMonoAux = ({
           size="nano"
           className="c__select__inner__actions__open"
           icon={
-            <span
-              className={classNames("material-icons", {
-                opened: downshiftReturn.isOpen,
-              })}
-              aria-hidden="true"
-            >
-              arrow_drop_down
-            </span>
+            <ArrowDropDown
+              className={classNames({ opened: downshiftReturn.isOpen })}
+              aria-hidden
+            />
           }
           disabled={disabled}
           type="button"

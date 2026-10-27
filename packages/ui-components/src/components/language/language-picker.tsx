@@ -6,6 +6,7 @@ import {
   DropdownMenuOption,
 } from ":/components/dropdown-menu";
 import { Icon, IconSize } from ":/components/icon";
+import { useCunningham } from ":/components/provider";
 
 export type LanguagesOption = DropdownMenuOption & {
   shortLabel?: string;
@@ -39,6 +40,7 @@ export const LanguagePicker = ({
   fullWidth,
   compact: lightMode = false,
 }: LanguagePickerProps) => {
+  const { t } = useCunningham();
   const { isOpen, setIsOpen } = useDropdownMenu();
   const getInitialLanguage = () => {
     const selectedLanguage = languages.find((lang) => lang.isChecked);
@@ -88,7 +90,9 @@ export const LanguagePicker = ({
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="c__language-picker"
-        aria-label={`Language: ${selectedLanguageOption}`}
+        aria-label={t("components.languagePicker.label", {
+          language: selectedLanguageOption ?? "",
+        })}
         icon={<Icon name={isOpen ? "arrow_drop_up" : "arrow_drop_down"} />}
         iconPosition="right"
         size={size}

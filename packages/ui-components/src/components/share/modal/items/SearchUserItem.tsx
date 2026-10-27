@@ -2,6 +2,7 @@ import { UserRow } from ":/components/users/rows/UserRow";
 import { useCunningham } from ":/components/provider";
 import { UserData } from ":/components/share/types.ts";
 import { QuickSearchItemTemplate } from ":/components/quick-search";
+import { Plus } from ":/icons";
 
 type SearchUserItemProps<UserType> = {
   user: UserData<UserType>;
@@ -20,7 +21,7 @@ export const SearchUserItem = <UserType,>({
       right={
         <div className="c__search-user-item-right">
           <span>{t("components.share.item.add")}</span>
-          <span className="material-icons">add</span>
+          <Plus aria-hidden />
         </div>
       }
     />

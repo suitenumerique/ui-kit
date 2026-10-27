@@ -4,6 +4,8 @@ import { ReactNode, useState } from "react";
 import { DropdownMenuOption } from "../../dropdown-menu";
 import { AccessRoleDropdown } from "../access/AccessRoleDropdown";
 import { UserData } from ":/components/share/types.ts";
+import { IconSize } from ":/components/icon";
+import { XMark } from ":/icons";
 
 export type AddShareUserListProps<UserType> = {
   users: UserData<UserType>[];
@@ -69,6 +71,7 @@ export const InvitationUserSelectorItem = <UserType,>({
   onRemoveUser,
   isSelected = false,
 }: ShareSelectedUserItemProps<UserType>) => {
+  const { t } = useCunningham();
   return (
     <div
       className={`c__add-share-user-item${
@@ -83,7 +86,10 @@ export const InvitationUserSelectorItem = <UserType,>({
         color="neutral"
         size="nano"
         onClick={() => onRemoveUser?.(user)}
-        icon={<span className="material-icons">close</span>}
+        aria-label={t("components.share.item.remove", {
+          name: user.full_name || user.email,
+        })}
+        icon={<XMark size={IconSize.SMALL} aria-hidden />}
       />
     </div>
   );

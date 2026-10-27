@@ -1,5 +1,6 @@
 import { Button } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
+import { Link } from ":/icons";
 
 export type ShareModalCopyLinkFooterProps = {
   onCopyLink: () => void;
@@ -15,7 +16,7 @@ export const ShareModalCopyLinkFooter = ({
     <div className="c__share-modal__copy-link-footer">
       <Button
         variant="secondary"
-        icon={<span className="material-icons">link</span>}
+        icon={<Link aria-hidden />}
         onClick={onCopyLink}
       >
         {t("components.share.copyLink")}

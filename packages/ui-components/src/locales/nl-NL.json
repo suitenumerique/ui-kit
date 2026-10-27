@@ -64,7 +64,8 @@
         "load_more": "Meer weergeven"
       },
       "item": {
-        "add": "Toevoegen"
+        "add": "Toevoegen",
+        "remove": "{name} verwijderen"
       },
       "search": {
         "placeholder": "Gebruiker zoeken",
@@ -234,7 +235,19 @@
       },
       "actions": {
         "download": "Downloaden",
-        "print": "Afdrukken"
+        "print": "Afdrukken",
+        "close": "Sluiten",
+        "information": "Bestandsinformatie",
+        "hideInformation": "Bestandsinformatie verbergen",
+        "more": "Meer acties",
+        "previous": "Vorig bestand",
+        "next": "Volgend bestand",
+        "zoomIn": "Inzoomen",
+        "zoomOut": "Uitzoomen",
+        "zoomReset": "Zoom resetten",
+        "toggleSidebar": "Zijbalk tonen of verbergen",
+        "currentPage": "Huidige pagina",
+        "goToPage": "Ga naar pagina {page}"
       }
     },
     "storage-gauge": {
@@ -322,6 +335,9 @@
           "ok": "Ok"
         }
       }
+    },
+    "languagePicker": {
+      "label": "Taal: {language}"
     },
     "headerBanner": {
       "region": "Mededeling",

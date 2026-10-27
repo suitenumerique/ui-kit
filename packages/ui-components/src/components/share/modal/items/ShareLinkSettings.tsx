@@ -21,7 +21,7 @@ import {
   RestrictedIcon,
 } from "./share-modal-icons";
 import { IconSize } from ":/components/icon";
-import { ChevronDown, ChevronUp } from ":/icons";
+import { ArrowDropDown, ChevronDown, ChevronUp } from ":/icons";
 import {
   getLinkExpirationOption,
   ShareLinkExpirationPicker,
@@ -198,9 +198,16 @@ export const ShareLinkSettings = ({
               }}
             >
               {selectedLinkReachChoice?.label}
-              <span className="material-icons">
-                {linkReachDropdown.isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-              </span>
+              {/* No ArrowDropUp glyph is exported; rotate the down chevron while open. */}
+              <ArrowDropDown
+                size={IconSize.SMALL}
+                aria-hidden
+                style={
+                  linkReachDropdown.isOpen
+                    ? { transform: "rotate(180deg)" }
+                    : undefined
+                }
+              />
             </Button>
           </DropdownMenu>
         ) : (

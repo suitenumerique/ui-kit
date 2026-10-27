@@ -13,6 +13,7 @@ import {
 import { ClassicLabel } from ":/components/forms/classic-label";
 import { SelectedItems } from ":/components/forms/select/multi-selected-items";
 import { SelectMultiMenu } from ":/components/forms/select/multi-menu";
+import { ArrowDropDown, XMark } from ":/icons";
 
 /**
  * This method returns a comparator that can be used to filter out options for multi select.
@@ -103,11 +104,7 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
                   e.stopPropagation();
                   props.onSelectedItemsChange([]);
                 }}
-                icon={
-                  <span className="material-icons" aria-hidden="true">
-                    close
-                  </span>
-                }
+                icon={<XMark aria-hidden />}
                 type="button"
               />
               <div className="c__select__inner__actions__separator" />
@@ -119,14 +116,12 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
           size="nano"
           className="c__select__inner__actions__open"
           icon={
-            <span
-              className={classNames("material-icons", {
+            <ArrowDropDown
+              className={classNames({
                 opened: props.downshiftReturn.isOpen,
               })}
-              aria-hidden="true"
-            >
-              arrow_drop_down
-            </span>
+              aria-hidden
+            />
           }
           disabled={props.disabled}
           type="button"
