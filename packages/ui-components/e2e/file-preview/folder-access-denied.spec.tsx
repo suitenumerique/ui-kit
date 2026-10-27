@@ -255,14 +255,14 @@ test("Preserves custom header actions and the sidebar without adding Share or Pr
   await expect(page.locator(deniedState)).toBeVisible();
   await expect(page.getByTestId("custom-before")).toBeVisible();
   await expect(page.getByTestId("custom-after")).toBeVisible();
-  await page
-    .getByRole("button", { name: "file_download", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Download", exact: true }).click();
   await expect.poll(() => downloads).toBe(1);
   await expect(
-    page.getByRole("button", { name: /^(Share|Print|more_horiz)$/ }),
+    page.getByRole("button", { name: /^(Share|Print|More actions)$/ }),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "info_outline", exact: true }).click();
+  await page
+    .getByRole("button", { name: "File information", exact: true })
+    .click();
   await expect(page.locator(".file-preview-sidebar")).toHaveClass(
     /(^|\s)open(\s|$)/,
   );

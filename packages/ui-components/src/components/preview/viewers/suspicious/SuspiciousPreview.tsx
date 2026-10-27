@@ -1,5 +1,6 @@
 import { Button } from ":/cunningham";
-import { Icon, IconType } from ":/components/icon";
+import { IconSize } from ":/components/icon";
+import { Download } from ":/icons";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 import mimeSuspicious from ":/assets/files/icons/suspicious_file.svg";
 import { PreviewMessage } from "../../components/preview-message/PreviewMessage";
@@ -30,9 +31,7 @@ export const SuspiciousPreview = ({
           <Button
             variant="secondary"
             color="warning"
-            icon={
-              <Icon name="file_download" type={IconType.OUTLINED} size={16} />
-            }
+            icon={<Download size={IconSize.SMALL} aria-hidden />}
             onClick={handleDownload}
           >
             {t("components.filePreview.unsupported.download")}

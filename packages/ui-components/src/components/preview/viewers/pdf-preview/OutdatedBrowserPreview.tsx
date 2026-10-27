@@ -1,4 +1,4 @@
-import { Icon, IconType } from ":/components/icon";
+import { Shield } from ":/icons";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 
 export const OutdatedBrowserPreview = () => {
@@ -7,7 +7,7 @@ export const OutdatedBrowserPreview = () => {
   return (
     <div className="file-preview-unsupported" data-preview-backdrop="true">
       <div className="file-preview-unsupported__icon">
-        <Icon name="security" type={IconType.OUTLINED} size={48} />
+        <Shield size={48} aria-hidden />
       </div>
       <p className="file-preview-unsupported__title">
         {t("components.filePreview.outdatedBrowser.title")}

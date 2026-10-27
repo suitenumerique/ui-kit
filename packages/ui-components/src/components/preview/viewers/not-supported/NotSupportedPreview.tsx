@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { Button } from ":/cunningham";
-import { Icon, IconType } from ":/components/icon";
+import { IconSize } from ":/components/icon";
+import { Download } from ":/icons";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 import { FileIcon } from "../../icons/FileIcon";
 import { FilePreviewType } from "../../types";
@@ -42,9 +43,7 @@ export const NotSupportedPreview = ({
           <Button
             variant="secondary"
             color="neutral"
-            icon={
-              <Icon name="file_download" type={IconType.OUTLINED} size={16} />
-            }
+            icon={<Download size={IconSize.SMALL} aria-hidden />}
             onClick={handleDownload}
           >
             {t("components.filePreview.suspicious.download")}

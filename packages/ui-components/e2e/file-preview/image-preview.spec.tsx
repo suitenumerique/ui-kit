@@ -22,11 +22,14 @@ test.describe("Image Preview", () => {
     expect(src).toMatch(/monet_1/);
   });
 
-  test("Shows the actions menu (more_horiz) for image files", async ({
+  test("Shows the actions menu (More actions) for image files", async ({
     page,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await expect(moreVertButton).toBeVisible();
 
     await moreVertButton.click();
@@ -67,7 +70,10 @@ test.describe("Image Preview", () => {
     expect(previewSrc).toBeTruthy();
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await moreVertButton.click();
     await page.getByRole("menuitem", { name: "Print" }).click();
 

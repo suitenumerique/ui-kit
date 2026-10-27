@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Document, pdfjs } from "react-pdf";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
-import { Icon, IconType } from ":/components/icon";
+import { Error as ErrorIcon } from ":/icons";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 
 import { usePdfNavigation } from "./usePdfNavigation";
@@ -133,7 +133,7 @@ export function PdfPreview({
     return (
       <div className="file-preview-unsupported" data-preview-backdrop="true">
         <div className="file-preview-unsupported__icon">
-          <Icon name="error" type={IconType.OUTLINED} size={48} />
+          <ErrorIcon size={48} aria-hidden />
         </div>
         <p className="file-preview-unsupported__title">
           {t("components.filePreview.error.title")}
