@@ -17,7 +17,10 @@ test.describe("File Preview Actions Menu", () => {
     page,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await expect(moreVertButton).toBeVisible();
     await moreVertButton.click();
 
@@ -32,7 +35,10 @@ test.describe("File Preview Actions Menu", () => {
     context,
   }) => {
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await moreVertButton.click();
 
     const [newPage] = await Promise.all([
@@ -70,7 +76,10 @@ test.describe("File Preview Actions Menu - Download callback", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await moreVertButton.click();
 
     await page.getByRole("menuitem", { name: "Download" }).click();
@@ -93,7 +102,9 @@ test.describe("File Preview Actions Menu - Non-printable file", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
+    await expect(
+      filePreview.getByRole("button", { name: "More actions", exact: true }),
+    ).not.toBeVisible();
   });
 });
 
@@ -117,9 +128,18 @@ test.describe("File Preview customHeaderActions", () => {
     await expect(page.getByTestId("custom-after")).toBeVisible();
 
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("info_outline")).toBeVisible();
-    await expect(filePreview.getByText("more_horiz")).toBeVisible();
-    await expect(filePreview.getByText("file_download")).toBeVisible();
+    await expect(
+      filePreview.getByRole("button", {
+        name: "File information",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      filePreview.getByRole("button", { name: "More actions", exact: true }),
+    ).toBeVisible();
+    await expect(
+      filePreview.getByRole("button", { name: "Download", exact: true }),
+    ).toBeVisible();
   });
 
   test("Replaces the built-in header actions when the wrapper omits them", async ({
@@ -140,8 +160,15 @@ test.describe("File Preview customHeaderActions", () => {
     await expect(page.getByTestId("custom-only")).toBeVisible();
 
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("info_outline")).not.toBeVisible();
-    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
+    await expect(
+      filePreview.getByRole("button", {
+        name: "File information",
+        exact: true,
+      }),
+    ).not.toBeVisible();
+    await expect(
+      filePreview.getByRole("button", { name: "More actions", exact: true }),
+    ).not.toBeVisible();
   });
 });
 
@@ -165,7 +192,10 @@ test.describe("File Preview headerActionsMenuOptions", () => {
     });
 
     const filePreview = page.getByTestId("file-preview");
-    const moreVertButton = filePreview.getByText("more_horiz").locator("..");
+    const moreVertButton = filePreview.getByRole("button", {
+      name: "More actions",
+      exact: true,
+    });
     await moreVertButton.click();
 
     const items = page.getByRole("menuitem");
@@ -221,7 +251,10 @@ test.describe("File Preview Header", () => {
     await expect(sidebar).not.toHaveClass(/(^|\s)open(\s|$)/);
 
     const filePreview = page.getByTestId("file-preview");
-    const infoButton = filePreview.getByText("info_outline").locator("..");
+    const infoButton = filePreview.getByRole("button", {
+      name: "File information",
+      exact: true,
+    });
     await infoButton.click();
 
     await expect(container).toHaveClass(

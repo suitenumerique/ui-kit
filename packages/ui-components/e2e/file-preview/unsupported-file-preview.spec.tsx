@@ -29,7 +29,9 @@ test.describe("Unsupported File Preview", () => {
 
   test("Hides the actions menu for unsupported files", async ({ page }) => {
     const filePreview = page.getByTestId("file-preview");
-    await expect(filePreview.getByText("more_horiz")).not.toBeVisible();
+    await expect(
+      filePreview.getByRole("button", { name: "More actions", exact: true }),
+    ).not.toBeVisible();
   });
 });
 
