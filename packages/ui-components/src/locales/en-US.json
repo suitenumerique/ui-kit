@@ -1,7 +1,8 @@
 {
   "components": {
     "menu": {
-      "newWindowLabelSuffix": " (new window)"
+      "newWindowLabelSuffix": " (new window)",
+      "contextMenuLabel": "Context menu"
     },
     "searchFilter": {
       "reset": "Reset",

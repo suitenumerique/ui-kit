@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useContextMenuContext } from "./ContextMenuProvider";
 import { MenuItem } from "./types";
+import type { DropdownMenuSelectionMode } from "../dropdown-menu/types";
 
 export type ContextMenuProps<T = unknown> = {
   children: ReactNode;
@@ -15,6 +16,13 @@ export type ContextMenuProps<T = unknown> = {
   context?: T;
   disabled?: boolean;
   asChild?: boolean;
+  /**
+   * How the items with `isChecked` are exposed to assistive technologies:
+   * radio items, a single choice among them (`single`), or checkbox items,
+   * each toggled on its own (`multiple`).
+   * @default "single"
+   */
+  selectionMode?: DropdownMenuSelectionMode;
   /** Called when the menu opens on this trigger */
   onFocus?: () => void;
   /** Called when the menu closes (if it was open on this trigger) */
@@ -32,6 +40,7 @@ export const ContextMenu = <T,>({
   context,
   disabled = false,
   asChild = false,
+  selectionMode,
   onFocus,
   onBlur,
 }: ContextMenuProps<T>) => {
@@ -60,6 +69,7 @@ export const ContextMenu = <T,>({
       position: { x: event.clientX, y: event.clientY },
       items: resolveItems(),
       onBlur,
+      selectionMode,
     });
   };
 

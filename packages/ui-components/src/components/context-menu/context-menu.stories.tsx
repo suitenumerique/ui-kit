@@ -77,11 +77,18 @@ import { MenuItem } from "./types";
  * | `callback` | `() => void` | Callback on click |
  * | `isDisabled` | `boolean` | Disables the item |
  * | `isHidden` | `boolean` | Hides the item |
- * | `isChecked` | `boolean` | Shows a trailing checkmark (selected/active item) |
+ * | `isChecked` | `boolean` | Checks the item, exposed as a radio or checkbox item (see `selectionMode`) |
  * | `variant` | `"default" \| "danger"` | Item style |
  * | `keepOpen` | `boolean` | Prevents menu from closing on click |
  *
  * For a separator: `{ type: "separator" }`
+ *
+ * ## Checked items
+ *
+ * Items with `isChecked` are announced as radio items, a single choice among
+ * them (`selectionMode="single"`, the default), such as a sort order. For
+ * independent on/off options, such as "Show grid", pass
+ * `selectionMode="multiple"`: they are then announced as checkbox items.
  *
  * ## Shared type with DropdownMenu
  *
@@ -151,6 +158,12 @@ const meta = {
     asChild: {
       description: "Clones the child instead of wrapping in a div",
       control: "boolean",
+    },
+    selectionMode: {
+      description:
+        "How items with isChecked are announced: radio items (single) or checkbox items (multiple)",
+      control: "inline-radio",
+      options: ["single", "multiple"],
     },
     children: {
       description: "Element(s) on which right-click triggers the menu",
@@ -719,4 +732,74 @@ export const KeepOpen: Story = {
     children: null,
   },
   render: () => <KeepOpenContent />,
+};
+
+const MultipleSelectionContent = () => {
+  const [showHiddenFiles, setShowHiddenFiles] = useState(false);
+  const [showExtensions, setShowExtensions] = useState(true);
+  const [showGrid, setShowGrid] = useState(true);
+
+  const viewItems: MenuItem[] = [
+    {
+      label: "Show hidden files",
+      icon: <span className="material-icons">visibility</span>,
+      isChecked: showHiddenFiles,
+      keepOpen: true,
+      callback: () => setShowHiddenFiles((prev) => !prev),
+    },
+    {
+      label: "Show file extensions",
+      icon: <span className="material-icons">description</span>,
+      isChecked: showExtensions,
+      keepOpen: true,
+      callback: () => setShowExtensions((prev) => !prev),
+    },
+    {
+      label: "Show grid",
+      icon: <span className="material-icons">grid_view</span>,
+      isChecked: showGrid,
+      keepOpen: true,
+      callback: () => setShowGrid((prev) => !prev),
+    },
+    { type: "separator" },
+    {
+      label: "Refresh",
+      icon: <span className="material-icons">refresh</span>,
+      callback: () => console.log("Refresh"),
+    },
+  ];
+
+  return (
+    <ContextMenu options={viewItems} selectionMode="multiple">
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p>Right-click here to set the view options</p>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          Hidden files: {showHiddenFiles ? "Yes" : "No"} | Extensions:{" "}
+          {showExtensions ? "Yes" : "No"} | Grid: {showGrid ? "Yes" : "No"}
+        </p>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Independent on/off options: with `selectionMode="multiple"`, items with
+ * `isChecked` are announced as checkbox items, so checking one does not
+ * suggest the others get unchecked. With `keepOpen: true`, several options can
+ * be toggled in a row; "Refresh", a plain action, still closes the menu.
+ */
+export const MultipleSelection: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <MultipleSelectionContent />,
 };
