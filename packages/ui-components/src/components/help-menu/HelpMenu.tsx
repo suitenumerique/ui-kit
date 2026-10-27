@@ -1,9 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Button } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
-import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
-import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
-import { DropdownMenuItem } from "../dropdown-menu/types";
+import { DropdownMenu, DropdownMenuItem } from "../dropdown-menu";
 import { QuestionMark } from "../icons/QuestionMark";
 import { FeedbackForm } from "../feedback-form/FeedbackForm";
 import {
@@ -65,9 +63,7 @@ export const HelpMenu = ({
   customOptions,
 }: HelpMenuProps) => {
   const { t } = useCunningham();
-  const { isOpen, setIsOpen } = useDropdownMenu();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement>(null);
   const feedbackAnchorRef = useRef<HTMLDivElement>(null);
 
   const options = useMemo(() => {
@@ -186,18 +182,15 @@ export const HelpMenu = ({
 
   return (
     <>
-      <DropdownMenu options={options} isOpen={isOpen} onOpenChange={setIsOpen}>
-        <div ref={triggerRef}>
-          <Button
-            className="c__help-menu__trigger"
-            color="neutral"
-            variant="tertiary"
-            size="small"
-            icon={<QuestionMark />}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={t("components.helpMenu.ariaLabel")}
-          />
-        </div>
+      <DropdownMenu options={options}>
+        <Button
+          className="c__help-menu__trigger"
+          color="neutral"
+          variant="tertiary"
+          size="small"
+          icon={<QuestionMark />}
+          aria-label={t("components.helpMenu.ariaLabel")}
+        />
       </DropdownMenu>
 
       {feedbackForm && (

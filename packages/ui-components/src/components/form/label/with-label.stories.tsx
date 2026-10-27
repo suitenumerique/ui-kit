@@ -1,7 +1,7 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 
 import { WithLabel } from "./WithLabel";
-import { DropdownMenu } from ":/components/dropdown-menu/DropdownMenu";
+import { DropdownMenu } from ":/components/dropdown-menu";
 import { Button } from ":/cunningham";
 import { useState } from "react";
 
@@ -32,14 +32,13 @@ const Template: StoryFn<typeof WithLabel> = (args) => {
       >
         <Button
           icon={
-            <span className="material-icons">
+            <span className="material-icons" aria-hidden="true">
               {open ? "arrow_drop_up" : "arrow_drop_down"}
             </span>
           }
           variant="tertiary"
           size="small"
           iconPosition="right"
-          onClick={() => setOpen(true)}
         >
           Dropdown
         </Button>

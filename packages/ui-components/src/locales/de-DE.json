@@ -234,7 +234,8 @@
       },
       "actions": {
         "download": "Herunterladen",
-        "print": "Drucken"
+        "print": "Drucken",
+        "more": "Weitere Aktionen"
       }
     },
     "storage-gauge": {
