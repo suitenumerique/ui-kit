@@ -105,3 +105,62 @@ export const TestLongContextMenu = ({ itemCount }: { itemCount: number }) => {
     </CunninghamProvider>
   );
 };
+
+// Independent on/off options, exposed as checkbox items through
+// `selectionMode="multiple"`. They keep the menu open, as toggles usually do.
+export const TestContextMenuToggles = () => {
+  const [showGrid, setShowGrid] = useState(true);
+  const [snapToGrid, setSnapToGrid] = useState(false);
+
+  const options: MenuItem[] = [
+    {
+      label: "Show grid",
+      isChecked: showGrid,
+      keepOpen: true,
+      callback: () => setShowGrid((value) => !value),
+    },
+    {
+      label: "Snap to grid",
+      isChecked: snapToGrid,
+      keepOpen: true,
+      callback: () => setSnapToGrid((value) => !value),
+    },
+  ];
+
+  return (
+    <CunninghamProvider currentLocale="en-US">
+      <ContextMenuProvider>
+        <ContextMenu options={options} selectionMode="multiple">
+          <div style={{ padding: "40px" }}>Right-click here to set the grid</div>
+        </ContextMenu>
+      </ContextMenuProvider>
+    </CunninghamProvider>
+  );
+};
+
+// A submenu, which needs the root menu state the popover provides.
+export const TestContextMenuWithSubmenu = () => {
+  const [lastAction, setLastAction] = useState("");
+
+  const options: MenuItem[] = [
+    {
+      label: "Share",
+      children: [
+        { label: "Copy link", callback: () => setLastAction("copy link") },
+        { label: "Send by email", callback: () => setLastAction("email") },
+      ],
+    },
+    { label: "Refresh", callback: () => setLastAction("refresh") },
+  ];
+
+  return (
+    <CunninghamProvider currentLocale="en-US">
+      <ContextMenuProvider>
+        <ContextMenu options={options}>
+          <div style={{ padding: "40px" }}>Right-click here to share</div>
+        </ContextMenu>
+        <output aria-label="Last action">{lastAction}</output>
+      </ContextMenuProvider>
+    </CunninghamProvider>
+  );
+};

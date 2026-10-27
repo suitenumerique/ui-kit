@@ -1,14 +1,12 @@
 import {
   DropdownMenu,
-  DropdownMenuProps,
-} from ":/components/dropdown-menu/DropdownMenu";
-import { useDropdownMenu } from ":/components/dropdown-menu/useDropdownMenu";
-import { Button } from ":/cunningham";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
   DropdownMenuItem,
   DropdownMenuOption,
+  DropdownMenuProps,
+  useDropdownMenu,
 } from ":/components/dropdown-menu";
+import { Button } from ":/cunningham";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCunningham } from ":/components/provider";
 import {
   CustomTranslations,
@@ -191,14 +189,9 @@ export const ShareLinkSettings = ({
               icon={getIcon(selectedLinkReach)}
               iconPosition="left"
               data-testid="share-link-reach-dropdown-button"
-              onClick={() => {
-                if (canUpdate) {
-                  linkReachDropdown.setIsOpen(!linkReachDropdown.isOpen);
-                }
-              }}
             >
               {selectedLinkReachChoice?.label}
-              <span className="material-icons">
+              <span className="material-icons" aria-hidden="true">
                 {linkReachDropdown.isOpen ? "arrow_drop_up" : "arrow_drop_down"}
               </span>
             </Button>
@@ -246,11 +239,6 @@ export const ShareLinkSettings = ({
                 )
               }
               iconPosition="right"
-              onClick={() => {
-                if (canUpdate) {
-                  linkRoleDropdown.setIsOpen(!linkRoleDropdown.isOpen);
-                }
-              }}
               size="nano"
             >
               {linkRoleLabel}

@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   RefAttributes,
 } from "react";
+import { mergeProps, useFocusRing } from "react-aria";
 
 type DomProps = ButtonHTMLAttributes<HTMLButtonElement> &
   AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -60,6 +61,10 @@ export const Button = ({
   if (fullWidth) {
     classes.push("c__button--full-width");
   }
+  // React Aria tracks the input modality: the focus ring only shows for
+  // keyboard focus, including focus moved by script (e.g. returned by a menu
+  // or a dialog), which the browser `:focus-visible` heuristic gets wrong.
+  const { isFocusVisible, focusProps } = useFocusRing();
   const iconElement = <span className="c__button__icon">{icon}</span>;
   const isDisabledLink = !!props.href && !!props.disabled;
   const tagName = props.href ? "a" : "button";
@@ -67,7 +72,9 @@ export const Button = ({
     tagName,
     {
       className: classes.join(" "),
-      ...props,
+      ...mergeProps(props, focusProps),
+      "data-focus-managed": true,
+      "data-focus-visible": isFocusVisible || undefined,
       ...(isDisabledLink && {
         "aria-disabled": true,
         onClick: (e: React.MouseEvent) => e.preventDefault(),

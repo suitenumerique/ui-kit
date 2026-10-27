@@ -1,7 +1,8 @@
 {
   "components": {
     "menu": {
-      "newWindowLabelSuffix": " (new window)"
+      "newWindowLabelSuffix": " (new window)",
+      "contextMenuLabel": "Context menu"
     },
     "searchFilter": {
       "reset": "Reset",
@@ -234,7 +235,8 @@
       },
       "actions": {
         "download": "Download",
-        "print": "Print"
+        "print": "Print",
+        "more": "More actions"
       }
     },
     "storage-gauge": {

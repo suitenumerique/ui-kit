@@ -1,201 +1,362 @@
-.c__dropdown-menu-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// Menus (DropdownMenu, ContextMenu, Filter, SearchFilter) — every value comes
+// from the `dropdown-menu` component tokens (see ./tokens.ts) so themes can
+// override them. Interactive states rely on the data attributes React Aria
+// sets on menu and listbox items.
 
-// Remove default React Aria Popover outline
-.react-aria-Popover {
-  outline: none;
-}
+$token: "--c--components--dropdown-menu";
 
+// React Aria popovers and listboxes receive focus programmatically: their own
+// outline is not a focus indicator, the focused item is.
+.react-aria-Popover,
 .react-aria-ListBox {
   outline: none;
 }
 
-.c__dropdown-menu {
-  background-color: var(--c--contextuals--background--surface--primary);
+.c__dropdown-menu-popover {
   z-index: 1000;
-  max-width: min(320px, calc(100vw - 32px));
-  max-height: inherit;
-  min-width: 150px;
-  box-sizing: border-box;
-  border-radius: 8px;
-  border: 1px solid var(--c--contextuals--border--surface--primary);
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 145, 0.1);
-}
-
-.c__dropdown-menu__list {
-  overflow: auto;
   outline: none;
-
-  .react-aria-Separator {
-    height: 1px;
-    background: var(--c--contextuals--border--semantic--neutral--tertiary);
-  }
 }
 
-// The root DropdownMenu (unlike submenus) wraps its list with optional
-// top/bottom messages. The popover caps the wrapper `max-height`, so the
-// wrapper is laid out as a column in which the messages keep their size while
-// the list shrinks and scrolls.
-// The list never shrinks below one item, a floor matching a single item exactly
-// so that short menus get no blank space below their items. When even the
-// messages and that item lack room, DropdownMenu sets `--single-scroll`: the
-// list grows to its content and only the wrapper scrolls, so that nothing gets
-// out of reach without nesting two scrolls.
-.c__dropdown-menu--root {
-  // One item: vertical padding + line height + bottom border.
-  --item-height: calc(2 * 8px + 19px + 1px);
-
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-
-  > .c__dropdown-menu__list {
-    flex: 1 1 auto;
-    min-height: var(--item-height);
-  }
-
-  &.c__dropdown-menu--single-scroll > .c__dropdown-menu__list {
-    flex: none;
-    overflow: visible;
-  }
-}
-
-.c__dropdown-menu-item-top-message,
-.c__dropdown-menu-item-bottom-message {
-  display: flex;
+// The unstyled trigger (`DropdownMenu.Trigger`): it keeps the look of its
+// content and only adds a focus ring, consumers style the rest.
+.c__dropdown-menu-trigger {
+  display: inline-flex;
   align-items: center;
-
-  padding: var(--c--globals--spacings--sm, 0.5rem);
-
-  font-weight: 500;
-  color: var(--c--contextuals--content--semantic--neutral--primary);
-  font-size: var(--c--globals--font--sizes--xs, 0.75rem);
-}
-
-.c__dropdown-menu-item,
-button.c__dropdown-menu-item {
-  display: flex;
-  gap: 8px;
-  padding: 8px 8px;
-  border-bottom: 1px solid transparent;
-
-  outline: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
   cursor: pointer;
-  line-height: 19px;
-  font-size: var(--c--globals--font--sizes--sm, 0.875rem);
-  font-weight: 500;
-  color: var(--c--contextuals--content--semantic--neutral--primary);
-  align-items: center;
-  forced-color-adjust: none;
+  outline: none;
 
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--c--contextuals--content--semantic--neutral--tertiary);
-  }
-
-  &[data-has-submenu] {
-    padding-right: 8px;
-  }
-
-  &--danger {
-    color: var(--c--contextuals--content--semantic--negative--primary, #c9191e);
-
-    .c__dropdown-menu-item__icon {
-      color: var(
-        --c--contextuals--content--semantic--negative--primary,
-        #c9191e
-      );
-    }
-  }
-
-  &__label-container {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-
-  &__label {
-    flex: 1;
-
-    &-subtext {
-      font-size: var(--c--globals--font--sizes--xs, 0.75rem);
-      color: var(--c--contextuals--content--semantic--neutral--tertiary);
-      font-weight: 400;
-    }
-  }
-
-  &[data-focused],
-  &:hover {
-    background: var(
-      --c--contextuals--background--semantic--contextual--primary
-    );
+  &[data-focus-visible] {
+    outline: 2px solid var(#{$token}--trigger-focus-color);
+    outline-offset: 2px;
   }
 
   &[data-disabled] {
-    color: var(--c--contextuals--content--semantic--disabled--primary);
+    cursor: default;
+  }
+
+  @media (forced-colors: active) {
+    &[data-focus-visible] {
+      outline-color: Highlight;
+    }
+  }
+}
+
+.c__dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: var(#{$token}--min-width);
+  max-width: min(var(#{$token}--max-width), calc(100vw - 32px));
+  max-height: inherit;
+  overflow: hidden;
+  background-color: var(#{$token}--background-color);
+  border: 1px solid var(#{$token}--border-color);
+  border-radius: var(#{$token}--border-radius);
+  box-shadow: var(#{$token}--box-shadow);
+
+  // The list never shrinks below one item, so that it stays reachable when the
+  // popover lacks room. When even the messages and that item lack room,
+  // `--single-scroll` is set (see ./useSingleScroll.ts): the list grows to its
+  // content and only the surface scrolls, so that nothing gets out of reach
+  // without nesting two scrolls.
+  &__viewport {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: var(#{$token}--item-min-height);
+
+    // Overflow indicators: a fade on the edge the list can still scroll to.
+    // The gradient mask fades both the color and the blur, so they are
+    // strongest against the edge and vanish towards the items, without a hard
+    // line. The color itself stays solid: a color gradient under the mask
+    // would fade twice.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      height: var(#{$token}--overflow-indicator-size);
+      pointer-events: none;
+      opacity: 0;
+      background-color: var(#{$token}--overflow-indicator-color);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+      transition: opacity 150ms ease-out;
+    }
+
+    &::before {
+      top: 0;
+      -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+      mask-image: linear-gradient(to bottom, #000, transparent);
+    }
+
+    &::after {
+      bottom: 0;
+      -webkit-mask-image: linear-gradient(to top, #000, transparent);
+      mask-image: linear-gradient(to top, #000, transparent);
+    }
+
+    &[data-overflow-top]::before,
+    &[data-overflow-bottom]::after {
+      opacity: 1;
+    }
+  }
+
+  &__list {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    outline: none;
+    // Keeps the item focused by keyboard clear of the overflow indicators.
+    scroll-padding-block: var(#{$token}--overflow-indicator-size);
+  }
+
+  &--single-scroll {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  &--single-scroll &__viewport {
+    flex: none;
+  }
+
+  &--single-scroll &__list {
+    overflow: visible;
+  }
+
+  &__message {
+    padding: var(--c--globals--spacings--sm);
+    font-size: var(#{$token}--message-font-size);
+    font-weight: var(--c--globals--font--weights--medium);
+    color: var(#{$token}--message-color);
+  }
+}
+
+.c__dropdown-menu-separator {
+  flex: none;
+  height: 1px;
+  margin: 0;
+  border: none;
+  background-color: var(#{$token}--separator-color);
+}
+
+.c__dropdown-menu-section__title {
+  padding: var(#{$token}--item-padding) var(#{$token}--item-padding) 0;
+  font-size: var(#{$token}--item-description-font-size);
+  line-height: var(#{$token}--item-description-line-height);
+  font-weight: var(--c--globals--font--weights--medium);
+  color: var(#{$token}--section-title-color);
+}
+
+.c__dropdown-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(#{$token}--item-gap);
+  box-sizing: border-box;
+  min-height: var(#{$token}--item-min-height);
+  padding: var(#{$token}--item-padding);
+  font-size: var(#{$token}--item-font-size);
+  line-height: var(#{$token}--item-line-height);
+  font-weight: var(#{$token}--item-font-weight);
+  color: var(#{$token}--item-color);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+
+  &__icon,
+  &__check,
+  &__chevron {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: var(#{$token}--item-icon-color);
+  }
+
+  &__icon {
+    width: var(#{$token}--item-icon-size);
+    height: var(#{$token}--item-icon-size);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    // A font icon keeps the size of its glyph (an `Icon` size class can make it
+    // smaller than the slot): stretching its box would pin the glyph to the
+    // top left corner, so it stays its own size and the slot centers it.
+    .material-icons {
+      font-size: var(#{$token}--item-icon-size);
+    }
+  }
+
+  &__check svg {
+    width: var(#{$token}--item-check-size);
+    height: var(#{$token}--item-check-size);
+  }
+
+  &__chevron svg {
+    width: var(#{$token}--item-icon-size);
+    height: var(#{$token}--item-icon-size);
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  &__label {
+    overflow-wrap: anywhere;
+  }
+
+  &__description {
+    font-size: var(#{$token}--item-description-font-size);
+    line-height: var(#{$token}--item-description-line-height);
+    font-weight: var(--c--globals--font--weights--regular);
+    color: var(#{$token}--item-description-color);
+  }
+
+  &__shortcut {
+    flex: none;
+    font-family: inherit;
+    font-size: var(#{$token}--item-description-font-size);
+    line-height: var(#{$token}--item-description-line-height);
+    font-weight: var(--c--globals--font--weights--regular);
+    color: var(#{$token}--item-description-color);
+    white-space: nowrap;
+  }
+
+  // Pointer hover and keyboard focus share the same highlight.
+  &[data-hovered],
+  &[data-focused] {
+    background-color: var(#{$token}--item-background-color--hover);
+  }
+
+  &[data-selected] &__label {
+    font-weight: var(#{$token}--item-font-weight--selected);
+  }
+
+  &--danger,
+  &--danger &__icon {
+    color: var(#{$token}--item-color--danger);
+  }
+
+  &[data-disabled] {
     cursor: not-allowed;
 
-    &:hover {
-      background: transparent;
+    &,
+    .c__dropdown-menu-item__icon,
+    .c__dropdown-menu-item__description,
+    .c__dropdown-menu-item__shortcut,
+    .c__dropdown-menu-item__check,
+    .c__dropdown-menu-item__chevron {
+      color: var(#{$token}--item-color--disabled);
     }
-
-    .c__dropdown-menu-item__label-subtext {
-      color: var(--c--contextuals--content--semantic--disabled--primary);
-    }
-  }
-
-  .checked {
-    margin-left: var(--c--globals--spacings--md, 1.5rem);
   }
 }
 
-// Reset rows are native buttons (keyboard operable, unlike ListBox items they
-// get no react-aria handling): neutralize the UA button styles and mirror the
-// `[data-focused]` background on keyboard focus.
+// Rows rendered as native buttons outside a React Aria collection (e.g. the
+// Filter reset row): reset the button and mirror the hover/focus highlight.
 button.c__dropdown-menu-item {
   width: 100%;
-  background: none;
   border: none;
-  text-align: left;
+  background: none;
+  text-align: start;
   font-family: inherit;
 
+  &:hover,
   &:focus-visible {
-    background: var(
-      --c--contextuals--background--semantic--contextual--primary
-    );
+    background-color: var(#{$token}--item-background-color--hover);
   }
 }
 
-.c__dropdown-menu--tiny {
-  // Overrides the root list floor with the tiny item height.
-  --item-height: calc(16px + 2 * var(--c--globals--spacings--xs, 8px) + 1px);
+// A React Aria `Separator` placed directly in a menu or listbox.
+.c__dropdown-menu .react-aria-Separator {
+  flex: none;
+  height: 1px;
+  margin: 0;
+  border: none;
+  background-color: var(#{$token}--separator-color);
+}
 
-  border-radius: var(--c--globals--spacings--xs, 8px);
-  background-color: var(--c--contextuals--background--surface--secondary);
+.c__dropdown-menu--tiny .c__dropdown-menu__viewport {
+  min-height: var(#{$token}--tiny-item-height);
+}
 
-  .c__dropdown-menu-item {
-    gap: var(--c--globals--spacings--xxs, 6px);
-    padding: var(--c--globals--spacings--xs, 8px);
-    height: 16px;
-    font-size: var(--c--globals--font--sizes--xs, 0.75rem);
-    line-height: var(--c--globals--line-heights--xs, 16px);
-    padding-right: var(--c--globals--spacings--xs, 8px);
+.c__dropdown-menu--tiny .c__dropdown-menu-item {
+  gap: var(#{$token}--tiny-item-gap);
+  min-height: var(#{$token}--tiny-item-height);
+  font-size: var(#{$token}--tiny-item-font-size);
+  line-height: var(#{$token}--tiny-item-line-height);
+
+  .c__dropdown-menu-item__icon {
+    width: var(#{$token}--tiny-item-icon-size);
+    height: var(#{$token}--tiny-item-icon-size);
 
     .material-icons {
-      width: 16px;
-      height: 16px;
-      font-size: 16px;
+      font-size: var(#{$token}--tiny-item-icon-size);
     }
+  }
+
+  .c__dropdown-menu-item__check svg {
+    width: var(#{$token}--tiny-item-check-size);
+    height: var(#{$token}--tiny-item-check-size);
+  }
+
+  .c__dropdown-menu-item__chevron svg {
+    width: var(#{$token}--tiny-item-icon-size);
+    height: var(#{$token}--tiny-item-icon-size);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c__dropdown-menu__viewport::before,
+  .c__dropdown-menu__viewport::after {
+    transition: none;
   }
 }
 
-.dropdown-menu-separator {
-  background-color: var(--c--contextuals--background--surface--primary);
-  height: 1px;
-  width: 100%;
+@media (forced-colors: active) {
+  .c__dropdown-menu-item[data-focused],
+  button.c__dropdown-menu-item:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .c__dropdown-menu-item[data-disabled] {
+    &,
+    .c__dropdown-menu-item__icon,
+    .c__dropdown-menu-item__description,
+    .c__dropdown-menu-item__shortcut {
+      color: GrayText;
+    }
+  }
+
+  .c__dropdown-menu__viewport::before,
+  .c__dropdown-menu__viewport::after {
+    display: none;
+  }
+
+  // Forced colors replace background colors with the canvas color, which would
+  // hide the separators drawn as a 1px background.
+  .c__dropdown-menu-separator,
+  .c__dropdown-menu .react-aria-Separator {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
 }

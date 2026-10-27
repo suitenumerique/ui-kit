@@ -1,5 +1,5 @@
 import { Button } from ":/cunningham";
-import { DropdownMenu, useDropdownMenu } from ":/components/dropdown-menu";
+import { DropdownMenu } from ":/components/dropdown-menu";
 import { IconSize } from ":/components/icon";
 import { useCunningham } from ":/components/provider";
 import { FileUp, Folder, FolderRestricted, More } from ":/icons";
@@ -18,7 +18,6 @@ export const ShareMembersActions = ({
   /** Shows the restrict / open access option when provided. */
   onRequestAccessAction?: (action: ShareAccessAction) => void;
 }) => {
-  const menu = useDropdownMenu();
   const { t } = useCunningham();
   const accessAction: ShareAccessAction = isRestricted
     ? "unrestrict"
@@ -49,21 +48,17 @@ export const ShareMembersActions = ({
                 ) : (
                   <FolderRestricted size={IconSize.SMALL} />
                 ),
-                value: accessAction,
                 callback: () => onRequestAccessAction(accessAction),
               },
             ]
           : []),
       ]}
-      isOpen={menu.isOpen}
-      onOpenChange={menu.setIsOpen}
     >
       <Button
         variant="tertiary"
         color="neutral"
         size="small"
         icon={<More size={IconSize.SMALL} />}
-        onClick={() => menu.setIsOpen(!menu.isOpen)}
         aria-label={t("components.share.actions.label")}
       />
     </DropdownMenu>
