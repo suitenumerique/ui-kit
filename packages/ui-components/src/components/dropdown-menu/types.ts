@@ -4,6 +4,7 @@ import type {
   MenuItemProps,
   MenuProps,
   MenuSectionProps,
+  MenuTriggerProps,
   PopoverProps,
   SeparatorProps,
   SubmenuTriggerProps,
@@ -71,11 +72,40 @@ export type DropdownMenuPopoverProps<T extends object = object> = Omit<
 > &
   DropdownMenuPopoverOwnProps;
 
+export type DropdownMenuRootProps = Omit<MenuTriggerProps, "children"> & {
+  /**
+   * The trigger element, then the `DropdownMenu.Popover`. The trigger can be
+   * a `DropdownMenu.Trigger`, or any single element that forwards its `ref`
+   * and props to a focusable DOM element with an interactive role
+   * (`<button>`, `Button`, or an element with `role="button"` and
+   * `tabIndex={0}`).
+   */
+  children: ReactNode;
+};
+
 /**
  * Props of `DropdownMenu.Trigger`, the props of a React Aria `Button`:
  * `className` and `style` also accept a function of the button state.
  */
 export type DropdownMenuTriggerProps = AriaButtonProps;
+
+export type DropdownMenuProps = Omit<DropdownMenuRootProps, "children"> &
+  // The trigger anchors the menu and holds its open state.
+  Omit<DropdownMenuPopoverOwnProps, "triggerRef" | "isOpen" | "onOpenChange"> & {
+    /** The trigger element. See `DropdownMenu.Root` for its contract. */
+    children: ReactNode;
+    options: DropdownMenuItem[];
+    /** Values of the checked items. */
+    selectedValues?: string[];
+    /** Called with the `value` of the picked item. */
+    onSelectValue?: (value: string) => void;
+    /**
+     * How the selectable items are exposed to assistive technologies:
+     * radio items (`single`) or checkbox items (`multiple`).
+     * @default "single"
+     */
+    selectionMode?: DropdownMenuSelectionMode;
+  };
 
 export type DropdownMenuItemProps = Omit<
   MenuItemProps,

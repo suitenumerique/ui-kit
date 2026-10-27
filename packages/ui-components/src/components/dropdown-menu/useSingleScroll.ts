@@ -13,7 +13,7 @@ const scrollIntoRoot = (root: HTMLElement, element: Element) => {
 };
 
 /**
- * Tells whether the root menu is too short to show its top/bottom messages
+ * Tells whether the menu surface is too short to show its top/bottom messages
  * along with one item of its list. The list then stops scrolling on its own so
  * that the whole menu scrolls as one, instead of nesting the list scroll in the
  * menu scroll.
@@ -35,12 +35,12 @@ export const useSingleScroll = () => {
   useLayoutEffect(() => {
     if (!root) return;
     const measure = () => {
-      // The list counts for its min-height, which it keeps in both modes, so
-      // switching mode never flips the result back.
+      // The list viewport counts for its min-height, which it keeps in both
+      // modes, so switching mode never flips the result back.
       const neededHeight = Array.from(root.children).reduce(
         (height, child) =>
           height +
-          (child.classList.contains("c__dropdown-menu__list")
+          (child.classList.contains("c__dropdown-menu__viewport")
             ? parseFloat(getComputedStyle(child).minHeight) || 0
             : child.getBoundingClientRect().height),
         0,
