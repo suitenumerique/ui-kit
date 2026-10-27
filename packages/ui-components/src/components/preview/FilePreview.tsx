@@ -109,7 +109,6 @@ export const FilePreview = ({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [classNames, setClassNames] = useState<string[]>([]);
   const [pdfThumbnailSidebarOpen, setPdfThumbnailSidebarOpen] = useState(false);
-  const [isActionsMenuOpen, setIsActionsMenuOpen] = useState(false);
 
   const data: FilePreviewData[] = useMemo(() => {
     return files?.map((file) => ({
@@ -358,7 +357,6 @@ export const FilePreview = ({
                         <Icon type={IconType.OUTLINED} name="file_download" />
                       ),
                       label: t("components.filePreview.actions.download"),
-                      value: "download",
                       callback: handleDownload,
                     },
                   ]
@@ -366,18 +364,15 @@ export const FilePreview = ({
               {
                 icon: <Icon name="print" />,
                 label: t("components.filePreview.actions.print"),
-                value: "print",
                 callback: handlePrint,
               },
               ...(headerActionsMenuOptions?.(currentFile) || []),
             ]}
-            isOpen={isActionsMenuOpen}
-            onOpenChange={setIsActionsMenuOpen}
           >
             <Button
               variant="tertiary"
-              onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
               icon={<Icon name="more_horiz" />}
+              aria-label={t("components.filePreview.actions.more")}
             />
           </DropdownMenu>
         )}
