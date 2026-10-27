@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Thumbnail } from "react-pdf";
 import { AutoSizer, List } from "react-virtualized";
 import type { ListRowRenderer } from "react-virtualized";
+import { useCunningham } from ":/components/provider";
 import {
   OPEN_DELAY,
   THUMBNAIL_GAP,
@@ -60,6 +61,7 @@ export function PdfThumbnailSidebarContent({
   pageDimensions,
   requestPageDimension,
 }: PdfThumbnailSidebarProps) {
+  const { t } = useCunningham();
   const listRef = useRef<List>(null);
   // When true, the next currentPage change came from a thumbnail click
   // and should not trigger an auto-scroll of the sidebar.
@@ -147,7 +149,7 @@ export function PdfThumbnailSidebarContent({
             isClickNavRef.current = true;
             goToPage(page);
           }}
-          aria-label={`Go to page ${page}`}
+          aria-label={t("components.filePreview.actions.goToPage", { page })}
         >
           <Thumbnail
             pageNumber={page}

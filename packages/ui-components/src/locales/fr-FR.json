@@ -234,7 +234,18 @@
       },
       "actions": {
         "download": "Télécharger",
-        "print": "Imprimer"
+        "print": "Imprimer",
+        "close": "Fermer",
+        "information": "Informations sur le fichier",
+        "more": "Plus d'actions",
+        "previous": "Fichier précédent",
+        "next": "Fichier suivant",
+        "zoomIn": "Agrandir",
+        "zoomOut": "Réduire",
+        "zoomReset": "Réinitialiser le zoom",
+        "toggleSidebar": "Afficher ou masquer le panneau latéral",
+        "currentPage": "Page actuelle",
+        "goToPage": "Aller à la page {page}"
       }
     },
     "storage-gauge": {

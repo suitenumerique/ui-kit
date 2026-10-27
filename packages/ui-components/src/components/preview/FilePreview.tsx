@@ -339,12 +339,15 @@ export const FilePreview = ({
           <Button
             variant="tertiary"
             onClick={handleDownload}
+            aria-label={t("components.filePreview.actions.download")}
             icon={<Icon type={IconType.OUTLINED} name={"file_download"} />}
           />
         )}
         <Button
           variant="tertiary"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          aria-label={t("components.filePreview.actions.information")}
+          aria-pressed={isSidebarOpen}
           icon={<Icon name={"info_outline"} />}
         />
         {(currentFile?.category === MimeCategory.PDF ||
@@ -377,6 +380,7 @@ export const FilePreview = ({
             <Button
               variant="tertiary"
               onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
+              aria-label={t("components.filePreview.actions.more")}
               icon={<Icon name="more_horiz" />}
             />
           </DropdownMenu>
@@ -413,6 +417,7 @@ export const FilePreview = ({
                     variant="tertiary"
                     size="small"
                     onClick={onClose}
+                    aria-label={t("components.filePreview.actions.close")}
                     icon={<Icon name="close" />}
                   />
                 )}
@@ -461,9 +466,11 @@ export const FilePreview = ({
 };
 
 const FilePreviewNextButton = (props: Partial<ButtonProps>) => {
+  const { t } = useCustomTranslations();
   return (
     <div className="file-preview__next-button">
       <Button
+        aria-label={t("components.filePreview.actions.next")}
         {...props}
         icon={<Icon name="arrow_forward" />}
         color="brand"
@@ -475,9 +482,11 @@ const FilePreviewNextButton = (props: Partial<ButtonProps>) => {
 };
 
 const FilePreviewPreviousButton = (props: Partial<ButtonProps>) => {
+  const { t } = useCustomTranslations();
   return (
     <div className="file-preview__previous-button">
       <Button
+        aria-label={t("components.filePreview.actions.previous")}
         {...props}
         icon={<Icon name="arrow_back" />}
         color="brand"

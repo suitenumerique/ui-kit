@@ -234,7 +234,18 @@
       },
       "actions": {
         "download": "Herunterladen",
-        "print": "Drucken"
+        "print": "Drucken",
+        "close": "Schließen",
+        "information": "Dateiinformationen",
+        "more": "Weitere Aktionen",
+        "previous": "Vorherige Datei",
+        "next": "Nächste Datei",
+        "zoomIn": "Vergrößern",
+        "zoomOut": "Verkleinern",
+        "zoomReset": "Zoom zurücksetzen",
+        "toggleSidebar": "Seitenleiste ein- oder ausblenden",
+        "currentPage": "Aktuelle Seite",
+        "goToPage": "Zu Seite {page} gehen"
       }
     },
     "storage-gauge": {

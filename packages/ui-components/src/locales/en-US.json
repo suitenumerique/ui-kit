@@ -234,7 +234,18 @@
       },
       "actions": {
         "download": "Download",
-        "print": "Print"
+        "print": "Print",
+        "close": "Close",
+        "information": "File information",
+        "more": "More actions",
+        "previous": "Previous file",
+        "next": "Next file",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "zoomReset": "Reset zoom",
+        "toggleSidebar": "Toggle sidebar",
+        "currentPage": "Current page",
+        "goToPage": "Go to page {page}"
       }
     },
     "storage-gauge": {
