@@ -1,7 +1,8 @@
 @mixin button-variant($context) {
   white-space: nowrap;
   &:hover,
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       border-radius: var(--c--components--button--border-radius--focus);
     }
 
@@ -9,13 +10,15 @@
     background-color: var(--c--contextuals--background--semantic--#{$context}--primary);
     color: var(--c--contextuals--content--semantic--#{$context}--on-#{$context});
 
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       box-shadow:
         0 0 0 1px #fff,
         0 0 0 4px var(--c--contextuals--border--semantic--#{$context}--primary);
     }
     &:hover,
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       background-color: var(
         --c--contextuals--background--semantic--#{$context}--primary-hover
       );
@@ -33,13 +36,15 @@
     background-color: var(--c--contextuals--background--semantic--#{$context}--secondary);
     color: var(--c--contextuals--content--semantic--#{$context}--secondary);
 
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       box-shadow:
         0 0 0 1px #fff,
         0 0 0 4px var(--c--contextuals--border--semantic--#{$context}--primary);
     }
     &:hover,
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       background-color: var(
         --c--contextuals--background--semantic--#{$context}--secondary-hover
       );
@@ -56,13 +61,15 @@
     background-color: transparent;
     color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
 
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       box-shadow:
         0 0 0 1px #fff,
         0 0 0 4px var(--c--contextuals--border--semantic--#{$context}--primary);
     }
     &:hover,
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       background-color: var(--c--contextuals--background--semantic--contextual--primary);
     }
 
@@ -78,13 +85,15 @@
     background-color: transparent;
     color: var(--c--contextuals--content--semantic--#{$context}--tertiary);
 
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       box-shadow:
         0 0 0 1px #fff,
         0 0 0 4px var(--c--contextuals--border--semantic--#{$context}--primary);
     }
     &:hover,
-    &:focus-visible {
+    &:focus-visible:not([data-focus-managed]),
+    &[data-focus-visible] {
       background-color: var(--c--contextuals--background--semantic--contextual--primary);
     }
 
@@ -111,6 +120,21 @@
   transition: all var(--c--globals--transitions--duration)
     var(--c--globals--transitions--ease-out);
   user-select: none;
+
+  // `Button` follows React Aria's input modality (`data-focus-visible`) and
+  // draws its own ring with `box-shadow`: drop the browser outline, which
+  // would add a second ring (or one after a pointer focus in Chrome).
+  &[data-focus-managed] {
+    outline: none;
+  }
+
+  // Forced colors drop box shadows: draw the ring with a system color.
+  @media (forced-colors: active) {
+    &[data-focus-visible] {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
 
   &__icon {
     display: flex;
