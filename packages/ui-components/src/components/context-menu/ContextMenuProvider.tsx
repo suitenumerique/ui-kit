@@ -1,6 +1,7 @@
 import {
   createContext,
   PropsWithChildren,
+  RefObject,
   useCallback,
   useContext,
   useMemo,
@@ -8,7 +9,6 @@ import {
   useState,
   useEffect,
 } from "react";
-import { Menu, MenuItem as AriaMenuItem, Popover, Separator } from "react-aria-components";
 import {
   ContextMenuContextValue,
   ContextMenuControls,
@@ -18,10 +18,45 @@ import {
   MenuItemAction,
   ContextMenuState,
 } from "./types";
-import { MenuItemBody } from "../menu/MenuItemBody";
+import {
+  buildMenuModel,
+  MenuModelLevel,
+} from "../dropdown-menu/buildMenuModel";
+import { renderMenuLevel } from "../dropdown-menu/renderMenu";
+import type { DropdownMenuSelectionMode } from "../dropdown-menu/types";
 import { useCunningham } from ":/components/provider";
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
+
+/**
+ * The open menu. Mounted only while open, as it reads the translations, like
+ * the items it renders.
+ */
+const ContextMenuPopover = ({
+  model,
+  selectionMode,
+  triggerRef,
+  onOpenChange,
+}: {
+  model: MenuModelLevel;
+  selectionMode: DropdownMenuSelectionMode;
+  triggerRef: RefObject<HTMLDivElement | null>;
+  onOpenChange: (isOpen: boolean) => void;
+}) => {
+  const { t } = useCunningham();
+  return renderMenuLevel(
+    model,
+    { selectionMode },
+    {
+      triggerRef,
+      isOpen: true,
+      onOpenChange,
+      placement: "bottom start",
+      "aria-label": t("components.menu.contextMenuLabel"),
+      "data-testid": "context-menu",
+    },
+  );
+};
 
 export const useContextMenuContext = (): ContextMenuControls => {
   const context = useContext(ContextMenuContext);
@@ -62,12 +97,12 @@ const getItemKey = (item: MenuItemAction, index: number): string => {
 export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
   // Check for nested providers first (but after hook declarations for Rules of Hooks)
   const existingContext = useContext(ContextMenuContext);
-  const { t } = useCunningham();
 
   const [state, setState] = useState<ContextMenuState>({
     isOpen: false,
     position: { x: 0, y: 0 },
     items: [],
+    selectionMode: "single",
   });
 
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -140,6 +175,7 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
         isOpen: true,
         position: config.position,
         items: config.items,
+        selectionMode: config.selectionMode ?? "single",
       });
 
       return session;
@@ -158,6 +194,34 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
     () => ({ open, close }),
     [open, close]
   );
+
+  // Same rendering as DropdownMenu. Keys and test ids keep their previous
+  // defaults (`label-index`, `context-menu-item-<key>`).
+  const model = useMemo(
+    () =>
+      buildMenuModel(
+        state.items.map((item, index) => {
+          if (!isActionItem(item)) {
+            return item;
+          }
+          const itemKey = getItemKey(item, index);
+          return {
+            ...item,
+            id: itemKey,
+            testId: item.testId || `context-menu-item-${itemKey}`,
+          };
+        })
+      ),
+    [state.items]
+  );
+
+  // Picking an item, Escape, Tab and outside clicks all close the menu
+  // through the root menu state of its popover, which ends here.
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      close();
+    }
+  };
 
   // Warn and skip rendering if nested inside another provider
   if (isNested) {
@@ -186,64 +250,14 @@ export const ContextMenuProvider = ({ children }: PropsWithChildren) => {
           pointerEvents: "none",
         }}
       />
-      <Popover
-        triggerRef={triggerRef}
-        isOpen={state.isOpen}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            close();
-          }
-        }}
-        placement="bottom start"
-        shouldFlip
-      >
-        <Menu
-          className="c__dropdown-menu c__dropdown-menu__list"
-          aria-label="Context menu"
-          data-testid="context-menu"
-          onAction={(key) => {
-            const item = state.items.find(
-              (i, idx) => isActionItem(i) && getItemKey(i, idx) === key
-            );
-            if (item && isActionItem(item) && !item.isDisabled) {
-              item.callback?.();
-              if (!item.keepOpen) {
-                close();
-              }
-            }
-          }}
-        >
-          {state.items.map((item, index) => {
-            if (!isActionItem(item)) {
-              return <Separator key={`separator-${index}`} />;
-            }
-
-            if (item.isHidden) {
-              return null;
-            }
-
-            const itemKey = getItemKey(item, index);
-
-            return (
-              <AriaMenuItem
-                key={itemKey}
-                id={itemKey}
-                className={`c__dropdown-menu-item${item.variant === "danger" ? " c__dropdown-menu-item--danger" : ""}`}
-                aria-label={item.opensInNewWindow ? item.label + t("components.menu.newWindowLabelSuffix") : item.label}
-                isDisabled={item.isDisabled}
-                data-testid={item.testId || `context-menu-item-${itemKey}`}
-              >
-                <MenuItemBody
-                  icon={item.icon}
-                  label={item.label}
-                  subText={item.subText}
-                  isChecked={item.isChecked}
-                />
-              </AriaMenuItem>
-            );
-          })}
-        </Menu>
-      </Popover>
+      {state.isOpen && (
+        <ContextMenuPopover
+          model={model}
+          selectionMode={state.selectionMode}
+          triggerRef={triggerRef}
+          onOpenChange={handleOpenChange}
+        />
+      )}
     </ContextMenuContext.Provider>
   );
 };
