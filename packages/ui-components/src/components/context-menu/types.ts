@@ -1,4 +1,5 @@
 import { MenuItem, MenuItemAction, MenuItemSeparator } from "../menu/types";
+import type { DropdownMenuSelectionMode } from "../dropdown-menu/types";
 
 // Re-export shared types for backwards compatibility
 export type { MenuItem, MenuItemAction, MenuItemSeparator };
@@ -22,12 +23,18 @@ export type ContextMenuState = {
   isOpen: boolean;
   position: { x: number; y: number };
   items: MenuItem[];
+  selectionMode: DropdownMenuSelectionMode;
 };
 
 export type ContextMenuOpenConfig = {
   position: { x: number; y: number };
   items: MenuItem[];
   onBlur?: () => void;
+  /**
+   * How the items with `isChecked` are exposed to assistive technologies.
+   * @default "single"
+   */
+  selectionMode?: DropdownMenuSelectionMode;
 };
 
 /**

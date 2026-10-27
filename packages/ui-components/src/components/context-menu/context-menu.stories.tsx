@@ -77,11 +77,25 @@ import { MenuItem } from "./types";
  * | `callback` | `() => void` | Callback on click |
  * | `isDisabled` | `boolean` | Disables the item |
  * | `isHidden` | `boolean` | Hides the item |
- * | `isChecked` | `boolean` | Shows a trailing checkmark (selected/active item) |
+ * | `isChecked` | `boolean` | Checks the item, exposed as a radio or checkbox item (see `selectionMode`) |
  * | `variant` | `"default" \| "danger"` | Item style |
  * | `keepOpen` | `boolean` | Prevents menu from closing on click |
+ * | `children` | `MenuItem[]` | Items of a submenu opened from this item |
  *
  * For a separator: `{ type: "separator" }`
+ *
+ * ## Submenus
+ *
+ * An item with `children` opens a submenu, which can hold its own submenus,
+ * separators and checked items. Its `callback` is not called: the item only
+ * opens the submenu.
+ *
+ * ## Checked items
+ *
+ * Items with `isChecked` are announced as radio items, a single choice among
+ * them (`selectionMode="single"`, the default), such as a sort order. For
+ * independent on/off options, such as "Show grid", pass
+ * `selectionMode="multiple"`: they are then announced as checkbox items.
  *
  * ## Shared type with DropdownMenu
  *
@@ -151,6 +165,12 @@ const meta = {
     asChild: {
       description: "Clones the child instead of wrapping in a div",
       control: "boolean",
+    },
+    selectionMode: {
+      description:
+        "How items with isChecked are announced: radio items (single) or checkbox items (multiple)",
+      control: "inline-radio",
+      options: ["single", "multiple"],
     },
     children: {
       description: "Element(s) on which right-click triggers the menu",
@@ -719,4 +739,200 @@ export const KeepOpen: Story = {
     children: null,
   },
   render: () => <KeepOpenContent />,
+};
+
+const MultipleSelectionContent = () => {
+  const [showHiddenFiles, setShowHiddenFiles] = useState(false);
+  const [showExtensions, setShowExtensions] = useState(true);
+  const [showGrid, setShowGrid] = useState(true);
+
+  const viewItems: MenuItem[] = [
+    {
+      label: "Show hidden files",
+      icon: <span className="material-icons">visibility</span>,
+      isChecked: showHiddenFiles,
+      keepOpen: true,
+      callback: () => setShowHiddenFiles((prev) => !prev),
+    },
+    {
+      label: "Show file extensions",
+      icon: <span className="material-icons">description</span>,
+      isChecked: showExtensions,
+      keepOpen: true,
+      callback: () => setShowExtensions((prev) => !prev),
+    },
+    {
+      label: "Show grid",
+      icon: <span className="material-icons">grid_view</span>,
+      isChecked: showGrid,
+      keepOpen: true,
+      callback: () => setShowGrid((prev) => !prev),
+    },
+    { type: "separator" },
+    {
+      label: "Refresh",
+      icon: <span className="material-icons">refresh</span>,
+      callback: () => console.log("Refresh"),
+    },
+  ];
+
+  return (
+    <ContextMenu options={viewItems} selectionMode="multiple">
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p>Right-click here to set the view options</p>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          Hidden files: {showHiddenFiles ? "Yes" : "No"} | Extensions:{" "}
+          {showExtensions ? "Yes" : "No"} | Grid: {showGrid ? "Yes" : "No"}
+        </p>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Independent on/off options: with `selectionMode="multiple"`, items with
+ * `isChecked` are announced as checkbox items, so checking one does not
+ * suggest the others get unchecked. With `keepOpen: true`, several options can
+ * be toggled in a row; "Refresh", a plain action, still closes the menu.
+ */
+export const MultipleSelection: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <MultipleSelectionContent />,
+};
+
+const SubmenusContent = () => {
+  const [sortBy, setSortBy] = useState("name");
+
+  const submenuItems: MenuItem[] = [
+    {
+      label: "Open",
+      icon: <span className="material-icons">open_in_new</span>,
+      callback: () => console.log("Open"),
+    },
+    {
+      label: "Open with",
+      icon: <span className="material-icons">apps</span>,
+      children: [
+        {
+          label: "Text editor",
+          icon: <span className="material-icons">edit_note</span>,
+          callback: () => console.log("Open with: Text editor"),
+        },
+        {
+          label: "PDF viewer",
+          icon: <span className="material-icons">picture_as_pdf</span>,
+          callback: () => console.log("Open with: PDF viewer"),
+        },
+        { type: "separator" },
+        {
+          label: "Other applications",
+          icon: <span className="material-icons">more_horiz</span>,
+          children: [
+            {
+              label: "Image viewer",
+              icon: <span className="material-icons">image</span>,
+              callback: () => console.log("Open with: Image viewer"),
+            },
+            {
+              label: "Spreadsheet",
+              icon: <span className="material-icons">table_chart</span>,
+              callback: () => console.log("Open with: Spreadsheet"),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "Move to",
+      icon: <span className="material-icons">drive_file_move</span>,
+      children: [
+        {
+          label: "Documents",
+          icon: <span className="material-icons">folder</span>,
+          callback: () => console.log("Move to: Documents"),
+        },
+        {
+          label: "Photos",
+          icon: <span className="material-icons">folder</span>,
+          callback: () => console.log("Move to: Photos"),
+        },
+        { type: "separator" },
+        {
+          label: "Trash",
+          icon: <span className="material-icons">delete</span>,
+          variant: "danger",
+          callback: () => console.log("Move to: Trash"),
+        },
+      ],
+    },
+    { type: "separator" },
+    {
+      label: "Sort by",
+      icon: <span className="material-icons">sort</span>,
+      children: [
+        {
+          label: "Name",
+          isChecked: sortBy === "name",
+          callback: () => setSortBy("name"),
+        },
+        {
+          label: "Date modified",
+          isChecked: sortBy === "date",
+          callback: () => setSortBy("date"),
+        },
+        {
+          label: "Size",
+          isChecked: sortBy === "size",
+          callback: () => setSortBy("size"),
+        },
+      ],
+    },
+  ];
+
+  return (
+    <ContextMenu options={submenuItems}>
+      <div
+        style={{
+          padding: "40px",
+          border: "2px dashed #ccc",
+          borderRadius: "8px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <p>Right-click here to open a menu with submenus</p>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          Current sort: {sortBy}
+        </p>
+      </div>
+    </ContextMenu>
+  );
+};
+
+/**
+ * Items with `children` open a submenu, on hover, with → (Enter or Space
+ * too) from the keyboard. ← or Escape closes the submenu alone; picking an
+ * item closes every level.
+ *
+ * Submenus can be nested ("Open with" → "Other applications"), hold
+ * separators and danger items ("Move to"), and checked items, announced as
+ * radio items ("Sort by").
+ */
+export const Submenus: Story = {
+  args: {
+    options: [],
+    children: null,
+  },
+  render: () => <SubmenusContent />,
 };
