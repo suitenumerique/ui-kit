@@ -1,6 +1,6 @@
 import { Button } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -34,6 +34,14 @@ export const AccessRoleDropdown = ({
   canDelete = true,
 }: AccessRoleDropdownProps) => {
   const { t } = useCunningham();
+  // The open state drives the chevron: tracked here when the parent does not
+  // control it.
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isMenuOpen = isOpen ?? internalIsOpen;
+  const handleOpenChange = (nextIsOpen: boolean) => {
+    setInternalIsOpen(nextIsOpen);
+    onOpenChange?.(nextIsOpen);
+  };
 
   const currentRoleString = roles.find((role) => role.value === selectedRole);
 
@@ -62,18 +70,8 @@ export const AccessRoleDropdown = ({
   }
   return (
     <DropdownMenu
-      isOpen={isOpen}
-      shouldCloseOnInteractOutside={(element) => {
-        const isAccessRoleDropdown = element.closest(
-          ".c__access-role-dropdown",
-        );
-        // If the element is not a child of the access role dropdown, close the dropdown
-        if (isAccessRoleDropdown) {
-          return false;
-        }
-        return true;
-      }}
-      onOpenChange={onOpenChange}
+      isOpen={isMenuOpen}
+      onOpenChange={handleOpenChange}
       options={options}
       selectedValues={[selectedRole]}
       onSelectValue={onSelect}
@@ -86,16 +84,13 @@ export const AccessRoleDropdown = ({
         color="neutral"
         variant="tertiary"
         icon={
-          isOpen ? (
+          isMenuOpen ? (
             <ChevronUp size={IconSize.SMALL} />
           ) : (
             <ChevronDown size={IconSize.SMALL} />
           )
         }
         iconPosition="right"
-        onClick={() => {
-          onOpenChange?.(!isOpen);
-        }}
       >
         {currentRoleString?.label}
       </Button>
