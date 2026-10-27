@@ -152,13 +152,23 @@ export type {
 
 export {
   DropdownMenu,
+  DropdownMenuTrigger,
   useDropdownMenu,
 } from "./components/dropdown-menu";
 
 export type {
   DropdownMenuItem,
+  DropdownMenuItemProps,
   DropdownMenuOption,
+  DropdownMenuPopoverProps,
   DropdownMenuProps,
+  DropdownMenuRootProps,
+  DropdownMenuSectionProps,
+  DropdownMenuSelectionMode,
+  DropdownMenuSeparatorProps,
+  DropdownMenuSubmenuProps,
+  DropdownMenuTriggerProps,
+  DropdownMenuVariant,
 } from "./components/dropdown-menu";
 
 export {

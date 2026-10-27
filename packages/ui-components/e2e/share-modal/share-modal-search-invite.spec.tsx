@@ -148,7 +148,7 @@ test.describe("ShareModal user search and invite", () => {
     await expect(roleButton).toContainText("Admin");
 
     await roleButton.click();
-    await page.getByRole("menuitem", { name: "Editor" }).click();
+    await page.getByRole("menuitemradio", { name: "Editor" }).click();
 
     await expect(roleButton).toContainText("Editor");
   });
@@ -167,7 +167,7 @@ test.describe("ShareModal user search and invite", () => {
       .getByTestId("share-search-field")
       .getByTestId("access-role-dropdown-button");
     await roleButton.click();
-    await page.getByRole("menuitem", { name: "Reader" }).click();
+    await page.getByRole("menuitemradio", { name: "Reader" }).click();
 
     await page.getByRole("button", { name: "Share" }).click();
 

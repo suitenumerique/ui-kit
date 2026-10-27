@@ -35,7 +35,7 @@ test.describe("ShareModal link settings and footer", () => {
     await mount(<TestShareModal linkSettings />);
 
     await reachButton(page).click();
-    await page.getByRole("menuitem", { name: "Private" }).click();
+    await page.getByRole("menuitemradio", { name: "Private" }).click();
 
     expect(await calls(page)).toContainEqual({
       name: "update-link-reach",
@@ -54,7 +54,7 @@ test.describe("ShareModal link settings and footer", () => {
     await mount(<TestShareModal linkSettings />);
 
     await roleButton(page).click();
-    await page.getByRole("menuitem", { name: "Editor" }).click();
+    await page.getByRole("menuitemradio", { name: "Editor" }).click();
 
     expect(await calls(page)).toContainEqual({
       name: "update-link-role",

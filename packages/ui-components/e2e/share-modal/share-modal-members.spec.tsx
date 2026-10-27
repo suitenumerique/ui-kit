@@ -43,7 +43,7 @@ test.describe("ShareModal members list", () => {
     await mount(<TestShareModal />);
 
     await memberRoleButton(page, 0).click();
-    await page.getByRole("menuitem", { name: "Editor" }).click();
+    await page.getByRole("menuitemradio", { name: "Editor" }).click();
 
     expect(await calls(page)).toContainEqual({
       name: "update-access",
@@ -63,18 +63,18 @@ test.describe("ShareModal members list", () => {
     await memberRoleButton(page, 1).click();
 
     await expect(
-      page.getByRole("menuitem", { name: "Editor" }),
+      page.getByRole("menuitemradio", { name: "Editor" }),
     ).toHaveAttribute("aria-disabled", "true");
     await expect(
-      page.getByRole("menuitem", { name: "Reader" }),
+      page.getByRole("menuitemradio", { name: "Reader" }),
     ).toHaveAttribute("aria-disabled", "true");
     await expect(
-      page.getByRole("menuitem", { name: "Admin" }),
+      page.getByRole("menuitemradio", { name: "Admin" }),
     ).not.toHaveAttribute("aria-disabled", "true");
 
     // Playwright refuses to click aria-disabled elements; dispatch the event
     // directly to prove the option really is inert.
-    await page.getByRole("menuitem", { name: "Editor" }).dispatchEvent("click");
+    await page.getByRole("menuitemradio", { name: "Editor" }).dispatchEvent("click");
 
     expect(
       (await calls(page)).filter((call) => call.name === "update-access"),
@@ -93,7 +93,7 @@ test.describe("ShareModal members list", () => {
     await page.keyboard.press("Escape");
 
     await memberRoleButton(page, 0).click();
-    await expect(page.getByRole("menuitem", { name: "Admin" })).toBeVisible();
+    await expect(page.getByRole("menuitemradio", { name: "Admin" })).toBeVisible();
     await expect(page.getByText(ADMIN_TOP_MESSAGE)).toHaveCount(0);
   });
 
