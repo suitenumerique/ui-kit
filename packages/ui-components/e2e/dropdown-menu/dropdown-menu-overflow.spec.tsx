@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/experimental-ct-react";
-import { TestDropdownMenu } from "../helpers/mount-dropdown-menu";
+import { TestLongDropdownMenu } from "../helpers/mount-dropdown-menu";
 import {
   SHORT_VIEWPORT,
   expectScrollableMenu,
@@ -18,7 +18,7 @@ test.describe("DropdownMenu - constrained height", () => {
     mount,
     page,
   }) => {
-    await mount(<TestDropdownMenu itemCount={ITEM_COUNT} />);
+    await mount(<TestLongDropdownMenu itemCount={ITEM_COUNT} />);
     await page.getByRole("button", { name: "Open menu" }).click();
 
     await expectScrollableMenu(page, "Item 1", `Item ${ITEM_COUNT}`);
@@ -29,7 +29,7 @@ test.describe("DropdownMenu - constrained height", () => {
     page,
   }) => {
     await mount(
-      <TestDropdownMenu
+      <TestLongDropdownMenu
         itemCount={ITEM_COUNT}
         topMessage="Top message"
         bottomMessage="Bottom message"
@@ -57,7 +57,7 @@ test.describe("DropdownMenu - constrained height", () => {
       await page.setViewportSize({ width: 1280, height: 200 });
       await mount(
         <div style={{ paddingTop: 80 }}>
-          <TestDropdownMenu
+          <TestLongDropdownMenu
             itemCount={ITEM_COUNT}
             topMessage="Top message"
             bottomMessage="Bottom message"
@@ -115,7 +115,7 @@ test.describe("DropdownMenu - constrained height", () => {
 
   test("Scrolls a submenu when it lacks room", async ({ mount, page }) => {
     await mount(
-      <TestDropdownMenu itemCount={3} submenuItemCount={ITEM_COUNT} />,
+      <TestLongDropdownMenu itemCount={3} submenuItemCount={ITEM_COUNT} />,
     );
     await page.getByRole("button", { name: "Open menu" }).click();
     await menuItem(page, "More").click();
