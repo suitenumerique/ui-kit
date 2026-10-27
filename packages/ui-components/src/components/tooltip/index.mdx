@@ -38,6 +38,12 @@ The tooltip can be placed in different positions relative to the trigger element
 
 <Canvas sourceState="hidden" of={Stories.Placements}/>
 
+## Accessibility
+
+The tooltip opens when the trigger is focused or hovered, and closes when focus leaves or the pointer leaves. Escape closes it and leaves focus on the trigger. The trigger points to the tooltip with `aria-describedby`, and the tooltip has `role="tooltip"`. The arrow is decorative and hidden from assistive technologies.
+
+Keep the content as text. A tooltip is not announced as a dialog and must not contain buttons, links, or headings.
+
 ## Props
 
 These are the props of `Tooltip`.
