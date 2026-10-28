@@ -125,6 +125,29 @@ jobs:
       - name: Build
         run: yarn build
 
+  consumer-typescript:
+    runs-on: ubuntu-latest
+    needs: install-front
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ["6", "7"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+      - uses: actions/cache@v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: front-node_modules-${{ hashFiles('yarn.lock') }}
+          fail-on-cache-miss: true
+      - run: yarn build
+      - name: Check npm installation, public types and theme CLI
+        run: yarn test:consumer ${{ matrix.typescript }}
+
   e2e:
     runs-on: ubuntu-latest
     needs: install-front
@@ -208,6 +231,7 @@ jobs:
       - check-locales
       - test
       - build
+      - consumer-typescript
       - e2e
     permissions:
       pages: write

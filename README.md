@@ -44,6 +44,13 @@ yarn test:ct
 yarn build-storybook
 ```
 
+After `yarn build`, run `yarn test:consumer 6` and `yarn test:consumer 7`
+to check the packed packages in isolated npm applications with React 19.
+CI runs both versions. These checks enforce peer dependency resolution,
+typecheck public imports, and generate a theme from a TypeScript config in an
+ESM application. The library's own build toolchain remains on TypeScript 5;
+the matrix checks compatibility with consuming applications.
+
 Run the unified documentation locally with `yarn storybook`. Add a release note
 with `yarn changeset`. Packages are versioned and published manually; follow
 [`RELEASING.md`](./docs/RELEASING.md) for the complete procedure.
