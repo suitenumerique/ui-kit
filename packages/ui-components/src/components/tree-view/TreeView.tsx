@@ -5,7 +5,7 @@ import {
   Tree,
 } from "react-arborist";
 import { TreeViewSeparator } from "./TreeViewSeparator";
-import useResizeObserver from "use-resize-observer";
+import { useResizeObserver } from "use-resize-observer";
 
 import {
   TreeDataItem,
@@ -55,7 +55,7 @@ export const TreeView = <T,>({
   rowProps,
 }: TreeViewProps<T>) => {
   const [height, setHeight] = useState<number>(400);
-  const { ref, width } = useResizeObserver();
+  const { ref, width } = useResizeObserver<HTMLDivElement>();
   const context = useTreeContext<T>();
   const treeData = context?.treeData.nodes ?? [];
 
