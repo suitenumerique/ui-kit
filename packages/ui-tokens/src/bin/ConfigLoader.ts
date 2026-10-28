@@ -3,7 +3,7 @@ import * as fs from "fs";
 import deepmerge from "deepmerge";
 import { ConfigShape } from "TokensGenerator";
 import { workPath } from "Paths";
-import { register } from "ts-node";
+import { createJiti } from "jiti";
 import Config from "./Config";
 
 const getLocalConfig = async () => {
@@ -17,30 +17,10 @@ const getLocalConfig = async () => {
   }
   console.log("Found local config file: " + filename);
 
-  const ext = path.extname(filename);
-  if (ext === ".ts") {
-    registerTypescriptLoader();
-  }
-
-  const config = await import(filename);
-  return config.default;
-};
-
-/**
- * Register ts-node to load typescript config files with import. ( In fact, with `require` after transpiling ).
- */
-const registerTypescriptLoader = () => {
-  // Specifying to load all .ts files as CJS is really important, otherwise ts-node will try to load them as ESM in
-  // projects where cunningham is used as a dependency where package.json contains "type": "module".
-  // So, by doing this we tell ts-node "Load all .ts files as CJS, even if they are in a project with ESM".
-  register({
-    moduleTypes: {
-      "**/*.ts": "cjs",
-    },
-    compilerOptions: {
-      module: "commonjs",
-    },
-  });
+  // Load TypeScript configs without depending on the consumer's compiler API.
+  // jiti also handles configs in applications with "type": "module".
+  const jiti = createJiti(__filename);
+  return jiti.import<Partial<ConfigShape>>(filename, { default: true });
 };
 
 const getDistConfig = async () => {
