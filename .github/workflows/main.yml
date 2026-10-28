@@ -44,6 +44,27 @@ jobs:
       - name: Check that a changeset has been added in the current branch
         run: yarn changeset status --since=origin/${{ github.base_ref }}
 
+  # Warn when a CHANGELOG has been edited by hand outside of a release pull
+  # request. This job is not meant to be required: the CHANGELOG can still be
+  # edited on purpose, e.g. to fix a mistake in a past entry.
+  check-changelog-not-edited:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' &&
+      !startsWith(github.head_ref, 'release/')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+      - name: Check that no CHANGELOG has been edited in the current branch
+        run: |
+          changelogs=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- '*CHANGELOG.md')
+          for changelog in $changelogs; do
+            echo "::error file=$changelog::CHANGELOG files are generated at release time, add a changeset with \`yarn changeset\` instead."
+          done
+          test -z "$changelogs"
+
   lint-spell-mistakes:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
