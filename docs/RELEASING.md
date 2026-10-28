@@ -74,6 +74,15 @@ Add the FilePicker component.
 Changesets are authored release intent. They do not change package versions or
 publish anything by themselves.
 
+### No release intent ?
+
+If your changes has no release intent, you can use the following command to add
+a blank changeset entry.
+
+```bash
+yarn changeset add --empty
+```
+
 ## Prepare a release for one package
 
 Create a release branch from the latest remote main branch:
