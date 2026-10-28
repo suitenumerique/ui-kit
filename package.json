@@ -24,7 +24,8 @@
     "check-locales": "yarn workspace @gouvfr-lasuite/ui-components check-locales",
     "generate-icons": "yarn workspace @gouvfr-lasuite/ui-components generate-icons",
     "generate-test-pdfs": "yarn workspace @gouvfr-lasuite/ui-components generate-test-pdfs",
-    "scalingo-postbuild": "yarn build && yarn build-storybook"
+    "scalingo-postbuild": "yarn build && yarn build-storybook",
+    "test:consumer": "node scripts/test-consumer.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "2.31.1",
