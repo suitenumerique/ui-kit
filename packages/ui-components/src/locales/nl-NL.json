@@ -234,7 +234,18 @@
       },
       "actions": {
         "download": "Downloaden",
-        "print": "Afdrukken"
+        "print": "Afdrukken",
+        "close": "Sluiten",
+        "information": "Bestandsinformatie",
+        "more": "Meer acties",
+        "previous": "Vorig bestand",
+        "next": "Volgend bestand",
+        "zoomIn": "Inzoomen",
+        "zoomOut": "Uitzoomen",
+        "zoomReset": "Zoom resetten",
+        "toggleSidebar": "Zijbalk tonen of verbergen",
+        "currentPage": "Huidige pagina",
+        "goToPage": "Ga naar pagina {page}"
       }
     },
     "storage-gauge": {

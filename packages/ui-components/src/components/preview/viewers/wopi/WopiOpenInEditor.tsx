@@ -1,5 +1,6 @@
 import { Button } from ":/cunningham";
-import { Icon, IconType } from ":/components/icon";
+import { IconSize } from ":/components/icon";
+import { ExternalLink } from ":/icons";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 import { FileIcon } from "../../icons/FileIcon";
 import { FilePreviewType } from "../../types";
@@ -23,7 +24,7 @@ export const WopiOpenInEditor = ({
       description={t("components.filePreview.wopi.openInEditorDescription")}
       action={
         <Button
-          icon={<Icon name="open_in_new" type={IconType.OUTLINED} size={16} />}
+          icon={<ExternalLink size={IconSize.SMALL} aria-hidden />}
           onClick={() => onOpenInEditor(file)}
         >
           {t("components.filePreview.wopi.openInEditor")}

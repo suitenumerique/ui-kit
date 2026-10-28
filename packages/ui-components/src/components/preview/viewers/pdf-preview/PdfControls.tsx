@@ -1,4 +1,5 @@
 import { Button, Input } from ":/cunningham";
+import { useCunningham } from ":/components/provider";
 import { LeftSidebarIcon } from "../../icons/LeftSidebarIcon";
 import { ZoomControls } from "../../components/zoom-controls/ZoomControls";
 
@@ -25,15 +26,16 @@ export function PdfControls({
   onZoomReset,
   onZoomOut,
 }: PdfControlsProps) {
+  const { t } = useCunningham();
   return (
     <div className="file-preview__controls">
       <Button
         variant="tertiary"
         color="neutral"
         onClick={onToggleSidebar}
-        aria-label="Toggle sidebar"
+        aria-label={t("components.filePreview.actions.toggleSidebar")}
         size="small"
-        icon={<LeftSidebarIcon />}
+        icon={<LeftSidebarIcon aria-hidden />}
       />
       <div className="file-preview__controls__separator" />
       <div className="pdf-preview__page-nav">
@@ -44,7 +46,7 @@ export function PdfControls({
             onChange={onPageInputChange}
             onBlur={onPageInputSubmit}
             onKeyDown={onPageInputKeyDown}
-            aria-label="Current page"
+            aria-label={t("components.filePreview.actions.currentPage")}
             size={pageInputValue.length || 1}
           />
           <span className="pdf-preview__page-total">/ {numPages}</span>

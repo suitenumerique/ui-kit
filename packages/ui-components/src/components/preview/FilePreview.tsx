@@ -6,7 +6,16 @@ import {
   ModalSize,
 } from ":/cunningham";
 import clsx from "clsx";
-import { Icon, IconSize, IconType } from ":/components/icon";
+import { IconSize } from ":/components/icon";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Download,
+  Info,
+  More,
+  Print,
+  XMark,
+} from ":/icons";
 import { DropdownMenu } from ":/components/dropdown-menu";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
 
@@ -339,13 +348,16 @@ export const FilePreview = ({
           <Button
             variant="tertiary"
             onClick={handleDownload}
-            icon={<Icon type={IconType.OUTLINED} name={"file_download"} />}
+            aria-label={t("components.filePreview.actions.download")}
+            icon={<Download aria-hidden />}
           />
         )}
         <Button
           variant="tertiary"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          icon={<Icon name={"info_outline"} />}
+          aria-label={t("components.filePreview.actions.information")}
+          aria-pressed={isSidebarOpen}
+          icon={<Info aria-hidden />}
         />
         {(currentFile?.category === MimeCategory.PDF ||
           currentFile?.category === MimeCategory.IMAGE) && (
@@ -354,9 +366,7 @@ export const FilePreview = ({
               ...(handleDownloadFile
                 ? [
                     {
-                      icon: (
-                        <Icon type={IconType.OUTLINED} name="file_download" />
-                      ),
+                      icon: <Download aria-hidden />,
                       label: t("components.filePreview.actions.download"),
                       value: "download",
                       callback: handleDownload,
@@ -364,7 +374,7 @@ export const FilePreview = ({
                   ]
                 : []),
               {
-                icon: <Icon name="print" />,
+                icon: <Print aria-hidden />,
                 label: t("components.filePreview.actions.print"),
                 value: "print",
                 callback: handlePrint,
@@ -377,7 +387,8 @@ export const FilePreview = ({
             <Button
               variant="tertiary"
               onClick={() => setIsActionsMenuOpen(!isActionsMenuOpen)}
-              icon={<Icon name="more_horiz" />}
+              aria-label={t("components.filePreview.actions.more")}
+              icon={<More aria-hidden />}
             />
           </DropdownMenu>
         )}
@@ -413,7 +424,8 @@ export const FilePreview = ({
                     variant="tertiary"
                     size="small"
                     onClick={onClose}
-                    icon={<Icon name="close" />}
+                    aria-label={t("components.filePreview.actions.close")}
+                    icon={<XMark size={IconSize.SMALL} aria-hidden />}
                   />
                 )}
 
@@ -461,11 +473,13 @@ export const FilePreview = ({
 };
 
 const FilePreviewNextButton = (props: Partial<ButtonProps>) => {
+  const { t } = useCustomTranslations();
   return (
     <div className="file-preview__next-button">
       <Button
+        aria-label={t("components.filePreview.actions.next")}
         {...props}
-        icon={<Icon name="arrow_forward" />}
+        icon={<ArrowRight size={IconSize.SMALL} aria-hidden />}
         color="brand"
         variant="tertiary"
         size="small"
@@ -475,11 +489,13 @@ const FilePreviewNextButton = (props: Partial<ButtonProps>) => {
 };
 
 const FilePreviewPreviousButton = (props: Partial<ButtonProps>) => {
+  const { t } = useCustomTranslations();
   return (
     <div className="file-preview__previous-button">
       <Button
+        aria-label={t("components.filePreview.actions.previous")}
         {...props}
-        icon={<Icon name="arrow_back" />}
+        icon={<ArrowLeft size={IconSize.SMALL} aria-hidden />}
         color="brand"
         variant="tertiary"
         size="small"
