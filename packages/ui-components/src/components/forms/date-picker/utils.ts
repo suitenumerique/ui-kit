@@ -63,7 +63,7 @@ export const parseDateValue = (
  * Parses a range of ISO 8601 date and time string with a UTC offset or in UTC.
  * @param rawRange - The range of raw date strings to parse.
  * @param timezone - (Optional) The timezone to use for parsing. If not provided, the local timezone will be used.
- * @returns The parsed DateRange object or undefined if the input date range is undefined or uncomplete.
+ * @returns The parsed DateRange object or undefined if the input date range is undefined or incomplete.
  */
 export const parseRangeDateValue = (
   rawRange: [string, string] | undefined,

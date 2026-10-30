@@ -115,8 +115,10 @@ export const MainLayout = ({
   // Replaces the `autoSaveId` prop dropped in react-resizable-panels v4.
   // `panelIds` keeps a separate stored layout per panel combination, so the
   // width saved with the left panel mounted is not applied without it.
+  // The misspelled `id` is the storage key of the saved layouts, renaming it
+  // would reset them.
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({
-    id: "persistance",
+    id: "persistance", // codespell:ignore persistance
     panelIds,
   });
 

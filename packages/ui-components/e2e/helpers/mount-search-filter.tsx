@@ -23,7 +23,7 @@ interface TestSearchFilterProps {
   showReset?: boolean;
   isLoading?: boolean;
   emptyState?: ReactNode;
-  /** Pre-selects an item so the Reset row is present on first open. */
+  /** Preselects an item so the Reset row is present on first open. */
   initialSelected?: SearchFilterItem;
 }
 
