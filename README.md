@@ -25,7 +25,7 @@ range. Package versions are independent and managed by Changesets.
 Run the migration CLI without adding it to an application dependency list:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all
 ```
 
 npx downloads the exact CLI version to the npm cache after confirmation and

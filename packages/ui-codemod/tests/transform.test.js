@@ -48,7 +48,7 @@ test("merges package dependencies and is idempotent", () => {
   } }, null, 2)}\n`;
   const first = transformPackageJson(input, "package.json", { source: "all" });
   const second = transformPackageJson(first.output, "package.json", { source: "all" });
-  assert.equal(JSON.parse(first.output).dependencies["@gouvfr-lasuite/ui-components"], "^1.0.0");
+  assert.equal(JSON.parse(first.output).dependencies["@gouvfr-lasuite/ui-components"], "^2.0.0");
   assert.equal(JSON.parse(first.output).dependencies["@gouvfr-lasuite/ui-tokens"], "^3.1.0");
   assert.equal(second.changed, false);
 });
@@ -91,7 +91,7 @@ test("rewrites legacy @openfun styles and package.json dependencies", () => {
     "@openfun/cunningham-tokens": "^2.0.0",
   } }, null, 2)}\n`, "package.json", { source: "all" });
   const dependencies = JSON.parse(pkg.output).dependencies;
-  assert.equal(dependencies["@gouvfr-lasuite/ui-components"], "^1.0.0");
+  assert.equal(dependencies["@gouvfr-lasuite/ui-components"], "^2.0.0");
   assert.equal(dependencies["@gouvfr-lasuite/ui-tokens"], "^3.1.0");
   assert.equal("@openfun/cunningham-react" in dependencies, false);
 });

@@ -19,24 +19,26 @@ add a dependency to the target project's `package.json`, lockfile or
 Preview changes first:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all
 ```
 
 Apply them after reviewing the report:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --write
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --write
 ```
 
 Use the read-only check mode to fail when files still need migration or when a
 manual case is found:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --check
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --check
 ```
 
 The codemod handles JS, JSX, TS, TSX, Sass, CSS and `package.json`; it never
-modifies lockfiles.
+modifies lockfiles. It sets `@gouvfr-lasuite/ui-components` to `^2.0.0`, which
+includes the rebuilt `DropdownMenu`: run the `dropdown-menu` audit next (see
+[DropdownMenu and menus](#dropdownmenu-and-menus)).
 
 Namespace imports, dynamic package expressions and internal paths that were not
 part of the former public exports are intentionally left unchanged and reported.
