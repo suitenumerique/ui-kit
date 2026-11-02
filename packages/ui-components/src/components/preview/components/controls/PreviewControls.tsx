@@ -1,4 +1,5 @@
 import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/provider";
 import { FastBackward } from ":/components/icon/icons/FastBackward";
 import { FastForward } from ":/components/icon/icons/FastForward";
 import { Maximize } from ":/components/icon/icons/Maximize";
@@ -35,6 +36,7 @@ export const PlayerPreviewControls = ({
   isFullscreen,
   showFullscreenBtn = false,
 }: PreviewControlsProps) => {
+  const { t } = useCunningham();
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isFullscreen) return;
@@ -63,7 +65,12 @@ export const PlayerPreviewControls = ({
         color="neutral"
         onClick={togglePlay}
         size="small"
-        icon={isPlaying ? <Pause /> : <Play />}
+        aria-label={t(
+          isPlaying
+            ? "components.filePreview.actions.pause"
+            : "components.filePreview.actions.play",
+        )}
+        icon={isPlaying ? <Pause aria-hidden /> : <Play aria-hidden />}
       />
       <VerticalSeparator />
       <Button
@@ -71,14 +78,16 @@ export const PlayerPreviewControls = ({
         color="neutral"
         onClick={rewind10Seconds}
         size="small"
-        icon={<FastBackward />}
+        aria-label={t("components.filePreview.actions.rewind10")}
+        icon={<FastBackward aria-hidden />}
       />
       <Button
         variant="tertiary"
         color="neutral"
         onClick={forward10Seconds}
         size="small"
-        icon={<FastForward />}
+        aria-label={t("components.filePreview.actions.forward10")}
+        icon={<FastForward aria-hidden />}
       />
       <VerticalSeparator />
 
@@ -99,7 +108,12 @@ export const PlayerPreviewControls = ({
             onClick={toggleFullscreen}
             className="suite-preview-controls__btn"
             size="small"
-            icon={<Maximize />}
+            aria-label={t(
+              isFullscreen
+                ? "components.filePreview.actions.exitFullscreen"
+                : "components.filePreview.actions.enterFullscreen",
+            )}
+            icon={<Maximize aria-hidden />}
           />
         </>
       )}

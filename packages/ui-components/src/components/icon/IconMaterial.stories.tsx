@@ -92,6 +92,16 @@ export const Colors: Story = {
   ),
 };
 
+// A labelled icon is exposed as an image named by its label, without the
+// English ligature. An unlabelled icon stays hidden from assistive technologies.
+export const Labelled: Story = {
+  args: {
+    name: "search",
+    size: IconSize.MEDIUM,
+    "aria-label": "Rechercher",
+  },
+};
+
 // Clickable icons
 export const Clickable: Story = {
   render: () => (

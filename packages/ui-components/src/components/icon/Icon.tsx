@@ -55,8 +55,22 @@ export const Icon: React.FC<IconProps> = ({
     fontSize: typeof size === "number" ? `${size}px` : undefined,
   };
 
+  // The ligature is an English word ("home", "close", …): keep it out of the
+  // accessible name unless the icon is explicitly labelled.
+  const hasValue = (value: unknown) =>
+    typeof value === "string" && value.trim() !== "";
+  const isLabelled =
+    hasValue(props["aria-label"]) || hasValue(props["aria-labelledby"]);
+
   return (
-    <span className={iconClasses} style={style} {...props}>
+    <span
+      className={iconClasses}
+      style={style}
+      // A labelled icon is an image. A bare span would ignore aria-label.
+      role={isLabelled ? "img" : undefined}
+      aria-hidden={isLabelled ? undefined : true}
+      {...props}
+    >
       {name}
     </span>
   );

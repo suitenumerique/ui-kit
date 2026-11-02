@@ -234,7 +234,26 @@
       },
       "actions": {
         "download": "Télécharger",
-        "print": "Imprimer"
+        "print": "Imprimer",
+        "close": "Fermer",
+        "information": "Informations sur le fichier",
+        "more": "Plus d'actions",
+        "previous": "Fichier précédent",
+        "next": "Fichier suivant",
+        "zoomIn": "Agrandir",
+        "zoomOut": "Réduire",
+        "zoomReset": "Réinitialiser le zoom",
+        "play": "Lire",
+        "pause": "Pause",
+        "rewind10": "Reculer de 10 secondes",
+        "forward10": "Avancer de 10 secondes",
+        "enterFullscreen": "Passer en plein écran",
+        "exitFullscreen": "Quitter le plein écran",
+        "mute": "Couper le son",
+        "unmute": "Rétablir le son",
+        "toggleSidebar": "Afficher ou masquer le panneau latéral",
+        "currentPage": "Page actuelle",
+        "goToPage": "Aller à la page {page}"
       }
     },
     "storage-gauge": {

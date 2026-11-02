@@ -234,7 +234,26 @@
       },
       "actions": {
         "download": "Download",
-        "print": "Print"
+        "print": "Print",
+        "close": "Close",
+        "information": "File information",
+        "more": "More actions",
+        "previous": "Previous file",
+        "next": "Next file",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "zoomReset": "Reset zoom",
+        "play": "Play",
+        "pause": "Pause",
+        "rewind10": "Rewind 10 seconds",
+        "forward10": "Forward 10 seconds",
+        "enterFullscreen": "Enter fullscreen",
+        "exitFullscreen": "Exit fullscreen",
+        "mute": "Mute",
+        "unmute": "Unmute",
+        "toggleSidebar": "Toggle sidebar",
+        "currentPage": "Current page",
+        "goToPage": "Go to page {page}"
       }
     },
     "storage-gauge": {

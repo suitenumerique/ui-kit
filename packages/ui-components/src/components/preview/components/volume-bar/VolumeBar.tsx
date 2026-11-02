@@ -1,6 +1,7 @@
 import { Volume2 } from ":/components/icon/icons/Volume2";
 import { VolumeX } from ":/components/icon/icons/VolumeX";
 import { Button } from ":/cunningham";
+import { useCunningham } from ":/components/provider";
 import { useEffect } from "react";
 
 export type VolumeBarProps = {
@@ -16,11 +17,12 @@ export const VolumeBar = ({
   toggleMute,
   handleVolumeChange,
 }: VolumeBarProps) => {
+  const { t } = useCunningham();
   const volumePercentage = isMuted ? 0 : volume * 100;
   const volumeIsMuted = volume === 0 || isMuted;
   const getVolumeIcon = () => {
-    if (isMuted || volume === 0) return <VolumeX />;
-    return <Volume2 />;
+    if (isMuted || volume === 0) return <VolumeX aria-hidden />;
+    return <Volume2 aria-hidden />;
   };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +57,11 @@ export const VolumeBar = ({
         onClick={toggleMute}
         className="suite-volume-bar__btn-mute"
         size="small"
+        aria-label={t(
+          isMuted
+            ? "components.filePreview.actions.unmute"
+            : "components.filePreview.actions.mute",
+        )}
         icon={getVolumeIcon()}
       />
       <input
