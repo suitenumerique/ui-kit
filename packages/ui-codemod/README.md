@@ -8,7 +8,7 @@ JavaScript library or an application dependency.
 Preview the migration first:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all
 ```
 
 When the package is not already available, npx asks for confirmation, downloads
@@ -18,13 +18,13 @@ the target project's `package.json`, lockfile or `node_modules`.
 Apply the migration after reviewing the preview:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --write
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --write
 ```
 
 Check a repository without modifying it:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --check
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --check
 ```
 
 Use `--source ui-kit` or `--source cunningham` to restrict the migration. The

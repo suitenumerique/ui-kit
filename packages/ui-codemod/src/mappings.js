@@ -12,7 +12,7 @@ export const PACKAGE_MAPPINGS = {
 };
 
 export const PACKAGE_RANGES = {
-  [PACKAGES.components]: "^1.0.0",
+  [PACKAGES.components]: "^2.0.0",
   [PACKAGES.tokens]: "^3.1.0",
 };
 
