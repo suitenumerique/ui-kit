@@ -67,6 +67,13 @@ the new package root and `/icons`. Aliases and type imports are preserved.
 renders its items the same way, and `Filter` and `SearchFilter` share the row
 look (`MenuItemBody`).
 
+The codemod lists the code to update by hand, with its file and line. It never
+modifies files, and exits with 1 when it finds an error:
+
+```bash
+npx @gouvfr-lasuite/ui-codemod@1.1.0 dropdown-menu .
+```
+
 What may need an update:
 
 - **Trigger**: `children` is the trigger element itself, no longer wrapped in a

@@ -3,20 +3,29 @@ import { readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import fg from "fast-glob";
+import { auditDropdownMenu } from "./dropdown-menu.js";
 import { transformJavaScript, transformPackageJson, transformStyles } from "./transform.js";
 
-const usage = `Usage: ui-codemod migrate [path] [--source all|ui-kit|cunningham] [--write] [--check]
+const usage = `Usage:
+  ui-codemod migrate [path] [--source all|ui-kit|cunningham] [--write] [--check]
+  ui-codemod dropdown-menu [path]
 
-The command is read-only by default. Use --write to update files in place.
+migrate is read-only by default. Use --write to update files in place.
+dropdown-menu reports the DropdownMenu triggers, MenuItemBody slots and menu
+classes to update by hand. It never modifies files, and exits with 1 when it
+finds an error.
 Lockfiles, dependencies, build outputs and generated files are always ignored.`;
 
 function parseArguments(argv) {
-  if (argv[0] !== "migrate") throw new Error(usage);
-  const options = { path: ".", source: "all", write: false, check: false };
+  const command = argv[0];
+  if (command !== "migrate" && command !== "dropdown-menu") throw new Error(usage);
+  const options = { command, path: ".", source: "all", write: false, check: false };
   let pathSet = false;
   for (let index = 1; index < argv.length; index += 1) {
     const argument = argv[index];
-    if (argument === "--write") options.write = true;
+    if (command !== "migrate" && argument.startsWith("-")) {
+      throw new Error(`Unknown argument: ${argument}\n\n${usage}`);
+    } else if (argument === "--write") options.write = true;
     else if (argument === "--check") options.check = true;
     else if (argument === "--source") options.source = argv[++index];
     else if (argument.startsWith("--source=")) options.source = argument.slice("--source=".length);
@@ -59,9 +68,27 @@ async function collectFiles(target) {
   );
 }
 
+async function auditDropdownMenus(files) {
+  const findings = [];
+  for (const filePath of files) {
+    if (filePath.endsWith("package.json")) continue;
+    findings.push(...auditDropdownMenu(await readFile(filePath, "utf8"), filePath));
+  }
+  for (const item of findings) {
+    console.log(`${item.level} ${item.filePath}${item.line ? `:${item.line}` : ""} ${item.message}`);
+  }
+  const errors = findings.filter((item) => item.level === "error").length;
+  console.log(`${errors} error(s), ${findings.length - errors} warning(s).`);
+  if (errors > 0) process.exitCode = 1;
+}
+
 async function main() {
   const options = parseArguments(process.argv.slice(2));
   const target = resolve(process.cwd(), options.path);
+  if (options.command === "dropdown-menu") {
+    await auditDropdownMenus(await collectFiles(target));
+    return;
+  }
   const packageRoot = dirname(fileURLToPath(import.meta.url));
   const iconNames = JSON.parse(await readFile(resolve(packageRoot, "icon-manifest.json"), "utf8"));
   const rootNames = JSON.parse(await readFile(resolve(packageRoot, "root-manifest.json"), "utf8"));

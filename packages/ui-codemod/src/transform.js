@@ -13,6 +13,8 @@ const getExtension = (filePath) => {
   return match?.[0].toLowerCase() ?? ".js";
 };
 
+export const parserFor = (filePath) => parsers[getExtension(filePath)] ?? "babel";
+
 const issue = (issues, filePath, message, node) => {
   issues.push({
     filePath,
@@ -103,8 +105,7 @@ export function transformJavaScript(sourceText, filePath, options) {
   const rootNames = new Set(options.rootNames ?? []);
   const issues = [];
   let changed = false;
-  const parser = parsers[getExtension(filePath)] ?? "babel";
-  const j = jscodeshift.withParser(parser);
+  const j = jscodeshift.withParser(parserFor(filePath));
   const root = j(sourceText);
 
   root.find(j.ImportDeclaration).forEach((path) => {
