@@ -1,7 +1,8 @@
 {
   "components": {
     "menu": {
-      "newWindowLabelSuffix": " (neues Fenster)"
+      "newWindowLabelSuffix": " (neues Fenster)",
+      "contextMenuLabel": "Kontextmenü"
     },
     "searchFilter": {
       "reset": "Zurücksetzen",
@@ -234,7 +235,8 @@
       },
       "actions": {
         "download": "Herunterladen",
-        "print": "Drucken"
+        "print": "Drucken",
+        "more": "Weitere Aktionen"
       }
     },
     "storage-gauge": {

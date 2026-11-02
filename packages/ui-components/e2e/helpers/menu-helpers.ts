@@ -15,13 +15,13 @@ const menuOf = (page: Page, itemName: string) =>
   page.getByRole("menu").filter({ has: menuItem(page, itemName) });
 
 /**
- * The visible menu frame (white box) holding the given item: the DropdownMenu
- * wrapper around the menu and its messages, or the menu itself for submenus
- * and the ContextMenu.
+ * The visible menu frame (white box) holding the given item: the surface
+ * around the menu and its messages, for the DropdownMenu, its submenus and the
+ * ContextMenu alike.
  */
 export const frameOf = (page: Page, itemName: string) =>
   page
-    .locator(".react-aria-Popover > .c__dropdown-menu")
+    .locator(".c__dropdown-menu-popover > .c__dropdown-menu")
     .filter({ has: menuItem(page, itemName) });
 
 /**

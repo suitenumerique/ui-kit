@@ -41,7 +41,12 @@ type LinkExpirationOptionParams = {
   onChooseDate: () => void;
 };
 
-/** Builds the "Link expires" entry and its submenu for the link role dropdown. */
+/**
+ * Builds the "Link expires" entry and its submenu for the link role dropdown.
+ * "Never" and the presets are one group of exclusive choices (radio items):
+ * a preset is checked while the link expires at the end of its day. "Choose a
+ * date" stays an action, it opens the calendar.
+ */
 export const getLinkExpirationOption = ({
   t,
   linkExpiresAt,
@@ -58,16 +63,22 @@ export const getLinkExpirationOption = ({
       isChecked: !linkExpiresAt,
       callback: () => onSelect(null),
     },
-    ...LINK_EXPIRATION_PRESETS.map((days) => ({
-      id: `link-expiration-${days}`,
-      label: t(
-        days === 1
-          ? "components.share.linkSettings.expiration.days_singular"
-          : "components.share.linkSettings.expiration.days_plural",
-        { count: days },
-      ),
-      callback: () => onSelect(getLinkExpirationFromToday(days)),
-    })),
+    ...LINK_EXPIRATION_PRESETS.map((days) => {
+      const expiresAt = getLinkExpirationFromToday(days);
+      return {
+        id: `link-expiration-${days}`,
+        label: t(
+          days === 1
+            ? "components.share.linkSettings.expiration.days_singular"
+            : "components.share.linkSettings.expiration.days_plural",
+          { count: days },
+        ),
+        isChecked:
+          !!linkExpiresAt &&
+          getEndOfDay(linkExpiresAt).getTime() === expiresAt.getTime(),
+        callback: () => onSelect(expiresAt),
+      };
+    }),
     {
       id: "link-expiration-custom",
       label: t("components.share.linkSettings.expiration.choose_date"),

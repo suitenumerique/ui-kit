@@ -68,7 +68,7 @@ test.describe("ShareModal link expiration", () => {
     await mount(<TestShareModal linkSettings />);
 
     await roleButton(page).click();
-    await expect(page.getByRole("menuitem", { name: "Editor" })).toBeVisible();
+    await expect(page.getByRole("menuitemradio", { name: "Editor" })).toBeVisible();
     await expect(expirationMenu(page)).toHaveCount(0);
   });
 
@@ -82,11 +82,11 @@ test.describe("ShareModal link expiration", () => {
     await expirationMenu(page).click();
 
     // 2. "Never" is checked as long as the link has no expiration.
-    const never = page.getByRole("menuitem", { name: "Never" });
+    const never = page.getByRole("menuitemradio", { name: "Never" });
     await expect(never.locator(".c__dropdown-menu-item__check")).toBeVisible();
 
     // 3. Picking a preset sends the end of the matching day.
-    await page.getByRole("menuitem", { name: "7 days" }).click();
+    await page.getByRole("menuitemradio", { name: "7 days" }).click();
     const expected = endOfDayInDays(7);
     expect(await calls(page)).toContainEqual({
       name: "update-link-expires-at",
@@ -101,6 +101,33 @@ test.describe("ShareModal link expiration", () => {
     ).toHaveLength(0);
   });
 
+  test("exposes Never and the presets as one group of exclusive choices", async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestShareModal
+        linkSettings
+        withLinkExpiration
+        linkExpiresAt={endOfDayInDays(7).toISOString()}
+      />,
+    );
+    await roleButton(page).click();
+    await expirationMenu(page).click();
+
+    // The preset matching the expiration is checked, "Choose date" stays an
+    // action that opens the calendar.
+    await expect(page.getByRole("menu").nth(1)).toMatchAriaSnapshot(`
+      - menu:
+        - group:
+          - menuitemradio "Never"
+          - menuitemradio "1 day"
+          - menuitemradio "7 days" [checked]
+          - menuitemradio "30 days"
+        - menuitem "Choose date"
+    `);
+  });
+
   test("Never removes the expiration", async ({ mount, page }) => {
     await mount(
       <TestShareModal
@@ -112,7 +139,7 @@ test.describe("ShareModal link expiration", () => {
 
     await roleButton(page).click();
     await expirationMenu(page).click();
-    await page.getByRole("menuitem", { name: "Never" }).click();
+    await page.getByRole("menuitemradio", { name: "Never" }).click();
 
     expect(await calls(page)).toContainEqual({
       name: "update-link-expires-at",
@@ -129,7 +156,7 @@ test.describe("ShareModal link expiration", () => {
 
     await roleButton(page).click();
     await expirationMenu(page).click();
-    await page.getByRole("menuitem", { name: "Never" }).click();
+    await page.getByRole("menuitemradio", { name: "Never" }).click();
 
     expect(await calls(page)).toEqual([]);
   });

@@ -1,7 +1,8 @@
 {
   "components": {
     "menu": {
-      "newWindowLabelSuffix": " (nouvelle fenêtre)"
+      "newWindowLabelSuffix": " (nouvelle fenêtre)",
+      "contextMenuLabel": "Menu contextuel"
     },
     "searchFilter": {
       "reset": "Réinitialiser",
@@ -234,7 +235,8 @@
       },
       "actions": {
         "download": "Télécharger",
-        "print": "Imprimer"
+        "print": "Imprimer",
+        "more": "Plus d'actions"
       }
     },
     "storage-gauge": {

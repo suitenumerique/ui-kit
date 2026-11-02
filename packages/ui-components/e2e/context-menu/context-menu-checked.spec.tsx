@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/experimental-ct-react";
 import type { Locator, Page } from "@playwright/test";
 import {
   TestContextMenu,
+  TestContextMenuToggles,
   TestTwoContextMenus,
 } from "../helpers/mount-context-menu";
 
@@ -12,11 +13,19 @@ const CHECK_ICON = ".c__dropdown-menu-item__check";
 const openMenu = (page: Page) =>
   page.getByTestId("context-menu-trigger").click({ button: "right" });
 
+/** Items with `isChecked` are radio items; the others plain menu items. */
 const menuItem = (page: Page, name: string) =>
-  page.getByRole("menuitem", { name });
+  page
+    .getByRole("menuitemradio", { name })
+    .or(page.getByRole("menuitem", { name }));
 
-const expectChecked = (item: Locator, isChecked: boolean) =>
-  expect(item.locator(CHECK_ICON)).toHaveCount(isChecked ? 1 : 0);
+const expectChecked = async (item: Locator, isChecked: boolean) => {
+  await expect(item.locator(CHECK_ICON)).toHaveCount(isChecked ? 1 : 0);
+  if (isChecked) {
+    // The checked state is announced, not only drawn.
+    await expect(item).toHaveAttribute("aria-checked", "true");
+  }
+};
 
 test.describe("ContextMenu - checked item", () => {
   test("Marks only the checked item with a checkmark", async ({
@@ -96,5 +105,30 @@ test.describe("ContextMenu - open menu ownership", () => {
     await expect(menuItem(page, "Delete")).toBeVisible();
     await expect(page.getByRole("menuitem", { name: "Share" })).toHaveCount(0);
     await expect(page.getByRole("menuitem", { name: "Archive" })).toHaveCount(0);
+  });
+});
+
+test.describe("ContextMenu - checkbox items", () => {
+  test("exposes independent toggles as checkbox items with selectionMode multiple", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestContextMenuToggles />);
+    await page
+      .getByText("Right-click here to set the grid")
+      .click({ button: "right" });
+
+    const showGrid = page.getByRole("menuitemcheckbox", { name: "Show grid" });
+    const snapToGrid = page.getByRole("menuitemcheckbox", {
+      name: "Snap to grid",
+    });
+    await expect(page.getByRole("menuitemradio")).toHaveCount(0);
+    await expect(showGrid).toHaveAttribute("aria-checked", "true");
+    await expect(snapToGrid).toHaveAttribute("aria-checked", "false");
+
+    // Checking one toggle leaves the other one as it was.
+    await snapToGrid.click();
+    await expect(snapToGrid).toHaveAttribute("aria-checked", "true");
+    await expect(showGrid).toHaveAttribute("aria-checked", "true");
   });
 });
