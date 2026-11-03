@@ -156,9 +156,7 @@
       "next": "Weiter",
       "previous": "Zurück",
       "complete": "Verstanden",
-      "stepLabel": "Schritt {current} von {total}: {title}",
-      "currentStepSuffix": " (aktuell)",
-      "contentRegionLabel": "Inhalt von Schritt {current} von {total}"
+      "stepLabel": "Schritt {current} von {total}: {title}"
     },
     "feedbackForm": {
       "title": "Das Team kontaktieren",

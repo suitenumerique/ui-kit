@@ -156,9 +156,7 @@
       "next": "Volgende",
       "previous": "Vorige",
       "complete": "Begrepen",
-      "stepLabel": "Stap {current} van {total}: {title}",
-      "currentStepSuffix": " (huidig)",
-      "contentRegionLabel": "Inhoud van stap {current} van {total}"
+      "stepLabel": "Stap {current} van {total}: {title}"
     },
     "feedbackForm": {
       "title": "Neem contact op met het team",

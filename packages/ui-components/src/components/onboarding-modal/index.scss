@@ -13,6 +13,18 @@ $transition-duration: 200ms;
   gap: 1.5rem;
 }
 
+.c__onboarding-modal__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .c__onboarding-modal__header {
   text-align: center;
   padding: 0 var(--c--globals--spacings--base);
@@ -47,6 +59,9 @@ $transition-duration: 200ms;
   flex-direction: column;
   overflow-y: auto;
   gap: var(--c--globals--spacings--xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c__onboarding-modal__step {
@@ -60,6 +75,7 @@ $transition-duration: 200ms;
   cursor: pointer;
   text-align: left;
   width: 100%;
+  box-sizing: border-box;
   outline: none;
 
   &:hover:not(.c__onboarding-modal__step--active) {
@@ -68,7 +84,8 @@ $transition-duration: 200ms;
     );
   }
 
-  &:focus-visible {
+  &:focus-visible,
+  &[data-focus-visible] {
     border-color: var(--c--contextuals--border--semantic--brand--primary);
   }
 }
@@ -147,6 +164,12 @@ $transition-duration: 200ms;
   overflow: hidden;
   padding: 0 1px;
   background-color: var(--c--contextuals--background--surface--secondary);
+  outline: none;
+
+  &[data-focus-visible] {
+    outline: 2px solid var(--c--contextuals--border--semantic--brand--primary);
+    outline-offset: -2px;
+  }
 }
 
 .c__onboarding-modal__content-inner {
