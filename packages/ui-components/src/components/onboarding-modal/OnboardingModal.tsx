@@ -22,7 +22,11 @@ import { useCunningham } from ":/components/provider";
 import clsx from "clsx";
 import { useResponsive } from ":/hooks/useResponsive";
 import { OnboardingStep } from "./types";
-import { OnboardingStepTab, getStepIcon } from "./OnboardingStepItem";
+import {
+  OnboardingStepButton,
+  OnboardingStepTab,
+  getStepIcon,
+} from "./OnboardingStepItem";
 import "./index.scss";
 
 export interface OnboardingModalProps {
@@ -374,29 +378,27 @@ export const OnboardingModal = ({
           </h2>
         </div>
 
-        <Tabs
-          className={clsx("c__onboarding-modal__body", {
-            "c__onboarding-modal__body--text-only": !hasPreview,
-          })}
-          orientation="vertical"
-          keyboardActivation="manual"
-          selectedKey={String(currentStep)}
-          onSelectionChange={(key) => handleStepSelect(Number(key))}
-        >
-          <StepTabList labelledBy={headingId}>
-            {steps.map((step, index) => (
-              <OnboardingStepTab
-                key={index}
-                step={step}
-                index={index}
-                isActive={index === currentStep}
-                titleId={getStepTitleId(index)}
-                descriptionId={getStepDescriptionId(index)}
-              />
-            ))}
-          </StepTabList>
+        {hasPreview ? (
+          <Tabs
+            className="c__onboarding-modal__body"
+            orientation="vertical"
+            keyboardActivation="manual"
+            selectedKey={String(currentStep)}
+            onSelectionChange={(key) => handleStepSelect(Number(key))}
+          >
+            <StepTabList labelledBy={headingId}>
+              {steps.map((step, index) => (
+                <OnboardingStepTab
+                  key={index}
+                  step={step}
+                  index={index}
+                  isActive={index === currentStep}
+                  titleId={getStepTitleId(index)}
+                  descriptionId={getStepDescriptionId(index)}
+                />
+              ))}
+            </StepTabList>
 
-          {hasPreview && (
             <TabPanel
               id={String(currentStep)}
               className="c__onboarding-modal__content"
@@ -417,10 +419,34 @@ export const OnboardingModal = ({
                 </span>
               )}
             </TabPanel>
-          )}
 
-          {mobileStep}
-        </Tabs>
+            {mobileStep}
+          </Tabs>
+        ) : (
+          <div className="c__onboarding-modal__body c__onboarding-modal__body--text-only">
+            {/* Safari drops the list semantics of unstyled lists. */}
+            <ol
+              className="c__onboarding-modal__steps"
+              role="list"
+              aria-labelledby={headingId}
+            >
+              {steps.map((step, index) => (
+                <li key={index}>
+                  <OnboardingStepButton
+                    step={step}
+                    index={index}
+                    isActive={index === currentStep}
+                    titleId={getStepTitleId(index)}
+                    descriptionId={getStepDescriptionId(index)}
+                    onClick={() => handleStepSelect(index)}
+                  />
+                </li>
+              ))}
+            </ol>
+
+            {mobileStep}
+          </div>
+        )}
 
         <div
           className="c__onboarding-modal__sr-only"

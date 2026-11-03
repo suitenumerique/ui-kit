@@ -182,4 +182,30 @@ describe("<OnboardingModal/>", () => {
     expect(compose).not.toHaveFocus();
   });
 
+  describe("in text-only mode", () => {
+    it("renders the steps as a list of buttons marking the current one", async () => {
+      renderOnboarding({ hideContent: true });
+      const user = userEvent.setup();
+
+      const heading = await screen.findByRole("heading", {
+        name: "Learn the basics",
+      });
+      expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+      expect(screen.queryByRole("tabpanel")).not.toBeInTheDocument();
+
+      const list = screen.getByRole("list", { name: "Learn the basics" });
+      expect(list).toHaveAttribute("aria-labelledby", heading.id);
+
+      const compose = screen.getByRole("button", { name: "Compose" });
+      const format = screen.getByRole("button", { name: "Format" });
+      expect(compose).toHaveAttribute("aria-current", "step");
+      expect(compose).toHaveAccessibleDescription("Compose description");
+      expect(format).not.toHaveAttribute("aria-current");
+
+      await user.click(format);
+      expect(format).toHaveAttribute("aria-current", "step");
+      expect(format).toHaveAccessibleDescription("Format description");
+      expect(compose).not.toHaveAttribute("aria-current");
+    });
+  });
 });

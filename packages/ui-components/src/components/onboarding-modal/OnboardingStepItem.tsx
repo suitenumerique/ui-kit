@@ -81,3 +81,20 @@ export const OnboardingStepTab = (props: OnboardingStepItemProps) => (
     <StepContent {...props} />
   </Tab>
 );
+
+/** Step rendered as a button, when there is no preview panel (text-only). */
+export const OnboardingStepButton = ({
+  onClick,
+  ...props
+}: OnboardingStepItemProps & { onClick: () => void }) => (
+  <button
+    type="button"
+    className={getStepClassName(props.isActive)}
+    aria-current={props.isActive ? "step" : undefined}
+    onClick={onClick}
+    data-testid={`onboarding-step-${props.index}`}
+    {...getStepA11yProps(props)}
+  >
+    <StepContent {...props} />
+  </button>
+);
