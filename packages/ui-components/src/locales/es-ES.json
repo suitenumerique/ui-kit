@@ -156,7 +156,8 @@
       "next": "Siguiente",
       "previous": "Anterior",
       "complete": "Entendido",
-      "stepLabel": "Paso {current} de {total}: {title}"
+      "stepLabel": "Paso {current} de {total}: {title}",
+      "newWindow": "(se abre en una nueva ventana)"
     },
     "feedbackForm": {
       "title": "Contactar con el equipo",

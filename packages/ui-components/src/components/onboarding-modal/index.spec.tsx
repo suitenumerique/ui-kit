@@ -175,6 +175,19 @@ describe("<OnboardingModal/>", () => {
     expect(onComplete).toHaveBeenCalledTimes(1);
   });
 
+  it("marks a footer link that opens in a new window", async () => {
+    renderOnboarding({
+      footerLink: { label: "Learn more", href: "https://example.com" },
+    });
+
+    const link = await screen.findByRole("link", {
+      name: "Learn more (opens in a new window)",
+    });
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    expect(link.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+  });
+
   it("does not move the focus to a step at opening", async () => {
     renderOnboarding();
 
