@@ -19,6 +19,7 @@ import {
   Button,
 } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
+import { ExternalLink } from ":/icons";
 import clsx from "clsx";
 import { useResponsive } from ":/hooks/useResponsive";
 import { OnboardingStep } from "./types";
@@ -283,8 +284,9 @@ export const OnboardingModal = ({
   const leftActions = footerLink ? (
     <a
       className="c__onboarding-modal__footer-link"
-      target="_blank"
       href={footerLink.href}
+      target={footerLink.href ? "_blank" : undefined}
+      rel={footerLink.href ? "noopener noreferrer" : undefined}
       onClick={(e) => {
         if (footerLink.onClick) {
           if (!footerLink.href) {
@@ -300,6 +302,14 @@ export const OnboardingModal = ({
       <span className="c__onboarding-modal__footer-link__label">
         {footerLink.label}
       </span>
+      {footerLink.href && (
+        <>
+          <ExternalLink size="small" aria-hidden="true" />
+          <span className="c__offscreen">
+            {` ${t("components.onboarding.newWindow")}`}
+          </span>
+        </>
+      )}
     </a>
   ) : undefined;
 

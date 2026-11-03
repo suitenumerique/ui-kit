@@ -156,7 +156,8 @@
       "next": "Next",
       "previous": "Previous",
       "complete": "Understood",
-      "stepLabel": "Step {current} of {total}: {title}"
+      "stepLabel": "Step {current} of {total}: {title}",
+      "newWindow": "(opens in a new window)"
     },
     "feedbackForm": {
       "title": "Contact the team",

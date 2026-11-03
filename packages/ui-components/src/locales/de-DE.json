@@ -156,7 +156,8 @@
       "next": "Weiter",
       "previous": "Zurück",
       "complete": "Verstanden",
-      "stepLabel": "Schritt {current} von {total}: {title}"
+      "stepLabel": "Schritt {current} von {total}: {title}",
+      "newWindow": "(öffnet in einem neuen Fenster)"
     },
     "feedbackForm": {
       "title": "Das Team kontaktieren",
