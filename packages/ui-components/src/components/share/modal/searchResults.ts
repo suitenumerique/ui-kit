@@ -1,4 +1,4 @@
-import type { UserData } from "../types";
+import type { AccessData, InvitationData, UserData } from "../types";
 
 const isValidEmail = (email: string) => {
   return !!email.match(
@@ -6,19 +6,49 @@ const isValidEmail = (email: string) => {
   );
 };
 
+const isSameEmail = (a: string, b: string) =>
+  a !== "" && a.toLowerCase() === b.toLowerCase();
+
+/**
+ * Whether two users are the same recipient. Email-only invitees use their
+ * email as ID, so the same person can come back with another ID.
+ */
+export const isSameUser = (
+  a: Pick<UserData<unknown>, "id" | "email">,
+  b: Pick<UserData<unknown>, "id" | "email">,
+) => a.id === b.id || isSameEmail(a.email, b.email);
+
 export const getShareSearchResults = <UserType>(
   results: UserData<UserType>[],
   selectedUsers: UserData<UserType>[],
   query: string,
   allowInvitation: boolean,
+  accesses: Pick<AccessData<UserType, unknown>, "user" | "is_explicit">[] = [],
+  invitations: Pick<InvitationData<UserType, unknown>, "email">[] = [],
 ) => {
-  // Refetched users may have new object identities, so compare their IDs.
-  const selectedIds = new Set(selectedUsers.map(({ id }) => id));
-  const users = results.filter(({ id }) => !selectedIds.has(id));
+  const members = accesses.map(({ user }) => user);
+  // Users with an inherited access only stay available: sharing with them
+  // gives them an explicit access.
+  const unavailableUsers = [
+    ...selectedUsers,
+    ...accesses
+      .filter(({ is_explicit }) => is_explicit !== false)
+      .map(({ user }) => user),
+  ];
+  // Refetched users may have new object identities, so compare IDs and emails.
+  const users = results.filter(
+    (user) => !unavailableUsers.some((other) => isSameUser(user, other)),
+  );
+  // Check every result, not only the visible ones: a hidden result is still
+  // a registered user that cannot be invited by email.
+  const knownEmails = [
+    ...[...selectedUsers, ...members, ...results].map(({ email }) => email),
+    ...invitations.map(({ email }) => email),
+  ];
   const canInviteByEmail =
     allowInvitation &&
     isValidEmail(query) &&
-    !users.some(({ email }) => email === query);
+    !knownEmails.some((email) => isSameEmail(email, query));
 
   return {
     users,

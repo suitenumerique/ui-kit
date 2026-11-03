@@ -144,6 +144,8 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                   <ShareSearchResults
                     results={props.searchUsersResult}
                     selectedUsers={search.selectedUsers}
+                    accesses={accesses}
+                    invitations={invitations}
                     query={search.searchQuery}
                     allowInvitation={allowInvitation}
                     groupName={props.searchGroupName}

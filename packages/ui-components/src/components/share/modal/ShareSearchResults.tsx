@@ -3,13 +3,15 @@ import {
   type QuickSearchData,
 } from ":/components/quick-search";
 import { useCunningham } from ":/components/provider";
-import type { UserData } from "../types";
+import type { AccessData, InvitationData, UserData } from "../types";
 import { SearchUserItem } from "./items/SearchUserItem";
 import { getShareSearchResults } from "./searchResults";
 
 type ShareSearchResultsProps<UserType> = {
   results?: UserData<UserType>[];
   selectedUsers: UserData<UserType>[];
+  accesses?: AccessData<UserType, unknown>[];
+  invitations?: InvitationData<UserType, unknown>[];
   query: string;
   allowInvitation: boolean;
   groupName?: string;
@@ -20,6 +22,8 @@ type ShareSearchResultsProps<UserType> = {
 export const ShareSearchResults = <UserType,>({
   results = [],
   selectedUsers,
+  accesses = [],
+  invitations = [],
   query,
   allowInvitation,
   groupName,
@@ -31,6 +35,8 @@ export const ShareSearchResults = <UserType,>({
     selectedUsers,
     query,
     allowInvitation,
+    accesses,
+    invitations,
   );
   const group: QuickSearchData<UserData<UserType>> = {
     groupName: groupName ?? t("components.share.search.group_name"),

@@ -200,4 +200,42 @@ test.describe("ShareModal user search and invite", () => {
       page.getByTestId("search-users-list").getByText("Alice Martin"),
     ).toHaveCount(0);
   });
+
+  test("does not offer a user picked by name again by email", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal />);
+
+    await selectUser(page, "alice", "Alice Martin");
+    await searchInput(page).pressSequentially("ALICE@example.com");
+
+    await expect(page.getByText("No result")).toBeVisible();
+    await expect(page.getByTestId("search-user-item")).toHaveCount(0);
+  });
+
+  test("does not offer an email that is pending, a member or invited", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal emptySearchResults />);
+
+    await selectUser(page, "new.person@example.com", "new.person@example.com");
+
+    for (const email of [
+      "NEW.PERSON@example.com",
+      "john.doe.2@example.com",
+      "Invited.1@example.com",
+    ]) {
+      await searchInput(page).fill("");
+      await searchInput(page).pressSequentially(email);
+      // Wait for the debounced query to land before checking the invite row.
+      await expect
+        .poll(async () => (await searchCalls(page)).at(-1))
+        .toEqual({ name: "search", query: email });
+      await expect(page.getByText("No result")).toBeVisible();
+      await expect(page.getByTestId("search-user-item")).toHaveCount(0);
+    }
+    await expect(page.getByTestId("selected-user-item")).toHaveCount(1);
+  });
 });
