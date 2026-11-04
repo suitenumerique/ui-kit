@@ -1,5 +1,11 @@
 # @gouvfr-lasuite/ui-tokens
 
+## 3.2.1
+
+### Patch Changes
+
+- 088014a: Load Cunningham configuration with jiti instead of ts-node so theme generation does not depend on the application's TypeScript compiler API, including TypeScript 7.
+
 ## 3.2.0
 
 ### Minor Changes
@@ -136,7 +142,8 @@ new package name.
 - 4ebbf16: Add utility classes
 - 4ebbf16: Add official design tokens
 
-[unreleased]: https://github.com/suitenumerique/cunningham/compare/@gouvfr-lasuite/ui-tokens@3.2.0...main
+[unreleased]: https://github.com/suitenumerique/cunningham/compare/@gouvfr-lasuite/ui-tokens@3.2.1...main
+[3.2.1]: https://github.com/suitenumerique/cunningham/compare/@gouvfr-lasuite/ui-tokens@3.2.0...@gouvfr-lasuite/ui-tokens@3.2.1
 [3.2.0]: https://github.com/suitenumerique/cunningham/compare/@gouvfr-lasuite/ui-tokens@3.1.0...@gouvfr-lasuite/ui-tokens@3.2.0
 [3.1.0]: https://github.com/suitenumerique/cunningham/compare/@openfun/cunningham-tokens@3.0.0...@gouvfr-lasuite/ui-tokens@3.1.0
 [3.0.0]: https://github.com/suitenumerique/cunningham/compare/@openfun/cunningham-tokens@2.2.0...@openfun/cunningham-tokens@3.0.0

@@ -1,5 +1,41 @@
 # @gouvfr-lasuite/ui-components
 
+## 1.5.0
+
+### Minor Changes
+
+- e7754f7: ♿️(modal) improve Modal accessibility
+
+  The modal title is an `h2` that names the dialog through `aria-labelledby`, and the subtitle describes it through `aria-describedby`. `aria-label` now only applies when the modal has no visible title. Title icons and close button icons are hidden from assistive technologies.
+
+  The close and back to tabs buttons are translated. The close button is now named `Close` instead of `close` in English (`Fermer` in French): tests querying it by its name must be updated.
+
+  The tab variant relies on React Aria tabs: arrow keys, Home and End move the focus, Enter or Space selects the tab, the tab list is named by the sidebar title and the panel by its tab. Tab titles are `h3` headings. On small screens, the half of the layout that is off screen is `inert`, the focus moves to the back button when a tab opens and back to the tab when returning, and it stays inside the dialog.
+
+  The date picker calendar popover is named.
+
+- d8f82aa: Add 25 icons to `@gouvfr-lasuite/ui-components/icons`: `Accessibility2`, `Assistant`, `ChartLine`, `Command`, `Database`, `Desktop`, `ErrorOff`, `Fingerprint`, `Flag`, `Inbox`, `Lab`, `Layers`, `MonitorSmartphone`, `Option`, `PlusCircle`, `Proconnect`, `ShieldDouble`, `ShieldKey`, `Signature`, `Stop`, `StopFilled`, `Tag`, `UserPen`, `UserX` and `Workflow`
+- 133fc84: Add a `menuMaxHeight` prop to Select to control the maximum height of the options menu
+
+### Patch Changes
+
+- 715172f: Add `color-mix()` fallbacks to Avatar, SmartScroller and the preview duration/volume bars for browsers without support (Chromium < 111, Safari < 16.2)
+- 3ff2321: ShareModal: clarify the restriction copy. "Open access" becomes "Expand access",
+  and the confirmation dialog shows its consequence in bold followed by its details in a
+  single paragraph. The restriction menu and dialog now follow `customTranslations`, so
+  apps can name their items (e.g. folders). The `components.share.{restrict,unrestrict}.hint`
+  keys are replaced by `details`; custom translations overriding `hint` must be renamed.
+- ec6abb2: Fix the QuickSearch input (and so the ShareModal search field) showing a lighter background than the modal in dark themes
+- d6cc9a9: Keep English icon ligatures out of accessible names. `Icon` is hidden from assistive technologies unless it is labelled, the icon-only buttons of the file preview have a translated name, and the file preview uses the UI kit SVG icons instead of Material icons.
+- b9578a0: Fix DropdownMenu items overflowing the menu instead of scrolling when the popover lacks room, and restore scrolling and separator styles in DropdownMenu submenus and ContextMenu
+- 867d0ac: ♿️(tooltip) hide the decorative arrow from assistive technologies
+
+  Escape already closes the tooltip through React Aria. The arrow is now hidden, and the trigger keeps its description link only while the tooltip is open.
+
+- 7053062: Support React 19 peer dependency resolution by upgrading use-resize-observer to v10 and adapting TreeView to its named export.
+- Updated dependencies [088014a]
+  - @gouvfr-lasuite/ui-tokens@3.2.1
+
 ## 1.4.0
 
 ### Minor Changes
@@ -677,7 +713,8 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 - Add custom cunningham.ts file
 - Still a WIP version
 
-[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.4.0...main
+[unreleased]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.5.0...main
+[1.5.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.4.0...@gouvfr-lasuite/ui-components@1.5.0
 [1.4.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.3.0...@gouvfr-lasuite/ui-components@1.4.0
 [1.3.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.2.0...@gouvfr-lasuite/ui-components@1.3.0
 [1.2.0]: https://github.com/suitenumerique/ui-kit/compare/@gouvfr-lasuite/ui-components@1.1.2...@gouvfr-lasuite/ui-components@1.2.0
