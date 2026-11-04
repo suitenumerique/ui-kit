@@ -45,15 +45,15 @@
       },
       "restrict": {
         "title": "Restreindre l'accès",
-        "description": "Limiter l'accès aux personnes explicitement ajoutées",
-        "hint": "Vous pouvez leur redonner accès à tout moment.",
-        "confirmation": "Les personnes qui ont accès via l'élément parent le perdront. Seules les personnes ajoutées directement conserveront leur accès."
+        "description": "Seules les personnes ajoutées spécifiquement à cet élément y auront accès",
+        "confirmation": "Les accès provenant de l'élément parent seront retirés.",
+        "details": "Les personnes ajoutées directement à cet élément conserveront leur accès. Vous pourrez redonner accès aux autres à tout moment."
       },
       "unrestrict": {
-        "title": "Ouvrir l'accès",
-        "description": "Toutes les personnes ayant accès à l'élément parent auront accès à cet élément",
-        "confirmation": "Toutes les personnes ayant accès à l'élément parent auront accès à cet élément. Les personnes ajoutées directement conserveront leur accès.",
-        "hint": "Vous pouvez à nouveau restreindre l’accès à tout moment."
+        "title": "Élargir l'accès",
+        "description": "Toutes les personnes accédant à l'élément parent y auront accès",
+        "confirmation": "Toutes les personnes accédant à l'élément parent y auront accès.",
+        "details": "Les personnes ajoutées directement conserveront leur accès."
       },
       "invitations": {
         "title": "Invitations en attente"

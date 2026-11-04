@@ -45,15 +45,15 @@
       },
       "restrict": {
         "title": "Toegang beperken",
-        "description": "Toegang beperken tot expliciet toegevoegde personen",
-        "hint": "U kunt ze op elk moment opnieuw toegang geven.",
-        "confirmation": "Personen met toegang via het bovenliggende item verliezen die toegang. Alleen rechtstreeks toegevoegde personen behouden toegang."
+        "description": "Alleen personen die specifiek aan dit item zijn toegevoegd, krijgen toegang",
+        "confirmation": "Toegang via het bovenliggende item wordt ingetrokken.",
+        "details": "Personen die rechtstreeks aan dit item zijn toegevoegd, behouden hun toegang. U kunt anderen op elk moment opnieuw toegang geven."
       },
       "unrestrict": {
-        "title": "Toegang openstellen",
-        "description": "Iedereen met toegang tot het bovenliggende item krijgt toegang tot dit item",
-        "confirmation": "Iedereen met toegang tot het bovenliggende item krijgt toegang tot dit item. Rechtstreeks toegevoegde personen behouden hun toegang.",
-        "hint": "U kunt de toegang op elk moment opnieuw beperken."
+        "title": "Toegang uitbreiden",
+        "description": "Iedereen met toegang tot het bovenliggende item krijgt toegang",
+        "confirmation": "Iedereen met toegang tot het bovenliggende item krijgt toegang.",
+        "details": "Rechtstreeks toegevoegde personen behouden hun toegang."
       },
       "invitations": {
         "title": "Openstaande uitnodigingen"

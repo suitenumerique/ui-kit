@@ -201,6 +201,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                           onRequestAccessAction={
                             canChangeAccess ? setAccessAction : undefined
                           }
+                          customTranslations={props.customTranslations}
                         />
                       )
                     }
@@ -238,6 +239,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
           action={accessAction}
           onClose={() => setAccessAction(undefined)}
           onConfirm={accessActionHandler}
+          customTranslations={props.customTranslations}
         />
       )}
       {visibility.allowImport && contactImport.isOpen && (

@@ -245,15 +245,11 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 }
 
 .c__share-access-confirmation-modal {
+  margin: 0;
   color: var(--c--contextuals--content--semantic--neutral--secondary);
   line-height: 18px;
 
-  p {
-    margin: 0;
-  }
-
-  p.c__share-access-confirmation-modal__hint {
-    margin-top: var(--c--globals--spacings--base);
-    font-size: var(--c--globals--font--sizes--xs);
+  strong {
+    font-weight: 700;
   }
 }

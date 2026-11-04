@@ -45,15 +45,15 @@
       },
       "restrict": {
         "title": "Zugriff einschränken",
-        "description": "Zugriff auf ausdrücklich hinzugefügte Personen beschränken",
-        "hint": "Sie können ihnen jederzeit wieder Zugriff gewähren.",
-        "confirmation": "Personen mit Zugriff über das übergeordnete Element verlieren diesen. Nur direkt hinzugefügte Personen behalten den Zugriff."
+        "description": "Nur speziell zu diesem Element hinzugefügte Personen haben Zugriff",
+        "confirmation": "Vom übergeordneten Element geerbte Zugriffe werden entfernt.",
+        "details": "Direkt zu diesem Element hinzugefügte Personen behalten ihren Zugriff. Sie können anderen jederzeit wieder Zugriff gewähren."
       },
       "unrestrict": {
-        "title": "Zugriff öffnen",
-        "description": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff auf dieses Element",
-        "confirmation": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff auf dieses Element. Direkt hinzugefügte Personen behalten ihren Zugriff.",
-        "hint": "Sie können den Zugriff jederzeit wieder einschränken."
+        "title": "Zugriff erweitern",
+        "description": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff",
+        "confirmation": "Alle Personen mit Zugriff auf das übergeordnete Element erhalten Zugriff.",
+        "details": "Direkt hinzugefügte Personen behalten ihren Zugriff."
       },
       "invitations": {
         "title": "Ausstehende Einladungen"

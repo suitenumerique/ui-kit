@@ -13,17 +13,16 @@ const scenarios = [
     action: "restrict",
     title: "Restrict access",
     isRestricted: false,
-    confirmation:
-      "People who have access through the parent item will lose it. Only people added directly will keep access.",
-    hint: "You can give them access again at any time.",
+    confirmation: "Access inherited from the parent item will be removed.",
+    details:
+      "People added directly to this item will keep their access. Access can be restored for others at any time.",
   },
   {
     action: "unrestrict",
-    title: "Open access",
+    title: "Expand access",
     isRestricted: true,
-    confirmation:
-      "Everyone with access to the parent item will have access to this item. People added directly will keep their access.",
-    hint: "You can restrict access again at any time.",
+    confirmation: "Everyone with access to the parent item will have access.",
+    details: "People added directly will keep their access.",
   },
 ];
 
@@ -38,8 +37,9 @@ for (const scenario of scenarios) {
         />,
       );
       const modal = await openConfirmation(page, scenario.title);
-      await expect(modal).toContainText(scenario.confirmation);
-      await expect(modal).toContainText(scenario.hint);
+      // The consequence is emphasized, the details follow in the same paragraph.
+      await expect(modal.locator("strong")).toHaveText(scenario.confirmation);
+      await expect(modal).toContainText(scenario.details);
       expect(await page.evaluate(() => window.__shareModalCalls)).toEqual([]);
       await modal
         .getByRole("button", { name: scenario.title, exact: true })
@@ -124,3 +124,39 @@ for (const scenario of scenarios) {
     });
   });
 }
+
+// Apps name their items: the restriction copy follows `customTranslations`,
+// like the link settings do.
+test("restriction copy follows customTranslations", async ({ mount, page }) => {
+  // 1. Mount a restrictable modal with folder wording for the menu and dialog.
+  await mount(
+    <TestShareModal
+      allowFileImport
+      canRestrict
+      customTranslations={{
+        "components.share.restrict.title": "Restrict folder",
+        "components.share.restrict.description": "Only people of this folder",
+        "components.share.restrict.confirmation": "Parent folder access goes.",
+        "components.share.restrict.details": "Folder members stay.",
+      }}
+    />,
+  );
+
+  // 2. The menu entry shows the overridden title and description.
+  await page.getByRole("button", { name: "More actions" }).click();
+  const entry = page.getByRole("menuitem", { name: /Restrict folder/ });
+  await expect(entry).toContainText("Only people of this folder");
+
+  // 3. The dialog uses the overrides for its title, text and confirm button,
+  //    while the untouched Cancel label keeps its default.
+  await entry.click();
+  const modal = page.getByRole("dialog", { name: "Restrict folder" });
+  await expect(modal.locator("strong")).toHaveText("Parent folder access goes.");
+  await expect(modal).toContainText("Folder members stay.");
+  await expect(
+    modal.getByRole("button", { name: "Restrict folder", exact: true }),
+  ).toBeVisible();
+  await expect(
+    modal.getByRole("button", { name: "Cancel", exact: true }),
+  ).toBeVisible();
+});

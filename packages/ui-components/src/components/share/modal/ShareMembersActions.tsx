@@ -2,6 +2,10 @@ import { Button } from ":/cunningham";
 import { DropdownMenu, useDropdownMenu } from ":/components/dropdown-menu";
 import { IconSize } from ":/components/icon";
 import { useCunningham } from ":/components/provider";
+import {
+  CustomTranslations,
+  useCustomTranslations,
+} from ":/hooks/useCustomTranslations";
 import { FileUp, Folder, FolderRestricted, More } from ":/icons";
 
 export type ShareAccessAction = "restrict" | "unrestrict";
@@ -11,15 +15,19 @@ export const ShareMembersActions = ({
   onOpenImport,
   isRestricted = false,
   onRequestAccessAction,
+  customTranslations,
 }: {
   /** Shows the import option when provided. */
   onOpenImport?: () => void;
   isRestricted?: boolean;
   /** Shows the restrict / open access option when provided. */
   onRequestAccessAction?: (action: ShareAccessAction) => void;
+  /** Overrides the restrict / open access copy, e.g. to name a folder. */
+  customTranslations?: CustomTranslations;
 }) => {
   const menu = useDropdownMenu();
   const { t } = useCunningham();
+  const { t: tCopy } = useCustomTranslations(customTranslations);
   const accessAction: ShareAccessAction = isRestricted
     ? "unrestrict"
     : "restrict";
@@ -42,8 +50,8 @@ export const ShareMembersActions = ({
         ...(onRequestAccessAction
           ? [
               {
-                label: t(`components.share.${accessAction}.title`),
-                subText: t(`components.share.${accessAction}.description`),
+                label: tCopy(`components.share.${accessAction}.title`),
+                subText: tCopy(`components.share.${accessAction}.description`),
                 icon: isRestricted ? (
                   <Folder size={IconSize.SMALL} />
                 ) : (

@@ -45,15 +45,15 @@
       },
       "restrict": {
         "title": "Restrict access",
-        "description": "Restrict access to explicitly added individuals",
-        "hint": "You can give them access again at any time.",
-        "confirmation": "People who have access through the parent item will lose it. Only people added directly will keep access."
+        "description": "Only people added specifically to this item will have access",
+        "confirmation": "Access inherited from the parent item will be removed.",
+        "details": "People added directly to this item will keep their access. Access can be restored for others at any time."
       },
       "unrestrict": {
-        "title": "Open access",
-        "description": "All people from the parent item will have access",
-        "confirmation": "Everyone with access to the parent item will have access to this item. People added directly will keep their access.",
-        "hint": "You can restrict access again at any time."
+        "title": "Expand access",
+        "description": "Everyone with access to the parent item will have access",
+        "confirmation": "Everyone with access to the parent item will have access.",
+        "details": "People added directly will keep their access."
       },
       "invitations": {
         "title": "Pending invitations"

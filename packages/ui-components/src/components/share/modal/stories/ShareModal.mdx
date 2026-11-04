@@ -205,13 +205,18 @@ confirmation dialog. Cancel, close, and Escape dismiss it without changing
 access; confirming calls `onRestrict` and dismisses the dialog. The consumer
 applies the change and updates `isRestricted` on success.
 
-The warning explains that people with access through the parent item will
-lose it, while people added directly will keep access. No access count is
-required.
+The warning explains that access inherited from the parent item will be
+removed, while people added directly to the item will keep their access.
+No access count is required.
 
-When `isRestricted` is true, the menu instead offers **Open access**. Its
+When `isRestricted` is true, the menu instead offers **Expand access**. Its
 confirmation explains that everyone with access to the parent item will
-have access to this item, while people added directly keep their access.
+have access, while people added directly keep their access.
+
+The copy speaks of items. Apps naming their items differently, e.g. folders,
+override the `components.share.restrict.*` and `components.share.unrestrict.*`
+keys (`title`, `description`, `confirmation`, `details`) through
+`customTranslations`.
 Confirming calls `onUnrestrict`; the consumer applies the change and sets
 `isRestricted` to false on success. Cancel, close, and Escape make no change.
 
