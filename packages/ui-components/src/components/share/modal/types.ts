@@ -68,6 +68,8 @@ export type ShareModalSearchProps<UserType> = {
   searchUsersResult?: UserData<UserType>[];
   onSearchUsers?: (search: string) => void;
   searchPlaceholder?: string;
+  /** Label of the invite button shown once users are selected. Defaults to "Share". */
+  shareButtonLabel?: string;
   onInviteUser?: (users: UserData<UserType>[], role: string) => void;
   loading?: boolean;
   /**

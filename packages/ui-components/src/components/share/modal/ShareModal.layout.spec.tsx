@@ -13,4 +13,16 @@ describe("ShareModal layout", () => {
       await screen.findByRole("group", { name: "Select a user" }),
     ).toBeInTheDocument();
   });
+
+  it("labels the invite button with the app wording", async () => {
+    const user = userEvent.setup();
+    render(<Harness shareButtonLabel="Invite" />);
+
+    await user.type(searchInput(), "ali");
+    await user.click(await screen.findByTestId("search-user-item"));
+
+    expect(screen.getByTestId("share-invite-button")).toHaveTextContent(
+      "Invite",
+    );
+  });
 });

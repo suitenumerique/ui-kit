@@ -223,6 +223,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     onInputChange={search.changeInput}
                     placeholder={searchPlaceholder}
                     loading={props.loading}
+                    shareButtonLabel={props.shareButtonLabel}
                     roles={props.invitationRoles!}
                     selectedRole={search.selectedRole}
                     onSelectRole={search.selectRole}
