@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   Harness,
@@ -310,35 +310,76 @@ describe("ShareModal accessibility", () => {
     });
   });
 
-  it("drops the pending focus when the app keeps the request", async () => {
+  it("does not steal focus from a control that is still present", async () => {
     const user = userEvent.setup();
     const onAcceptAccessRequest = vi.fn();
+    const onRejectAccessRequest = vi.fn();
     const { rerender } = render(
       <Harness
         accessRequests={[germain, hugo]}
         onAcceptAccessRequest={onAcceptAccessRequest}
+        onRejectAccessRequest={onRejectAccessRequest}
       />,
     );
 
     await user.click(
       screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
     );
+    const rejectHugo = screen.getByRole("button", {
+      name: "Reject request from Hugo Martin",
+    });
+    rejectHugo.focus();
     rerender(
       <Harness
-        accessRequests={[germain]}
+        accessRequests={[hugo]}
         onAcceptAccessRequest={onAcceptAccessRequest}
+        onRejectAccessRequest={onRejectAccessRequest}
       />,
     );
+
+    expect(
+      screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+    ).toHaveFocus();
+  });
+
+  it("moves focus after a later request is removed too", async () => {
+    const user = userEvent.setup();
+    const onAcceptAccessRequest = vi.fn();
+    const onRejectAccessRequest = vi.fn();
+    const { rerender } = render(
+      <Harness
+        accessRequests={[germain, hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+        onRejectAccessRequest={onRejectAccessRequest}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+    );
+    rerender(
+      <Harness
+        accessRequests={[hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+        onRejectAccessRequest={onRejectAccessRequest}
+      />,
+    );
+    expect(
+      screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+    ).toHaveFocus();
+
     rerender(
       <Harness
         accessRequests={[]}
         onAcceptAccessRequest={onAcceptAccessRequest}
+        onRejectAccessRequest={onRejectAccessRequest}
       />,
     );
-
-    await act(
-      () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())),
-    );
-    expect(searchInput()).not.toHaveFocus();
+    await waitFor(() => {
+      expect(searchInput()).toHaveFocus();
+    });
   });
 });
