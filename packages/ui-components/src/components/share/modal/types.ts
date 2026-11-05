@@ -57,7 +57,9 @@ export type ShareModalAccessProps<UserType, AccessType> = {
   ) => string | undefined;
   /**
    * Overrides the default "N members" section heading (which otherwise comes
-   * from `useCunningham()` translations).
+   * from `useCunningham()` translations). Return phrasing content only: the
+   * result is rendered inside a heading, so it must not include interactive
+   * elements or block-level markup.
    */
   membersTitle?: (members: AccessData<UserType, AccessType>[]) => ReactNode;
 };

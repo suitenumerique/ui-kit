@@ -32,7 +32,10 @@
         }
       },
       "access": {
-        "delete": "Retirar acceso"
+        "delete": "Retirar acceso",
+        "remove_user": "Quitar a {name}",
+        "role_label": "Cambiar el rol de {name}, actualmente {role}",
+        "role_changed": "Rol cambiado a {role} para {name}"
       },
       "actions": {
         "label": "Más acciones"
@@ -56,12 +59,14 @@
         "hint": "Puede volver a restringir el acceso en cualquier momento."
       },
       "invitations": {
-        "title": "Invitaciones pendientes"
+        "title": "Invitaciones pendientes",
+        "load_more_aria": "Mostrar más invitaciones"
       },
       "members": {
         "title_plural": "Compartido entre {count} personas",
         "title_singular": "Compartido entre {count} persona",
-        "load_more": "Mostrar más"
+        "load_more": "Mostrar más",
+        "load_more_aria": "Mostrar más miembros"
       },
       "item": {
         "add": "Añadir"
@@ -72,7 +77,9 @@
       },
       "user": {
         "no_result": "Sin resultados",
-        "placeholder": "Buscar un usuario para invitar"
+        "placeholder": "Buscar un usuario para invitar",
+        "added": "{name} añadido a las invitaciones",
+        "removed": "{name} eliminado de las invitaciones"
       },
       "linkSettings": {
         "title": "Configuración del enlace",

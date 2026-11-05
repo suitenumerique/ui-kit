@@ -4,6 +4,18 @@
 
 $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
+.c__share-modal__sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .c__share-modal__members {
   display: flex;
   flex-direction: column;
@@ -27,9 +39,16 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 .c__share-modal__members-title,
 .c__share-modal__invitations-title,
 .c__share-modal__link-settings__title {
+  margin: 0;
   font-size: var(--c--globals--font--sizes--xs);
   font-weight: 500;
   color: var(--c--contextuals--content--semantic--neutral--tertiary);
+}
+
+.c__share-modal__members-title h3 {
+  margin: 0;
+  font: inherit;
+  color: inherit;
 }
 
 .c__share-modal__members-title {

@@ -32,7 +32,10 @@
         }
       },
       "access": {
-        "delete": "Zugriff entziehen"
+        "delete": "Zugriff entziehen",
+        "remove_user": "{name} entfernen",
+        "role_label": "Rolle von {name} ändern, derzeit {role}",
+        "role_changed": "Rolle für {name} in {role} geändert"
       },
       "actions": {
         "label": "Weitere Aktionen"
@@ -56,12 +59,14 @@
         "hint": "Sie können den Zugriff jederzeit wieder einschränken."
       },
       "invitations": {
-        "title": "Ausstehende Einladungen"
+        "title": "Ausstehende Einladungen",
+        "load_more_aria": "Mehr anzeigen: Einladungen"
       },
       "members": {
         "title_plural": "Geteilt mit {count} Personen",
         "title_singular": "Geteilt mit {count} Person",
-        "load_more": "Mehr anzeigen"
+        "load_more": "Mehr anzeigen",
+        "load_more_aria": "Mehr anzeigen: Mitglieder"
       },
       "item": {
         "add": "Hinzufügen"
@@ -72,7 +77,9 @@
       },
       "user": {
         "no_result": "Kein Ergebnis",
-        "placeholder": "Nach einem Benutzer zum Einladen suchen"
+        "placeholder": "Nach einem Benutzer zum Einladen suchen",
+        "added": "{name} zu den Einladungen hinzugefügt",
+        "removed": "{name} aus den Einladungen entfernt"
       },
       "linkSettings": {
         "title": "Link-Einstellungen",

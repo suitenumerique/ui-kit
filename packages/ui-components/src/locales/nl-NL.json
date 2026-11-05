@@ -32,7 +32,10 @@
         }
       },
       "access": {
-        "delete": "Toegang intrekken"
+        "delete": "Toegang intrekken",
+        "remove_user": "{name} verwijderen",
+        "role_label": "Rol van {name} wijzigen, momenteel {role}",
+        "role_changed": "Rol van {name} gewijzigd naar {role}"
       },
       "actions": {
         "label": "Meer acties"
@@ -56,12 +59,14 @@
         "hint": "U kunt de toegang op elk moment opnieuw beperken."
       },
       "invitations": {
-        "title": "Openstaande uitnodigingen"
+        "title": "Openstaande uitnodigingen",
+        "load_more_aria": "Meer weergeven: uitnodigingen"
       },
       "members": {
         "title_plural": "Gedeeld met {count} personen",
         "title_singular": "Gedeeld met {count} persoon",
-        "load_more": "Meer weergeven"
+        "load_more": "Meer weergeven",
+        "load_more_aria": "Meer weergeven: leden"
       },
       "item": {
         "add": "Toevoegen"
@@ -72,7 +77,9 @@
       },
       "user": {
         "no_result": "Geen resultaten",
-        "placeholder": "Zoek een gebruiker om uit te nodigen"
+        "placeholder": "Zoek een gebruiker om uit te nodigen",
+        "added": "{name} toegevoegd aan de uitnodigingen",
+        "removed": "{name} verwijderd uit de uitnodigingen"
       },
       "linkSettings": {
         "title": "Linkinstellingen",

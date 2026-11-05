@@ -1,4 +1,4 @@
-import { useState, type PropsWithChildren } from "react";
+import { useEffect, useRef, useState, type PropsWithChildren } from "react";
 import { Modal, ModalSize } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
 import { QuickSearch } from ":/components/quick-search";
@@ -18,6 +18,7 @@ import {
   getShareModalVisibility,
   ShareModalVisibilityMode,
 } from "./visibility";
+import type { AccessData, InvitationData, UserData } from "../types";
 import type { ShareModalProps } from "./types";
 import { FolderRestricted } from ":/icons";
 import { IconSize } from ":/components/icon";
@@ -89,6 +90,88 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   });
   const searchPlaceholder =
     props.searchPlaceholder ?? t("components.share.user.placeholder");
+  const [announcement, setAnnouncement] = useState("");
+  const announceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The menu close announcement can swallow a message set in the same turn.
+  const announce = (message: string) => {
+    if (announceTimeoutRef.current !== null) {
+      clearTimeout(announceTimeoutRef.current);
+    }
+    setAnnouncement("");
+    announceTimeoutRef.current = setTimeout(() => {
+      announceTimeoutRef.current = null;
+      setAnnouncement(message);
+    }, 250);
+  };
+  useEffect(
+    () => () => {
+      if (announceTimeoutRef.current !== null) {
+        clearTimeout(announceTimeoutRef.current);
+      }
+    },
+    [],
+  );
+  const focusSearchInput = () => {
+    requestAnimationFrame(() => {
+      layout.searchField
+        ?.querySelector<HTMLInputElement>(
+          "input.c__share-modal__search-field__input",
+        )
+        ?.focus();
+    });
+  };
+  const handleSelectUser = (user: UserData<UserType>) => {
+    search.selectUser(user);
+    announce(
+      t("components.share.user.added", {
+        name: user.full_name || user.email,
+      }),
+    );
+    focusSearchInput();
+  };
+  const handleRemoveUser = (user: UserData<UserType>) => {
+    search.removeUser(user);
+    announce(
+      t("components.share.user.removed", {
+        name: user.full_name || user.email,
+      }),
+    );
+    focusSearchInput();
+  };
+  const handleUpdateInvitation = (
+    invitation: InvitationData<UserType, InvitationType>,
+    role: string,
+  ) => {
+    if (!props.onUpdateInvitation || invitation.role === role) return;
+    props.onUpdateInvitation(invitation, role);
+    const roleLabel =
+      props.invitationRoles?.find((item) => item.value === role)?.label ??
+      role;
+    announce(
+      t("components.share.access.role_changed", {
+        name: invitation.email,
+        role: roleLabel,
+      }),
+    );
+  };
+  const handleUpdateAccess = (
+    access: AccessData<UserType, AccessType>,
+    role: string,
+  ) => {
+    const roleKey = props.accessRoleKey ?? "role";
+    if (!props.onUpdateAccess || access[roleKey] === role) return;
+    props.onUpdateAccess(access, role);
+    const accessRoles =
+      props.getAccessRoles?.(access) ?? props.invitationRoles ?? [];
+    const roleLabel =
+      accessRoles.find((item) => item.value === role)?.label ?? role;
+    announce(
+      t("components.share.access.role_changed", {
+        name: access.user.full_name || access.user.email,
+        role: roleLabel,
+      }),
+    );
+  };
   return (
     <>
       <Modal
@@ -100,6 +183,14 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
         size={isMobile ? ModalSize.FULL : ModalSize.LARGE}
       >
         <div className="c__share-modal no-padding">
+          <div
+            className="c__share-modal__sr-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {announcement}
+          </div>
           {visibility.mode === ShareModalVisibilityMode.RESTRICTED && (
             <div
               className="c__share-modal__cannot-view"
@@ -121,12 +212,13 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
               inputValue={search.inputValue}
               showInput={canUpdate}
               loading={props.loading}
+              label={searchPlaceholder}
               placeholder={searchPlaceholder}
               inputContent={
                 <div ref={layout.searchFieldRef}>
                   <ShareSearchField
                     selectedUsers={search.selectedUsers}
-                    onRemoveUser={search.removeUser}
+                    onRemoveUser={handleRemoveUser}
                     inputValue={search.inputValue}
                     onInputChange={search.changeInput}
                     placeholder={searchPlaceholder}
@@ -147,7 +239,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     query={search.searchQuery}
                     allowInvitation={allowInvitation}
                     groupName={props.searchGroupName}
-                    onSelect={search.selectUser}
+                    onSelect={handleSelectUser}
                   />
                 )}
                 {!search.isSearching && (
@@ -166,7 +258,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     invitations={invitations}
                     roles={props.invitationRoles!}
                     canUpdate={canUpdate}
-                    onUpdateInvitation={props.onUpdateInvitation}
+                    onUpdateInvitation={handleUpdateInvitation}
                     onDeleteInvitation={props.onDeleteInvitation}
                     invitationRoleTopMessage={props.invitationRoleTopMessage}
                     hasNextInvitations={props.hasNextInvitations}
@@ -181,7 +273,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                     getAccessRoles={props.getAccessRoles}
                     accessRoleKey={props.accessRoleKey}
                     accessRoleTopMessage={props.accessRoleTopMessage}
-                    onUpdateAccess={props.onUpdateAccess}
+                    onUpdateAccess={handleUpdateAccess}
                     onDeleteAccess={props.onDeleteAccess}
                     membersTitle={props.membersTitle}
                     renderAccessRightExtras={props.renderAccessRightExtras}
