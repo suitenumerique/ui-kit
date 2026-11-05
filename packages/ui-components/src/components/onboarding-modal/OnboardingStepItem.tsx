@@ -1,20 +1,18 @@
-import { forwardRef } from "react";
 import clsx from "clsx";
+import { Tab } from "react-aria-components";
 import { OnboardingStep } from "./types";
 
 export interface OnboardingStepItemProps {
   /** Step data */
   step: OnboardingStep;
-  /** Whether this step is active */
-  isActive: boolean;
-  /** Click handler */
-  onClick: () => void;
-  /** Step index (0-based) for accessibility */
+  /** Step index (0-based) */
   index: number;
-  /** Total number of steps */
-  totalSteps: number;
-  /** Accessible label for the step */
-  ariaLabel: string;
+  /** Whether this step is the selected one */
+  isActive: boolean;
+  /** DOM id of the step title, names the step */
+  titleId: string;
+  /** DOM id of the step description, describes the selected step */
+  descriptionId: string;
 }
 
 /**
@@ -25,40 +23,78 @@ export const getStepIcon = (step: OnboardingStep, isActive: boolean) => {
   return isActive && step.activeIcon ? step.activeIcon : step.icon;
 };
 
-export const OnboardingStepItem = forwardRef<
-  HTMLButtonElement,
-  OnboardingStepItemProps
->(({ step, isActive, onClick, index, ariaLabel }, ref) => {
-  const displayedIcon = getStepIcon(step, isActive);
-
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className={clsx("c__onboarding-modal__step", {
-        "c__onboarding-modal__step--active": isActive,
-      })}
-      onClick={onClick}
-      aria-current={isActive ? "step" : undefined}
-      aria-label={ariaLabel}
-      tabIndex={isActive ? 0 : -1}
-      data-testid={`onboarding-step-${index}`}
-    >
-      <div className="c__onboarding-modal__step__icon" aria-hidden="true">
-        {displayedIcon}
-      </div>
-      <div className="c__onboarding-modal__step__content">
-        <span className="c__onboarding-modal__step__title">{step.title}</span>
-        {step.description && (
-          <div className="c__onboarding-modal__step__description-wrapper">
-            <span className="c__onboarding-modal__step__description">
-              {step.description}
-            </span>
-          </div>
-        )}
-      </div>
-    </button>
-  );
+const getStepA11yProps = ({
+  step,
+  isActive,
+  titleId,
+  descriptionId,
+}: OnboardingStepItemProps) => ({
+  "aria-labelledby": titleId,
+  "aria-describedby": isActive && step.description ? descriptionId : undefined,
 });
 
-OnboardingStepItem.displayName = "OnboardingStepItem";
+const getStepClassName = (isActive: boolean) =>
+  clsx("c__onboarding-modal__step", {
+    "c__onboarding-modal__step--active": isActive,
+  });
+
+const StepContent = ({
+  step,
+  isActive,
+  titleId,
+  descriptionId,
+}: OnboardingStepItemProps) => (
+  <>
+    <div className="c__onboarding-modal__step__icon" aria-hidden="true">
+      {getStepIcon(step, isActive)}
+    </div>
+    <div className="c__onboarding-modal__step__content">
+      <span id={titleId} className="c__onboarding-modal__step__title">
+        {step.title}
+      </span>
+      {step.description && (
+        // Collapsed descriptions stay in the DOM for the animation only.
+        <div
+          className="c__onboarding-modal__step__description-wrapper"
+          aria-hidden={!isActive}
+        >
+          <span
+            id={descriptionId}
+            className="c__onboarding-modal__step__description"
+          >
+            {step.description}
+          </span>
+        </div>
+      )}
+    </div>
+  </>
+);
+
+/** Step rendered as a tab, when the steps control a preview panel. */
+export const OnboardingStepTab = (props: OnboardingStepItemProps) => (
+  <Tab
+    id={String(props.index)}
+    className={getStepClassName(props.isActive)}
+    data-testid={`onboarding-step-${props.index}`}
+    {...getStepA11yProps(props)}
+  >
+    <StepContent {...props} />
+  </Tab>
+);
+
+/** Step rendered as a button, when there is no preview panel (text-only). */
+export const OnboardingStepButton = ({
+  onClick,
+  ...props
+}: OnboardingStepItemProps & { onClick: () => void }) => (
+  <button
+    type="button"
+    className={getStepClassName(props.isActive)}
+    aria-current={props.isActive ? "step" : undefined}
+    onClick={onClick}
+    data-testid={`onboarding-step-${props.index}`}
+    {...getStepA11yProps(props)}
+  >
+    <StepContent {...props} />
+  </button>
+);

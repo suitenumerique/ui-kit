@@ -157,8 +157,7 @@
       "previous": "Précédent",
       "complete": "Compris",
       "stepLabel": "Étape {current} sur {total} : {title}",
-      "currentStepSuffix": " (actuelle)",
-      "contentRegionLabel": "Contenu de l'étape {current} sur {total}"
+      "newWindow": "(ouvre une nouvelle fenêtre)"
     },
     "feedbackForm": {
       "title": "Contacter l'équipe",
