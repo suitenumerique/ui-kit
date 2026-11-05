@@ -1,6 +1,13 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Harness, member, searchInput } from "./ShareModal.fixtures";
+import {
+  Harness,
+  RequestsHarness,
+  germain,
+  hugo,
+  member,
+  searchInput,
+} from "./ShareModal.fixtures";
 
 const initialInnerWidth = window.innerWidth;
 
@@ -161,5 +168,177 @@ describe("ShareModal accessibility", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 350));
     expect(screen.getByRole("status")).toHaveTextContent("");
+  });
+
+  it("names request actions with the person and hides their icons", () => {
+    render(
+      <Harness
+        accessRequests={[germain]}
+        onAcceptAccessRequest={vi.fn()}
+        onRejectAccessRequest={vi.fn()}
+      />,
+    );
+
+    for (const name of [
+      "Accept request from Germain Dupond",
+      "Reject request from Germain Dupond",
+    ]) {
+      expect(
+        screen.getByRole("button", { name }).querySelector("svg"),
+      ).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+
+  it("announces an accepted and a rejected request", async () => {
+    const user = userEvent.setup();
+    render(<RequestsHarness requests={[germain, hugo]} />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
+    );
+    await waitFor(() => {
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Access request from Germain Dupond accepted",
+      );
+    });
+
+    await user.click(
+      screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+    );
+    await waitFor(() => {
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Access request from Hugo Martin rejected",
+      );
+    });
+  });
+
+  it("moves focus to the next request after an action", async () => {
+    const user = userEvent.setup();
+    render(<RequestsHarness requests={[germain, hugo]} />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Accept request from Hugo Martin" }),
+      ).toHaveFocus();
+    });
+  });
+
+  it("moves focus to the previous request when the last one goes", async () => {
+    const user = userEvent.setup();
+    render(<RequestsHarness requests={[germain, hugo]} />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", {
+          name: "Accept request from Germain Dupond",
+        }),
+      ).toHaveFocus();
+    });
+  });
+
+  it("returns focus to the search field when no request is left", async () => {
+    const user = userEvent.setup();
+    render(<RequestsHarness requests={[germain]} />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
+    );
+
+    await waitFor(() => {
+      expect(searchInput()).toHaveFocus();
+    });
+  });
+
+  it("focuses reject when the app offers no accept", async () => {
+    const user = userEvent.setup();
+    render(<RequestsHarness requests={[germain, hugo]} canAccept={false} />);
+
+    expect(
+      screen.queryByRole("button", { name: "Accept request from Hugo Martin" }),
+    ).not.toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", { name: "Reject request from Germain Dupond" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Reject request from Hugo Martin" }),
+      ).toHaveFocus();
+    });
+  });
+
+  it("waits for the app to remove the request before moving focus", async () => {
+    const user = userEvent.setup();
+    const onAcceptAccessRequest = vi.fn();
+    const { rerender } = render(
+      <Harness
+        accessRequests={[germain, hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+
+    const accept = screen.getByRole("button", {
+      name: "Accept request from Germain Dupond",
+    });
+    await user.click(accept);
+    rerender(
+      <Harness
+        accessRequests={[germain, hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+    expect(accept).toHaveFocus();
+
+    rerender(
+      <Harness
+        accessRequests={[hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Accept request from Hugo Martin" }),
+      ).toHaveFocus();
+    });
+  });
+
+  it("drops the pending focus when the app keeps the request", async () => {
+    const user = userEvent.setup();
+    const onAcceptAccessRequest = vi.fn();
+    const { rerender } = render(
+      <Harness
+        accessRequests={[germain, hugo]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept request from Germain Dupond" }),
+    );
+    rerender(
+      <Harness
+        accessRequests={[germain]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+    rerender(
+      <Harness
+        accessRequests={[]}
+        onAcceptAccessRequest={onAcceptAccessRequest}
+      />,
+    );
+
+    await act(
+      () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())),
+    );
+    expect(searchInput()).not.toHaveFocus();
   });
 });

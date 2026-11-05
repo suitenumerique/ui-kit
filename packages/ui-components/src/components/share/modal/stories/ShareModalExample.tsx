@@ -3,6 +3,7 @@ import { ShareModal } from "../ShareModal";
 
 import {
   AccessData,
+  AccessRequestData,
   InvitationData,
   UserData,
 } from ":/components/share/types.ts";
@@ -28,6 +29,8 @@ type AccessType = AccessData<
     name: string;
   }
 >;
+
+type AccessRequestType = AccessRequestData<UserType, object>;
 
 export const ShareModalExample = ({
   importFails,
@@ -64,6 +67,17 @@ export const ShareModalExample = ({
       },
     }));
   });
+  const [accessRequests, setAccessRequests] = useState<AccessRequestType[]>([
+    {
+      id: "request-germain",
+      role: "editor",
+      user: {
+        id: "germain",
+        full_name: "Germain Dupond",
+        email: "germain.dupond@example.com",
+      },
+    },
+  ]);
   const [members, setMembers] = useState<AccessType[]>(() => {
     const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return ids.map((id) => ({
@@ -168,6 +182,12 @@ export const ShareModalExample = ({
     setMembers(members.filter((member) => member.id !== access.id));
   };
 
+  const removeAccessRequest = (request: AccessRequestType) => {
+    setAccessRequests((current) =>
+      current.filter((item) => item.id !== request.id),
+    );
+  };
+
   const onUpdateInvitation = (invit: InvitationType, role: string) => {
     setInvitations(
       invitations.map((invitation) =>
@@ -235,6 +255,9 @@ export const ShareModalExample = ({
       onClose={() => {}}
       accesses={members}
       invitations={invitations}
+      accessRequests={accessRequests}
+      onAcceptAccessRequest={removeAccessRequest}
+      onRejectAccessRequest={removeAccessRequest}
       onSearchUsers={setUserQuery}
       onInviteUser={console.log}
       onUpdateAccess={onUpdateAccess}

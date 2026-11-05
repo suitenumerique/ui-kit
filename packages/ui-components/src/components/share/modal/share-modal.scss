@@ -24,6 +24,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
   padding-top: 0;
 }
 
+.c__share-modal__access-requests,
 .c__share-modal__invitations {
   display: flex;
   flex-direction: column;
@@ -37,6 +38,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 }
 
 .c__share-modal__members-title,
+.c__share-modal__access-requests-title,
 .c__share-modal__invitations-title,
 .c__share-modal__link-settings__title {
   margin: 0;

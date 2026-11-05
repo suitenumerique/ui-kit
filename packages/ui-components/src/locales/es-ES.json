@@ -62,6 +62,15 @@
         "title": "Invitaciones pendientes",
         "load_more_aria": "Mostrar más invitaciones"
       },
+      "access_requests": {
+        "title": "Solicitudes de acceso",
+        "accept": "Aceptar la solicitud de {name}",
+        "reject": "Rechazar la solicitud de {name}",
+        "accepted": "Solicitud de acceso de {name} aceptada",
+        "rejected": "Solicitud de acceso de {name} rechazada",
+        "role_label": "Rol que se concede a {name}: {role}",
+        "load_more_aria": "Mostrar más solicitudes de acceso"
+      },
       "members": {
         "title_plural": "Compartido entre {count} personas",
         "title_singular": "Compartido entre {count} persona",

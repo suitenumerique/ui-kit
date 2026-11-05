@@ -62,6 +62,15 @@
         "title": "Openstaande uitnodigingen",
         "load_more_aria": "Meer weergeven: uitnodigingen"
       },
+      "access_requests": {
+        "title": "Toegangsverzoeken",
+        "accept": "Verzoek van {name} accepteren",
+        "reject": "Verzoek van {name} weigeren",
+        "accepted": "Toegangsverzoek van {name} geaccepteerd",
+        "rejected": "Toegangsverzoek van {name} geweigerd",
+        "role_label": "Rol voor {name}: {role}",
+        "load_more_aria": "Meer weergeven: toegangsverzoeken"
+      },
       "members": {
         "title_plural": "Gedeeld met {count} personen",
         "title_singular": "Gedeeld met {count} persoon",

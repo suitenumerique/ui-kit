@@ -62,6 +62,15 @@
         "title": "Pending invitations",
         "load_more_aria": "Show more invitations"
       },
+      "access_requests": {
+        "title": "Access requests",
+        "accept": "Accept request from {name}",
+        "reject": "Reject request from {name}",
+        "accepted": "Access request from {name} accepted",
+        "rejected": "Access request from {name} rejected",
+        "role_label": "Role to grant {name}: {role}",
+        "load_more_aria": "Show more access requests"
+      },
       "members": {
         "title_plural": "Shared between {count} people",
         "title_singular": "Shared between {count} person",

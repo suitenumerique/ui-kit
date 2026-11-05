@@ -7,6 +7,7 @@ import { ShareImportModal } from "../import-modal/ShareImportModal";
 import { ShareSearchField } from "./ShareSearchField";
 import { ShareSearchResults } from "./ShareSearchResults";
 import { ShareMembersSection } from "./ShareMembersSection";
+import { ShareAccessRequestsSection } from "./ShareAccessRequestsSection";
 import { ShareInvitationsSection } from "./ShareInvitationsSection";
 import { ShareModalFooter } from "./ShareModalFooter";
 import { ShareMembersActions, ShareAccessAction } from "./ShareMembersActions";
@@ -14,11 +15,17 @@ import { ShareAccessConfirmationModal } from "./ShareAccessConfirmationModal";
 import { useShareSearch } from "./useShareSearch";
 import { useShareImport } from "./useShareImport";
 import { useShareModalLayout } from "./useShareModalLayout";
+import { useAccessRequestFocus } from "./useAccessRequestFocus";
 import {
   getShareModalVisibility,
   ShareModalVisibilityMode,
 } from "./visibility";
-import type { AccessData, InvitationData, UserData } from "../types";
+import type {
+  AccessData,
+  AccessRequestData,
+  InvitationData,
+  UserData,
+} from "../types";
 import type { ShareModalProps } from "./types";
 import { getRoleLabel, getUserDisplayName } from "../labels";
 import { FolderRestricted } from ":/icons";
@@ -26,10 +33,16 @@ import { IconSize } from ":/components/icon";
 
 export type { ShareModalProps } from "./types";
 
-export const ShareModal = <UserType, InvitationType, AccessType>({
+export const ShareModal = <
+  UserType,
+  InvitationType,
+  AccessType,
+  AccessRequestType = object,
+>({
   children,
   accesses = [],
   invitations = [],
+  accessRequests = [],
   canUpdate = true,
   canView = true,
   hideInvitations = false,
@@ -38,7 +51,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   allowInvitation = true,
   ...props
 }: PropsWithChildren<
-  ShareModalProps<UserType, InvitationType, AccessType>
+  ShareModalProps<UserType, InvitationType, AccessType, AccessRequestType>
 >) => {
   if (!(hideInvitations && hideMembers)) {
     if (!props.invitationRoles) {
@@ -88,6 +101,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     loading: props.loading,
     membersCount: accesses.length,
     invitationsCount: invitations.length,
+    accessRequestsCount: accessRequests.length,
+    hasAccessRequestActions: Boolean(
+      props.onAcceptAccessRequest || props.onRejectAccessRequest,
+    ),
   });
   const searchPlaceholder =
     props.searchPlaceholder ?? t("components.share.user.placeholder");
@@ -167,6 +184,32 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
       t("components.share.access.role_changed", {
         name: getUserDisplayName(access.user),
         role: roleLabel,
+      }),
+    );
+  };
+  const requestFocus = useAccessRequestFocus(accessRequests, focusSearchInput);
+  const handleAcceptAccessRequest = (
+    request: AccessRequestData<UserType, AccessRequestType>,
+    role: string,
+  ) => {
+    if (!props.onAcceptAccessRequest) return;
+    requestFocus.track(request.id);
+    props.onAcceptAccessRequest(request, role);
+    announce(
+      t("components.share.access_requests.accepted", {
+        name: getUserDisplayName(request.user),
+      }),
+    );
+  };
+  const handleRejectAccessRequest = (
+    request: AccessRequestData<UserType, AccessRequestType>,
+  ) => {
+    if (!props.onRejectAccessRequest) return;
+    requestFocus.track(request.id);
+    props.onRejectAccessRequest(request);
+    announce(
+      t("components.share.access_requests.rejected", {
+        name: getUserDisplayName(request.user),
       }),
     );
   };
@@ -251,6 +294,19 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
                       </div>
                     )}
                   </>
+                )}
+                {visibility.showAccessRequests && (
+                  <ShareAccessRequestsSection
+                    accessRequests={accessRequests}
+                    roles={props.invitationRoles!}
+                    canAccept={Boolean(props.onAcceptAccessRequest)}
+                    canReject={Boolean(props.onRejectAccessRequest)}
+                    onAccept={handleAcceptAccessRequest}
+                    onReject={handleRejectAccessRequest}
+                    hasNextAccessRequests={props.hasNextAccessRequests}
+                    onLoadNextAccessRequests={props.onLoadNextAccessRequests}
+                    listRef={requestFocus.listRef}
+                  />
                 )}
                 {visibility.showInvitations && (
                   <ShareInvitationsSection

@@ -16,6 +16,8 @@ type ShareModalVisibilityOptions = {
   loading?: boolean;
   membersCount: number;
   invitationsCount: number;
+  accessRequestsCount: number;
+  hasAccessRequestActions: boolean;
 };
 
 export const getShareModalVisibility = ({
@@ -29,6 +31,8 @@ export const getShareModalVisibility = ({
   loading,
   membersCount,
   invitationsCount,
+  accessRequestsCount,
+  hasAccessRequestActions,
 }: ShareModalVisibilityOptions) => {
   const mode = !canView
     ? ShareModalVisibilityMode.RESTRICTED
@@ -48,6 +52,11 @@ export const getShareModalVisibility = ({
     // Actions remain reachable even when the members list is empty.
     showMembers:
       showLists && !hideMembers && (membersCount > 0 || showMembersActions),
+    showAccessRequests:
+      showLists &&
+      canUpdate &&
+      accessRequestsCount > 0 &&
+      hasAccessRequestActions,
     showInvitations: showLists && !hideInvitations && invitationsCount > 0,
     showFooter: !isSearching,
   };

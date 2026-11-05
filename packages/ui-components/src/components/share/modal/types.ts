@@ -3,7 +3,12 @@ import type {
   DropdownMenuOption,
   DropdownMenuProps,
 } from ":/components/dropdown-menu";
-import type { InvitationData, UserData, AccessData } from "../types";
+import type {
+  AccessData,
+  AccessRequestData,
+  InvitationData,
+  UserData,
+} from "../types";
 import type { ShareImportRow } from "../import-modal/ShareImportModal";
 import type { CustomTranslations } from ":/hooks/useCustomTranslations";
 
@@ -64,6 +69,19 @@ export type ShareModalAccessProps<UserType, AccessType> = {
   membersTitle?: (members: AccessData<UserType, AccessType>[]) => ReactNode;
 };
 
+export type ShareModalAccessRequestProps<UserType, AccessRequestType> = {
+  accessRequests?: AccessRequestData<UserType, AccessRequestType>[];
+  onAcceptAccessRequest?: (
+    request: AccessRequestData<UserType, AccessRequestType>,
+    role: string,
+  ) => void;
+  onRejectAccessRequest?: (
+    request: AccessRequestData<UserType, AccessRequestType>,
+  ) => void;
+  hasNextAccessRequests?: boolean;
+  onLoadNextAccessRequests?: () => void;
+};
+
 export type ShareModalSearchProps<UserType> = {
   searchUsersResult?: UserData<UserType>[];
   onSearchUsers?: (search: string) => void;
@@ -110,7 +128,12 @@ export type ShareModalLinkSettingsProps = {
  * The modal is generic and can be with all types as long as the types meet the minimum requirements
  * Like the modal, we can search users, list invitations and members and modify them, that's why we give the corresponding types
  */
-export type ShareModalProps<UserType, InvitationType, AccessType> = {
+export type ShareModalProps<
+  UserType,
+  InvitationType,
+  AccessType,
+  AccessRequestType = object,
+> = {
   modalTitle?: string;
   isOpen: boolean;
   canUpdate?: boolean;
@@ -143,5 +166,6 @@ export type ShareModalProps<UserType, InvitationType, AccessType> = {
   customTranslations?: CustomTranslations;
 } & ShareModalInvitationProps<UserType, InvitationType> &
   ShareModalAccessProps<UserType, AccessType> &
+  ShareModalAccessRequestProps<UserType, AccessRequestType> &
   ShareModalSearchProps<UserType> &
   ShareModalLinkSettingsProps;

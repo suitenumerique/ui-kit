@@ -146,11 +146,14 @@ From top to bottom the modal shows:
    invite. Hidden when `canUpdate` is `false`.
 2. **Pending selection** — users picked from the results stack up with a role
    dropdown (`invitationRoles`) and a share button that fires `onInviteUser`.
-3. **Invitations** (`invitations`) — pending invitations, each with a role
+3. **Access requests** (`accessRequests`) — people asking for access, shown
+   above the invitations, each with a role dropdown, an accept and a reject
+   action.
+4. **Invitations** (`invitations`) — pending invitations, each with a role
    dropdown and a delete action.
-4. **Members** (`accesses`) — people who already have access, with role
+5. **Members** (`accesses`) — people who already have access, with role
    management and the optional "Import contacts" menu.
-5. **Footer** — link settings (`linkSettings`) and/or your own
+6. **Footer** — link settings (`linkSettings`) and/or your own
    `outsideSearchContent` (e.g. a copy-link button).
 
 ## Providing the data
@@ -194,6 +197,18 @@ long as they contain the minimal shape below.
 | \`role\` | \`string\` | Proposed role |
 | \`email\` | \`string\` | Invitee email |
 | \`user\` | \`UserData\` | User data |
+`}
+</Markdown>
+
+### AccessRequestData
+
+<Markdown>
+  {`
+| Property | Type | Description |
+|----------|------|-------------|
+| \`id\` | \`string\` | Request identifier |
+| \`role\` | \`string\` | Role the row starts with |
+| \`user\` | \`UserData\` | User asking for access |
 `}
 </Markdown>
 
@@ -271,6 +286,36 @@ const accesses = rawAccesses.map((access, _, all) => ({
   ...access,
   can_delete: all.length > 1 || access.user.id !== currentUserId,
 }));
+```
+
+## Handling access requests
+
+Pass pending requests through `accessRequests`. The section shows only when the
+viewer can update, nothing is searched or loading, the list is not empty, and
+you pass `onAcceptAccessRequest` or `onRejectAccessRequest`. Each callback
+decides which button appears. Page the list with `hasNextAccessRequests` and
+`onLoadNextAccessRequests`.
+
+The role dropdown on a row is local: `onAcceptAccessRequest(request, role)`
+receives the role chosen on that row, starting from `request.role`.
+
+The modal does not remove a request itself. Remove it from `accessRequests`
+once your backend has accepted or rejected it. Focus then moves to the next
+request, else the previous one, else the search field. If you keep the request
+in the list, focus stays where it was.
+
+```tsx
+<ShareModal
+  accessRequests={requests}
+  onAcceptAccessRequest={async (request, role) => {
+    await api.acceptRequest(request.id, role);
+    setRequests((prev) => prev.filter((r) => r.id !== request.id));
+  }}
+  onRejectAccessRequest={async (request) => {
+    await api.rejectRequest(request.id);
+    setRequests((prev) => prev.filter((r) => r.id !== request.id));
+  }}
+/>
 ```
 
 ## Importing contacts from a file

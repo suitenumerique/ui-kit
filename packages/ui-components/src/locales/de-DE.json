@@ -62,6 +62,15 @@
         "title": "Ausstehende Einladungen",
         "load_more_aria": "Mehr anzeigen: Einladungen"
       },
+      "access_requests": {
+        "title": "Zugriffsanfragen",
+        "accept": "Anfrage von {name} annehmen",
+        "reject": "Anfrage von {name} ablehnen",
+        "accepted": "Zugriffsanfrage von {name} angenommen",
+        "rejected": "Zugriffsanfrage von {name} abgelehnt",
+        "role_label": "Rolle für {name}: {role}",
+        "load_more_aria": "Mehr anzeigen: Zugriffsanfragen"
+      },
       "members": {
         "title_plural": "Geteilt mit {count} Personen",
         "title_singular": "Geteilt mit {count} Person",

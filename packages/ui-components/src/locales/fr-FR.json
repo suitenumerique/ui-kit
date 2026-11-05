@@ -62,6 +62,15 @@
         "title": "Invitations en attente",
         "load_more_aria": "Afficher plus d'invitations"
       },
+      "access_requests": {
+        "title": "Demandes d'accès",
+        "accept": "Accepter la demande de {name}",
+        "reject": "Refuser la demande de {name}",
+        "accepted": "Demande d'accès de {name} acceptée",
+        "rejected": "Demande d'accès de {name} refusée",
+        "role_label": "Rôle à accorder à {name}, {role}",
+        "load_more_aria": "Afficher plus de demandes d'accès"
+      },
       "members": {
         "title_plural": "Partagé entre {count} personnes",
         "title_singular": "Partagé entre {count} personne",
