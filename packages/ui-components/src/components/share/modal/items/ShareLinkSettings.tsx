@@ -198,7 +198,7 @@ export const ShareLinkSettings = ({
               }}
             >
               {selectedLinkReachChoice?.label}
-              <span className="material-icons">
+              <span className="material-icons" aria-hidden="true">
                 {linkReachDropdown.isOpen ? "arrow_drop_up" : "arrow_drop_down"}
               </span>
             </Button>
@@ -283,9 +283,9 @@ export const ShareLinkSettings = ({
       className="c__share-modal__link-settings"
       data-testid="share-link-settings"
     >
-      <span className="c__share-modal__link-settings__title">
+      <h3 className="c__share-modal__link-settings__title">
         {t("components.share.linkSettings.title")}
-      </span>
+      </h3>
       <div className="c__share-modal__link-settings__content">
         {renderLinkReach()}
         <div className="c__share-modal__link-settings__content__description desktop">
