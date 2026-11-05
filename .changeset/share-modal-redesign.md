@@ -13,3 +13,5 @@ The user search result group is named "Select a user" by default. `searchGroupNa
 `AccessRequestData` is exported next to `InvitationData`.
 
 The link settings show one reach description under the reach and role row.
+
+On a narrow screen, selected users stack one per line above the input, role, and invite button.

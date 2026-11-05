@@ -253,3 +253,15 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
     font-size: var(--c--globals--font--sizes--xs);
   }
 }
+
+@media (max-width: $md) {
+  .c__share-modal__search-field__content {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .c__share-modal__search-field__main-space {
+    flex: none;
+    align-self: stretch;
+  }
+}

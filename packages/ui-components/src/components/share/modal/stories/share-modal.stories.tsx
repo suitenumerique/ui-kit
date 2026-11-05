@@ -466,3 +466,8 @@ export const LinkSettingsCustomTexts = {
     ></ShareModal>
   ),
 };
+
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: "mobile1" } },
+  render: () => <ShareModalExample linkSettings allowFileImport />,
+};

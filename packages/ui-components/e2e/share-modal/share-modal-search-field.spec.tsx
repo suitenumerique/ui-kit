@@ -1,14 +1,10 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
 import { TestShareModal } from "../helpers/mount-share-modal";
+import { selectUser } from "../helpers/share-modal-search";
 
 const field = (page: Page) => page.getByTestId("share-search-field");
 const input = (page: Page) => page.getByRole("combobox");
-
-const selectUser = async (page: Page, query: string, name: string) => {
-  await input(page).fill(query);
-  await page.getByTestId("search-users-list").getByText(name).click();
-};
 
 test.describe("ShareModal unified search field", () => {
   test("selected users appear as chips inside the search field (no gray box)", async ({
