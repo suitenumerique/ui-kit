@@ -20,6 +20,7 @@ type AccessRoleDropdownProps = {
   roleTopMessage?: DropdownMenuProps["topMessage"];
   onDelete?: () => void;
   canDelete?: boolean;
+  "aria-label"?: string;
 };
 
 export const AccessRoleDropdown = ({
@@ -32,6 +33,7 @@ export const AccessRoleDropdown = ({
   roleTopMessage,
   onDelete,
   canDelete = true,
+  "aria-label": ariaLabel,
 }: AccessRoleDropdownProps) => {
   const { t } = useCunningham();
 
@@ -96,6 +98,7 @@ export const AccessRoleDropdown = ({
         onClick={() => {
           onOpenChange?.(!isOpen);
         }}
+        aria-label={ariaLabel}
       >
         {currentRoleString?.label}
       </Button>

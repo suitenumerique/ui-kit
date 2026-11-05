@@ -8,6 +8,7 @@ import {
   DropdownMenuProps,
   useDropdownMenu,
 } from ":/components/dropdown-menu";
+import { useCunningham } from ":/components/provider";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
 
 export type ShareMemberItemProps<UserType, AccessType> = {
@@ -43,8 +44,13 @@ export const ShareMemberItem = <UserType, AccessType>({
   wrapperClassName,
 }: ShareMemberItemProps<UserType, AccessType>) => {
   const roleDropdown = useDropdownMenu();
+  const { t } = useCunningham();
   const canDelete =
     accessData.is_explicit !== false && accessData.can_delete !== false;
+  const displayName = accessData.user.full_name || accessData.user.email;
+  const currentRoleLabel = roles.find(
+    (role) => role.value === accessData[accessRoleKey],
+  )?.label;
   return (
     <div className={clsx("c__share-member-item", wrapperClassName)}>
       <QuickSearchItemTemplate
@@ -72,6 +78,10 @@ export const ShareMemberItem = <UserType, AccessType>({
               onDelete={
                 deleteAccess ? () => deleteAccess(accessData) : undefined
               }
+              aria-label={t("components.share.access.role_label", {
+                name: displayName,
+                role: currentRoleLabel ?? "",
+              })}
             />
           </div>
         }

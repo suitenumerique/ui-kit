@@ -2,6 +2,7 @@ import { QuickSearchItemTemplate } from ":/components/quick-search";
 import { InvitationData } from "../../types";
 import { UserRow } from ":/components/users/rows/UserRow";
 import { DropdownMenuOption, useDropdownMenu } from ":/components/dropdown-menu";
+import { useCunningham } from ":/components/provider";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
 
 export type ShareInvitationItemProps<UserType, InvitationType> = {
@@ -27,6 +28,10 @@ export const ShareInvitationItem = <UserType, InvitationType>({
   roleTopMessage,
 }: ShareInvitationItemProps<UserType, InvitationType>) => {
   const roleDropdown = useDropdownMenu();
+  const { t } = useCunningham();
+  const currentRoleLabel = roles.find(
+    (role) => role.value === invitation.role,
+  )?.label;
 
   return (
     <div className="c__share-member-item">
@@ -49,6 +54,10 @@ export const ShareInvitationItem = <UserType, InvitationType>({
                   ? () => deleteInvitation(invitation)
                   : undefined
               }
+              aria-label={t("components.share.access.role_label", {
+                name: invitation.email,
+                role: currentRoleLabel ?? "",
+              })}
             />
           </div>
         }
