@@ -149,34 +149,20 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
 .c__share-modal__link-settings {
   padding: var(--c--globals--spacings--sm) var(--c--globals--spacings--base);
-  gap: 8px;
+  gap: var(--c--globals--spacings--xs);
   display: flex;
   flex-direction: column;
 
   &__content {
     display: flex;
-    gap: 8px;
+    gap: var(--c--globals--spacings--xs);
     align-items: center;
     justify-content: space-between;
-
-    &__description {
-      flex: 1;
-      font-size: 12px;
-      color: var(--c--contextuals--content--semantic--neutral--secondary);
-
-      &.desktop {
-        display: block;
-      }
-      &.mobile {
-        display: none;
-      }
-    }
   }
 
-  .c__share-modal__link-settings_f_content__select {
-    .c__button {
-      padding: 0 var(--c--globals--spacings--t) 0 var(--c--globals--spacings--t);
-    }
+  &__description {
+    font-size: var(--c--globals--font--sizes--xs);
+    color: var(--c--contextuals--content--semantic--neutral--secondary);
   }
 
   .c__share-modal__link-settings__content__select__value,
@@ -202,17 +188,6 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
 .c__share-modal .quick-search-input-container {
   margin-top: 0;
-}
-
-@media (max-width: $md) {
-  .c__share-modal__link-settings__content__description {
-    &.desktop {
-      display: none;
-    }
-    &.mobile {
-      display: block;
-    }
-  }
 }
 
 .c__share-modal__cannot-view {

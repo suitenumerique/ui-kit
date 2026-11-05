@@ -121,4 +121,24 @@ describe("ShareModal layout", () => {
       >[number]["id"]
     >().toEqualTypeOf<string>();
   });
+
+  it("renders one link description under the settings row", () => {
+    render(
+      <Harness
+        showLinkRole
+        linkRole="reader"
+        linkRoleChoices={[{ value: "reader" }, { value: "editor" }]}
+      />,
+    );
+
+    const descriptions = screen.getAllByText("Only users of the space can access the document");
+    expect(descriptions).toHaveLength(1);
+
+    const row = screen
+      .getByTestId("share-link-settings")
+      .querySelector(".c__share-modal__link-settings__content");
+    expect(row).toContainElement(screen.getByTestId("share-link-reach-dropdown-button"));
+    expect(row).toContainElement(screen.getByTestId("share-link-role-dropdown-button"));
+    expect(row).not.toContainElement(descriptions[0]);
+  });
 });

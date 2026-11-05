@@ -288,14 +288,9 @@ export const ShareLinkSettings = ({
       </h3>
       <div className="c__share-modal__link-settings__content">
         {renderLinkReach()}
-        <div className="c__share-modal__link-settings__content__description desktop">
-          {t(
-            `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey,
-          )}
-        </div>
         {renderLinkRole()}
       </div>
-      <div className="c__share-modal__link-settings__content__description mobile">
+      <div className="c__share-modal__link-settings__description">
         {t(
           `components.share.linkSettings.reach.choices.${selectedLinkReach}.description` as TranslationKey,
         )}

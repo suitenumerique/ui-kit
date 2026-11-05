@@ -8,9 +8,8 @@ const reachButton = (page: Page) =>
   page.getByTestId("share-link-reach-dropdown-button");
 const roleButton = (page: Page) =>
   page.getByTestId("share-link-role-dropdown-button");
-// Both a desktop and a mobile description are in the DOM; CSS hides one.
 const reachDescription = (page: Page) =>
-  page.locator(".c__share-modal__link-settings__content__description.desktop");
+  page.locator(".c__share-modal__link-settings__description");
 
 test.describe("ShareModal link settings and footer", () => {
   test("renders the reach and role with their initial values", async ({
