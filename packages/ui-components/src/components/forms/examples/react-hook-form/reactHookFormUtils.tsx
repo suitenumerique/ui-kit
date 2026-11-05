@@ -22,5 +22,5 @@ export function getFieldErrorMessage<FormValues extends FieldValues>(
 }
 
 export function onSubmit<FormValues>(data: FormValues) {
-  alert(`Submited form values: ${JSON.stringify(data)}`);
+  alert(`Submitted form values: ${JSON.stringify(data)}`);
 }

@@ -121,7 +121,7 @@ export const ControlledEdit = () => {
   const [options, setOptions] = useState(OPTIONS);
 
   const edit = () => {
-    setOptions([{ value: "woodbury", label: "EDITTED" }, ...OPTIONS.slice(1)]);
+    setOptions([{ value: "woodbury", label: "EDITED" }, ...OPTIONS.slice(1)]);
   };
 
   return (

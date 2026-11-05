@@ -202,7 +202,7 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 ### Minor Changes
 
 - ♿️(menu) add opensInNewWindow for external link aria-label #246
-- 🚸(LaGaufreV2) automatic positionning #260
+- 🚸(LaGaufreV2) automatic positioning #260
 - ✨(filter) add custom sub-element support to options
 - ✨(help-menu) add legal links and custom options
 - ✨(front) add SmartScroller component
@@ -371,7 +371,7 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 
 ### Minor Changes
 
-- Update ShareModal and dropdown to show more informations
+- Update ShareModal and dropdown to show more information
 
 ### Patch Changes
 
@@ -606,7 +606,7 @@ The entries below were published under `@gouvfr-lasuite/ui-kit`.
 - add ShareModal component and utils components
 - add topMessage for DropdownMenu
 - add Avatar component
-- add UserRow commponent
+- add UserRow component
 
 ### Patch changes
 

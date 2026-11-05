@@ -232,7 +232,7 @@ export const DataGrid = <T extends Row>({
                                       }
                                     : {})}
                                 >
-                                  {/* We cant use flexRender for select header because it triggers a re-render each time */}
+                                  {/* We can't use flexRender for select header because it triggers a re-render each time */}
                                   {/* a row is selected or unselected, re-triggering the animation each time, which looks buggy. */}
                                   {header.id === HEADER_ID_SELECT ? (
                                     <Checkbox

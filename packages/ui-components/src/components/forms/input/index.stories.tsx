@@ -132,7 +132,7 @@ export const WithText = {
   args: {
     defaultValue: "Hello world",
     label: "Your name",
-    text: "This is a text, you can display anything you want here like warnings, informations or errors.",
+    text: "This is a text, you can display anything you want here like warnings, information or errors.",
   },
 };
 
@@ -148,7 +148,7 @@ export const WithBothTexts = {
   args: {
     defaultValue: "Hello world",
     label: "Your name",
-    text: "This is a text, you can display anything you want here like warnings, informations or errors.",
+    text: "This is a text, you can display anything you want here like warnings, information or errors.",
     rightText: "0/300",
   },
 };
@@ -158,7 +158,7 @@ export const FullWidth = {
     defaultValue: "Hello world",
     label: "Your name",
     fullWidth: true,
-    text: "This is a text, you can display anything you want here like warnings, informations or errors.",
+    text: "This is a text, you can display anything you want here like warnings, information or errors.",
     rightText: "0/300",
   },
 };
@@ -167,7 +167,7 @@ export const CharCounter = {
   args: {
     defaultValue: "CEO",
     label: "Job title",
-    text: "This is a text, you can display anything you want here like warnings, informations or errors.",
+    text: "This is a text, you can display anything you want here like warnings, information or errors.",
     charCounter: true,
     charCounterMax: 30,
   },
