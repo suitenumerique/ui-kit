@@ -1,86 +1,15 @@
-import { useState } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { CunninghamProvider } from ":/components/provider";
-import type { AccessData, InvitationData, UserData } from "../types";
-import { ShareModalCopyLinkFooter } from "../utils/ShareModalCopyLinkFooter";
-import { ShareModal } from "./ShareModal";
+import { Harness, member, searchInput } from "./ShareModal.fixtures";
 
-type Extra = object;
-type User = UserData<Extra>;
-type Member = AccessData<Extra, Extra>;
-type Invitation = InvitationData<Extra, Extra>;
+const initialInnerWidth = window.innerWidth;
 
-const alice: User = {
-  id: "user-alice",
-  full_name: "Alice Martin",
-  email: "alice@example.com",
-};
-
-const member: Member = {
-  id: "access-alice",
-  role: "reader",
-  user: alice,
-};
-
-const invitation: Invitation = {
-  id: "invitation-1",
-  email: "invite@example.com",
-  role: "editor",
-  user: {
-    id: "user-invite",
-    full_name: "",
-    email: "invite@example.com",
-  },
-};
-
-const roles = [
-  { label: "Reader", value: "reader" },
-  { label: "Editor", value: "editor" },
-];
-
-const Harness = ({
-  onUpdateAccess,
-  onUpdateInvitation,
-}: {
-  onUpdateAccess?: (access: Member, role: string) => void;
-  onUpdateInvitation?: (invitation: Invitation, role: string) => void;
-}) => {
-  const [results, setResults] = useState<User[]>([]);
-
-  return (
-    <CunninghamProvider>
-      <ShareModal
-        isOpen
-        onClose={() => undefined}
-        invitationRoles={roles}
-        accesses={[member]}
-        invitations={[invitation]}
-        hasNextMembers
-        hasNextInvitations
-        searchUsersResult={results}
-        onSearchUsers={(query) => setResults(query ? [alice] : [])}
-        onInviteUser={() => undefined}
-        onUpdateAccess={onUpdateAccess}
-        onUpdateInvitation={onUpdateInvitation}
-        linkSettings
-        linkReach="restricted"
-        linkReachChoices={[{ value: "restricted" }, { value: "public" }]}
-        onUpdateLinkReach={() => undefined}
-        onUpdateLinkRole={() => undefined}
-        outsideSearchContent={
-          <ShareModalCopyLinkFooter
-            onCopyLink={() => undefined}
-            onOk={() => undefined}
-          />
-        }
-      />
-    </CunninghamProvider>
-  );
-};
-
-const searchInput = () =>
-  screen.getByRole("combobox", { name: "Search for a user to invite" });
+afterEach(() => {
+  Object.defineProperty(window, "innerWidth", {
+    configurable: true,
+    value: initialInnerWidth,
+  });
+});
 
 describe("ShareModal accessibility", () => {
   it("exposes section titles as headings and distinct show-more names", () => {

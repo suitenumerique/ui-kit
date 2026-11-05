@@ -73,7 +73,7 @@
       },
       "search": {
         "placeholder": "Buscar usuario",
-        "group_name": "Resultado de la búsqueda de usuario"
+        "group_name": "Seleccionar un usuario"
       },
       "user": {
         "no_result": "Sin resultados",
