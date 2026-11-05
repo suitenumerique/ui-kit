@@ -4,6 +4,7 @@ import { UserRow } from ":/components/users/rows/UserRow";
 import { DropdownMenuOption, useDropdownMenu } from ":/components/dropdown-menu";
 import { useCunningham } from ":/components/provider";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
+import { getRoleLabel } from "../../labels";
 
 export type ShareInvitationItemProps<UserType, InvitationType> = {
   invitation: InvitationData<UserType, InvitationType>;
@@ -29,9 +30,7 @@ export const ShareInvitationItem = <UserType, InvitationType>({
 }: ShareInvitationItemProps<UserType, InvitationType>) => {
   const roleDropdown = useDropdownMenu();
   const { t } = useCunningham();
-  const currentRoleLabel = roles.find(
-    (role) => role.value === invitation.role,
-  )?.label;
+  const currentRoleLabel = getRoleLabel(roles, invitation.role);
 
   return (
     <div className="c__share-member-item">

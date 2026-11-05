@@ -20,6 +20,7 @@ import {
 } from "./visibility";
 import type { AccessData, InvitationData, UserData } from "../types";
 import type { ShareModalProps } from "./types";
+import { getRoleLabel, getUserDisplayName } from "../labels";
 import { FolderRestricted } from ":/icons";
 import { IconSize } from ":/components/icon";
 
@@ -124,7 +125,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     search.selectUser(user);
     announce(
       t("components.share.user.added", {
-        name: user.full_name || user.email,
+        name: getUserDisplayName(user),
       }),
     );
     focusSearchInput();
@@ -133,7 +134,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     search.removeUser(user);
     announce(
       t("components.share.user.removed", {
-        name: user.full_name || user.email,
+        name: getUserDisplayName(user),
       }),
     );
     focusSearchInput();
@@ -144,9 +145,7 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
   ) => {
     if (!props.onUpdateInvitation || invitation.role === role) return;
     props.onUpdateInvitation(invitation, role);
-    const roleLabel =
-      props.invitationRoles?.find((item) => item.value === role)?.label ??
-      role;
+    const roleLabel = getRoleLabel(props.invitationRoles ?? [], role) ?? role;
     announce(
       t("components.share.access.role_changed", {
         name: invitation.email,
@@ -163,11 +162,10 @@ export const ShareModal = <UserType, InvitationType, AccessType>({
     props.onUpdateAccess(access, role);
     const accessRoles =
       props.getAccessRoles?.(access) ?? props.invitationRoles ?? [];
-    const roleLabel =
-      accessRoles.find((item) => item.value === role)?.label ?? role;
+    const roleLabel = getRoleLabel(accessRoles, role) ?? role;
     announce(
       t("components.share.access.role_changed", {
-        name: access.user.full_name || access.user.email,
+        name: getUserDisplayName(access.user),
         role: roleLabel,
       }),
     );

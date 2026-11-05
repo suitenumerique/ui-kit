@@ -10,6 +10,7 @@ import {
 } from ":/components/dropdown-menu";
 import { useCunningham } from ":/components/provider";
 import { AccessRoleDropdown } from "../../access/AccessRoleDropdown";
+import { getRoleLabel, getUserDisplayName } from "../../labels";
 
 export type ShareMemberItemProps<UserType, AccessType> = {
   accessData: AccessData<UserType, AccessType>;
@@ -47,10 +48,11 @@ export const ShareMemberItem = <UserType, AccessType>({
   const { t } = useCunningham();
   const canDelete =
     accessData.is_explicit !== false && accessData.can_delete !== false;
-  const displayName = accessData.user.full_name || accessData.user.email;
-  const currentRoleLabel = roles.find(
-    (role) => role.value === accessData[accessRoleKey],
-  )?.label;
+  const displayName = getUserDisplayName(accessData.user);
+  const currentRoleLabel = getRoleLabel(
+    roles,
+    accessData[accessRoleKey] as string,
+  );
   return (
     <div className={clsx("c__share-member-item", wrapperClassName)}>
       <QuickSearchItemTemplate

@@ -4,6 +4,7 @@ import { ReactNode, useState } from "react";
 import { DropdownMenuOption } from "../../dropdown-menu";
 import { AccessRoleDropdown } from "../access/AccessRoleDropdown";
 import { UserData } from ":/components/share/types.ts";
+import { getUserDisplayName } from "../labels";
 
 export type AddShareUserListProps<UserType> = {
   users: UserData<UserType>[];
@@ -70,7 +71,7 @@ export const InvitationUserSelectorItem = <UserType,>({
   isSelected = false,
 }: ShareSelectedUserItemProps<UserType>) => {
   const { t } = useCunningham();
-  const displayName = user.full_name || user.email;
+  const displayName = getUserDisplayName(user);
   return (
     <div
       className={`c__add-share-user-item${
