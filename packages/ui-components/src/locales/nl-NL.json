@@ -78,7 +78,8 @@
         "load_more_aria": "Meer weergeven: leden"
       },
       "item": {
-        "add": "Toevoegen"
+        "add": "Toevoegen",
+        "invite": "Uitnodigen"
       },
       "search": {
         "placeholder": "Gebruiker zoeken",

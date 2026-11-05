@@ -20,6 +20,15 @@ describe("ShareModal layout", () => {
     ).toBeInTheDocument();
   });
 
+  it("offers to invite an email that is not in the results", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(searchInput(), "new.person@example.com");
+
+    expect(await screen.findByText("Invite")).toBeInTheDocument();
+  });
+
   it("labels the invite button with the app wording", async () => {
     const user = userEvent.setup();
     render(<Harness shareButtonLabel="Invite" />);

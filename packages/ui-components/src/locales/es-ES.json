@@ -78,7 +78,8 @@
         "load_more_aria": "Mostrar más miembros"
       },
       "item": {
-        "add": "Añadir"
+        "add": "Añadir",
+        "invite": "Invitar"
       },
       "search": {
         "placeholder": "Buscar usuario",

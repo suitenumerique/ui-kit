@@ -78,7 +78,8 @@
         "load_more_aria": "Mehr anzeigen: Mitglieder"
       },
       "item": {
-        "add": "Hinzufügen"
+        "add": "Hinzufügen",
+        "invite": "Einladen"
       },
       "search": {
         "placeholder": "Benutzer suchen",

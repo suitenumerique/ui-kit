@@ -78,7 +78,8 @@
         "load_more_aria": "Show more members"
       },
       "item": {
-        "add": "Add"
+        "add": "Add",
+        "invite": "Invite"
       },
       "search": {
         "placeholder": "Search user",
