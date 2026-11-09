@@ -173,6 +173,71 @@ describe("ShareModal accessibility", () => {
     expect(screen.getByRole("status")).toHaveTextContent("");
   });
 
+  describe("with the Enter key", () => {
+    it("selects the highlighted result from the search field", async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+
+      await user.type(searchInput(), "ali");
+      await screen.findByTestId("search-user-item");
+      await user.keyboard("{Enter}");
+
+      expect(
+        await screen.findByRole("button", { name: "Remove Alice Martin" }),
+      ).toBeInTheDocument();
+    });
+
+    it("removes a pending user from its chip", async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+
+      await user.type(searchInput(), "ali");
+      await user.click(await screen.findByTestId("search-user-item"));
+      screen.getByRole("button", { name: "Remove Alice Martin" }).focus();
+      await user.keyboard("{Enter}");
+
+      expect(
+        screen.queryByRole("button", { name: "Remove Alice Martin" }),
+      ).not.toBeInTheDocument();
+    });
+
+    it("accepts an access request", async () => {
+      const user = userEvent.setup();
+      const onAcceptAccessRequest = vi.fn();
+      render(
+        <Harness
+          accessRequests={[germain]}
+          onAcceptAccessRequest={onAcceptAccessRequest}
+        />,
+      );
+
+      screen
+        .getByRole("button", { name: "Accept request from Germain Dupond" })
+        .focus();
+      await user.keyboard("{Enter}");
+
+      expect(onAcceptAccessRequest).toHaveBeenCalledWith(germain, "reader");
+    });
+
+    it("opens a role menu and picks a role", async () => {
+      const user = userEvent.setup();
+      const onUpdateAccess = vi.fn();
+      render(<Harness onUpdateAccess={onUpdateAccess} />);
+
+      screen
+        .getByRole("button", {
+          name: "Change role for Alice Martin, currently Reader",
+        })
+        .focus();
+      await user.keyboard("{Enter}");
+      const editor = await screen.findByRole("menuitem", { name: "Editor" });
+      editor.focus();
+      await user.keyboard("{Enter}");
+
+      expect(onUpdateAccess).toHaveBeenCalledWith(member, "editor");
+    });
+  });
+
   it("names request actions with the person and hides their icons", () => {
     render(
       <Harness

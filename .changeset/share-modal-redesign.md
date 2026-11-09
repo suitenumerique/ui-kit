@@ -25,6 +25,7 @@ Accessibility:
 - A polite live region announces pending selection changes, role changes, and handled access requests.
 - Focus returns to the search input after adding or removing a pending user.
 - Decorative icons next to a text label are hidden from assistive technologies.
+- Enter activates buttons and menus rendered inside `QuickSearch`, such as chip removal, request actions, and role menus. cmdk used to cancel it everywhere but in the search input.
 
 Migration:
 
