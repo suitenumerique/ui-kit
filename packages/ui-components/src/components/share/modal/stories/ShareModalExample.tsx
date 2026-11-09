@@ -3,6 +3,7 @@ import { ShareModal } from "../ShareModal";
 
 import {
   AccessData,
+  AccessRequestData,
   InvitationData,
   UserData,
 } from ":/components/share/types.ts";
@@ -28,6 +29,8 @@ type AccessType = AccessData<
     name: string;
   }
 >;
+
+type AccessRequestType = AccessRequestData<UserType, object>;
 
 export const ShareModalExample = ({
   importFails,
@@ -64,13 +67,24 @@ export const ShareModalExample = ({
       },
     }));
   });
+  const [accessRequests, setAccessRequests] = useState<AccessRequestType[]>([
+    {
+      id: "request-germain",
+      role: "editor",
+      user: {
+        id: "germain",
+        full_name: "Germain Dupond",
+        email: "germain.dupond@example.com",
+      },
+    },
+  ]);
   const [members, setMembers] = useState<AccessType[]>(() => {
     const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return ids.map((id) => ({
       id: id.toString(),
       name: "John Doe " + id,
       email: "john.doe@example.com " + id,
-      role: id === 1 ? "reader" : "administrator",
+      role: id === 1 ? "owner" : "administrator",
       // Example: the first member cannot be deleted (e.g., last admin or current user)
       can_delete: id !== 1,
       user: {
@@ -82,25 +96,51 @@ export const ShareModalExample = ({
   });
 
   const invitationRoles = [
-    { label: "Owner", value: "owner" },
-    { label: "Admin", value: "administrator" },
-    { label: "Editor", value: "editor" },
-    { label: "Reader", value: "reader" },
+    { label: "Reader", value: "reader", subText: "Can view only" },
+    {
+      label: "Editor",
+      value: "editor",
+      subText: "Can view and edit content",
+    },
+    {
+      label: "Admin",
+      value: "administrator",
+      subText: "Can edit and manage access",
+    },
+    {
+      label: "Owner",
+      value: "owner",
+      subText: "Full control and can delete",
+    },
   ];
 
   const getAccessRoles = (access: AccessType): DropdownMenuOption[] => {
     const isAdmin = access.role === "administrator";
+    const isOwner = access.role === "owner";
     return [
-      { label: "Admin", value: "administrator", isDisabled: false },
-      {
-        label: "Editor",
-        value: "editor",
-        isDisabled: isAdmin,
-      },
       {
         label: "Reader",
         value: "reader",
-        isDisabled: isAdmin,
+        subText: "Can view only",
+        isDisabled: isAdmin || isOwner,
+      },
+      {
+        label: "Editor",
+        value: "editor",
+        subText: "Can view and edit content",
+        isDisabled: isAdmin || isOwner,
+      },
+      {
+        label: "Admin",
+        value: "administrator",
+        subText: "Can edit and manage access",
+        isDisabled: isOwner,
+      },
+      {
+        label: "Owner",
+        value: "owner",
+        subText: "Full control and can delete",
+        isDisabled: false,
       },
     ];
   };
@@ -141,6 +181,12 @@ export const ShareModalExample = ({
 
   const onDeleteAccess = (access: AccessType) => {
     setMembers(members.filter((member) => member.id !== access.id));
+  };
+
+  const removeAccessRequest = (request: AccessRequestType) => {
+    setAccessRequests((current) =>
+      current.filter((item) => item.id !== request.id),
+    );
   };
 
   const onUpdateInvitation = (invit: InvitationType, role: string) => {
@@ -210,12 +256,23 @@ export const ShareModalExample = ({
       onClose={() => {}}
       accesses={members}
       invitations={invitations}
+      accessRequests={accessRequests}
+      onAcceptAccessRequest={removeAccessRequest}
+      onRejectAccessRequest={removeAccessRequest}
       onSearchUsers={setUserQuery}
       onInviteUser={console.log}
       onUpdateAccess={onUpdateAccess}
+      modalTitle="Folder sharing"
+      searchPlaceholder="Search for…"
+      shareButtonLabel="Invite"
+      membersTitle={(members) =>
+        members.length > 1
+          ? `Shared among ${members.length} people`
+          : `Shared among ${members.length} person`
+      }
       accessRoleTopMessage={(access) => {
-        if (access.role === "administrator") {
-          return "Vous ne pouvez pas modifier le rôle d'un administrateur";
+        if (access.role === "owner") {
+          return "You cannot change your role as you are the only owner.";
         }
         return undefined;
       }}
@@ -258,14 +315,9 @@ export const ShareModalExample = ({
       onRestrict={() => setIsRestricted(true)}
       onUnrestrict={() => setIsRestricted(false)}
       linkReachChoices={[
-        {
-          value: "public",
-          subText: "Public link",
-        },
-        {
-          value: "restricted",
-          subText: "Restricted link",
-        },
+        { value: "restricted", label: "Only people invited" },
+        { value: "authenticated", label: "Anyone connected" },
+        { value: "public", label: "Anyone" },
       ]}
       topLinkReachMessage={<span>Top link reach message</span>}
       topLinkRoleMessage={<span>Top link role message</span>}
@@ -274,12 +326,8 @@ export const ShareModalExample = ({
       linkExpiresAt={linkExpiresAt}
       onUpdateLinkExpiresAt={withLinkExpiration ? setLinkExpiresAt : undefined}
       linkRoleChoices={[
-        {
-          value: "reader",
-        },
-        {
-          value: "editor",
-        },
+        { value: "reader", label: "Can read" },
+        { value: "editor", label: "Can edit" },
       ]}
     />
   );

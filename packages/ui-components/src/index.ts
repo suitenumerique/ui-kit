@@ -395,6 +395,7 @@ export {
 
 export type {
   AccessData,
+  AccessRequestData,
   AddShareUserListProps,
   InvitationData,
   ShareInvitationItemProps,

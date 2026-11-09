@@ -26,5 +26,5 @@ export const useShareModalLayout = (isMobile: boolean) => {
     return () => observer.disconnect();
   }, [contentHeight, footer, searchField]);
 
-  return { listHeight, searchFieldRef, footerRef };
+  return { listHeight, searchField, searchFieldRef, footerRef };
 };

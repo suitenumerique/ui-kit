@@ -9,6 +9,7 @@ import {
 } from ":/components/dropdown-menu";
 import { ChevronDown, ChevronUp } from ":/icons";
 import { IconSize } from ":/components/icon";
+import { getRoleLabel } from "../labels";
 
 type AccessRoleDropdownProps = {
   selectedRole: string;
@@ -20,6 +21,7 @@ type AccessRoleDropdownProps = {
   roleTopMessage?: DropdownMenuProps["topMessage"];
   onDelete?: () => void;
   canDelete?: boolean;
+  "aria-label"?: string;
 };
 
 export const AccessRoleDropdown = ({
@@ -32,10 +34,11 @@ export const AccessRoleDropdown = ({
   roleTopMessage,
   onDelete,
   canDelete = true,
+  "aria-label": ariaLabel,
 }: AccessRoleDropdownProps) => {
   const { t } = useCunningham();
 
-  const currentRoleString = roles.find((role) => role.value === selectedRole);
+  const currentRoleLabel = getRoleLabel(roles, selectedRole);
 
   const options: DropdownMenuItem[] = useMemo(() => {
     if (!onDelete && !canDelete) {
@@ -56,7 +59,7 @@ export const AccessRoleDropdown = ({
   if (!canUpdate) {
     return (
       <span className="c__access-role-dropdown__role-label-can-not-update">
-        {currentRoleString?.label}
+        {currentRoleLabel}
       </span>
     );
   }
@@ -96,8 +99,9 @@ export const AccessRoleDropdown = ({
         onClick={() => {
           onOpenChange?.(!isOpen);
         }}
+        aria-label={ariaLabel}
       >
-        {currentRoleString?.label}
+        {currentRoleLabel}
       </Button>
     </DropdownMenu>
   );

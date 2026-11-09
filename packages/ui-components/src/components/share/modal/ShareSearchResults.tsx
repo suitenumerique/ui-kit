@@ -46,7 +46,7 @@ export const ShareSearchResults = <UserType,>({
     endActions: emailInvitation
       ? [
           {
-            content: <SearchUserItem user={emailInvitation} />,
+            content: <SearchUserItem user={emailInvitation} action="invite" />,
             // The public API also passes email-only invitees through UserData.
             onSelect: () => onSelect(emailInvitation as UserData<UserType>),
           },

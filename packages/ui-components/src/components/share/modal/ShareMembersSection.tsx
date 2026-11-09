@@ -37,22 +37,22 @@ export const ShareMembersSection = <UserType, AccessType>({
   onLoadNextMembers,
 }: ShareMembersSectionProps<UserType, AccessType>) => {
   const { t } = useCunningham();
+  const title = membersTitle
+    ? membersTitle(members)
+    : members.length > 0
+      ? t(
+          members.length > 1
+            ? "components.share.members.title_plural"
+            : "components.share.members.title_singular",
+          {
+            count: members.length,
+          },
+        )
+      : null;
   return (
     <div className="c__share-modal__members" data-testid="members-list">
       <div className="c__share-modal__members-title">
-        <span>
-          {membersTitle
-            ? membersTitle(members)
-            : members.length > 0 &&
-              t(
-                members.length > 1
-                  ? "components.share.members.title_plural"
-                  : "components.share.members.title_singular",
-                {
-                  count: members.length,
-                },
-              )}
-        </span>
+        {title ? <h3>{title}</h3> : null}
         {headerAction}
       </div>
       {members.map((member) => (
@@ -71,7 +71,11 @@ export const ShareMembersSection = <UserType, AccessType>({
           {renderAccessFooter?.(member)}
         </Fragment>
       ))}
-      <ShowMoreButton show={hasNextMembers} onShowMore={onLoadNextMembers} />
+      <ShowMoreButton
+        show={hasNextMembers}
+        onShowMore={onLoadNextMembers}
+        label={t("components.share.members.load_more_aria")}
+      />
     </div>
   );
 };
