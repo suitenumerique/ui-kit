@@ -4,18 +4,6 @@
 
 $md: map.get($themes, "default", "globals", "breakpoints", "md");
 
-.c__share-modal__sr-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .c__share-modal__members {
   display: flex;
   flex-direction: column;
@@ -33,6 +21,11 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
   padding-top: 0;
 }
 
+.c__share-modal__access-requests {
+  margin-bottom: var(--c--globals--spacings--xs);
+  border-bottom: 1px solid var(--c--contextuals--border--surface--primary);
+}
+
 .c__share-modal__search-users {
   padding: var(--c--globals--spacings--sm);
 }
@@ -42,6 +35,7 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 .c__share-modal__invitations-title,
 .c__share-modal__link-settings__title {
   margin: 0;
+  font: inherit;
   font-size: var(--c--globals--font--sizes--xs);
   font-weight: 500;
   color: var(--c--contextuals--content--semantic--neutral--tertiary);

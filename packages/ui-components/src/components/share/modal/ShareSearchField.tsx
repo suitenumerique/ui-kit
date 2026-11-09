@@ -121,7 +121,7 @@ export const ShareSearchField = <UserType,>({
           <Command.Input
             autoFocus
             role="combobox"
-            aria-label={t("components.share.user.placeholder")}
+            aria-label={placeholder}
             className="c__share-modal__search-field__input"
             value={inputValue}
             placeholder={hasSelection ? undefined : placeholder}

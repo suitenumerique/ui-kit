@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   Harness,
@@ -12,6 +12,7 @@ import {
 const initialInnerWidth = window.innerWidth;
 
 afterEach(() => {
+  vi.useRealTimers();
   Object.defineProperty(window, "innerWidth", {
     configurable: true,
     value: initialInnerWidth,
@@ -139,7 +140,8 @@ describe("ShareModal accessibility", () => {
   });
 
   it("stays silent when the selected role is already active", async () => {
-    const user = userEvent.setup();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onUpdateAccess = vi.fn();
     render(<Harness onUpdateAccess={onUpdateAccess} />);
 
@@ -151,12 +153,13 @@ describe("ShareModal accessibility", () => {
     await user.click(screen.getByRole("menuitem", { name: "Reader" }));
 
     expect(onUpdateAccess).not.toHaveBeenCalled();
-    await new Promise((resolve) => setTimeout(resolve, 350));
+    act(() => vi.runOnlyPendingTimers());
     expect(screen.getByRole("status")).toHaveTextContent("");
   });
 
   it("stays silent when no role update callback is provided", async () => {
-    const user = userEvent.setup();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Harness />);
 
     await user.click(
@@ -166,7 +169,7 @@ describe("ShareModal accessibility", () => {
     );
     await user.click(screen.getByRole("menuitem", { name: "Editor" }));
 
-    await new Promise((resolve) => setTimeout(resolve, 350));
+    act(() => vi.runOnlyPendingTimers());
     expect(screen.getByRole("status")).toHaveTextContent("");
   });
 

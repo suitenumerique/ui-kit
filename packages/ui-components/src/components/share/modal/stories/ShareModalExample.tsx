@@ -116,24 +116,25 @@ export const ShareModalExample = ({
 
   const getAccessRoles = (access: AccessType): DropdownMenuOption[] => {
     const isAdmin = access.role === "administrator";
+    const isOwner = access.role === "owner";
     return [
       {
         label: "Reader",
         value: "reader",
         subText: "Can view only",
-        isDisabled: isAdmin,
+        isDisabled: isAdmin || isOwner,
       },
       {
         label: "Editor",
         value: "editor",
         subText: "Can view and edit content",
-        isDisabled: isAdmin,
+        isDisabled: isAdmin || isOwner,
       },
       {
         label: "Admin",
         value: "administrator",
         subText: "Can edit and manage access",
-        isDisabled: false,
+        isDisabled: isOwner,
       },
       {
         label: "Owner",

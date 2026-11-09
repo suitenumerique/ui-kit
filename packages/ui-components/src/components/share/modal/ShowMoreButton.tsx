@@ -4,11 +4,11 @@ import { useCunningham } from ":/components/provider";
 type ShowMoreButtonProps = {
   show: boolean;
   onShowMore?: () => void;
-  /** Accessible name that distinguishes members from invitations. */
+  /** Accessible name that tells the paginated lists apart. */
   label: string;
 };
 
-/** Renders a shared pagination action when more members or invitations exist. */
+/** Renders a shared pagination action when a list has more items. */
 export const ShowMoreButton = ({
   show,
   onShowMore,

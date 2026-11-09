@@ -225,7 +225,7 @@ export const ShareModal = <
       >
         <div className="c__share-modal no-padding">
           <div
-            className="c__share-modal__sr-status"
+            className="c__offscreen"
             role="status"
             aria-live="polite"
             aria-atomic="true"

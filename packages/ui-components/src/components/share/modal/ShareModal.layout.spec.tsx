@@ -8,6 +8,13 @@ import {
 } from "./ShareModal.fixtures";
 import type { ShareModalProps } from "./ShareModal";
 
+const initialInnerWidth = window.innerWidth;
+
+const setInnerWidth = (value: number) =>
+  Object.defineProperty(window, "innerWidth", { configurable: true, value });
+
+afterEach(() => setInnerWidth(initialInnerWidth));
+
 describe("ShareModal layout", () => {
   it("names the user result group", async () => {
     const user = userEvent.setup();
@@ -20,13 +27,27 @@ describe("ShareModal layout", () => {
     ).toBeInTheDocument();
   });
 
-  it("offers to invite an email that is not in the results", async () => {
+  it("keeps the invite action visible on an email that is not in the results", async () => {
+    setInnerWidth(375);
     const user = userEvent.setup();
     render(<Harness />);
 
     await user.type(searchInput(), "new.person@example.com");
 
-    expect(await screen.findByText("Invite")).toBeInTheDocument();
+    const invite = await screen.findByText("Invite");
+    expect(invite.closest(".c__quick-search-item-template__right")).toHaveClass(
+      "always-show-right",
+    );
+    expect(screen.getByText("Alice Martin")).toBeInTheDocument();
+    expect(screen.queryByText("Add")).not.toBeInTheDocument();
+  });
+
+  it("names the search field with the app placeholder", () => {
+    render(<Harness searchPlaceholder="Add people" />);
+
+    expect(
+      screen.getByRole("combobox", { name: "Add people" }),
+    ).toBeInTheDocument();
   });
 
   it("labels the invite button with the app wording", async () => {
@@ -80,6 +101,39 @@ describe("ShareModal layout", () => {
     expect(
       screen.queryByRole("heading", { name: "Access requests" }),
     ).not.toBeInTheDocument();
+  });
+
+  it("hides access requests while loading", () => {
+    render(
+      <Harness
+        loading
+        accessRequests={[germain]}
+        onAcceptAccessRequest={vi.fn()}
+      />,
+    );
+
+    expect(
+      screen.queryByRole("heading", { name: "Access requests" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("loads the next page of access requests", async () => {
+    const user = userEvent.setup();
+    const onLoadNextAccessRequests = vi.fn();
+    render(
+      <Harness
+        accessRequests={[germain]}
+        onAcceptAccessRequest={vi.fn()}
+        hasNextAccessRequests
+        onLoadNextAccessRequests={onLoadNextAccessRequests}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Show more access requests" }),
+    );
+
+    expect(onLoadNextAccessRequests).toHaveBeenCalledTimes(1);
   });
 
   it("hides access requests while searching", async () => {

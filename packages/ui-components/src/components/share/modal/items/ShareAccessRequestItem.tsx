@@ -14,7 +14,7 @@ import { getRoleLabel, getUserDisplayName } from "../../labels";
 import type { AccessRequestData } from "../../types";
 import { ACCESS_REQUEST_ACTION_CLASS } from "../useAccessRequestFocus";
 
-type ShareAccessRequestItemProps<UserType, AccessRequestType> = {
+export type ShareAccessRequestItemProps<UserType, AccessRequestType> = {
   request: AccessRequestData<UserType, AccessRequestType>;
   roles: DropdownMenuOption[];
   canAccept: boolean;

@@ -68,7 +68,7 @@
         "reject": "Refuser la demande de {name}",
         "accepted": "Demande d'accès de {name} acceptée",
         "rejected": "Demande d'accès de {name} refusée",
-        "role_label": "Rôle à accorder à {name}, {role}",
+        "role_label": "Rôle à accorder à {name} : {role}",
         "load_more_aria": "Afficher plus de demandes d'accès"
       },
       "members": {

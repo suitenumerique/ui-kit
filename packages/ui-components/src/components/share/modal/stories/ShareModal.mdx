@@ -159,7 +159,10 @@ From top to bottom the modal shows:
 ## Providing the data
 
 The component is generic: your own user/invitation/access types flow through as
-long as they contain the minimal shape below.
+long as they contain the minimal shape below. The generics are, in order,
+`UserType`, `InvitationType`, `AccessType` and `AccessRequestType`. The last
+one defaults to `object`, so call sites written with three generics keep
+working.
 
 ### UserData
 
@@ -241,9 +244,17 @@ Type in the search input and the modal calls `onSearchUsers` (debounced by
 Selecting a result adds it to the pending list; the share button then calls
 `onInviteUser(users, role)` with the chosen role from `invitationRoles`.
 
+Results are listed under "Select a user"; rename the group with
+`searchGroupName`. The search input is named by `searchPlaceholder`, so a custom
+placeholder is also what screen readers announce.
+
 If the query looks like an email address that matches no result, the modal
 offers to invite that address directly — useful for people who don't have an
-account yet.
+account yet. That row says "Invite" and its action stays visible, while known
+users show "Add" on hover or focus.
+
+The share button says "Share" by default; pass `shareButtonLabel` to use your
+app's wording, e.g. "Invite".
 
 ```tsx
 <ShareModal
@@ -297,12 +308,17 @@ decides which button appears. Page the list with `hasNextAccessRequests` and
 `onLoadNextAccessRequests`.
 
 The role dropdown on a row is local: `onAcceptAccessRequest(request, role)`
-receives the role chosen on that row, starting from `request.role`.
+receives the role chosen on that row, starting from `request.role`. Its choices
+come from `invitationRoles`, not `getAccessRoles`.
 
 The modal does not remove a request itself. Remove it from `accessRequests`
 once your backend has accepted or rejected it. Focus then moves to the next
 request, else the previous one, else the search field. If you keep the request
 in the list, focus stays where it was.
+
+The acceptance or rejection is announced to screen readers on click. If your
+backend fails, keep the request in the list and show the error yourself, for
+example with a toast.
 
 ```tsx
 <ShareModal
@@ -445,6 +461,19 @@ The submenu lives in the link role dropdown, so it requires a visible role
 selector (`showLinkRole` with non-empty `linkRoleChoices`).
 
 <Canvas of={ShareModalStories.LinkExpiration} />
+
+## Accessibility
+
+- The modal title is a level 2 heading and each section title (members,
+  access requests, invitations, link settings) a level 3 heading, so screen
+  reader users can jump between sections.
+- Role, remove, accept, reject and "Show more" buttons name the person or the
+  list they act on, e.g. "Change role for Alice Martin, currently Reader".
+- A polite live region announces when a user is added to or removed from the
+  pending selection, when a role changes, and when an access request is
+  accepted or rejected.
+- After adding or removing a pending user, focus returns to the search input.
+- Decorative icons next to a text label are hidden from assistive technologies.
 
 ## Customizing texts
 

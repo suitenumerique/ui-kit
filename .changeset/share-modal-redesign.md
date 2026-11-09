@@ -12,8 +12,22 @@ An email that is not in the search results is listed with "Invite", and that act
 
 `ShareModal` shows access requests passed through `accessRequests`, with `onAcceptAccessRequest`, `onRejectAccessRequest`, `hasNextAccessRequests`, and `onLoadNextAccessRequests`. A fourth generic, `AccessRequestType`, defaults to `object`, so existing call sites keep compiling.
 
-`AccessRequestData` is exported next to `InvitationData`.
+`AccessRequestData` is exported next to `AccessData`.
 
 The link settings show one reach description under the reach and role row.
 
 On a narrow screen, selected users stack one per line above the input, role, and invite button.
+
+Accessibility:
+
+- Section titles are level 3 headings, and `membersTitle` is rendered inside one.
+- Role, remove, and "Show more" buttons name what they act on, for example "Change role for Alice Martin, currently Reader", "Remove Alice Martin", and "Show more members".
+- A polite live region announces pending selection changes, role changes, and handled access requests.
+- Focus returns to the search input after adding or removing a pending user.
+- Decorative icons next to a text label are hidden from assistive technologies.
+
+Migration:
+
+- Tests that query these buttons by their former names ("Reader", "Show more", the chip close button) need the new names.
+- `.c__share-modal__link-settings__content__description.desktop` and `.mobile` are replaced by `.c__share-modal__link-settings__description`.
+- Apps that relied on the former default search group name or on "Add" for unknown emails see the new wording; pass `searchGroupName` to keep a custom name.
