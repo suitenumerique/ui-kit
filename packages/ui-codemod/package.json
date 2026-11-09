@@ -26,7 +26,7 @@
     "jscodeshift": "17.3.0"
   },
   "devDependencies": {
-    "eslint": "9.17.0"
+    "eslint": "9.39.5"
   },
   "engines": {
     "node": ">=20.0.0"
