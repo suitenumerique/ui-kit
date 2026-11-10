@@ -29,8 +29,9 @@ export const Toast = ({
 }: ToastProps & {
   closeToast?: () => void;
   /**
-   * The provider announces through its own region. A standalone toast keeps
-   * the implicit live behaviour of `status` / `alert`.
+   * The provider announces through its own region, so its toasts carry no
+   * live role: `aria-live="off"` would not stop an `alert` node from firing
+   * its own event in Chrome. A standalone toast keeps `status` / `alert`.
    */
   suppressLive?: boolean;
 }) => {
@@ -91,8 +92,7 @@ export const Toast = ({
           "c__toast--no-animate": disableAnimate,
         },
       )}
-      role={toastRole(type)}
-      aria-live={suppressLive ? "off" : undefined}
+      role={suppressLive ? undefined : toastRole(type)}
     >
       <NotificationContent
         {...shared}

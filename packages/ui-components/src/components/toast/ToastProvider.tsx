@@ -497,8 +497,8 @@ export const ToastProvider = ({
         position={position}
         containerId={target}
         autoClose={DEFAULT_TOAST_DURATION}
-        // The wrapper is not a live region. The toast keeps its role, with
-        // aria-live off, and the announcer below is the only one that speaks.
+        // The wrapper is not a live region and the toast has no live role:
+        // the announcer below is the only one that speaks.
         role="presentation"
         aria-label={liveRegionLabel}
         hotKeys={hotKeys}

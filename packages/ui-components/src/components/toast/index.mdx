@@ -196,9 +196,10 @@ it a `duration` and it dismisses itself after that delay, fading out before call
 />
 
 Raised through `ToastProvider`, the timer belongs to the provider instead, so it does
-not hand `duration` down and the two never compete to remove the same toast. The
-component carries `role="status"` for info, success and neutral, and `role="alert"`
-for warning and error, in both cases.
+not hand `duration` down and the two never compete to remove the same toast. Mounted
+on its own, the component carries `role="status"` for info, success and neutral, and
+`role="alert"` for warning and error. Raised through `ToastProvider`, it has no live
+role: the provider's announcer reads the message once.
 
 ## Shared content with `Alert`
 

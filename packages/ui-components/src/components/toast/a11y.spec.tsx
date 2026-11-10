@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { fireEvent, within } from "@testing-library/dom";
@@ -7,6 +8,7 @@ import {
   useToastProvider,
 } from ":/components/toast/ToastProvider";
 import { Button } from ":/components/button";
+import { Modal, ModalSize, useModal } from ":/components/modal";
 import { VariantType } from ":/utils/VariantUtils";
 import deDE from ":/locales/de-DE.json";
 
@@ -28,6 +30,24 @@ const liveNodesContaining = (text: string) =>
       node.getAttribute("aria-live") !== "off" &&
       node.textContent?.includes(text),
   );
+
+// A provider toast has no live role, so it is found through its message.
+const toastWith = (text: string) => {
+  const toast = screen
+    .getByText(text, { selector: ".c__toast *" })
+    .closest(".c__toast");
+  if (!(toast instanceof HTMLElement)) {
+    throw new Error(`toast "${text}" missing`);
+  }
+  return toast;
+};
+
+const expectSilent = (toast: HTMLElement) => {
+  expect(toast).not.toHaveAttribute("role");
+  expect(toast).not.toHaveAttribute("aria-live");
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+};
 
 const RaiseToast = ({
   message = "Document saved",
@@ -81,9 +101,8 @@ describe("toast announcements", () => {
       trigger.focus();
       fireEvent.click(trigger);
 
-      const toast = screen.getByRole("status");
-      expect(toast).toHaveTextContent("Document saved");
-      expect(toast).toHaveAttribute("aria-live", "off");
+      const toast = toastWith("Document saved");
+      expectSilent(toast);
       expect(trigger).toHaveFocus();
       expect(toast.contains(document.activeElement)).toBe(false);
       expect(announcer("polite")).not.toHaveTextContent("Document saved");
@@ -128,7 +147,7 @@ describe("toast announcements", () => {
     render(<RaiseToast />, { wrapper: CunninghamProvider });
 
     await user.click(screen.getByRole("button", { name: "Create toast" }));
-    const toast = screen.getByRole("status");
+    const toast = toastWith("Document saved");
     expect(toast.contains(document.activeElement)).toBe(false);
 
     await user.keyboard("{Alt>}t{/Alt}");
@@ -154,7 +173,7 @@ describe("toast announcements", () => {
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Create toast" }));
-    const toast = screen.getByRole("status");
+    const toast = toastWith("Renamed");
 
     await user.keyboard("{Alt>}t{/Alt}");
     expect(toast.closest(".Toastify__toast")).not.toHaveFocus();
@@ -175,7 +194,7 @@ describe("toast announcements", () => {
 
       const trigger = screen.getByRole("button", { name: "Create toast" });
       fireEvent.click(trigger);
-      const toast = screen.getByRole("status");
+      const toast = toastWith("Document saved");
       const wrapper = toast.closest(".Toastify__toast");
       if (!wrapper) {
         throw new Error("toast wrapper missing");
@@ -235,7 +254,7 @@ describe("toast announcements", () => {
 
     const trigger = screen.getByRole("button", { name: "Create toast" });
     await user.click(trigger);
-    const toast = screen.getByRole("status");
+    const toast = toastWith("Document saved");
     const wrapper = toast.closest(".Toastify__toast");
     if (!wrapper) {
       throw new Error("toast wrapper missing");
@@ -302,7 +321,122 @@ describe("toast announcements", () => {
       expect(announcer("assertive")).toHaveTextContent("Failed");
       expect(announcer("polite")).not.toHaveTextContent("Failed");
       expect(liveNodesContaining("Failed")).toEqual([announcer("assertive")]);
-      expect(screen.getByRole("alert")).toHaveAttribute("aria-live", "off");
+      expectSilent(toastWith("Failed"));
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("gives an error toast no live role and lets only the assertive announcer speak", () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const message =
+      "The document import has failed (only .docx, .md files are allowed)";
+    try {
+      render(<RaiseToast message={message} type={VariantType.ERROR} />, {
+        wrapper: CunninghamProvider,
+      });
+      fireEvent.click(screen.getByRole("button", { name: "Create toast" }));
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+
+      const toast = toastWith(message);
+      expect(toast).toHaveClass("c__toast--error");
+      expectSilent(toast);
+      const voiced = [
+        ...document.querySelectorAll("[role='alert'], [role='status']"),
+      ].filter((node) => node.textContent?.includes(message));
+      expect(voiced).toEqual([]);
+      expect(liveNodesContaining(message)).toEqual([announcer("assertive")]);
+      expect(within(announcer("assertive")).getAllByText(message)).toHaveLength(
+        1,
+      );
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // Docs: options menu, Delete, confirm. The row that opened the modal goes
+  // away with it, so focus cannot return there and lands on body.
+  it("announces a toast raised while its modal and trigger go away exactly once", () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const message = "The document has been deleted.";
+    const DeleteFlow = () => {
+      const { toast } = useToastProvider();
+      const modal = useModal();
+      const [deleted, setDeleted] = useState(false);
+      return (
+        <>
+          {!deleted && <Button onClick={modal.open}>Delete document</Button>}
+          <Modal size={ModalSize.SMALL} title="Delete the document?" {...modal}>
+            <Button
+              onClick={() => {
+                setDeleted(true);
+                modal.close();
+                toast(message, VariantType.INFO);
+              }}
+            >
+              Confirm
+            </Button>
+          </Modal>
+        </>
+      );
+    };
+    try {
+      render(<DeleteFlow />, { wrapper: CunninghamProvider });
+      const root = document.querySelector(".c__toast__announcer");
+      const polite = announcer("polite");
+      const assertive = announcer("assertive");
+      const records: MutationRecord[] = [];
+      const observer = new MutationObserver((batch) => records.push(...batch));
+      observer.observe(polite, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+
+      const trigger = screen.getByRole("button", { name: "Delete document" });
+      trigger.focus();
+      fireEvent.click(trigger);
+      const confirm = screen.getByRole("button", { name: "Confirm" });
+      act(() => {
+        confirm.focus();
+      });
+      fireEvent.click(confirm);
+
+      expect(trigger.isConnected).toBe(false);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(document.activeElement).toBe(document.body);
+      expect(polite).not.toHaveTextContent(message);
+
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+      // Anything that could speak again later: blur, a re-render, the timer.
+      act(() => {
+        document.body.focus();
+        vi.advanceTimersByTime(1000);
+      });
+      records.push(...observer.takeRecords());
+      observer.disconnect();
+
+      expect(document.querySelector(".c__toast__announcer")).toBe(root);
+      expect(announcer("polite")).toBe(polite);
+      expect(announcer("assertive")).toBe(assertive);
+      const spans = [...polite.querySelectorAll("span")].filter(
+        (span) => span.textContent === message,
+      );
+      expect(spans).toHaveLength(1);
+      // One write: the span is added once, never removed, re-added or retyped.
+      const added = records.flatMap((record) => [...record.addedNodes]);
+      const removed = records.flatMap((record) => [...record.removedNodes]);
+      expect(added).toEqual(spans);
+      expect(removed).toEqual([]);
+      expect(
+        records.filter((record) => record.type === "characterData"),
+      ).toEqual([]);
+      expect(liveNodesContaining(message)).toEqual([polite]);
+      expectSilent(toastWith(message));
     } finally {
       vi.useRealTimers();
     }
