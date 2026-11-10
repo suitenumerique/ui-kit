@@ -24,16 +24,20 @@ describe("<ToastProvider />", () => {
 
     render(
       <>
-        <CunninghamProvider>
-          <div data-testid="first">
-            <Inner label="first" />
-          </div>
-        </CunninghamProvider>
-        <CunninghamProvider>
-          <div data-testid="second">
-            <Inner label="second" />
-          </div>
-        </CunninghamProvider>
+        <div data-testid="root-first">
+          <CunninghamProvider>
+            <div data-testid="first">
+              <Inner label="first" />
+            </div>
+          </CunninghamProvider>
+        </div>
+        <div data-testid="root-second">
+          <CunninghamProvider>
+            <div data-testid="second">
+              <Inner label="second" />
+            </div>
+          </CunninghamProvider>
+        </div>
       </>,
     );
 
@@ -43,23 +47,14 @@ describe("<ToastProvider />", () => {
     const toast = await screen.findByRole("status");
     const firstApp = screen.getByTestId("first").closest(".c__app");
     const secondApp = screen.getByTestId("second").closest(".c__app");
-    const container = toast.closest(".c__toast__container");
 
-    // The toast is outside both apps (react-modal hides .c__app). It still
-    // belongs to the provider that raised it: walking up from the container
-    // reaches a sibling whose next .c__app is that provider's app.
+    // react-modal hides .c__app, so the toast stays outside it. It still
+    // belongs to the provider that raised it, whatever the container's
+    // order next to that app.
     expect(firstApp).not.toContainElement(toast);
     expect(secondApp).not.toContainElement(toast);
-    expect(container).toBeTruthy();
-    let region: Element | null = container;
-    while (region && region.parentElement !== firstApp?.parentElement) {
-      region = region.parentElement;
-    }
-    let sibling = region?.nextElementSibling ?? null;
-    while (sibling && !sibling.classList.contains("c__app")) {
-      sibling = sibling.nextElementSibling;
-    }
-    expect(sibling).toBe(firstApp);
+    expect(screen.getByTestId("root-first")).toContainElement(toast);
+    expect(screen.getByTestId("root-second")).not.toContainElement(toast);
   });
 
   // The root container is already mounted. A toast raised in the nested
