@@ -56,5 +56,4 @@ Run the unified documentation locally with `yarn storybook`. Add a release note
 with `yarn changeset`. Packages are versioned and published manually; follow
 [`RELEASING.md`](./docs/RELEASING.md) for the complete procedure.
 
-See [`MIGRATION.md`](./docs/MIGRATION.md) for consumer migration instructions
-and [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) to contribute to the project.
+See [`MIGRATION.md`](./docs/MIGRATION.md) for consumer migration instructions.
