@@ -160,7 +160,7 @@
       "currentStepSuffix": " (huidig)",
       "contentRegionLabel": "Inhoud van stap {current} van {total}"
     },
-    "feedbackForm": {
+    "genericSupportForm": {
       "title": "Neem contact op met het team",
       "subtitle": "Bug, idee, vraag of compliment — het team leest alles en neemt indien nodig contact met u op.",
       "subject": "Onderwerp",

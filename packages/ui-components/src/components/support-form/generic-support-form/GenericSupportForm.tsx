@@ -7,10 +7,10 @@ import {
   TextArea,
 } from ":/cunningham";
 import { useCunningham } from ":/components/provider";
-import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
-import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
-import { DropdownMenuOption } from "../dropdown-menu/types";
-import { FeedbackFormLabels, FeedbackFormProps } from "./types";
+import { DropdownMenu } from "../../dropdown-menu/DropdownMenu";
+import { useDropdownMenu } from "../../dropdown-menu/useDropdownMenu";
+import { DropdownMenuOption } from "../../dropdown-menu/types";
+import { GenericSupportFormLabels, GenericSupportFormProps } from "./types";
 
 const isValidEmail = (email: string) => {
   return !!email.match(
@@ -29,7 +29,7 @@ const truncateFileName = (name: string, maxLength = 15) => {
   return `${name.slice(0, maxLength - 3)}...`;
 };
 
-export const FeedbackForm = ({
+export const GenericSupportForm = ({
   categories,
   defaultCategory,
   showEmailReply = true,
@@ -47,29 +47,29 @@ export const FeedbackForm = ({
   shouldFlip,
   triggerRef: externalTriggerRef,
   children,
-}: FeedbackFormProps) => {
+}: GenericSupportFormProps) => {
   const { t } = useCunningham();
   const id = useId();
   const internalTriggerRef = useRef<HTMLDivElement>(null);
   const triggerRef = externalTriggerRef || internalTriggerRef;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const labels = useMemo<FeedbackFormLabels>(
+  const labels = useMemo<GenericSupportFormLabels>(
     () => ({
-      title: labelsOverride?.title ?? t("components.feedbackForm.title"),
-      subtitle: labelsOverride?.subtitle ?? t("components.feedbackForm.subtitle"),
-      subject: labelsOverride?.subject ?? t("components.feedbackForm.subject"),
-      subjectPlaceholder: labelsOverride?.subjectPlaceholder ?? t("components.feedbackForm.subjectPlaceholder"),
-      message: labelsOverride?.message ?? t("components.feedbackForm.message"),
-      messagePlaceholder: labelsOverride?.messagePlaceholder ?? t("components.feedbackForm.messagePlaceholder"),
-      uploadFile: labelsOverride?.uploadFile ?? t("components.feedbackForm.uploadFile"),
-      emailCheckbox: labelsOverride?.emailCheckbox ?? t("components.feedbackForm.emailCheckbox"),
-      emailLabel: labelsOverride?.emailLabel ?? t("components.feedbackForm.emailLabel"),
-      emailPrivacy: labelsOverride?.emailPrivacy ?? t("components.feedbackForm.emailPrivacy"),
-      emailError: labelsOverride?.emailError ?? t("components.feedbackForm.emailError"),
-      cancel: labelsOverride?.cancel ?? t("components.feedbackForm.cancel"),
-      send: labelsOverride?.send ?? t("components.feedbackForm.send"),
-      category: labelsOverride?.category ?? t("components.feedbackForm.category"),
+      title: labelsOverride?.title ?? t("components.genericSupportForm.title"),
+      subtitle: labelsOverride?.subtitle ?? t("components.genericSupportForm.subtitle"),
+      subject: labelsOverride?.subject ?? t("components.genericSupportForm.subject"),
+      subjectPlaceholder: labelsOverride?.subjectPlaceholder ?? t("components.genericSupportForm.subjectPlaceholder"),
+      message: labelsOverride?.message ?? t("components.genericSupportForm.message"),
+      messagePlaceholder: labelsOverride?.messagePlaceholder ?? t("components.genericSupportForm.messagePlaceholder"),
+      uploadFile: labelsOverride?.uploadFile ?? t("components.genericSupportForm.uploadFile"),
+      emailCheckbox: labelsOverride?.emailCheckbox ?? t("components.genericSupportForm.emailCheckbox"),
+      emailLabel: labelsOverride?.emailLabel ?? t("components.genericSupportForm.emailLabel"),
+      emailPrivacy: labelsOverride?.emailPrivacy ?? t("components.genericSupportForm.emailPrivacy"),
+      emailError: labelsOverride?.emailError ?? t("components.genericSupportForm.emailError"),
+      cancel: labelsOverride?.cancel ?? t("components.genericSupportForm.cancel"),
+      send: labelsOverride?.send ?? t("components.genericSupportForm.send"),
+      category: labelsOverride?.category ?? t("components.genericSupportForm.category"),
     }),
     [labelsOverride, t],
   );
@@ -176,30 +176,30 @@ export const FeedbackForm = ({
           return true;
         }}
       >
-        <div className={`c__feedback-form${className ? ` ${className}` : ""}`}>
+        <div className={`c__generic-support-form${className ? ` ${className}` : ""}`}>
           {/* Header */}
-          <div className="c__feedback-form__header">
-            <div className="c__feedback-form__header__text">
-              <h3 className="c__feedback-form__title">{labels.title}</h3>
-              <p className="c__feedback-form__subtitle">{labels.subtitle}</p>
+          <div className="c__generic-support-form__header">
+            <div className="c__generic-support-form__header__text">
+              <h3 className="c__generic-support-form__title">{labels.title}</h3>
+              <p className="c__generic-support-form__subtitle">{labels.subtitle}</p>
             </div>
             <Button
-              className="c__feedback-form__close"
+              className="c__generic-support-form__close"
               color="neutral"
               variant="tertiary"
               size="small"
               icon={<span className="material-icons">close</span>}
               onClick={handleClose}
-              aria-label={t("components.feedbackForm.closeAriaLabel")}
+              aria-label={t("components.genericSupportForm.closeAriaLabel")}
             />
           </div>
 
           {/* Body */}
-          <div className="c__feedback-form__body">
+          <div className="c__generic-support-form__body">
             {/* Category */}
             {categories && categories.length > 0 && (
-              <div className="c__feedback-form__category">
-                <span className="c__feedback-form__category__label">
+              <div className="c__generic-support-form__category">
+                <span className="c__generic-support-form__category__label">
                   {labels.category}
                 </span>
                 <DropdownMenu
@@ -211,18 +211,18 @@ export const FeedbackForm = ({
                 >
                   <button
                     type="button"
-                    className="c__feedback-form__category__trigger"
+                    className="c__generic-support-form__category__trigger"
                     onClick={() => categoryMenu.setIsOpen(!categoryMenu.isOpen)}
                   >
                     {selectedCategoryItem?.icon && (
-                      <span className="c__feedback-form__category__trigger__icon">
+                      <span className="c__generic-support-form__category__trigger__icon">
                         {selectedCategoryItem.icon}
                       </span>
                     )}
-                    <span className="c__feedback-form__category__trigger__label">
+                    <span className="c__generic-support-form__category__trigger__label">
                       {selectedCategoryItem?.label || labels.category}
                     </span>
-                    <span className="material-icons c__feedback-form__category__trigger__chevron">
+                    <span className="material-icons c__generic-support-form__category__trigger__chevron">
                       arrow_drop_down
                     </span>
                   </button>
@@ -241,7 +241,7 @@ export const FeedbackForm = ({
             />
 
             {/* Message */}
-            <div className="c__feedback-form__message">
+            <div className="c__generic-support-form__message">
               <TextArea
                 label={labels.message}
                 placeholder={labels.messagePlaceholder}
@@ -256,18 +256,18 @@ export const FeedbackForm = ({
             </div>
 
             {/* Files */}
-            <div className="c__feedback-form__files">
+            <div className="c__generic-support-form__files">
               {files.map((file, index) => (
                 <div
                   key={`${file.name}-${index}`}
-                  className="c__feedback-form__files__chip"
+                  className="c__generic-support-form__files__chip"
                 >
-                  <span className="c__feedback-form__files__chip__name">
+                  <span className="c__generic-support-form__files__chip__name">
                     {truncateFileName(file.name)}
                   </span>
                   <button
                     type="button"
-                    className="c__feedback-form__files__chip__remove"
+                    className="c__generic-support-form__files__chip__remove"
                     onClick={() => removeFile(index)}
                     aria-label={`Remove ${file.name}`}
                   >
@@ -297,7 +297,7 @@ export const FeedbackForm = ({
 
           {/* Email section */}
           {showEmailReply && (
-            <div className="c__feedback-form__email-section">
+            <div className="c__generic-support-form__email-section">
               <Checkbox
                 label={labels.emailCheckbox}
                 checked={wantsReply}
@@ -332,7 +332,7 @@ export const FeedbackForm = ({
                   href={emailPrivacyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="c__feedback-form__email-section__privacy"
+                  className="c__generic-support-form__email-section__privacy"
                 >
                   {labels.emailPrivacy}
                 </a>
@@ -341,7 +341,7 @@ export const FeedbackForm = ({
           )}
 
           {/* Footer */}
-          <div className="c__feedback-form__footer">
+          <div className="c__generic-support-form__footer">
             <Button
               color="brand"
               variant="bordered"

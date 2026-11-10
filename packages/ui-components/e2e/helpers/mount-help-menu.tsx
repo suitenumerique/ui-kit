@@ -32,7 +32,7 @@ interface TestHelpMenuProps {
   documentationUrl?: string;
   withOnboarding?: boolean;
   withContactUs?: boolean;
-  withFeedbackForm?: boolean;
+  withGenericSupportForm?: boolean;
   release?: HelpMenuProps["release"];
   legal?: HelpMenuProps["legal"];
   customOptions?: TestCustomOption[];
@@ -43,7 +43,7 @@ export const TestHelpMenu = ({
   documentationUrl,
   withOnboarding,
   withContactUs,
-  withFeedbackForm,
+  withGenericSupportForm,
   release,
   legal,
   customOptions,
@@ -73,8 +73,8 @@ export const TestHelpMenu = ({
         documentationUrl={documentationUrl}
         onOnboarding={withOnboarding ? () => record("onboarding") : undefined}
         onContactUs={withContactUs ? () => record("contactUs") : undefined}
-        feedbackForm={
-          withFeedbackForm
+        genericSupportForm={
+          withGenericSupportForm
             ? { onSend: () => record("feedback:send") }
             : undefined
         }

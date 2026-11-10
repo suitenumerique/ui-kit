@@ -358,21 +358,21 @@ export {
 } from "./components/help-menu";
 
 export type {
-  HelpMenuFeedbackConfig,
+  HelpMenuGenericSupportConfig,
   HelpMenuProps,
   HelpMenuRelease,
 } from "./components/help-menu";
 
 export {
-  FeedbackForm,
-} from "./components/feedback-form";
+  GenericSupportForm,
+} from "./components/support-form";
 
 export type {
-  FeedbackFormData,
-  FeedbackFormLabels,
-  FeedbackFormPlacement,
-  FeedbackFormProps,
-} from "./components/feedback-form";
+  GenericSupportFormData,
+  GenericSupportFormLabels,
+  GenericSupportFormPlacement,
+  GenericSupportFormProps,
+} from "./components/support-form";
 
 export {
   useResponsive,

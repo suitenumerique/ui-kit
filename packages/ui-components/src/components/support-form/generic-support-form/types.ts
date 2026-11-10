@@ -1,7 +1,7 @@
 import { ReactNode, RefObject } from "react";
-import { DropdownMenuItem } from "../dropdown-menu/types";
+import { DropdownMenuItem } from "../../dropdown-menu/types";
 
-export type FeedbackFormData = {
+export type GenericSupportFormData = {
   category?: string;
   subject: string;
   message: string;
@@ -9,7 +9,7 @@ export type FeedbackFormData = {
   email?: string;
 };
 
-export type FeedbackFormLabels = {
+export type GenericSupportFormLabels = {
   title: string;
   subtitle: string;
   subject: string;
@@ -26,7 +26,7 @@ export type FeedbackFormLabels = {
   category: string;
 };
 
-export type FeedbackFormPlacement =
+export type GenericSupportFormPlacement =
   | "bottom"
   | "bottom left"
   | "bottom right"
@@ -40,21 +40,21 @@ export type FeedbackFormPlacement =
   | "left"
   | "right";
 
-export type FeedbackFormProps = {
+export type GenericSupportFormProps = {
   categories?: DropdownMenuItem[];
   defaultCategory?: string;
   showEmailReply?: boolean;
-  onSend: (data: FeedbackFormData) => void;
+  onSend: (data: GenericSupportFormData) => void;
   onCancel?: () => void;
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  labels?: Partial<FeedbackFormLabels>;
+  labels?: Partial<GenericSupportFormLabels>;
   emailPrivacyUrl?: string;
   maxFileSize?: number;
   acceptedFileTypes?: string[];
   isSending?: boolean;
   className?: string;
-  placement?: FeedbackFormPlacement;
+  placement?: GenericSupportFormPlacement;
   shouldFlip?: boolean;
   triggerRef?: RefObject<HTMLElement | null>;
   children?: ReactNode;

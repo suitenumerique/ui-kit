@@ -1,2 +1,6 @@
 export * from "./HelpMenu";
-export type { HelpMenuRelease, HelpMenuFeedbackConfig, HelpMenuProps } from "./HelpMenu";
+export type {
+  HelpMenuRelease,
+  HelpMenuGenericSupportConfig,
+  HelpMenuProps,
+} from "./HelpMenu";

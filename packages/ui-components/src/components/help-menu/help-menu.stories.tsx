@@ -92,12 +92,12 @@ export const ContactUsMailto: Story = {
   ),
 };
 
-export const WithFeedbackForm: Story = {
+export const WithGenericSupportForm: Story = {
   render: () => (
     <HelpMenu
       documentationUrl="https://example.com/docs"
       onOnboarding={() => alert("Onboarding clicked")}
-      feedbackForm={{
+      genericSupportForm={{
         onSend: (data) => console.log("Feedback sent:", data),
         showEmailReply: true,
         emailPrivacyUrl: "#",
@@ -149,7 +149,7 @@ export const InLayoutFooter: Story = {
             <HelpMenu
               documentationUrl="https://example.com/docs"
               onOnboarding={() => alert("Onboarding clicked")}
-              feedbackForm={{
+              genericSupportForm={{
                 onSend: (data) => console.log("Feedback sent:", data),
                 showEmailReply: true,
                 emailPrivacyUrl: "#",

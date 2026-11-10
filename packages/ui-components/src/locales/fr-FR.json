@@ -160,7 +160,7 @@
       "currentStepSuffix": " (actuelle)",
       "contentRegionLabel": "Contenu de l'étape {current} sur {total}"
     },
-    "feedbackForm": {
+    "genericSupportForm": {
       "title": "Contacter l'équipe",
       "subtitle": "Bug, idée, question ou compliment — l'équipe lit tout et reviendra vers vous si nécessaire.",
       "subject": "Sujet",

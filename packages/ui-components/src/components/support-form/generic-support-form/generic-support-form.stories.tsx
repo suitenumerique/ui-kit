@@ -1,15 +1,15 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from ":/cunningham";
-import { FeedbackForm } from "./FeedbackForm";
-import { FeedbackFormProps } from "./types";
-import { DropdownMenuItem } from "../dropdown-menu/types";
+import { GenericSupportForm } from "./GenericSupportForm";
+import { GenericSupportFormProps } from "./types";
+import { DropdownMenuItem } from "../../dropdown-menu/types";
 
 const meta = {
-  title: "Components/FeedbackForm",
-  component: FeedbackForm,
+  title: "Components/SupportForm/GenericSupportForm",
+  component: GenericSupportForm,
   tags: ["autodocs"],
-} satisfies Meta<typeof FeedbackForm>;
+} satisfies Meta<typeof GenericSupportForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -37,10 +37,10 @@ const categoryOptions: DropdownMenuItem[] = [
   },
 ];
 
-const FeedbackFormWrapper = (props: Omit<FeedbackFormProps, "children">) => {
+const GenericSupportFormWrapper = (props: Omit<GenericSupportFormProps, "children">) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <FeedbackForm
+    <GenericSupportForm
       {...props}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
@@ -48,7 +48,7 @@ const FeedbackFormWrapper = (props: Omit<FeedbackFormProps, "children">) => {
       <Button onClick={() => setIsOpen(!isOpen)}>
         Contact us
       </Button>
-    </FeedbackForm>
+    </GenericSupportForm>
   );
 };
 
@@ -58,7 +58,7 @@ export const Default: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       onSend={(data) => console.log("Send:", data)}
       emailPrivacyUrl="#"
     />
@@ -71,7 +71,7 @@ export const WithCategories: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       categories={categoryOptions}
       defaultCategory="bug"
       showEmailReply={false}
@@ -86,7 +86,7 @@ export const WithCategoriesAndEmail: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       categories={categoryOptions}
       defaultCategory="bug"
       showEmailReply={true}
@@ -102,7 +102,7 @@ export const NoEmailReply: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       showEmailReply={false}
       onSend={(data) => console.log("Send:", data)}
     />
@@ -115,7 +115,7 @@ export const CustomLabels: Story = {
     children: <Button>Contactez-nous</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       onSend={(data) => console.log("Envoi:", data)}
       emailPrivacyUrl="#"
       labels={{
@@ -143,7 +143,7 @@ export const SendingState: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       isSending={true}
       onSend={(data) => console.log("Send:", data)}
     />

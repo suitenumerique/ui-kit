@@ -5,12 +5,12 @@ import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
 import { DropdownMenuItem } from "../dropdown-menu/types";
 import { QuestionMark } from "../icons/QuestionMark";
-import { FeedbackForm } from "../feedback-form/FeedbackForm";
+import { GenericSupportForm } from "../support-form/generic-support-form/GenericSupportForm";
 import {
-  FeedbackFormData,
-  FeedbackFormLabels,
-  FeedbackFormPlacement,
-} from "../feedback-form/types";
+  GenericSupportFormData,
+  GenericSupportFormLabels,
+  GenericSupportFormPlacement,
+} from "../support-form/generic-support-form/types";
 import {
   BubbleEdit,
   ClockArrowCirclepath,
@@ -26,8 +26,8 @@ export type HelpMenuRelease = {
   url?: string;
 };
 
-export type HelpMenuFeedbackConfig = {
-  onSend: (data: FeedbackFormData) => void;
+export type HelpMenuGenericSupportConfig = {
+  onSend: (data: GenericSupportFormData) => void;
   categories?: DropdownMenuItem[];
   defaultCategory?: string;
   showEmailReply?: boolean;
@@ -35,15 +35,15 @@ export type HelpMenuFeedbackConfig = {
   maxFileSize?: number;
   acceptedFileTypes?: string[];
   isSending?: boolean;
-  labels?: Partial<FeedbackFormLabels>;
-  placement?: FeedbackFormPlacement;
+  labels?: Partial<GenericSupportFormLabels>;
+  placement?: GenericSupportFormPlacement;
 };
 
 export type HelpMenuProps = {
   documentationUrl?: string;
   onOnboarding?: () => void;
   onContactUs?: () => void;
-  feedbackForm?: HelpMenuFeedbackConfig;
+  genericSupportForm?: HelpMenuGenericSupportConfig;
   release?: HelpMenuRelease;
   legal?: {
     personalDataUrl?: string;
@@ -59,16 +59,16 @@ export const HelpMenu = ({
   documentationUrl,
   onOnboarding,
   onContactUs,
-  feedbackForm,
+  genericSupportForm,
   release,
   legal,
   customOptions,
 }: HelpMenuProps) => {
   const { t } = useCunningham();
   const { isOpen, setIsOpen } = useDropdownMenu();
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isSupportFormOpen, setIsSupportFormOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const feedbackAnchorRef = useRef<HTMLDivElement>(null);
+  const supportFormAnchorRef = useRef<HTMLDivElement>(null);
 
   const options = useMemo(() => {
     const items: DropdownMenuItem[] = [];
@@ -137,14 +137,14 @@ export const HelpMenu = ({
       items.push(...customOptions);
     }
 
-    if (onContactUs || feedbackForm) {
+    if (onContactUs || genericSupportForm) {
       if (items.length > 0) items.push({ type: "separator" });
       items.push({
         label: t("components.helpMenu.contactUs"),
         icon: <BubbleEdit size={IconSize.SMALL} />,
         callback: () => {
-          if (feedbackForm) {
-            setIsFeedbackOpen(true);
+          if (genericSupportForm) {
+            setIsSupportFormOpen(true);
           } else {
             onContactUs?.();
           }
@@ -175,7 +175,7 @@ export const HelpMenu = ({
     documentationUrl,
     onOnboarding,
     onContactUs,
-    feedbackForm,
+    genericSupportForm,
     release,
     legal,
     customOptions,
@@ -200,10 +200,10 @@ export const HelpMenu = ({
         </div>
       </DropdownMenu>
 
-      {feedbackForm && (
+      {genericSupportForm && (
         <>
           <div
-            ref={feedbackAnchorRef}
+            ref={supportFormAnchorRef}
             style={{
               position: "fixed",
               left: 12,
@@ -213,22 +213,22 @@ export const HelpMenu = ({
               pointerEvents: "none",
             }}
           />
-          <FeedbackForm
-            triggerRef={feedbackAnchorRef}
-            isOpen={isFeedbackOpen}
-            onOpenChange={setIsFeedbackOpen}
+          <GenericSupportForm
+            triggerRef={supportFormAnchorRef}
+            isOpen={isSupportFormOpen}
+            onOpenChange={setIsSupportFormOpen}
             placement="top start"
             shouldFlip={false}
-            onSend={feedbackForm.onSend}
-            onCancel={() => setIsFeedbackOpen(false)}
-            categories={feedbackForm.categories}
-            defaultCategory={feedbackForm.defaultCategory}
-            showEmailReply={feedbackForm.showEmailReply}
-            emailPrivacyUrl={feedbackForm.emailPrivacyUrl}
-            maxFileSize={feedbackForm.maxFileSize}
-            acceptedFileTypes={feedbackForm.acceptedFileTypes}
-            isSending={feedbackForm.isSending}
-            labels={feedbackForm.labels}
+            onSend={genericSupportForm.onSend}
+            onCancel={() => setIsSupportFormOpen(false)}
+            categories={genericSupportForm.categories}
+            defaultCategory={genericSupportForm.defaultCategory}
+            showEmailReply={genericSupportForm.showEmailReply}
+            emailPrivacyUrl={genericSupportForm.emailPrivacyUrl}
+            maxFileSize={genericSupportForm.maxFileSize}
+            acceptedFileTypes={genericSupportForm.acceptedFileTypes}
+            isSending={genericSupportForm.isSending}
+            labels={genericSupportForm.labels}
           />
         </>
       )}

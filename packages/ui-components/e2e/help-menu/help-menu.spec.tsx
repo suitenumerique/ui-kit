@@ -322,7 +322,7 @@ test.describe("HelpMenu - contact us", () => {
     mount,
     page,
   }) => {
-    await mount(<TestHelpMenu withContactUs withFeedbackForm />);
+    await mount(<TestHelpMenu withContactUs withGenericSupportForm />);
     await openMenu(page);
 
     await page.getByRole("menuitem", { name: "Contact us" }).click();

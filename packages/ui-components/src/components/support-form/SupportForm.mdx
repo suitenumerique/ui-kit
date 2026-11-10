@@ -1,0 +1,36 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as GenericStories from "./generic-support-form/generic-support-form.stories";
+
+<Meta title="Components/SupportForm/Docs" />
+
+# Support forms
+
+Forms that let users write to a team: a subject, a message, an optional file
+and their email. They open in a popover next to the button that triggers
+them, and take the full screen on mobile.
+
+Both must live under a `CunninghamProvider`: their labels are translated in
+the 5 supported languages, and can be overridden with the `labels` prop.
+
+## GenericSupportForm
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+
+<GenericSupportForm
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+  onSend={(data) => api.sendFeedback(data)}
+>
+  <Button onClick={() => setIsOpen(true)}>Contact us</Button>
+</GenericSupportForm>;
+```
+
+{/* Rendered in its own frame: the story opens a popover. */}
+<Canvas of={GenericStories.Default} story={{ inline: false, height: "620px" }} />
+
+## From the HelpMenu
+
+The [HelpMenu](?path=/docs/components-helpmenu--helpmenu) opens a support form from
+its "Contact us" entry. Pass `genericSupportForm` with the GenericSupportForm
+props.
