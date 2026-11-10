@@ -40,6 +40,7 @@ yarn install --frozen-lockfile
 yarn build
 yarn lint
 yarn test
+yarn playwright install
 yarn test:ct
 yarn build-storybook
 ```
