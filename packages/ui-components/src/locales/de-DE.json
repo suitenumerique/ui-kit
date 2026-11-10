@@ -175,7 +175,19 @@
       "cancel": "Abbrechen",
       "send": "Senden",
       "category": "Kategorie",
-      "closeAriaLabel": "Kontaktformular schließen"
+      "closeAriaLabel": "Kontaktformular schließen",
+      "subjectRequired": "Der Betreff ist erforderlich.",
+      "messageRequired": "Die Nachricht ist erforderlich.",
+      "emailRequired": "Die E-Mail-Adresse ist erforderlich. Format: name@domain.de",
+      "removeFile": "{name} entfernen",
+      "fileTooLarge": "Die Datei ist zu groß. Maximale Größe: {size}.",
+      "fileTypeInvalid": "Dieser Dateityp ist nicht erlaubt.",
+      "fileTooMany": "Maximale Anzahl an Dateien: {max}.",
+      "sending": "Wird gesendet…",
+      "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+      "successTitle": "Vielen Dank für Ihr Feedback",
+      "successText": "Ihre Nachricht wurde an das Team gesendet.",
+      "successClose": "Schließen"
     },
     "helpMenu": {
       "ariaLabel": "Hilfe",

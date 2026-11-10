@@ -9,6 +9,11 @@ const meta = {
   title: "Components/SupportForm/GenericSupportForm",
   component: GenericSupportForm,
   tags: ["autodocs"],
+  parameters: {
+    // The stories open their popover on load: on the docs page, each one gets
+    // its own frame so the popovers don't pile up over the page.
+    docs: { story: { inline: false, height: "720px" } },
+  },
 } satisfies Meta<typeof GenericSupportForm>;
 
 export default meta;
@@ -146,6 +151,87 @@ export const SendingState: Story = {
     <GenericSupportFormWrapper
       isSending={true}
       onSend={(data) => console.log("Send:", data)}
+    />
+  ),
+};
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * `onSend` returns a promise: the form shows its sending state, then the
+ * success view once it resolves.
+ */
+export const AsyncSuccess: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1500);
+      }}
+    />
+  ),
+};
+
+/** `onSend` rejects: the error message is shown above the buttons. */
+export const AsyncError: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      onSend={async () => {
+        await wait(1000);
+        throw new Error("Too many requests. Please try again later.");
+      }}
+    />
+  ),
+};
+
+/**
+ * A required email field replaces the "reply by email" checkbox, and files
+ * are limited in number, type and size.
+ */
+export const RequiredEmailAndFileRules: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      requireEmail
+      maxFiles={1}
+      maxFileSize={10 * 1024 * 1024}
+      acceptedFileTypes={["image/png", "image/jpeg", "image/gif", "text/plain"]}
+      labels={{
+        uploadHint: "Image (png, jpg, gif) or text file (txt), up to 10 MB",
+      }}
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1000);
+      }}
+    />
+  ),
+};
+
+/** The app knows the user's email: the form does not ask for it. */
+export const KnownEmail: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      requireEmail
+      email="jean.dupont@example.gouv.fr"
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1000);
+      }}
     />
   ),
 };
