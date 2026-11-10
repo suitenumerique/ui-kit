@@ -23,10 +23,16 @@ export const Toast = ({
   disableAnimate,
   closeToast,
   progress,
+  suppressLive = false,
   children,
   ...shared
 }: ToastProps & {
   closeToast?: () => void;
+  /**
+   * The provider announces through its own region. A standalone toast keeps
+   * the implicit live behaviour of `status` / `alert`.
+   */
+  suppressLive?: boolean;
 }) => {
   // `use` may sit behind the condition: a toast without a close button still
   // renders outside `CunninghamProvider`.
@@ -86,6 +92,7 @@ export const Toast = ({
         },
       )}
       role={toastRole(type)}
+      aria-live={suppressLive ? "off" : undefined}
     >
       <NotificationContent
         {...shared}

@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -94,8 +95,11 @@ const parseShortcut = (label: string): ParsedShortcut | undefined => {
   if (!key) {
     return undefined;
   }
-  const code =
-    key.length === 1 && /[a-z]/i.test(key) ? `Key${key.toUpperCase()}` : key;
+  const code = /^[a-z]$/i.test(key)
+    ? `Key${key.toUpperCase()}`
+    : /^[0-9]$/.test(key)
+      ? `Digit${key}`
+      : key;
   return { altKey, ctrlKey, metaKey, shiftKey, code };
 };
 
@@ -144,11 +148,18 @@ const autoCloseOf = (state: ToastState): number | false =>
 const renderToast = ({ message, type, props }: ToastState) => {
   const { onDelete: _onDelete, ...presentation } = props;
   return (
-    <Toast {...presentation} type={type}>
+    <Toast {...presentation} type={type} suppressLive>
       {message}
     </Toast>
   );
 };
+
+const isAssertive = (type: VariantType) =>
+  type === VariantType.ERROR || type === VariantType.WARNING;
+
+type Spoken = { id: string; message: string; assertive: boolean };
+
+type Hold = { focus: boolean; hover: boolean };
 
 export interface ToastProviderProps extends PropsWithChildren {
   /** Corner the toast sits in. The slide follows that side. Defaults to `bottom-left`. */
@@ -185,27 +196,70 @@ export const ToastProvider = ({
   const live = useRef(new Map<ToastId, ToastState>());
   const counter = useRef(0);
   const returnFocus = useRef(new Map<string, HTMLElement>());
-  const announceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined,
+  const held = useRef(new Map<string, Hold>());
+  const queued = useRef(
+    new Map<
+      string,
+      {
+        message: string;
+        assertive: boolean;
+        timer?: ReturnType<typeof setTimeout>;
+      }
+    >(),
   );
-  const [announcement, setAnnouncement] = useState("");
+  const [spoken, setSpoken] = useState<Spoken[]>([]);
 
-  const clearAnnounceTimer = () => {
-    if (announceTimer.current !== undefined) {
-      clearTimeout(announceTimer.current);
-      announceTimer.current = undefined;
+  const dropSpoken = useCallback((id: string) => {
+    const item = queued.current.get(id);
+    if (item?.timer !== undefined) {
+      clearTimeout(item.timer);
     }
-  };
-
-  const announce = useCallback((message: string) => {
-    clearAnnounceTimer();
-    setAnnouncement("");
-    announceTimer.current = setTimeout(() => {
-      setAnnouncement(message);
-    }, ANNOUNCE_DELAY_MS);
+    queued.current.delete(id);
+    setSpoken((current) => current.filter((entry) => entry.id !== id));
   }, []);
 
-  useEffect(() => clearAnnounceTimer, []);
+  const announce = useCallback(
+    (id: string, message: string, type: VariantType) => {
+      const assertive = isAssertive(type);
+      const current = queued.current.get(id);
+      if (current) {
+        current.message = message;
+        current.assertive = assertive;
+        if (current.timer === undefined) {
+          setSpoken((entries) =>
+            entries.map((entry) =>
+              entry.id === id ? { id, message, assertive } : entry,
+            ),
+          );
+        }
+        return;
+      }
+      const timer = setTimeout(() => {
+        const latest = queued.current.get(id);
+        if (!latest) {
+          return;
+        }
+        latest.timer = undefined;
+        setSpoken((entries) => [
+          ...entries.filter((entry) => entry.id !== id),
+          { id, message: latest.message, assertive: latest.assertive },
+        ]);
+      }, ANNOUNCE_DELAY_MS);
+      queued.current.set(id, { message, assertive, timer });
+    },
+    [],
+  );
+
+  useEffect(
+    () => () => {
+      queued.current.forEach((item) => {
+        if (item.timer !== undefined) {
+          clearTimeout(item.timer);
+        }
+      });
+    },
+    [],
+  );
 
   const context: ToastProviderContext = useMemo(
     () => ({
@@ -215,7 +269,7 @@ export const ToastProvider = ({
         const id = `${target}-${(counter.current += 1)}`;
         const state: ToastState = { message, type, duration, props };
         live.current.set(id, state);
-        announce(message);
+        announce(id, message, type);
 
         return notify(renderToast(state), {
           toastId: id,
@@ -225,7 +279,9 @@ export const ToastProvider = ({
           onClose: () => {
             const back = returnFocus.current.get(id);
             returnFocus.current.delete(id);
+            held.current.delete(id);
             live.current.delete(id);
+            dropSpoken(id);
             props.onDelete?.();
             const node = document.getElementById(id);
             const active = document.activeElement;
@@ -254,6 +310,9 @@ export const ToastProvider = ({
           props: { ...current.props, ...props },
         };
         live.current.set(id, next);
+        if (message !== undefined || type !== undefined) {
+          announce(id, next.message, next.type);
+        }
 
         notify.update(id, {
           containerId: target,
@@ -269,7 +328,7 @@ export const ToastProvider = ({
             : { id: params, containerId: target },
         ),
     }),
-    [announce, target],
+    [announce, dropSpoken, target],
   );
 
   const hotKeys = useMemo(() => {
@@ -290,6 +349,28 @@ export const ToastProvider = ({
           shortcut,
         });
 
+  // react-toastify re-renders the container with aria-live="polite" and offers
+  // no prop to stop it. Silence that attribute whenever it comes back, so the
+  // announcer below is the only live channel.
+  useLayoutEffect(() => {
+    const root = document.getElementById(target);
+    if (!root) {
+      return;
+    }
+    const silence = () => {
+      if (root.getAttribute("aria-live") !== "off") {
+        root.setAttribute("aria-live", "off");
+      }
+    };
+    silence();
+    const observer = new MutationObserver(silence);
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["aria-live"],
+    });
+    return () => observer.disconnect();
+  }, [target]);
+
   useEffect(() => {
     const owns = (node: EventTarget | null) => {
       if (!(node instanceof Element)) {
@@ -306,6 +387,22 @@ export const ToastProvider = ({
       return toast;
     };
 
+    const sync = (id: string) => {
+      const reasons = held.current.get(id) ?? { focus: false, hover: false };
+      if (reasons.focus || reasons.hover) {
+        notify.pause({ id, containerId: target });
+      } else {
+        notify.play({ id, containerId: target });
+      }
+    };
+
+    const setReason = (id: string, reason: keyof Hold, on: boolean) => {
+      const reasons = held.current.get(id) ?? { focus: false, hover: false };
+      reasons[reason] = on;
+      held.current.set(id, reasons);
+      sync(id);
+    };
+
     const onFocusIn = (event: FocusEvent) => {
       const toast = owns(event.target);
       if (!toast) {
@@ -315,7 +412,7 @@ export const ToastProvider = ({
       if (from instanceof HTMLElement && !toast.contains(from)) {
         returnFocus.current.set(toast.id, from);
       }
-      notify.pause({ id: toast.id, containerId: target });
+      setReason(toast.id, "focus", true);
     };
 
     const onFocusOut = (event: FocusEvent) => {
@@ -327,16 +424,70 @@ export const ToastProvider = ({
       if (next instanceof Node && toast.contains(next)) {
         return;
       }
-      notify.play({ id: toast.id, containerId: target });
+      setReason(toast.id, "focus", false);
+    };
+
+    const onMouseOver = (event: MouseEvent) => {
+      const toast = owns(event.target);
+      if (!toast) {
+        return;
+      }
+      setReason(toast.id, "hover", true);
+    };
+
+    const onMouseOut = (event: MouseEvent) => {
+      const toast = owns(event.target);
+      if (!toast) {
+        return;
+      }
+      const next = event.relatedTarget;
+      if (next instanceof Node && toast.contains(next)) {
+        return;
+      }
+      setReason(toast.id, "hover", false);
+    };
+
+    // Registered after ToastContainer's own keydown listener, which pauses
+    // every toast on Alt+T and plays every toast on Escape. Re-apply the
+    // hold so a focused or hovered toast stays paused, and the others resume.
+    const onKeyDown = () => {
+      const root = document.getElementById(target);
+      if (!root) {
+        return;
+      }
+      for (const id of live.current.keys()) {
+        const node = document.getElementById(id);
+        if (!node || !root.contains(node)) {
+          continue;
+        }
+        if (node.contains(document.activeElement)) {
+          const reasons = held.current.get(id) ?? {
+            focus: false,
+            hover: false,
+          };
+          reasons.focus = true;
+          held.current.set(id, reasons);
+        }
+        sync(id);
+      }
     };
 
     document.addEventListener("focusin", onFocusIn);
     document.addEventListener("focusout", onFocusOut);
+    document.addEventListener("mouseover", onMouseOver);
+    document.addEventListener("mouseout", onMouseOut);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("focusin", onFocusIn);
       document.removeEventListener("focusout", onFocusOut);
+      document.removeEventListener("mouseover", onMouseOver);
+      document.removeEventListener("mouseout", onMouseOut);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [target]);
+
+  const polite = spoken.filter((entry) => !entry.assertive);
+  const assertive = spoken.filter((entry) => entry.assertive);
 
   return (
     <ToastContext.Provider value={context}>
@@ -346,12 +497,13 @@ export const ToastProvider = ({
         position={position}
         containerId={target}
         autoClose={DEFAULT_TOAST_DURATION}
-        // `Toast` carries `status` or `alert` itself, so a standalone one is
-        // announced too. Leaving the default here would nest a second one.
+        // The wrapper is not a live region. The toast keeps its role, with
+        // aria-live off, and the announcer below is the only one that speaks.
         role="presentation"
-        aria-label={t("components.toast.region_aria_label")}
+        aria-label={liveRegionLabel}
         hotKeys={hotKeys}
         hideProgressBar
+        pauseOnHover={false}
         // The dismissal timer used to be a plain timeout, so it kept running
         // when the window lost focus. Keep it that way.
         pauseOnFocusLoss={false}
@@ -360,16 +512,26 @@ export const ToastProvider = ({
         draggable={false}
         transition={ToastSlide}
       />
-      <section
-        className="c__toast__live-region"
-        aria-live="polite"
-        aria-atomic="true"
-        aria-relevant="additions text"
-        aria-label={liveRegionLabel}
-        style={visuallyHidden}
-      >
-        {announcement}
-      </section>
+      <div className="c__toast__announcer" style={visuallyHidden}>
+        <div
+          aria-live="polite"
+          aria-atomic="false"
+          aria-relevant="additions text"
+        >
+          {polite.map((entry) => (
+            <span key={entry.id}>{entry.message}</span>
+          ))}
+        </div>
+        <div
+          aria-live="assertive"
+          aria-atomic="false"
+          aria-relevant="additions text"
+        >
+          {assertive.map((entry) => (
+            <span key={entry.id}>{entry.message}</span>
+          ))}
+        </div>
+      </div>
       {children}
     </ToastContext.Provider>
   );

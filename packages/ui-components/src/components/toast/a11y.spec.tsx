@@ -12,22 +12,44 @@ import deDE from ":/locales/de-DE.json";
 
 const LIVE_REGION_NAME = "Notifications Alt+T";
 
+const announcer = (politeness: "polite" | "assertive") => {
+  const region = document.querySelector(
+    `.c__toast__announcer [aria-live="${politeness}"]`,
+  );
+  if (!(region instanceof HTMLElement)) {
+    throw new Error(`${politeness} announcer missing`);
+  }
+  return region;
+};
+
+const liveNodesContaining = (text: string) =>
+  [...document.querySelectorAll<HTMLElement>("[aria-live]")].filter(
+    (node) =>
+      node.getAttribute("aria-live") !== "off" &&
+      node.textContent?.includes(text),
+  );
+
 const RaiseToast = ({
   message = "Document saved",
   duration,
   primaryLabel,
+  tertiaryLabel,
+  type = VariantType.INFO,
 }: {
   message?: string;
   duration?: number;
   primaryLabel?: string;
+  tertiaryLabel?: string;
+  type?: VariantType;
 }) => {
   const { toast } = useToastProvider();
   return (
     <Button
       onClick={() =>
-        toast(message, VariantType.INFO, {
+        toast(message, type, {
           duration,
           primaryLabel,
+          tertiaryLabel,
         })
       }
     >
@@ -44,14 +66,15 @@ describe("toast announcements", () => {
 
       const region = screen.getByRole("region", { name: LIVE_REGION_NAME });
       const trigger = screen.getByRole("button", { name: "Create toast" });
-      expect(region).toHaveAttribute("aria-live", "polite");
-      expect(region).not.toHaveTextContent("Document saved");
+      expect(region).toHaveClass("Toastify");
+      expect(region).toHaveAttribute("aria-live", "off");
+      expect(announcer("polite")).not.toHaveTextContent("Document saved");
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
-      // The region stays a sibling of the provider children. Wrapping both
-      // would put the toast container inside the app shell the other branch moves.
+      // The container and the announcer stay siblings of the provider
+      // children, so moving `.c__app` inside the provider keeps both outside it.
       expect(region.parentElement).toBe(trigger.parentElement);
-      expect(region.parentElement).toBe(
-        document.querySelector(".Toastify")?.parentElement,
+      expect(announcer("polite").parentElement?.parentElement).toBe(
+        trigger.parentElement,
       );
 
       trigger.focus();
@@ -59,19 +82,23 @@ describe("toast announcements", () => {
 
       const toast = screen.getByRole("status");
       expect(toast).toHaveTextContent("Document saved");
+      expect(toast).toHaveAttribute("aria-live", "off");
       expect(trigger).toHaveFocus();
       expect(toast.contains(document.activeElement)).toBe(false);
-      expect(region).not.toHaveTextContent("Document saved");
+      expect(announcer("polite")).not.toHaveTextContent("Document saved");
 
       act(() => {
         vi.advanceTimersByTime(99);
       });
-      expect(region).not.toHaveTextContent("Document saved");
+      expect(announcer("polite")).not.toHaveTextContent("Document saved");
 
       act(() => {
         vi.advanceTimersByTime(51);
       });
-      expect(region).toHaveTextContent("Document saved");
+      expect(announcer("polite")).toHaveTextContent("Document saved");
+      expect(liveNodesContaining("Document saved")).toEqual([
+        announcer("polite"),
+      ]);
       expect(trigger).toHaveFocus();
     } finally {
       vi.useRealTimers();
@@ -138,9 +165,12 @@ describe("toast announcements", () => {
   it("pauses the timer while a control inside the toast has focus", async () => {
     vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
     try {
-      render(<RaiseToast duration={1000} primaryLabel="Undo" />, {
-        wrapper: CunninghamProvider,
-      });
+      render(
+        <RaiseToast duration={1000} primaryLabel="Undo" tertiaryLabel="Open" />,
+        {
+          wrapper: CunninghamProvider,
+        },
+      );
 
       const trigger = screen.getByRole("button", { name: "Create toast" });
       fireEvent.click(trigger);
@@ -164,11 +194,25 @@ describe("toast announcements", () => {
       expect(undo).toHaveFocus();
       expect(bar.style.animationPlayState).toBe("paused");
 
+      const open = within(toast).getByRole("button", { name: "Open" });
       act(() => {
-        vi.advanceTimersByTime(1000);
+        open.focus();
       });
-      expect(screen.getByRole("status")).toBeInTheDocument();
-      expect(wrapper).toHaveAttribute("data-in", "true");
+      expect(open).toHaveFocus();
+      expect(bar.style.animationPlayState).toBe("paused");
+
+      act(() => {
+        undo.focus();
+      });
+      expect(bar.style.animationPlayState).toBe("paused");
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(undo).toHaveFocus();
+      expect(bar.style.animationPlayState).toBe("paused");
+
+      fireEvent.mouseOver(undo);
+      fireEvent.mouseOut(undo, { relatedTarget: trigger });
+      expect(bar.style.animationPlayState).toBe("paused");
 
       act(() => {
         trigger.focus();
@@ -206,5 +250,97 @@ describe("toast announcements", () => {
     fireEvent.animationEnd(bar);
 
     expect(trigger).toHaveFocus();
+  });
+
+  it("announces every toast raised in the same turn, and an update", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    try {
+      const Harness = () => {
+        const { toast, updateToast } = useToastProvider();
+        return (
+          <Button
+            onClick={() => {
+              toast("Saved", VariantType.INFO);
+              const id = toast("Uploading", VariantType.INFO);
+              updateToast(id, { message: "Uploaded" });
+            }}
+          >
+            Create toast
+          </Button>
+        );
+      };
+      render(<Harness />, { wrapper: CunninghamProvider });
+      fireEvent.click(screen.getByRole("button", { name: "Create toast" }));
+
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+
+      const polite = announcer("polite");
+      expect(polite).toHaveTextContent("Saved");
+      expect(polite).toHaveTextContent("Uploaded");
+      expect(polite).not.toHaveTextContent("Uploading");
+      expect(liveNodesContaining("Saved")).toEqual([polite]);
+      expect(liveNodesContaining("Uploaded")).toEqual([polite]);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("announces an error assertively and only once", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    try {
+      render(<RaiseToast message="Failed" type={VariantType.ERROR} />, {
+        wrapper: CunninghamProvider,
+      });
+      fireEvent.click(screen.getByRole("button", { name: "Create toast" }));
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+
+      expect(announcer("assertive")).toHaveTextContent("Failed");
+      expect(announcer("polite")).not.toHaveTextContent("Failed");
+      expect(liveNodesContaining("Failed")).toEqual([announcer("assertive")]);
+      expect(screen.getByRole("alert")).toHaveAttribute("aria-live", "off");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("keeps a second toast running after Alt+T focuses the first", async () => {
+    const user = userEvent.setup();
+    const Harness = () => {
+      const { toast } = useToastProvider();
+      return (
+        <Button
+          onClick={() => {
+            toast("First", VariantType.INFO);
+            toast("Second", VariantType.INFO);
+          }}
+        >
+          Create toast
+        </Button>
+      );
+    };
+    render(<Harness />, { wrapper: CunninghamProvider });
+    await user.click(screen.getByRole("button", { name: "Create toast" }));
+
+    const wrappers = [
+      ...document.querySelectorAll<HTMLElement>(".Toastify__toast"),
+    ];
+    expect(wrappers).toHaveLength(2);
+    wrappers.forEach((wrapper) => fireEvent.animationEnd(wrapper));
+    const bars = wrappers.map((wrapper) => {
+      const bar = wrapper.querySelector("[role='progressbar']");
+      if (!(bar instanceof HTMLElement)) {
+        throw new Error("progress bar missing");
+      }
+      return bar;
+    });
+
+    await user.keyboard("{Alt>}t{/Alt}");
+    expect(wrappers[0]).toHaveFocus();
+    expect(bars[0].style.animationPlayState).toBe("paused");
+    expect(bars[1].style.animationPlayState).toBe("running");
   });
 });

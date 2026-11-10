@@ -257,7 +257,7 @@ describe("<ToastProvider />", () => {
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     expect(document.querySelector(".Toastify")).toHaveAttribute(
       "aria-label",
-      "Notifications",
+      "Notifications Alt+T",
     );
   });
 
