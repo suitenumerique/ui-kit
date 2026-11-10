@@ -13,6 +13,7 @@ export const usePdfNavigation = ({
   scrollToPage,
 }: UsePdfNavigationParams) => {
   const [pageInputValue, setPageInputValue] = useState<string>("1");
+  const isEditing = useRef(false);
 
   const goToPage = useCallback(
     (page: number) => {
@@ -32,6 +33,7 @@ export const usePdfNavigation = ({
   );
 
   const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    isEditing.current = true;
     setPageInputValue(e.target.value);
   };
 
@@ -45,14 +47,22 @@ export const usePdfNavigation = ({
   };
 
   const handlePageInputSubmit = (e: React.FocusEvent<HTMLInputElement>) => {
+    isEditing.current = false;
     submitPageInput(e.currentTarget.value);
   };
 
   const handlePageInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      isEditing.current = false;
       submitPageInput(e.currentTarget.value);
     }
   };
+
+  useEffect(() => {
+    if (!isEditing.current) {
+      setPageInputValue(String(currentPage));
+    }
+  }, [currentPage]);
 
   // onItemClick handles internal PDF links (e.g. table of contents entries).
   // It is called by react-pdf's Document via a viewer ref that is created once
@@ -75,7 +85,6 @@ export const usePdfNavigation = ({
     goToPage,
     onDocumentLoadSuccess,
     pageInputValue,
-    setPageInputValue,
     handlePageInputChange,
     handlePageInputSubmit,
     handlePageInputKeyDown,
