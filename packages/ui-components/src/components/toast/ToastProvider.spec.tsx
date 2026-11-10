@@ -44,7 +44,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("first"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await screen.findByText("first", { selector: ".c__toast *" });
     const firstApp = screen.getByTestId("first").closest(".c__app");
     const secondApp = screen.getByTestId("second").closest(".c__app");
 
