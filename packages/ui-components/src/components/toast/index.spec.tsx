@@ -8,6 +8,16 @@ import { Toast, ToastProps } from ":/components/toast";
 import { Button } from ":/components/button";
 import { VariantType } from ":/utils/VariantUtils";
 
+// A provider toast has no live role, so it is found through its message.
+const findToast = async (text: string) => {
+  const message = await screen.findByText(text, { selector: ".c__toast *" });
+  const toast = message.closest(".c__toast");
+  if (!(toast instanceof HTMLElement)) {
+    throw new Error(`toast "${text}" missing`);
+  }
+  return toast;
+};
+
 describe("<Toast />", () => {
   const Wrapper = ({ children }: PropsWithChildren) => {
     return <CunninghamProvider>{children}</CunninghamProvider>;
@@ -31,12 +41,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(document.querySelector(".c__toast")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(toast).toHaveTextContent("Toast content");
   });
 
@@ -66,12 +76,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(document.querySelector(".c__toast")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(toast).toHaveTextContent("Toast content");
     // Toast has a button.
     const $button = within(toast).getByRole("button", { name: "Action" });
@@ -105,12 +115,12 @@ describe("<Toast />", () => {
     const button = screen.getByText("Create toast");
 
     // No toast displayed.
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(document.querySelector(".c__toast")).not.toBeInTheDocument();
 
     await user.click(button);
 
     // Toast displayed.
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(toast).toHaveTextContent("Toast content");
     // Toast has custom button.
     within(toast).getByRole("button", { name: "Tertiary" });
@@ -137,17 +147,14 @@ describe("<Toast />", () => {
     const user = userEvent.setup();
     const button = screen.getByText("Create toast");
 
-    const role =
-      type === VariantType.WARNING || type === VariantType.ERROR
-        ? "alert"
-        : "status";
-
-    expect(screen.queryByRole(role)).not.toBeInTheDocument();
+    expect(document.querySelector(".c__toast")).not.toBeInTheDocument();
 
     await user.click(button);
 
-    const toast = await screen.findByRole(role);
-    expect(toast).toHaveTextContent("Toast content");
+    // The provider's announcer speaks for every type, so no toast has a role.
+    const toast = await findToast("Toast content");
+    expect(toast).toHaveClass(`c__toast--${type}`);
+    expect(toast).not.toHaveAttribute("role");
     expect(
       toast.querySelector(".c__notification__icon svg"),
     ).toBeInTheDocument();
@@ -172,7 +179,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(within(toast).getByTestId("custom-icon")).toBeInTheDocument();
     expect(
       toast.querySelector(".c__notification__icon svg"),
@@ -199,7 +206,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(within(toast).getByRole("button", { name: "Primary" })).toHaveClass(
       "c__notification__action",
       "c__button--small",
@@ -233,7 +240,7 @@ describe("<Toast />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     await user.click(
       within(toast).getByRole("button", { name: "Close notification" }),
     );
@@ -258,7 +265,7 @@ describe("<Toast />", () => {
     render(<Inner />, { wrapper: Wrapper });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Toast content");
     expect(
       toast.querySelector(".c__notification__icon"),
     ).not.toBeInTheDocument();
@@ -278,7 +285,17 @@ describe("<Toast />", () => {
     it("is announced as a status", () => {
       standalone();
       expect(screen.getByRole("status")).toHaveTextContent("Standalone");
+      expect(screen.getByRole("status")).not.toHaveAttribute("aria-live");
     });
+
+    it.each([VariantType.WARNING, VariantType.ERROR])(
+      "is announced as an alert when %s",
+      (type) => {
+        standalone({ type });
+        expect(screen.getByRole("alert")).toHaveTextContent("Standalone");
+        expect(screen.getByRole("alert")).not.toHaveAttribute("aria-live");
+      },
+    );
 
     it("fades out and calls onDelete once its duration has elapsed", async () => {
       const onDelete = vi.fn();

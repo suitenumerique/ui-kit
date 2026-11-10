@@ -271,7 +271,8 @@
     },
     "toast": {
       "close_aria_label": "Fermer la notification",
-      "region_aria_label": "Notifications"
+      "region_aria_label": "Notifications",
+      "region_shortcut_aria_label": "Notifications {shortcut}"
     },
     "pagination": {
       "goto_label": "Aller à",

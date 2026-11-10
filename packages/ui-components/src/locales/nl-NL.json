@@ -271,7 +271,8 @@
     },
     "toast": {
       "close_aria_label": "Melding sluiten",
-      "region_aria_label": "Meldingen"
+      "region_aria_label": "Meldingen",
+      "region_shortcut_aria_label": "Meldingen {shortcut}"
     },
     "pagination": {
       "goto_label": "Ga naar pagina",

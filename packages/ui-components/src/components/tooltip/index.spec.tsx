@@ -169,4 +169,79 @@ describe("<Tooltip />", () => {
       expect(tooltip).toHaveClass("my-custom-class");
     });
   });
+
+  // The open and close animations each schedule a timeout. It has to be
+  // cancelled before the next one, and on unmount, or it fires setState after
+  // the jsdom window is gone.
+  const trackAnimationTimers = () => {
+    const scheduled: number[] = [];
+    const realSet = window.setTimeout;
+    const realClear = window.clearTimeout;
+    const setSpy = vi.spyOn(window, "setTimeout").mockImplementation(((
+      handler: TimerHandler,
+      timeout?: number,
+      ...args: unknown[]
+    ) => {
+      const id = realSet(handler, timeout, ...args);
+      if (timeout === 200) {
+        scheduled.push(id);
+      }
+      return id;
+    }) as typeof window.setTimeout);
+    const clearSpy = vi.spyOn(window, "clearTimeout");
+    return {
+      scheduled,
+      clearSpy,
+      restore: () => {
+        scheduled.forEach((id) => realClear(id));
+        setSpy.mockRestore();
+        clearSpy.mockRestore();
+      },
+    };
+  };
+
+  it("clears the animation timer before the next open or close", async () => {
+    const timers = trackAnimationTimers();
+    try {
+      render(
+        <Tooltip content="Hi there" closeDelay={0}>
+          <Button size="nano" variant="tertiary">
+            ⬅️
+          </Button>
+        </Tooltip>,
+      );
+
+      const user = userEvent.setup();
+      await user.tab();
+      expect(timers.scheduled.length).toBeGreaterThan(0);
+      const opening = timers.scheduled.at(-1);
+
+      await user.tab();
+      expect(timers.clearSpy).toHaveBeenCalledWith(opening);
+    } finally {
+      timers.restore();
+    }
+  });
+
+  it("clears the animation timer on unmount", async () => {
+    const timers = trackAnimationTimers();
+    try {
+      const { unmount } = render(
+        <Tooltip content="Hi there" closeDelay={0}>
+          <Button size="nano" variant="tertiary">
+            ⬅️
+          </Button>
+        </Tooltip>,
+      );
+
+      const user = userEvent.setup();
+      await user.tab();
+      expect(timers.scheduled.length).toBeGreaterThan(0);
+
+      unmount();
+      expect(timers.clearSpy).toHaveBeenCalledWith(timers.scheduled.at(-1));
+    } finally {
+      timers.restore();
+    }
+  });
 });

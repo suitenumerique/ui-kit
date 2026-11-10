@@ -32,22 +32,38 @@ export const Tooltip = ({
 }: TooltipProps) => {
   const ref = React.useRef(null);
   const overlayRef = React.useRef(null);
+  const animationTimers = React.useRef<ReturnType<typeof setTimeout>[]>([]);
   const [isExiting, setIsExiting] = React.useState(false);
   const [isEntering, setIsEntering] = React.useState(false);
+
+  const clearAnimationTimers = () => {
+    animationTimers.current.forEach((id) => clearTimeout(id));
+    animationTimers.current = [];
+  };
+
+  React.useEffect(() => clearAnimationTimers, []);
+
   const state = useTooltipTriggerState({
     delay: 0,
     closeDelay,
     onOpenChange: (isOpen) => {
+      clearAnimationTimers();
       if (isOpen) {
+        setIsExiting(false);
         setIsEntering(true);
-        setTimeout(() => {
-          setIsEntering(false);
-        }, ANIMATION_DURATION);
+        animationTimers.current.push(
+          setTimeout(() => {
+            setIsEntering(false);
+          }, ANIMATION_DURATION),
+        );
       } else {
+        setIsEntering(false);
         setIsExiting(true);
-        setTimeout(() => {
-          setIsExiting(false);
-        }, ANIMATION_DURATION);
+        animationTimers.current.push(
+          setTimeout(() => {
+            setIsExiting(false);
+          }, ANIMATION_DURATION),
+        );
       }
     },
   });

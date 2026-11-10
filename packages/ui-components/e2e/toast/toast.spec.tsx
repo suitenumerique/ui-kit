@@ -2,7 +2,8 @@ import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
 import { TestStandaloneToast, TestToast } from "../helpers/mount-toast";
 
-const toastOf = (page: Page) => page.getByRole("status");
+// Toasts raised by the provider have no live role: the announcer speaks.
+const toastOf = (page: Page) => page.locator(".c__toast");
 
 const callsOf = (page: Page) => page.evaluate(() => window.__toastCalls ?? []);
 
@@ -100,7 +101,6 @@ test.describe("Toast", () => {
 
     const toast = toastOf(page);
     await expect(toast).toContainText("Standalone toast");
-
     await expect(page.getByText("deleted")).toBeVisible();
     expect(await callsOf(page)).toEqual(["deleted"]);
   });
