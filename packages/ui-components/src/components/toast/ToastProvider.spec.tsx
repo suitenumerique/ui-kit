@@ -41,9 +41,25 @@ describe("<ToastProvider />", () => {
     await user.click(screen.getByText("first"));
 
     const toast = await screen.findByRole("status");
-    expect(toast.closest(".c__app")).toBe(
-      screen.getByTestId("first").closest(".c__app"),
-    );
+    const firstApp = screen.getByTestId("first").closest(".c__app");
+    const secondApp = screen.getByTestId("second").closest(".c__app");
+    const container = toast.closest(".c__toast__container");
+
+    // The toast is outside both apps (react-modal hides .c__app). It still
+    // belongs to the provider that raised it: walking up from the container
+    // reaches a sibling whose next .c__app is that provider's app.
+    expect(firstApp).not.toContainElement(toast);
+    expect(secondApp).not.toContainElement(toast);
+    expect(container).toBeTruthy();
+    let region: Element | null = container;
+    while (region && region.parentElement !== firstApp?.parentElement) {
+      region = region.parentElement;
+    }
+    let sibling = region?.nextElementSibling ?? null;
+    while (sibling && !sibling.classList.contains("c__app")) {
+      sibling = sibling.nextElementSibling;
+    }
+    expect(sibling).toBe(firstApp);
   });
 
   // The root container is already mounted. A toast raised in the nested

@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { Modal, ModalSize, ModalTab, useModal } from ":/components/modal/index";
 import { CunninghamProvider } from ":/components/provider";
 import { NOSCROLL_CLASS, useModals } from ":/components/modal/ModalProvider";
+import { useToastProvider } from ":/components/toast/ToastProvider";
 import { VariantType } from ":/utils/VariantUtils";
 
 describe("<Modal/>", () => {
@@ -68,6 +69,62 @@ describe("<Modal/>", () => {
 
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
     expect(app).toHaveAttribute("aria-hidden", "true");
+  });
+  it("keeps a toast outside aria-hidden while a modal is open", async () => {
+    const Notify = () => {
+      const { toast } = useToastProvider();
+      return (
+        <button onClick={() => toast("Saved", VariantType.NEUTRAL)}>
+          Notify
+        </button>
+      );
+    };
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Notify />
+          <Modal size={ModalSize.SMALL} title="Export" {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+
+    render(<Wrapper />);
+    expect(
+      await screen.findByRole("dialog", { name: "Export" }),
+    ).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    // The trigger lives in the app, which the modal hides. The toast must not.
+    await user.click(
+      screen.getByRole("button", { name: "Notify", hidden: true }),
+    );
+
+    const toast = await screen.findByRole("status");
+    let node: HTMLElement | null = toast;
+    while (node) {
+      expect(node).not.toHaveAttribute("aria-hidden", "true");
+      node = node.parentElement;
+    }
+  });
+  it("names the dialog from a JSX title", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal size={ModalSize.SMALL} title={<span>Export</span>} {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Export" });
+    expect(dialog).toHaveAccessibleName("Export");
+    expect(dialog).not.toHaveAccessibleName("[object Object]");
   });
   it("names the dialog with its title heading", async () => {
     const Wrapper = () => {
