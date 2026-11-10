@@ -26,6 +26,15 @@ const [isOpen, setIsOpen] = useState(false);
 </GenericSupportForm>;
 ```
 
+- The fields are checked when the user clicks Send: each error is shown and
+  the focus moves to the first invalid field.
+- When `onSend` returns a promise, the form shows a sending state, then a
+  success view when it resolves, or the error message when it rejects.
+- `requireEmail` makes the email mandatory, and `email` passes the email of
+  the current user so the form does not ask for it.
+- `maxFiles`, `maxFileSize` and `acceptedFileTypes` limit the attachments;
+  a refused file says why.
+
 {/* Rendered in its own frame: the story opens a popover. */}
 <Canvas of={GenericStories.Default} story={{ inline: false, height: "620px" }} />
 

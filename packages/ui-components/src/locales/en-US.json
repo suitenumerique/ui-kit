@@ -175,7 +175,19 @@
       "cancel": "Cancel",
       "send": "Send",
       "category": "Category",
-      "closeAriaLabel": "Close feedback form"
+      "closeAriaLabel": "Close feedback form",
+      "subjectRequired": "The subject is required.",
+      "messageRequired": "The message is required.",
+      "emailRequired": "The e-mail is required. Format: name@domain.com",
+      "removeFile": "Remove {name}",
+      "fileTooLarge": "The file is too large. Maximum size: {size}.",
+      "fileTypeInvalid": "This file type is not allowed.",
+      "fileTooMany": "Maximum number of files: {max}.",
+      "sending": "Sending…",
+      "error": "Something went wrong. Please try again later.",
+      "successTitle": "Thank you for your feedback",
+      "successText": "Your message has been sent to the team.",
+      "successClose": "Close"
     },
     "helpMenu": {
       "ariaLabel": "Help",

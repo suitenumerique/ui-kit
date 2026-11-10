@@ -1,16 +1,62 @@
-import { useCallback, useId, useMemo, useRef, useState } from "react";
-import { Popover } from "react-aria-components";
 import {
-  Button,
-  Input,
-  Checkbox,
-  TextArea,
-} from ":/cunningham";
+  FormEvent,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Popover } from "react-aria-components";
+import { Button, Input, Checkbox, TextArea } from ":/cunningham";
+import type { ButtonElement } from ":/components/button";
 import { useCunningham } from ":/components/provider";
+import { Spinner } from ":/components/loader/Spinner";
+import { BubbleText } from ":/icons";
+import { IconSize } from "../../icon";
 import { DropdownMenu } from "../../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../../dropdown-menu/useDropdownMenu";
 import { DropdownMenuOption } from "../../dropdown-menu/types";
 import { GenericSupportFormLabels, GenericSupportFormProps } from "./types";
+
+// Labels that have a default translation under `components.genericSupportForm`.
+// `uploadHint` is left out on purpose: it depends on the app's file rules.
+const TRANSLATED_LABELS = [
+  "title",
+  "subtitle",
+  "subject",
+  "subjectPlaceholder",
+  "subjectRequired",
+  "message",
+  "messagePlaceholder",
+  "messageRequired",
+  "uploadFile",
+  "removeFile",
+  "fileTooLarge",
+  "fileTypeInvalid",
+  "fileTooMany",
+  "emailCheckbox",
+  "emailLabel",
+  "emailPrivacy",
+  "emailRequired",
+  "emailError",
+  "cancel",
+  "send",
+  "sending",
+  "category",
+  "error",
+  "successTitle",
+  "successText",
+  "successClose",
+] as const satisfies readonly (keyof GenericSupportFormLabels)[];
+
+type SendStatus = "idle" | "sending" | "success";
+
+// Material icon shown at the end of the email field, by validation state.
+const EMAIL_STATE_ICONS: Record<string, string | undefined> = {
+  success: "check_circle",
+  error: "error",
+};
 
 const isValidEmail = (email: string) => {
   return !!email.match(
@@ -29,17 +75,51 @@ const truncateFileName = (name: string, maxLength = 15) => {
   return `${name.slice(0, maxLength - 3)}...`;
 };
 
+/** Accepts MIME types (`image/png`), wildcards (`image/*`) and extensions (`.txt`). */
+const isAcceptedType = (file: File, acceptedTypes: string[]) => {
+  const mimeType = file.type.toLowerCase();
+  const fileName = file.name.toLowerCase();
+  return acceptedTypes.some((acceptedType) => {
+    const type = acceptedType.trim().toLowerCase();
+    if (type.startsWith(".")) return fileName.endsWith(type);
+    if (type.endsWith("/*")) return mimeType.startsWith(type.slice(0, -1));
+    return mimeType === type;
+  });
+};
+
+const isPromiseLike = (value: unknown): value is PromiseLike<unknown> =>
+  typeof (value as PromiseLike<unknown> | null)?.then === "function";
+
+const formatFileSize = (bytes: number, locale: string) => {
+  const megabytes = bytes / (1024 * 1024);
+  const [value, unit] =
+    megabytes >= 1 ? [megabytes, "megabyte"] : [bytes / 1024, "kilobyte"];
+  try {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit,
+      maximumFractionDigits: 1,
+    }).format(value);
+  } catch {
+    return `${Math.round(value * 10) / 10} ${unit === "megabyte" ? "MB" : "KB"}`;
+  }
+};
+
 export const GenericSupportForm = ({
   categories,
   defaultCategory,
   showEmailReply = true,
+  email: knownEmailProp,
+  requireEmail = false,
   onSend,
   onCancel,
+  onSuccessClose,
   isOpen = false,
   onOpenChange,
   labels: labelsOverride,
   emailPrivacyUrl,
   maxFileSize,
+  maxFiles,
   acceptedFileTypes,
   isSending = false,
   className,
@@ -48,38 +128,46 @@ export const GenericSupportForm = ({
   triggerRef: externalTriggerRef,
   children,
 }: GenericSupportFormProps) => {
-  const { t } = useCunningham();
+  const { t, currentLocale } = useCunningham();
   const id = useId();
+  const titleId = `${id}-title`;
+  const uploadHintId = `${id}-upload-hint`;
   const internalTriggerRef = useRef<HTMLDivElement>(null);
   const triggerRef = externalTriggerRef || internalTriggerRef;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadButtonRef = useRef<ButtonElement>(null);
+  const removeButtonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  // The upload button disappears at maxFiles and comes back on removal: keep
+  // the keyboard focus on a nearby control instead of losing it.
+  const focusAfterFilesChangeRef = useRef<"lastRemove" | "upload" | null>(null);
+  const subjectRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const successCloseRef = useRef<ButtonElement>(null);
+  // Each send gets a number, so a late answer to an old send is ignored.
+  const sendAttemptRef = useRef(0);
 
-  const labels = useMemo<GenericSupportFormLabels>(
-    () => ({
-      title: labelsOverride?.title ?? t("components.genericSupportForm.title"),
-      subtitle: labelsOverride?.subtitle ?? t("components.genericSupportForm.subtitle"),
-      subject: labelsOverride?.subject ?? t("components.genericSupportForm.subject"),
-      subjectPlaceholder: labelsOverride?.subjectPlaceholder ?? t("components.genericSupportForm.subjectPlaceholder"),
-      message: labelsOverride?.message ?? t("components.genericSupportForm.message"),
-      messagePlaceholder: labelsOverride?.messagePlaceholder ?? t("components.genericSupportForm.messagePlaceholder"),
-      uploadFile: labelsOverride?.uploadFile ?? t("components.genericSupportForm.uploadFile"),
-      emailCheckbox: labelsOverride?.emailCheckbox ?? t("components.genericSupportForm.emailCheckbox"),
-      emailLabel: labelsOverride?.emailLabel ?? t("components.genericSupportForm.emailLabel"),
-      emailPrivacy: labelsOverride?.emailPrivacy ?? t("components.genericSupportForm.emailPrivacy"),
-      emailError: labelsOverride?.emailError ?? t("components.genericSupportForm.emailError"),
-      cancel: labelsOverride?.cancel ?? t("components.genericSupportForm.cancel"),
-      send: labelsOverride?.send ?? t("components.genericSupportForm.send"),
-      category: labelsOverride?.category ?? t("components.genericSupportForm.category"),
-    }),
-    [labelsOverride, t],
-  );
+  const labels = useMemo<GenericSupportFormLabels>(() => {
+    const resolved = {
+      uploadHint: labelsOverride?.uploadHint,
+    } as GenericSupportFormLabels;
+    for (const key of TRANSLATED_LABELS) {
+      resolved[key] =
+        labelsOverride?.[key] ?? t(`components.genericSupportForm.${key}`);
+    }
+    return resolved;
+  }, [labelsOverride, t]);
 
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState<string>();
   const [wantsReply, setWantsReply] = useState(false);
   const [email, setEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<SendStatus>("idle");
+  const [sendError, setSendError] = useState<string>();
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
     defaultCategory,
   );
@@ -93,62 +181,211 @@ export const GenericSupportForm = ({
     ) as DropdownMenuOption | undefined;
   }, [categories, selectedCategory]);
 
-  const emailValid = isValidEmail(email);
-  const canSend =
-    subject.trim().length > 0 &&
-    message.trim().length > 0 &&
-    (!wantsReply || emailValid);
+  const knownEmail =
+    knownEmailProp && isValidEmail(knownEmailProp.trim())
+      ? knownEmailProp.trim()
+      : undefined;
+  const showReplyCheckbox = !requireEmail && showEmailReply;
+  const collectsEmail = requireEmail || (showReplyCheckbox && wantsReply);
+  const asksEmail = collectsEmail && !knownEmail;
+  const isBusy = isSending || status === "sending";
 
-  const handleClose = useCallback(() => {
+  const subjectError =
+    submitted && !subject.trim() ? labels.subjectRequired : undefined;
+  const messageError =
+    submitted && !message.trim() ? labels.messageRequired : undefined;
+
+  const getEmailProblem = () => {
+    if (!asksEmail) return undefined;
+    if (!email.trim()) return labels.emailRequired;
+    if (!isValidEmail(email.trim())) return labels.emailError;
+    return undefined;
+  };
+  const emailProblem = getEmailProblem();
+  // The email is checked once the user left the field or tried to send.
+  const emailChecked = submitted || emailTouched;
+  const emailError = emailChecked ? emailProblem : undefined;
+  let emailState: "default" | "error" | "success" = "default";
+  if (emailChecked) {
+    emailState = emailError ? "error" : "success";
+  }
+  const emailStateIcon = EMAIL_STATE_ICONS[emailState];
+
+  const canAddFiles = maxFiles === undefined || files.length < maxFiles;
+
+  const resetForm = useCallback(() => {
+    // Ignore the answer of a send started before the reset.
+    sendAttemptRef.current++;
+    setSubject("");
+    setMessage("");
+    setFiles([]);
+    setFileError(undefined);
+    setWantsReply(false);
+    setEmail("");
+    setEmailTouched(false);
+    setSubmitted(false);
+    setStatus("idle");
+    setSendError(undefined);
+    setSelectedCategory(defaultCategory);
+  }, [defaultCategory]);
+
+  // When the form closes, drop the errors. After a successful send, also clear
+  // the draft so the next opening starts empty. Otherwise the draft is kept, so
+  // an accidental click outside does not lose the message.
+  const wasOpenRef = useRef(isOpen);
+  useEffect(() => {
+    if (wasOpenRef.current && !isOpen) {
+      if (status === "success") {
+        resetForm();
+      } else {
+        setSubmitted(false);
+        setSendError(undefined);
+        setFileError(undefined);
+      }
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen, status, resetForm]);
+
+  // The Send button disappears with the success view: move focus to Close.
+  useEffect(() => {
+    if (status === "success") {
+      successCloseRef.current?.focus();
+    }
+  }, [status]);
+
+  // Every way to close the form (Cancel, the close button, Escape, a click
+  // outside) goes through here. A request already sent can't be taken back:
+  // the form stays open until its result.
+  const close = useCallback(() => {
+    if (isBusy) return;
     onOpenChange?.(false);
     onCancel?.();
-  }, [onOpenChange, onCancel]);
+  }, [isBusy, onOpenChange, onCancel]);
 
-  const handleSend = useCallback(() => {
-    if (!canSend || isSending) return;
-    onSend({
+  const handleCancel = useCallback(() => {
+    if (isBusy) return;
+    resetForm();
+    close();
+  }, [isBusy, resetForm, close]);
+
+  const handleSuccessClose = useCallback(() => {
+    onOpenChange?.(false);
+    onSuccessClose?.();
+  }, [onOpenChange, onSuccessClose]);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (isBusy) return;
+    setSubmitted(true);
+    setSendError(undefined);
+
+    // Move focus to the first invalid field, so screen reader and keyboard
+    // users land on the error.
+    const getFirstInvalidField = () => {
+      if (!subject.trim()) return subjectRef.current;
+      if (!message.trim()) return messageRef.current;
+      if (emailProblem) return emailRef.current;
+      return null;
+    };
+    const firstInvalid = getFirstInvalidField();
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return;
+    }
+
+    const result = onSend({
       category: selectedCategory,
       subject: subject.trim(),
       message: message.trim(),
       files: files.length > 0 ? files : undefined,
-      email: wantsReply ? email.trim() : undefined,
+      email: collectsEmail ? (knownEmail ?? email.trim()) : undefined,
     });
-  }, [
-    canSend,
-    isSending,
-    onSend,
-    selectedCategory,
-    subject,
-    message,
-    files,
-    wantsReply,
-    email,
-  ]);
+    if (!isPromiseLike(result)) return;
+
+    const attempt = ++sendAttemptRef.current;
+    setStatus("sending");
+    result.then(
+      () => {
+        if (attempt === sendAttemptRef.current) setStatus("success");
+      },
+      (error: unknown) => {
+        if (attempt !== sendAttemptRef.current) return;
+        setStatus("idle");
+        setSendError(
+          error instanceof Error && error.message
+            ? error.message
+            : labels.error,
+        );
+      },
+    );
+  };
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newFiles = Array.from(e.target.files || []);
-      const filtered = newFiles.filter((file) => {
-        if (maxFileSize && file.size > maxFileSize) return false;
-        if (acceptedFileTypes?.length && !acceptedFileTypes.includes(file.type))
-          return false;
-        return true;
-      });
-      setFiles((prev) => [...prev, ...filtered]);
+      const incoming = Array.from(e.target.files || []);
       e.target.value = "";
+      const accepted: File[] = [];
+      let error: string | undefined;
+      for (const file of incoming) {
+        if (
+          maxFiles !== undefined &&
+          files.length + accepted.length >= maxFiles
+        ) {
+          error = labels.fileTooMany.replace("{max}", String(maxFiles));
+          break;
+        }
+        if (
+          acceptedFileTypes?.length &&
+          !isAcceptedType(file, acceptedFileTypes)
+        ) {
+          error = labels.fileTypeInvalid;
+          continue;
+        }
+        if (maxFileSize && file.size > maxFileSize) {
+          error = labels.fileTooLarge.replace(
+            "{size}",
+            formatFileSize(maxFileSize, currentLocale),
+          );
+          continue;
+        }
+        accepted.push(file);
+      }
+      if (
+        maxFiles !== undefined &&
+        accepted.length > 0 &&
+        files.length + accepted.length >= maxFiles
+      ) {
+        focusAfterFilesChangeRef.current = "lastRemove";
+      }
+      setFiles((prev) => [...prev, ...accepted]);
+      setFileError(error);
     },
-    [maxFileSize, acceptedFileTypes],
+    [
+      files.length,
+      maxFiles,
+      maxFileSize,
+      acceptedFileTypes,
+      labels,
+      currentLocale,
+    ],
   );
 
   const removeFile = useCallback((index: number) => {
+    // The removed chip had the focus: hand it to the upload button.
+    focusAfterFilesChangeRef.current = "upload";
     setFiles((prev) => prev.filter((_, i) => i !== index));
+    setFileError(undefined);
   }, []);
 
-  const emailState = emailTouched
-    ? emailValid
-      ? "success"
-      : "error"
-    : "default";
+  useEffect(() => {
+    const target = focusAfterFilesChangeRef.current;
+    focusAfterFilesChangeRef.current = null;
+    if (target === "lastRemove") {
+      removeButtonsRef.current[files.length - 1]?.focus();
+    } else if (target === "upload") {
+      uploadButtonRef.current?.focus();
+    }
+  }, [files.length]);
 
   return (
     <>
@@ -158,14 +395,20 @@ export const GenericSupportForm = ({
         </div>
       )}
 
+      {/* The Popover is the dialog: it moves the focus inside and keeps it
+          there, as long as its content has no role="dialog" of its own. */}
       <Popover
+        aria-labelledby={titleId}
         triggerRef={triggerRef}
         isOpen={isOpen}
         placement={placement}
         shouldFlip={shouldFlip}
         onOpenChange={(open) => {
           if (!open) {
-            handleClose();
+            // Escape or a click outside: after a send, it closes the success
+            // view, not a draft.
+            if (status === "success") handleSuccessClose();
+            else close();
           } else {
             onOpenChange?.(true);
           }
@@ -176,189 +419,305 @@ export const GenericSupportForm = ({
           return true;
         }}
       >
-        <div className={`c__generic-support-form${className ? ` ${className}` : ""}`}>
+        <div
+          className={`c__generic-support-form${className ? ` ${className}` : ""}`}
+        >
           {/* Header */}
           <div className="c__generic-support-form__header">
             <div className="c__generic-support-form__header__text">
-              <h3 className="c__generic-support-form__title">{labels.title}</h3>
-              <p className="c__generic-support-form__subtitle">{labels.subtitle}</p>
+              <h3 className="c__generic-support-form__title" id={titleId}>
+                {status === "success" ? labels.successTitle : labels.title}
+              </h3>
+              {status !== "success" && (
+                <p className="c__generic-support-form__subtitle">
+                  {labels.subtitle}
+                </p>
+              )}
             </div>
             <Button
+              type="button"
               className="c__generic-support-form__close"
               color="neutral"
               variant="tertiary"
               size="small"
-              icon={<span className="material-icons">close</span>}
-              onClick={handleClose}
+              icon={
+                <span className="material-icons" aria-hidden="true">
+                  close
+                </span>
+              }
+              onClick={status === "success" ? handleSuccessClose : close}
+              aria-disabled={isBusy}
               aria-label={t("components.genericSupportForm.closeAriaLabel")}
             />
           </div>
 
-          {/* Body */}
-          <div className="c__generic-support-form__body">
-            {/* Category */}
-            {categories && categories.length > 0 && (
-              <div className="c__generic-support-form__category">
-                <span className="c__generic-support-form__category__label">
-                  {labels.category}
-                </span>
-                <DropdownMenu
-                  options={categories}
-                  isOpen={categoryMenu.isOpen}
-                  onOpenChange={categoryMenu.setIsOpen}
-                  selectedValues={selectedCategory ? [selectedCategory] : []}
-                  onSelectValue={(value) => setSelectedCategory(value)}
-                >
-                  <button
-                    type="button"
-                    className="c__generic-support-form__category__trigger"
-                    onClick={() => categoryMenu.setIsOpen(!categoryMenu.isOpen)}
-                  >
-                    {selectedCategoryItem?.icon && (
-                      <span className="c__generic-support-form__category__trigger__icon">
-                        {selectedCategoryItem.icon}
-                      </span>
-                    )}
-                    <span className="c__generic-support-form__category__trigger__label">
-                      {selectedCategoryItem?.label || labels.category}
-                    </span>
-                    <span className="material-icons c__generic-support-form__category__trigger__chevron">
-                      arrow_drop_down
-                    </span>
-                  </button>
-                </DropdownMenu>
-              </div>
-            )}
-
-            {/* Subject */}
-            <Input
-              label={labels.subject}
-              placeholder={labels.subjectPlaceholder}
-              variant="classic"
-              value={subject}
-              onChange={(e) => setSubject((e.target as HTMLInputElement).value)}
-              fullWidth
-            />
-
-            {/* Message */}
-            <div className="c__generic-support-form__message">
-              <TextArea
-                label={labels.message}
-                placeholder={labels.messagePlaceholder}
-                value={message}
-                rows={5}
-                variant="classic"
-                onChange={(e) =>
-                  setMessage((e.target as HTMLTextAreaElement).value)
-                }
-                fullWidth
+          {status === "success" ? (
+            <div className="c__generic-support-form__success">
+              <BubbleText
+                size={IconSize.X_LARGE}
+                className="c__generic-support-form__success__icon"
+                aria-hidden="true"
               />
-            </div>
-
-            {/* Files */}
-            <div className="c__generic-support-form__files">
-              {files.map((file, index) => (
-                <div
-                  key={`${file.name}-${index}`}
-                  className="c__generic-support-form__files__chip"
-                >
-                  <span className="c__generic-support-form__files__chip__name">
-                    {truncateFileName(file.name)}
-                  </span>
-                  <button
-                    type="button"
-                    className="c__generic-support-form__files__chip__remove"
-                    onClick={() => removeFile(index)}
-                    aria-label={`Remove ${file.name}`}
-                  >
-                    <span className="material-icons">close</span>
-                  </button>
-                </div>
-              ))}
+              <p className="c__generic-support-form__success__text">
+                {labels.successText}
+              </p>
               <Button
-                color="neutral"
-                variant="bordered"
-                size="nano"
-                icon={<span className="material-icons">upload</span>}
-                onClick={() => fileInputRef.current?.click()}
+                ref={successCloseRef}
+                type="button"
+                color="brand"
+                variant="secondary"
+                onClick={handleSuccessClose}
+                fullWidth
               >
-                <span>{labels.uploadFile}</span>
+                {labels.successClose}
               </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept={acceptedFileTypes?.join(",")}
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
             </div>
-          </div>
+          ) : (
+            <form
+              className="c__generic-support-form__form"
+              noValidate
+              onSubmit={handleSubmit}
+            >
+              {/* Body */}
+              <div className="c__generic-support-form__body">
+                {/* Category */}
+                {categories && categories.length > 0 && (
+                  <div className="c__generic-support-form__category">
+                    <span className="c__generic-support-form__category__label">
+                      {labels.category}
+                    </span>
+                    <DropdownMenu
+                      options={categories}
+                      isOpen={categoryMenu.isOpen}
+                      onOpenChange={categoryMenu.setIsOpen}
+                      selectedValues={
+                        selectedCategory ? [selectedCategory] : []
+                      }
+                      onSelectValue={(value) => setSelectedCategory(value)}
+                    >
+                      <button
+                        type="button"
+                        className="c__generic-support-form__category__trigger"
+                        onClick={() =>
+                          categoryMenu.setIsOpen(!categoryMenu.isOpen)
+                        }
+                      >
+                        {selectedCategoryItem?.icon && (
+                          <span className="c__generic-support-form__category__trigger__icon">
+                            {selectedCategoryItem.icon}
+                          </span>
+                        )}
+                        <span className="c__generic-support-form__category__trigger__label">
+                          {selectedCategoryItem?.label || labels.category}
+                        </span>
+                        <span
+                          className="material-icons c__generic-support-form__category__trigger__chevron"
+                          aria-hidden="true"
+                        >
+                          arrow_drop_down
+                        </span>
+                      </button>
+                    </DropdownMenu>
+                  </div>
+                )}
 
-          {/* Email section */}
-          {showEmailReply && (
-            <div className="c__generic-support-form__email-section">
-              <Checkbox
-                label={labels.emailCheckbox}
-                checked={wantsReply}
-                onChange={(e) =>
-                  setWantsReply((e.target as HTMLInputElement).checked)
-                }
-              />
-              {wantsReply && (
+                {/* Subject */}
                 <Input
-                  label={labels.emailLabel}
-                  value={email}
+                  ref={subjectRef}
+                  label={labels.subject}
+                  placeholder={labels.subjectPlaceholder}
                   variant="classic"
+                  value={subject}
                   onChange={(e) =>
-                    setEmail((e.target as HTMLInputElement).value)
+                    setSubject((e.target as HTMLInputElement).value)
                   }
-                  onBlur={() => setEmailTouched(true)}
-                  state={emailState as "success" | "error" | "default"}
-                  aria-invalid={emailState === "error"}
-                  text={emailState === "error" ? labels.emailError : undefined}
-                  rightIcon={
-                    emailState === "success" ? (
-                      <span className="material-icons">check_circle</span>
-                    ) : emailState === "error" ? (
-                      <span className="material-icons">error</span>
-                    ) : undefined
-                  }
+                  required
+                  aria-invalid={!!subjectError}
+                  state={subjectError ? "error" : "default"}
+                  text={subjectError}
                   fullWidth
                 />
-              )}
-              {wantsReply && emailPrivacyUrl && (
-                <a
-                  href={emailPrivacyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="c__generic-support-form__email-section__privacy"
-                >
-                  {labels.emailPrivacy}
-                </a>
-              )}
-            </div>
-          )}
 
-          {/* Footer */}
-          <div className="c__generic-support-form__footer">
-            <Button
-              color="brand"
-              variant="bordered"
-              onClick={handleClose}
-              fullWidth
-            >
-              {labels.cancel}
-            </Button>
-            <Button
-              color="brand"
-              disabled={!canSend || isSending}
-              onClick={handleSend}
-              fullWidth
-            >
-              {labels.send}
-            </Button>
-          </div>
+                {/* Message */}
+                <div className="c__generic-support-form__message">
+                  <TextArea
+                    ref={messageRef}
+                    label={labels.message}
+                    placeholder={labels.messagePlaceholder}
+                    value={message}
+                    rows={5}
+                    variant="classic"
+                    onChange={(e) =>
+                      setMessage((e.target as HTMLTextAreaElement).value)
+                    }
+                    required
+                    aria-invalid={!!messageError}
+                    state={messageError ? "error" : "default"}
+                    text={messageError}
+                    fullWidth
+                  />
+                </div>
+
+                {/* Files */}
+                <div className="c__generic-support-form__files">
+                  {files.map((file, index) => (
+                    <div
+                      key={`${file.name}-${index}`}
+                      className="c__generic-support-form__files__chip"
+                    >
+                      <span className="c__generic-support-form__files__chip__name">
+                        {truncateFileName(file.name)}
+                      </span>
+                      <button
+                        ref={(element) => {
+                          removeButtonsRef.current[index] = element;
+                        }}
+                        type="button"
+                        className="c__generic-support-form__files__chip__remove"
+                        onClick={() => removeFile(index)}
+                        aria-label={labels.removeFile.replace(
+                          "{name}",
+                          file.name,
+                        )}
+                      >
+                        <span className="material-icons" aria-hidden="true">
+                          close
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+                  {/* Hidden once maxFiles is reached: picking another file
+                      would only show an error. */}
+                  {canAddFiles && (
+                    <>
+                      <Button
+                        ref={uploadButtonRef}
+                        type="button"
+                        color="neutral"
+                        variant="bordered"
+                        size="nano"
+                        icon={
+                          <span className="material-icons" aria-hidden="true">
+                            upload
+                          </span>
+                        }
+                        onClick={() => fileInputRef.current?.click()}
+                        aria-describedby={
+                          labels.uploadHint ? uploadHintId : undefined
+                        }
+                      >
+                        <span>{labels.uploadFile}</span>
+                      </Button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple={maxFiles !== 1}
+                        accept={acceptedFileTypes?.join(",")}
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                      />
+                    </>
+                  )}
+                </div>
+                {canAddFiles && labels.uploadHint && (
+                  <p
+                    className="c__generic-support-form__hint"
+                    id={uploadHintId}
+                  >
+                    {labels.uploadHint}
+                  </p>
+                )}
+                {fileError && (
+                  <p className="c__generic-support-form__error" role="alert">
+                    {fileError}
+                  </p>
+                )}
+              </div>
+
+              {/* Email section */}
+              {(showReplyCheckbox || asksEmail) && (
+                <div className="c__generic-support-form__email-section">
+                  {showReplyCheckbox && (
+                    <Checkbox
+                      label={labels.emailCheckbox}
+                      checked={wantsReply}
+                      onChange={(e) =>
+                        setWantsReply((e.target as HTMLInputElement).checked)
+                      }
+                    />
+                  )}
+                  {asksEmail && (
+                    <Input
+                      ref={emailRef}
+                      type="email"
+                      autoComplete="email"
+                      label={labels.emailLabel}
+                      value={email}
+                      variant="classic"
+                      onChange={(e) =>
+                        setEmail((e.target as HTMLInputElement).value)
+                      }
+                      onBlur={() => setEmailTouched(true)}
+                      required
+                      state={emailState}
+                      aria-invalid={emailState === "error"}
+                      text={emailError}
+                      rightIcon={
+                        emailStateIcon && (
+                          <span className="material-icons" aria-hidden="true">
+                            {emailStateIcon}
+                          </span>
+                        )
+                      }
+                      fullWidth
+                    />
+                  )}
+                  {collectsEmail && emailPrivacyUrl && (
+                    <a
+                      href={emailPrivacyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="c__generic-support-form__email-section__privacy"
+                    >
+                      {labels.emailPrivacy}
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {sendError && (
+                <p
+                  className="c__generic-support-form__error c__generic-support-form__error--send"
+                  role="alert"
+                >
+                  {sendError}
+                </p>
+              )}
+
+              {/* Footer */}
+              <div className="c__generic-support-form__footer">
+                <Button
+                  type="button"
+                  color="brand"
+                  variant="bordered"
+                  onClick={handleCancel}
+                  aria-disabled={isBusy}
+                  fullWidth
+                >
+                  {labels.cancel}
+                </Button>
+                <Button
+                  type="submit"
+                  color="brand"
+                  aria-disabled={isBusy}
+                  icon={isBusy ? <Spinner size="sm" /> : undefined}
+                  fullWidth
+                >
+                  {isBusy ? labels.sending : labels.send}
+                </Button>
+              </div>
+            </form>
+          )}
         </div>
       </Popover>
     </>

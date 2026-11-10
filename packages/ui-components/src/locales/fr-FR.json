@@ -175,7 +175,19 @@
       "cancel": "Annuler",
       "send": "Envoyer",
       "category": "Catégorie",
-      "closeAriaLabel": "Fermer le formulaire de contact"
+      "closeAriaLabel": "Fermer le formulaire de contact",
+      "subjectRequired": "Le sujet est obligatoire.",
+      "messageRequired": "Le message est obligatoire.",
+      "emailRequired": "L'e-mail est obligatoire. Format : nom@domaine.fr",
+      "removeFile": "Retirer {name}",
+      "fileTooLarge": "Fichier trop volumineux. Taille maximale : {size}.",
+      "fileTypeInvalid": "Ce type de fichier n'est pas autorisé.",
+      "fileTooMany": "Nombre maximal de fichiers : {max}.",
+      "sending": "Envoi…",
+      "error": "Une erreur est survenue. Réessayez plus tard.",
+      "successTitle": "Merci pour votre retour",
+      "successText": "Votre message a bien été envoyé à l'équipe.",
+      "successClose": "Fermer"
     },
     "helpMenu": {
       "ariaLabel": "Aide",

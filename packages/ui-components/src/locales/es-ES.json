@@ -175,7 +175,19 @@
       "cancel": "Cancelar",
       "send": "Enviar",
       "category": "Categoría",
-      "closeAriaLabel": "Cerrar el formulario de contacto"
+      "closeAriaLabel": "Cerrar el formulario de contacto",
+      "subjectRequired": "El asunto es obligatorio.",
+      "messageRequired": "El mensaje es obligatorio.",
+      "emailRequired": "El correo electrónico es obligatorio. Formato: nombre@dominio.es",
+      "removeFile": "Quitar {name}",
+      "fileTooLarge": "El archivo es demasiado grande. Tamaño máximo: {size}.",
+      "fileTypeInvalid": "Este tipo de archivo no está permitido.",
+      "fileTooMany": "Número máximo de archivos: {max}.",
+      "sending": "Enviando…",
+      "error": "Se ha producido un error. Inténtelo de nuevo más tarde.",
+      "successTitle": "Gracias por sus comentarios",
+      "successText": "Su mensaje se ha enviado al equipo.",
+      "successClose": "Cerrar"
     },
     "helpMenu": {
       "ariaLabel": "Ayuda",
