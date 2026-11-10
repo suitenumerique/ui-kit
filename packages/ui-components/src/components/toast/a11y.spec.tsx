@@ -72,10 +72,11 @@ describe("toast announcements", () => {
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
       // The container and the announcer stay siblings of the provider
       // children, so moving `.c__app` inside the provider keeps both outside it.
-      expect(region.parentElement).toBe(trigger.parentElement);
       expect(announcer("polite").parentElement?.parentElement).toBe(
-        trigger.parentElement,
+        region.parentElement,
       );
+      expect(region.parentElement).toContainElement(trigger);
+      expect(region).not.toContainElement(trigger);
 
       trigger.focus();
       fireEvent.click(trigger);
