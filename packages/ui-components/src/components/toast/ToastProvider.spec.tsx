@@ -24,26 +24,37 @@ describe("<ToastProvider />", () => {
 
     render(
       <>
-        <CunninghamProvider>
-          <div data-testid="first">
-            <Inner label="first" />
-          </div>
-        </CunninghamProvider>
-        <CunninghamProvider>
-          <div data-testid="second">
-            <Inner label="second" />
-          </div>
-        </CunninghamProvider>
+        <div data-testid="root-first">
+          <CunninghamProvider>
+            <div data-testid="first">
+              <Inner label="first" />
+            </div>
+          </CunninghamProvider>
+        </div>
+        <div data-testid="root-second">
+          <CunninghamProvider>
+            <div data-testid="second">
+              <Inner label="second" />
+            </div>
+          </CunninghamProvider>
+        </div>
       </>,
     );
 
     const user = userEvent.setup();
     await user.click(screen.getByText("first"));
 
-    const toast = await screen.findByRole("status");
-    expect(toast.closest(".c__app")).toBe(
-      screen.getByTestId("first").closest(".c__app"),
-    );
+    const toast = await screen.findByText("first", { selector: ".c__toast *" });
+    const firstApp = screen.getByTestId("first").closest(".c__app");
+    const secondApp = screen.getByTestId("second").closest(".c__app");
+
+    // react-modal hides .c__app, so the toast stays outside it. It still
+    // belongs to the provider that raised it, whatever the container's
+    // order next to that app.
+    expect(firstApp).not.toContainElement(toast);
+    expect(secondApp).not.toContainElement(toast);
+    expect(screen.getByTestId("root-first")).toContainElement(toast);
+    expect(screen.getByTestId("root-second")).not.toContainElement(toast);
   });
 
   // The root container is already mounted. A toast raised in the nested

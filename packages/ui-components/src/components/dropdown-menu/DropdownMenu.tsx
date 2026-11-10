@@ -56,7 +56,12 @@ export const DropdownMenu = ({
     onOpenChange?.(isOpen);
   };
 
-  const getAriaLabel = (option: MenuItemAction): string => {
+  // A string label is also the accessible name, including the new-window
+  // suffix. JSX already has text, and stringifying it yields "[object Object]".
+  const getAriaLabel = (option: MenuItemAction): string | undefined => {
+    if (typeof option.label !== "string") {
+      return undefined;
+    }
     if (option.opensInNewWindow) {
       return option.label + t("components.menu.newWindowLabelSuffix");
     }
@@ -74,6 +79,7 @@ export const DropdownMenu = ({
       }
 
       const itemKey = option.id || option.label;
+      const ariaLabel = getAriaLabel(option);
 
       if (hasChildren(option)) {
         return (
@@ -82,7 +88,7 @@ export const DropdownMenu = ({
               className={clsx("c__dropdown-menu-item", {
                 "c__dropdown-menu-item--danger": option.variant === "danger",
               })}
-              aria-label={getAriaLabel(option)}
+              aria-label={ariaLabel}
               isDisabled={option.isDisabled}
               data-testid={option.testId}
             >
@@ -109,7 +115,7 @@ export const DropdownMenu = ({
             className={clsx("c__dropdown-menu-item", {
               "c__dropdown-menu-item--danger": option.variant === "danger",
             })}
-            aria-label={getAriaLabel(option)}
+            aria-label={ariaLabel}
             onAction={() => {
               if (option.value) {
                 onSelectValue?.(option.value);

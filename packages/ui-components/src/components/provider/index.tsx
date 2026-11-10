@@ -113,11 +113,9 @@ export const CunninghamProvider = ({
   return (
     <CunninghamContext.Provider value={context}>
       <ModalProvider modalParentSelector={modalParentSelector}>
-        <div className="c__app">
-          <ToastProvider position={toastPosition}>
-            {children}
-          </ToastProvider>
-        </div>
+        <ToastProvider position={toastPosition}>
+          <div className="c__app">{children}</div>
+        </ToastProvider>
       </ModalProvider>
     </CunninghamContext.Provider>
   );
