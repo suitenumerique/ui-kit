@@ -21,8 +21,10 @@ export const ModalDefaultLayout = ({
   const isCompact = titleVariant === "compact";
   const closeLabel = t("components.modals.close_button_aria_label");
 
-  // An icon alone must not produce an empty heading.
-  const TitleTag = props.title ? "h2" : "div";
+  // An icon alone must not produce an empty heading, and a JSX title brings
+  // its own heading, which cannot sit inside another one.
+  const TitleTag =
+    typeof props.title === "string" && props.title ? "h2" : "div";
   const title = (props.titleIcon || props.title) && (
     <TitleTag
       id={props.title ? titleId : undefined}

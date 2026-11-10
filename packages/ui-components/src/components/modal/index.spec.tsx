@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Modal, ModalSize, ModalTab, useModal } from ":/components/modal/index";
 import { CunninghamProvider } from ":/components/provider";
@@ -125,6 +125,25 @@ describe("<Modal/>", () => {
     const dialog = await screen.findByRole("dialog", { name: "Export" });
     expect(dialog).toHaveAccessibleName("Export");
     expect(dialog).not.toHaveAccessibleName("[object Object]");
+  });
+  it("keeps the consumer's heading when the title is JSX", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal size={ModalSize.SMALL} title={<h1>Delete</h1>} {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Delete" });
+    const headings = within(dialog).getAllByRole("heading");
+    expect(headings).toHaveLength(1);
+    expect(headings[0].tagName).toBe("H1");
+    expect(headings[0].parentElement?.tagName).toBe("DIV");
   });
   it("names the dialog from the element given in aria-labelledby", async () => {
     const Wrapper = () => {
