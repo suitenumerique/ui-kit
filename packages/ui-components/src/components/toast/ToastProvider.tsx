@@ -157,7 +157,7 @@ const renderToast = ({ message, type, props }: ToastState) => {
 const isAssertive = (type: VariantType) =>
   type === VariantType.ERROR || type === VariantType.WARNING;
 
-type Spoken = { id: string; message: string; assertive: boolean };
+type Spoken = { id: ToastId; message: string; assertive: boolean };
 
 type Hold = { focus: boolean; hover: boolean };
 
@@ -196,10 +196,10 @@ export const ToastProvider = ({
   const live = useRef(new Map<ToastId, ToastState>());
   const counter = useRef(0);
   const returnFocus = useRef(new Map<string, HTMLElement>());
-  const held = useRef(new Map<string, Hold>());
+  const held = useRef(new Map<ToastId, Hold>());
   const queued = useRef(
     new Map<
-      string,
+      ToastId,
       {
         message: string;
         assertive: boolean;
@@ -209,7 +209,7 @@ export const ToastProvider = ({
   );
   const [spoken, setSpoken] = useState<Spoken[]>([]);
 
-  const dropSpoken = useCallback((id: string) => {
+  const dropSpoken = useCallback((id: ToastId) => {
     const item = queued.current.get(id);
     if (item?.timer !== undefined) {
       clearTimeout(item.timer);
@@ -219,7 +219,7 @@ export const ToastProvider = ({
   }, []);
 
   const announce = useCallback(
-    (id: string, message: string, type: VariantType) => {
+    (id: ToastId, message: string, type: VariantType) => {
       const assertive = isAssertive(type);
       const current = queued.current.get(id);
       if (current) {
@@ -387,7 +387,7 @@ export const ToastProvider = ({
       return toast;
     };
 
-    const sync = (id: string) => {
+    const sync = (id: ToastId) => {
       const reasons = held.current.get(id) ?? { focus: false, hover: false };
       if (reasons.focus || reasons.hover) {
         notify.pause({ id, containerId: target });
@@ -396,7 +396,7 @@ export const ToastProvider = ({
       }
     };
 
-    const setReason = (id: string, reason: keyof Hold, on: boolean) => {
+    const setReason = (id: ToastId, reason: keyof Hold, on: boolean) => {
       const reasons = held.current.get(id) ?? { focus: false, hover: false };
       reasons[reason] = on;
       held.current.set(id, reasons);
@@ -456,7 +456,7 @@ export const ToastProvider = ({
         return;
       }
       for (const id of live.current.keys()) {
-        const node = document.getElementById(id);
+        const node = document.getElementById(String(id));
         if (!node || !root.contains(node)) {
           continue;
         }
