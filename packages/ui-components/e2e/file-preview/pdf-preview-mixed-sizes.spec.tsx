@@ -140,25 +140,40 @@ test.describe("PDF Preview — mixed page sizes", () => {
   }) => {
     const pageInput = getPageInput(page);
     for (const target of [13, 5, 17, 2, 11]) {
-      // Wait for React to commit the new pageInputValue before pressing Enter.
-      // Without this, on slow CI runners the keydown handler can fire while its
-      // closure still holds the previous pageInputValue.
-      // The previous jump's scroll can also sync the input back to the previous
-      // page while we type: React batches both updates and keeps the previous
-      // value, so we type again until the new value is committed.
-      await expect(async () => {
-        await pageInput.fill(String(target));
-        await expect(pageInput).toHaveAttribute(
-          "size",
-          String(String(target).length),
-          { timeout: 1000 },
-        );
-      }).toPass({ timeout: 10000 });
+      await pageInput.fill(String(target));
       await pageInput.press("Enter");
       await expect(getRenderedPage(page, target)).toBeVisible({
         timeout: 10000,
       });
     }
+  });
+
+  test("scroll does not overwrite the page input while editing", async ({
+    page,
+  }) => {
+    const pageInput = getPageInput(page);
+    // Navigate away from page 1 so the simulated scroll back to scrollTop=0
+    // actually changes currentPage and exercises the guard.
+    await pageInput.fill("7");
+    await pageInput.press("Enter");
+    await expect(getRenderedPage(page, 7)).toBeVisible({ timeout: 10000 });
+
+    await pageInput.fill("13");
+    // Simulate a delayed in-flight scroll from the previous jump landing back
+    // at page 1 while the user has already typed the next target.
+    await page.evaluate(() => {
+      const list = document.querySelector<HTMLElement>(
+        ".pdf-preview__container .ReactVirtualized__List",
+      );
+      if (!list) return;
+      list.scrollTop = 0;
+      list.dispatchEvent(new Event("scroll"));
+    });
+    // Give React time to flush the scroll-driven state update before asserting.
+    await page.waitForTimeout(200);
+    await expect(pageInput).toHaveValue("13");
+    await pageInput.press("Enter");
+    await expect(getRenderedPage(page, 13)).toBeVisible({ timeout: 10000 });
   });
 
   test("virtual-list total height matches the sum of per-page heights", async ({

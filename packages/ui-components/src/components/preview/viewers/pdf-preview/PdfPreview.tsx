@@ -1,5 +1,5 @@
 import "./pdfPolyfills";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Document, pdfjs } from "react-pdf";
 import type { PDFDocumentProxy } from "pdfjs-dist";
@@ -77,16 +77,11 @@ export function PdfPreview({
     goToPage,
     onDocumentLoadSuccess: onNavLoadSuccess,
     pageInputValue,
-    setPageInputValue,
     handlePageInputChange,
     handlePageInputSubmit,
     handlePageInputKeyDown,
     onItemClick,
   } = usePdfNavigation({ numPages, currentPage, scrollToPage });
-
-  useEffect(() => {
-    setPageInputValue(String(currentPage));
-  }, [currentPage, setPageInputValue]);
 
   const { data: file, error } = useQuery<File, Error>({
     queryKey: ["pdf", src],
