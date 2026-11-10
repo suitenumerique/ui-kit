@@ -19,24 +19,26 @@ add a dependency to the target project's `package.json`, lockfile or
 Preview changes first:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all
 ```
 
 Apply them after reviewing the report:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --write
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --write
 ```
 
 Use the read-only check mode to fail when files still need migration or when a
 manual case is found:
 
 ```bash
-npx @gouvfr-lasuite/ui-codemod@1.0.0 migrate . --source all --check
+npx @gouvfr-lasuite/ui-codemod@1.1.0 migrate . --source all --check
 ```
 
 The codemod handles JS, JSX, TS, TSX, Sass, CSS and `package.json`; it never
-modifies lockfiles.
+modifies lockfiles. It sets `@gouvfr-lasuite/ui-components` to `^2.0.0`, which
+includes the rebuilt `DropdownMenu`: run the `dropdown-menu` audit next (see
+[DropdownMenu and menus](#dropdownmenu-and-menus)).
 
 Namespace imports, dynamic package expressions and internal paths that were not
 part of the former public exports are intentionally left unchanged and reported.
@@ -58,6 +60,61 @@ part of the former public exports are intentionally left unchanged and reported.
 
 Named SVG imports from the former UI Kit root are split automatically between
 the new package root and `/icons`. Aliases and type imports are preserved.
+
+## DropdownMenu and menus
+
+`DropdownMenu` is rebuilt on the React Aria menu button pattern. Its props,
+`options`, types (`DropdownMenuOption`, `DropdownMenuItem`,
+`DropdownMenuProps`) and `useDropdownMenu` keep their names. `ContextMenu`
+renders its items the same way, and `Filter` and `SearchFilter` share the row
+look (`MenuItemBody`).
+
+The codemod lists the code to update by hand, with its file and line. It never
+modifies files, and exits with 1 when it finds an error:
+
+```bash
+npx @gouvfr-lasuite/ui-codemod@1.1.0 dropdown-menu .
+```
+
+What may need an update:
+
+- **Trigger**: `children` is the trigger element itself, no longer wrapped in a
+  `div`. Pass a single element that forwards its `ref` and props to a focusable
+  element with an interactive role (`Button`, `<button>`, a link, or an element
+  with `role="button"` and `tabIndex={0}`). Do not wrap it in a `div`, and give
+  icon-only triggers an `aria-label`. For custom content such as an avatar,
+  wrap it in the unstyled `DropdownMenuTrigger`. `children` is typed as a
+  single `ReactElement`: text, several elements and conditional triggers
+  (`cond && <Button />`) no longer type-check, and a component passing its own
+  `children` or a `trigger` prop to the menu must type it `ReactElement`
+  instead of `ReactNode` (`PropsWithChildren` included).
+- **Open state**: the menu opens by itself. The `onClick` toggle and the
+  `useDropdownMenu` state can go; keep `isOpen` / `onOpenChange` only to
+  control the menu. A leftover toggle is harmless, but a condition in it no
+  longer stops the menu from opening: replace `if (canUpdate) setIsOpen(…)`
+  with a disabled trigger, or render the menu only when it is allowed.
+- **Roles**: items with a `value` or `isChecked` are `menuitemradio` (or
+  `menuitemcheckbox` with `selectionMode="multiple"`) with `aria-checked`, also
+  in `ContextMenu`. Tests using `getByRole("menuitem")` on them need the new
+  role. Do not give a `value` to plain actions.
+- **Markup**: rows use `c__dropdown-menu-item__content` and
+  `__description` instead of `__label-container` and `__label-subtext`, and
+  the top and bottom messages `c__dropdown-menu__message--top` and `--bottom`;
+  menus follow the new look and its `dropdown-menu` tokens. The trigger is no
+  longer wrapped in a `c__dropdown-menu-trigger` element: only
+  `DropdownMenuTrigger` has that class.
+- **Events**: clicks and keys in the menu no longer reach the trigger's
+  ancestors, and Tab closes the menu.
+- **`MenuItemBody`**: it now renders its label, sub text and shortcut in React
+  Aria's text slots (`withSlots`, `true` by default), so a `MenuItem` or
+  `ListBoxItem` is named by the label and described by the rest. Inside a React
+  Aria component that defines text slots without `label` (a form field such as
+  `TextField` or `Select` outside its popover, a `GridList`, `Tree` or `Table`
+  item, a `TagGroup`), pass `withSlots={false}`: React Aria throws
+  `Invalid slot "label"` there. See the MenuItemBody documentation in
+  Storybook.
+
+See the DropdownMenu documentation in Storybook for the full API.
 
 ## Repository deprecation checklist
 

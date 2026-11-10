@@ -1,194 +1,83 @@
-import {
-  Menu,
-  MenuItem,
-  Popover,
-  Separator,
-  SubmenuTrigger,
-} from "react-aria-components";
-import { MenuItemAction, MenuItemSeparator } from "../menu/types";
-import { MenuItemBody } from "../menu/MenuItemBody";
-import { DropdownMenuItem } from "./types";
-import { Fragment, PropsWithChildren, ReactNode, useId, useRef } from "react";
-import clsx from "clsx";
-import { useCunningham } from ":/components/provider";
-import { useSingleScroll } from "./useSingleScroll";
+import { useMemo } from "react";
+import { buildMenuModel } from "./buildMenuModel";
+import { DropdownMenuItemComponent } from "./DropdownMenuItemComponent";
+import { DropdownMenuPopover } from "./DropdownMenuPopover";
+import { DropdownMenuRoot } from "./DropdownMenuRoot";
+import { DropdownMenuSection } from "./DropdownMenuSection";
+import { DropdownMenuSeparator } from "./DropdownMenuSeparator";
+import { DropdownMenuSubmenu } from "./DropdownMenuSubmenu";
+import { DropdownMenuTrigger } from "./DropdownMenuTrigger";
+import { renderMenuLevel } from "./renderMenu";
+import { DropdownMenuProps } from "./types";
 
-const isSeparator = (item: DropdownMenuItem): item is MenuItemSeparator => {
-  return "type" in item && item.type === "separator";
-};
-
-const hasChildren = (item: MenuItemAction): boolean => {
-  return Array.isArray(item.children) && item.children.length > 0;
-};
-
-export type DropdownMenuProps = {
-  options: DropdownMenuItem[];
-  onOpenChange?: (isOpen: boolean) => void;
-  selectedValues?: string[];
-  onSelectValue?: (value: string) => void;
-  isOpen?: boolean;
-  bottomMessage?: ReactNode;
-  topMessage?: ReactNode;
-  shouldCloseOnInteractOutside?: (element: Element) => boolean;
-  variant?: "default" | "tiny";
-};
-
+/**
+ * An accessible menu opened from any trigger element, built on React Aria.
+ *
+ * Items with a `value` or an `isChecked` flag are exposed as radio items
+ * (`selectionMode="single"`) or checkbox items (`"multiple"`); the others stay
+ * plain menu items.
+ *
+ * `DropdownMenu.Trigger` is an unstyled trigger to wrap any content in; any
+ * other focusable element works too.
+ *
+ * For content the `options` array cannot describe, compose the parts instead:
+ * `DropdownMenu.Root`, `DropdownMenu.Popover`, `DropdownMenu.Item`,
+ * `DropdownMenu.Section`, `DropdownMenu.Separator` and `DropdownMenu.Submenu`.
+ */
 export const DropdownMenu = ({
-  options,
-  isOpen = false,
-  onOpenChange,
   children,
-  selectedValues = [],
+  options,
+  isOpen,
+  defaultOpen,
+  onOpenChange,
+  trigger,
+  selectedValues,
   onSelectValue,
+  selectionMode = "single",
+  variant = "default",
   topMessage,
   bottomMessage,
+  placement,
+  offset,
   shouldCloseOnInteractOutside,
-  variant = "default",
-}: PropsWithChildren<DropdownMenuProps>) => {
-  const id = useId();
-  const triggerRef = useRef(null);
-  const { t } = useCunningham();
-  const { isSingleScroll, rootRef, onFocus } = useSingleScroll();
-  const menuClassName = clsx("c__dropdown-menu", {
-    "c__dropdown-menu--tiny": variant === "tiny",
-  });
-  const onOpenChangeHandler = (isOpen: boolean) => {
-    onOpenChange?.(isOpen);
-  };
-
-  const getAriaLabel = (option: MenuItemAction): string => {
-    if (option.opensInNewWindow) {
-      return option.label + t("components.menu.newWindowLabelSuffix");
-    }
-    return option.label;
-  };
-
-  const renderMenuItems = (items: DropdownMenuItem[]) =>
-    items.map((option, index) => {
-      if (isSeparator(option)) {
-        return <Separator key={`separator-${index}`} />;
-      }
-
-      if (option.isHidden) {
-        return null;
-      }
-
-      const itemKey = option.id || option.label;
-
-      if (hasChildren(option)) {
-        return (
-          <SubmenuTrigger key={itemKey}>
-            <MenuItem
-              className={clsx("c__dropdown-menu-item", {
-                "c__dropdown-menu-item--danger": option.variant === "danger",
-              })}
-              aria-label={getAriaLabel(option)}
-              isDisabled={option.isDisabled}
-              data-testid={option.testId}
-            >
-              <MenuItemBody
-                icon={option.icon}
-                label={option.label}
-                subText={option.subText}
-                hasSubmenu
-              />
-            </MenuItem>
-            <Popover offset={-4} shouldFlip containerPadding={16}>
-              {/* Submenus have no top/bottom messages: the menu is the list itself. */}
-              <Menu className={clsx(menuClassName, "c__dropdown-menu__list")}>
-                {renderMenuItems(option.children!)}
-              </Menu>
-            </Popover>
-          </SubmenuTrigger>
-        );
-      }
-
-      return (
-        <Fragment key={itemKey}>
-          <MenuItem
-            className={clsx("c__dropdown-menu-item", {
-              "c__dropdown-menu-item--danger": option.variant === "danger",
-            })}
-            aria-label={getAriaLabel(option)}
-            onAction={() => {
-              if (option.value) {
-                onSelectValue?.(option.value);
-              }
-              option.callback?.();
-              if (!option.keepOpen) {
-                onOpenChangeHandler(false);
-              }
-            }}
-            isDisabled={option.isDisabled}
-            data-testid={option.testId}
-          >
-            <MenuItemBody
-              icon={option.icon}
-              label={option.label}
-              subText={option.subText}
-              isChecked={
-                option.isChecked ||
-                (!!option.value && selectedValues.includes(option.value))
-              }
-            />
-          </MenuItem>
-          {/* @deprecated: use { type: "separator" } instead */}
-          {option.showSeparator && <Separator />}
-        </Fragment>
-      );
-    });
+  className,
+  "data-testid": testId,
+}: DropdownMenuProps) => {
+  const model = useMemo(
+    () => buildMenuModel(options, selectedValues),
+    [options, selectedValues],
+  );
 
   return (
-    <>
-      <div
-        className="c__dropdown-menu-trigger"
-        ref={triggerRef}
-        id={id}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-      >
-        {children}
-      </div>
-
-      <Popover
-        triggerRef={triggerRef}
-        style={{
-          marginTop: "0px",
-        }}
-        isOpen={isOpen}
-        shouldFlip
-        containerPadding={16}
-        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
-        onOpenChange={onOpenChangeHandler}
-      >
-        <div
-          ref={rootRef}
-          onFocus={onFocus}
-          className={clsx(menuClassName, "c__dropdown-menu--root", {
-            "c__dropdown-menu--single-scroll": isSingleScroll,
-          })}
-        >
-          {topMessage && (
-            <div className="c__dropdown-menu-item-top-message">
-              {topMessage}
-            </div>
-          )}
-          <Menu
-            className="c__dropdown-menu__list"
-            aria-labelledby={id}
-            autoFocus="first"
-          >
-            {renderMenuItems(options)}
-          </Menu>
-          {bottomMessage && (
-            <div className="c__dropdown-menu-item-bottom-message">
-              {bottomMessage}
-            </div>
-          )}
-        </div>
-      </Popover>
-    </>
+    <DropdownMenuRoot
+      isOpen={isOpen}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      trigger={trigger}
+    >
+      {children}
+      {renderMenuLevel(
+        model,
+        { selectionMode, onSelectValue },
+        {
+          variant,
+          topMessage,
+          bottomMessage,
+          placement,
+          offset,
+          shouldCloseOnInteractOutside,
+          className,
+          "data-testid": testId,
+        },
+      )}
+    </DropdownMenuRoot>
   );
 };
+
+DropdownMenu.Root = DropdownMenuRoot;
+DropdownMenu.Trigger = DropdownMenuTrigger;
+DropdownMenu.Popover = DropdownMenuPopover;
+DropdownMenu.Item = DropdownMenuItemComponent;
+DropdownMenu.Section = DropdownMenuSection;
+DropdownMenu.Separator = DropdownMenuSeparator;
+DropdownMenu.Submenu = DropdownMenuSubmenu;

@@ -77,16 +77,23 @@ export const LanguagePicker = ({
     return lang?.shortLabel ?? lang?.label;
   }, [languages, selectedLanguage]);
 
+  // `isChecked` only sets the initial language: the current one comes from
+  // `selectedValues`, so a single language is announced as checked.
+  const options = useMemo(
+    () =>
+      languages.map(({ isChecked: _isChecked, ...language }) => language),
+    [languages],
+  );
+
   return (
     <DropdownMenu
-      options={languages}
+      options={options}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
       onSelectValue={handleLanguageChange}
       selectedValues={[selectedLanguage]}
     >
       <Button
-        onClick={() => setIsOpen(!isOpen)}
         className="c__language-picker"
         aria-label={`Language: ${selectedLanguageOption}`}
         icon={<Icon name={isOpen ? "arrow_drop_up" : "arrow_drop_down"} />}
