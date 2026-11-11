@@ -13,6 +13,7 @@ export * from "./components/zoom-controls/ZoomControls";
 export * from "./viewers/image-viewer/ImageViewer";
 export * from "./viewers/video-player/VideoPlayer";
 export * from "./viewers/audio-player/AudioPlayer";
+export * from "./viewers/no-access/NoAccessPreview";
 export * from "./viewers/not-supported/NotSupportedPreview";
 export * from "./viewers/suspicious/SuspiciousPreview";
 export * from "./viewers/error/ErrorPreview";

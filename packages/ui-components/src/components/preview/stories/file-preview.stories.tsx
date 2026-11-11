@@ -433,8 +433,21 @@ export const FolderAccessDenied: Story = {
       files={args.files!}
       onRequestAccess={args.onRequestAccess}
       hideCloseButton={args.hideCloseButton}
+      requestAccessState={args.requestAccessState}
     />
   ),
+};
+
+/** After the request is submitted, the button is disabled and its label reflects the state. */
+export const FolderAccessDeniedRequestSent: Story = {
+  ...FolderAccessDenied,
+  args: { ...FolderAccessDenied.args, requestAccessState: "sent" },
+};
+
+/** When a request was already submitted previously, the button reflects that state. */
+export const FolderAccessDeniedAlreadyRequested: Story = {
+  ...FolderAccessDenied,
+  args: { ...FolderAccessDenied.args, requestAccessState: "already-requested" },
 };
 
 /** Without a handler, the only central action is Close. */

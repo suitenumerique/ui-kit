@@ -1,23 +1,35 @@
 import { Button } from ":/cunningham";
 import { BubbleText } from ":/components/icon/icons/BubbleText";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
+import type { TranslationKey } from ":/types/translations";
 import { PreviewMessage } from "../../components/preview-message/PreviewMessage";
 import { FileIcon } from "../../icons/FileIcon";
 import { FilePreviewType } from "../../types";
 import { IconSize } from ":/components/icon";
+
+export type RequestAccessState = "not-requested" | "sent" | "already-requested";
 
 interface NoAccessPreviewProps {
   file: FilePreviewType;
   onClose?: () => void;
   hideCloseButton?: boolean;
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessState?: RequestAccessState;
 }
+
+const requestAccessLabel: Record<RequestAccessState, TranslationKey> = {
+  "not-requested": "components.filePreview.folderAccessDenied.requestAccess",
+  sent: "components.filePreview.folderAccessDenied.requestSent",
+  "already-requested":
+    "components.filePreview.folderAccessDenied.alreadyRequested",
+};
 
 export const NoAccessPreview = ({
   file,
   onClose,
   hideCloseButton,
   onRequestAccess,
+  requestAccessState = "not-requested",
 }: NoAccessPreviewProps) => {
   const { t } = useCustomTranslations();
 
@@ -51,8 +63,9 @@ export const NoAccessPreview = ({
                   color="brand"
                   icon={<BubbleText size={16} />}
                   onClick={() => onRequestAccess(file)}
+                  disabled={requestAccessState !== "not-requested"}
                 >
-                  {t("components.filePreview.folderAccessDenied.requestAccess")}
+                  {t(requestAccessLabel[requestAccessState])}
                 </Button>
               )}
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilePreview } from "../FilePreview";
 import type { FilePreviewType } from "../types";
+import type { RequestAccessState } from "../viewers/no-access/NoAccessPreview";
 import type { MenuItemAction } from "../../menu";
 
 // Storybook re-mounts on HMR; reusing one client keeps the PDF cache warm.
@@ -11,6 +12,7 @@ interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessState?: RequestAccessState;
   hideCloseButton?: boolean;
   customHeaderActions?: (headerActions: ReactNode) => ReactNode;
   headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
@@ -20,6 +22,7 @@ export const FilePreviewExample = ({
   files,
   initialFileId,
   onRequestAccess,
+  requestAccessState,
   hideCloseButton,
   customHeaderActions,
   headerActionsMenuOptions,
@@ -47,6 +50,7 @@ export const FilePreviewExample = ({
           openedFileId={openedFileId}
           files={files}
           onRequestAccess={onRequestAccess}
+          requestAccessState={requestAccessState}
           hideCloseButton={hideCloseButton}
           pdfWorkerSrc={`${import.meta.env.BASE_URL}pdf.worker.mjs`}
           pdfAssetsUrl={import.meta.env.BASE_URL}
