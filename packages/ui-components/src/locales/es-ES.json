@@ -196,7 +196,10 @@
       "folderAccessDenied": {
         "description": "No tienes los permisos necesarios para abrir esta carpeta.",
         "close": "Cerrar",
-        "requestAccess": "Solicitar acceso"
+        "requestAccess": "Solicitar acceso",
+        "requestSent": "Solicitud enviada",
+        "alreadyRequested": "Acceso ya solicitado",
+        "requestError": "Se ha producido un error inesperado al solicitar el acceso. Por favor, inténtelo de nuevo más tarde."
       },
       "unsupported": {
         "title": "Archivo no compatible",

@@ -196,7 +196,10 @@
       "folderAccessDenied": {
         "description": "Sie haben nicht die erforderlichen Berechtigungen, um diesen Ordner zu öffnen.",
         "close": "Schließen",
-        "requestAccess": "Zugriff anfordern"
+        "requestAccess": "Zugriff anfordern",
+        "requestSent": "Anfrage gesendet",
+        "alreadyRequested": "Zugriff bereits angefragt",
+        "requestError": "Beim Anfordern des Zugriffs ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es später erneut."
       },
       "unsupported": {
         "title": "Nicht unterstützte Datei",

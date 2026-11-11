@@ -31,7 +31,10 @@ import { VideoPlayer } from "./viewers/video-player/VideoPlayer";
 import { AudioPlayer } from "./viewers/audio-player/AudioPlayer";
 import { ImageViewer } from "./viewers/image-viewer/ImageViewer";
 import { SuspiciousPreview } from "./viewers/suspicious/SuspiciousPreview";
-import { NoAccessPreview } from "./viewers/no-access/NoAccessPreview";
+import {
+  NoAccessPreview,
+  type RequestAccessState,
+} from "./viewers/no-access/NoAccessPreview";
 import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview";
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
@@ -92,6 +95,7 @@ interface FilePreviewProps {
   onOpenInEditor?: (file: FilePreviewType) => void;
   /** The consuming app handles the access request and its feedback. */
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessState?: RequestAccessState;
 }
 
 export const FilePreview = ({
@@ -112,6 +116,7 @@ export const FilePreview = ({
   pdfAssetsUrl,
   onOpenInEditor,
   onRequestAccess,
+  requestAccessState,
 }: FilePreviewProps) => {
   const { t } = useCustomTranslations();
   const [currentIndex, setCurrentIndex] = useState(initialIndexFile);
@@ -179,6 +184,7 @@ export const FilePreview = ({
           onClose={onClose}
           hideCloseButton={hideCloseButton}
           onRequestAccess={onRequestAccess}
+          requestAccessState={requestAccessState}
         />
       );
     }
