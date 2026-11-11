@@ -31,12 +31,16 @@ import { VideoPlayer } from "./viewers/video-player/VideoPlayer";
 import { AudioPlayer } from "./viewers/audio-player/AudioPlayer";
 import { ImageViewer } from "./viewers/image-viewer/ImageViewer";
 import { SuspiciousPreview } from "./viewers/suspicious/SuspiciousPreview";
-import { NoAccessPreview } from "./viewers/no-access/NoAccessPreview";
+import {
+  NoAccessPreview,
+  type RequestAccessState,
+} from "./viewers/no-access/NoAccessPreview";
 import { NotSupportedPreview } from "./viewers/not-supported/NotSupportedPreview";
 import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
 import { OutdatedBrowserPreview } from "./viewers/pdf-preview/OutdatedBrowserPreview";
 import { MenuItemAction } from ":/components/menu";
+import { ToastProvider } from ":/components/toast/ToastProvider";
 
 // Lazy-load PDF rendering — react-pdf + pdfjs-dist + react-virtualized weigh
 // over a megabyte gzipped, and most previews aren't PDFs. We narrow the
@@ -92,6 +96,7 @@ interface FilePreviewProps {
   onOpenInEditor?: (file: FilePreviewType) => void;
   /** The consuming app handles the access request and its feedback. */
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessState?: RequestAccessState;
 }
 
 export const FilePreview = ({
@@ -112,6 +117,7 @@ export const FilePreview = ({
   pdfAssetsUrl,
   onOpenInEditor,
   onRequestAccess,
+  requestAccessState,
 }: FilePreviewProps) => {
   const { t } = useCustomTranslations();
   const [currentIndex, setCurrentIndex] = useState(initialIndexFile);
@@ -174,12 +180,15 @@ export const FilePreview = ({
 
     if (currentFile.isFolderAccessDenied) {
       return (
-        <NoAccessPreview
-          file={currentFile}
-          onClose={onClose}
-          hideCloseButton={hideCloseButton}
-          onRequestAccess={onRequestAccess}
-        />
+        <ToastProvider position="bottom-center">
+          <NoAccessPreview
+            file={currentFile}
+            onClose={onClose}
+            hideCloseButton={hideCloseButton}
+            onRequestAccess={onRequestAccess}
+            requestAccessState={requestAccessState}
+          />
+        </ToastProvider>
       );
     }
 

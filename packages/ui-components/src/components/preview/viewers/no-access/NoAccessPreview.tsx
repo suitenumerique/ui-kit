@@ -1,25 +1,55 @@
+import { useEffect } from "react";
 import { Button } from ":/cunningham";
 import { BubbleText } from ":/components/icon/icons/BubbleText";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
+import type { TranslationKey } from ":/types/translations";
+import { useToastProvider } from ":/components/toast/ToastProvider";
+import { VariantType } from ":/utils/VariantUtils";
 import { PreviewMessage } from "../../components/preview-message/PreviewMessage";
 import { FileIcon } from "../../icons/FileIcon";
 import { FilePreviewType } from "../../types";
 import { IconSize } from ":/components/icon";
+
+export type RequestAccessState =
+  | "not-requested"
+  | "sent"
+  | "already-requested"
+  | "error";
 
 interface NoAccessPreviewProps {
   file: FilePreviewType;
   onClose?: () => void;
   hideCloseButton?: boolean;
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessState?: RequestAccessState;
 }
+
+const requestAccessLabel: Record<RequestAccessState, TranslationKey> = {
+  "not-requested": "components.filePreview.folderAccessDenied.requestAccess",
+  sent: "components.filePreview.folderAccessDenied.requestSent",
+  "already-requested":
+    "components.filePreview.folderAccessDenied.alreadyRequested",
+  error: "components.filePreview.folderAccessDenied.requestAccess",
+};
 
 export const NoAccessPreview = ({
   file,
   onClose,
   hideCloseButton,
   onRequestAccess,
+  requestAccessState = "not-requested",
 }: NoAccessPreviewProps) => {
   const { t } = useCustomTranslations();
+  const { toast } = useToastProvider();
+
+  useEffect(() => {
+    if (requestAccessState === "error") {
+      toast(
+        t("components.filePreview.folderAccessDenied.requestError"),
+        VariantType.ERROR,
+      );
+    }
+  }, [requestAccessState]);
 
   return (
     <div className="file-preview-no-access" data-preview-backdrop="true">
@@ -45,15 +75,21 @@ export const NoAccessPreview = ({
                 </Button>
               )}
               {onRequestAccess && (
-                <Button
-                  size="nano"
-                  variant="secondary"
-                  color="brand"
-                  icon={<BubbleText size={16} />}
-                  onClick={() => onRequestAccess(file)}
-                >
-                  {t("components.filePreview.folderAccessDenied.requestAccess")}
-                </Button>
+                <>
+                  <Button
+                    size="nano"
+                    variant="secondary"
+                    color="brand"
+                    icon={<BubbleText size={16} />}
+                    onClick={() => onRequestAccess(file)}
+                    disabled={
+                      requestAccessState === "sent" ||
+                      requestAccessState === "already-requested"
+                    }
+                  >
+                    {t(requestAccessLabel[requestAccessState])}
+                  </Button>
+                </>
               )}
             </div>
           )
