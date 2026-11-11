@@ -305,6 +305,29 @@ const translations = [
   },
 ];
 
+const requestAccessStates: { state: "sent" | "already-requested"; label: string }[] = [
+  { state: "sent", label: "Request sent" },
+  { state: "already-requested", label: "Access already requested" },
+];
+
+for (const { state, label } of requestAccessStates) {
+  test(`requestAccessState="${state}" disables the button and shows the right label`, async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestFilePreview
+        files={[folder]}
+        onRequestAccess={() => {}}
+        requestAccessState={state}
+      />,
+    );
+    const button = page.getByRole("button", { name: label, exact: true });
+    await expect(button).toBeVisible();
+    await expect(button).toBeDisabled();
+  });
+}
+
 for (const { locale, close, request, description } of translations) {
   test(`Long folder names and ${locale} actions fit a narrow screen`, async ({
     mount,

@@ -196,7 +196,9 @@
       "folderAccessDenied": {
         "description": "You do not have the necessary permissions to open this folder.",
         "close": "Close",
-        "requestAccess": "Request access"
+        "requestAccess": "Request access",
+        "requestSent": "Request sent",
+        "alreadyRequested": "Access already requested"
       },
       "unsupported": {
         "title": "Unsupported file",
