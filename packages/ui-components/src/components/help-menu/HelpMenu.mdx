@@ -41,13 +41,82 @@ Pass any subset of `personalDataUrl`, `termsOfUse`, `accessibilityUrl`, `legalNo
 
 ### Contact us
 
-Provide `onContactUs` for a custom action (e.g. a `mailto:`), or `genericSupportForm` to open the built-in [GenericSupportForm](?path=/docs/components-supportform-docs--docs) instead. If both are set, `genericSupportForm` wins.
-
-<Canvas of={HelpMenuStories.WithGenericSupportForm} />
+The "Contact us" entry appears when you pass `laSuiteSupportForm`, `genericSupportForm` or `onContactUs`. See [Contact us and support forms](#contact-us-and-support-forms) below.
 
 ### Release
 
 `release` shows the version (and optional `date`) as subtext. When `url` is provided, the entry opens it in a new tab.
+
+## Contact us and support forms
+
+"Contact us" can do three things. Pass one of these props; if you pass several, the first one in this table wins.
+
+| Prop | "Contact us"… | Use it when |
+|---|---|---|
+| `laSuiteSupportForm` | opens a [LaSuiteSupportForm](?path=/docs/components-supportform-docs--docs): the messages go to the La Suite support team | your app is a La Suite app with a support channel |
+| `genericSupportForm` | opens a [GenericSupportForm](?path=/docs/components-supportform-docs--docs): your app sends the messages in `onSend` | you have your own backend or helpdesk |
+| `onContactUs` | runs your callback, e.g. a `mailto:` link | you don't need a form |
+
+Both forms open in a popover at the bottom-left of the screen (full screen on mobile); change it with `placement`. Their texts are translated in the 5 supported languages; override any of them with `labels`.
+
+### Send to the La Suite support team
+
+```tsx
+<HelpMenu
+  documentationUrl="https://example.com/docs"
+  laSuiteSupportForm={{
+    api: "https://lasuite.numerique.gouv.fr/api/support/",
+    channel: "docs", // your app's support channel
+    email: user?.email, // when known, the form doesn't ask for it
+    onSuccess: () => track("support_request_sent"),
+    onError: (error) => console.error(error),
+  }}
+/>
+```
+
+The form checks the fields, passes the invisible anti-spam check, sends the request and shows the result. The email is required, and one png, jpg, gif or txt file up to 10 MB can be attached. Apps with a strict Content Security Policy must allow the API's origin in `connect-src`, and `'wasm-unsafe-eval'` in `script-src` for the anti-spam check.
+
+Click `?`, then "Contact us". This story talks to a fake API: write "error" in the subject to see a refused request.
+
+<Canvas of={HelpMenuStories.WithLaSuiteSupportForm} />
+
+### Send to your own backend
+
+```tsx
+<HelpMenu
+  documentationUrl="https://example.com/docs"
+  genericSupportForm={{
+    // Return a promise: the form shows "Sending…", then a success view,
+    // or the error message if it rejects.
+    onSend: (data) => api.sendFeedback(data),
+    requireEmail: true,
+    email: user?.email,
+    maxFiles: 3,
+    maxFileSize: 5 * 1024 * 1024,
+    acceptedFileTypes: ["image/*", ".txt", ".log"],
+    categories: [
+      { label: "Bug", value: "bug" },
+      { label: "Idea", value: "idea" },
+    ],
+  }}
+/>
+```
+
+`onSend` receives `{ subject, message, email, files, category }` (the last three only when filled). To show your own error in the form, reject with an `Error` whose message is written for the user.
+
+`genericSupportForm` and `laSuiteSupportForm` accept every prop of their form, except the ones the HelpMenu sets itself (`isOpen`, `onOpenChange`, `triggerRef`, `children` and `shouldFlip`). For example: `showEmailReply` (a "reply by email" checkbox, when `requireEmail` is off), `emailPrivacyUrl`, `defaultCategory`, `labels`, `placement`, `isSending` and `onSuccessClose`.
+
+Click `?`, then "Contact us":
+
+<Canvas of={HelpMenuStories.WithGenericSupportForm} />
+
+### Open something else
+
+```tsx
+<HelpMenu
+  onContactUs={() => (window.location.href = "mailto:support@example.com")}
+/>
+```
 
 ## In a layout
 

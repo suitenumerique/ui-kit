@@ -33,6 +33,7 @@ interface TestHelpMenuProps {
   withOnboarding?: boolean;
   withContactUs?: boolean;
   withGenericSupportForm?: boolean;
+  laSuiteSupportForm?: HelpMenuProps["laSuiteSupportForm"];
   release?: HelpMenuProps["release"];
   legal?: HelpMenuProps["legal"];
   customOptions?: TestCustomOption[];
@@ -44,6 +45,7 @@ export const TestHelpMenu = ({
   withOnboarding,
   withContactUs,
   withGenericSupportForm,
+  laSuiteSupportForm,
   release,
   legal,
   customOptions,
@@ -78,6 +80,7 @@ export const TestHelpMenu = ({
             ? { onSend: () => record("feedback:send") }
             : undefined
         }
+        laSuiteSupportForm={laSuiteSupportForm}
         release={release}
         legal={legal}
         customOptions={builtCustomOptions}
