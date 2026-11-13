@@ -50,6 +50,7 @@ import { OnboardingStep } from "./types";
  * | `title` | `string` | Step title |
  * | `description` | `string` | Step description, visible only when the step is active |
  * | `content` | `ReactNode` | Content displayed in the preview zone (image, video, component, etc.) |
+ * | `contentAlt` | `string` | Accessible description of the content zone, for content without its own text alternative (GIF, video, illustration). Omit it if the content is decorative or already described, e.g. an `img` with an `alt` |
  *
  * ## OnboardingModalProps
  *
@@ -335,6 +336,7 @@ export const WithCustomContent: Story = {
         content: (
           <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls />
         ),
+        contentAlt: "Short animated film: a big rabbit wakes up in a forest.",
       },
     ];
     return <OnboardingModalDemo steps={customSteps} />;
