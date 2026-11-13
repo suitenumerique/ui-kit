@@ -189,6 +189,12 @@
       "successText": "Su mensaje se ha enviado al equipo.",
       "successClose": "Cerrar"
     },
+    "laSuiteSupportForm": {
+      "uploadHint": "Imagen (png, jpg, gif) o archivo de texto (txt), de 10 MB como máximo",
+      "successText": "Si es necesario, un miembro de nuestro equipo de soporte se pondrá en contacto con usted por correo electrónico.",
+      "altchaFailed": "La verificación antispam ha fallado. Inténtelo de nuevo.",
+      "rateLimited": "Se han enviado demasiados mensajes. Espere unos minutos y vuelva a intentarlo."
+    },
     "helpMenu": {
       "ariaLabel": "Ayuda",
       "documentation": "Documentación",
