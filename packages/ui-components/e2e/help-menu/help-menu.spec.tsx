@@ -322,13 +322,39 @@ test.describe("HelpMenu - contact us", () => {
     mount,
     page,
   }) => {
-    await mount(<TestHelpMenu withContactUs withFeedbackForm />);
+    await mount(<TestHelpMenu withContactUs withGenericSupportForm />);
     await openMenu(page);
 
     await page.getByRole("menuitem", { name: "Contact us" }).click();
 
     await expect(page.getByText("Contact the team")).toBeVisible();
     expect(await getCalls(page)).not.toContain("contactUs");
+  });
+
+  test("Opens the support form when laSuiteSupportForm is configured", async ({
+    mount,
+    page,
+  }) => {
+    // 1. Configure both forms: laSuiteSupportForm takes precedence.
+    await mount(
+      <TestHelpMenu
+        withGenericSupportForm
+        laSuiteSupportForm={{ api: "/api/support/", channel: "docs" }}
+      />,
+    );
+    await openMenu(page);
+
+    // 2. "Contact us" opens the support form, recognizable by its upload hint
+    //    and its required email field (no "reply by email" checkbox).
+    await page.getByRole("menuitem", { name: "Contact us" }).click();
+    await expect(
+      page.getByRole("dialog", { name: "Contact the team" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Image (png, jpg, gif) or text file (txt), up to 10 MB"),
+    ).toBeVisible();
+    await expect(page.getByRole("textbox", { name: "E-mail" })).toBeVisible();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
   });
 });
 

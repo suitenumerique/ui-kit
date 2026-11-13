@@ -160,7 +160,7 @@
       "currentStepSuffix": " (huidig)",
       "contentRegionLabel": "Inhoud van stap {current} van {total}"
     },
-    "feedbackForm": {
+    "genericSupportForm": {
       "title": "Neem contact op met het team",
       "subtitle": "Bug, idee, vraag of compliment — het team leest alles en neemt indien nodig contact met u op.",
       "subject": "Onderwerp",
@@ -175,7 +175,24 @@
       "cancel": "Annuleren",
       "send": "Verzenden",
       "category": "Categorie",
-      "closeAriaLabel": "Feedbackformulier sluiten"
+      "closeAriaLabel": "Feedbackformulier sluiten",
+      "subjectRequired": "Het onderwerp is verplicht.",
+      "messageRequired": "Het bericht is verplicht.",
+      "emailRequired": "Het e-mailadres is verplicht. Formaat: naam@domein.nl",
+      "removeFile": "{name} verwijderen",
+      "fileTooLarge": "Het bestand is te groot. Maximale grootte: {size}.",
+      "fileTypeInvalid": "Dit bestandstype is niet toegestaan.",
+      "fileTooMany": "Maximaal aantal bestanden: {max}.",
+      "sending": "Bezig met verzenden…",
+      "error": "Er is iets misgegaan. Probeer het later opnieuw.",
+      "successTitle": "Bedankt voor uw feedback",
+      "successText": "Uw bericht is naar het team verzonden.",
+      "successClose": "Sluiten"
+    },
+    "laSuiteSupportForm": {
+      "uploadHint": "Afbeelding (png, jpg, gif) of tekstbestand (txt), maximaal 10 MB",
+      "successText": "Indien nodig neemt een lid van ons supportteam per e-mail contact met u op.",
+      "altchaFailed": "De antispamcontrole is mislukt. Probeer het opnieuw."
     },
     "helpMenu": {
       "ariaLabel": "Help",

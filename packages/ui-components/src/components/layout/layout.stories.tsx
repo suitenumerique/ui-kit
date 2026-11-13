@@ -75,7 +75,7 @@ export const FullLayoutWithFooter: StoryObj = {
             <HelpMenu
               documentationUrl="https://example.com/docs"
               onOnboarding={() => alert("Onboarding clicked")}
-              feedbackForm={{
+              genericSupportForm={{
                 onSend: (data) => console.log("Feedback sent:", data),
                 showEmailReply: true,
                 emailPrivacyUrl: "#",

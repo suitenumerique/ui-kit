@@ -1,15 +1,20 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from ":/cunningham";
-import { FeedbackForm } from "./FeedbackForm";
-import { FeedbackFormProps } from "./types";
-import { DropdownMenuItem } from "../dropdown-menu/types";
+import { GenericSupportForm } from "./GenericSupportForm";
+import { GenericSupportFormProps } from "./types";
+import { DropdownMenuItem } from "../../dropdown-menu/types";
 
 const meta = {
-  title: "Components/FeedbackForm",
-  component: FeedbackForm,
+  title: "Components/SupportForm/GenericSupportForm",
+  component: GenericSupportForm,
   tags: ["autodocs"],
-} satisfies Meta<typeof FeedbackForm>;
+  parameters: {
+    // The stories open their popover on load: on the docs page, each one gets
+    // its own frame so the popovers don't pile up over the page.
+    docs: { story: { inline: false, height: "720px" } },
+  },
+} satisfies Meta<typeof GenericSupportForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -37,10 +42,10 @@ const categoryOptions: DropdownMenuItem[] = [
   },
 ];
 
-const FeedbackFormWrapper = (props: Omit<FeedbackFormProps, "children">) => {
+const GenericSupportFormWrapper = (props: Omit<GenericSupportFormProps, "children">) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <FeedbackForm
+    <GenericSupportForm
       {...props}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
@@ -48,7 +53,7 @@ const FeedbackFormWrapper = (props: Omit<FeedbackFormProps, "children">) => {
       <Button onClick={() => setIsOpen(!isOpen)}>
         Contact us
       </Button>
-    </FeedbackForm>
+    </GenericSupportForm>
   );
 };
 
@@ -58,7 +63,7 @@ export const Default: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       onSend={(data) => console.log("Send:", data)}
       emailPrivacyUrl="#"
     />
@@ -71,7 +76,7 @@ export const WithCategories: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       categories={categoryOptions}
       defaultCategory="bug"
       showEmailReply={false}
@@ -86,7 +91,7 @@ export const WithCategoriesAndEmail: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       categories={categoryOptions}
       defaultCategory="bug"
       showEmailReply={true}
@@ -102,7 +107,7 @@ export const NoEmailReply: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       showEmailReply={false}
       onSend={(data) => console.log("Send:", data)}
     />
@@ -115,7 +120,7 @@ export const CustomLabels: Story = {
     children: <Button>Contactez-nous</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       onSend={(data) => console.log("Envoi:", data)}
       emailPrivacyUrl="#"
       labels={{
@@ -143,9 +148,90 @@ export const SendingState: Story = {
     children: <Button>Contact us</Button>,
   },
   render: () => (
-    <FeedbackFormWrapper
+    <GenericSupportFormWrapper
       isSending={true}
       onSend={(data) => console.log("Send:", data)}
+    />
+  ),
+};
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * `onSend` returns a promise: the form shows its sending state, then the
+ * success view once it resolves.
+ */
+export const AsyncSuccess: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1500);
+      }}
+    />
+  ),
+};
+
+/** `onSend` rejects: the error message is shown above the buttons. */
+export const AsyncError: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      onSend={async () => {
+        await wait(1000);
+        throw new Error("Too many requests. Please try again later.");
+      }}
+    />
+  ),
+};
+
+/**
+ * A required email field replaces the "reply by email" checkbox, and files
+ * are limited in number, type and size.
+ */
+export const RequiredEmailAndFileRules: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      requireEmail
+      maxFiles={1}
+      maxFileSize={10 * 1024 * 1024}
+      acceptedFileTypes={["image/png", "image/jpeg", "image/gif", "text/plain"]}
+      labels={{
+        uploadHint: "Image (png, jpg, gif) or text file (txt), up to 10 MB",
+      }}
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1000);
+      }}
+    />
+  ),
+};
+
+/** The app knows the user's email: the form does not ask for it. */
+export const KnownEmail: Story = {
+  args: {
+    onSend: (data) => console.log("Send:", data),
+    children: <Button>Contact us</Button>,
+  },
+  render: () => (
+    <GenericSupportFormWrapper
+      requireEmail
+      email="jean.dupont@example.gouv.fr"
+      onSend={async (data) => {
+        console.log("Send:", data);
+        await wait(1000);
+      }}
     />
   ),
 };

@@ -8,6 +8,10 @@ import { useState } from "react";
 import svg from "../layout/header/logo-example.svg";
 import { Keyboard, Megaphone } from ":/icons";
 import { IconSize } from "../icon";
+import {
+  installMockLaSuiteSupportApi,
+  MOCK_LA_SUITE_SUPPORT_API,
+} from "../support-form/la-suite-support-form/mockLaSuiteSupportApi";
 
 const meta: Meta<typeof HelpMenu> = {
   title: "Components/HelpMenu",
@@ -92,13 +96,17 @@ export const ContactUsMailto: Story = {
   ),
 };
 
-export const WithFeedbackForm: Story = {
+export const WithGenericSupportForm: Story = {
   render: () => (
     <HelpMenu
       documentationUrl="https://example.com/docs"
       onOnboarding={() => alert("Onboarding clicked")}
-      feedbackForm={{
-        onSend: (data) => console.log("Feedback sent:", data),
+      genericSupportForm={{
+        // A promise: the form shows its sending state, then the success view.
+        onSend: async (data) => {
+          console.log("Feedback sent:", data);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        },
         showEmailReply: true,
         emailPrivacyUrl: "#",
       }}
@@ -109,6 +117,19 @@ export const WithFeedbackForm: Story = {
       }}
     />
   ),
+};
+
+/** "Contact us" opens a LaSuiteSupportForm, here connected to a fake support API. */
+export const WithLaSuiteSupportForm: Story = {
+  render: () => {
+    installMockLaSuiteSupportApi();
+    return (
+      <HelpMenu
+        documentationUrl="https://example.com/docs"
+        laSuiteSupportForm={{ api: MOCK_LA_SUITE_SUPPORT_API, channel: "docs" }}
+      />
+    );
+  },
 };
 
 export const DocumentationOnly: Story = {
@@ -149,7 +170,7 @@ export const InLayoutFooter: Story = {
             <HelpMenu
               documentationUrl="https://example.com/docs"
               onOnboarding={() => alert("Onboarding clicked")}
-              feedbackForm={{
+              genericSupportForm={{
                 onSend: (data) => console.log("Feedback sent:", data),
                 showEmailReply: true,
                 emailPrivacyUrl: "#",

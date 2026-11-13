@@ -5,12 +5,10 @@ import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
 import { useDropdownMenu } from "../dropdown-menu/useDropdownMenu";
 import { DropdownMenuItem } from "../dropdown-menu/types";
 import { QuestionMark } from "../icons/QuestionMark";
-import { FeedbackForm } from "../feedback-form/FeedbackForm";
-import {
-  FeedbackFormData,
-  FeedbackFormLabels,
-  FeedbackFormPlacement,
-} from "../feedback-form/types";
+import { GenericSupportForm } from "../support-form/generic-support-form/GenericSupportForm";
+import { GenericSupportFormProps } from "../support-form/generic-support-form/types";
+import { LaSuiteSupportForm } from "../support-form/la-suite-support-form/LaSuiteSupportForm";
+import { LaSuiteSupportFormProps } from "../support-form/la-suite-support-form/types";
 import {
   BubbleEdit,
   ClockArrowCirclepath,
@@ -26,24 +24,37 @@ export type HelpMenuRelease = {
   url?: string;
 };
 
-export type HelpMenuFeedbackConfig = {
-  onSend: (data: FeedbackFormData) => void;
-  categories?: DropdownMenuItem[];
-  defaultCategory?: string;
-  showEmailReply?: boolean;
-  emailPrivacyUrl?: string;
-  maxFileSize?: number;
-  acceptedFileTypes?: string[];
-  isSending?: boolean;
-  labels?: Partial<FeedbackFormLabels>;
-  placement?: FeedbackFormPlacement;
-};
+// The HelpMenu opens the support forms itself and anchors them to the
+// bottom-left corner, so apps can't set these props.
+type SupportFormPropsSetByHelpMenu =
+  | "isOpen"
+  | "onOpenChange"
+  | "triggerRef"
+  | "children"
+  | "shouldFlip";
+
+/** Every GenericSupportForm prop, except the ones the HelpMenu sets. */
+export type HelpMenuGenericSupportConfig = Omit<
+  GenericSupportFormProps,
+  SupportFormPropsSetByHelpMenu
+>;
+
+/** Every LaSuiteSupportForm prop, except the ones the HelpMenu sets. */
+export type HelpMenuLaSuiteSupportConfig = Omit<
+  LaSuiteSupportFormProps,
+  SupportFormPropsSetByHelpMenu
+>;
 
 export type HelpMenuProps = {
   documentationUrl?: string;
   onOnboarding?: () => void;
   onContactUs?: () => void;
-  feedbackForm?: HelpMenuFeedbackConfig;
+  genericSupportForm?: HelpMenuGenericSupportConfig;
+  /**
+   * Open a LaSuiteSupportForm, wired to the La Suite support API, from "Contact us".
+   * Takes precedence over `genericSupportForm`.
+   */
+  laSuiteSupportForm?: HelpMenuLaSuiteSupportConfig;
   release?: HelpMenuRelease;
   legal?: {
     personalDataUrl?: string;
@@ -59,16 +70,18 @@ export const HelpMenu = ({
   documentationUrl,
   onOnboarding,
   onContactUs,
-  feedbackForm,
+  genericSupportForm,
+  laSuiteSupportForm,
   release,
   legal,
   customOptions,
 }: HelpMenuProps) => {
   const { t } = useCunningham();
   const { isOpen, setIsOpen } = useDropdownMenu();
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isSupportFormOpen, setIsSupportFormOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const feedbackAnchorRef = useRef<HTMLDivElement>(null);
+  const supportFormAnchorRef = useRef<HTMLDivElement>(null);
+  const hasContactForm = !!(laSuiteSupportForm || genericSupportForm);
 
   const options = useMemo(() => {
     const items: DropdownMenuItem[] = [];
@@ -137,14 +150,14 @@ export const HelpMenu = ({
       items.push(...customOptions);
     }
 
-    if (onContactUs || feedbackForm) {
+    if (onContactUs || hasContactForm) {
       if (items.length > 0) items.push({ type: "separator" });
       items.push({
         label: t("components.helpMenu.contactUs"),
         icon: <BubbleEdit size={IconSize.SMALL} />,
         callback: () => {
-          if (feedbackForm) {
-            setIsFeedbackOpen(true);
+          if (hasContactForm) {
+            setIsSupportFormOpen(true);
           } else {
             onContactUs?.();
           }
@@ -175,7 +188,7 @@ export const HelpMenu = ({
     documentationUrl,
     onOnboarding,
     onContactUs,
-    feedbackForm,
+    hasContactForm,
     release,
     legal,
     customOptions,
@@ -183,6 +196,14 @@ export const HelpMenu = ({
   ]);
 
   if (options.length === 0) return null;
+
+  // Set last on the forms, so an app's config can't override them.
+  const supportFormProps = {
+    triggerRef: supportFormAnchorRef,
+    isOpen: isSupportFormOpen,
+    onOpenChange: setIsSupportFormOpen,
+    shouldFlip: false,
+  };
 
   return (
     <>
@@ -200,37 +221,33 @@ export const HelpMenu = ({
         </div>
       </DropdownMenu>
 
-      {feedbackForm && (
-        <>
-          <div
-            ref={feedbackAnchorRef}
-            style={{
-              position: "fixed",
-              left: 12,
-              bottom: 12,
-              width: 0,
-              height: 0,
-              pointerEvents: "none",
-            }}
+      {hasContactForm && (
+        <div
+          ref={supportFormAnchorRef}
+          style={{
+            position: "fixed",
+            left: 12,
+            bottom: 12,
+            width: 0,
+            height: 0,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+      {laSuiteSupportForm ? (
+        <LaSuiteSupportForm
+          {...laSuiteSupportForm}
+          placement={laSuiteSupportForm.placement ?? "top start"}
+          {...supportFormProps}
+        />
+      ) : (
+        genericSupportForm && (
+          <GenericSupportForm
+            {...genericSupportForm}
+            placement={genericSupportForm.placement ?? "top start"}
+            {...supportFormProps}
           />
-          <FeedbackForm
-            triggerRef={feedbackAnchorRef}
-            isOpen={isFeedbackOpen}
-            onOpenChange={setIsFeedbackOpen}
-            placement="top start"
-            shouldFlip={false}
-            onSend={feedbackForm.onSend}
-            onCancel={() => setIsFeedbackOpen(false)}
-            categories={feedbackForm.categories}
-            defaultCategory={feedbackForm.defaultCategory}
-            showEmailReply={feedbackForm.showEmailReply}
-            emailPrivacyUrl={feedbackForm.emailPrivacyUrl}
-            maxFileSize={feedbackForm.maxFileSize}
-            acceptedFileTypes={feedbackForm.acceptedFileTypes}
-            isSending={feedbackForm.isSending}
-            labels={feedbackForm.labels}
-          />
-        </>
+        )
       )}
     </>
   );

@@ -160,7 +160,7 @@
       "currentStepSuffix": " (actual)",
       "contentRegionLabel": "Contenido del paso {current} de {total}"
     },
-    "feedbackForm": {
+    "genericSupportForm": {
       "title": "Contactar con el equipo",
       "subtitle": "Error, idea, pregunta o felicitación: el equipo lo lee todo y le responderá si es necesario.",
       "subject": "Asunto",
@@ -175,7 +175,24 @@
       "cancel": "Cancelar",
       "send": "Enviar",
       "category": "Categoría",
-      "closeAriaLabel": "Cerrar el formulario de contacto"
+      "closeAriaLabel": "Cerrar el formulario de contacto",
+      "subjectRequired": "El asunto es obligatorio.",
+      "messageRequired": "El mensaje es obligatorio.",
+      "emailRequired": "El correo electrónico es obligatorio. Formato: nombre@dominio.es",
+      "removeFile": "Quitar {name}",
+      "fileTooLarge": "El archivo es demasiado grande. Tamaño máximo: {size}.",
+      "fileTypeInvalid": "Este tipo de archivo no está permitido.",
+      "fileTooMany": "Número máximo de archivos: {max}.",
+      "sending": "Enviando…",
+      "error": "Se ha producido un error. Inténtelo de nuevo más tarde.",
+      "successTitle": "Gracias por sus comentarios",
+      "successText": "Su mensaje se ha enviado al equipo.",
+      "successClose": "Cerrar"
+    },
+    "laSuiteSupportForm": {
+      "uploadHint": "Imagen (png, jpg, gif) o archivo de texto (txt), de 10 MB como máximo",
+      "successText": "Si es necesario, un miembro de nuestro equipo de soporte se pondrá en contacto con usted por correo electrónico.",
+      "altchaFailed": "La verificación antispam ha fallado. Inténtelo de nuevo."
     },
     "helpMenu": {
       "ariaLabel": "Ayuda",
