@@ -120,6 +120,32 @@ must allow:
 
 ## From the HelpMenu
 
-The [HelpMenu](?path=/docs/components-helpmenu--helpmenu) opens a support form from
-its "Contact us" entry. Pass `genericSupportForm` with the GenericSupportForm
-props.
+The [HelpMenu](?path=/docs/components-helpmenu--helpmenu) opens a support form
+from its "Contact us" entry, so apps don't have to place a trigger button. Pass
+`laSuiteSupportForm` with the API URLs and the channel:
+
+```tsx
+<HelpMenu
+  laSuiteSupportForm={{
+    challengeUrl: "https://lasuite.numerique.gouv.fr/api/support/challenge",
+    deliverUrl: "https://lasuite.numerique.gouv.fr/api/support/deliver/",
+    channel: "docs",
+    email: user?.email,
+  }}
+/>
+```
+
+or `genericSupportForm` with the GenericSupportForm props:
+
+```tsx
+<HelpMenu
+  genericSupportForm={{
+    onSend: (data) => api.sendFeedback(data),
+    requireEmail: true,
+    email: user?.email,
+  }}
+/>
+```
+
+The [HelpMenu docs](?path=/docs/components-helpmenu--helpmenu) have the full
+list of options and live examples.

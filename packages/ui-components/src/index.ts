@@ -361,6 +361,7 @@ export type {
   HelpMenuGenericSupportConfig,
   HelpMenuProps,
   HelpMenuRelease,
+  HelpMenuLaSuiteSupportConfig,
 } from "./components/help-menu";
 
 export {
