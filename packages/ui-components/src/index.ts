@@ -375,6 +375,18 @@ export type {
 } from "./components/support-form";
 
 export {
+  LaSuiteSupportForm,
+  useLaSuiteSupportApi,
+} from "./components/support-form";
+
+export type {
+  LaSuiteSupportAttachment,
+  LaSuiteSupportFormProps,
+  LaSuiteSupportRequestBody,
+  UseLaSuiteSupportApiOptions,
+} from "./components/support-form";
+
+export {
   useResponsive,
 } from "./hooks/useResponsive";
 

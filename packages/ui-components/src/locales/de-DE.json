@@ -189,6 +189,11 @@
       "successText": "Ihre Nachricht wurde an das Team gesendet.",
       "successClose": "Schließen"
     },
+    "laSuiteSupportForm": {
+      "uploadHint": "Bild (png, jpg, gif) oder Textdatei (txt), maximal 10 MB",
+      "successText": "Bei Bedarf meldet sich ein Mitglied unseres Support-Teams per E-Mail bei Ihnen.",
+      "altchaFailed": "Die Spam-Prüfung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+    },
     "helpMenu": {
       "ariaLabel": "Hilfe",
       "documentation": "Dokumentation",

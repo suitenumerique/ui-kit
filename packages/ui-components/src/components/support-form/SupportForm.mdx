@@ -1,5 +1,6 @@
 import { Meta, Canvas } from "@storybook/blocks";
 import * as GenericStories from "./generic-support-form/generic-support-form.stories";
+import * as LaSuiteStories from "./la-suite-support-form/la-suite-support-form.stories";
 
 <Meta title="Components/SupportForm/Docs" />
 
@@ -8,6 +9,13 @@ import * as GenericStories from "./generic-support-form/generic-support-form.sto
 Forms that let users write to a team: a subject, a message, an optional file
 and their email. They open in a popover next to the button that triggers
 them, and take the full screen on mobile.
+
+There are two of them:
+
+- **GenericSupportForm** only renders the form. The app sends the data itself
+  in `onSend`, to any backend.
+- **LaSuiteSupportForm** is a GenericSupportForm wired to the La Suite support
+  API. The app only passes the API URL and its channel.
 
 Both must live under a `CunninghamProvider`: their labels are translated in
 the 5 supported languages, and can be overridden with the `labels` prop.
@@ -37,6 +45,70 @@ const [isOpen, setIsOpen] = useState(false);
 
 {/* Rendered in its own frame: the story opens a popover. */}
 <Canvas of={GenericStories.Default} story={{ inline: false, height: "620px" }} />
+
+## LaSuiteSupportForm
+
+It checks the form, passes the invisible anti-spam check (ALTCHA), sends the
+request, then shows a success view or the error returned by the API. It
+applies the rules of the support API:
+
+- the email is required, unless the app passes the user's `email`;
+- one file can be attached: png, jpg, gif or txt, up to 10 MB.
+
+```tsx
+<LaSuiteSupportForm
+  api="https://lasuite.numerique.gouv.fr/api/support/"
+  channel="docs"
+  email={user?.email}
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+>
+  <Button onClick={() => setIsOpen(true)}>Contact us</Button>
+</LaSuiteSupportForm>;
+```
+
+- `api` is the base URL of the support API. The form calls `{api}challenge`
+  and `{api}deliver/`.
+- `channel` identifies the app (`docs`, `fichiers`, `visio`…). Ask the La Suite
+  team to add a new channel.
+- `onSuccess` and `onError` let the app react, for example to log the error.
+
+The stories talk to a fake API. Write "error" in the subject to see a refused
+request.
+
+<Canvas of={LaSuiteStories.Default} story={{ inline: false, height: "620px" }} />
+
+### Custom support form
+
+To keep the support API but change the form (categories, other wording…),
+use the `useLaSuiteSupportApi` hook. Pass its `send` as a GenericSupportForm's
+`onSend`, and call `prepare` when the form opens: the anti-spam check then runs
+while the user writes, instead of after they click Send.
+
+```tsx
+const { send, prepare } = useLaSuiteSupportApi({ api, channel: "docs" });
+
+useEffect(() => {
+  if (isOpen) prepare();
+}, [isOpen, prepare]);
+
+<GenericSupportForm
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+  requireEmail
+  maxFiles={1}
+  onSend={send}
+  …
+/>;
+```
+
+### Content Security Policy
+
+The anti-spam check runs in the page with WebAssembly. Apps with a strict CSP
+must allow:
+
+- `connect-src` for the support API's origin;
+- `script-src 'wasm-unsafe-eval'`, to compile the WebAssembly.
 
 ## From the HelpMenu
 

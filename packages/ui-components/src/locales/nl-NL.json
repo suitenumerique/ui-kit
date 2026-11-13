@@ -189,6 +189,11 @@
       "successText": "Uw bericht is naar het team verzonden.",
       "successClose": "Sluiten"
     },
+    "laSuiteSupportForm": {
+      "uploadHint": "Afbeelding (png, jpg, gif) of tekstbestand (txt), maximaal 10 MB",
+      "successText": "Indien nodig neemt een lid van ons supportteam per e-mail contact met u op.",
+      "altchaFailed": "De antispamcontrole is mislukt. Probeer het opnieuw."
+    },
     "helpMenu": {
       "ariaLabel": "Help",
       "documentation": "Documentatie",
