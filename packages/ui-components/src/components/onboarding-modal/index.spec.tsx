@@ -209,6 +209,22 @@ describe("<OnboardingModal/>", () => {
     expect(link.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("warns in development when only some steps have a content", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    renderOnboarding({
+      steps: [steps[0], { icon: <span>4</span>, title: "No preview" }],
+    });
+    await screen.findByRole("tablist");
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("give a content to every step"),
+    );
+    warn.mockRestore();
+    vi.unstubAllEnvs();
+  });
+
   it("does not move the focus to a step at opening", async () => {
     renderOnboarding();
 

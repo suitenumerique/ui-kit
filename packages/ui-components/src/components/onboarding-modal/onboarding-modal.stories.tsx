@@ -49,7 +49,7 @@ import { OnboardingStep } from "./types";
  * | `activeIcon` | `ReactNode` | Icon displayed when the step is active (optional, defaults to `icon` with brand color) |
  * | `title` | `string` | Step title |
  * | `description` | `string` | Step description, visible only when the step is active |
- * | `content` | `ReactNode` | Content displayed in the preview zone (image, video, component, etc.) |
+ * | `content` | `ReactNode` | Content displayed in the preview zone (image, video, component, etc.). Set it on every step, or on none with `hideContent` |
  * | `contentAlt` | `string` | Accessible description of the content zone, for content without its own text alternative (GIF, video, illustration). Omit it if the content is decorative or already described, e.g. an `img` with an `alt` |
  *
  * ## OnboardingModalProps

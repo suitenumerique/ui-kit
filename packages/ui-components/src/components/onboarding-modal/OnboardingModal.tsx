@@ -296,6 +296,16 @@ export const OnboardingModal = ({
     );
   }
 
+  if (
+    hasPreview &&
+    steps.some((step) => !step.content) &&
+    process.env.NODE_ENV === "development"
+  ) {
+    console.warn(
+      "OnboardingModal: give a content to every step, or set hideContent. A step without content shows an empty preview panel.",
+    );
+  }
+
   const leftActions = footerLink ? (
     <a
       className="c__onboarding-modal__footer-link"
