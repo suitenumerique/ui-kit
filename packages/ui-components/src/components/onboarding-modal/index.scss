@@ -6,6 +6,9 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 // Animation duration - must match TRANSITION_DURATION_MS in OnboardingModal.tsx
 $transition-duration: 200ms;
 
+// The icon box matches the title line so the icon centers on the first line.
+$step-title-line-height: 1.25rem;
+
 .c__onboarding-modal {
   display: flex;
   flex-direction: column;
@@ -72,6 +75,7 @@ $transition-duration: 200ms;
   border: 2px solid transparent;
   border-radius: var(--c--globals--spacings--xs);
   background: transparent;
+  font: inherit;
   cursor: pointer;
   text-align: left;
   width: 100%;
@@ -104,7 +108,7 @@ $transition-duration: 200ms;
   align-items: center;
   justify-content: center;
 
-  height: 1.4em; // Align with title line-height
+  height: $step-title-line-height;
   color: var(--c--contextuals--content--semantic--neutral--tertiary);
   transition: color 0.2s ease;
 
@@ -123,6 +127,7 @@ $transition-duration: 200ms;
 .c__onboarding-modal__step__title {
   font-size: var(--c--globals--font--sizes--sm);
   font-weight: 700;
+  line-height: $step-title-line-height;
   color: var(--c--contextuals--content--semantic--neutral--primary);
 }
 
