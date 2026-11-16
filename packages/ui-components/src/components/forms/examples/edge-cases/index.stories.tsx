@@ -6,12 +6,17 @@ import { Button } from ":/components/button";
 import { Select } from ":/components/forms/select";
 import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Switch } from ":/components/forms/switch";
+import {
+  variantControl,
+  VariantArgs,
+} from ":/components/forms/examples/variant-control";
 
 export default {
   title: "Components/Forms/Examples/Edge Cases",
-} as Meta;
+  ...variantControl,
+} as Meta<VariantArgs>;
 
-export const OverflowLabels = () => {
+export const OverflowLabels = ({ variant }: VariantArgs) => {
   const overflow = " and some very long overflowing text";
   const [files, setFiles] = useState<UploadFile[]>([]);
   return (
@@ -30,6 +35,7 @@ export const OverflowLabels = () => {
           Application
         </h1>
         <Select
+          variant={variant}
           label={"Context" + overflow}
           options={[
             {
@@ -46,22 +52,35 @@ export const OverflowLabels = () => {
         />
         <div style={{ display: "flex", gap: "1rem" }}>
           <div style={{ flexGrow: 1 }}>
-            <Input label={"First name" + overflow} fullWidth={true} />
+            <Input
+              variant={variant}
+              label={"First name" + overflow}
+              fullWidth={true}
+            />
           </div>
           <div style={{ flexGrow: 1 }}>
-            <Input label={"Last name" + overflow} fullWidth={true} />
+            <Input
+              variant={variant}
+              label={"Last name" + overflow}
+              fullWidth={true}
+            />
           </div>
         </div>
         <Input
+          variant={variant}
           label={"Email address" + overflow}
           fullWidth={true}
           text="Only @acme.com domain is authorized"
         />
         <div style={{ display: "flex", gap: "1rem" }}>
           <div style={{ width: "25%" }}>
-            <Input label={"ZIP" + overflow} fullWidth={true} />
+            <Input
+              variant={variant}
+              label={"ZIP" + overflow}
+              fullWidth={true}
+            />
           </div>
-          <Input label={"City" + overflow} fullWidth={true} />
+          <Input variant={variant} label={"City" + overflow} fullWidth={true} />
         </div>
         <div>
           <div className="fs-l clr-content-semantic-neutral-primary mb-t">

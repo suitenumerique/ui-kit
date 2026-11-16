@@ -5,10 +5,15 @@ import { Button, Select, TextArea } from ":/cunningham";
 import { Input } from ":/cunningham";
 import { Meta } from "@storybook/react";
 import { Label } from "./label/label";
+import {
+  variantControl,
+  VariantArgs,
+} from ":/components/forms/examples/variant-control";
 
 export default {
   title: "Components/Forms/Examples",
-} as Meta;
+  ...variantControl,
+} as Meta<VariantArgs>;
 
 const CITIES = [
   "Paris",
@@ -27,7 +32,7 @@ const OPTIONS = CITIES.map((city) => ({
   value: city.toLowerCase(),
 }));
 
-export const Example = () => {
+export const Example = ({ variant }: VariantArgs) => {
   return (
     <form
       style={{
@@ -37,13 +42,14 @@ export const Example = () => {
         width: "300px",
       }}
     >
-      <Input label="Email" fullWidth={true} />
+      <Input variant={variant} label="Email" fullWidth={true} />
       <Select
+        variant={variant}
         label="Sélectionner une ville"
         fullWidth={true}
         options={OPTIONS}
       />
-      <TextArea label="Description" fullWidth={true} />
+      <TextArea variant={variant} label="Description" fullWidth={true} />
       <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
         <Label id="gender-label" text="Sélectionner votre genre">
           Genre

@@ -11,10 +11,15 @@ import {
   getFieldErrorMessage,
   onSubmit,
 } from "./reactHookFormUtils";
+import {
+  variantControl,
+  VariantArgs,
+} from ":/components/forms/examples/variant-control";
 
 export default {
   title: "Components/Forms/Examples/React-Hook-Form",
-} as Meta;
+  ...variantControl,
+} as Meta<VariantArgs>;
 
 interface LoginStoryFormValues {
   email: string;
@@ -28,7 +33,7 @@ const loginSchema = Yup.object().shape({
   rememberMe: Yup.bool().required().oneOf([true]),
 });
 
-export const Login = () => {
+export const Login = ({ variant }: VariantArgs) => {
   const methods = useForm<LoginStoryFormValues>({
     defaultValues: {
       email: "",
@@ -58,6 +63,7 @@ export const Login = () => {
           Log in
         </h1>
         <RhfInput
+          variant={variant}
           label="Email"
           fullWidth={true}
           state={getFieldState("email", methods.formState)}
@@ -65,6 +71,7 @@ export const Login = () => {
           {...methods.register("email")}
         />
         <RhfInput
+          variant={variant}
           label="Password"
           state={getFieldState("password", methods.formState)}
           type="password"

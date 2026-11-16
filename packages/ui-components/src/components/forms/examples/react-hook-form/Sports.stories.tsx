@@ -12,10 +12,15 @@ import {
   getFieldErrorMessage,
   onSubmit,
 } from "./reactHookFormUtils";
+import {
+  variantControl,
+  VariantArgs,
+} from ":/components/forms/examples/variant-control";
 
 export default {
   title: "Components/Forms/Examples/React-Hook-Form",
-} as Meta;
+  ...variantControl,
+} as Meta<VariantArgs>;
 
 interface SportsStoryFormValues {
   firstName: string;
@@ -33,11 +38,11 @@ const sportsSchema = Yup.object().shape({
   rewards: Yup.array().of(Yup.string().defined()).defined(),
 });
 
-export interface SportProps {
+export interface SportProps extends VariantArgs {
   values?: SportsStoryFormValues;
 }
 
-const SportsBase = ({ values }: SportProps) => {
+const SportsBase = ({ values, variant }: SportProps) => {
   const methods = useForm<SportsStoryFormValues>({
     defaultValues: {
       firstName: "",
@@ -110,12 +115,14 @@ const SportsBase = ({ values }: SportProps) => {
         </div>
         <div style={{ display: "flex", gap: "1rem" }}>
           <RhfInput
+            variant={variant}
             label="First name"
             state={getFieldState("firstName", methods.formState)}
             text={getFieldErrorMessage("firstName", methods.formState)}
             {...methods.register("firstName")}
           />
           <RhfInput
+            variant={variant}
             label="Last name"
             state={getFieldState("lastName", methods.formState)}
             text={getFieldErrorMessage("lastName", methods.formState)}
@@ -124,6 +131,7 @@ const SportsBase = ({ values }: SportProps) => {
         </div>
 
         <RhfSelect
+          variant={variant}
           {...methods.register("competition")}
           name="competition"
           label="Competition"
@@ -141,6 +149,7 @@ const SportsBase = ({ values }: SportProps) => {
           fullWidth={true}
         />
         <RhfSelect
+          variant={variant}
           name="rewards"
           label="Previous rewards"
           multi={true}
@@ -179,10 +188,11 @@ const SportsBase = ({ values }: SportProps) => {
   );
 };
 
-export const Sports = () => <SportsBase />;
+export const Sports = (args: VariantArgs) => <SportsBase {...args} />;
 
-export const SportsEdit = () => (
+export const SportsEdit = (args: VariantArgs) => (
   <SportsBase
+    {...args}
     values={{
       firstName: "Evans",
       lastName: "Chebet",

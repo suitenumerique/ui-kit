@@ -9,12 +9,18 @@ import { FileUploader, UploadFile } from ":/components/form/file-uploader";
 import { Switch } from ":/components/forms/switch";
 import { Radio } from ":/components/forms/radio";
 import { TextArea } from ":/components/forms/text-area";
+import {
+  stacked,
+  variantControl,
+  VariantArgs,
+} from ":/components/forms/examples/variant-control";
 
 export default {
   title: "Components/Forms/Examples",
-} as Meta;
+  ...variantControl,
+} as Meta<VariantArgs>;
 
-export const Login = () => {
+export const Login = ({ variant }: VariantArgs) => {
   return (
     <form
       style={{
@@ -30,8 +36,9 @@ export const Login = () => {
       >
         Log in
       </h1>
-      <Input label="Email" fullWidth={true} />
+      <Input variant={variant} label="Email" fullWidth={true} />
       <Input
+        variant={variant}
         label="Password"
         type="password"
         text="Forgot your password?"
@@ -56,7 +63,7 @@ export const Login = () => {
   );
 };
 
-export const Application = () => {
+export const Application = ({ variant }: VariantArgs) => {
   const [files, setFiles] = useState<UploadFile[]>([]);
   return (
     <form
@@ -75,6 +82,7 @@ export const Application = () => {
         Application
       </h1>
       <Select
+        variant={variant}
         label="Context"
         options={[
           {
@@ -91,19 +99,20 @@ export const Application = () => {
         clearable={true}
       />
       <div style={{ display: "flex", gap: "1rem" }}>
-        <Input label="First name" />
-        <Input label="Last name" />
+        <Input variant={variant} label="First name" />
+        <Input variant={variant} label="Last name" />
       </div>
       <Input
+        variant={variant}
         label="Email address"
         fullWidth={true}
         text="Only @acme.com domain is authorized"
       />
       <div style={{ display: "flex", gap: "1rem" }}>
         <div style={{ width: "25%" }}>
-          <Input label="ZIP" fullWidth={true} />
+          <Input variant={variant} label="ZIP" fullWidth={true} />
         </div>
-        <Input label="City" fullWidth={true} />
+        <Input variant={variant} label="City" fullWidth={true} />
       </div>
       <div>
         <div className="fs-l clr-content-semantic-neutral-primary mb-t">
@@ -122,6 +131,7 @@ export const Application = () => {
         />
       </div>
       <Select
+        variant={variant}
         label="Skills"
         options={[
           {
@@ -144,7 +154,12 @@ export const Application = () => {
         fullWidth={true}
       />
       <div>
-        <TextArea label="Cover letter" fullWidth={true} rows={5} />
+        <TextArea
+          variant={variant}
+          label="Cover letter"
+          fullWidth={true}
+          rows={5}
+        />
       </div>
       <div>
         <Switch label="SMS Notification" fullWidth={true} />
@@ -163,7 +178,7 @@ export const Application = () => {
   );
 };
 
-export const Sports = () => {
+export const Sports = ({ variant }: VariantArgs) => {
   return (
     <form
       style={{
@@ -191,12 +206,17 @@ export const Sports = () => {
         </div>
       </div>
       <div style={{ display: "flex", gap: "1rem" }}>
-        <Input label="First name" />
-        <Input label="Last name" />
+        <Input variant={variant} label="First name" />
+        <Input variant={variant} label="Last name" />
       </div>
 
-      <DatePicker label="Date of birth" fullWidth={true} />
+      <DatePicker
+        variant={stacked(variant)}
+        label="Date of birth"
+        fullWidth={true}
+      />
       <Select
+        variant={variant}
         label="Competition"
         options={[
           {
@@ -212,6 +232,7 @@ export const Sports = () => {
         fullWidth={true}
       />
       <Select
+        variant={variant}
         label="Previous rewards"
         multi={true}
         options={[
@@ -237,6 +258,7 @@ export const Sports = () => {
         fullWidth={true}
       />
       <DateRangePicker
+        variant={stacked(variant)}
         startLabel="Start date"
         endLabel="End date"
         defaultValue={[
@@ -256,7 +278,7 @@ export const Sports = () => {
     </form>
   );
 };
-export const SportsDisabled = () => {
+export const SportsDisabled = ({ variant }: VariantArgs) => {
   const [withValues, setWithValues] = useState(false);
   return (
     <form
@@ -285,20 +307,23 @@ export const SportsDisabled = () => {
       </div>
       <div style={{ display: "flex", gap: "1rem" }}>
         <Input
+          variant={variant}
           label="First name"
           disabled={true}
           value={withValues ? "John" : undefined}
         />
-        <Input label="Last name" disabled={true} />
+        <Input variant={variant} label="Last name" disabled={true} />
       </div>
 
       <DatePicker
+        variant={stacked(variant)}
         label="Date of birth"
         fullWidth={true}
         disabled={true}
         value={withValues ? "2023-05-23T00:00:00.000+00:00" : undefined}
       />
       <Select
+        variant={variant}
         disabled={true}
         label="Competition"
         options={[
@@ -316,6 +341,7 @@ export const SportsDisabled = () => {
         value={withValues ? "Swimming" : undefined}
       />
       <Select
+        variant={variant}
         disabled={true}
         label="Previous rewards"
         multi={true}
@@ -343,6 +369,7 @@ export const SportsDisabled = () => {
         value={withValues ? ["Silver"] : undefined}
       />
       <DateRangePicker
+        variant={stacked(variant)}
         startLabel="Start date"
         endLabel="End date"
         value={
