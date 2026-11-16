@@ -209,6 +209,18 @@ describe("<OnboardingModal/>", () => {
     expect(link.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("renders a footer action without href as a button", async () => {
+    const onClick = vi.fn();
+    renderOnboarding({ footerLink: { label: "Take the tour", onClick } });
+    const user = userEvent.setup();
+
+    const button = await screen.findByRole("button", { name: "Take the tour" });
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+
+    await user.click(button);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
   it("warns in development when only some steps have a content", async () => {
     vi.stubEnv("NODE_ENV", "development");
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});

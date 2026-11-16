@@ -66,7 +66,7 @@ import { OnboardingStep } from "./types";
  * | `initialStep` | `number` | Index of the initially active step (default: `0`) |
  * | `hideContent` | `boolean` | Hide the content preview zone (text-only mode) |
  * | `onSkip` | `() => void` | Called when the user clicks Skip |
- * | `footerLink` | `{ label, href?, onClick? }` | Optional link displayed in the footer |
+ * | `footerLink` | `{ label, href?, onClick? }` | Optional footer action. With `href`, a link that opens in a new window; with `onClick` only, a button |
  * | `labels` | `{ skip?, next?, previous?, complete? }` | Custom labels for i18n |
  *
  * ## Text-only mode

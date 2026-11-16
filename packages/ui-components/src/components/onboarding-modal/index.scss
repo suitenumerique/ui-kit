@@ -229,6 +229,15 @@ $step-title-line-height: 1.25rem;
   .material-icons {
     font-size: 24px;
   }
+
+  &--button {
+    background: none;
+    border: 0;
+    padding: 0 0 0 16px;
+    font: inherit;
+    font-size: var(--c--globals--font--sizes--base);
+    cursor: pointer;
+  }
 }
 
 // Mobile layout

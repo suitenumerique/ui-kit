@@ -306,37 +306,42 @@ export const OnboardingModal = ({
     );
   }
 
-  const leftActions = footerLink ? (
-    <a
-      className="c__onboarding-modal__footer-link"
-      href={footerLink.href}
-      target={footerLink.href ? "_blank" : undefined}
-      rel={footerLink.href ? "noopener noreferrer" : undefined}
-      onClick={(e) => {
-        if (footerLink.onClick) {
-          if (!footerLink.href) {
-            e.preventDefault();
-          }
-          footerLink.onClick();
-        }
-      }}
-    >
+  const footerLinkContent = footerLink && (
+    <>
       <span className="material-icons" aria-hidden="true">
         info
       </span>
       <span className="c__onboarding-modal__footer-link__label">
         {footerLink.label}
       </span>
-      {footerLink.href && (
-        <>
-          <ExternalLink size="small" aria-hidden="true" />
-          <span className="c__offscreen">
-            {` ${t("components.onboarding.newWindow")}`}
-          </span>
-        </>
-      )}
+    </>
+  );
+
+  // Without href this is an action, not a navigation: a link would not be
+  // focusable nor announced as a link.
+  const leftActions = !footerLink ? undefined : footerLink.href ? (
+    <a
+      className="c__onboarding-modal__footer-link"
+      href={footerLink.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={footerLink.onClick}
+    >
+      {footerLinkContent}
+      <ExternalLink size="small" aria-hidden="true" />
+      <span className="c__offscreen">
+        {` ${t("components.onboarding.newWindow")}`}
+      </span>
     </a>
-  ) : undefined;
+  ) : (
+    <button
+      type="button"
+      className="c__onboarding-modal__footer-link c__onboarding-modal__footer-link--button"
+      onClick={footerLink.onClick}
+    >
+      {footerLinkContent}
+    </button>
+  );
 
   // The step list is hidden on small screens: this replaces it.
   const mobileStep = activeStep && (
