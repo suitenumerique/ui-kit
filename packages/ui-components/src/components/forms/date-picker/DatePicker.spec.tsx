@@ -91,6 +91,49 @@ describe("<DatePicker/>", () => {
     expect(classNames).contains(`c__date-picker--${state}`);
   };
 
+  it("describes the picker with its text, so screen readers read the error", () => {
+    render(
+      <CunninghamProvider>
+        <DatePicker
+          label="Pick a date"
+          state="error"
+          text="The date must be in the future."
+        />
+      </CunninghamProvider>,
+    );
+    // The picker is the focusable wrapper around the date segments.
+    const picker = screen.getByRole("button", { name: /Pick a date/ });
+    expect(picker).toHaveAccessibleDescription(
+      "The date must be in the future.",
+    );
+  });
+
+  it("keeps react-aria's description of the selected date before the text", () => {
+    render(
+      <CunninghamProvider>
+        <DatePicker
+          label="Pick a date"
+          defaultValue="2023-04-25T00:00:00.000Z"
+          text="The date must be in the future."
+        />
+      </CunninghamProvider>,
+    );
+    const picker = screen.getByRole("button", { name: /Pick a date/ });
+    expect(picker).toHaveAccessibleDescription(
+      /^Selected (Date|Range): .+ The date must be in the future\.$/,
+    );
+  });
+
+  it("has no description when there is no text nor value", () => {
+    render(
+      <CunninghamProvider>
+        <DatePicker label="Pick a date" />
+      </CunninghamProvider>,
+    );
+    const picker = screen.getByRole("button", { name: /Pick a date/ });
+    expect(picker).not.toHaveAttribute("aria-describedby");
+  });
+
   it("toggles calendar", async () => {
     const user = userEvent.setup();
     render(

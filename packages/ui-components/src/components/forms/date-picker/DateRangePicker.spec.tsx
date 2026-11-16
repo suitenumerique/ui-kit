@@ -71,6 +71,54 @@ describe("<DateRangePicker/>", () => {
     expect(selectedCells.length).eq(selectionSize);
   };
 
+  it("describes the picker with its text, so screen readers read the error", () => {
+    render(
+      <CunninghamProvider>
+        <DateRangePicker
+          startLabel="Start date"
+          endLabel="End date"
+          state="error"
+          text="The end must be after the start."
+        />
+      </CunninghamProvider>,
+    );
+    // The picker is the focusable wrapper around the date segments.
+    const picker = screen.getByRole("button", { name: /Start date/ });
+    expect(picker).toHaveAccessibleDescription(
+      "The end must be after the start.",
+    );
+  });
+
+  it("keeps react-aria's description of the selected date before the text", () => {
+    render(
+      <CunninghamProvider>
+        <DateRangePicker
+          startLabel="Start date"
+          endLabel="End date"
+          defaultValue={[
+            "2023-04-25T00:00:00.000Z",
+            "2023-05-25T00:00:00.000Z",
+          ]}
+          text="The end must be after the start."
+        />
+      </CunninghamProvider>,
+    );
+    const picker = screen.getByRole("button", { name: /Start date/ });
+    expect(picker).toHaveAccessibleDescription(
+      /^Selected (Date|Range): .+ The end must be after the start\.$/,
+    );
+  });
+
+  it("has no description when there is no text nor value", () => {
+    render(
+      <CunninghamProvider>
+        <DateRangePicker startLabel="Start date" endLabel="End date" />
+      </CunninghamProvider>,
+    );
+    const picker = screen.getByRole("button", { name: /Start date/ });
+    expect(picker).not.toHaveAttribute("aria-describedby");
+  });
+
   it("toggles calendar", async () => {
     const user = userEvent.setup();
     render(

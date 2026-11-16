@@ -14,6 +14,7 @@ import { I18nProvider } from "@react-aria/i18n";
 import { Button } from ":/components/button";
 import { Popover } from ":/components/popover";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { ClassicLabel } from ":/components/forms/classic-label";
 import { useCunningham } from ":/components/provider";
 import { Calendar, CalendarRange } from ":/components/calendar";
@@ -87,11 +88,19 @@ const DatePickerAux = ({
   );
 
   const isClassic = props.variant === "classic";
+  // The message under the field (e.g. an error) is read with the picker,
+  // after react-aria's own description (the selected date).
+  const { textId, describedBy } = useFieldDescription({
+    id: pickerProps.groupProps.id,
+    text: props.text,
+    ariaDescribedBy: pickerProps.groupProps["aria-describedby"],
+  });
 
   return (
     <I18nProvider locale={locale || currentLocale}>
       <Field
         {...props}
+        textId={textId}
         className={classNames(className, {
           "c__date-picker__range__container": isRange,
         })}
@@ -190,6 +199,7 @@ const DatePickerAux = ({
               }
             }}
             {...pickerProps.groupProps}
+            aria-describedby={describedBy}
             role="button"
             tabIndex={0}
             onClick={() => !pickerState.isOpen && pickerState.open()}
