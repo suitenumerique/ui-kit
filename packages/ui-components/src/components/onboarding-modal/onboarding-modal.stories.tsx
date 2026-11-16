@@ -1,120 +1,12 @@
 import { useEffect, useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { Title, Description, Controls } from "@storybook/blocks";
 import { Button } from ":/cunningham";
 import { OnboardingModal } from "./OnboardingModal";
 import { OnboardingStep } from "./types";
 
-/**
- * The `OnboardingModal` component displays a step-by-step onboarding wizard inside a modal,
- * with an optional content preview zone (image, video, or any React component).
- *
- * > **Tip:** It is recommended to use **4 steps or fewer** for the best user experience.
- *
- * ## Basic usage
- *
- * ```tsx
- * import { OnboardingModal, OnboardingStep } from "@gouvfr-lasuite/ui-components";
- *
- * const steps: OnboardingStep[] = [
- *   {
- *     icon: <span className="material-icons">grid_view</span>,
- *     title: "Compose your doc easily",
- *     description: "Move, duplicate, and transform your content.",
- *     content: <img src="/onboarding-1.png" alt="Step 1" />,
- *   },
- *   {
- *     icon: <span className="material-icons">share</span>,
- *     title: "Share and collaborate",
- *     description: "Decide who can view, comment, or edit.",
- *     content: <img src="/onboarding-2.png" alt="Step 2" />,
- *   },
- * ];
- *
- * <OnboardingModal
- *   isOpen={isOpen}
- *   appName="Discover Docs"
- *   mainTitle="Learn the core principles"
- *   steps={steps}
- *   onClose={() => setIsOpen(false)}
- *   onComplete={() => setIsOpen(false)}
- * />
- * ```
- *
- * ## OnboardingStep props
- *
- * | Prop | Type | Description |
- * |------|------|-------------|
- * | `icon` | `ReactNode` | Icon displayed next to the step title |
- * | `activeIcon` | `ReactNode` | Icon displayed when the step is active (optional, defaults to `icon` with brand color) |
- * | `title` | `string` | Step title |
- * | `description` | `string` | Step description, visible only when the step is active |
- * | `content` | `ReactNode` | Content displayed in the preview zone (image, video, component, etc.). Set it on every step, or on none with `hideContent` |
- * | `contentAlt` | `string` | Accessible description of the content zone, for content without its own text alternative (GIF, video, illustration). Omit it if the content is decorative or already described, e.g. an `img` with an `alt` |
- *
- * ## OnboardingModalProps
- *
- * | Prop | Type | Description |
- * |------|------|-------------|
- * | `isOpen` | `boolean` | Whether the modal is open |
- * | `mainTitle` | `string` | Main heading of the modal |
- * | `steps` | `OnboardingStep[]` | Array of onboarding steps (recommended: 4 max) |
- * | `onComplete` | `() => void` | Called when the user clicks the final Understood button |
- * | `onClose` | `() => void` | Called when the user closes the modal |
- * | `appName` | `string` | Application name displayed above the title |
- * | `size` | `ModalSize` | Modal size on desktop (default: `ModalSize.LARGE`) |
- * | `initialStep` | `number` | Index of the initially active step (default: `0`) |
- * | `hideContent` | `boolean` | Hide the content preview zone (text-only mode) |
- * | `onSkip` | `() => void` | Called when the user clicks Skip |
- * | `footerLink` | `{ label, href?, onClick? }` | Optional footer action. With `href`, a link that opens in a new window; with `onClick` only, a button |
- * | `labels` | `{ skip?, next?, previous?, complete? }` | Custom labels for i18n |
- *
- * ## Text-only mode
- *
- * Set `hideContent` to remove the preview zone and display only the step list:
- *
- * ```tsx
- * <OnboardingModal
- *   isOpen={isOpen}
- *   mainTitle="Welcome"
- *   steps={textOnlySteps}
- *   hideContent
- *   onClose={() => setIsOpen(false)}
- *   onComplete={() => setIsOpen(false)}
- * />
- * ```
- *
- * ## Custom labels
- *
- * Override the default button labels for i18n:
- *
- * ```tsx
- * <OnboardingModal
- *   // ...props
- *   labels={{
- *     skip: "Skip",
- *     next: "Next",
- *     previous: "Previous",
- *     complete: "Understood!",
- *   }}
- * />
- * ```
- */
 const meta: Meta<typeof OnboardingModal> = {
   title: "Components/OnboardingModal",
   component: OnboardingModal,
-  tags: ["autodocs"],
-  parameters: {
-    docs: {
-      page: () => (
-        <>
-          <Title />
-          <Description />
-          <Controls />
-        </>
-      ),
-    },
-  },
   argTypes: {
     isOpen: { description: "Whether the modal is open" },
     mainTitle: { description: "Main heading of the modal" },
@@ -132,7 +24,10 @@ const meta: Meta<typeof OnboardingModal> = {
       description: "Called when the user clicks the final Understood button",
     },
     onClose: { description: "Called when the user closes the modal" },
-    footerLink: { description: "Optional link displayed in the footer" },
+    footerLink: {
+      description:
+        "Optional footer action: a link opening a new window with href, a button with onClick only",
+    },
     labels: {
       description: "Custom labels for i18n (skip, next, previous, complete)",
     },
