@@ -146,6 +146,7 @@ export const OnboardingModal = ({
   const [stepAnnouncement, setStepAnnouncement] = useState("");
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const id = useId();
   const headingId = `${id}-heading`;
@@ -203,6 +204,20 @@ export const OnboardingModal = ({
       setStepAnnouncement("");
     }
   }, [isOpen, initialStep]);
+
+  // Next and Previous keep the focus, so the list does not scroll on its own.
+  // Waits for the description to expand, or the step ends up partly hidden.
+  useEffect(() => {
+    if (!isOpen) return;
+    const scrollTimeout = setTimeout(() => {
+      rootRef.current
+        ?.querySelector<HTMLElement>(
+          `[data-testid="onboarding-step-${currentStep}"]`,
+        )
+        ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, TRANSITION_DURATION_MS);
+    return () => clearTimeout(scrollTimeout);
+  }, [currentStep, isOpen]);
 
   // Activates a step: updates selection + panel content (with fade animation).
   const handleStepChange = useCallback(
@@ -378,7 +393,11 @@ export const OnboardingModal = ({
       leftActions={leftActions}
       rightActions={rightActions}
     >
-      <div className="c__onboarding-modal" data-testid="onboarding-modal">
+      <div
+        ref={rootRef}
+        className="c__onboarding-modal"
+        data-testid="onboarding-modal"
+      >
         <div className="c__onboarding-modal__header">
           {appName && (
             <div className="c__onboarding-modal__app-name">{appName}</div>

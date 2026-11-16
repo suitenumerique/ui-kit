@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CunninghamProvider } from ":/components/provider";
 import { OnboardingModal, OnboardingModalProps } from "./OnboardingModal";
@@ -41,6 +41,10 @@ const renderOnboarding = (props: Partial<OnboardingModalProps> = {}) =>
   );
 
 describe("<OnboardingModal/>", () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
   it("exposes the steps as vertical tabs controlling the preview", async () => {
     renderOnboarding();
 
@@ -173,6 +177,23 @@ describe("<OnboardingModal/>", () => {
     await user.click(screen.getByRole("tab", { name: "Share" }));
     await user.click(screen.getByRole("button", { name: "Understood" }));
     expect(onComplete).toHaveBeenCalledTimes(1);
+  });
+
+  it("scrolls the selected step into view when Next changes it", async () => {
+    renderOnboarding();
+    const user = userEvent.setup();
+
+    const format = await screen.findByRole("tab", { name: "Format" });
+    format.scrollIntoView = vi.fn();
+
+    await user.click(screen.getByRole("button", { name: "Next" }));
+
+    await waitFor(() =>
+      expect(format.scrollIntoView).toHaveBeenCalledWith({
+        behavior: "smooth",
+        block: "nearest",
+      }),
+    );
   });
 
   it("marks a footer link that opens in a new window", async () => {
