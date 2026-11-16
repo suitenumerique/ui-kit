@@ -6,6 +6,7 @@ import {
   SelectMultiAux,
   SubProps,
 } from ":/components/forms/select/multi-common";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 
 export const SelectMultiSearchable = ({ ref, ...props }: SubProps) => {
   const [inputValue, setInputValue] = React.useState<string>();
@@ -79,6 +80,11 @@ export const SelectMultiSearchable = ({ ref, ...props }: SubProps) => {
     isItemDisabled: (item) => !!item?.disabled,
   });
 
+  const { describedBy } = useFieldDescription({
+    id: downshiftReturn.getLabelProps().htmlFor,
+    text: props.text,
+    labelDescription: props.labelDescription,
+  });
   const inputProps = downshiftReturn.getInputProps({
     ...useMultipleSelectionReturn.getDropdownProps({
       onFocus: () => {
@@ -101,10 +107,8 @@ export const SelectMultiSearchable = ({ ref, ...props }: SubProps) => {
     }),
     value: inputValue,
     // The input is rendered as a child of SelectMultiAux, which cannot reach it to wire
-    // the label description, so the association is made here.
-    "aria-describedby": props.labelDescription
-      ? `${downshiftReturn.getLabelProps().htmlFor}-description`
-      : undefined,
+    // the label description and the message, so the association is made here.
+    "aria-describedby": describedBy,
   });
   // We want to extend the default behavior of the input onKeyDown.
   const { onKeyDown } = inputProps;

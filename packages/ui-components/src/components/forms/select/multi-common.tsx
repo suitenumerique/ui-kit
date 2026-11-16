@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useRef } from "react";
 import { useMultipleSelection } from "downshift";
 import classNames from "classnames";
 import { Field } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { LabelledBox } from ":/components/forms/labelled-box";
 import { Button } from ":/components/button";
 import { useCunningham } from ":/components/provider";
@@ -74,15 +75,27 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
   const isInline = variant === "inline";
   // Both variants render the label outside the box and rely on the placeholder.
   const isStatic = isClassic || isInline;
-  const descriptionId = props.labelDescription
-    ? `${labelProps.htmlFor}-description`
-    : undefined;
   const showPlaceholder =
     isStatic && props.selectedItems.length === 0 && props.placeholder;
 
   // We need to remove onBlur from toggleButtonProps because it triggers a menu closing each time
   // we tick a checkbox using the monoline style.
   const { onBlur, ...toggleProps } = props.downshiftReturn.toggleButtonProps;
+
+  // The label description and the message under the field (e.g. an error)
+  // are read with the toggle. The searchable variant wires its input itself.
+  const { descriptionId, textId, describedBy } = useFieldDescription({
+    id: labelProps.htmlFor,
+    text: props.text,
+    labelDescription: props.labelDescription,
+    ariaDescribedBy:
+      [
+        toggleProps?.["aria-describedby"],
+        props.downshiftReturn.wrapperProps?.["aria-describedby"],
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined,
+  });
 
   const selectInner = (
     <div className="c__select__inner">
@@ -151,6 +164,7 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
     <>
       <Field
         {...props}
+        textId={textId}
         className={classNames(
           { "c__field--inline": isInline },
           props.className,
@@ -196,15 +210,7 @@ export const SelectMultiAux = ({ children, ...props }: SelectMultiAuxProps) => {
             })}
             {...props.downshiftReturn.wrapperProps}
             {...toggleProps}
-            aria-describedby={
-              [
-                toggleProps?.["aria-describedby"],
-                props.downshiftReturn.wrapperProps?.["aria-describedby"],
-                descriptionId,
-              ]
-                .filter(Boolean)
-                .join(" ") || undefined
-            }
+            aria-describedby={describedBy}
           >
             {props.selectedItems.map((selectedItem, index) => (
               <input

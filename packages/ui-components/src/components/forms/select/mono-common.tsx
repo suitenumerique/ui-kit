@@ -3,6 +3,7 @@ import { UseSelectReturnValue } from "downshift";
 import classNames from "classnames";
 import { useCunningham } from ":/components/provider";
 import { Field } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { LabelledBox } from ":/components/forms/labelled-box";
 import { Button } from ":/components/button";
 import { Option, SelectProps } from ":/components/forms/select";
@@ -103,9 +104,14 @@ export const SelectMonoAux = ({
   const isInline = variant === "inline";
   // Both variants render the label outside the box and rely on the placeholder.
   const isStatic = isClassic || isInline;
-  const descriptionId = labelDescription
-    ? `${labelProps.htmlFor}-description`
-    : undefined;
+  // The label description and the message under the field (e.g. an error)
+  // are read with the toggle. The searchable variant wires its input itself.
+  const { descriptionId, textId, describedBy } = useFieldDescription({
+    id: labelProps.htmlFor,
+    text: props.text,
+    labelDescription,
+    ariaDescribedBy: downshiftReturn.wrapperProps?.["aria-describedby"],
+  });
   const showPlaceholder =
     isStatic && !downshiftReturn.selectedItem && placeholder;
 
@@ -172,6 +178,7 @@ export const SelectMonoAux = ({
       <Field
         state={state}
         {...props}
+        textId={textId}
         className={classNames(
           { "c__field--inline": isInline },
           props.className,
@@ -216,14 +223,7 @@ export const SelectMonoAux = ({
               "c__select__wrapper--focus": downshiftReturn.isOpen && !disabled,
             })}
             {...downshiftReturn.wrapperProps}
-            aria-describedby={
-              [
-                downshiftReturn.wrapperProps?.["aria-describedby"],
-                descriptionId,
-              ]
-                .filter(Boolean)
-                .join(" ") || undefined
-            }
+            aria-describedby={describedBy}
           >
             {downshiftReturn.selectedItem && (
               <input

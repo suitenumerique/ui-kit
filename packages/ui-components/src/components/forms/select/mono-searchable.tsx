@@ -10,6 +10,7 @@ import {
   SubProps,
 } from ":/components/forms/select/mono-common";
 import { isOptionWithRender } from ":/components/forms/select/utils";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 
 export const SelectMonoSearchable = ({
   showLabelWhenSelected = true,
@@ -97,14 +98,17 @@ export const SelectMonoSearchable = ({
     }
   };
 
+  const { describedBy } = useFieldDescription({
+    id: downshiftReturn.getLabelProps().htmlFor,
+    text: props.text,
+    labelDescription: props.labelDescription,
+  });
   const inputProps = downshiftReturn.getInputProps({
     ref: inputRef,
     disabled: props.disabled,
     // The input is rendered as a child of SelectMonoAux, which cannot reach it to wire
-    // the label description, so the association is made here.
-    "aria-describedby": props.labelDescription
-      ? `${downshiftReturn.getLabelProps().htmlFor}-description`
-      : undefined,
+    // the label description and the message, so the association is made here.
+    "aria-describedby": describedBy,
   });
 
   const renderCustomSelectedOption = !showLabelWhenSelected;

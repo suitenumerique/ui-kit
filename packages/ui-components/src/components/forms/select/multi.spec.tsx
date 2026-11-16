@@ -2044,4 +2044,72 @@ describe("<Select multi={true} />", () => {
       );
     });
   });
+
+  describe("text", () => {
+    const OPTIONS = [
+      { label: "Paris", value: "paris" },
+      { label: "London", value: "london" },
+    ];
+
+    it.each([false, true])(
+      "describes the combobox with its text, so screen readers read the error (searchable: %s)",
+      (searchable) => {
+        render(
+          <CunninghamProvider>
+            <Select
+              label="Cities"
+              multi={true}
+              searchable={searchable}
+              state="error"
+              text="Pick at least one city."
+              options={OPTIONS}
+            />
+          </CunninghamProvider>,
+        );
+        const combobox = screen.getByRole("combobox", { name: "Cities" });
+        expect(combobox).toHaveAccessibleDescription("Pick at least one city.");
+      },
+    );
+
+    it.each([false, true])(
+      "reads the label description before the text (searchable: %s)",
+      (searchable) => {
+        render(
+          <CunninghamProvider>
+            <Select
+              label="Cities"
+              multi={true}
+              searchable={searchable}
+              variant="classic"
+              labelDescription="Where you live"
+              text="Pick at least one city."
+              options={OPTIONS}
+            />
+          </CunninghamProvider>,
+        );
+        const combobox = screen.getByRole("combobox", { name: "Cities" });
+        expect(combobox).toHaveAccessibleDescription(
+          "Where you live Pick at least one city.",
+        );
+      },
+    );
+
+    it.each([false, true])(
+      "has no description when there is no text (searchable: %s)",
+      (searchable) => {
+        render(
+          <CunninghamProvider>
+            <Select
+              label="Cities"
+              multi={true}
+              searchable={searchable}
+              options={OPTIONS}
+            />
+          </CunninghamProvider>,
+        );
+        const combobox = screen.getByRole("combobox", { name: "Cities" });
+        expect(combobox).not.toHaveAttribute("aria-describedby");
+      },
+    );
+  });
 });
