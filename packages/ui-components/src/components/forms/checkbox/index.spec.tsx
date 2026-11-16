@@ -52,6 +52,35 @@ describe("<Checkbox/>", () => {
     await user.click(input);
     expect(input.checked).toEqual(false);
   });
+  it("describes the checkbox with its text, so screen readers read the error", () => {
+    render(<Checkbox label="Agree" state="error" text="You must agree." />);
+    // Named after its label only: the message is not read twice.
+    const input = screen.getByRole("checkbox", { name: "Agree" });
+    expect(input).toHaveAccessibleDescription("You must agree.");
+  });
+
+  it("has no description when there is no text", () => {
+    render(<Checkbox label="Agree" />);
+    const input = screen.getByRole("checkbox", { name: "Agree" });
+    expect(input).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("keeps the name and description given by the consumer", () => {
+    render(
+      <>
+        <span id="hint">Hint</span>
+        <Checkbox
+          label="Agree"
+          aria-label="Custom name"
+          aria-describedby="hint"
+          text="You must agree."
+        />
+      </>,
+    );
+    const input = screen.getByRole("checkbox", { name: "Custom name" });
+    expect(input).toHaveAccessibleDescription("Hint You must agree.");
+  });
+
   it("renders with text", async () => {
     render(<Checkbox label="Agree" text="Text" />);
     expect(screen.getByText("Text")).toBeInTheDocument();

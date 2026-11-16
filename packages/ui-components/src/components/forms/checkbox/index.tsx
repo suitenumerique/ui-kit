@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useCheckableIds } from ":/components/forms/checkbox/useCheckableIds";
 
 export type CheckboxOnlyProps = {
   indeterminate?: boolean;
@@ -52,6 +53,12 @@ export const Checkbox = ({
     ...inputProps
   } = props;
 
+  const { id, textId, describedBy, labelId, labelledBy } = useCheckableIds({
+    label,
+    text,
+    inputProps,
+  });
+
   return (
     <label
       className={classNames("c__checkbox", className, {
@@ -59,12 +66,15 @@ export const Checkbox = ({
         "c__checkbox--full-width": props.fullWidth,
       })}
     >
-      <Field compact={true} {...props}>
+      <Field compact={true} {...props} textId={textId}>
         <div className="c__checkbox__container">
           <div className="c__checkbox__wrapper">
             <input
               type="checkbox"
               {...inputProps}
+              id={id}
+              aria-describedby={describedBy}
+              aria-labelledby={labelledBy}
               onChange={(e) => {
                 setValue(e.target.checked);
                 props.onChange?.(e);
@@ -80,7 +90,11 @@ export const Checkbox = ({
             <Indeterminate />
             <Checkmark />
           </div>
-          {label && <div className="c__checkbox__label">{label}</div>}
+          {label && (
+            <div className="c__checkbox__label" id={labelId}>
+              {label}
+            </div>
+          )}
         </div>
       </Field>
     </label>

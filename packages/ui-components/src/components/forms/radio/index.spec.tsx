@@ -39,6 +39,35 @@ describe("<Radio/>", () => {
     await user.click(input);
     expect(input.checked).toEqual(false);
   });
+  it("describes the radio with its text, so screen readers read the error", () => {
+    render(<Radio label="Yes" state="error" text="Pick an answer." />);
+    // Named after its label only: the message is not read twice.
+    const input = screen.getByRole("radio", { name: "Yes" });
+    expect(input).toHaveAccessibleDescription("Pick an answer.");
+  });
+
+  it("has no description when there is no text", () => {
+    render(<Radio label="Yes" />);
+    const input = screen.getByRole("radio", { name: "Yes" });
+    expect(input).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("keeps the name and description given by the consumer", () => {
+    render(
+      <>
+        <span id="hint">Hint</span>
+        <Radio
+          label="Yes"
+          aria-label="Custom name"
+          aria-describedby="hint"
+          text="Pick an answer."
+        />
+      </>,
+    );
+    const input = screen.getByRole("radio", { name: "Custom name" });
+    expect(input).toHaveAccessibleDescription("Hint Pick an answer.");
+  });
+
   it("should render with text", async () => {
     render(<Radio label="Yes" text="Text" />);
     expect(screen.getByText("Text")).toBeInTheDocument();

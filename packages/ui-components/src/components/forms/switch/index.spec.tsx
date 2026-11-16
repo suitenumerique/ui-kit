@@ -46,6 +46,37 @@ describe("<Switch/>", () => {
     expect(input.checked).toEqual(false);
   });
 
+  it("describes the switch with its text, so screen readers read the error", () => {
+    render(
+      <Switch label="Notify me" state="error" text="Notifications are off." />,
+    );
+    // Named after its label only: the message is not read twice.
+    const input = screen.getByRole("checkbox", { name: "Notify me" });
+    expect(input).toHaveAccessibleDescription("Notifications are off.");
+  });
+
+  it("has no description when there is no text", () => {
+    render(<Switch label="Notify me" />);
+    const input = screen.getByRole("checkbox", { name: "Notify me" });
+    expect(input).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("keeps the name and description given by the consumer", () => {
+    render(
+      <>
+        <span id="hint">Hint</span>
+        <Switch
+          label="Notify me"
+          aria-label="Custom name"
+          aria-describedby="hint"
+          text="Notifications are off."
+        />
+      </>,
+    );
+    const input = screen.getByRole("checkbox", { name: "Custom name" });
+    expect(input).toHaveAccessibleDescription("Hint Notifications are off.");
+  });
+
   it("renders with text", async () => {
     render(<Switch label="Newsletter" text="Text" />);
     screen.getByText("Text");

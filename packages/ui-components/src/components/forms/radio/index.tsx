@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useCheckableIds } from ":/components/forms/checkbox/useCheckableIds";
 
 export type RadioOnlyProps = {
   label?: ReactNode;
@@ -27,6 +28,11 @@ export const Radio = ({ className, label, ref, ...props }: RadioProps) => {
     textItems,
     ...inputProps
   } = props;
+  const { id, textId, describedBy, labelId, labelledBy } = useCheckableIds({
+    label,
+    text,
+    inputProps,
+  });
 
   return (
     <label
@@ -35,10 +41,21 @@ export const Radio = ({ className, label, ref, ...props }: RadioProps) => {
         "c__checkbox--full-width": props.fullWidth,
       })}
     >
-      <Field compact={true} {...props}>
+      <Field compact={true} {...props} textId={textId}>
         <div className="c__checkbox__container">
-          <input type="radio" {...inputProps} ref={ref} />
-          {label && <div className="c__checkbox__label">{label}</div>}
+          <input
+            type="radio"
+            {...inputProps}
+            id={id}
+            aria-describedby={describedBy}
+            aria-labelledby={labelledBy}
+            ref={ref}
+          />
+          {label && (
+            <div className="c__checkbox__label" id={labelId}>
+              {label}
+            </div>
+          )}
         </div>
       </Field>
     </label>

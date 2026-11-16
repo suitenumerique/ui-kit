@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes, RefAttributes } from "react";
 import classNames from "classnames";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useCheckableIds } from ":/components/forms/checkbox/useCheckableIds";
 
 export type SwitchOnlyProps = {
   label?: string;
@@ -31,6 +32,11 @@ export const Switch = ({
   } = props;
 
   const { className: excludeClassName, ...fieldProps } = props;
+  const { id, textId, describedBy, labelId, labelledBy } = useCheckableIds({
+    label,
+    text,
+    inputProps,
+  });
 
   return (
     <label
@@ -45,11 +51,22 @@ export const Switch = ({
         },
       )}
     >
-      <Field compact={true} {...fieldProps}>
+      <Field compact={true} {...fieldProps} textId={textId}>
         <div className="c__checkbox__container">
-          {label && <div className="c__checkbox__label">{label}</div>}
+          {label && (
+            <div className="c__checkbox__label" id={labelId}>
+              {label}
+            </div>
+          )}
           <div className="c__switch__rail__wrapper">
-            <input type="checkbox" {...inputProps} ref={ref} />
+            <input
+              type="checkbox"
+              {...inputProps}
+              id={id}
+              aria-describedby={describedBy}
+              aria-labelledby={labelledBy}
+              ref={ref}
+            />
             <div className="c__switch__rail" />
           </div>
         </div>
