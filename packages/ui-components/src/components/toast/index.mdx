@@ -58,12 +58,9 @@ const InnerApp = () => {
   const { toast } = useToastProvider();
 
 return (
-<button onClick={() => toast("Hello world!")}>
-Create toast
-</button>
-);
-};
-`}/>
+
+<button onClick={() => toast("Hello world!")}>Create toast</button>
+); }; `}/>
 
 You can also customize the appearance of the toast with the `toast` function. See the API.
 
@@ -175,7 +172,31 @@ updateToast(id, { message: "Uploaded", type: VariantType.SUCCESS, progress: 100 
 
 Passing `duration` to `updateToast` restarts the dismissal timer; leaving it out keeps
 the one the toast was raised with. `disableAnimate` belongs to that timer: passing
-`false` starts it (the toast's duration, or the default), and `true` stops it.
+`false` starts it (the toast's duration, or the default), and `true` stops it. Turning
+a toast into an error or a warning stops its timer, unless it was given a `duration`.
+
+## Accessibility
+
+Toasts are built on the React Aria toast region. The region is a landmark named after
+the number of toasts ("2 notifications"): press <kbd>F6</kbd> to move focus into it,
+then <kbd>Tab</kbd> through the toasts. <kbd>F6</kbd> or <kbd>Shift</kbd>+<kbd>F6</kbd>
+from inside the region returns focus to where it was. A toast never takes focus when it
+appears.
+
+Each message is announced once, about 120ms after the toast is raised, so that the
+announcement is not cut off when a modal closes and returns focus. Errors and warnings
+are announced assertively, the other types politely. `updateToast` announces the new
+message when `message` or `type` changes.
+
+Info, success and neutral toasts close after 6 seconds. Errors, warnings and toasts with
+actions stay until the user closes them, and get a close button unless `canClose` is
+set to `false`: they may be missed, or acted on too late. An explicit `duration`
+overrides this. Any duration under 5 seconds is raised to 5 seconds, so that the toast
+can be read.
+
+While the pointer or focus is inside the region, the timers of all its toasts pause.
+When a focused toast closes, focus moves to the next toast, or back to where it was
+before entering the region.
 
 ## Using `Toast` on its own
 
@@ -196,9 +217,10 @@ it a `duration` and it dismisses itself after that delay, fading out before call
 />
 
 Raised through `ToastProvider`, the timer belongs to the provider instead, so it does
-not hand `duration` down and the two never compete to remove the same toast. The
-component carries `role="status"` for info, success and neutral, and `role="alert"`
-for warning and error, in both cases.
+not hand `duration` down and the two never compete to remove the same toast. Mounted
+on its own, the component carries `role="status"` for info, success and neutral, and
+`role="alert"` for warning and error. Raised through `ToastProvider`, it has no live
+role: the provider's announcer reads the message once.
 
 ## Shared content with `Alert`
 
