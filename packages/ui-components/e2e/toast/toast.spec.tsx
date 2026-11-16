@@ -2,9 +2,15 @@ import { test, expect } from "@playwright/experimental-ct-react";
 import type { Page } from "@playwright/test";
 import { TestStandaloneToast, TestToast } from "../helpers/mount-toast";
 
-const toastOf = (page: Page) => page.getByRole("status");
+// Toasts raised by the provider have no live role: the announcer speaks.
+const toastOf = (page: Page) => page.locator(".c__toast");
 
 const callsOf = (page: Page) => page.evaluate(() => window.__toastCalls ?? []);
+
+const announced = (page: Page, politeness: "polite" | "assertive") =>
+  page.locator(
+    `[data-live-announcer] [aria-live="${politeness}"] > :not(:empty)`,
+  );
 
 test.describe("Toast", () => {
   test("shows a toast in the real browser", async ({ mount, page }) => {
@@ -39,7 +45,64 @@ test.describe("Toast", () => {
 
     const toast = toastOf(page);
     await expect(toast).toBeVisible();
-    await expect(toast).toBeHidden({ timeout: 5000 });
+    // Asked for 800ms, held for the 5s minimum.
+    await expect(toast).toBeHidden({ timeout: 8000 });
+  });
+
+  test("announces each toast once, in order, without moving focus", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestToast />);
+    const trigger = page.getByRole("button", { name: "Stack toast" });
+    await trigger.click();
+    await trigger.click();
+
+    await expect(announced(page, "polite")).toHaveText([
+      "Document 1 moved",
+      "Document 2 moved",
+    ]);
+    await expect(page.getByRole("status")).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  test("announces an error assertively and keeps it until it is closed", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestToast />);
+    await page.getByRole("button", { name: "Show error" }).click();
+
+    await expect(announced(page, "assertive")).toHaveText([
+      "The import failed",
+    ]);
+    await expect(page.getByRole("alert")).toHaveCount(0);
+
+    const toast = toastOf(page);
+    await toast.getByRole("button", { name: "Close notification" }).click();
+    await expect(toast).toBeHidden();
+  });
+
+  test("reaches the toasts with F6 and goes back with Shift+F6", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestToast />);
+    const trigger = page.getByRole("button", { name: "Stack toast" });
+    await trigger.click();
+    await trigger.click();
+
+    await page.keyboard.press("F6");
+    await expect(
+      page.getByRole("region", { name: "2 notifications." }),
+    ).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(
+      page.getByRole("alertdialog", { name: "Document 2 moved" }),
+    ).toBeFocused();
+
+    await page.keyboard.press("Shift+F6");
+    await expect(trigger).toBeFocused();
   });
 
   test("stacks several toasts instead of replacing the previous one", async ({
@@ -52,8 +115,8 @@ test.describe("Toast", () => {
     await page.getByRole("button", { name: "Stack toast" }).click();
 
     await expect(toastOf(page)).toHaveCount(2);
-    await expect(page.getByText("Document 1 moved")).toBeVisible();
-    await expect(page.getByText("Document 2 moved")).toBeVisible();
+    await expect(toastOf(page).getByText("Document 1 moved")).toBeVisible();
+    await expect(toastOf(page).getByText("Document 2 moved")).toBeVisible();
   });
 
   test("renders actions and records their clicks", async ({ mount, page }) => {
@@ -100,7 +163,6 @@ test.describe("Toast", () => {
 
     const toast = toastOf(page);
     await expect(toast).toContainText("Standalone toast");
-
     await expect(page.getByText("deleted")).toBeVisible();
     expect(await callsOf(page)).toEqual(["deleted"]);
   });

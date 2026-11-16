@@ -55,6 +55,12 @@ const ToastControls = () => {
       </button>
       <button
         type="button"
+        onClick={() => toast("The import failed", VariantType.ERROR)}
+      >
+        Show error
+      </button>
+      <button
+        type="button"
         onClick={() => {
           lastId.current = toast(
             "Document 1 moved to Document 2",
