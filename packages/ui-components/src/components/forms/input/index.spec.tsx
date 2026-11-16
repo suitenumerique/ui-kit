@@ -15,6 +15,28 @@ describe("<Input/>", () => {
     spyError.mockRestore();
   });
 
+  it("describes the field with its text, so screen readers read the error", () => {
+    render(
+      <Input
+        label="Subject"
+        variant="classic"
+        state="error"
+        aria-invalid
+        text="The subject is required."
+      />,
+    );
+    const input = screen.getByRole("textbox", { name: "Subject" });
+    expect(input).toHaveAccessibleDescription("The subject is required.");
+    // Lined up with the classic label, not indented like a floating field.
+    expect(input.closest(".c__field")).toHaveClass("c__field--classic");
+  });
+
+  it("has no description when there is no text", () => {
+    render(<Input label="Subject" />);
+    const input = screen.getByRole("textbox", { name: "Subject" });
+    expect(input).not.toHaveAttribute("aria-describedby");
+  });
+
   it("renders and can type", async () => {
     const user = userEvent.setup();
     render(<Input label="First name" />);

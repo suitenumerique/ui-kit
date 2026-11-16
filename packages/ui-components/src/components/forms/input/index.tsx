@@ -9,6 +9,7 @@ import React, {
 import classNames from "classnames";
 import { randomString } from ":/utils";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { LabelledBox } from ":/components/forms/labelled-box";
 import { ClassicLabel } from ":/components/forms/classic-label";
 import type { FieldVariant } from ":/components/forms/types";
@@ -58,9 +59,14 @@ export const Input = ({
   const [value, setValue] = useState(defaultValue || props.value || "");
   const [labelAsPlaceholder, setLabelAsPlaceholder] = useState(!value);
   const idToUse = useRef(id || randomString());
-  const descriptionId = labelDescription
-    ? `${idToUse.current}-description`
-    : undefined;
+  // The label description and the message under the field (e.g. an error)
+  // are read with it.
+  const { descriptionId, textId, describedBy } = useFieldDescription({
+    id: idToUse.current,
+    text: props.text,
+    labelDescription,
+    ariaDescribedBy: props["aria-describedby"],
+  });
   const rightTextToUse = charCounter
     ? `${value.toString().length}/${charCounterMax}`
     : props.rightText;
@@ -97,11 +103,7 @@ export const Input = ({
       type="text"
       className={classes.join(" ")}
       {...inputProps}
-      aria-describedby={
-        [inputProps["aria-describedby"], descriptionId]
-          .filter(Boolean)
-          .join(" ") || undefined
-      }
+      aria-describedby={describedBy}
       placeholder={isStatic ? props.placeholder : undefined}
       id={idToUse.current}
       value={value}
@@ -133,8 +135,12 @@ export const Input = ({
   return (
     <Field
       {...props}
+      textId={textId}
       rightText={rightTextToUse}
-      className={classNames({ "c__field--inline": isInline }, className)}
+      className={classNames(
+        { "c__field--inline": isInline, "c__field--classic": isClassic },
+        className,
+      )}
     >
       {isStatic && (
         <ClassicLabel
