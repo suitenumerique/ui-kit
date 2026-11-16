@@ -61,6 +61,14 @@
     width: auto;
   }
 
+  /* The "classic" label sits above the control, at its left edge: the footer
+     lines up with it, not with the text inside the box like the floating
+     variant. */
+  &--classic .c__field__footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   /**
    * Label block: pairs a label with its description. Introduced by ClassicLabel as soon
    * as a description is given, and always in the "inline" variant so that the grid below

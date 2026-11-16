@@ -21,11 +21,20 @@ export type FieldProps = {
   labelWidth?: string | undefined;
 };
 
-type Props = FieldProps & PropsWithChildren;
+type Props = FieldProps &
+  PropsWithChildren & {
+    /**
+     * Id given to the `text` element. The control lists it in its
+     * `aria-describedby`, so screen readers read the message (e.g. an error)
+     * with the field. Set by the controls, not part of their public props.
+     */
+    textId?: string;
+  };
 
 export const Field = ({
   children,
   state = "default",
+  textId,
   text,
   textItems,
   rightText,
@@ -55,7 +64,9 @@ export const Field = ({
         <div className="c__field__footer">
           {(text || rightText) && (
             <div className="c__field__footer__top">
-              <span className="c__field__text">{text}</span>
+              <span className="c__field__text" id={textId}>
+                {text}
+              </span>
               <span className="c__field__text__right">{rightText}</span>
             </div>
           )}
