@@ -121,8 +121,10 @@ export const Success = {
 
 export const Group = () => (
   <div>
-    <div className="fs-l fw-bold mb-t clr-gray-900">Your offices</div>
-    <CheckboxGroup>
+    <div id="offices-title" className="fs-l fw-bold mb-t clr-gray-900">
+      Your offices
+    </div>
+    <CheckboxGroup aria-labelledby="offices-title">
       <Checkbox label="Paris" />
       <Checkbox label="New York" text="United States" checked={true} />
       <Checkbox label="Hong Kong" text="Really long text to write something" />
@@ -146,8 +148,14 @@ export const Group = () => (
 
 export const GroupError = () => (
   <div>
-    <div className="fs-l fw-bold mb-t clr-gray-900">Your offices</div>
-    <CheckboxGroup state="error" text="An important error message">
+    <div id="offices-error-title" className="fs-l fw-bold mb-t clr-gray-900">
+      Your offices
+    </div>
+    <CheckboxGroup
+      aria-labelledby="offices-error-title"
+      state="error"
+      text="An important error message"
+    >
       <Checkbox label="Paris" />
       <Checkbox label="New York" text="United States" checked={true} />
       <Checkbox label="Hong Kong" text="Really long text to write something" />
@@ -159,8 +167,14 @@ export const GroupError = () => (
 
 export const GroupSuccess = () => (
   <div>
-    <div className="fs-l fw-bold mb-t clr-gray-900">Your offices</div>
-    <CheckboxGroup state="success" text="Success message !">
+    <div id="offices-success-title" className="fs-l fw-bold mb-t clr-gray-900">
+      Your offices
+    </div>
+    <CheckboxGroup
+      aria-labelledby="offices-success-title"
+      state="success"
+      text="Success message !"
+    >
       <Checkbox label="Paris" />
       <Checkbox label="New York" text="United States" checked={true} />
       <Checkbox label="Hong Kong" text="Really long text to write something" />

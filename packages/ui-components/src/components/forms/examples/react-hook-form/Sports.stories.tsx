@@ -76,10 +76,14 @@ const SportsBase = ({ values }: SportProps) => {
         </h1>
 
         <div>
-          <div className="fs-l clr-content-semantic-neutral-primary mb-t">
+          <div
+            id="gender-title"
+            className="fs-l clr-content-semantic-neutral-primary mb-t"
+          >
             Gender
           </div>
           <RadioGroup
+            aria-labelledby="gender-title"
             state={getFieldState("gender", methods.formState)}
             text={getFieldErrorMessage("gender", methods.formState)}
             style={{ display: "flex", flexDirection: "row", gap: "0.5rem" }}

@@ -21,6 +21,18 @@ export type FieldProps = {
   labelWidth?: string | undefined;
 };
 
+/**
+ * Naming props of the groups (CheckboxGroup, RadioGroup). The group has no
+ * visible label of its own: point `aria-labelledby` at the title above it, or
+ * give an `aria-label`, so screen readers announce what the options are for.
+ */
+export type FieldGroupProps = {
+  id?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+};
+
 type Props = FieldProps &
   PropsWithChildren & {
     /**

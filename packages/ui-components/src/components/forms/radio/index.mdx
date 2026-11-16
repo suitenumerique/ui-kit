@@ -55,7 +55,16 @@ Here is how you can leverage the `RadioGroup` component to create a group of rad
 
 <Canvas of={Stories.Group} sourceState="shown"/>
 
-You can also define `state`, `text` props on the group component
+The group has no visible label of its own: give the title above it an `id` and pass it as
+`aria-labelledby` (or pass an `aria-label`), so that screen readers announce what the
+options are for.
+
+```tsx
+<div id="offices-title">Your offices</div>
+<RadioGroup aria-labelledby="offices-title">...</RadioGroup>
+```
+
+You can also define `state`, `text` props on the group component. The `text` is read by screen readers as the description of the group.
 
 <Canvas of={Stories.GroupError} sourceState="shown"/>
 <Canvas of={Stories.GroupSuccess} sourceState="shown"/>

@@ -58,7 +58,16 @@ It will happen often that you will need to use multiple grouped checkboxes. You 
 
 <Canvas of={Stories.Group} />
 
-You can also define `state`, `text` props on the group component
+The group has no visible label of its own: give the title above it an `id` and pass it as
+`aria-labelledby` (or pass an `aria-label`), so that screen readers announce what the
+options are for.
+
+```tsx
+<div id="offices-title">Your offices</div>
+<CheckboxGroup aria-labelledby="offices-title">...</CheckboxGroup>
+```
+
+You can also define `state`, `text` props on the group component. The `text` is read by screen readers as the description of the group.
 
 <Canvas of={Stories.GroupError} />
 <Canvas of={Stories.GroupSuccess} />

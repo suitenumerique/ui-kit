@@ -5,7 +5,8 @@ import React, {
   RefAttributes,
 } from "react";
 import classNames from "classnames";
-import { Field, FieldProps } from ":/components/forms/field";
+import { Field, FieldGroupProps, FieldProps } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { useCheckableIds } from ":/components/forms/checkbox/useCheckableIds";
 
 export type RadioOnlyProps = {
@@ -62,19 +63,42 @@ export const Radio = ({ className, label, ref, ...props }: RadioProps) => {
   );
 };
 
+export type RadioGroupProps = PropsWithChildren &
+  FieldProps &
+  FieldGroupProps & { style?: React.CSSProperties };
+
 export const RadioGroup = ({
   className,
   children,
   style,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
   ...props
-}: PropsWithChildren & FieldProps & { style?: React.CSSProperties }) => {
+}: RadioGroupProps) => {
+  // The message under the group (e.g. "Pick an answer") describes it.
+  const { textId, describedBy } = useFieldDescription({
+    id,
+    text: props.text,
+    ariaDescribedBy,
+  });
   return (
     <Field
       className={classNames("c__radio__group c__checkbox__group", className)}
       compact={true}
       {...props}
+      textId={textId}
     >
-      <div className="c__checkbox__group__list" style={style}>
+      <div
+        className="c__checkbox__group__list"
+        style={style}
+        role="radiogroup"
+        id={id}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={describedBy}
+      >
         {children}
       </div>
     </Field>

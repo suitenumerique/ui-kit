@@ -119,6 +119,64 @@ describe("<Radio/>", () => {
     expect(yesInput.checked).toEqual(false);
     expect(noInput.checked).toEqual(true);
   });
+  it("names the group after its title and describes it with its text", () => {
+    render(
+      <>
+        <div id="offices-title">Your office</div>
+        <RadioGroup
+          aria-labelledby="offices-title"
+          state="error"
+          text="Pick an office."
+        >
+          <Radio label="Paris" name="office" />
+          <Radio label="Dublin" name="office" />
+        </RadioGroup>
+      </>,
+    );
+    const group = screen.getByRole("radiogroup", { name: "Your office" });
+    expect(group).toHaveAccessibleDescription("Pick an office.");
+  });
+
+  it("accepts an aria-label as the group name", () => {
+    render(
+      <RadioGroup aria-label="Your office">
+        <Radio label="Paris" name="office" />
+      </RadioGroup>,
+    );
+    expect(
+      screen.getByRole("radiogroup", { name: "Your office" }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps the given aria-describedby before the group text", () => {
+    render(
+      <>
+        <span id="offices-hint">Hint</span>
+        <RadioGroup
+          aria-label="Your office"
+          aria-describedby="offices-hint"
+          text="Pick an office."
+        >
+          <Radio label="Paris" name="office" />
+        </RadioGroup>
+      </>,
+    );
+    expect(screen.getByRole("radiogroup")).toHaveAccessibleDescription(
+      "Hint Pick an office.",
+    );
+  });
+
+  it("has no group description when there is no text", () => {
+    render(
+      <RadioGroup aria-label="Your office">
+        <Radio label="Paris" name="office" />
+      </RadioGroup>,
+    );
+    expect(screen.getByRole("radiogroup")).not.toHaveAttribute(
+      "aria-describedby",
+    );
+  });
+
   it("should render with group text", async () => {
     render(
       <RadioGroup text="Text">

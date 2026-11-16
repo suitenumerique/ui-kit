@@ -114,6 +114,62 @@ describe("<Checkbox/>", () => {
       name: "Disagree",
     });
   });
+  it("names the group after its title and describes it with its text", () => {
+    render(
+      <>
+        <div id="offices-title">Your offices</div>
+        <CheckboxGroup
+          aria-labelledby="offices-title"
+          state="error"
+          text="Pick at least one office."
+        >
+          <Checkbox label="Paris" name="office" />
+          <Checkbox label="Dublin" name="office" />
+        </CheckboxGroup>
+      </>,
+    );
+    const group = screen.getByRole("group", { name: "Your offices" });
+    expect(group).toHaveAccessibleDescription("Pick at least one office.");
+  });
+
+  it("accepts an aria-label as the group name", () => {
+    render(
+      <CheckboxGroup aria-label="Your offices">
+        <Checkbox label="Paris" name="office" />
+      </CheckboxGroup>,
+    );
+    expect(
+      screen.getByRole("group", { name: "Your offices" }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps the given aria-describedby before the group text", () => {
+    render(
+      <>
+        <span id="offices-hint">Hint</span>
+        <CheckboxGroup
+          aria-label="Your offices"
+          aria-describedby="offices-hint"
+          text="Pick at least one office."
+        >
+          <Checkbox label="Paris" name="office" />
+        </CheckboxGroup>
+      </>,
+    );
+    expect(screen.getByRole("group")).toHaveAccessibleDescription(
+      "Hint Pick at least one office.",
+    );
+  });
+
+  it("has no group description when there is no text", () => {
+    render(
+      <CheckboxGroup aria-label="Your offices">
+        <Checkbox label="Paris" name="office" />
+      </CheckboxGroup>,
+    );
+    expect(screen.getByRole("group")).not.toHaveAttribute("aria-describedby");
+  });
+
   it("renders with group text", async () => {
     render(
       <CheckboxGroup text="Text">

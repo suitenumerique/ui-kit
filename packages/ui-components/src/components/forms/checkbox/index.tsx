@@ -8,7 +8,8 @@ import React, {
   RefAttributes,
 } from "react";
 import classNames from "classnames";
-import { Field, FieldProps } from ":/components/forms/field";
+import { Field, FieldGroupProps, FieldProps } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { useCheckableIds } from ":/components/forms/checkbox/useCheckableIds";
 
 export type CheckboxOnlyProps = {
@@ -101,14 +102,41 @@ export const Checkbox = ({
   );
 };
 
+export type CheckboxGroupProps = PropsWithChildren &
+  FieldProps &
+  FieldGroupProps;
+
 export const CheckboxGroup = ({
   children,
   className,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
   ...props
-}: PropsWithChildren & FieldProps) => {
+}: CheckboxGroupProps) => {
+  // The message under the group (e.g. "Pick at least one") describes it.
+  const { textId, describedBy } = useFieldDescription({
+    id,
+    text: props.text,
+    ariaDescribedBy,
+  });
   return (
-    <Field className={classNames("c__checkbox__group", className)} {...props}>
-      <div className="c__checkbox__group__list">{children}</div>
+    <Field
+      className={classNames("c__checkbox__group", className)}
+      {...props}
+      textId={textId}
+    >
+      <div
+        className="c__checkbox__group__list"
+        role="group"
+        id={id}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={describedBy}
+      >
+        {children}
+      </div>
     </Field>
   );
 };

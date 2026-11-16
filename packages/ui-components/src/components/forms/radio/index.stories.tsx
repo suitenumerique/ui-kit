@@ -115,8 +115,10 @@ export const Success = {
 export const Group = () => {
   return (
     <div>
-      <div className="fs-l fw-bold mb-t">Your office</div>
-      <RadioGroup>
+      <div id="office-title" className="fs-l fw-bold mb-t">
+        Your office
+      </div>
+      <RadioGroup aria-labelledby="office-title">
         <Radio
           label="New York"
           name="city"
@@ -144,8 +146,14 @@ export const Group = () => {
 export const GroupError = () => {
   return (
     <div>
-      <div className="fs-l fw-bold mb-t">Your office</div>
-      <RadioGroup state="error" text="An important error message">
+      <div id="office-error-title" className="fs-l fw-bold mb-t">
+        Your office
+      </div>
+      <RadioGroup
+        aria-labelledby="office-error-title"
+        state="error"
+        text="An important error message"
+      >
         <Radio
           label="New York"
           name="city"
@@ -173,8 +181,14 @@ export const GroupError = () => {
 export const GroupSuccess = () => {
   return (
     <div>
-      <div className="fs-l fw-bold mb-t">Your office</div>
-      <RadioGroup state="success" text="Success message !">
+      <div id="office-success-title" className="fs-l fw-bold mb-t">
+        Your office
+      </div>
+      <RadioGroup
+        aria-labelledby="office-success-title"
+        state="success"
+        text="Success message !"
+      >
         <Radio
           label="New York"
           name="city"
@@ -231,10 +245,11 @@ export const ReactHookForm = () => {
       }}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="fs-l fw-bold mb-t">
+      <div id="jo-town-title" className="fs-l fw-bold mb-t">
         Where will the 2024 Olympics take place?
       </div>
       <RadioGroup
+        aria-labelledby="jo-town-title"
         state={getFieldState("joTown", formState)}
         text={getFieldErrorMessage("joTown", formState)}
       >

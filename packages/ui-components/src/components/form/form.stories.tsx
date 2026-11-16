@@ -45,8 +45,10 @@ export const Example = () => {
       />
       <TextArea label="Description" fullWidth={true} />
       <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-        <Label text="Sélectionner votre genre">Genre</Label>
-        <RadioGroup fullWidth={true}>
+        <Label id="gender-label" text="Sélectionner votre genre">
+          Genre
+        </Label>
+        <RadioGroup aria-labelledby="gender-label" fullWidth={true}>
           <Radio name="gender" label="Masculin" fullWidth={true} />
           <Radio name="gender" label="Féminin" fullWidth={true} />
           <Radio name="gender" label="Autre" fullWidth={true} />
