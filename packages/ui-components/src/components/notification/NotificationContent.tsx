@@ -26,6 +26,8 @@ export interface NotificationContentProps
   toggle?: ReactNode;
   /** Rendered right after the message, inside the same wrapper. */
   trailing?: ReactNode;
+  /** Id of the message, for a container that is labelled by it. */
+  messageId?: string;
 }
 
 // `actions` accepts both a node and a list of descriptors. React elements never
@@ -154,6 +156,7 @@ export const NotificationContent = ({
   toggle,
   children,
   trailing,
+  messageId,
   ...actionProps
 }: NotificationContentProps) => {
   // The toggle takes the icon's place. `hideIcon` only drops the icon.
@@ -176,7 +179,9 @@ export const NotificationContent = ({
     <div className="c__notification__content">
       {$icon}
       <div className="c__notification__content__children">
-        <span className="c__notification__content__message">{children}</span>
+        <span id={messageId} className="c__notification__content__message">
+          {children}
+        </span>
         {trailing}
       </div>
       {$toggle}
