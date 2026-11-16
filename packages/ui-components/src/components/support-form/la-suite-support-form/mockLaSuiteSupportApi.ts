@@ -11,18 +11,19 @@ export const MOCK_LA_SUITE_SUPPORT_URLS = {
 
 let isInstalled = false;
 
+const getRequestUrl = (input: RequestInfo | URL) => {
+  if (typeof input === "string") return input;
+  if (input instanceof URL) return input.href;
+  return input.url;
+};
+
 export const installMockLaSuiteSupportApi = () => {
   if (isInstalled || typeof window === "undefined") return;
   isInstalled = true;
 
   const realFetch = window.fetch.bind(window);
   window.fetch = async (input, init) => {
-    const url =
-      typeof input === "string"
-        ? input
-        : input instanceof URL
-          ? input.href
-          : input.url;
+    const url = getRequestUrl(input);
 
     if (url.endsWith(MOCK_LA_SUITE_SUPPORT_URLS.challengeUrl)) {
       const { createChallenge, scrypt } = await import("altcha/lib");

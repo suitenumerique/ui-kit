@@ -79,6 +79,10 @@ export const solveAltchaChallenge = async (
       solution,
     }),
   );
+  // The challenge gives its expiry in seconds, the callers compare it to
+  // Date.now() in milliseconds.
   const { expiresAt } = challenge.parameters;
-  return { payload, expiresAt: expiresAt ? expiresAt * 1000 : undefined };
+  let expiresAtMs: number | undefined;
+  if (expiresAt) expiresAtMs = expiresAt * 1000;
+  return { payload, expiresAt: expiresAtMs };
 };

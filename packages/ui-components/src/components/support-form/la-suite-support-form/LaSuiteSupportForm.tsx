@@ -13,6 +13,11 @@ import {
   useLaSuiteSupportApi,
 } from "./useLaSuiteSupportApi";
 
+const toError = (error: unknown) => {
+  if (error instanceof Error) return error;
+  return new Error(String(error));
+};
+
 /**
  * Contact form wired to the La Suite support API: it validates the form,
  * passes the anti-spam check, sends the request and shows the result.
@@ -51,7 +56,7 @@ export const LaSuiteSupportForm = ({
       } catch (error) {
         // The check was used by this attempt: prepare one for the retry.
         prepare();
-        onError?.(error instanceof Error ? error : new Error(String(error)));
+        onError?.(toError(error));
         throw error;
       }
       onSuccess?.();

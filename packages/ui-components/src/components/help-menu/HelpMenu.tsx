@@ -169,17 +169,21 @@ export const HelpMenu = ({
       if (items.length > 0) items.push({ type: "separator" });
       const subTextParts = [release.version];
       if (release.date) subTextParts.push(release.date);
+      // Without a URL, the entry only shows the version.
+      let openRelease: (() => void) | undefined;
+      const releaseUrl = release.url;
+      if (releaseUrl) {
+        openRelease = () => {
+          window.open(releaseUrl, "_blank", "noopener,noreferrer");
+        };
+      }
 
       items.push({
         label: t("components.helpMenu.latestRelease"),
         subText: subTextParts.join(" · "),
         icon: <ClockArrowCirclepath size={IconSize.SMALL} />,
         opensInNewWindow: !!release.url,
-        callback: release.url
-          ? () => {
-              window.open(release.url, "_blank", "noopener,noreferrer");
-            }
-          : undefined,
+        callback: openRelease,
       });
     }
 
@@ -234,20 +238,20 @@ export const HelpMenu = ({
           }}
         />
       )}
-      {laSuiteSupportForm ? (
+      {laSuiteSupportForm && (
         <LaSuiteSupportForm
           {...laSuiteSupportForm}
           placement={laSuiteSupportForm.placement ?? "top start"}
           {...supportFormProps}
         />
-      ) : (
-        genericSupportForm && (
-          <GenericSupportForm
-            {...genericSupportForm}
-            placement={genericSupportForm.placement ?? "top start"}
-            {...supportFormProps}
-          />
-        )
+      )}
+      {/* laSuiteSupportForm takes precedence. */}
+      {!laSuiteSupportForm && genericSupportForm && (
+        <GenericSupportForm
+          {...genericSupportForm}
+          placement={genericSupportForm.placement ?? "top start"}
+          {...supportFormProps}
+        />
       )}
     </>
   );

@@ -72,8 +72,10 @@ type ErrorMessages = {
 // its own translated message, chosen from the status. Only the rate limit
 // gets a specific one: it is the only case the user can act on. A 400 can
 // as well come from a misconfigured app (e.g. an unknown channel).
-const getErrorMessage = (status: number, messages: ErrorMessages) =>
-  status === 429 ? messages.rateLimited : messages.error;
+const getErrorMessage = (status: number, messages: ErrorMessages) => {
+  if (status === 429) return messages.rateLimited;
+  return messages.error;
+};
 
 type SendLaSuiteSupportRequestOptions = UseLaSuiteSupportApiOptions & {
   data: GenericSupportFormData;
@@ -194,9 +196,8 @@ export const useLaSuiteSupportApi = ({
   }, [challengeUrl]);
 
   const getAltchaPayload = useCallback(async () => {
-    const entry = isUsable(prepared.current, challengeUrl)
-      ? prepared.current
-      : null;
+    let entry: PreparedAltcha | null = null;
+    if (isUsable(prepared.current, challengeUrl)) entry = prepared.current;
     // A solution works only once, so it is never handed out twice.
     prepared.current = null;
     if (entry) {
