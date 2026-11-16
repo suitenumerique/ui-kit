@@ -11,6 +11,16 @@ import { Button } from ":/components/button";
 import { VariantType } from ":/utils/VariantUtils";
 import { ToastId } from "./types";
 
+// A provider toast has no live role, so it is found through its message.
+const findToast = async (text: string) => {
+  const message = await screen.findByText(text, { selector: ".c__toast *" });
+  const toast = message.closest(".c__toast");
+  if (!(toast instanceof HTMLElement)) {
+    throw new Error(`toast "${text}" missing`);
+  }
+  return toast;
+};
+
 describe("<ToastProvider />", () => {
   it("keeps a toast inside the provider it was raised from", async () => {
     const Inner = ({ label }: { label: string }) => {
@@ -39,10 +49,15 @@ describe("<ToastProvider />", () => {
 
     const user = userEvent.setup();
     await user.click(screen.getByText("first"));
+    await user.click(screen.getByText("second"));
 
-    const toast = await screen.findByRole("status");
-    expect(toast.closest(".c__app")).toBe(
-      screen.getByTestId("first").closest(".c__app"),
+    expect(
+      screen.getAllByRole("region", { name: "1 notification." }),
+    ).toHaveLength(2);
+    const first = await findToast("first");
+    const second = await findToast("second");
+    expect(first.closest("[role='region']")).not.toBe(
+      second.closest("[role='region']"),
     );
   });
 
@@ -75,8 +90,7 @@ describe("<ToastProvider />", () => {
 
     render(<App />);
 
-    const toast = await screen.findByRole("status");
-    expect(toast).toHaveTextContent("Saved");
+    const toast = await findToast("Saved");
     expect(document.getElementById("nested")).toContainElement(toast);
   });
 
@@ -97,7 +111,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Uploading");
     expect(toast).toHaveTextContent("45%");
     expect(toast.querySelector(".c__toast__progress")).toHaveAttribute(
       "aria-hidden",
@@ -130,7 +144,7 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
+    const toast = await findToast("Document moved");
     within(toast).getByRole("button", { name: "See" });
 
     await user.click(within(toast).getByRole("button", { name: "Undo" }));
@@ -176,17 +190,13 @@ describe("<ToastProvider />", () => {
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
 
-    const toast = await screen.findByRole("status");
-    expect(toast).toHaveTextContent("Uploading");
+    const toast = await findToast("Uploading");
     expect(toast).toHaveTextContent("15%");
     expect(toast).toHaveClass("c__toast", "c__toast--info");
 
     await user.click(screen.getByText("Update toast"));
 
-    await waitFor(() =>
-      expect(screen.getByRole("status")).toHaveTextContent("Uploaded"),
-    );
-    const updated = screen.getByRole("status");
+    const updated = await findToast("Uploaded");
     expect(updated).toHaveTextContent("100%");
     // The kit wrapper survives the update, restyled for the new variant.
     expect(updated).toHaveClass("c__toast", "c__toast--success");
@@ -221,21 +231,19 @@ describe("<ToastProvider />", () => {
 
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
-    await screen.findByRole("status");
+    await findToast("Uploading");
     await user.click(screen.getByText("Update toast"));
 
-    await waitFor(() =>
-      expect(screen.getByRole("status")).toHaveTextContent("60%"),
-    );
-    const updated = screen.getByRole("status");
-    expect(updated).toHaveTextContent("Uploading");
+    await waitFor(() => expect(screen.getByText("60%")).toBeInTheDocument());
+    const updated = await findToast("Uploading");
+    expect(updated).toHaveTextContent("60%");
     expect(updated).toHaveClass("c__toast--info");
     expect(
       within(updated).getByRole("button", { name: "Retry" }),
     ).toBeInTheDocument();
   });
 
-  it("renders a single status element per info toast", async () => {
+  it("renders an info toast without a status or alert role", async () => {
     const Inner = () => {
       const { toast } = useToastProvider();
       return (
@@ -252,13 +260,14 @@ describe("<ToastProvider />", () => {
     render(<Inner />, { wrapper: CunninghamProvider });
     await userEvent.setup().click(screen.getByText("Create toast"));
 
-    await screen.findByRole("status");
-    expect(screen.getAllByRole("status")).toHaveLength(1);
+    const toast = await findToast("Only one");
+    expect(document.querySelectorAll(".c__toast")).toHaveLength(1);
+    expect(toast).not.toHaveAttribute("role");
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    expect(document.querySelector(".Toastify")).toHaveAttribute(
-      "aria-label",
-      "Notifications",
-    );
+    expect(
+      screen.getByRole("region", { name: "1 notification." }),
+    ).toContainElement(toast);
   });
 
   it("sits on the right and slides in from that side", async () => {
@@ -279,13 +288,11 @@ describe("<ToastProvider />", () => {
 
     const user = userEvent.setup();
     await user.click(screen.getByText("Create toast"));
-    await screen.findByRole("status");
+    await findToast("Hello");
 
-    expect(
-      document.querySelector(".Toastify__toast-container--bottom-right"),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector(".c__toast__container--slide-right"),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "1 notification." })).toHaveClass(
+      "c__toast__region--bottom-right",
+      "c__toast__region--slide-right",
+    );
   });
 });
