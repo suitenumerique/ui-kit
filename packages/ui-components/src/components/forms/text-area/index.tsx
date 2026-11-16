@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { Field, FieldProps } from ":/components/forms/field";
+import { useFieldDescription } from ":/components/forms/field/useFieldDescription";
 import { LabelledBox } from ":/components/forms/labelled-box";
 import { ClassicLabel } from ":/components/forms/classic-label";
 import { randomString } from ":/utils";
@@ -48,9 +49,14 @@ export const TextArea = ({
   const [value, setValue] = useState(defaultValue || props.value || "");
   const [labelAsPlaceholder, setLabelAsPlaceholder] = useState(!value);
   const idToUse = useRef(id || randomString());
-  const descriptionId = labelDescription
-    ? `${idToUse.current}-description`
-    : undefined;
+  // The label description and the message under the field (e.g. an error)
+  // are read with it.
+  const { descriptionId, textId, describedBy } = useFieldDescription({
+    id: idToUse.current,
+    text: props.text,
+    labelDescription,
+    ariaDescribedBy: props["aria-describedby"],
+  });
   const rightTextToUse = charCounter
     ? `${value.toString().length}/${charCounterMax}`
     : props.rightText;
@@ -85,11 +91,7 @@ export const TextArea = ({
     <textarea
       className="c__textarea"
       {...areaProps}
-      aria-describedby={
-        [areaProps["aria-describedby"], descriptionId]
-          .filter(Boolean)
-          .join(" ") || undefined
-      }
+      aria-describedby={describedBy}
       placeholder={isStatic ? props.placeholder : undefined}
       id={idToUse.current}
       onFocus={(e) => {
@@ -121,9 +123,10 @@ export const TextArea = ({
   return (
     <Field
       {...props}
+      textId={textId}
       className={classNames(
         "c__field--textarea",
-        { "c__field--inline": isInline },
+        { "c__field--inline": isInline, "c__field--classic": isClassic },
         className,
       )}
       rightText={rightTextToUse}

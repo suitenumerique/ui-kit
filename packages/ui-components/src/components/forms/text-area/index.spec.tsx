@@ -6,6 +6,21 @@ import { TextArea } from ":/components/forms/text-area/index";
 import { Button } from ":/components/button";
 
 describe("<TextArea/>", () => {
+  it("describes the field with its text, so screen readers read the error", () => {
+    render(
+      <TextArea
+        label="Your message"
+        variant="classic"
+        state="error"
+        aria-invalid
+        text="The message is required."
+      />,
+    );
+    const textarea = screen.getByRole("textbox", { name: "Your message" });
+    expect(textarea).toHaveAccessibleDescription("The message is required.");
+    expect(textarea.closest(".c__field")).toHaveClass("c__field--classic");
+  });
+
   it("renders and can type", async () => {
     const user = userEvent.setup();
     render(<TextArea label="Describe your job" />);
