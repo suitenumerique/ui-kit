@@ -104,6 +104,9 @@ const StepTabList = ({
     const handleFocusOut = (e: FocusEvent) => {
       const current = stateRef.current;
       if (!current || el.contains(e.relatedTarget as Node | null)) return;
+      // Runs before react-aria's own blur handler: without setFocused(false),
+      // it would move the focus back onto the selected tab.
+      current.selectionManager.setFocused(false);
       current.selectionManager.setFocusedKey(current.selectedKey);
     };
     el.addEventListener("focusout", handleFocusOut);
