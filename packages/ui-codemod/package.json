@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "fast-glob": "3.3.3",
-    "jscodeshift": "17.3.0"
+    "jscodeshift": "17.4.0"
   },
   "devDependencies": {
     "eslint": "9.17.0"
