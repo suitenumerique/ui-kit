@@ -29,14 +29,16 @@ test.describe("PDF Preview — scanned document", () => {
     page,
   }) => {
     // Decoding three ~4680x3304 layers takes a while, especially on CI.
-    test.setTimeout(120_000);
+    test.setTimeout(180_000);
 
     await mount(<TestFilePreview files={[pdfScannedFile]} />);
 
     const canvas = page.locator(
       '.pdf-preview__container .react-pdf__Page[data-page-number="1"] canvas',
     );
-    await expect(canvas).toBeVisible({ timeout: 10_000 });
+    // The canvas stays hidden until the page is drawn, so this wait covers
+    // the decode too: on CI it shares the CPU with the other workers.
+    await expect(canvas).toBeVisible({ timeout: 60_000 });
 
     // toHaveScreenshot keeps capturing until the canvas matches the golden,
     // which also absorbs the slow decode. A missing JPX layer changes far
