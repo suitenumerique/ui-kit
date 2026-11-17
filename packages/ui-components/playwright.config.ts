@@ -7,6 +7,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30_000,
+  // Playwright uses half the CPUs on CI by default: 2 workers on the 4 vCPU
+  // GitHub runners. The tests mostly wait on the browsers, so one worker per
+  // vCPU keeps them busy.
+  workers: process.env.CI ? 4 : undefined,
   use: {
     viewport: { width: 1280, height: 720 },
     ctViteConfig: {
