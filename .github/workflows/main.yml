@@ -151,6 +151,13 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     needs: install-front
+    # One job per browser, in parallel. Not more: runners come from a pool
+    # shared by the whole organization, and extra jobs may queue.
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, firefox, webkit]
+    name: e2e (${{ matrix.project }})
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -169,18 +176,24 @@ jobs:
       # version so Renovate bumps keep both in sync.
       # Run as the runner user so the files written in the workspace stay
       # owned by it, with a writable HOME for yarn and the browsers.
+      # Call turbo directly: yarn 1 drops the "--" that tells turbo to pass
+      # --project on to Playwright. The filter keeps it from passing it to
+      # the test:ct of the other packages too.
       - name: Run component tests
         run: |
           version=$(jq -r '.devDependencies["@playwright/test"]' packages/ui-components/package.json)
           docker run --rm --ipc=host \
             --user "$(id -u):$(id -g)" -e HOME=/tmp -e CI \
             -v "${PWD}:${PWD}" -w "${PWD}" \
-            "mcr.microsoft.com/playwright:v${version}-noble" yarn test:ct
+            "mcr.microsoft.com/playwright:v${version}-noble" \
+            node_modules/.bin/turbo run test:ct \
+              --filter=@gouvfr-lasuite/ui-components \
+              -- --project=${{ matrix.project }}
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.project }}
           path: |
             packages/ui-components/e2e/report
             packages/ui-components/test-results
