@@ -1,5 +1,49 @@
 # @gouvfr-lasuite/ui-components
 
+## 2.0.0
+
+### Major Changes
+
+- 84f039b: Rename FeedbackForm to GenericSupportForm, now documented with the other support
+  forms under "Components/SupportForm". To update an app:
+
+  - `FeedbackForm` and its `FeedbackFormProps`, `FeedbackFormData`,
+    `FeedbackFormLabels` and `FeedbackFormPlacement` types become
+    `GenericSupportForm`, `GenericSupportFormProps`, etc.;
+  - the HelpMenu `feedbackForm` prop becomes `genericSupportForm`, and its
+    `HelpMenuFeedbackConfig` type becomes `HelpMenuGenericSupportConfig`;
+  - the `c__feedback-form*` CSS classes become `c__generic-support-form*`;
+  - the `components.feedbackForm.*` translation keys become
+    `components.genericSupportForm.*`.
+
+### Minor Changes
+
+- 074bcd8: GenericSupportForm: check the fields on submit and show the result of the send. The Send
+  button is no longer disabled until the form is valid: a click shows the missing or
+  invalid fields and focuses the first one. When `onSend` returns a promise, the form
+  shows a sending state, then a success view or the error message. Refused files now
+  say why. New props: `email`, `requireEmail`, `maxFiles` and `onSuccessClose`.
+- 5a85a21: HelpMenu: add the `laSuiteSupportForm` option, which opens a LaSuiteSupportForm from "Contact us".
+  `genericSupportForm` and `laSuiteSupportForm` now accept every prop of their form, except the
+  ones the HelpMenu sets itself, and `placement` is now applied (it was ignored).
+- 99bc7ea: Add the LaSuiteSupportForm component and the `useLaSuiteSupportApi` hook: a contact form that sends
+  its messages to the La Suite support API, with the invisible ALTCHA anti-spam check.
+  This adds the `altcha` dependency.
+
+### Patch Changes
+
+- 4fba544: Input, TextArea, Checkbox, Radio, Switch, Select (all variants), DatePicker and
+  DateRangePicker: the message under the field (`text`, e.g. an error) is now linked to the
+  control with `aria-describedby`, so screen readers read it with the field. With the
+  classic variant of Input and TextArea, the message lines up with the label instead of
+  being indented. Checkbox, Radio and Switch no longer include that message in their
+  accessible name, and get a generated `id` when none is given.
+
+  CheckboxGroup and RadioGroup now have a `group` / `radiogroup` role, are described by
+  their `text`, and accept `aria-labelledby`, `aria-label`, `aria-describedby` and `id`.
+  Point `aria-labelledby` at the title shown above the group so that screen readers
+  announce what the options are for.
+
 ## 1.5.0
 
 ### Minor Changes
