@@ -76,7 +76,10 @@ type ModalBaseProps = {
   preventClose?: boolean;
   /** Height constraints, ignored when `size` is `ModalSize.FULL`. */
   constraints?: ModalConstraints;
+  /** Names the dialog. Takes precedence over the visible title. */
   "aria-label"?: string;
+  /** Id of the element that names the dialog. Takes precedence over `aria-label` and the visible title. */
+  "aria-labelledby"?: string;
 };
 
 export type ModalDefaultVariantProps = ModalBaseProps &
@@ -133,7 +136,8 @@ export const ModalInner = (props: ModalProps) => {
     return null;
   }
 
-  // The visible title names the dialog; `aria-label` only applies without one.
+  // The title element wraps all of the title JSX, which may hold more than
+  // text. What the app names explicitly wins over it.
   const hasVisibleTitle =
     variant === "tab"
       ? !!(props as ModalTabVariantProps).sidebarTitle
@@ -143,13 +147,17 @@ export const ModalInner = (props: ModalProps) => {
     (props as ModalDefaultVariantProps).titleVariant !== "compact" &&
     !!(props as ModalDefaultVariantProps).subtitle;
   const aria: ReactModal.Aria = {};
-  if (hasVisibleTitle) {
+  let contentLabel: string | undefined;
+  if (props["aria-labelledby"]) {
+    aria.labelledby = props["aria-labelledby"];
+  } else if (props["aria-label"]) {
+    contentLabel = props["aria-label"];
+  } else if (hasVisibleTitle) {
     aria.labelledby = titleId;
   }
   if (hasSubtitle) {
     aria.describedby = subtitleId;
   }
-  const contentLabel = hasVisibleTitle ? undefined : props["aria-label"];
 
   // A full-screen modal always spans the viewport height: inline height
   // constraints would take precedence over the stylesheet and shrink it.

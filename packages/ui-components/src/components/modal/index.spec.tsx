@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Modal, ModalSize, ModalTab, useModal } from ":/components/modal/index";
 import { CunninghamProvider } from ":/components/provider";
 import { NOSCROLL_CLASS, useModals } from ":/components/modal/ModalProvider";
+import { useToastProvider } from ":/components/toast/ToastProvider";
 import { VariantType } from ":/utils/VariantUtils";
 
 describe("<Modal/>", () => {
@@ -69,6 +70,137 @@ describe("<Modal/>", () => {
     expect(screen.getByText("Modal Content")).toBeInTheDocument();
     expect(app).toHaveAttribute("aria-hidden", "true");
   });
+  it("keeps a toast outside aria-hidden while a modal is open", async () => {
+    const Notify = () => {
+      const { toast } = useToastProvider();
+      return (
+        <button onClick={() => toast("Saved", VariantType.NEUTRAL)}>
+          Notify
+        </button>
+      );
+    };
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Notify />
+          <Modal size={ModalSize.SMALL} title="Export" {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+
+    render(<Wrapper />);
+    expect(
+      await screen.findByRole("dialog", { name: "Export" }),
+    ).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    // The trigger lives in the app, which the modal hides. The toast must not.
+    await user.click(
+      screen.getByRole("button", { name: "Notify", hidden: true }),
+    );
+
+    const toast = await screen.findByText("Saved", { selector: ".c__toast *" });
+    let node: HTMLElement | null = toast;
+    while (node) {
+      expect(node).not.toHaveAttribute("aria-hidden", "true");
+      node = node.parentElement;
+    }
+  });
+  it("names the dialog from a JSX title", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal size={ModalSize.SMALL} title={<span>Export</span>} {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Export" });
+    expect(dialog).toHaveAccessibleName("Export");
+    expect(dialog).not.toHaveAccessibleName("[object Object]");
+  });
+  it("keeps the consumer's heading when the title is JSX", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal size={ModalSize.SMALL} title={<h1>Delete</h1>} {...modal}>
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Delete" });
+    const headings = within(dialog).getAllByRole("heading");
+    expect(headings).toHaveLength(1);
+    expect(headings[0].tagName).toBe("H1");
+    expect(headings[0].parentElement?.tagName).toBe("DIV");
+  });
+  it("names the dialog from the element given in aria-labelledby", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.SMALL}
+            title={
+              <>
+                <span id="app-title">Duplicate</span>
+                <button>Close the duplicate modal</button>
+              </>
+            }
+            aria-labelledby="app-title"
+            {...modal}
+          >
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", { name: "Duplicate" });
+    expect(dialog).toHaveAttribute("aria-labelledby", "app-title");
+    expect(dialog).not.toHaveAttribute("aria-label");
+  });
+  it("names the dialog from aria-label over a JSX title", async () => {
+    const Wrapper = () => {
+      const modal = useModal({ isOpenDefault: true });
+      return (
+        <CunninghamProvider>
+          <Modal
+            size={ModalSize.SMALL}
+            title={
+              <>
+                <span>Choose a new parent doc</span>
+                <button>Close the move modal</button>
+              </>
+            }
+            aria-label="Move the document"
+            {...modal}
+          >
+            <div>Modal Content</div>
+          </Modal>
+        </CunninghamProvider>
+      );
+    };
+    render(<Wrapper />);
+
+    const dialog = await screen.findByRole("dialog", {
+      name: "Move the document",
+    });
+    expect(dialog).not.toHaveAttribute("aria-labelledby");
+    expect(dialog).not.toHaveAccessibleName("[object Object]");
+  });
   it("names the dialog with its title heading", async () => {
     const Wrapper = () => {
       const modal = useModal({ isOpenDefault: true });
@@ -78,7 +210,6 @@ describe("<Modal/>", () => {
             size={ModalSize.SMALL}
             title="My Dialog Title"
             titleIcon={<span>icon</span>}
-            aria-label="Ignored label"
             {...modal}
           >
             <div>Modal Content</div>
@@ -919,9 +1050,7 @@ describe("<Modal variant='tab' />", () => {
     const panel = screen.getByRole("tabpanel");
     expect(firstTab).toHaveAttribute("aria-controls", panel.id);
     expect(panel).toHaveAttribute("aria-labelledby", firstTab.id);
-    expect(screen.getByRole("heading", { name: "General" }).tagName).toBe(
-      "H3",
-    );
+    expect(screen.getByRole("heading", { name: "General" }).tagName).toBe("H3");
 
     // Only the selected tab is in the tab sequence
     expect(firstTab).toHaveAttribute("tabindex", "0");
