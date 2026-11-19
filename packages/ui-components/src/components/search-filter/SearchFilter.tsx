@@ -31,6 +31,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
   } = props;
 
   const id = useId();
+  const labelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [internalIsOpen, setInternalIsOpen] = useState(false);
@@ -85,14 +86,12 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         type="button"
       >
         <span className="c__filter__label">
-          {activeLabel ? (
+          <span id={labelId}>{label}</span>
+          {activeLabel && (
             <>
-              {label}
               {" : "}
               {activeLabel}
             </>
-          ) : (
-            label
           )}
         </span>
         <span
@@ -133,7 +132,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         <HorizontalSeparator withPadding={false} />
         <ListBox
           className="c__search-filter__list"
-          aria-labelledby={id}
+          aria-labelledby={labelId}
           onAction={(key) => {
             const item = items.find((i) => i.id === key);
             if (item) {

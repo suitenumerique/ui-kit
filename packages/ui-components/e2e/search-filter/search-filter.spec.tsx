@@ -41,6 +41,21 @@ test.describe("SearchFilter", () => {
     await expect(resetButton(page)).toBeVisible();
   });
 
+  test("names the listbox after the filter label only", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestSearchFilter />);
+    const trigger = page.getByRole("button", { name: triggerName });
+
+    await trigger.click();
+    await expect(page.getByRole("listbox")).toHaveAccessibleName("Category");
+
+    await page.getByRole("option", { name: "Apple" }).click();
+    await trigger.click();
+    await expect(page.getByRole("listbox")).toHaveAccessibleName("Category");
+  });
+
   test("clicking Reset clears the selection", async ({ mount, page }) => {
     await mount(<TestSearchFilter />);
     const trigger = page.getByRole("button", { name: triggerName });
