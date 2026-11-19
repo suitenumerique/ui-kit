@@ -23,10 +23,19 @@ export const Toast = ({
   disableAnimate,
   closeToast,
   progress,
+  suppressLive = false,
   children,
   ...shared
 }: ToastProps & {
   closeToast?: () => void;
+  /**
+   * The provider announces through the live announcer, so its toasts carry no
+   * live role: `aria-live="off"` would not stop an `alert` node from firing
+   * its own event in Chrome. A standalone toast keeps `status` / `alert`.
+   */
+  suppressLive?: boolean;
+  /** Id of the message, which names the toast inside the provider. */
+  messageId?: string;
 }) => {
   // `use` may sit behind the condition: a toast without a close button still
   // renders outside `CunninghamProvider`.
@@ -41,7 +50,7 @@ export const Toast = ({
   onDeleteRef.current = onDelete;
 
   // Only a toast mounted on its own schedules its dismissal. Inside
-  // `ToastProvider`, react-toastify owns the timer and withholds `duration`,
+  // `ToastProvider`, the toast queue owns the timer and withholds `duration`,
   // so the two never race to remove the same toast.
   const ownsTimer = duration !== undefined && !disableAnimate;
 
@@ -85,7 +94,7 @@ export const Toast = ({
           "c__toast--no-animate": disableAnimate,
         },
       )}
-      role={toastRole(type)}
+      role={suppressLive ? undefined : toastRole(type)}
     >
       <NotificationContent
         {...shared}

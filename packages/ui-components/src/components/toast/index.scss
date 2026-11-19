@@ -1,25 +1,65 @@
 @use "../../utils/responsive" as *;
 @use "../notification/content";
 
-.c__toast__container {
-  --toastify-toast-width: var(--c--globals--breakpoints--sm);
-  --toastify-container-width: var(--c--globals--breakpoints--sm);
+$c__toast-edge: var(--c--globals--spacings--sm, 16px);
 
+.c__toast__region {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--c--globals--spacings--xs, 8px);
+  box-sizing: border-box;
   width: var(--c--globals--breakpoints--sm);
   max-width: calc(100vw - var(--c--components--button--small-height));
+  outline: none;
+
+  &[data-focus-visible] {
+    outline: 2px solid
+      var(--c--contextuals--border--semantic--brand--primary, currentColor);
+    outline-offset: 2px;
+  }
+
+  // The newest toast comes first in the DOM. Keep it nearest the edge.
+  &--bottom-left,
+  &--bottom-right,
+  &--bottom-center {
+    bottom: $c__toast-edge;
+    flex-direction: column-reverse;
+  }
+
+  &--top-left,
+  &--top-right,
+  &--top-center {
+    top: $c__toast-edge;
+  }
+
+  &--top-left,
+  &--bottom-left {
+    left: $c__toast-edge;
+  }
+
+  &--top-right,
+  &--bottom-right {
+    right: $c__toast-edge;
+  }
+
+  &--top-center,
+  &--bottom-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
-// Reset the library toast chrome. Scoped under our container so it wins over
-// `.Toastify__toast`. `.c__toast` below is the appearance.
-.c__toast__container .c__toast__wrapper {
-  width: 100%;
-  min-height: 0;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-  color: inherit;
-  margin-bottom: var(--c--globals--spacings--xs, 8px);
+.c__toast__item {
+  border-radius: var(--c--globals--spacings--xs, 8px);
+  outline: none;
+
+  &[data-focus-visible] {
+    outline: 2px solid
+      var(--c--contextuals--border--semantic--brand--primary, currentColor);
+    outline-offset: 2px;
+  }
 }
 
 @keyframes c__toast-fade-out {
@@ -67,22 +107,24 @@
   }
 }
 
-.c__toast__container--slide-left .c__toast__wrapper--slide-in {
+.c__toast__region--slide-left .c__toast__item {
   animation: c__toast-slide-in-left
     var(--c--components--toast--slide-in-duration) both;
 }
 
-.c__toast__container--slide-left .c__toast__wrapper--slide-out {
-  animation: c__toast-slide-out-left
-    var(--c--components--toast--slide-out-duration) ease-in both;
-}
-
-.c__toast__container--slide-right .c__toast__wrapper--slide-in {
+.c__toast__region--slide-right .c__toast__item {
   animation: c__toast-slide-in-right
     var(--c--components--toast--slide-in-duration) both;
 }
 
-.c__toast__container--slide-right .c__toast__wrapper--slide-out {
+// A closed toast leaves the DOM at once: its slide-out is a view transition,
+// see `wrapUpdate` in `ToastProvider`.
+::view-transition-old(.c-toast-left):only-child {
+  animation: c__toast-slide-out-left
+    var(--c--components--toast--slide-out-duration) ease-in both;
+}
+
+::view-transition-old(.c-toast-right):only-child {
   animation: c__toast-slide-out-right
     var(--c--components--toast--slide-out-duration) ease-in both;
 }
@@ -174,24 +216,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .c__toast__container--slide-left .c__toast__wrapper--slide-in,
-  .c__toast__container--slide-left .c__toast__wrapper--slide-out,
-  .c__toast__container--slide-right .c__toast__wrapper--slide-in,
-  .c__toast__container--slide-right .c__toast__wrapper--slide-out,
+  .c__toast__region .c__toast__item,
   .c__toast--disappear:not(.c__toast--no-animate) {
     animation: none;
   }
 }
 
 @include media(sm) {
-  // react-toastify pins every container to the left below 480px. Center it.
-  .c__toast__container {
+  // Too narrow for a corner: center the region whatever its position.
+  .c__toast__region {
     left: 50%;
     right: auto;
-    width: min(
-      var(--c--globals--breakpoints--sm),
-      calc(100vw - var(--c--components--button--small-height))
-    );
     transform: translateX(-50%);
   }
 }

@@ -1,11 +1,10 @@
-import type { Id } from "react-toastify/unstyled";
 import {
   NotificationAction,
   NotificationProps,
 } from ":/components/notification/types";
 import { VariantType } from ":/utils/VariantUtils";
 
-export type ToastId = Id;
+export type ToastId = string;
 
 export type ToastPosition =
   | "top-left"
@@ -28,9 +27,9 @@ export interface ToastProps extends NotificationProps {
 }
 
 /**
- * What `updateToast` can change on a live toast. These are the kit's own props,
- * not react-toastify's: the toast keeps its wrapper and its variant styling
- * across an update, and the message is replaced through `message`.
+ * What `updateToast` can change on a live toast. The toast keeps its wrapper
+ * and its variant styling across an update, and the message is replaced
+ * through `message`.
  */
 export type ToastUpdateOptions = Partial<
   Omit<ToastProps, "children" | "onDelete">
@@ -39,8 +38,7 @@ export type ToastUpdateOptions = Partial<
   message?: string;
 };
 
-// react-toastify keeps the object form of `dismiss` params internal, so its type
-// cannot be referenced in our emitted declarations. Mirror it here instead.
+/** Dismisses one toast, or all of them without `id`, in the given provider. */
 export type ToastDismissParams = {
   id?: ToastId;
   containerId: ToastId;

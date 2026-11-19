@@ -288,8 +288,7 @@
       "shrink_aria_label": "Shrink alert"
     },
     "toast": {
-      "close_aria_label": "Close notification",
-      "region_aria_label": "Notifications"
+      "close_aria_label": "Close notification"
     },
     "pagination": {
       "goto_label": "Go to page",
