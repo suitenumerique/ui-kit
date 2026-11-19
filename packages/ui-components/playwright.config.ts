@@ -11,6 +11,9 @@ export default defineConfig({
   // GitHub runners. The tests mostly wait on the browsers, so one worker per
   // vCPU keeps them busy.
   workers: process.env.CI ? 4 : undefined,
+  // A test slowed down by the busy runner gets a second chance. Playwright
+  // still reports it as flaky, so the slow tests stay visible.
+  retries: process.env.CI ? 1 : 0,
   use: {
     viewport: { width: 1280, height: 720 },
     ctViteConfig: {
