@@ -7,6 +7,8 @@ import { HorizontalSeparator } from "../separator";
 
 export type FilterResetRowProps = {
   onReset: () => void;
+  /** Overrides the default "Reset" label, e.g. to name the filter it clears. */
+  label?: string;
 };
 
 /**
@@ -15,7 +17,7 @@ export type FilterResetRowProps = {
  * outside the ListBox, so it gets none of react-aria's listbox keyboard
  * handling.
  */
-export const FilterResetRow = ({ onReset }: FilterResetRowProps) => {
+export const FilterResetRow = ({ onReset, label }: FilterResetRowProps) => {
   const { t } = useCunningham();
 
   return (
@@ -26,8 +28,8 @@ export const FilterResetRow = ({ onReset }: FilterResetRowProps) => {
         onClick={onReset}
       >
         <MenuItemBody
-          icon={<Undo size={IconSize.SMALL} />}
-          label={t("components.searchFilter.reset")}
+          icon={<Undo size={IconSize.SMALL} aria-hidden="true" />}
+          label={label ?? t("components.searchFilter.reset")}
         />
       </button>
       <HorizontalSeparator withPadding={false} />

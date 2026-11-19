@@ -16,7 +16,8 @@
     font-family: var(--c--globals--font--families--base);
     gap: 6px;
     padding: 0 6px 0 8px;
-    color: var(--c--contextuals--content--semantic--neutral--tertiary);
+    // Tertiary falls under 4.5:1 on the hover background.
+    color: var(--c--contextuals--content--semantic--neutral--secondary);
     white-space: nowrap;
 
     &__icon {

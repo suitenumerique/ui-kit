@@ -26,6 +26,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
     isOpen: controlledIsOpen,
     onOpenChange,
     showReset = true,
+    resetLabel,
     selected,
   } = props;
 
@@ -112,7 +113,10 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         style={{ marginTop: "0px" }}
       >
         {showReset && selected && (
-          <FilterResetRow onReset={() => onItemSelect?.(undefined)} />
+          <FilterResetRow
+            label={resetLabel}
+            onReset={() => onItemSelect?.(undefined)}
+          />
         )}
         <div className="c__search-filter__search">
           <Zoom size={IconSize.SMALL} />

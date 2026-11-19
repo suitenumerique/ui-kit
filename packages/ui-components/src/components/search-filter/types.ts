@@ -21,6 +21,8 @@ export type SearchFilterProps<T extends SearchFilterItem = SearchFilterItem> = {
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   showReset?: boolean;
+  /** Label of the reset row. Defaults to "Reset". */
+  resetLabel?: string;
 };
 
 export type UserSearchFilterItem = SearchFilterItem & {

@@ -48,6 +48,8 @@ export type FilterProps = {
   label: string;
   options: FilterOption[];
   showReset?: boolean;
+  /** Label of the reset row. Defaults to "Reset". */
+  resetLabel?: string;
 } & SelectProps;
 
 /** Minimal slice of react-aria's SelectState used to drive custom selection. */
@@ -204,6 +206,7 @@ const FilterInner = (props: FilterInnerProps) => {
     openSub,
     selectStateRef,
     showReset = true,
+    resetLabel,
     ...filterProps
   } = props;
   const state = useContext(SelectStateContext);
@@ -263,7 +266,10 @@ const FilterInner = (props: FilterInnerProps) => {
          * `state` from SelectStateContext is available) makes it show reliably.
          */}
         {showReset && state?.value && (
-          <FilterResetRow onReset={() => state?.setValue(null)} />
+          <FilterResetRow
+            label={resetLabel}
+            onReset={() => state?.setValue(null)}
+          />
         )}
         <div
           onKeyDownCapture={(event) => {
