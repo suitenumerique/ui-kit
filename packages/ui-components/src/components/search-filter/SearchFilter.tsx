@@ -118,7 +118,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
           />
         )}
         <div className="c__search-filter__search">
-          <Zoom size={IconSize.SMALL} />
+          <Zoom size={IconSize.SMALL} aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
