@@ -26,10 +26,12 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
     isOpen: controlledIsOpen,
     onOpenChange,
     showReset = true,
+    resetLabel,
     selected,
   } = props;
 
   const id = useId();
+  const labelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [internalIsOpen, setInternalIsOpen] = useState(false);
@@ -84,14 +86,12 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         type="button"
       >
         <span className="c__filter__label">
-          {activeLabel ? (
+          <span id={labelId}>{label}</span>
+          {activeLabel && (
             <>
-              {label}
               {" : "}
               {activeLabel}
             </>
-          ) : (
-            label
           )}
         </span>
         <span
@@ -112,10 +112,13 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         style={{ marginTop: "0px" }}
       >
         {showReset && selected && (
-          <FilterResetRow onReset={() => onItemSelect?.(undefined)} />
+          <FilterResetRow
+            label={resetLabel}
+            onReset={() => onItemSelect?.(undefined)}
+          />
         )}
         <div className="c__search-filter__search">
-          <Zoom size={IconSize.SMALL} />
+          <Zoom size={IconSize.SMALL} aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
@@ -129,7 +132,7 @@ export const SearchFilter = <T extends SearchFilterItem = SearchFilterItem>(
         <HorizontalSeparator withPadding={false} />
         <ListBox
           className="c__search-filter__list"
-          aria-labelledby={id}
+          aria-labelledby={labelId}
           onAction={(key) => {
             const item = items.find((i) => i.id === key);
             if (item) {

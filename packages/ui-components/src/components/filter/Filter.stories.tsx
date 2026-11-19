@@ -55,6 +55,7 @@ import { DateValue } from "@internationalized/date";
  * | `label` | `string` | Text shown on the trigger button; combined with the selected option's label once a value is picked |
  * | `options` | `FilterOption[]` | The selectable entries |
  * | `showReset` | `boolean?` | Show a built-in "Reset" row (with an undo icon) above the options that clears the selection. Defaults to `true`; only visible while a value is selected |
+ * | `resetLabel` | `string?` | Label of the reset row, e.g. "Reset the type filter". Defaults to "Reset" |
  * | `defaultValue` | `Key \| null?` | Initial selection in uncontrolled mode |
  * | `value` | `Key \| null?` | Selected value in controlled mode |
  * | `onChange` | `(key: Key \| null) => void` | Fires when the user picks an option |
@@ -93,6 +94,11 @@ const meta: Meta<typeof Filter> = {
       description:
         'Show a built-in "Reset" row above the options that clears the selection; visible only while a value is selected',
       control: "boolean",
+    },
+    resetLabel: {
+      description:
+        'Label of the reset row, e.g. "Reset the type filter". Defaults to "Reset"',
+      control: "text",
     },
     defaultValue: {
       description: "Initial selection in uncontrolled mode",
