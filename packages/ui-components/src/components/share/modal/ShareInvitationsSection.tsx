@@ -24,9 +24,9 @@ export const ShareInvitationsSection = <UserType, InvitationType>({
   const { t } = useCunningham();
   return (
     <div className="c__share-modal__invitations" data-testid="invitations-list">
-      <span className="c__share-modal__invitations-title">
+      <h3 className="c__share-modal__invitations-title">
         {t("components.share.invitations.title")}
-      </span>
+      </h3>
       {invitations.map((invitation) => (
         <ShareInvitationItem
           key={invitation.id}
@@ -41,6 +41,7 @@ export const ShareInvitationsSection = <UserType, InvitationType>({
       <ShowMoreButton
         show={hasNextInvitations}
         onShowMore={onLoadNextInvitations}
+        label={t("components.share.invitations.load_more_aria")}
       />
     </div>
   );

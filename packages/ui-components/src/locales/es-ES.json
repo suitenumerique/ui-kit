@@ -32,7 +32,10 @@
         }
       },
       "access": {
-        "delete": "Retirar acceso"
+        "delete": "Retirar acceso",
+        "remove_user": "Quitar a {name}",
+        "role_label": "Cambiar el rol de {name}, actualmente {role}",
+        "role_changed": "Rol cambiado a {role} para {name}"
       },
       "actions": {
         "label": "Más acciones"
@@ -56,23 +59,37 @@
         "details": "Las personas añadidas directamente conservarán su acceso."
       },
       "invitations": {
-        "title": "Invitaciones pendientes"
+        "title": "Invitaciones pendientes",
+        "load_more_aria": "Mostrar más invitaciones"
+      },
+      "access_requests": {
+        "title": "Solicitudes de acceso",
+        "accept": "Aceptar la solicitud de {name}",
+        "reject": "Rechazar la solicitud de {name}",
+        "accepted": "Solicitud de acceso de {name} aceptada",
+        "rejected": "Solicitud de acceso de {name} rechazada",
+        "role_label": "Rol que se concede a {name}: {role}",
+        "load_more_aria": "Mostrar más solicitudes de acceso"
       },
       "members": {
         "title_plural": "Compartido entre {count} personas",
         "title_singular": "Compartido entre {count} persona",
-        "load_more": "Mostrar más"
+        "load_more": "Mostrar más",
+        "load_more_aria": "Mostrar más miembros"
       },
       "item": {
-        "add": "Añadir"
+        "add": "Añadir",
+        "invite": "Invitar"
       },
       "search": {
         "placeholder": "Buscar usuario",
-        "group_name": "Resultado de la búsqueda de usuario"
+        "group_name": "Seleccionar un usuario"
       },
       "user": {
         "no_result": "Sin resultados",
-        "placeholder": "Buscar un usuario para invitar"
+        "placeholder": "Buscar un usuario para invitar",
+        "added": "{name} añadido a las invitaciones",
+        "removed": "{name} eliminado de las invitaciones"
       },
       "linkSettings": {
         "title": "Configuración del enlace",

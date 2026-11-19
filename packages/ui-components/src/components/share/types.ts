@@ -7,6 +7,11 @@ export type InvitationData<UserType, T> = T & {
   user: UserData<UserType>;
 };
 
+export type AccessRequestData<UserType, T> = T & {
+  id: string;
+  role: string;
+  user: UserData<UserType>;
+};
 
 /**
  * Represents a user's access to a shared resource.

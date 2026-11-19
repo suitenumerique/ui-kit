@@ -134,6 +134,29 @@ test.describe("ShareModal user search and invite", () => {
     await expect(page.getByTestId("members-list")).toBeVisible();
   });
 
+  test("removes a pending chip and changes its role with Enter", async ({
+    mount,
+    page,
+  }) => {
+    await mount(<TestShareModal />);
+
+    await selectUser(page, "bob", "Bob Martin");
+    const roleButton = page
+      .getByTestId("share-search-field")
+      .getByTestId("access-role-dropdown-button");
+    await roleButton.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("menu")).toBeVisible();
+    await page.getByRole("menuitem", { name: "Editor" }).focus();
+    await page.keyboard.press("Enter");
+    await expect(roleButton).toContainText("Editor");
+
+    await page.getByTestId("selected-user-item").getByRole("button").focus();
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByTestId("selected-user-item")).toHaveCount(0);
+  });
+
   test("pending role defaults to the first role and can be changed", async ({
     mount,
     page,

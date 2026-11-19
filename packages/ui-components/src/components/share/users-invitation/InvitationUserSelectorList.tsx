@@ -4,6 +4,7 @@ import { ReactNode, useState } from "react";
 import { DropdownMenuOption } from "../../dropdown-menu";
 import { AccessRoleDropdown } from "../access/AccessRoleDropdown";
 import { UserData } from ":/components/share/types.ts";
+import { getUserDisplayName } from "../labels";
 
 export type AddShareUserListProps<UserType> = {
   users: UserData<UserType>[];
@@ -69,6 +70,8 @@ export const InvitationUserSelectorItem = <UserType,>({
   onRemoveUser,
   isSelected = false,
 }: ShareSelectedUserItemProps<UserType>) => {
+  const { t } = useCunningham();
+  const displayName = getUserDisplayName(user);
   return (
     <div
       className={`c__add-share-user-item${
@@ -77,13 +80,20 @@ export const InvitationUserSelectorItem = <UserType,>({
       data-selected={isSelected ? "true" : undefined}
       data-testid="selected-user-item"
     >
-      <span>{user.full_name || user.email}</span>
+      <span>{displayName}</span>
       <Button
         variant="tertiary"
         color="neutral"
         size="nano"
         onClick={() => onRemoveUser?.(user)}
-        icon={<span className="material-icons">close</span>}
+        icon={
+          <span className="material-icons" aria-hidden="true">
+            close
+          </span>
+        }
+        aria-label={t("components.share.access.remove_user", {
+          name: displayName,
+        })}
       />
     </div>
   );
