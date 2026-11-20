@@ -7,12 +7,13 @@
   .preview-message {
     height: auto;
     min-height: 100%;
+    width: 228px;
+    max-width: 100%;
+    margin-inline: auto;
   }
 
   .preview-message__title,
   .preview-message__description {
-    width: 228px;
-    max-width: 100%;
     overflow-wrap: anywhere;
   }
 
@@ -27,5 +28,13 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--c--globals--spacings--xs);
+  }
+
+  &__error {
+    flex-basis: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: var(--c--globals--font--sizes--sm, 14px);
+    color: var(--c--contextuals--content--semantic--warning--primary);
   }
 }
