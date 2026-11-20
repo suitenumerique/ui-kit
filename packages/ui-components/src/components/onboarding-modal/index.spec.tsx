@@ -270,24 +270,28 @@ describe("<OnboardingModal/>", () => {
 
   describe("in text-only mode", () => {
     it("renders the steps as a list of buttons marking the current one", async () => {
+      // 1. Open the modal without preview: there are no tabs and no panel.
       renderOnboarding({ hideContent: true });
       const user = userEvent.setup();
-
       const heading = await screen.findByRole("heading", {
         name: "Learn the basics",
       });
       expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
       expect(screen.queryByRole("tabpanel")).not.toBeInTheDocument();
 
+      // 2. The steps are a list named by the heading.
       const list = screen.getByRole("list", { name: "Learn the basics" });
       expect(list).toHaveAttribute("aria-labelledby", heading.id);
 
+      // 3. Each step is a button named by its title. The current one is
+      //    marked and described.
       const compose = screen.getByRole("button", { name: "Compose" });
       const format = screen.getByRole("button", { name: "Format" });
       expect(compose).toHaveAttribute("aria-current", "step");
       expect(compose).toHaveAccessibleDescription("Compose description");
       expect(format).not.toHaveAttribute("aria-current");
 
+      // 4. Clicking another step moves the mark and the description to it.
       await user.click(format);
       expect(format).toHaveAttribute("aria-current", "step");
       expect(format).toHaveAccessibleDescription("Format description");
