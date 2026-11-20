@@ -169,6 +169,9 @@ export const OnboardingModal = ({
 
   // displayedStep for content (delayed), currentStep for step list highlighting (immediate)
   const activeStep = steps[displayedStep];
+  // The panel is named after the selected tab at once, so its description
+  // follows the selected step too, not the content still fading out.
+  const selectedContentAlt = steps[currentStep]?.contentAlt;
   // Steps are tabs only when they control a preview panel.
   const hasPreview = !hideContent && steps.some((step) => !!step.content);
 
@@ -449,9 +452,7 @@ export const OnboardingModal = ({
             <TabPanel
               id={String(currentStep)}
               className="c__onboarding-modal__content"
-              aria-describedby={
-                activeStep?.contentAlt ? contentAltId : undefined
-              }
+              aria-describedby={selectedContentAlt ? contentAltId : undefined}
             >
               <div
                 className={clsx("c__onboarding-modal__content-inner", {
@@ -460,9 +461,9 @@ export const OnboardingModal = ({
               >
                 {activeStep?.content}
               </div>
-              {activeStep?.contentAlt && (
-                <span id={contentAltId} className="c__onboarding-modal__sr-only">
-                  {activeStep.contentAlt}
+              {selectedContentAlt && (
+                <span id={contentAltId} className="c__offscreen">
+                  {selectedContentAlt}
                 </span>
               )}
             </TabPanel>
@@ -495,11 +496,7 @@ export const OnboardingModal = ({
           </div>
         )}
 
-        <div
-          className="c__onboarding-modal__sr-only"
-          role="status"
-          aria-live="polite"
-        >
+        <div className="c__offscreen" role="status" aria-live="polite">
           {stepAnnouncement}
         </div>
       </div>
