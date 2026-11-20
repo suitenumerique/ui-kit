@@ -217,26 +217,33 @@ describe("<OnboardingModal/>", () => {
   });
 
   it("marks a footer link that opens in a new window", async () => {
+    // 1. Give the footer a link with an href.
     renderOnboarding({
       footerLink: { label: "Learn more", href: "https://example.com" },
     });
 
+    // 2. Its name says it opens a new window, and it opens safely.
     const link = await screen.findByRole("link", {
       name: "Learn more (opens in a new window)",
     });
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
+
+    // 3. The external-link icon is decorative.
     expect(link.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders a footer action without href as a button", async () => {
+    // 1. Give the footer an action with only an onClick.
     const onClick = vi.fn();
     renderOnboarding({ footerLink: { label: "Take the tour", onClick } });
     const user = userEvent.setup();
 
+    // 2. It is a button, not a link without href.
     const button = await screen.findByRole("button", { name: "Take the tour" });
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
 
+    // 3. Clicking it runs the action.
     await user.click(button);
     expect(onClick).toHaveBeenCalledTimes(1);
   });
