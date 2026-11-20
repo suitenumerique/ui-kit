@@ -1,0 +1,147 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/blocks";
+import * as Stories from "./onboarding-modal.stories";
+
+<Meta of={Stories} name="Docs" />
+
+# OnboardingModal
+
+`OnboardingModal` presents a feature tour inside a modal: a list of steps on the
+left, a preview of the selected step on the right, and Skip / Next buttons. It is
+built on `Modal` and on React Aria tabs.
+
+> Use **4 steps or fewer**. Past that, the step list scrolls.
+
+<Canvas of={Stories.Default} story={{ inline: false, height: "600px" }} />
+
+## Usage
+
+```tsx
+import { OnboardingModal, OnboardingStep } from "@gouvfr-lasuite/ui-components";
+
+const steps: OnboardingStep[] = [
+  {
+    icon: <span className="material-icons">grid_view</span>,
+    title: "Compose your doc easily",
+    description: "Move, duplicate, and transform your content.",
+    content: <img src="/onboarding-1.png" alt="The block menu of the editor" />,
+  },
+  {
+    icon: <span className="material-icons">share</span>,
+    title: "Share and collaborate",
+    description: "Decide who can view, comment, or edit.",
+    content: <img src="/onboarding-2.png" alt="The share dialog" />,
+  },
+];
+
+<OnboardingModal
+  isOpen={isOpen}
+  appName="Discover Docs"
+  mainTitle="Learn the core principles"
+  steps={steps}
+  onClose={() => setIsOpen(false)}
+  onComplete={() => setIsOpen(false)}
+/>;
+```
+
+`isOpen` and `onClose` work as in `Modal`. `onComplete` is called by the
+Understood button on the last step, `onSkip` by the Skip button, which is only
+shown when `onSkip` is set.
+
+## Steps
+
+Each step has an `icon`, a `title` and an optional `description`, shown only on
+the selected step. `activeIcon` replaces the icon on the selected step; without
+it, the icon takes the brand color.
+
+<Canvas
+  of={Stories.WithActiveIcons}
+  story={{ inline: false, height: "600px" }}
+/>
+
+`initialStep` sets the step selected at opening. An out of range value is clamped,
+with a warning in development.
+
+<Canvas of={Stories.StartAtStep2} story={{ inline: false, height: "600px" }} />
+
+## Preview content
+
+`content` is shown in the preview zone: an image, a video, or any component.
+Set it on **every step, or on none** (see text-only mode below). A step without
+`content` among steps that have one shows an empty preview, and logs a warning
+in development.
+
+<Canvas
+  of={Stories.WithCustomContent}
+  story={{ inline: false, height: "600px" }}
+/>
+
+`contentAlt` describes the preview to screen readers when it has no text
+alternative of its own: a video, a GIF, an illustration built in CSS. Leave it
+out when the preview is decorative or already described, such as an `img` with
+an `alt`.
+
+```tsx
+{
+  title: "Video content",
+  content: <video src="/tour.mp4" controls />,
+  contentAlt: "Short film: a document is shared with two people.",
+}
+```
+
+## Text-only mode
+
+`hideContent` removes the preview zone. `ReleaseNoteModal` uses this mode.
+
+<Canvas of={Stories.TextOnly} story={{ inline: false, height: "600px" }} />
+
+## Footer link
+
+`footerLink` adds an action on the left of the footer.
+
+- With `href`, it is a link that opens in a new window. It shows an
+  external-link icon and screen readers hear "opens in a new window".
+- With `onClick` only, it is a button.
+
+```tsx
+footerLink={{ label: "Learn more docs features", href: "https://docs.numerique.gouv.fr" }}
+footerLink={{ label: "Take the tour", onClick: startTour }}
+```
+
+## Labels
+
+Button labels come from the `CunninghamProvider` locale. Override them with
+`labels`.
+
+<Canvas of={Stories.CustomLabels} story={{ inline: false, height: "600px" }} />
+
+## Small screens
+
+Below 768px the modal is full screen, the step list is replaced by the selected
+step, and a Previous button appears from the second step.
+
+## Keyboard and accessibility
+
+The dialog is named by `mainTitle`. At opening the focus stays on the dialog,
+as with `Modal`.
+
+With a preview, the steps are vertical tabs that control the preview panel:
+
+- The step list is a single Tab stop. Tab enters on the selected step and
+  leaves to the preview, Shift+Tab comes back to the selected step.
+- Up and Down arrows, Home and End move the focus between steps without
+  selecting them. Enter, Space or a click selects the focused step.
+- Each step is named by its title. Only the selected step is described by its
+  description, so moving through the list reads each title once.
+- The preview panel is named by the selected step. It is focusable only when its
+  content has nothing focusable.
+
+In text-only mode there is no panel to control, so the steps are a list of
+buttons. Tab moves from one step to the next, and the selected step is marked
+with `aria-current="step"`.
+
+Next and Previous keep the focus on themselves and announce the new step through
+a polite status region: "Step 2 of 4: Format your content with the toolbar".
+
+## Props
+
+<ArgTypes of={Stories} />

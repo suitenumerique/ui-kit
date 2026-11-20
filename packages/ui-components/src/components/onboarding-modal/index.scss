@@ -6,6 +6,9 @@ $md: map.get($themes, "default", "globals", "breakpoints", "md");
 // Animation duration - must match TRANSITION_DURATION_MS in OnboardingModal.tsx
 $transition-duration: 200ms;
 
+// The icon box matches the title line so the icon centers on the first line.
+$step-title-line-height: 1.25rem;
+
 .c__onboarding-modal {
   display: flex;
   flex-direction: column;
@@ -47,6 +50,9 @@ $transition-duration: 200ms;
   flex-direction: column;
   overflow-y: auto;
   gap: var(--c--globals--spacings--xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c__onboarding-modal__step {
@@ -57,9 +63,11 @@ $transition-duration: 200ms;
   border: 2px solid transparent;
   border-radius: var(--c--globals--spacings--xs);
   background: transparent;
+  font: inherit;
   cursor: pointer;
   text-align: left;
   width: 100%;
+  box-sizing: border-box;
   outline: none;
 
   &:hover:not(.c__onboarding-modal__step--active) {
@@ -68,7 +76,8 @@ $transition-duration: 200ms;
     );
   }
 
-  &:focus-visible {
+  &:focus-visible,
+  &[data-focus-visible] {
     border-color: var(--c--contextuals--border--semantic--brand--primary);
   }
 }
@@ -87,7 +96,7 @@ $transition-duration: 200ms;
   align-items: center;
   justify-content: center;
 
-  height: 1.4em; // Align with title line-height
+  height: $step-title-line-height;
   color: var(--c--contextuals--content--semantic--neutral--tertiary);
   transition: color 0.2s ease;
 
@@ -100,12 +109,12 @@ $transition-duration: 200ms;
   display: flex;
   flex-direction: column;
   gap: var(--c--globals--spacings--4xs);
-  margin-top: 2px;
 }
 
 .c__onboarding-modal__step__title {
   font-size: var(--c--globals--font--sizes--sm);
   font-weight: 700;
+  line-height: $step-title-line-height;
   color: var(--c--contextuals--content--semantic--neutral--primary);
 }
 
@@ -147,6 +156,12 @@ $transition-duration: 200ms;
   overflow: hidden;
   padding: 0 1px;
   background-color: var(--c--contextuals--background--surface--secondary);
+  outline: none;
+
+  &[data-focus-visible] {
+    outline: 2px solid var(--c--contextuals--border--semantic--brand--primary);
+    outline-offset: -2px;
+  }
 }
 
 .c__onboarding-modal__content-inner {
@@ -200,6 +215,15 @@ $transition-duration: 200ms;
 
   .material-icons {
     font-size: 24px;
+  }
+
+  &--button {
+    background: none;
+    border: 0;
+    padding: 0 0 0 16px;
+    font: inherit;
+    font-size: var(--c--globals--font--sizes--base);
+    cursor: pointer;
   }
 }
 
