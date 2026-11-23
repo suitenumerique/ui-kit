@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { test, expect, type Page } from "@playwright/experimental-ct-react";
+import { test, expect } from "@playwright/experimental-ct-react";
+import type { Page } from "@playwright/test";
 import { TestFilePreview } from "../helpers/mount-preview";
 import { imageFile } from "../helpers/fixtures";
 import type { FilePreviewType } from "../../src/components/preview/types";
@@ -311,15 +312,14 @@ const requestAccessStates: { state: "sent" | "already-requested"; label: string 
 ];
 
 for (const { state, label } of requestAccessStates) {
-  test(`requestAccessState="${state}" disables the button and shows the right label`, async ({
+  test(`requestAccessState="${state}" on the file disables the button and shows the right label`, async ({
     mount,
     page,
   }) => {
     await mount(
       <TestFilePreview
-        files={[folder]}
+        files={[{ ...folder, requestAccessState: state }]}
         onRequestAccess={() => {}}
-        requestAccessState={state}
       />,
     );
     const button = page.getByRole("button", { name: label, exact: true });
@@ -327,6 +327,32 @@ for (const { state, label } of requestAccessStates) {
     await expect(button).toBeDisabled();
   });
 }
+
+test("Two denied folders keep independent request statuses across navigation", async ({
+  mount,
+  page,
+}) => {
+  const secondFolder = { ...folder, id: "second-folder", title: "Other.folder" };
+  const requested: string[] = [];
+  await mount(
+    <TestFilePreview
+      files={[folder, secondFolder]}
+      onRequestAccess={(file) => { requested.push(file.id); }}
+    />,
+  );
+
+  const next = page.locator(".file-preview__next-button button");
+
+  await page.getByRole("button", { name: "Request access", exact: true }).click();
+  await expect.poll(() => requested).toEqual([folder.id]);
+
+  // The second folder must have its own independent enabled button
+  await next.click();
+  await expect(page.locator(".file-preview__title")).toHaveText(secondFolder.title);
+  await expect(
+    page.getByRole("button", { name: "Request access", exact: true }),
+  ).toBeEnabled();
+});
 
 const errorToast = (page: Page) =>
   page.locator(".c__toast__container").getByText(

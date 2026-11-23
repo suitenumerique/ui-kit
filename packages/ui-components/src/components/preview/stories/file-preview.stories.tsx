@@ -7,8 +7,10 @@ import {
   Primary,
   Stories,
 } from "@storybook/blocks";
+import { useState } from "react";
 import { FilePreview } from "../FilePreview";
 import { FilePreviewExample } from "./FilePreviewExample";
+import type { FilePreviewType } from "../types";
 import {
   allFiles,
   audioFiles,
@@ -423,37 +425,37 @@ export const AllFiles: Story = {
 
 /** Request access emits the current folder in the Actions panel and stays open. */
 export const FolderAccessDenied: Story = {
-  args: {
-    files: [inaccessibleFolder],
-    hideCloseButton: false,
-    onRequestAccess: fn().mockResolvedValue(undefined),
-  },
-  render: (args) => (
+  render: () => (
     <FilePreviewExample
-      files={args.files!}
-      onRequestAccess={args.onRequestAccess}
-      hideCloseButton={args.hideCloseButton}
-      requestAccessState={args.requestAccessState}
+      files={[inaccessibleFolder]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
     />
   ),
 };
 
 /** After the request is submitted, the button is disabled and its label reflects the state. */
 export const FolderAccessDeniedRequestSent: Story = {
-  ...FolderAccessDenied,
-  args: { ...FolderAccessDenied.args, requestAccessState: "sent" },
+  render: () => (
+    <FilePreviewExample
+      files={[{ ...inaccessibleFolder, requestAccessState: "sent" }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
 };
 
 /** When a request was already submitted previously, the button reflects that state. */
 export const FolderAccessDeniedAlreadyRequested: Story = {
-  ...FolderAccessDenied,
-  args: { ...FolderAccessDenied.args, requestAccessState: "already-requested" },
+  render: () => (
+    <FilePreviewExample
+      files={[{ ...inaccessibleFolder, requestAccessState: "already-requested" }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
 };
 
 /** Without a handler, the only central action is Close. */
 export const FolderAccessDeniedWithoutRequest: Story = {
-  ...FolderAccessDenied,
-  args: { ...FolderAccessDenied.args, onRequestAccess: undefined },
+  render: () => <FilePreviewExample files={[inaccessibleFolder]} />,
 };
 
 /**
@@ -472,24 +474,46 @@ export const FolderAccessDeniedError: Story = {
 
 /** Folder names, including dots and long unbroken segments, stay intact. */
 export const FolderAccessDeniedLongName: Story = {
-  ...FolderAccessDenied,
-  args: {
-    ...FolderAccessDenied.args,
-    files: [
-      {
+  render: () => (
+    <FilePreviewExample
+      files={[{
         ...inaccessibleFolder,
-        title:
-          "Top.secret.Project.documentation.and.confidential.archives.2026",
-      },
-    ],
-  },
+        title: "Top.secret.Project.documentation.and.confidential.archives.2026",
+      }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
 };
 
-/** Navigate between a regular image and an inaccessible folder. */
+/**
+ * Navigate between a regular image and two inaccessible folders.
+ * Each folder tracks its own request status independently.
+ */
+const FolderAccessDeniedNavigationExample = () => {
+  const secondFolder: FilePreviewType = {
+    ...inaccessibleFolder,
+    id: "folder-no-access-2",
+    title: "Another secret folder",
+  };
+  const [files, setFiles] = useState<FilePreviewType[]>([
+    imageFiles[0],
+    inaccessibleFolder,
+    secondFolder,
+  ]);
+
+  const handleRequestAccess = async (file: FilePreviewType) => {
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === file.id ? { ...f, requestAccessState: "sent" as const } : f,
+      ),
+    );
+  };
+
+  return (
+    <FilePreviewExample files={files} onRequestAccess={handleRequestAccess} />
+  );
+};
+
 export const FolderAccessDeniedNavigation: Story = {
-  ...FolderAccessDenied,
-  args: {
-    ...FolderAccessDenied.args,
-    files: [imageFiles[0], inaccessibleFolder],
-  },
+  render: () => <FolderAccessDeniedNavigationExample />,
 };

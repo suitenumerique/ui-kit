@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CunninghamProvider } from "../../src/components/provider/Provider";
 import { FilePreview } from "../../src/components/preview/FilePreview";
 import type { FilePreviewType } from "../../src/components/preview/types";
-import type { RequestAccessState } from "../../src/components/preview/viewers/no-access/NoAccessPreview";
 import { MenuItemAction } from ":/index";
 
 // Playwright CT bridges function props as one-way dispatchers whose return
@@ -21,7 +20,6 @@ interface TestFilePreviewProps {
   onRequestAccess?: (file: FilePreviewType) => void;
   requestAccessShouldReject?: boolean;
   requestAccessDelayMs?: number;
-  requestAccessState?: RequestAccessState;
   onOpenInEditor?: (file: FilePreviewType) => void;
   hideCloseButton?: boolean;
   currentLocale?: string;
@@ -37,7 +35,6 @@ export const TestFilePreview = ({
   onRequestAccess,
   requestAccessShouldReject = false,
   requestAccessDelayMs = 0,
-  requestAccessState,
   onOpenInEditor,
   hideCloseButton,
   currentLocale = "en-US",
@@ -92,7 +89,6 @@ export const TestFilePreview = ({
           handleDownloadFile={handleDownloadFile}
           onClose={onClose}
           onRequestAccess={wrappedOnRequestAccess}
-          requestAccessState={requestAccessState}
           onOpenInEditor={onOpenInEditor}
           hideCloseButton={hideCloseButton}
           customHeaderActions={customHeaderActions}
