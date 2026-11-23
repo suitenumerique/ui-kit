@@ -91,6 +91,12 @@ interface FilePreviewProps {
   pdfWorkerSrc?: string;
   pdfAssetsUrl?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
+  /**
+   * Called when the user requests access to a denied folder. Return a Promise:
+   * the button is locked while it is pending, and a failure shows an error toast.
+   * Do not show your own error toast. On success, set the file's
+   * `requestAccessState` to `"sent"`.
+   */
   onRequestAccess?: (file: FilePreviewType) => Promise<void>;
 }
 

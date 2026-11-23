@@ -117,6 +117,7 @@ import { Button } from ":/cunningham";
  * | `url_preview` | `string` | URL passed to the viewer — can be a signed/short-lived variant |
  * | `is_wopi_supported` | `boolean?` | Show the "Open in editor" CTA instead of an inline viewer |
  * | `isFolderAccessDenied` | `boolean?` | Defaults to false. The user cannot open this folder; do not set for restricted folders they can access |
+ * | `requestAccessState` | `"sent" \| "already-requested"?` | Only meaningful when `isFolderAccessDenied` is true. Set to `"sent"` after a successful `onRequestAccess` call, `"already-requested"` when a prior request exists. Omit when no request has been made |
  * | `isSuspicious` | `boolean?` | Show the suspicious-file warning screen |
  *
  * ## `FilePreviewProps`
@@ -132,7 +133,7 @@ import { Button } from ":/cunningham";
  * | `onChangeFile` | `(file?: FilePreviewType) => void` | Fires on prev/next — sync your `openedFileId` here |
  * | `onFileOpen` | `(file: FilePreviewType) => void` | Fires once per file when it becomes visible |
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
- * | `onRequestAccess` | `(file: FilePreviewType) => void` | Enables Request access for inaccessible folders; the app owns processing and feedback. Leaves the preview open |
+ * | `onRequestAccess` | `(file: FilePreviewType) => Promise<void>` | Enables the Request access button on denied folders. The button locks while the Promise is pending; a rejection shows an error toast — do not show your own. On success, set the file's `requestAccessState` to `"sent"` |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
  * | `customHeaderActions` | `(headerActions: ReactNode) => ReactNode` | Wraps the built-in header actions — receives them as a node so you can add nodes around them or replace the group entirely |
  * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_horiz`) menu with extra entries — appended after Download / Print on PDF and image files |
@@ -223,7 +224,7 @@ const meta: Meta<typeof FilePreview> = {
     },
     onRequestAccess: {
       description:
-        "Request folder access without closing; the app owns feedback",
+        "Enables the Request access button on denied folders. The ui-kit locks the button while pending and shows an error toast on failure — do not add your own. On success, set the file's `requestAccessState` to `\"sent\"`",
       control: false,
     },
     onOpenInEditor: {
