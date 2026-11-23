@@ -16,7 +16,11 @@ interface TestFilePreviewProps {
   initialIndexFile?: number;
   handleDownloadFile?: (file?: FilePreviewType) => void;
   onClose?: () => void;
+  // Bridge functions always return undefined; use requestAccessShouldReject /
+  // requestAccessDelayMs to control async behaviour from the test side.
   onRequestAccess?: (file: FilePreviewType) => void;
+  requestAccessShouldReject?: boolean;
+  requestAccessDelayMs?: number;
   requestAccessState?: RequestAccessState;
   onOpenInEditor?: (file: FilePreviewType) => void;
   hideCloseButton?: boolean;
@@ -31,6 +35,8 @@ export const TestFilePreview = ({
   handleDownloadFile,
   onClose,
   onRequestAccess,
+  requestAccessShouldReject = false,
+  requestAccessDelayMs = 0,
   requestAccessState,
   onOpenInEditor,
   hideCloseButton,
@@ -42,6 +48,21 @@ export const TestFilePreview = ({
     defaultOptions: { queries: { retry: false } },
   });
   const openedFileId = files[initialIndexFile]?.id;
+
+  // The CT bridge always returns undefined, so tests for rejection (error toast)
+  // and in-flight locking (double-submit) pass plain-data flags instead of
+  // async functions, and we build the actual Promise behaviour here.
+  const wrappedOnRequestAccess = onRequestAccess
+    ? async (file: FilePreviewType) => {
+        onRequestAccess(file);
+        if (requestAccessDelayMs > 0) {
+          await new Promise<void>((resolve) =>
+            setTimeout(resolve, requestAccessDelayMs),
+          );
+        }
+        if (requestAccessShouldReject) throw new Error("request-failed");
+      }
+    : undefined;
 
   const customHeaderActions =
     customHeaderActionsMode === "wrap"
@@ -70,7 +91,7 @@ export const TestFilePreview = ({
           pdfWorkerSrc="/pdf.worker.mjs"
           handleDownloadFile={handleDownloadFile}
           onClose={onClose}
-          onRequestAccess={onRequestAccess}
+          onRequestAccess={wrappedOnRequestAccess}
           requestAccessState={requestAccessState}
           onOpenInEditor={onOpenInEditor}
           hideCloseButton={hideCloseButton}

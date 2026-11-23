@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { test, expect } from "@playwright/experimental-ct-react";
+import { test, expect, type Page } from "@playwright/experimental-ct-react";
 import { TestFilePreview } from "../helpers/mount-preview";
 import { imageFile } from "../helpers/fixtures";
 import type { FilePreviewType } from "../../src/components/preview/types";
@@ -328,7 +328,13 @@ for (const { state, label } of requestAccessStates) {
   });
 }
 
-test(`requestAccessState="error" re-enables the button and shows the error toast`, async ({
+const errorToast = (page: Page) =>
+  page.locator(".c__toast__container").getByText(
+    "An unexpected error occurred while requesting access. Please try again later.",
+    { exact: true },
+  );
+
+test("A failed request shows an error toast and re-enables the button for a retry", async ({
   mount,
   page,
 }) => {
@@ -336,48 +342,52 @@ test(`requestAccessState="error" re-enables the button and shows the error toast
     <TestFilePreview
       files={[folder]}
       onRequestAccess={() => {}}
-      requestAccessState="error"
+      requestAccessShouldReject={true}
     />,
   );
   const button = page.getByRole("button", { name: "Request access", exact: true });
-  await expect(button).toBeVisible();
+  await button.click();
+  await expect(errorToast(page)).toBeVisible();
   await expect(button).toBeEnabled();
-  await expect(
-    page.locator(".c__toast__container").getByText(
-      "An unexpected error occurred while requesting access. Please try again later.",
-      { exact: true },
-    ),
-  ).toBeVisible();
 });
 
-test(`requestAccessState transitions from "error" to "sent": toast appears and button becomes disabled`, async ({
+test("Two consecutive failures each show an error toast", async ({
   mount,
   page,
 }) => {
-  const component = await mount(
+  await mount(
     <TestFilePreview
       files={[folder]}
       onRequestAccess={() => {}}
-      requestAccessState="error"
+      requestAccessShouldReject={true}
     />,
   );
-  await expect(
-    page.locator(".c__toast__container").getByText(
-      "An unexpected error occurred while requesting access. Please try again later.",
-      { exact: true },
-    ),
-  ).toBeVisible();
+  const button = page.getByRole("button", { name: "Request access", exact: true });
+  await button.click();
+  await expect(errorToast(page)).toHaveCount(1);
+  await expect(button).toBeEnabled();
+  await button.click();
+  await expect(errorToast(page)).toHaveCount(2);
+});
 
-  await component.update(
+test("Button is locked while the request is in flight, preventing double-submit", async ({
+  mount,
+  page,
+}) => {
+  let callCount = 0;
+  await mount(
     <TestFilePreview
       files={[folder]}
-      onRequestAccess={() => {}}
-      requestAccessState="sent"
+      onRequestAccess={() => { callCount++; }}
+      requestAccessDelayMs={500}
     />,
   );
-  const button = page.getByRole("button", { name: "Request sent", exact: true });
-  await expect(button).toBeVisible();
+  const button = page.getByRole("button", { name: "Request access", exact: true });
+  await button.click();
   await expect(button).toBeDisabled();
+  await button.click({ force: true });
+  await expect(button).toBeEnabled({ timeout: 1000 });
+  expect(callCount).toBe(1);
 });
 
 for (const { locale, close, request, description } of translations) {

@@ -94,8 +94,7 @@ interface FilePreviewProps {
   pdfWorkerSrc?: string;
   pdfAssetsUrl?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
-  /** The consuming app handles the access request and its feedback. */
-  onRequestAccess?: (file: FilePreviewType) => void;
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
   requestAccessState?: RequestAccessState;
 }
 

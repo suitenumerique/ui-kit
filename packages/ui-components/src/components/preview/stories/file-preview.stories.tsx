@@ -426,7 +426,7 @@ export const FolderAccessDenied: Story = {
   args: {
     files: [inaccessibleFolder],
     hideCloseButton: false,
-    onRequestAccess: fn(),
+    onRequestAccess: fn().mockResolvedValue(undefined),
   },
   render: (args) => (
     <FilePreviewExample
@@ -454,6 +454,20 @@ export const FolderAccessDeniedAlreadyRequested: Story = {
 export const FolderAccessDeniedWithoutRequest: Story = {
   ...FolderAccessDenied,
   args: { ...FolderAccessDenied.args, onRequestAccess: undefined },
+};
+
+/**
+ * When the request fails, an error toast is shown and the button re-enables for a retry.
+ * The handler is passed directly (not through args) to prevent Storybook's actions addon
+ * from intercepting it and dropping the rejected Promise.
+ */
+export const FolderAccessDeniedError: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={[inaccessibleFolder]}
+      onRequestAccess={() => Promise.reject(new Error("Access denied"))}
+    />
+  ),
 };
 
 /** Folder names, including dots and long unbroken segments, stay intact. */

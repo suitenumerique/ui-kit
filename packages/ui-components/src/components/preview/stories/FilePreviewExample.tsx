@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
-  onRequestAccess?: (file: FilePreviewType) => void;
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
   requestAccessState?: RequestAccessState;
   hideCloseButton?: boolean;
   customHeaderActions?: (headerActions: ReactNode) => ReactNode;

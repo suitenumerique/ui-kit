@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { Button } from ":/cunningham";
 import { BubbleText } from ":/components/icon/icons/BubbleText";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
@@ -13,14 +13,13 @@ import { IconSize } from ":/components/icon";
 export type RequestAccessState =
   | "not-requested"
   | "sent"
-  | "already-requested"
-  | "error";
+  | "already-requested";
 
 interface NoAccessPreviewProps {
   file: FilePreviewType;
   onClose?: () => void;
   hideCloseButton?: boolean;
-  onRequestAccess?: (file: FilePreviewType) => void;
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
   requestAccessState?: RequestAccessState;
 }
 
@@ -29,7 +28,6 @@ const requestAccessLabel: Record<RequestAccessState, TranslationKey> = {
   sent: "components.filePreview.folderAccessDenied.requestSent",
   "already-requested":
     "components.filePreview.folderAccessDenied.alreadyRequested",
-  error: "components.filePreview.folderAccessDenied.requestAccess",
 };
 
 export const NoAccessPreview = ({
@@ -41,15 +39,27 @@ export const NoAccessPreview = ({
 }: NoAccessPreviewProps) => {
   const { t } = useCustomTranslations();
   const { toast } = useToastProvider();
+  const [isSending, setIsSending] = useState(false);
 
-  useEffect(() => {
-    if (requestAccessState === "error") {
+  const isLocked =
+    isSending ||
+    requestAccessState === "sent" ||
+    requestAccessState === "already-requested";
+
+  const handleRequestAccess = async () => {
+    if (isLocked) return;
+    setIsSending(true);
+    try {
+      await onRequestAccess(file);
+    } catch {
       toast(
         t("components.filePreview.folderAccessDenied.requestError"),
         VariantType.ERROR,
       );
+    } finally {
+      setIsSending(false);
     }
-  }, [requestAccessState]);
+  };
 
   return (
     <div className="file-preview-no-access" data-preview-backdrop="true">
@@ -75,21 +85,16 @@ export const NoAccessPreview = ({
                 </Button>
               )}
               {onRequestAccess && (
-                <>
-                  <Button
-                    size="nano"
-                    variant="secondary"
-                    color="brand"
-                    icon={<BubbleText size={16} />}
-                    onClick={() => onRequestAccess(file)}
-                    disabled={
-                      requestAccessState === "sent" ||
-                      requestAccessState === "already-requested"
-                    }
-                  >
-                    {t(requestAccessLabel[requestAccessState])}
-                  </Button>
-                </>
+                <Button
+                  size="nano"
+                  variant="secondary"
+                  color="brand"
+                  icon={<BubbleText size={16} />}
+                  onClick={handleRequestAccess}
+                  disabled={isLocked}
+                >
+                  {t(requestAccessLabel[requestAccessState])}
+                </Button>
               )}
             </div>
           )
