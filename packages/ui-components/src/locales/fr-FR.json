@@ -214,7 +214,10 @@
       "folderAccessDenied": {
         "description": "Vous n’avez pas les autorisations nécessaires pour ouvrir ce dossier.",
         "close": "Fermer",
-        "requestAccess": "Demander l’accès"
+        "requestAccess": "Demander l’accès",
+        "requestSent": "Demande envoyée",
+        "alreadyRequested": "Accès déjà demandé",
+        "requestError": "Une erreur inattendue s'est produite lors de la demande d'accès. Veuillez réessayer plus tard."
       },
       "unsupported": {
         "title": "Fichier non pris en charge",

@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 interface FilePreviewExampleProps {
   files: FilePreviewType[];
   initialFileId?: string;
-  onRequestAccess?: (file: FilePreviewType) => void;
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
   hideCloseButton?: boolean;
   customHeaderActions?: (headerActions: ReactNode) => ReactNode;
   headerActionsMenuOptions?: (file: FilePreviewType) => MenuItemAction[];
@@ -29,8 +29,8 @@ export const FilePreviewExample = ({
   );
 
   useEffect(() => {
-    setOpenedFileId(initialFileId ?? files[0]?.id);
-  }, [initialFileId, files]);
+    if (initialFileId !== undefined) setOpenedFileId(initialFileId);
+  }, [initialFileId]);
 
   return (
     <QueryClientProvider client={queryClient}>

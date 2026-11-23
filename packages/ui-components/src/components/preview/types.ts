@@ -1,3 +1,5 @@
+export type RequestAccessState = "sent" | "already-requested";
+
 export type FilePreviewType = {
   id: string;
   size: number;
@@ -12,4 +14,6 @@ export type FilePreviewType = {
    * Do not set this for a restricted folder the user can still access.
    */
   isFolderAccessDenied?: boolean;
+  /** Access request status, only used when `isFolderAccessDenied` is true. */
+  requestAccessState?: RequestAccessState;
 };

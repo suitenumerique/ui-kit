@@ -7,12 +7,13 @@
   .preview-message {
     height: auto;
     min-height: 100%;
+    width: 228px;
+    max-width: 100%;
+    margin-inline: auto;
   }
 
   .preview-message__title,
   .preview-message__description {
-    width: 228px;
-    max-width: 100%;
     overflow-wrap: anywhere;
   }
 
@@ -28,4 +29,5 @@
     justify-content: center;
     gap: var(--c--globals--spacings--xs);
   }
+
 }

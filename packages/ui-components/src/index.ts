@@ -498,6 +498,7 @@ export {
 export type {
   FilePreviewType,
   PreviewControlsProps,
+  RequestAccessState,
   VolumeBarProps,
 } from "./components/preview";
 

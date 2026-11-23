@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/experimental-ct-react";
+import type { Page } from "@playwright/test";
 import { TestFilePreview } from "../helpers/mount-preview";
 import { imageFile } from "../helpers/fixtures";
 import type { FilePreviewType } from "../../src/components/preview/types";
@@ -304,6 +305,116 @@ const translations = [
     description: "No tienes los permisos necesarios para abrir esta carpeta.",
   },
 ];
+
+const requestAccessStates: { state: "sent" | "already-requested"; label: string }[] = [
+  { state: "sent", label: "Request sent" },
+  { state: "already-requested", label: "Access already requested" },
+];
+
+for (const { state, label } of requestAccessStates) {
+  test(`requestAccessState="${state}" on the file disables the button and shows the right label`, async ({
+    mount,
+    page,
+  }) => {
+    await mount(
+      <TestFilePreview
+        files={[{ ...folder, requestAccessState: state }]}
+        onRequestAccess={() => {}}
+      />,
+    );
+    const button = page.getByRole("button", { name: label, exact: true });
+    await expect(button).toBeVisible();
+    await expect(button).toBeDisabled();
+  });
+}
+
+test("Two denied folders keep independent request statuses across navigation", async ({
+  mount,
+  page,
+}) => {
+  const secondFolder = { ...folder, id: "second-folder", title: "Other.folder" };
+  const requested: string[] = [];
+  await mount(
+    <TestFilePreview
+      files={[folder, secondFolder]}
+      onRequestAccess={(file) => { requested.push(file.id); }}
+    />,
+  );
+
+  const next = page.locator(".file-preview__next-button button");
+
+  await page.getByRole("button", { name: "Request access", exact: true }).click();
+  await expect.poll(() => requested).toEqual([folder.id]);
+
+  // The second folder must have its own independent enabled button
+  await next.click();
+  await expect(page.locator(".file-preview__title")).toHaveText(secondFolder.title);
+  await expect(
+    page.getByRole("button", { name: "Request access", exact: true }),
+  ).toBeEnabled();
+});
+
+const errorToast = (page: Page) =>
+  page.locator(".c__toast__container").getByText(
+    "An unexpected error occurred while requesting access. Please try again later.",
+    { exact: true },
+  );
+
+test("A failed request shows an error toast and re-enables the button for a retry", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <TestFilePreview
+      files={[folder]}
+      onRequestAccess={() => {}}
+      requestAccessShouldReject={true}
+    />,
+  );
+  const button = page.getByRole("button", { name: "Request access", exact: true });
+  await button.click();
+  await expect(errorToast(page)).toBeVisible();
+  await expect(button).toBeEnabled();
+});
+
+test("Two consecutive failures each show an error toast", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <TestFilePreview
+      files={[folder]}
+      onRequestAccess={() => {}}
+      requestAccessShouldReject={true}
+    />,
+  );
+  const button = page.getByRole("button", { name: "Request access", exact: true });
+  await button.click();
+  await expect(errorToast(page)).toHaveCount(1);
+  await expect(button).toBeEnabled();
+  await button.click();
+  await expect(errorToast(page)).toHaveCount(2);
+});
+
+test("Button is locked while the request is in flight, preventing double-submit", async ({
+  mount,
+  page,
+}) => {
+  let callCount = 0;
+  await mount(
+    <TestFilePreview
+      files={[folder]}
+      onRequestAccess={() => { callCount++; }}
+      requestAccessDelayMs={500}
+    />,
+  );
+  const button = page.getByRole("button", { name: "Request access", exact: true });
+  await button.click();
+  await expect(button).toBeDisabled();
+  await button.click({ force: true });
+  await expect(button).toBeEnabled({ timeout: 1000 });
+  expect(callCount).toBe(1);
+});
 
 for (const { locale, close, request, description } of translations) {
   test(`Long folder names and ${locale} actions fit a narrow screen`, async ({

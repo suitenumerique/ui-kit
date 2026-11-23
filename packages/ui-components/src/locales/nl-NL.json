@@ -214,7 +214,10 @@
       "folderAccessDenied": {
         "description": "Je hebt niet de benodigde rechten om deze map te openen.",
         "close": "Sluiten",
-        "requestAccess": "Toegang aanvragen"
+        "requestAccess": "Toegang aanvragen",
+        "requestSent": "Verzoek verzonden",
+        "alreadyRequested": "Toegang al aangevraagd",
+        "requestError": "Er is een onverwachte fout opgetreden bij het aanvragen van toegang. Probeer het later opnieuw."
       },
       "unsupported": {
         "title": "Niet-ondersteund bestand",

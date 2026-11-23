@@ -7,8 +7,10 @@ import {
   Primary,
   Stories,
 } from "@storybook/blocks";
+import { useState } from "react";
 import { FilePreview } from "../FilePreview";
 import { FilePreviewExample } from "./FilePreviewExample";
+import type { FilePreviewType } from "../types";
 import {
   allFiles,
   audioFiles,
@@ -115,6 +117,7 @@ import { Button } from ":/cunningham";
  * | `url_preview` | `string` | URL passed to the viewer — can be a signed/short-lived variant |
  * | `is_wopi_supported` | `boolean?` | Show the "Open in editor" CTA instead of an inline viewer |
  * | `isFolderAccessDenied` | `boolean?` | Defaults to false. The user cannot open this folder; do not set for restricted folders they can access |
+ * | `requestAccessState` | `"sent" \| "already-requested"?` | Only meaningful when `isFolderAccessDenied` is true. Set to `"sent"` after a successful `onRequestAccess` call, `"already-requested"` when a prior request exists. Omit when no request has been made |
  * | `isSuspicious` | `boolean?` | Show the suspicious-file warning screen |
  *
  * ## `FilePreviewProps`
@@ -130,7 +133,7 @@ import { Button } from ":/cunningham";
  * | `onChangeFile` | `(file?: FilePreviewType) => void` | Fires on prev/next — sync your `openedFileId` here |
  * | `onFileOpen` | `(file: FilePreviewType) => void` | Fires once per file when it becomes visible |
  * | `handleDownloadFile` | `(file?: FilePreviewType) => void` | Enables the download button + menu entry |
- * | `onRequestAccess` | `(file: FilePreviewType) => void` | Enables Request access for inaccessible folders; the app owns processing and feedback. Leaves the preview open |
+ * | `onRequestAccess` | `(file: FilePreviewType) => Promise<void>` | Enables the Request access button on denied folders. The button locks while the Promise is pending; a rejection shows an error toast — do not show your own. On success, set the file's `requestAccessState` to `"sent"` |
  * | `onOpenInEditor` | `(file: FilePreviewType) => void` | Required to render the WOPI "Open in editor" CTA |
  * | `customHeaderActions` | `(headerActions: ReactNode) => ReactNode` | Wraps the built-in header actions — receives them as a node so you can add nodes around them or replace the group entirely |
  * | `headerActionsMenuOptions` | `(file: FilePreviewType) => MenuItemAction[]` | Extends the kebab (`more_horiz`) menu with extra entries — appended after Download / Print on PDF and image files |
@@ -221,7 +224,7 @@ const meta: Meta<typeof FilePreview> = {
     },
     onRequestAccess: {
       description:
-        "Request folder access without closing; the app owns feedback",
+        "Enables the Request access button on denied folders. The ui-kit locks the button while pending and shows an error toast on failure — do not add your own. On success, set the file's `requestAccessState` to `\"sent\"`",
       control: false,
     },
     onOpenInEditor: {
@@ -423,46 +426,95 @@ export const AllFiles: Story = {
 
 /** Request access emits the current folder in the Actions panel and stays open. */
 export const FolderAccessDenied: Story = {
-  args: {
-    files: [inaccessibleFolder],
-    hideCloseButton: false,
-    onRequestAccess: fn(),
-  },
-  render: (args) => (
+  render: () => (
     <FilePreviewExample
-      files={args.files!}
-      onRequestAccess={args.onRequestAccess}
-      hideCloseButton={args.hideCloseButton}
+      files={[inaccessibleFolder]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
+};
+
+/** After the request is submitted, the button is disabled and its label reflects the state. */
+export const FolderAccessDeniedRequestSent: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={[{ ...inaccessibleFolder, requestAccessState: "sent" }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
+};
+
+/** When a request was already submitted previously, the button reflects that state. */
+export const FolderAccessDeniedAlreadyRequested: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={[{ ...inaccessibleFolder, requestAccessState: "already-requested" }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
     />
   ),
 };
 
 /** Without a handler, the only central action is Close. */
 export const FolderAccessDeniedWithoutRequest: Story = {
-  ...FolderAccessDenied,
-  args: { ...FolderAccessDenied.args, onRequestAccess: undefined },
+  render: () => <FilePreviewExample files={[inaccessibleFolder]} />,
+};
+
+/**
+ * When the request fails, an error toast is shown and the button re-enables for a retry.
+ * The handler is passed directly (not through args) to prevent Storybook's actions addon
+ * from intercepting it and dropping the rejected Promise.
+ */
+export const FolderAccessDeniedError: Story = {
+  render: () => (
+    <FilePreviewExample
+      files={[inaccessibleFolder]}
+      onRequestAccess={() => Promise.reject(new Error("Access denied"))}
+    />
+  ),
 };
 
 /** Folder names, including dots and long unbroken segments, stay intact. */
 export const FolderAccessDeniedLongName: Story = {
-  ...FolderAccessDenied,
-  args: {
-    ...FolderAccessDenied.args,
-    files: [
-      {
+  render: () => (
+    <FilePreviewExample
+      files={[{
         ...inaccessibleFolder,
-        title:
-          "Top.secret.Project.documentation.and.confidential.archives.2026",
-      },
-    ],
-  },
+        title: "Top.secret.Project.documentation.and.confidential.archives.2026",
+      }]}
+      onRequestAccess={fn().mockResolvedValue(undefined)}
+    />
+  ),
 };
 
-/** Navigate between a regular image and an inaccessible folder. */
+/**
+ * Navigate between a regular image and two inaccessible folders.
+ * Each folder tracks its own request status independently.
+ */
+const FolderAccessDeniedNavigationExample = () => {
+  const secondFolder: FilePreviewType = {
+    ...inaccessibleFolder,
+    id: "folder-no-access-2",
+    title: "Another secret folder",
+  };
+  const [files, setFiles] = useState<FilePreviewType[]>([
+    imageFiles[0],
+    inaccessibleFolder,
+    secondFolder,
+  ]);
+
+  const handleRequestAccess = async (file: FilePreviewType) => {
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === file.id ? { ...f, requestAccessState: "sent" as const } : f,
+      ),
+    );
+  };
+
+  return (
+    <FilePreviewExample files={files} onRequestAccess={handleRequestAccess} />
+  );
+};
+
 export const FolderAccessDeniedNavigation: Story = {
-  ...FolderAccessDenied,
-  args: {
-    ...FolderAccessDenied.args,
-    files: [imageFiles[0], inaccessibleFolder],
-  },
+  render: () => <FolderAccessDeniedNavigationExample />,
 };

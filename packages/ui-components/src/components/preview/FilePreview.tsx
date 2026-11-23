@@ -37,6 +37,7 @@ import { WopiOpenInEditor } from "./viewers/wopi/WopiOpenInEditor";
 import { OPEN_DELAY } from "./viewers/pdf-preview/pdfConsts";
 import { OutdatedBrowserPreview } from "./viewers/pdf-preview/OutdatedBrowserPreview";
 import { MenuItemAction } from ":/components/menu";
+import { ToastProvider } from ":/components/toast/ToastProvider";
 
 // Lazy-load PDF rendering — react-pdf + pdfjs-dist + react-virtualized weigh
 // over a megabyte gzipped, and most previews aren't PDFs. We narrow the
@@ -90,8 +91,13 @@ interface FilePreviewProps {
   pdfWorkerSrc?: string;
   pdfAssetsUrl?: string;
   onOpenInEditor?: (file: FilePreviewType) => void;
-  /** The consuming app handles the access request and its feedback. */
-  onRequestAccess?: (file: FilePreviewType) => void;
+  /**
+   * Called when the user requests access to a denied folder. Return a Promise:
+   * the button is locked while it is pending, and a failure shows an error toast.
+   * Do not show your own error toast. On success, set the file's
+   * `requestAccessState` to `"sent"`.
+   */
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
 }
 
 export const FilePreview = ({
@@ -174,12 +180,15 @@ export const FilePreview = ({
 
     if (currentFile.isFolderAccessDenied) {
       return (
-        <NoAccessPreview
-          file={currentFile}
-          onClose={onClose}
-          hideCloseButton={hideCloseButton}
-          onRequestAccess={onRequestAccess}
-        />
+        <ToastProvider position="bottom-center">
+          <NoAccessPreview
+            key={currentFile.id}
+            file={currentFile}
+            onClose={onClose}
+            hideCloseButton={hideCloseButton}
+            onRequestAccess={onRequestAccess}
+          />
+        </ToastProvider>
       );
     }
 

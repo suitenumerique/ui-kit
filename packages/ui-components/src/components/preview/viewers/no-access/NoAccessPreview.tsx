@@ -1,17 +1,27 @@
+import { useState } from "react";
 import { Button } from ":/cunningham";
 import { BubbleText } from ":/components/icon/icons/BubbleText";
 import { useCustomTranslations } from ":/hooks/useCustomTranslations";
+import type { TranslationKey } from ":/types/translations";
+import { useToastProvider } from ":/components/toast/ToastProvider";
+import { VariantType } from ":/utils/VariantUtils";
 import { PreviewMessage } from "../../components/preview-message/PreviewMessage";
 import { FileIcon } from "../../icons/FileIcon";
-import { FilePreviewType } from "../../types";
+import { FilePreviewType, RequestAccessState } from "../../types";
 import { IconSize } from ":/components/icon";
 
 interface NoAccessPreviewProps {
   file: FilePreviewType;
   onClose?: () => void;
   hideCloseButton?: boolean;
-  onRequestAccess?: (file: FilePreviewType) => void;
+  onRequestAccess?: (file: FilePreviewType) => Promise<void>;
 }
+
+const requestAccessLabel: Record<RequestAccessState, TranslationKey> = {
+  sent: "components.filePreview.folderAccessDenied.requestSent",
+  "already-requested":
+    "components.filePreview.folderAccessDenied.alreadyRequested",
+};
 
 export const NoAccessPreview = ({
   file,
@@ -20,6 +30,25 @@ export const NoAccessPreview = ({
   onRequestAccess,
 }: NoAccessPreviewProps) => {
   const { t } = useCustomTranslations();
+  const { toast } = useToastProvider();
+  const [isSending, setIsSending] = useState(false);
+
+  const isLocked = isSending || !!file.requestAccessState;
+
+  const handleRequestAccess = async () => {
+    if (isLocked) return;
+    setIsSending(true);
+    try {
+      await onRequestAccess?.(file);
+    } catch {
+      toast(
+        t("components.filePreview.folderAccessDenied.requestError"),
+        VariantType.ERROR,
+      );
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <div className="file-preview-no-access" data-preview-backdrop="true">
@@ -50,9 +79,14 @@ export const NoAccessPreview = ({
                   variant="secondary"
                   color="brand"
                   icon={<BubbleText size={16} />}
-                  onClick={() => onRequestAccess(file)}
+                  onClick={handleRequestAccess}
+                  disabled={isLocked}
                 >
-                  {t("components.filePreview.folderAccessDenied.requestAccess")}
+                  {t(
+                    file.requestAccessState
+                      ? requestAccessLabel[file.requestAccessState]
+                      : "components.filePreview.folderAccessDenied.requestAccess",
+                  )}
                 </Button>
               )}
             </div>
