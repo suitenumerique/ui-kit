@@ -1,4 +1,11 @@
-import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, {
+  lazy,
+  startTransition,
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   Button,
   ButtonProps,
@@ -11,6 +18,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Download,
+  Edit,
   Info,
   More,
   Print,
@@ -56,6 +64,20 @@ const isMissingPeerDepError = (err: unknown): boolean => {
 const PreviewPdf = lazy(() =>
   import("./viewers/pdf-preview/PdfPreview")
     .then((mod) => ({ default: mod.PdfPreview }))
+    .catch((err) => {
+      if (isMissingPeerDepError(err)) {
+        return {
+          default:
+            OutdatedBrowserPreview as unknown as typeof import("./viewers/pdf-preview/PdfPreview").PdfPreview,
+        };
+      }
+      throw err;
+    }),
+);
+
+const EditPdf = lazy(() =>
+  import("./viewers/pdf-editor/PdfEditor")
+    .then((mod) => ({ default: mod.PdfEditor }))
     .catch((err) => {
       if (isMissingPeerDepError(err)) {
         return {
@@ -119,6 +141,7 @@ export const FilePreview = ({
   const [classNames, setClassNames] = useState<string[]>([]);
   const [pdfThumbnailSidebarOpen, setPdfThumbnailSidebarOpen] = useState(false);
   const [isActionsMenuOpen, setIsActionsMenuOpen] = useState(false);
+  const [pdfEditionMode, setPdfEditionMode] = useState(false);
 
   const data: FilePreviewData[] = useMemo(() => {
     return files?.map((file) => ({
@@ -247,14 +270,22 @@ export const FilePreview = ({
       case MimeCategory.PDF:
         return (
           <Suspense fallback={null}>
-            <PreviewPdf
-              src={currentFile.url_preview}
-              pdfWorkerSrc={pdfWorkerSrc}
-              pdfAssetsUrl={pdfAssetsUrl}
-              onThumbailSidebarOpen={(isOpen) => {
-                setPdfThumbnailSidebarOpen(isOpen);
-              }}
-            />
+            {pdfEditionMode ?
+              <EditPdf
+                src={currentFile.url_preview}
+                pdfWorkerSrc={pdfWorkerSrc} 
+                pdfAssetsUrl={pdfAssetsUrl}
+              />
+                :
+              <PreviewPdf
+                src={currentFile.url_preview}
+                pdfWorkerSrc={pdfWorkerSrc}
+                pdfAssetsUrl={pdfAssetsUrl}
+                onThumbailSidebarOpen={(isOpen) => {
+                  setPdfThumbnailSidebarOpen(isOpen);
+                }}
+              />
+            }
           </Suspense>
         );
 
@@ -359,6 +390,20 @@ export const FilePreview = ({
           aria-pressed={isSidebarOpen}
           icon={<Info aria-hidden />}
         />
+        {(currentFile?.category === MimeCategory.PDF) &&
+         (<Button
+          variant="tertiary"
+          icon={<Edit aria-hidden />}
+          aria-label={t("components.filePreview.actions.edit")}
+          aria-pressed={pdfEditionMode}
+          // A transition keeps the current viewer on screen while the
+          // other one's lazy chunk loads, instead of the empty fallback.
+          onClick={() =>
+            startTransition(() => setPdfEditionMode((mode) => !mode))
+          }
+
+          />)
+        }
         {(currentFile?.category === MimeCategory.PDF ||
           currentFile?.category === MimeCategory.IMAGE) && (
           <DropdownMenu
